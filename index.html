@@ -1,0 +1,44 @@
+<!--
+  Windgap Academy Main Entry Point
+  - Accessibility: ARIA, roles, alt text, focus management
+  - Privacy: All user actions are private and educator-reviewed
+  - Compliance: Age-appropriate, ad-free, NDIS and Australian standards
+  - Educator Logging: All entry and navigation actions are logged
+  - Last updated: August 14, 2025
+-->
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+  <meta charset="UTF-8" />
+  <title>Windgap Academy</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="styles/windgap-academy.css" />
+  <script src="https://cdn.jsdelivr.net/npm/howler"></script>
+  <script src="app.js" defer></script>
+</head>
+<body aria-label="Windgap Academy Entry" role="main">
+  <div id="loadingscreen" class="loading" aria-live="polite" role="status">
+    <div class="sparkle"></div>
+    <h1 class="academy-title">🌟 Enter the City 🌟</h1>
+    <p class="loading-text">Preparing your journey...</p>
+  </div>
+  <div id="homepage" class="hidden" aria-label="Homepage" role="region">
+  <div class="academy-scene" aria-label="Windgap Academy Characters" role="group">
+  <img src="assets/images/windgap_building.png" alt="Windgap Academy Building" class="building" />
+  <img src="assets/images/daisy.png" alt="Daisy, neurodivergent learner" class="character" />
+  <img src="assets/images/andy.png" alt="Andy, neurodivergent learner" class="character" />
+  <img src="assets/images/winnie.png" alt="Winnie, educator and guide" class="character floating" />
+    </div>
+  <div class="music-controls" aria-label="Music Controls" role="region">
+      🎵 Music:
+  <select id="musicselector" aria-label="Select background music">
+        <option value="none">Off</option>
+        <option value="nature">Nature Sounds</option>
+        <option value="instrumental">Calming Instrumental</option>
+      </select>
+    </div>
+  <button id="enterbutton" class="enter-btn" aria-label="Enter Windgap Academy">Enter Windgap Academy of Learning</button>
+  </div>
+  <div id="app" aria-label="Main Application Area" role="region"></div>
+</body>
+</html>
