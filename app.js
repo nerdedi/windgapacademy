@@ -5,7 +5,7 @@
   - Compliance: Age-appropriate, ad-free, NDIS and Australian standards
   - Educator Logging: All navigation and moderation actions are logged
   - Educational Prompts: Narration and tips for self-regulation
-  - Last updated: August 14, 2025
+  - Last updated: August 18, 2025 (with fallback error screen)
 */
 import { showDashboard } from './components/Dashboard.js';
 import { showCalmSpace } from './components/CalmSpace.js';
@@ -30,7 +30,27 @@ import { showEmployabilityGame } from './components/GameModules/EmployabilityGam
 
 const app = document.getElementById('app');
 
-// Accessibility toggles
+function showFallbackScreen(errorMsg = "Something went wrong while loading Windgap Academy.") {
+  document.body.innerHTML = `
+    <div style="max-width:540px;margin:48px auto;padding:32px;border-radius:12px;background:#ffecec;color:#b91c1c;box-shadow:0 2px 16px #0002;">
+      <h1 style="font-size:2em;margin-bottom:0.25em;">⚠️ Unable to load Windgap Academy</h1>
+      <p style="font-size:1.2em;">${errorMsg}</p>
+      <details style="margin-top:1em;">
+        <summary style="cursor:pointer;">Technical Details</summary>
+        <pre style="white-space:pre-wrap;font-size:0.95em;">${(window.lastWindgapError || "No details available.")}</pre>
+      </details>
+      <p style="margin-top:2em;">Please try reloading, or contact support at <a href="mailto:info@windgapacademy.edu.au">info@windgapacademy.edu.au</a>.</p>
+    </div>
+  `;
+}
+
+function unhideHomepage() {
+  const loadingScreen = document.getElementById("loadingscreen");
+  const homepage = document.getElementById("homepage");
+  if (loadingScreen) loadingScreen.classList.add("hidden");
+  if (homepage) homepage.classList.remove("hidden");
+}
+
 // Accessibility toggles (all actions are private and educator-reviewed)
 window.increaseFont = () => {
   document.body.style.fontSize = 'larger';
@@ -52,7 +72,6 @@ window.narrate = (text) => {
 };
 
 // Routing
-// eSafety policy acceptance (privacy and compliance enforced)
 window.showSafetyPolicy = function(container) {
   container.innerHTML = `
     <section class='au-section' aria-label='Online Safety Expectations'>
@@ -80,93 +99,92 @@ window.route = async function(path, opts = {}) {
     window.showSafetyPolicy(app);
     return;
   }
-window.banOrWarnLearner = function(type, reason) {
-  // type: 'ban' or 'warn'
-  // reason: string
-  // Winnie intervenes with empathy and calm presence
-  // Educator log: ${type} triggered for reason: ${reason}
-  app.innerHTML = `
-    <section class='au-section' aria-label='Winnie Intervention'>
-      <h2>Winnie Intervention</h2>
-      <div class='winnie-anim'>
-        <img src='assets/images/winnie.png' alt='Winnie' style='width:120px;' />
-      </div>
-      <p><strong>Winnie:</strong> Hi, I'm here to help you work through what happened. ${type === 'ban' ? 'You have been banned for going against Windgap Academy policies and safety guidelines.' : 'A warning has been triggered due to unsafe behaviour.'}</p>
-      <p>Let's take a moment to calm down and reflect. You will be transported to the Calm Room to work through this in a relaxed, self-regulating way.</p>
-      <p><strong>Reason:</strong> ${reason}</p>
-      <button onclick="window.route('calm-space')" aria-label='Go to Calm Room'>Go to Calm Room</button>
-    </section>
-  `;
-  // Educational prompt: Encourage self-regulation and reflection
-  // Privacy: All interventions are educator-reviewed and logged
-};
   // All navigation and UI now uses Australian spelling, grammar, and context.
   // Routing logic is modular and independent; each route only affects its own module.
   app.innerHTML = '';
   const userId = auth.currentUser ? auth.currentUser.uid : null;
   switch (path) {
-    // Modular routing, all navigation is educator-logged and privacy protected
-    case 'dashboard': showDashboard(app, opts.data || {}); /* Educator log: dashboard viewed */ break;
-    case 'calm-space': showCalmSpace(app, opts.unlockedScenes, userId); /* Educator log: calm space accessed */ break;
-    case 'educator-dashboard': showEducatorDashboard(app, userId); /* Educator log: educator dashboard accessed */ break;
-    case 'assignments': showAssignments(app, userId); /* Educator log: assignments viewed */ break;
-    case 'chat-moderation': showChatModeration(app, userId); /* Educator log: chat moderation accessed */ break;
-    case 'avatar-builder': showAvatarBuilder(app, userId); /* Educator log: avatar builder accessed */ break;
-    case 'messaging': showMessaging(app, opts.unreadCount || 0, userId); /* Educator log: messaging accessed */ break;
-    case 'token-system': showTokenSystem(app, opts.tokens || 0, userId); /* Educator log: token system accessed */ break;
-    case 'academy-store': showAcademyStore(app, opts.tokens || 0, userId); /* Educator log: academy store accessed */ break;
-    case 'accessibility': showAccessibilityOptions(app); /* Educator log: accessibility options viewed */ break;
-    case 'domain-tabs': showDomainTabs(app, opts.domain || 'literacy', userId); /* Educator log: domain tabs accessed */ break;
-    case 'literacy-game': showLiteracyGame(app, userId); /* Educator log: literacy game accessed */ break;
-    case 'numeracy-game': showNumeracyGame(app, userId); /* Educator log: numeracy game accessed */ break;
-    case 'communication-game': showCommunicationGame(app, userId); /* Educator log: communication game accessed */ break;
-    case 'digital-skills-game': showDigitalSkillsGame(app, userId); /* Educator log: digital skills game accessed */ break;
-    case 'life-skills-game': showLifeSkillsGame(app, userId); /* Educator log: life skills game accessed */ break;
-    case 'money-skills-game': showMoneySkillsGame(app, userId); /* Educator log: money skills game accessed */ break;
-    case 'employability-game': showEmployabilityGame(app, userId); /* Educator log: employability game accessed */ break;
-    case 'virtual-world': showVirtualWorld(app, userId); /* Educator log: virtual world accessed */ break;
-    default: showDashboard(app, opts.data || {}); /* Educator log: default dashboard viewed */
+    case 'dashboard': showDashboard(app, opts.data || {}); break;
+    case 'calm-space': showCalmSpace(app, opts.unlockedScenes, userId); break;
+    case 'educator-dashboard': showEducatorDashboard(app, userId); break;
+    case 'assignments': showAssignments(app, userId); break;
+    case 'chat-moderation': showChatModeration(app, userId); break;
+    case 'avatar-builder': showAvatarBuilder(app, userId); break;
+    case 'messaging': showMessaging(app, opts.unreadCount || 0, userId); break;
+    case 'token-system': showTokenSystem(app, opts.tokens || 0, userId); break;
+    case 'academy-store': showAcademyStore(app, opts.tokens || 0, userId); break;
+    case 'accessibility': showAccessibilityOptions(app); break;
+    case 'domain-tabs': showDomainTabs(app, opts.domain || 'literacy', userId); break;
+    case 'literacy-game': showLiteracyGame(app, userId); break;
+    case 'numeracy-game': showNumeracyGame(app, userId); break;
+    case 'communication-game': showCommunicationGame(app, userId); break;
+    case 'digital-skills-game': showDigitalSkillsGame(app, userId); break;
+    case 'life-skills-game': showLifeSkillsGame(app, userId); break;
+    case 'money-skills-game': showMoneySkillsGame(app, userId); break;
+    case 'employability-game': showEmployabilityGame(app, userId); break;
+    case 'virtual-world': showVirtualWorld(app, userId); break;
+    default: showDashboard(app, opts.data || {});
   }
 };
-window.route('dashboard');
 
-// Loading screen logic
-document.addEventListener("DOMContentLoaded", function () {
-  const loadingScreen = document.getElementById("loadingscreen");
-  const homepage = document.getElementById("homepage");
-  const enterButton = document.getElementById("enterbutton");
-  const musicSelector = document.getElementById("musicselector");
+// Loading screen logic and homepage logic are now in mainInit()
+function mainInit() {
+  // Show dashboard on first load
+  window.route('dashboard');
 
-  setTimeout(() => {
-    loadingScreen.classList.add("hidden");
-    homepage.classList.remove("hidden");
-    window.narrate("Hi, I'm Winnie! Let's find your calm space.");
-    // Educational prompt: Welcome and encourage calm entry
-    // Privacy: All narration and entry actions are educator-reviewed
-  }, 3000);
+  // Loading screen logic
+  document.addEventListener("DOMContentLoaded", function () {
+    const loadingScreen = document.getElementById("loadingscreen");
+    const homepage = document.getElementById("homepage");
+    const enterButton = document.getElementById("enterbutton");
+    const musicSelector = document.getElementById("musicselector");
 
-  enterButton.addEventListener("click", () => {
-    window.narrate("Welcome to Windgap Academy! Let's begin your journey.");
-    homepage.classList.add("hidden");
-    window.route('dashboard');
-    // Educator log: learner entered platform
-    // Privacy: Entry action is educator-reviewed
-  });
+    setTimeout(() => {
+      if (loadingScreen) loadingScreen.classList.add("hidden");
+      if (homepage) homepage.classList.remove("hidden");
+      window.narrate("Hi, I'm Winnie! Let's find your calm space.");
+      // Educational prompt: Welcome and encourage calm entry
+    }, 3000);
 
-  musicSelector.addEventListener("change", function () {
-    const selection = this.value;
-    let audioSrc = "";
-    if (selection === "nature") {
-      audioSrc = "assets/sounds/nature.mp3";
-    } else if (selection === "instrumental") {
-      audioSrc = "assets/sounds/instrumental.mp3";
+    if (enterButton) {
+      enterButton.addEventListener("click", () => {
+        window.narrate("Welcome to Windgap Academy! Let's begin your journey.");
+        if (homepage) homepage.classList.add("hidden");
+        window.route('dashboard');
+      });
     }
-    if (audioSrc) {
-      const audio = new Audio(audioSrc);
-      audio.loop = true;
-      audio.play();
-      // Educator log: background music selected for calm environment
-      // Privacy: Music selection is educator-reviewed
+
+    if (musicSelector) {
+      musicSelector.addEventListener("change", function () {
+        const selection = this.value;
+        let audioSrc = "";
+        if (selection === "nature") {
+          audioSrc = "assets/sounds/nature.mp3";
+        } else if (selection === "instrumental") {
+          audioSrc = "assets/sounds/instrumental.mp3";
+        }
+        if (audioSrc) {
+          const audio = new Audio(audioSrc);
+          audio.loop = true;
+          audio.play();
+        }
+      });
     }
   });
+}
+
+// DOM loaded entry point (with error fallback)
+window.addEventListener('DOMContentLoaded', () => {
+  try {
+    mainInit();
+  } catch (err) {
+    window.lastWindgapError = err.stack || err.toString();
+    showFallbackScreen("An error occurred during initialization. Please check your connection or contact support.");
+  }
 });
+
+// Global error handler for anything uncaught
+window.onerror = function(message, source, lineno, colno, error) {
+  window.lastWindgapError = `${message}\n${source}:${lineno}:${colno}\n${error && error.stack ? error.stack : ""}`;
+  showFallbackScreen("A JavaScript error occurred and Windgap Academy could not start.");
+};
