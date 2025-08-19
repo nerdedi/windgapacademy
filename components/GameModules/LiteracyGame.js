@@ -6,15 +6,16 @@
 
 export function showLiteracyGame(container, userData = {}) {
   container.innerHTML = `
-    <section id="literacy-game">
+    <section id="literacy-game" aria-label="Literacy Platformer">
       <h2>📚 Literacy Platformer</h2>
-      <canvas id="literacy-platformer" width="800" height="400"></canvas>
-      <div id="literacy-feedback"></div>
+      <canvas id="literacy-platformer" width="800" height="400" aria-label="Platformer Game" tabindex="0"></canvas>
+      <div id="literacy-feedback" aria-live="polite"></div>
       <div id="learner-level">Learner Level: ${userData.level || 1}</div>
-      <button onclick="window.route('dashboard')">Return to Dashboard</button>
+  <button id="literacy-return" class="nav-btn" aria-label="Return to Dashboard">Return to Dashboard</button>
     </section>
   `;
-  startLiteracyPlatformer();
+  document.getElementById('literacy-return').onclick = function() { window.route('dashboard'); };
+  startLiteracyPlatformer(userData);
 }
 
 function startLiteracyPlatformer() {
@@ -24,6 +25,8 @@ function startLiteracyPlatformer() {
   let coins = [{ x: 200, y: 350 }, { x: 400, y: 350 }, { x: 600, y: 350 }];
   let score = 0;
   let level = 1;
+  let progress = [];
+  let completed = false;
 
   function drawBackground() {
     ctx.fillStyle = '#eaf6f6';
@@ -67,13 +70,30 @@ function startLiteracyPlatformer() {
         coins.splice(idx, 1);
         score++;
         document.getElementById('literacy-feedback').innerText = `Great job! Coin collected. Total: ${score}`;
+  document.getElementById('literacy-feedback').innerHTML = `<span style='color:#22c55e;font-weight:600;'>Great job! Coin collected. Total: ${score}</span>`;
+        progress.push({ action: 'coin', x: player.x, y: player.y, level });
         if (score === 3) {
           level++;
           document.getElementById('learner-level').innerText = `Learner Level: ${level}`;
           document.getElementById('literacy-feedback').innerText = 'Level up! Daisy: "You did it!" Winnie: "Keep going!" Andy: "Awesome effort!"';
+          document.getElementById('literacy-feedback').innerHTML = `<span style='color:#3b82f6;font-weight:600;'>Level up! Daisy: "You did it!" Winnie: "Keep going!" Andy: "Awesome effort!"</span>`;
+          progress.push({ action: 'levelup', level });
           // Reset coins for next level
           coins.push({ x: 200, y: 350 }, { x: 400, y: 350 }, { x: 600, y: 350 });
           score = 0;
+          if (level > 3 && !completed) {
+            completed = true;
+            setTimeout(() => {
+              document.getElementById('literacy-feedback').innerText = 'Game complete! Well done.';
+              document.getElementById('literacy-feedback').innerHTML = `<span style='color:#3b82f6;font-weight:600;'>Game complete! Well done.</span>`;
+              progress.push({ action: 'complete', level });
+              if (userData && userData.userId) {
+                import('../../firebase.js').then(mod => {
+                  mod.saveLessonPlan('literacy-game', userData.userId, JSON.stringify(progress));
+                });
+              }
+            }, 1200);
+          }
         }
       }
     });
@@ -88,19 +108,24 @@ function startLiteracyPlatformer() {
     requestAnimationFrame(gameLoop);
   }
 
+  canvas.setAttribute('tabindex', '0');
+  canvas.focus();
   canvas.addEventListener('keydown', (e) => {
     if (e.code === 'Space' && !player.jumping) {
       player.jumping = true;
       player.vy = -18;
+      document.getElementById('literacy-feedback').innerText = 'Jump!';
+  document.getElementById('literacy-feedback').innerHTML = `<span style='color:#fbbf24;font-weight:600;'>Jump!</span>`;
+      progress.push({ action: 'jump', x: player.x, y: player.y, level });
     }
     if (e.code === 'ArrowRight') {
       player.x += 20;
+      progress.push({ action: 'moveRight', x: player.x, y: player.y, level });
     }
     if (e.code === 'ArrowLeft') {
       player.x -= 20;
+      progress.push({ action: 'moveLeft', x: player.x, y: player.y, level });
     }
   });
-  canvas.setAttribute('tabindex', '0');
-  canvas.focus();
   gameLoop();
 }

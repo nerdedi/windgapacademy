@@ -5,17 +5,18 @@
 
 export function showNumeracyGame(container, userData = {}) {
   container.innerHTML = `
-    <section id="supermarket-sim">
+    <section id="supermarket-sim" aria-label="Supermarket Simulator">
       <h2>🔢 Supermarket Simulator</h2>
-      <canvas id="shop-map" width="600" height="400"></canvas>
-      <div id="shopping-list">Milk, Apples, Bread</div>
-      <div id="cart"></div>
-      <div id="checkout"></div>
-      <img src="assets/images/aud_notes.png" alt="Australian Currency" />
-      <button onclick="window.route('dashboard')">Return to Dashboard</button>
+      <canvas id="shop-map" width="600" height="400" aria-label="Shop Map" tabindex="0"></canvas>
+      <div id="shopping-list" aria-live="polite">Milk, Apples, Bread</div>
+      <div id="cart" aria-live="polite"></div>
+      <div id="checkout" aria-live="polite"></div>
+  <img src="assets/images/aud_notes.png" alt="Australian Currency" loading="lazy" />
+      <button id="numeracy-return" class="nav-btn" aria-label="Return to Dashboard">Return to Dashboard</button>
     </section>
   `;
-  startSupermarketSim();
+  document.getElementById('numeracy-return').onclick = function() { window.route('dashboard'); };
+  startSupermarketSim(userData);
 }
 
 function startSupermarketSim() {
@@ -28,6 +29,8 @@ function startSupermarketSim() {
   ];
   let cart = [];
   let dragging = null;
+  let progress = [];
+  let completed = false;
 
   function drawShop() {
     ctx.fillStyle = '#eaf6f6';
@@ -46,19 +49,34 @@ function startSupermarketSim() {
   }
 
   function drawCart() {
-    const cartDiv = document.getElementById('cart');
-    cartDiv.innerHTML = '<strong>Cart:</strong> ' + cart.map(i => i.name).join(', ');
+  const cartDiv = document.getElementById('cart');
+  cartDiv.innerHTML = '<strong>Cart:</strong> ' + cart.map(i => i.name).join(', ');
+  progress.push({ action: 'cartUpdate', cart: cart.map(i => i.name) });
   }
 
   function drawCheckout() {
     const checkoutDiv = document.getElementById('checkout');
     let total = cart.reduce((sum, i) => sum + i.price, 0);
-    checkoutDiv.innerHTML = `<strong>Total:</strong> $${total.toFixed(2)} <button id='pay-btn'>Pay</button>`;
+  checkoutDiv.innerHTML = `<strong>Total:</strong> $${total.toFixed(2)} <button id='pay-btn' class='nav-btn' aria-label='Pay'>Pay</button>`;
     document.getElementById('pay-btn').onclick = () => {
       if (total === 7.5) {
-        alert('Correct! Daisy: "Great shopping!" Winnie: "You paid the right amount!"');
+        progress.push({ action: 'pay', total, correct: true });
+        checkoutDiv.innerHTML += `<div style='color:#22c55e;font-weight:600;margin-top:8px;'>Correct! Daisy: "Great shopping!" Winnie: "You paid the right amount!"</div>`;
+        if (!completed) {
+          completed = true;
+          setTimeout(() => {
+            checkoutDiv.innerHTML += `<div style='color:#3b82f6;font-weight:600;margin-top:8px;'>Game complete! Well done.</div>`;
+            progress.push({ action: 'complete' });
+            if (userData && userData.userId) {
+              import('../../firebase.js').then(mod => {
+                mod.saveLessonPlan('numeracy-game', userData.userId, JSON.stringify(progress));
+              });
+            }
+          }, 1200);
+        }
       } else {
-        alert('Try again! Andy: "Check your cart and total."');
+        progress.push({ action: 'pay', total, correct: false });
+        checkoutDiv.innerHTML += `<div style='color:#ef4444;font-weight:600;margin-top:8px;'>Try again! Andy: "Check your cart and total."</div>`;
       }
     };
   }

@@ -19,6 +19,7 @@ export function showEducatorDashboard(container) {
         <h2>Educator Dashboard</h2>
         ${helpButton()}
       </div>
+      ${privacyNotice()}
       <div class="module-summary au-section" aria-label="Module Summary">
         <h3>Six-Module Framework for Supporting Students with Learning Difficulties</h3>
         <ol>
@@ -38,6 +39,55 @@ export function showEducatorDashboard(container) {
           <li><strong>Aims:</strong> Develop executive functioning, independence, and self-management (CSFW).</li>
           <li><strong>Indicators:</strong> Assessment results from activities of daily living, executive functioning, and curriculum-aligned tasks.</li>
         </ul>
+      </div>
+      <div class="assignment-management au-section" aria-label="Assignment Management">
+        <h3>Assignment Management</h3>
+        <form id="add-assignment-form" aria-label="Add Assignment">
+          <input type="text" id="assignment-title" placeholder="Assignment Title" aria-label="Assignment Title" required />
+          <input type="text" id="assignment-desc" placeholder="Description" aria-label="Assignment Description" required />
+          <button type="submit" aria-label="Add Assignment">Add Assignment</button>
+        </form>
+        <ul id="assignment-list" aria-label="Assignment List">
+          ${Object.keys(assignments).length > 0 ? Object.entries(assignments).map(([title, desc]) => `<li><strong>${title}:</strong> ${desc}</li>`).join('') : '<li>No assignments yet.</li>'}
+        </ul>
+      </div>
+      <div class="report-section au-section" aria-label="Generate Report">
+        <h3>Generate Learner Report</h3>
+        <button id="generate-report" aria-label="Generate Report">Generate Report</button>
+        <div id="report-output" style="margin-top:16px;"></div>
+      </div>
+  // Assignment form logic
+  setTimeout(() => {
+    const form = container.querySelector('#add-assignment-form');
+    const assignmentList = container.querySelector('#assignment-list');
+    if (form && assignmentList) {
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const title = form.querySelector('#assignment-title').value.trim();
+        const desc = form.querySelector('#assignment-desc').value.trim();
+        if (title && desc) {
+          assignments[title] = desc;
+          var html = '';
+          for (var t in assignments) {
+            if (assignments.hasOwnProperty(t)) {
+              html += '<li><strong>' + t + ':</strong> ' + assignments[t] + '</li>';
+            }
+          }
+          assignmentList.innerHTML = html;
+          form.reset();
+        }
+      });
+    }
+    // Report generation logic
+    const reportBtn = container.querySelector('#generate-report');
+    const reportOutput = container.querySelector('#report-output');
+    if (reportBtn && reportOutput) {
+      reportBtn.addEventListener('click', function() {
+        const report = generateReport(assignments);
+        reportOutput.textContent = report;
+      });
+    }
+  }, 0);
         <p>Profiles update automatically as learners complete activities and assessments.</p>
       </div>
       <div class="assessment-component au-section" aria-label="Assessment & Task Assignment">

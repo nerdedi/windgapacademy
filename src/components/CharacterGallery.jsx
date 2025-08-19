@@ -32,17 +32,43 @@ const images = [
   },
 ];
 
-const CharacterGallery = () => (
-  <div className="character-gallery">
-    {images.map((img, idx) => (
-      <img
-        key={idx}
-        src={img.src}
-        alt={img.alt}
-        style={{ maxWidth: '250px', margin: '16px', borderRadius: '12px' }}
-      />
-    ))}
-  </div>
-);
+import { useState } from 'react';
+
+const CharacterGallery = () => {
+  const [selected, setSelected] = useState(null);
+  const [customName, setCustomName] = useState('');
+  return (
+    <div className="character-gallery">
+      {images.map((img, idx) => (
+        <div key={idx} style={{ display: 'inline-block', margin: '12px', textAlign: 'center' }}>
+          <img
+            src={img.src}
+            alt={img.alt}
+            style={{ maxWidth: '180px', margin: '8px', borderRadius: '12px', border: selected === idx ? '4px solid #3b82f6' : '2px solid #eee', cursor: 'pointer' }}
+            onClick={() => setSelected(idx)}
+            tabIndex={0}
+            aria-label={`Select ${img.alt}`}
+            loading="lazy"
+            />
+          {selected === idx && (
+            <div style={{ marginTop: '8px' }}>
+              <input
+                type="text"
+                placeholder="Custom name..."
+                value={customName}
+                onChange={e => setCustomName(e.target.value)}
+                aria-label="Custom avatar name"
+                style={{ padding: '4px', borderRadius: '6px', border: '1px solid #ccc' }}
+              />
+              <div style={{ fontSize: '0.95em', color: '#3b82f6', marginTop: '4px' }}>
+                Selected! {customName ? `Name: ${customName}` : ''}
+              </div>
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+  );
+};
 
 export default CharacterGallery;
