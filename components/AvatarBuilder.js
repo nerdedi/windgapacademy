@@ -11,9 +11,8 @@ function getAvatarState({ skin, hair, outfit, pronoun, accessory, wheelchair, wh
   // Avatar properties are independent; changing one does not require changing another.
   return { skin, hair, outfit, pronoun, accessory, wheelchair, wheelchairColour, wheelchairSize };
 }
-// ...existing code...
 
-export function showAvatarBuilder(container, userData = {}) {
+export function showAvatarBuilder(container, userId = {}) {
   // Modular UI templates
   function inputRow(label, inputHtml) {
     return `<div class="input-row"><label>${label} ${inputHtml}</label></div>`;
@@ -22,7 +21,7 @@ export function showAvatarBuilder(container, userData = {}) {
     return `<button id="avatar-help" aria-label="Help" title="Help">❓</button>`;
   }
   function privacyNotice() {
-    return `<div id="privacy-notice" style="font-size:0.9em;color:#555;margin:8px 0;">Your avatar data is private and only used for educational purposes. <button id="export-avatar" aria-label="Export Avatar" title="Export Avatar">Export</button></div>`;
+    return `<div id="privacy-notice" style="font-size:0.9em;color:#555;margin:8px 0;">Your avatar data is private and only used for educational purposes. <button id="export-avatar" aria-label="Export Avatar" title="Export Avatar">Export</button> <button id="save-avatar" aria-label="Save Avatar" title="Save Avatar">Save</button></div>`;
   }
   // Responsive and theme switching
   let themeSwitcher = `<select id="theme-switcher" aria-label="Theme">
@@ -39,6 +38,47 @@ export function showAvatarBuilder(container, userData = {}) {
       </div>
       <div id="avatar-preview" aria-live="polite"></div>
       ${inputRow('Skin Tone:', '<input type="color" id="skin-tone" value="#fbeee6" aria-label="Skin Tone" />')}
+  // Live preview and event listeners
+  setTimeout(() => {
+    const preview = container.querySelector('#avatar-preview');
+    const skinInput = container.querySelector('#skin-tone');
+    // ...add other inputs as needed...
+    function updatePreview() {
+      var skin = skinInput.value;
+      // ...get other values...
+      preview.innerHTML = '<div style="width:100px;height:100px;background:' + skin + ';border-radius:50%;margin:auto;"></div>';
+    }
+    if (skinInput) {
+      skinInput.addEventListener('input', updatePreview);
+      updatePreview();
+    }
+    // Export functionality
+    const exportBtn = container.querySelector('#export-avatar');
+    if (exportBtn) {
+      exportBtn.addEventListener('click', function() {
+        const avatarData = { skin: skinInput.value /*, ...other features... */ };
+        const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(avatarData));
+        const dlAnchor = document.createElement('a');
+        dlAnchor.setAttribute('href', dataStr);
+        dlAnchor.setAttribute('download', 'avatar.json');
+        dlAnchor.click();
+      });
+    }
+    // Save functionality (requires Firebase)
+    const saveBtn = container.querySelector('#save-avatar');
+    if (saveBtn && userId) {
+      saveBtn.addEventListener('click', async function() {
+        const avatarData = { skin: skinInput.value /*, ...other features... */ };
+        try {
+          const { saveAvatarData } = await import('../firebase.js');
+          await saveAvatarData(userId, avatarData);
+          alert('Avatar saved!');
+        } catch (err) {
+          alert('Error saving avatar: ' + err);
+        }
+      });
+    }
+  }, 0);
       ${inputRow('Hair Colour:', '<input type="color" id="hair-colour" value="#333333" aria-label="Hair Colour" />')}
       ${inputRow('Outfit:', `<select id="outfit-select" aria-label="Outfit">
         <option value="casual">Casual</option>
@@ -119,7 +159,8 @@ export function showAvatarBuilder(container, userData = {}) {
     }
   });
   // Responsive theme switching
-  document.getElementById('theme-switcher').onchange = e => {
+  const themeSwitcher = document.getElementById('theme-switcher');
+  if (themeSwitcher) themeSwitcher.onchange = e => {
     document.body.className = e.target.value;
   };
   // Help/info button

@@ -22,22 +22,28 @@ export function showVirtualWorld(container, userId = null) {
         <ul>
           <li><strong>Immersive & Interactive:</strong> Real-time movement, chat, and activities with other users.</li>
           <li><strong>Avatars:</strong> Customisable, accessible avatars for all abilities and identities, with smooth animations and realistic controls.</li>
-            <div class="vw-cathedral">
-              <img src="assets/images/cathedral_academy.png" alt="Cathedral Academy" class="cathedral-img" />
-              <p>Welcome to the grand Windgap Academy Clubhouse, set inside a magnificent cathedral-style building. Here, learners gather to play fun arcade games, explore, interact with AI avatars and certified learners, and take part in multiplayer challenges, races, and SIMS/Roblox-style activities.</p>
-              <ul>
-                <li><strong>Arcade Zone:</strong> Play classic and modern arcade games, earn educational tokens, and challenge friends.</li>
-                <li><strong>AI Avatars & Certified Learners:</strong> Interact, collaborate, and learn with AI-powered avatars and other certified learners in a safe, moderated environment.</li>
-                <li><strong>Multiplayer Games & Races:</strong> Join multiplayer games, team challenges, and exciting races across the cathedral and virtual Sydney.</li>
-                <li><strong>SIMS/Roblox-Style Activities:</strong> Customise your avatar, build virtual spaces, complete tasks, and unlock new features.</li>
-                <li><strong>Windgap Academy Store:</strong> Purchase avatar upgrades, game power-ups, clubhouse decorations, and more—everything is educational and relevant to gameplay, with no real-world transactions.</li>
-              </ul>
-              <p>All activities are designed for fun, learning, and inclusion. The clubhouse is accessible, safe, and celebrates neurodiversity and creativity.</p>
-                <div class="vw-entrance-animation">
-                  <img src="assets/images/cathedral_academy.png" alt="Cathedral Academy" class="cathedral-img" />
-                  <div class="animated-doors"></div>
-                  <p class="entrance-welcome">Welcome! The grand doors open and you step into the magnificent Windgap Cathedral Clubhouse.</p>
-                </div>
+        </ul>
+        <div class="vw-cathedral">
+          <img src="assets/images/cathedral_academy.png" alt="Cathedral Academy" class="cathedral-img" loading="lazy" />
+          <p>Welcome to the grand Windgap Academy Clubhouse, set inside a magnificent cathedral-style building. Here, learners gather to play fun arcade games, explore, interact with AI avatars and certified learners, and take part in multiplayer challenges, races, and SIMS/Roblox-style activities.</p>
+          <ul>
+            <li><strong>Arcade Zone:</strong> Play classic and modern arcade games, earn educational tokens, and challenge friends.</li>
+            <li><strong>AI Avatars & Certified Learners:</strong> Interact, collaborate, and learn with AI-powered avatars and other certified learners in a safe, moderated environment.</li>
+            <li><strong>Multiplayer Games & Races:</strong> Join multiplayer games, team challenges, and exciting races across the cathedral and virtual Sydney.</li>
+            <li><strong>SIMS/Roblox-Style Activities:</strong> Customise your avatar, build virtual spaces, complete tasks, and unlock new features.</li>
+            <li><strong>Windgap Academy Store:</strong> Purchase avatar upgrades, game power-ups, clubhouse decorations, and more—everything is educational and relevant to gameplay, with no real-world transactions.</li>
+          </ul>
+          <div style="margin-top:16px;">
+            <button onclick="window.route('avatar-builder')" aria-label="Go to Avatar Builder">Avatar Builder</button>
+            <button onclick="window.route('academy-store')" aria-label="Go to Academy Store">Academy Store</button>
+            <button onclick="window.route('game-modules')" aria-label="Go to Arcade Zone">Arcade Zone</button>
+          </div>
+          <p>All activities are designed for fun, learning, and inclusion. The clubhouse is accessible, safe, and celebrates neurodiversity and creativity.</p>
+          <div class="vw-entrance-animation">
+            <img src="assets/images/cathedral_academy.png" alt="Cathedral Academy" class="cathedral-img" loading="lazy" />
+            <div class="animated-doors"></div>
+            <p class="entrance-welcome">Welcome! The grand doors open and you step into the magnificent Windgap Cathedral Clubhouse.</p>
+          </div>
                 <div class="vw-interactive-zones">
                   <button onclick="enterArcade()">Enter Arcade Zone</button>
                   <button onclick="startMultiplayerRace()">Start Multiplayer Race</button>

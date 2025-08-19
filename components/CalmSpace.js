@@ -1,6 +1,6 @@
 export function showCalmSpace(container) {
   // Modular UI templates
-  function calmButton(label, id, handler) {
+  function calmButton(label, id) {
     return `<button id="${id}" aria-label="${label}" title="${label}">${label}</button>`;
   }
   function helpButton() {
@@ -9,7 +9,6 @@ export function showCalmSpace(container) {
   function privacyNotice() {
     return `<div id="privacy-notice" style="font-size:0.9em;color:#555;margin:8px 0;">Your Calm Space activities are private and only used for wellbeing support.</div>`;
   }
-  window.showSocialStory = function(domain) {
     const stories = {
       'life-skills': {
         title: 'Life Skills & Independence',
@@ -36,11 +35,90 @@ export function showCalmSpace(container) {
         story: 'Animated scenario: Coping with stress, seeking help, and building resilience. Includes mindfulness and self-care techniques.'
       }
     };
-    const s = stories[domain];
-    if (s) {
+
+    container.innerHTML = `
+      <header>
+        <h2>🌿 Calm Space</h2>
+        ${helpButton()}
+        ${privacyNotice()}
+      </header>
+      <main>
+        <section aria-label="Select a Social Story">
+          <label for="domain-selector">Choose a wellbeing topic:</label>
+          <select id="domain-selector" aria-label="Select wellbeing topic">
+            <option value="">-- Select --</option>
+            ${Object.keys(stories).map(domain => `<option value="${domain}">${stories[domain].title}</option>`).join('')}
+          </select>
+          <div id="story-display" style="margin-top:24px;"></div>
+        </section>
+        <section aria-label="Unlocked Calm Scenes">
+          <h3>Unlocked Calm Scenes</h3>
+          <ul>
+            ${(unlockedScenes && unlockedScenes.length > 0) ? unlockedScenes.map(scene => `<li>${scene}</li>`).join('') : '<li>No scenes unlocked yet.</li>'}
+          </ul>
+        </section>
+        <section aria-label="User Context" style="font-size:0.9em;color:#888;">
+          ${userId ? `User ID: ${userId}` : 'Not signed in.'}
+        </section>
+      </main>
+    `;
+
+    // Interactive story display
+    const selector = container.querySelector('#domain-selector');
+    const storyDisplay = container.querySelector('#story-display');
+    if (selector && storyDisplay) {
+      selector.addEventListener('change', function() {
+        const domain = this.value;
+        if (stories[domain]) {
+          storyDisplay.innerHTML = `<h4>${stories[domain].title}</h4><p>${stories[domain].story}</p>`;
+        } else {
+          storyDisplay.innerHTML = '';
+        }
+      });
+    }
+  container.innerHTML = `
+    <header>
+      <h2>🌿 Calm Space</h2>
+      ${helpButton()}
+      ${privacyNotice()}
+    </header>
+    <main>
+      <section aria-label="Select a Social Story">
+        <label for="domain-selector">Choose a wellbeing topic:</label>
+        <select id="domain-selector" aria-label="Select wellbeing topic">
+          <option value="">-- Select --</option>
+          ${Object.keys(stories).map(domain => `<option value="${domain}">${stories[domain].title}</option>`).join('')}
+        </select>
+        <div id="story-display" style="margin-top:24px;"></div>
+      </section>
+      <section aria-label="Unlocked Calm Scenes">
+        <h3>Unlocked Calm Scenes</h3>
+        <ul>
+          ${(unlockedScenes && unlockedScenes.length > 0) ? unlockedScenes.map(scene => `<li>${scene}</li>`).join('') : '<li>No scenes unlocked yet.</li>'}
+        </ul>
+      </section>
+      <section aria-label="User Context" style="font-size:0.9em;color:#888;">
+        ${userId ? `User ID: ${userId}` : 'Not signed in.'}
+      </section>
+    </main>
+  `;
+
+  // Interactive story display
+  const selector = container.querySelector('#domain-selector');
+  const storyDisplay = container.querySelector('#story-display');
+  if (selector && storyDisplay) {
+    selector.addEventListener('change', function() {
+      const domain = this.value;
+      if (stories[domain]) {
+        storyDisplay.innerHTML = `<h4>${stories[domain].title}</h4><p>${stories[domain].story}</p>`;
+      } else {
+        storyDisplay.innerHTML = '';
+      }
+    });
+  }
       document.getElementById('social-story-content').innerHTML = `<h4>${s.title}</h4><div class='animated-story'>${s.story}</div>`;
     }
-  };
+  // ...existing code...
   container.innerHTML = `
     <section id="calm-space" class="au-section" aria-label="Calm Space">
       <div style="display:flex;justify-content:space-between;align-items:center;">
@@ -98,10 +176,14 @@ export function showCalmSpace(container) {
     alert('Calm Space offers mindfulness, breathing, and self-regulation activities. All features are accessible and private.');
   };
   // Button handlers
-  document.getElementById('energy-btn').onclick = () => alert('Stand up, stretch, move!');
-  document.getElementById('mantra-btn').onclick = () => alert('You are calm, capable, and strong.');
-  document.getElementById('journal-btn').onclick = () => alert('Journal entry saved!');
-  document.getElementById('return-dashboard').onclick = () => window.route('dashboard');
+  const energyBtn = document.getElementById('energy-btn');
+  if (energyBtn) energyBtn.onclick = () => alert('Stand up, stretch, move!');
+  const mantraBtn = document.getElementById('mantra-btn');
+  if (mantraBtn) mantraBtn.onclick = () => alert('You are calm, capable, and strong.');
+  const journalBtn = document.getElementById('journal-btn');
+  if (journalBtn) journalBtn.onclick = () => alert('Journal entry saved!');
+  const returnDashboardBtn = document.getElementById('return-dashboard');
+  if (returnDashboardBtn) returnDashboardBtn.onclick = () => window.route('dashboard');
   document.getElementById('story-life-skills').onclick = () => window.showSocialStory('life-skills');
   document.getElementById('story-communication').onclick = () => window.showSocialStory('communication');
   document.getElementById('story-digital').onclick = () => window.showSocialStory('digital');
@@ -122,4 +204,4 @@ export function showCalmSpace(container) {
     setTimeout(showPrompt, 7000);
   }
   showPrompt();
-}
+// ...existing code...

@@ -7,7 +7,7 @@
   function privacyNotice() {
     return `<div id="privacy-notice" style="font-size:0.9em;color:#555;margin:8px 0;">All token actions are private and only used for educational motivation.</div>`;
   }
-  container.innerHTML = `
+    container.innerHTML = ` 
     <section id="token-system" class="au-section" aria-label="Token System">
       <div style="display:flex;justify-content:space-between;align-items:center;">
         <h2>Token System</h2>
@@ -32,11 +32,38 @@
     </section>
   `;
   // Keyboard navigation for all buttons
-  Array.from(container.querySelectorAll('button')).forEach(el => { el.tabIndex = 0; });
+    Array.from(container.querySelectorAll('button')).forEach(function(el) { el.tabIndex = 0; });
   // Help/info button
-  document.getElementById('token-help').onclick = () => {
-    alert('Tokens motivate and reward positive behaviour. All actions are private and educator-reviewed.');
-  };
+    var helpBtn = container.querySelector('#token-help');
+    if (helpBtn) {
+      helpBtn.onclick = function() {
+        alert('Tokens motivate and reward positive behaviour. All actions are private and educator-reviewed.');
+      };
+    }
+    var tokenCountDiv = container.querySelector('#token-count');
+    var tokenPromptDiv = container.querySelector('#token-prompt');
+    var earnTokenBtn = container.querySelector('#earn-token');
+    var goStoreBtn = container.querySelector('#go-store');
+    var returnDashboardBtn = container.querySelector('#return-dashboard');
+    var currentTokens = tokens;
+    if (earnTokenBtn && tokenCountDiv && tokenPromptDiv) {
+      earnTokenBtn.onclick = function() {
+        currentTokens++;
+        tokenCountDiv.textContent = 'Tokens: ' + currentTokens;
+        tokenPromptDiv.textContent = 'Great job! You earned a token for positive behaviour.';
+        setTimeout(function() { tokenPromptDiv.textContent = ''; }, 3000);
+      };
+    }
+    if (goStoreBtn) {
+      goStoreBtn.onclick = function() {
+        window.route('academy-store');
+      };
+    }
+    if (returnDashboardBtn) {
+      returnDashboardBtn.onclick = function() {
+        window.route('dashboard');
+      };
+    }
   document.getElementById('earn-token').onclick = () => earnToken();
   document.getElementById('go-store').onclick = () => window.route('academy-store');
   document.getElementById('return-dashboard').onclick = () => window.route('dashboard');

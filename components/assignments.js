@@ -1,5 +1,6 @@
 // Simulate database (replace with Firestore in production)
-let assignments = {};
+// Firestore integration for assignments
+import { getLessonPlans, saveLessonPlan } from '../firebase.js';
 
 export function assignTask(username, task) {
   if (!assignments[username]) assignments[username] = [];

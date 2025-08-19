@@ -17,27 +17,64 @@ function getAccessibilityState({ largeFont, dyslexiaFont, easyRead, colourBlind 
   function privacyNotice() {
     return `<div id="privacy-notice" style="font-size:0.9em;color:#555;margin:8px 0;">All accessibility settings are private and only used for supporting your learning experience.</div>`;
   }
-  container.innerHTML = `
-    <section id="accessibility-options" class="au-section" aria-label="Accessibility Options">
-      <div style="display:flex;justify-content:space-between;align-items:center;">
-        <h2>Accessibility Options</h2>
-        ${helpButton()}
-      </div>
-      <div class="accessibility-framework" aria-label="Accessibility Framework">
-        <h3>Universal Design & Emotional Wellbeing</h3>
-        <ul>
-          <li>Accessibility features are based on universal design for learning (Module 5).</li>
-          <li>Supports classroom strategies for students with learning difficulties.</li>
-          <li>Options for emotional wellbeing and resilience (Module 6).</li>
-        </ul>
-        <p>All accessibility options are aligned to the six-module framework for supporting diverse learners.</p>
-      </div>
-      <div class="accessibility-toggles" aria-label="Accessibility Toggles">
-        <label><input type="checkbox" id="large-font-toggle" aria-label="Large Font" /> Large Font</label>
-        <label><input type="checkbox" id="dyslexia-font-toggle" aria-label="Dyslexic Font" /> Dyslexic Font</label>
-        <label><input type="checkbox" id="easy-read-toggle" aria-label="Easy Read" /> Easy Read</label>
-        <label><input type="checkbox" id="colour-blind-toggle" aria-label="Colour-blind Mode" /> Colour-blind Mode</label>
-      </div>
+    container.innerHTML = `
+      <section id="accessibility-options" class="au-section" aria-label="Accessibility Options">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <h2>Accessibility Options</h2>
+          ${helpButton()}
+        </div>
+        <div class="accessibility-framework" aria-label="Accessibility Framework">
+          <h3>Universal Design & Emotional Wellbeing</h3>
+          <ul>
+            <li>Accessibility features are based on universal design for learning (Module 5).</li>
+            <li>Supports classroom strategies for students with learning difficulties.</li>
+            <li>Options for emotional wellbeing and resilience (Module 6).</li>
+          </ul>
+          <p>All accessibility options are aligned to the six-module framework for supporting diverse learners.</p>
+        </div>
+        <div class="accessibility-toggles" aria-label="Accessibility Toggles">
+          <label><input type="checkbox" id="large-font-toggle" aria-label="Large Font" /> Large Font</label>
+          <label><input type="checkbox" id="dyslexia-font-toggle" aria-label="Dyslexic Font" /> Dyslexic Font</label>
+          <label><input type="checkbox" id="easy-read-toggle" aria-label="Easy Read" /> Easy Read</label>
+          <label><input type="checkbox" id="colour-blind-toggle" aria-label="Colour-blind Mode" /> Colour-blind Mode</label>
+        </div>
+        <div id="accessibility-feedback" style="margin-top:12px;" aria-live="polite"></div>
+  // Interactive logic
+  setTimeout(function() {
+    var largeFontToggle = container.querySelector('#large-font-toggle');
+    var dyslexiaFontToggle = container.querySelector('#dyslexia-font-toggle');
+    var easyReadToggle = container.querySelector('#easy-read-toggle');
+    var colourBlindToggle = container.querySelector('#colour-blind-toggle');
+    var feedbackDiv = container.querySelector('#accessibility-feedback');
+    function updateAccessibility() {
+      document.body.style.fontSize = largeFontToggle.checked ? '1.3em' : '';
+      document.body.classList.toggle('dyslexia-font', dyslexiaFontToggle.checked);
+      document.body.classList.toggle('easy-read', easyReadToggle.checked);
+      document.body.classList.toggle('colour-blind', colourBlindToggle.checked);
+      feedbackDiv.textContent = 'Accessibility settings updated.';
+      setTimeout(function() { feedbackDiv.textContent = ''; }, 2000);
+      if (userId) {
+        var prefs = {
+          largeFont: largeFontToggle.checked,
+          dyslexiaFont: dyslexiaFontToggle.checked,
+          easyRead: easyReadToggle.checked,
+          colourBlind: colourBlindToggle.checked
+        };
+        import('../firebase.js').then(function(mod) {
+          mod.saveLessonPlan('accessibility', userId, JSON.stringify(prefs));
+        });
+      }
+    }
+    [largeFontToggle, dyslexiaFontToggle, easyReadToggle, colourBlindToggle].forEach(function(toggle) {
+      if (toggle) toggle.addEventListener('change', updateAccessibility);
+    });
+    var helpBtn = container.querySelector('#accessibility-help');
+    if (helpBtn) {
+      helpBtn.onclick = function() {
+        alert('Accessibility options support your learning experience. All actions are private and educator-reviewed.');
+      };
+    }
+  }, 0);
       <button id="audio-input-btn" aria-label="Audio Input">Audio Input</button>
       <button id="narrate-btn" aria-label="Narrate">Narrate</button>
       <button id="immersive-reader-btn" aria-label="Immersive Reader">Immersive Reader</button>

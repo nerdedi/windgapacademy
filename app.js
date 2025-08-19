@@ -8,6 +8,57 @@
   - Last updated: August 18, 2025 (with fallback error screen)
 */
 import { showDashboard } from './components/Dashboard.js';
+import { showAdaptiveLearning } from './components/AdaptiveLearning.js';
+import { showVirtualCurrency } from './components/VirtualCurrency.js';
+import { showSeasonalEvents } from './components/SeasonalEvents.js';
+import { showUserContent } from './components/UserContent.js';
+import { showPeerReview } from './components/PeerReview.js';
+import { showSignLanguageAvatar } from './components/SignLanguageAvatar.js';
+import { showAICaptioning } from './components/AICaptioning.js';
+import { showTwoFactorAuth } from './components/TwoFactorAuth.js';
+import { showPrivacyDashboard } from './components/PrivacyDashboard.js';
+import { showIntegrationAPI } from './components/IntegrationAPI.js';
+import { showSmartScheduling } from './components/SmartScheduling.js';
+import { showPredictiveAnalytics } from './components/PredictiveAnalytics.js';
+import { showHeatmaps } from './components/Heatmaps.js';
+import { showMoodTracking } from './components/MoodTracking.js';
+import { showWellbeingAI } from './components/WellbeingAI.js';
+import { showLoadingSpinner } from './components/LoadingSpinner.js';
+import { animateTransition } from './components/TransitionAnimation.js';
+import { showTooltip } from './components/Tooltip.js';
+import { addHelpIcon } from './components/HelpIcon.js';
+import { showErrorMessage } from './components/ErrorMessage.js';
+import { setAriaRole, setAriaLabel } from './components/AriaUtils.js';
+import { validateInput } from './components/InputValidation.js';
+import { t } from './components/Localization.js';
+import { logAction } from './components/AuditLog.js';
+import { showOnboarding } from './components/Onboarding.js';
+import { showCalendar } from './components/Calendar.js';
+import { showDashboardWidgets } from './components/DashboardWidgets.js';
+import { showCollaboration } from './components/Collaboration.js';
+import { showVideoChat } from './components/VideoChat.js';
+import { showAIRecommendations } from './components/AIRecommendations.js';
+import { showFeedbackForm } from './components/FeedbackForm.js';
+import { showAchievementSharing } from './components/AchievementSharing.js';
+import { showDataExportImport } from './components/DataExportImport.js';
+import { showExternalResources } from './components/ExternalResources.js';
+import { showChallenges } from './components/Challenges.js';
+import { showBadges } from './components/Badges.js';
+import { showMiniGames } from './components/MiniGames.js';
+import { showMessagingComponent } from './components/Messaging.js';
+import { showGroupProjects } from './components/GroupProjects.js';
+import { showForums } from './components/Forums.js';
+import { showAccessibilityAdvanced } from './components/AccessibilityAdvanced.js';
+import { showAnalytics } from './components/Analytics.js';
+import { showResourceLibrary } from './components/ResourceLibrary.js';
+import { showParentPortal } from './components/ParentPortal.js';
+import { registerPWA, showPushNotification } from './components/PWA.js';
+import { showProfile } from './components/Profile.js';
+import { showHelpSupport } from './components/HelpSupport.js';
+import { showLeaderboard } from './components/Leaderboard.js';
+import { showNotification } from './components/Notifications.js';
+import { cacheLessonPlan, getCachedLessonPlan } from './components/OfflineCache.js';
+import { showErrorRecovery } from './components/ErrorRecovery.js';
 import { showCalmSpace } from './components/CalmSpace.js';
 import { showEducatorDashboard } from './components/EducatorDashboard.js';
 import { showAvatarBuilder } from './components/AvatarBuilder.js';
@@ -105,6 +156,41 @@ window.route = async function(path, opts = {}) {
   const userId = auth.currentUser ? auth.currentUser.uid : null;
   switch (path) {
     case 'dashboard': showDashboard(app, opts.data || {}); break;
+  case 'adaptive-learning': showAdaptiveLearning(app, opts.data || {}); break;
+  case 'virtual-currency': showVirtualCurrency(app, opts.data || {}); break;
+  case 'seasonal-events': showSeasonalEvents(app); break;
+  case 'user-content': showUserContent(app); break;
+  case 'peer-review': showPeerReview(app); break;
+  case 'sign-language-avatar': showSignLanguageAvatar(app); break;
+  case 'ai-captioning': showAICaptioning(app); break;
+  case 'two-factor-auth': showTwoFactorAuth(app); break;
+  case 'privacy-dashboard': showPrivacyDashboard(app); break;
+  case 'integration-api': showIntegrationAPI(app); break;
+  case 'smart-scheduling': showSmartScheduling(app); break;
+  case 'predictive-analytics': showPredictiveAnalytics(app); break;
+  case 'heatmaps': showHeatmaps(app); break;
+  case 'mood-tracking': showMoodTracking(app); break;
+  case 'wellbeing-ai': showWellbeingAI(app); break;
+  case 'onboarding': showOnboarding(app); break;
+  case 'calendar': showCalendar(app); break;
+  case 'dashboard-widgets': showDashboardWidgets(app); break;
+  case 'collaboration': showCollaboration(app); break;
+  case 'video-chat': showVideoChat(app); break;
+  case 'ai-recommendations': showAIRecommendations(app); break;
+  case 'feedback-form': showFeedbackForm(app); break;
+  case 'achievement-sharing': showAchievementSharing(app); break;
+  case 'data-export-import': showDataExportImport(app); break;
+  case 'external-resources': showExternalResources(app); break;
+  case 'challenges': showChallenges(app, opts.data || {}); break;
+  case 'badges': showBadges(app, opts.data || {}); break;
+  case 'mini-games': showMiniGames(app); break;
+  case 'messaging-component': showMessagingComponent(app, opts.data || {}); break;
+  case 'group-projects': showGroupProjects(app); break;
+  case 'forums': showForums(app); break;
+  case 'accessibility-advanced': showAccessibilityAdvanced(app); break;
+  case 'analytics': showAnalytics(app, opts.data || {}); break;
+  case 'resource-library': showResourceLibrary(app); break;
+  case 'parent-portal': showParentPortal(app); break;
     case 'calm-space': showCalmSpace(app, opts.unlockedScenes, userId); break;
     case 'educator-dashboard': showEducatorDashboard(app, userId); break;
     case 'assignments': showAssignments(app, userId); break;
@@ -123,8 +209,22 @@ window.route = async function(path, opts = {}) {
     case 'money-skills-game': showMoneySkillsGame(app, userId); break;
     case 'employability-game': showEmployabilityGame(app, userId); break;
     case 'virtual-world': showVirtualWorld(app, userId); break;
+  case 'profile': showProfile(app, opts.data || {}); break;
+  case 'help-support': showHelpSupport(app); break;
+  case 'leaderboard': showLeaderboard(app, opts.data || {}); break;
+  case 'error-recovery': showErrorRecovery(app, opts.errorMsg || 'Unknown error'); break;
     default: showDashboard(app, opts.data || {});
   }
+};
+// Theme switching logic
+window.setTheme = function(theme) {
+  document.body.classList.remove('theme-dark', 'theme-high-contrast');
+  if (theme === 'dark') document.body.classList.add('theme-dark');
+  if (theme === 'high-contrast') document.body.classList.add('theme-high-contrast');
+};
+// Example notification usage
+window.showMilestoneNotification = function(msg) {
+  showNotification('success', msg);
 };
 
 // Loading screen logic and homepage logic are now in mainInit()
