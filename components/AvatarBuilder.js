@@ -8,7 +8,8 @@
  * @param {Object} features - Avatar features
  * @returns {Object} Avatar state
  */
-function getAvatarState({ skin, hair, outfit, pronoun, accessory, wheelchair, wheelchairColour, wheelchairSize }) {
+
+export function getAvatarState({ skin, hair, outfit, pronoun, accessory, wheelchair, wheelchairColour, wheelchairSize }) {
   // Avatar properties are independent; changing one does not require changing another.
   return { skin, hair, outfit, pronoun, accessory, wheelchair, wheelchairColour, wheelchairSize };
 }

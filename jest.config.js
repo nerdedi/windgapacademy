@@ -6,4 +6,5 @@ module.exports = {
   },
   moduleFileExtensions: ["ts", "tsx", "js", "jsx"],
   setupFilesAfterEnv: ["<rootDir>/jest.setup.js"],
+  testMatch: ["**/?(*.)+(spec|test).[jt]s?(x)"]
 };
