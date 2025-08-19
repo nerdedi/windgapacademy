@@ -1,3 +1,4 @@
+
 /*
   Windgap Academy Firebase Integration
   - Accessibility: Data access for accessibility preferences
@@ -22,6 +23,7 @@ export function transformLessonPlan(plan) {
   // Educator log: lesson plan transformed
   return plan.trim();
 }
+
 export function getAccessibilityPrefs(userId) {
   // Privacy: Accessibility preferences are private and educator-reviewed
   // Educator log: accessibility preferences accessed for userId
@@ -60,6 +62,7 @@ export function saveLessonPlan(domain, userId, plan) {
     throw err;
   }
 }
+
 export function saveAvatarData(userId, avatarData) {
   // Privacy: Avatar data is private and educator-reviewed
   // Educator log: avatar data saved for userId
@@ -111,6 +114,7 @@ export function saveChatLog(userId, messages) {
     throw err;
   }
 }
+
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-app.js";
 import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-auth.js";
 
@@ -128,6 +132,8 @@ const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 
 export function loginUser(email, password) {
+
+
   // Privacy: Login credentials are securely handled and educator-reviewed
   // Educator log: login attempted for email
   return signInWithEmailAndPassword(auth, email, password);

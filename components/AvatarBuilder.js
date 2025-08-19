@@ -1,3 +1,4 @@
+
 /**
  * Avatar Builder Module
  * @module AvatarBuilder
@@ -11,6 +12,219 @@ function getAvatarState({ skin, hair, outfit, pronoun, accessory, wheelchair, wh
   // Avatar properties are independent; changing one does not require changing another.
   return { skin, hair, outfit, pronoun, accessory, wheelchair, wheelchairColour, wheelchairSize };
 }
+
+
+export function showAvatarBuilder(container, userData = {}) {
+  container.innerHTML = `
+    <section id="avatar-builder" class="au-section">
+      <h2>Avatar Builder</h2>
+      <div id="avatar-preview"></div>
+      <label>Skin Tone: <input type="color" id="skin-tone" value="#fbeee6" /></label>
+      <label>Hair Colour: <input type="color" id="hair-colour" value="#333333" /></label>
+      <label>Outfit: <select id="outfit-select">
+        <option value="casual">Casual</option>
+        <option value="formal">Formal</option>
+        <option value="seasonal">Seasonal</option>
+        <option value="event">Event</option>
+      </select></label>
+      <label>Pronouns: <select id="pronoun-select">
+        <option value="she/her">She/Her</option>
+        <option value="he/him">He/Him</option>
+        <option value="they/them">They/Them</option>
+      </select></label>
+      <fieldset>
+        <legend>Disability Representation & Assistive Technology</legend>
+        <label><input type="checkbox" id="hearing-device" /> Hearing Device</label>
+        <label><input type="checkbox" id="prosthetic-limb" /> Prosthetic Limb</label>
+        <label><input type="checkbox" id="wheelchair" /> Wheelchair</label>
+        <label><input type="checkbox" id="crutches" /> Crutches</label>
+        <label><input type="checkbox" id="white-cane" /> White Cane</label>
+        <label><input type="checkbox" id="low-vision" /> Low Vision</label>
+        <label><input type="checkbox" id="motor-tics" /> Motor Tics (user preference)</label>
+        <label><input type="checkbox" id="non-human-avatar" /> Non-human Avatar</label>
+        <label>Wheelchair Colour: <input type="color" id="wheelchair-colour" value="#1976d2" /></label>
+        <label>Wheelchair Size: <input type="range" id="wheelchair-size" min="50" max="150" value="100" /></label>
+      </fieldset>
+      <fieldset>
+        <legend>Peripherals & Interface</legend>
+        <label>Accessory: <select id="accessory-select">
+          <option value="none">None</option>
+          <option value="glasses">Glasses</option>
+          <option value="hat">Hat</option>
+          <option value="bag">Bag</option>
+          <option value="rainbow-tshirt">Rainbow T-shirt (Autism)</option>
+          <option value="infinity-symbol">Infinity Symbol</option>
+        </select></label>
+        <label>Social Energy Bubble: <input type="checkbox" id="social-bubble" /></label>
+      </fieldset>
+      <button onclick="saveAvatar()">Save Avatar</button>
+      <button onclick="window.route('dashboard')">Return to Dashboard</button>
+      <div class="lesson-plan-au">
+        <h3>Lesson Plan: Inclusive Avatar Builder (Australian Curriculum, NSW Inclusive Education)</h3>
+        <p>Objective: Support identity, diversity, and inclusion for all students, including those with disability and accessibility needs.</p>
+        <ul>
+          <li>Enable flexible customisation of body parts and assistive technology.</li>
+          <li>Prioritise human avatars, but offer non-human options to reduce stigma.</li>
+          <li>Allow simulation of disability-related behaviours only by user preference.</li>
+          <li>Provide high-quality, realistic assistive technology and peripherals.</li>
+          <li>Distribute disability features across the interface, not in a separate category.</li>
+          <li>Make reasonable adjustments and allow easy toggling of features.</li>
+        </ul>
+        <p>Educator Notes: Encourage respectful representation, consult with students and families, and use evidence-based inclusive practices. Ensure every student is known, valued, and cared for. Reference NSW DoE and ACARA guidelines.</p>
+      </div>
+    </section>
+  `;
+  document.getElementById('skin-tone').oninput = renderAvatar;
+  document.getElementById('hair-colour').oninput = renderAvatar;
+  document.getElementById('outfit-select').onchange = renderAvatar;
+  document.getElementById('pronoun-select').onchange = renderAvatar;
+  renderAvatar();
+}
+
+function renderAvatar() {
+  // Render avatar based on independent state properties
+  const preview = document.getElementById('avatar-preview');
+  const state = getAvatarState({
+    skin: document.getElementById('skin-tone').value,
+    hair: document.getElementById('hair-colour').value,
+    outfit: document.getElementById('outfit-select').value,
+    pronoun: document.getElementById('pronoun-select').value
+  });
+  preview.innerHTML = `<div style="width:120px;height:120px;border-radius:50%;background:${state.skin};display:flex;align-items:center;justify-content:center;position:relative;animation: avatar-bounce 0.7s;">
+    <span style="color:${state.hair};font-size:2em;">👤</span>
+    <span style="position:absolute;bottom:0;left:0;background:#fff;padding:2px 6px;border-radius:8px;font-size:0.8em;">${state.pronoun}</span>
+  </div>
+  <div style="margin-top:8px;">Outfit: ${state.outfit}</div>`;
+  playSound('assets/sounds/avatar-change.mp3');
+}
+
+function saveAvatar() {
+  const state = getAvatarState({
+    skin: document.getElementById('skin-tone').value,
+    hair: document.getElementById('hair-colour').value,
+    outfit: document.getElementById('outfit-select').value,
+    pronoun: document.getElementById('pronoun-select').value
+  });
+  alert('Avatar saved!');
+  // Integrate with Firebase
+  // import { saveAvatarData } from '../firebase.js';
+  // saveAvatarData(userId, state);
+  playSound('assets/sounds/avatar-save.mp3');
+function playSound(src) {
+  const audio = new Audio(src);
+  audio.play();
+}
+}
+// Avatar Builder Module
+// Pure function to calculate avatar state
+function getAvatarState({ skin, hair, outfit, pronoun }) {
+  // Avatar properties are independent; changing one does not require changing another.
+  return { skin, hair, outfit, pronoun };
+}
+// 2D/3D options, skin/hair tones, outfit and pronoun choices, seasonal/event-based outfits
+
+export function showAvatarBuilder(container, userData = {}) {
+  container.innerHTML = `
+    <section id="avatar-builder" class="au-section">
+      <h2>Avatar Builder</h2>
+      <div id="avatar-preview"></div>
+      <label>Skin Tone: <input type="color" id="skin-tone" value="#fbeee6" /></label>
+      <label>Hair Colour: <input type="color" id="hair-colour" value="#333333" /></label>
+      <label>Outfit: <select id="outfit-select">
+        <option value="casual">Casual</option>
+        <option value="formal">Formal</option>
+        <option value="seasonal">Seasonal</option>
+        <option value="event">Event</option>
+      </select></label>
+      <label>Pronouns: <select id="pronoun-select">
+        <option value="she/her">She/Her</option>
+        <option value="he/him">He/Him</option>
+        <option value="they/them">They/Them</option>
+      </select></label>
+      <fieldset>
+        <legend>Disability Representation & Assistive Technology</legend>
+        <label><input type="checkbox" id="hearing-device" /> Hearing Device</label>
+        <label><input type="checkbox" id="prosthetic-limb" /> Prosthetic Limb</label>
+        <label><input type="checkbox" id="wheelchair" /> Wheelchair</label>
+        <label><input type="checkbox" id="crutches" /> Crutches</label>
+        <label><input type="checkbox" id="white-cane" /> White Cane</label>
+        <label><input type="checkbox" id="low-vision" /> Low Vision</label>
+        <label><input type="checkbox" id="motor-tics" /> Motor Tics (user preference)</label>
+        <label><input type="checkbox" id="non-human-avatar" /> Non-human Avatar</label>
+        <label>Wheelchair Colour: <input type="color" id="wheelchair-colour" value="#1976d2" /></label>
+        <label>Wheelchair Size: <input type="range" id="wheelchair-size" min="50" max="150" value="100" /></label>
+      </fieldset>
+      <fieldset>
+        <legend>Peripherals & Interface</legend>
+        <label>Accessory: <select id="accessory-select">
+          <option value="none">None</option>
+          <option value="glasses">Glasses</option>
+          <option value="hat">Hat</option>
+          <option value="bag">Bag</option>
+          <option value="rainbow-tshirt">Rainbow T-shirt (Autism)</option>
+          <option value="infinity-symbol">Infinity Symbol</option>
+        </select></label>
+        <label>Social Energy Bubble: <input type="checkbox" id="social-bubble" /></label>
+      </fieldset>
+      <button onclick="saveAvatar()">Save Avatar</button>
+      <button onclick="window.route('dashboard')">Return to Dashboard</button>
+      <div class="lesson-plan-au">
+        <h3>Lesson Plan: Inclusive Avatar Builder (Australian Curriculum, NSW Inclusive Education)</h3>
+        <p>Objective: Support identity, diversity, and inclusion for all students, including those with disability and accessibility needs.</p>
+        <ul>
+          <li>Enable flexible customisation of body parts and assistive technology.</li>
+          <li>Prioritise human avatars, but offer non-human options to reduce stigma.</li>
+          <li>Allow simulation of disability-related behaviours only by user preference.</li>
+          <li>Provide high-quality, realistic assistive technology and peripherals.</li>
+          <li>Distribute disability features across the interface, not in a separate category.</li>
+          <li>Make reasonable adjustments and allow easy toggling of features.</li>
+        </ul>
+        <p>Educator Notes: Encourage respectful representation, consult with students and families, and use evidence-based inclusive practices. Ensure every student is known, valued, and cared for. Reference NSW DoE and ACARA guidelines.</p>
+      </div>
+    </section>
+  `;
+  document.getElementById('skin-tone').oninput = renderAvatar;
+  document.getElementById('hair-colour').oninput = renderAvatar;
+  document.getElementById('outfit-select').onchange = renderAvatar;
+  document.getElementById('pronoun-select').onchange = renderAvatar;
+  renderAvatar();
+}
+
+function renderAvatar() {
+  // Render avatar based on independent state properties
+  const preview = document.getElementById('avatar-preview');
+  const state = getAvatarState({
+    skin: document.getElementById('skin-tone').value,
+    hair: document.getElementById('hair-colour').value,
+    outfit: document.getElementById('outfit-select').value,
+    pronoun: document.getElementById('pronoun-select').value
+  });
+  preview.innerHTML = `<div style="width:120px;height:120px;border-radius:50%;background:${state.skin};display:flex;align-items:center;justify-content:center;position:relative;animation: avatar-bounce 0.7s;">
+    <span style="color:${state.hair};font-size:2em;">👤</span>
+    <span style="position:absolute;bottom:0;left:0;background:#fff;padding:2px 6px;border-radius:8px;font-size:0.8em;">${state.pronoun}</span>
+  </div>
+  <div style="margin-top:8px;">Outfit: ${state.outfit}</div>`;
+  playSound('assets/sounds/avatar-change.mp3');
+}
+
+function saveAvatar() {
+  const state = getAvatarState({
+    skin: document.getElementById('skin-tone').value,
+    hair: document.getElementById('hair-colour').value,
+    outfit: document.getElementById('outfit-select').value,
+    pronoun: document.getElementById('pronoun-select').value
+  });
+  alert('Avatar saved!');
+  // Integrate with Firebase
+  // import { saveAvatarData } from '../firebase.js';
+  // saveAvatarData(userId, state);
+  playSound('assets/sounds/avatar-save.mp3');
+function playSound(src) {
+  const audio = new Audio(src);
+  audio.play();
+}
+}
+
 
 export function showAvatarBuilder(container, userId = {}) {
   // Modular UI templates
@@ -491,3 +705,4 @@ function exportAvatar() {
   // doc.addImage(url, 'SVG', 10, 20, 100, 100);
   // doc.save('avatar.pdf');
 }
+
