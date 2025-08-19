@@ -1,73 +1,77 @@
-// Domain Tabs Module
-// Tabbed navigation for all learning domains
-
-export function showDomainTabs(container, domain, userId = null) {
-  // Pure function for lesson plan state
-  function getLessonPlan(domain, plans) {
-  // Lesson plan for each domain is independent; editing one does not affect others.
-    return plans[domain] || `Sample lesson plan for ${domain} (editable by educator).`;
-  }
-  // Load lesson plans from Firebase (pseudo-code)
-  // import { getLessonPlans, saveLessonPlan } from '../firebase.js';
-  // getLessonPlans(domain, userId).then(plans => { ...display plans... });
+// Interactive scenario logic for visual concept demonstration
   const domains = [
-    { key: 'literacy', label: '📚 Literacy' },
-    { key: 'numeracy', label: '🔢 Numeracy' },
-    { key: 'communication', label: '💬 Communication' },
-    { key: 'digital', label: '💻 Digital Skills' },
-    { key: 'life-skills', label: '🏠 Life Skills' },
-    { key: 'money-skills', label: '💰 Money Skills' },
-    { key: 'employability', label: '💼 Employability' },
-    { key: 'virtual-world', label: '🌏 Virtual World' }
+    'literacy', 'numeracy', 'communication', 'digital', 'life-skills', 'money-skills', 'employability', 'virtual-world'
   ];
-  container.innerHTML = `
-      <nav id="domain-tabs">
-        ${domains.map(d => `<button class='tab-btn${d.key === domain ? ' active' : ''}' onclick='window.route("domain-tabs", { domain: "${d.key}" })'>${d.label}</button>`).join('')}
-      </nav>
-      <div class='tab-content au-section'>
-        <h3>${domains.find(d => d.key === domain)?.label || ''}</h3>
-        <p>Welcome to the ${domain.replace('-', ' ')} domain. Select a game or lesson to begin.</p>
-        <div id='lesson-plans'>
-          <h4>Lesson Plan (${domain.charAt(0).toUpperCase() + domain.slice(1)} - Six-Module Framework)</h4>
-          <button onclick='editLessonPlan()'>Edit Lesson Plan</button>
-          <div id='lesson-plan-content'>
-            <ol>
-              <li><strong>Identification & Assessment:</strong> Recognise learning difficulties/disorders, classroom presentation, and assessment (Module 1).</li>
-              <li><strong>Processing Skills:</strong> Develop phonological, working memory, orthographic, and number sense (Module 2).</li>
-              <li><strong>Intervention:</strong> Apply RTI, modify tasks, and use screening/assessment (Module 3).</li>
-              <li><strong>Explicit Teaching:</strong> Deliver high-quality initial literacy/numeracy instruction, use resources for initial stages (Module 4).</li>
-              <li><strong>Classroom Strategies & Universal Design:</strong> Use best practice accommodations, universal design for learning, and flexible supports (Module 5).</li>
-              <li><strong>Emotional Wellbeing:</strong> Support resilience, wellbeing, and use case studies for effective support (Module 6).</li>
-            </ol>
-            <ul>
-              <li><strong>Outcomes:</strong> Progress in Literacy, Numeracy, and Daily Living Skills (LLND Curriculum).</li>
-              <li><strong>Aims:</strong> Develop executive functioning, independence, and self-management (CSFW).</li>
-              <li><strong>Indicators:</strong> Assessment results from activities of daily living, executive functioning, and curriculum-aligned tasks.</li>
-            </ul>
-            <p>All lesson plans are aligned to the six-module framework and can be adapted for individual needs, including students with disability. Universal design and emotional wellbeing are prioritised.</p>
-          </div>
-          <p>Educator Notes: Reference the six-module framework, adapt activities for Australian schooling, and use evidence-based inclusive practices.</p>
-        </div>
-        <button onclick="window.route('${domain}-game')">Launch Game</button>
-        <button onclick="window.route('dashboard')">Return to Dashboard</button>
-      </div>
-  // End of function
-  window.editLessonPlan = function() {
-    const content = document.getElementById('lesson-plan-content');
-    const currentPlan = content.textContent;
-    const newPlan = prompt('Edit lesson plan:', currentPlan);
-    if (newPlan !== null) {
-      content.textContent = setLessonPlan(domain, newPlan);
-      // import { saveLessonPlan } from '../firebase.js';
-      // saveLessonPlan(domain, userId, newPlan);
-    }
-  };
-
-  // Pure function to set lesson plan
-  function setLessonPlan(domain, plan) {
-  // Setting a lesson plan only updates the selected domain's plan.
-    return plan;
+  function tabButton(label, value, active) {
+    return `<button class="domain-tab${active ? ' active' : ''}" aria-label="${label}" data-domain="${value}">${label}</button>`;
   }
-  };
+  container.innerHTML = `
+    <nav aria-label="Domain Tabs" style="margin-bottom:16px;">
+      ${domains.map(d => tabButton(d.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase()), d, d === domain)).join('')}
+    </nav>
+    <div id="interactive-scenario" aria-live="polite"></div>
   `;
+  // Tab click logic
+  var tabBtns = container.querySelectorAll('.domain-tab');
+  for (var i = 0; i < tabBtns.length; i++) {
+    tabBtns[i].addEventListener('click', function() {
+      var selectedDomain = this.getAttribute('data-domain');
+      for (var j = 0; j < tabBtns.length; j++) {
+        tabBtns[j].classList.remove('active');
+      }
+      this.classList.add('active');
+      window.launchInteractiveScenario(selectedDomain);
+    });
+  }
+  // Launch initial scenario
+  window.launchInteractiveScenario(domain);
+
+export function showDomainTabs(container, domain = 'literacy', userId = null) {
+  // Interactive scenario logic for visual concept demonstration
+  window.launchInteractiveScenario = function(domain) {
+    const scenarioDiv = document.getElementById('interactive-scenario');
+    // Australian characters and voices
+    const characters = {
+      literacy: { name: 'Daisy', role: 'Student President', intro: 'G’day! I’m Daisy, your guide to reading and writing, Aussie style.' },
+      numeracy: { name: 'Winnie', role: 'AI Mentor', intro: 'Hello! I’m Winnie. Let’s tackle maths the Australian way.' },
+      communication: { name: 'Andy', role: 'Chancellor', intro: 'Welcome! I’m Andy. Let’s chat about communication, just like we do Down Under.' },
+      digital: { name: 'Natalie', role: 'Head of Education', intro: 'Hi! I’m Natalie. I’ll show you how Aussies use digital tools and stay safe online.' },
+      'life-skills': { name: 'Daisy', role: 'Student President', intro: 'G’day! I’m Daisy. Let’s build your independence for Aussie life.' },
+      'money-skills': { name: 'Winnie', role: 'AI Mentor', intro: 'Hello! I’m Winnie. Let’s learn about money and budgeting in Australia.' },
+      employability: { name: 'Andy', role: 'Chancellor', intro: 'Welcome! I’m Andy. I’ll help you get ready for work in Australia.' },
+      'virtual-world': { name: 'Natalie', role: 'Head of Education', intro: 'Hi! I’m Natalie. Let’s thrive in virtual environments, Aussie style.' }
+    };
+
+    const char = characters[domain];
+    if (!char) {
+      scenarioDiv.innerHTML = "<p>Unknown domain.</p>";
+      return;
+    }
+
+    const avatarHtml = `
+      <div>
+        <img src='assets/images/user_avatar.png' alt='Your Avatar' style='width:80px;height:80px;border-radius:50%;border:2px solid #8bc34a;' loading="lazy" />
+      </div>
+    `;
+
+    // Scenario content (Australian English)
+    scenarioDiv.innerHTML = `
+      <h4>Interactive Scenario: ${char.name} (${char.role})</h4>
+      <p>${char.intro}</p>
+      ${avatarHtml}
+      <div style='margin-top:12px;'>
+        <strong>Visual Demonstration:</strong>
+        <ul>
+          <li>See your avatar and the academy character interact in an Australian classroom scene.</li>
+          <li>Concepts for <strong>${domain.replace('-', ' ')}</strong> are shown visually and explained step-by-step, using Australian examples and voices.</li>
+          <li>Try activities, answer questions, and get feedback from your chosen Aussie character.</li>
+        </ul>
+        <button onclick='window.route("avatar-builder")'>Customise Your Avatar</button>
+        <button onclick='scenarioDiv.innerHTML = ""'>Close Scenario</button>
+      </div>
+    `;
+  };
+  // Show the scenario for the selected domain
+  container.innerHTML = `<div id="interactive-scenario"></div>`;
+  window.launchInteractiveScenario(domain);
 }

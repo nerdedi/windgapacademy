@@ -1,6 +1,7 @@
 // Messaging & Chat Module
 // Chat moderation, educator review, logs, terms acceptance
 
+export function showMessaging(container, unreadCount = 0, userId = null) {
   function helpButton() {
     return `<button id="messaging-help" aria-label="Help" title="Help">❓</button>`;
   }
@@ -13,11 +14,16 @@
         <h2>Messaging</h2>
         ${helpButton()}
       </div>
+      ${privacyNotice()}
       <div class="notification-centre au-section" aria-label="Notification Centre">
         <h3>Notification Centre</h3>
         <div id="notifications"></div>
+        <input type="text" id="notification-input" placeholder="Add notification" aria-label="Add notification" />
+        <button id="add-notification" aria-label="Add Notification">Add</button>
         <h4>Prioritised To-Do List</h4>
         <div id="todo-list"></div>
+        <input type="text" id="todo-input" placeholder="Add to-do" aria-label="Add to-do" />
+        <button id="add-todo" aria-label="Add To-Do">Add</button>
         <label for="task-title">Set Timer for Task:</label>
         <input type="text" id="task-title" placeholder="Task Title" aria-label="Task Title" />
         <input type="number" id="task-minutes" placeholder="Minutes" aria-label="Minutes" />
@@ -37,6 +43,69 @@
           <li>All content and interactions are logged for safety and review.</li>
         </ul>
         <p><strong>Notice:</strong> All tokens and rewards are educational only and have no real-world value.</p>
+  // Interactive logic
+  setTimeout(function() {
+    var notifications = [];
+    var todos = [];
+    var notificationsDiv = container.querySelector('#notifications');
+    var notificationInput = container.querySelector('#notification-input');
+    var addNotificationBtn = container.querySelector('#add-notification');
+    var todoListDiv = container.querySelector('#todo-list');
+    var todoInput = container.querySelector('#todo-input');
+    var addTodoBtn = container.querySelector('#add-todo');
+    var timerStatus = container.querySelector('#timer-status');
+    var setTimerBtn = container.querySelector('#set-timer');
+    var taskTitleInput = container.querySelector('#task-title');
+    var taskMinutesInput = container.querySelector('#task-minutes');
+    var timeTrackerDiv = container.querySelector('#time-tracker');
+
+    function renderNotifications() {
+      notificationsDiv.innerHTML = notifications.length > 0 ? notifications.map(function(n) { return '<div>' + n + '</div>'; }).join('') : '<div>No notifications.</div>';
+    }
+    function renderTodos() {
+      todoListDiv.innerHTML = todos.length > 0 ? todos.map(function(t) { return '<div>' + t + '</div>'; }).join('') : '<div>No to-dos.</div>';
+    }
+    if (addNotificationBtn && notificationInput) {
+      addNotificationBtn.addEventListener('click', function() {
+        var val = notificationInput.value.trim();
+        if (val) {
+          notifications.push(val);
+          renderNotifications();
+          notificationInput.value = '';
+        }
+      });
+    }
+    if (addTodoBtn && todoInput) {
+      addTodoBtn.addEventListener('click', function() {
+        var val = todoInput.value.trim();
+        if (val) {
+          todos.push(val);
+          renderTodos();
+          todoInput.value = '';
+        }
+      });
+    }
+    if (setTimerBtn && taskTitleInput && taskMinutesInput && timerStatus) {
+      setTimerBtn.addEventListener('click', function() {
+        var title = taskTitleInput.value.trim();
+        var mins = parseInt(taskMinutesInput.value, 10);
+        if (title && mins > 0) {
+          timerStatus.textContent = 'Timer set for ' + title + ' (' + mins + ' minutes)';
+          var seconds = mins * 60;
+          var interval = setInterval(function() {
+            seconds--;
+            timeTrackerDiv.textContent = 'Time left: ' + Math.floor(seconds / 60) + 'm ' + (seconds % 60) + 's';
+            if (seconds <= 0) {
+              clearInterval(interval);
+              timeTrackerDiv.textContent = 'Time is up for ' + title + '!';
+            }
+          }, 1000);
+        }
+      });
+    }
+    renderNotifications();
+    renderTodos();
+  }, 0);
         ${privacyNotice()}
       </div>
       <div id="chat-area" aria-label="Chat Area"></div>
@@ -61,7 +130,8 @@
   // Keyboard navigation for all buttons and inputs
   Array.from(container.querySelectorAll('button,input')).forEach(el => { el.tabIndex = 0; });
   // Help/info button
-  document.getElementById('messaging-help').onclick = () => {
+  const helpBtn = document.getElementById('messaging-help');
+  if (helpBtn) helpBtn.onclick = () => {
     alert('Messaging is safe, private, and educator-reviewed. Use the chat and notification centre for learning support.');
   };
   document.getElementById('set-timer').onclick = () => window.setTaskTimer();
@@ -162,55 +232,56 @@
     }
   });
 
-function startMessaging() {
-  // Pure function for message state
-  function addMessage(messages, msg, reviewed = false) {
-  // Each message is independent; adding a message does not affect others.
-    return [...messages, { text: msg, reviewed }];
-  }
-  function reviewMessages(messages) {
-  // Reviewing messages only updates the reviewed property; no hidden dependencies.
-    return messages.map(m => ({ ...m, reviewed: true }));
-  }
-  // Load chat log from Firebase (pseudo-code)
-  // import { saveChatLog } from '../firebase.js';
-  const chatArea = document.getElementById('chat-area');
-  const input = document.getElementById('chat-input');
-  const sendBtn = document.getElementById('send-btn');
-  let messages = [];
-  sendBtn.onclick = () => {
-  playSound('assets/sounds/message-send.mp3');
-  animateEffect('chat-bounce');
-    const msg = input.value.trim();
-    if (!msg) return;
-    // Moderate chat
-    const result = window.moderateChat ? window.moderateChat(msg) : { banned: false };
-    if (result.banned) {
-      chatArea.innerHTML += `<div class='chat-msg banned'>Message blocked: ${result.reason}</div>`;
-    } else {
-      messages = addMessage(messages, msg);
-      updateChatLog();
+  function startMessaging() {
+    // Pure function for message state
+    function addMessage(messages, msg, reviewed = false) {
+    // Each message is independent; adding a message does not affect others.
+      return [...messages, { text: msg, reviewed }];
     }
-    input.value = '';
-  };
-  function updateChatLog() {
-  playSound('assets/sounds/message-receive.mp3');
-    chatArea.innerHTML = messages.map(m => `<div class='chat-msg${m.reviewed ? ' reviewed' : ''}'>${m.text}${m.reviewed ? ' (Reviewed)' : ''}</div>`).join('');
+    function reviewMessages(messages) {
+    // Reviewing messages only updates the reviewed property; no hidden dependencies.
+      return messages.map(m => ({ ...m, reviewed: true }));
+    }
+    // Load chat log from Firebase (pseudo-code)
+    // import { saveChatLog } from '../firebase.js';
+    const chatArea = document.getElementById('chat-area');
+    const input = document.getElementById('chat-input');
+    const sendBtn = document.getElementById('send-btn');
+    let messages = [];
+    sendBtn.onclick = () => {
+    playSound('assets/sounds/message-send.mp3');
+    animateEffect('chat-bounce');
+      const msg = input.value.trim();
+      if (!msg) return;
+      // Moderate chat
+      const result = window.moderateChat ? window.moderateChat(msg) : { banned: false };
+      if (result.banned) {
+        chatArea.innerHTML += `<div class='chat-msg banned'>Message blocked: ${result.reason}</div>`;
+      } else {
+        messages = addMessage(messages, msg);
+        updateChatLog();
+      }
+      input.value = '';
+    };
+    function updateChatLog() {
+    playSound('assets/sounds/message-receive.mp3');
+      chatArea.innerHTML = messages.map(m => `<div class='chat-msg${m.reviewed ? ' reviewed' : ''}'>${m.text}${m.reviewed ? ' (Reviewed)' : ''}</div>`).join('');
+    }
+    // Educator review simulation
+    window.reviewChat = () => {
+    playSound('assets/sounds/review.mp3');
+  function playSound(src) {
+    const audio = new Audio(src);
+    audio.play();
   }
-  // Educator review simulation
-  window.reviewChat = () => {
-  playSound('assets/sounds/review.mp3');
-function playSound(src) {
-  const audio = new Audio(src);
-  audio.play();
-}
 
-function animateEffect(effect) {
-  document.getElementById('chat-area').classList.add(effect);
-  setTimeout(() => document.getElementById('chat-area').classList.remove(effect), 700);
-}
-  messages = reviewMessages(messages);
-  updateChatLog();
-  alert('All messages reviewed by educator.');
-  };
+  function animateEffect(effect) {
+    document.getElementById('chat-area').classList.add(effect);
+    setTimeout(() => document.getElementById('chat-area').classList.remove(effect), 700);
+  }
+      messages = reviewMessages(messages);
+      updateChatLog();
+      alert('All messages reviewed by educator.');
+    };
+  }
 }

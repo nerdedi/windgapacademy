@@ -11,22 +11,22 @@ export function showDashboard(container, data = {}) {
   }
   container.innerHTML = `
     <header>
-      <img src="assets/images/windgap_logo.png" alt="Windgap Foundation Logo" class="logo" />
+  <img src="assets/images/windgap_logo.png" alt="Windgap Foundation Logo" class="logo" loading="lazy" />
       <div style="display:flex;justify-content:space-between;align-items:center;">
         <h1>🌟 Windgap Academy of Learning</h1>
         ${helpButton()}
       </div>
       <nav aria-label="Main Navigation">
         ${navButton('Home', 'dashboard', true)}
-        ${navButton('📚 Literacy', 'literacy')}
-        ${navButton('🔢 Numeracy', 'numeracy')}
-        ${navButton('💬 Communication', 'communication')}
-        ${navButton('💻 Digital Skills', 'digital')}
-        ${navButton('🏠 Life Skills', 'life-skills')}
-        ${navButton('💰 Money Skills', 'money-skills')}
-        ${navButton('💼 Employability', 'employability')}
-        ${navButton('🌿 Calm Space', 'calm')}
-        ${navButton('🧑‍🏫 Educator', 'educator')}
+        ${navButton('📚 Literacy', 'literacy-game')}
+        ${navButton('🔢 Numeracy', 'numeracy-game')}
+        ${navButton('💬 Communication', 'communication-game')}
+        ${navButton('💻 Digital Skills', 'digital-skills-game')}
+        ${navButton('🏠 Life Skills', 'life-skills-game')}
+        ${navButton('💰 Money Skills', 'money-skills-game')}
+        ${navButton('💼 Employability', 'employability-game')}
+        ${navButton('🌿 Calm Space', 'calm-space')}
+        ${navButton('🧑‍🏫 Educator', 'educator-dashboard')}
       </nav>
     </header>
     <main>
@@ -36,8 +36,8 @@ export function showDashboard(container, data = {}) {
         <canvas id="andy-anim" width="100" height="100" tabindex="0" aria-label="Andy Animation"></canvas>
       </section>
       <section id="learner-info" aria-label="Learner Information">
-        <p>Level: <span id="learner-level">1</span></p>
-        <p>Achievements: <span id="learner-achievements">None yet</span></p>
+        <p>Level: <span id="learner-level">${data.level || 1}</span></p>
+        <p>Achievements: <span id="learner-achievements">${(data.achievements && data.achievements.length > 0) ? data.achievements.join(', ') : 'None yet'}</span></p>
         <p>Assigned Work: <span id="assigned-work">Literacy Lesson</span></p>
       </section>
       <section id="privacy-safety-info" class="au-section" aria-label="Privacy and Safety Information">

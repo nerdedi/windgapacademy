@@ -18,28 +18,30 @@
   <script type="module" src="app.js"></script>
 </head>
 <body aria-label="Windgap Academy Entry" role="main">
-  <div id="loadingscreen" class="loading" aria-live="polite" role="status">
-    <div class="sparkle"></div>
-    <h1 class="academy-title">🌟 Enter the City 🌟</h1>
-    <p class="loading-text">Preparing your journey...</p>
+  <div id="loadingscreen" aria-label="Loading Windgap Academy" role="status" style="display:block;text-align:center;padding:48px;">
+    <h1>Loading Windgap Academy...</h1>
+    <p>Please wait while we prepare your learning environment.</p>
   </div>
-  <div id="homepage" class="hidden" aria-label="Homepage" role="region">
-    <div class="academy-scene" aria-label="Windgap Academy Characters" role="group">
-      <img src="assets/images/windgap_building.png" alt="Windgap Academy Building" class="building" />
-      <img src="assets/images/daisy.png" alt="Daisy, neurodivergent learner" class="character" />
-      <img src="assets/images/andy.png" alt="Andy, neurodivergent learner" class="character" />
-      <img src="assets/images/winnie.png" alt="Winnie, educator and guide" class="character floating" />
+  <div id="homepage" class="hidden" aria-label="Windgap Academy Homepage" role="region" style="display:none;text-align:center;padding:32px;">
+    <h1>Welcome to Windgap Academy!</h1>
+    <div class="character-gallery" aria-label="Character Gallery" role="list">
+      <img src="assets/images/natalie.png" alt="Natalie, Windgap Academy staff member in a pinstripe suit with gold jewelry and W badge." style="max-width:250px; margin:16px; border-radius:12px;" role="listitem" />
+      <img src="assets/images/daisy_andy.png" alt="Daisy and Andy, Windgap Academy students standing side by side. Daisy is wearing a red Windgap Academy sweater and Andy is in a teal WAL sweater." style="max-width:250px; margin:16px; border-radius:12px;" role="listitem" />
+      <img src="assets/images/winnie.png" alt="Winnie, a friendly cloud character with teal hair, smiling and waving, wearing yellow and white sneakers." style="max-width:250px; margin:16px; border-radius:12px;" role="listitem" />
+      <img src="assets/images/windgap_building.png" alt="Windgap Academy building." style="max-width:250px; margin:16px; border-radius:12px;" role="listitem" />
+      <img src="assets/images/aud_notes.png" alt="Illustration of Australian currency notes." style="max-width:250px; margin:16px; border-radius:12px;" role="listitem" />
+      <img src="assets/images/daisy.png" alt="Daisy, a student at Windgap Academy, wearing academy attire." style="max-width:250px; margin:16px; border-radius:12px;" role="listitem" />
+      <img src="assets/images/andy.png" alt="Andy, a student at Windgap Academy, wearing WAL sweater." style="max-width:250px; margin:16px; border-radius:12px;" role="listitem" />
     </div>
-    <div class="music-controls" aria-label="Music Controls" role="region">
-      🎵 Music:
-      <select id="musicselector" aria-label="Select background music">
-        <option value="none">Off</option>
-        <option value="nature">Nature Sounds</option>
-        <option value="instrumental">Calming Instrumental</option>
-      </select>
-    </div>
-    <button id="enterbutton" class="enter-btn" aria-label="Enter Windgap Academy">Enter Windgap Academy of Learning</button>
+    <label for="musicselector" style="display:block;margin:24px 0 8px 0;">Choose calming music:</label>
+    <select id="musicselector" aria-label="Select calming music" style="margin-bottom:16px;">
+      <option value="">None</option>
+      <option value="nature">Nature Sounds</option>
+      <option value="instrumental">Instrumental</option>
+    </select>
+    <br />
+    <button id="enterbutton" aria-label="Enter Windgap Academy" style="padding:12px 32px;font-size:1.2em;border-radius:8px;background:#00796b;color:#fff;">Enter</button>
   </div>
-  <div id="app" aria-label="Main Application Area" role="region"></div>
+  <main id="app" aria-label="Windgap Academy Main App" role="main"></main>
 </body>
 </html>

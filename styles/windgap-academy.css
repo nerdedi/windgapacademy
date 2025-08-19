@@ -1,3 +1,46 @@
+/* Theme switching: dark mode, high contrast */
+.theme-dark {
+  background: #181a1b;
+  color: #f3f4f6;
+}
+.theme-dark header, .theme-dark footer {
+  background: #222;
+  color: #fbbf24;
+}
+.theme-high-contrast {
+  background: #000;
+  color: #fff;
+}
+.theme-high-contrast .skill-card, .theme-high-contrast .activity-card {
+  background: #fff;
+  color: #000;
+  border: 2px solid #fbbf24;
+}
+/* Feedback animation: confetti */
+.confetti {
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  pointer-events: none;
+  z-index: 9999;
+}
+/* Improved focus indicators */
+*:focus {
+  outline: 3px solid #fbbf24 !important;
+  outline-offset: 2px;
+}
+/* Responsive design improvements */
+@media (max-width: 800px) {
+  .academy-title, h2 { font-size: 1.5em; }
+  .skill-card, .activity-card, .stat-card {
+    padding: 12px;
+    font-size: 0.95em;
+  }
+  .character-gallery img {
+    max-width: 120px;
+    margin: 8px;
+  }
+  .tab-content { min-height: 200px; padding: 12px; }
+}
 /*
   Windgap Academy Stylesheet
   - Accessibility: High contrast, dyslexia-friendly fonts, focus indicators
