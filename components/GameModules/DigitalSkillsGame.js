@@ -491,3 +491,42 @@ function openContentCreationTools() {
 // TODO: Add cloud backup and restore for game progress
 // TODO: Improve external platform sync and data export/import
 
+// --- Accessibility Implementation ---
+function enableKeyboardNavigation() {
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Tab') {
+      // Focus next interactive element
+      const focusable = Array.from(document.querySelectorAll('button, [tabindex], input, select'));
+      const index = focusable.indexOf(document.activeElement);
+      const next = focusable[(index + 1) % focusable.length];
+      if (next) next.focus();
+      e.preventDefault();
+    }
+  });
+}
+function addAriaLabels() {
+  document.getElementById('digital-skills-game').setAttribute('aria-label', 'Digital Skills Game');
+  document.getElementById('digital-challenge').setAttribute('aria-live', 'polite');
+}
+function speak(text) {
+  if ('speechSynthesis' in window) {
+    const utter = new SpeechSynthesisUtterance(text);
+    utter.lang = language;
+    window.speechSynthesis.speak(utter);
+  }
+}
+// --- Error Handling Implementation ---
+function errorBoundary(fn) {
+  try {
+    fn();
+  } catch (err) {
+    alert('An error occurred: ' + err.message);
+  }
+}
+function validateInput(input) {
+  return typeof input === 'string' && input.trim().length > 0;
+}
+// Call accessibility and error handling at startup
+addAriaLabels();
+enableKeyboardNavigation();
+
