@@ -18,7 +18,8 @@
    ```sh
    npm run optimize-images
    ```
-   - This compresses images and converts them to WebP format for faster loading.
+   - This uses [sharp](https://sharp.pixelplumbing.com/) to compress images and convert them to WebP format for faster loading.
+   - Place your source images in `assets/images/` before running the script.
 
 ## Output
 - Bundled/minified JS and CSS will be in the `dist/` folder.
@@ -30,3 +31,4 @@
 ## Notes
 - You can adjust entry points in the scripts if your main JS file is not `app.js`.
 - For advanced configuration, see the [esbuild documentation](https://esbuild.github.io/).
+- For image optimization, see the [sharp documentation](https://sharp.pixelplumbing.com/).
