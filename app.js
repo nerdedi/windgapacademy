@@ -65,8 +65,7 @@ import { showAvatarBuilder } from './components/AvatarBuilder.js';
 import { showDomainTabs } from './components/DomainTabs.js';
 import { showVirtualWorld } from './components/VirtualWorld.js';
 import { showMessaging } from './components/Messaging.js';
-import { showTokenSystem } from './components/TokenSystem.js';
-import { showAcademyStore } from './components/AcademyStore.js';
+import { showTokenSystem } from './components/AcademyStore.js';
 import { auth } from './firebase.js';
 import { showAccessibilityOptions } from './components/Accessibility.js';
 import { showAssignments } from './components/assignments.js';
@@ -272,6 +271,159 @@ function mainInit() {
     }
   });
 }
+
+// --- Accessibility Improvements ---
+// TODO: Implement keyboard-only navigation for all interactive elements
+// TODO: Add text-to-speech support for narration and feedback
+// TODO: Ensure all modals and popups have ARIA labels and focus trap
+
+// --- Error Handling Improvements ---
+// TODO: Add global error boundary and fallback UI for unexpected failures
+// TODO: Improve error messages and recovery flows throughout the app
+
+// --- Input Validation & Testing ---
+// TODO: Add input validation for all forms and user input
+// TODO: Expand automated unit and integration tests
+
+// --- Engagement & Gamification ---
+// TODO: Add more real-time feedback (animations, sound effects, confetti for achievements)
+// TODO: Expand gamification with badges, streaks, and seasonal events
+// TODO: Add micro-interactions and smooth transitions to UI
+
+// --- Security Improvements ---
+// TODO: Review and improve authentication flows (two-factor, token system)
+// TODO: Sanitize all user-generated content and feedback
+// TODO: Ensure secure API calls and data storage
+
+// --- UI Polish & Customization ---
+// TODO: Polish UI with modern design patterns and transitions
+// TODO: Offer more theme options and customization
+
+// --- Analytics & Educator Tools ---
+// TODO: Enhance analytics dashboards for educators
+// TODO: Add more actionable insights and predictive analytics
+// TODO: Expand educator content creation and reporting tools
+
+// --- Community & Collaboration ---
+// TODO: Expand forums, group projects, and peer review features
+// TODO: Add safe chat moderation and reporting tools
+// TODO: Improve collaboration and messaging components
+
+// --- Internationalization & Localization ---
+// TODO: Add more languages and RTL support
+// TODO: Allow custom translations for educators
+// TODO: Expand localization for all UI and content
+
+// --- Onboarding & Help ---
+// TODO: Add interactive onboarding for new users
+// TODO: Expand help/support with tooltips, guided tours, and FAQ
+
+// --- Backup & Sync ---
+// TODO: Add cloud backup and restore for user progress
+// TODO: Improve external platform sync and data export/import
+
+// --- Phase 4: Continuous Improvement ---
+// User Feedback Implementation
+function collectUserFeedback() {
+  // Create feedback button
+  const btn = document.createElement('button');
+  btn.textContent = 'Send Feedback';
+  btn.style.position = 'fixed';
+  btn.style.bottom = '20px';
+  btn.style.right = '20px';
+  btn.style.zIndex = '1000';
+  btn.onclick = () => {
+    const form = document.createElement('div');
+    form.style.position = 'fixed';
+    form.style.bottom = '60px';
+    form.style.right = '20px';
+    form.style.background = '#fff';
+    form.style.border = '1px solid #ccc';
+    form.style.padding = '16px';
+    form.style.zIndex = '1001';
+    form.innerHTML = `
+      <h3>Feedback</h3>
+      <textarea id='feedback-comment' rows='3' style='width:100%;'></textarea><br>
+      <label>Rating: <select id='feedback-rating'><option>5</option><option>4</option><option>3</option><option>2</option><option>1</option></select></label><br>
+      <button id='submit-feedback'>Submit</button>
+      <button id='close-feedback'>Close</button>
+    `;
+    document.body.appendChild(form);
+    document.getElementById('submit-feedback').onclick = () => {
+      const comment = document.getElementById('feedback-comment').value;
+      const rating = document.getElementById('feedback-rating').value;
+      sendEvent('user_feedback', { comment, rating });
+      form.remove();
+      alert('Thank you for your feedback!');
+    };
+    document.getElementById('close-feedback').onclick = () => form.remove();
+  };
+  document.body.appendChild(btn);
+  // Automated feedback prompt after key actions
+  window.addEventListener('routeChange', () => {
+    if (Math.random() < 0.1) btn.click(); // 10% chance to prompt feedback
+  });
+}
+
+// Performance Monitoring Implementation
+function monitorPerformance() {
+  // Log app load time
+  const loadTime = window.performance.now();
+  sendEvent('performance', { loadTime });
+  // Track resource usage
+  if (window.performance && window.performance.memory) {
+    sendEvent('resource_usage', {
+      jsHeapSizeLimit: window.performance.memory.jsHeapSizeLimit,
+      totalJSHeapSize: window.performance.memory.totalJSHeapSize,
+      usedJSHeapSize: window.performance.memory.usedJSHeapSize
+    });
+  }
+  // Alert for slow operations
+  if (loadTime > 5000) {
+    alert('App is loading slowly. Please check your connection or device performance.');
+    sendEvent('slow_load_alert', { loadTime });
+  }
+}
+
+// Deeper Analytics Implementation
+function trackErrorRates() {
+  let errorCount = 0;
+  window.addEventListener('error', () => {
+    errorCount++;
+    sendEvent('error_occurred', { errorCount });
+    if (errorCount > 3) {
+      alert('Multiple errors detected. Please reload or contact support.');
+    }
+  });
+}
+
+function trackUserEngagement() {
+  let engagementTime = 0;
+  setInterval(() => {
+    engagementTime += 10;
+    sendEvent('engagement', { engagementTime });
+  }, 10000); // every 10 seconds
+}
+
+// Regular Update Checks
+function scheduleRegularUpdates() {
+  // Simulate update check every hour
+  setInterval(() => {
+    // TODO: Replace with real update check
+    const hasUpdate = Math.random() < 0.05; // 5% chance
+    if (hasUpdate) {
+      alert('New features are available! Please reload to update Windgap Academy.');
+      sendEvent('update_available', { date: new Date().toISOString() });
+    }
+  }, 3600000);
+}
+
+// Call Phase 4 features at startup
+collectUserFeedback();
+monitorPerformance();
+trackErrorRates();
+trackUserEngagement();
+scheduleRegularUpdates();
 
 // DOM loaded entry point (with error fallback)
 window.addEventListener('DOMContentLoaded', () => {

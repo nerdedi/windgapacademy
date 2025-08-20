@@ -118,10 +118,6 @@ function playSound(src) {
 }
 // Avatar Builder Module
 // Pure function to calculate avatar state
-function getAvatarState({ skin, hair, outfit, pronoun }) {
-  // Avatar properties are independent; changing one does not require changing another.
-  return { skin, hair, outfit, pronoun };
-}
 // 2D/3D options, skin/hair tones, outfit and pronoun choices, seasonal/event-based outfits
 
 export function showAvatarBuilder(container, userData = {}) {
