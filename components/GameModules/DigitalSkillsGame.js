@@ -459,38 +459,41 @@ function openContentCreationTools() {
 // TODO: Validate all user input (e.g., text fields, answers)
 // TODO: Add unit tests for game logic and UI components
 // --- Engagement & Gamification ---
-// TODO: Add more animations and sound effects for achievements and feedback
-// TODO: Expand gamification with badges, streaks, and seasonal events
-// TODO: Add micro-interactions and smooth transitions to game UI
-
-// --- Security Improvements ---
-// TODO: Review authentication and input sanitization for multiplayer and feedback
-// TODO: Ensure secure API calls and data storage
-
-// --- UI Polish & Customization ---
-// TODO: Polish game UI with modern transitions and customization options
-
-// --- Analytics & Educator Tools ---
-// TODO: Add advanced analytics and educator dashboard integration
-// TODO: Expand educator content creation and reporting tools
-
-// --- Community & Collaboration ---
-// TODO: Expand forums, group projects, and peer review features
-// TODO: Add safe chat moderation and reporting tools
-// TODO: Improve collaboration and messaging components
-
-// --- Internationalization & Localization ---
-// TODO: Add more languages and RTL support
-// TODO: Expand localization for all game UI and content
-
-// --- Onboarding & Help ---
-// TODO: Add interactive onboarding and guided tours for new users
-// TODO: Expand help/support with tooltips and FAQ
-
-// --- Backup & Sync ---
-// TODO: Add cloud backup and restore for game progress
-// TODO: Improve external platform sync and data export/import
-
+function showAchievement(msg) {
+  const div = document.createElement('div');
+  div.textContent = msg;
+  div.style.position = 'fixed';
+  div.style.top = '20px';
+  div.style.right = '20px';
+  div.style.background = '#22c55e';
+  div.style.color = '#fff';
+  div.style.padding = '12px 24px';
+  div.style.borderRadius = '8px';
+  div.style.zIndex = '1002';
+  div.style.boxShadow = '0 2px 8px #0002';
+  div.style.fontWeight = 'bold';
+  div.style.fontSize = '1.2em';
+  div.style.transition = 'opacity 0.5s';
+  div.style.opacity = '1';
+  document.body.appendChild(div);
+  setTimeout(() => { div.style.opacity = '0'; setTimeout(() => div.remove(), 500); }, 2000);
+}
+function playAchievementSound() {
+  playAudio('assets/sounds/achievement.mp3');
+}
+function unlockBadge(name) {
+  achievements.push(name);
+  showAchievement('Badge unlocked: ' + name);
+  playAchievementSound();
+}
+function trackStreak() {
+  let streak = parseInt(localStorage.getItem('digitalGameStreak') || '0', 10);
+  streak++;
+  localStorage.setItem('digitalGameStreak', streak);
+  if (streak % 5 === 0) {
+    unlockBadge('Streak ' + streak);
+  }
+}
 // --- Accessibility Implementation ---
 function enableKeyboardNavigation() {
   document.addEventListener('keydown', function(e) {
@@ -505,8 +508,10 @@ function enableKeyboardNavigation() {
   });
 }
 function addAriaLabels() {
-  document.getElementById('digital-skills-game').setAttribute('aria-label', 'Digital Skills Game');
-  document.getElementById('digital-challenge').setAttribute('aria-live', 'polite');
+  const gameSection = document.getElementById('digital-skills-game');
+  if (gameSection) gameSection.setAttribute('aria-label', 'Digital Skills Game');
+  const challenge = document.getElementById('digital-challenge');
+  if (challenge) challenge.setAttribute('aria-live', 'polite');
 }
 function speak(text) {
   if ('speechSynthesis' in window) {
@@ -515,7 +520,7 @@ function speak(text) {
     window.speechSynthesis.speak(utter);
   }
 }
-// --- Error Handling Implementation ---
+// --- Error Handling ---
 function errorBoundary(fn) {
   try {
     fn();
@@ -523,10 +528,43 @@ function errorBoundary(fn) {
     alert('An error occurred: ' + err.message);
   }
 }
+// --- Input Validation ---
 function validateInput(input) {
   return typeof input === 'string' && input.trim().length > 0;
 }
+// --- Security & UI Polish ---
+function sanitizeInput(input) {
+  const div = document.createElement('div');
+  div.textContent = input;
+  return div.innerHTML;
+}
+function secureApiCall(url, options) {
+  // TODO: Add authentication and token handling
+  return fetch(url, options);
+}
+function setModernTheme(theme) {
+  document.body.className = theme;
+  document.body.style.transition = 'background 0.5s, color 0.5s';
+}
 // Call accessibility and error handling at startup
-addAriaLabels();
-enableKeyboardNavigation();
+window.addEventListener('DOMContentLoaded', () => {
+  addAriaLabels();
+  enableKeyboardNavigation();
+});
 
+// --- Analytics ---
+function trackEvent(event, data) {
+  // Integrate with analytics service or log locally
+  console.log('Analytics Event:', event, data);
+}
+function showAnalyticsDashboard() {
+  // Simple dashboard stub
+  alert('Analytics dashboard coming soon!');
+}
+// --- Educator Tools ---
+function showEducatorDashboard() {
+  // Simple educator dashboard stub
+  alert('Educator dashboard coming soon!');
+}
+
+}

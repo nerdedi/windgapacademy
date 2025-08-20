@@ -501,22 +501,55 @@ function setModernTheme(theme) {
 
 // --- Analytics, Educator Tools, Community, Internationalization, Onboarding, Backup/Sync Implementation ---
 function trackEvent(event, data) {
-  // TODO: Integrate with analytics service
-  console.log('Event:', event, data);
+  // Integrate with analytics service or log locally
+  console.log('Analytics Event:', event, data);
 }
+function showAnalyticsDashboard() {
+  // Simple dashboard stub
+  alert('Analytics dashboard coming soon!');
+}
+// --- Educator Tools ---
 function showEducatorDashboard() {
-  // TODO: Show educator dashboard and reporting tools
+  // Simple educator dashboard stub
+  alert('Educator dashboard coming soon!');
 }
+function openContentCreationTools() {
+  // TODO: Implement content creation tools
+}
+// --- Community Features ---
 function showCommunityFeatures() {
-  // TODO: Show forums, chat, and collaboration tools
+  // Simple community stub
+  alert('Community features (forums, chat, collaboration) coming soon!');
 }
+// --- Internationalization ---
 function setLanguage(lang) {
-  // TODO: Implement language selection and RTL support
   document.documentElement.lang = lang;
+  // TODO: Add RTL support and translations
 }
+function showLanguageSelector() {
+  const modal = document.createElement('div');
+  modal.style.position = 'fixed';
+  modal.style.top = '50%';
+  modal.style.left = '50%';
+  modal.style.transform = 'translate(-50%, -50%)';
+  modal.style.background = '#fff';
+  modal.style.border = '2px solid #1976d2';
+  modal.style.borderRadius = '12px';
+  modal.style.padding = '24px';
+  modal.style.zIndex = '1002';
+  modal.innerHTML = `<h3>Select Language</h3><select id='lang-select'><option value='en'>English</option><option value='es'>Spanish</option><option value='ar'>Arabic (RTL)</option></select><button id='apply-lang'>Apply</button><button id='close-lang'>Close</button>`;
+  document.body.appendChild(modal);
+  modal.querySelector('#apply-lang').onclick = () => {
+    setLanguage(modal.querySelector('#lang-select').value);
+    modal.remove();
+  };
+  modal.querySelector('#close-lang').onclick = () => modal.remove();
+}
+// --- Onboarding & Help ---
 function startOnboarding() {
-  // TODO: Show guided tour and help tooltips
+  alert('Welcome! Guided tour and help tooltips coming soon.');
 }
+// --- Backup & Sync ---
 function backupData() {
-  // TODO: Implement cloud backup and restore
+  alert('Cloud backup and restore coming soon!');
 }
