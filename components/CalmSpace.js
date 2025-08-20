@@ -63,19 +63,7 @@ export function showCalmSpace(container) {
       </main>
     `;
 
-    // Interactive story display
-    const selector = container.querySelector('#domain-selector');
-    const storyDisplay = container.querySelector('#story-display');
-    if (selector && storyDisplay) {
-      selector.addEventListener('change', function() {
-        const domain = this.value;
-        if (stories[domain]) {
-          storyDisplay.innerHTML = `<h4>${stories[domain].title}</h4><p>${stories[domain].story}</p>`;
-        } else {
-          storyDisplay.innerHTML = '';
-        }
-      });
-    }
+  // ...existing code...
   container.innerHTML = `
     <header>
       <h2>🌿 Calm Space</h2>

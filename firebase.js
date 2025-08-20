@@ -24,7 +24,7 @@ export function transformLessonPlan(plan) {
   return plan.trim();
 }
 
-export function getAccessibilityPrefs(userId) {
+export async function getAccessibilityPrefs(userId) {
   // Privacy: Accessibility preferences are private and educator-reviewed
   // Educator log: accessibility preferences accessed for userId
   try {

@@ -161,12 +161,4 @@ export function generateNDISReport(data){
   generateReport(data);
 }
 
-import jsPDF from 'jspdf';
-
-export function generateReport(data){
-  const doc=new jsPDF();
-  doc.text('NDIS Learning Support Plan',10,10);
-  doc.text(`Learner: ${data.learner}`,10,20);
-  doc.text('Goals, Achievements, Recommendations:',10,30);
-  doc.save('NDIS_Report.pdf');
-}
+// ...existing code...
