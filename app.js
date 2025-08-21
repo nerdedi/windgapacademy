@@ -60,7 +60,7 @@ const app = document.getElementById("app");
 
 function showFallbackScreen(errorMsg = "Something went wrong while loading Windgap Academy.") {
   document.body.innerHTML = `
-    <div style="max-width:540px;margin:48px auto;padding:32px;border-radius:12px;background:#ffecec;color:#b91c1c;box-shadow:0 2px 16px #0002;">
+    div style="max-width:540px;margin:48px auto;padding:32px;border-radius:12px;background:#ffecec;color:#b91c1c;box-shadow:0 2px 16px #0002;"
       <h1 style="font-size:2em;margin-bottom:0.25em;">⚠️ Unable to load Windgap Academy</h1>
       <p style="font-size:1.2em;">${errorMsg}</p>
 // Removed unused imports for lint compliance
@@ -352,6 +352,17 @@ function monitorPerformance() {
   }
 }
 
+function reviewPerformance() {
+  // Profile app load time and resource usage
+  const loadTime = window.performance.now();
+  trackEvent('performance', { loadTime });
+  // TODO: Add resource usage profiling
+}
+function reviewSecurity() {
+  // Check for input validation, secure API calls, authentication
+  // TODO: Add security audit logic
+}
+
 // Deeper Analytics Implementation
 function trackErrorRates() {
   let errorCount = 0;
@@ -423,38 +434,100 @@ function enableKeyboardNavigation() {
 function addAriaLabels() {
   if (app) app.setAttribute("aria-label", "Windgap Academy Main App");
 }
-// Removed unused errorBoundary function for lint compliance
+function errorBoundary(fn) {
+  try {
+    fn();
+  } catch (err) {
+    showErrorMessage('An error occurred: ' + err.message);
+  }
+}
 addAriaLabels();
 enableKeyboardNavigation();
 
 // --- Input Validation & Engagement Implementation ---
-// Removed unused validateInput function for lint compliance
-// Removed unused showAchievement function for lint compliance
-// Removed unused errorBoundary function for lint compliance
-addAriaLabels();
-enableKeyboardNavigation();
-
-// --- Input Validation & Engagement Implementation ---
-// Removed unused validateInput function for lint compliance
-// Removed unused showAchievement function for lint compliance
+function validateInput(input) {
+  return typeof input === 'string' && input.trim().length > 0;
+}
+function showAchievement(msg) {
+  const div = document.createElement('div');
+  div.textContent = msg;
+  div.style.position = 'fixed';
+  div.style.top = '20px';
+  div.style.right = '20px';
+  div.style.background = '#22c55e';
+  div.style.color = '#fff';
+  div.style.padding = '12px 24px';
+  div.style.borderRadius = '8px';
+  div.style.zIndex = '1002';
+  document.body.appendChild(div);
+  setTimeout(() => div.remove(), 2000);
+}
 
 // --- Security & UI Polish Implementation ---
-// Removed unused sanitizeInput function for lint compliance
-// Removed unused secureApiCall function for lint compliance
-// Removed unused setModernTheme function for lint compliance
+function sanitizeInput(input) {
+  const div = document.createElement('div');
+  div.textContent = input;
+  return div.innerHTML;
+}
+function secureApiCall(url, options) {
+  // TODO: Add authentication and token handling
+  return fetch(url, options);
+}
+function setModernTheme(theme) {
+  document.body.className = theme;
+}
 
 // --- Analytics, Educator Tools, Community, Internationalization, Onboarding, Backup/Sync Implementation ---
-// Removed unused trackEvent function for lint compliance
-// Removed unused showAnalyticsDashboard function for lint compliance
+function trackEvent(event, data) {
+  // Integrate with analytics service or log locally
+  console.log('Analytics Event:', event, data);
+}
+function showAnalyticsDashboard() {
+  // Simple dashboard stub
+  alert('Analytics dashboard coming soon!');
+}
 // --- Educator Tools ---
-// Removed unused showEducatorDashboard function for lint compliance
+function showEducatorDashboard() {
+  // Simple educator dashboard stub
+  alert('Educator dashboard coming soon!');
+}
+function openContentCreationTools() {
+  // TODO: Implement content creation tools
+}
 // --- Community Features ---
-// Removed unused openContentCreationTools function for lint compliance
-// Removed unused showCommunityFeatures function for lint compliance
+function showCommunityFeatures() {
+  // Simple community stub
+  alert('Community features (forums, chat, collaboration) coming soon!');
+}
 // --- Internationalization ---
-// Removed unused setLanguage function for lint compliance
-// Removed unused showLanguageSelector function for lint compliance
+function setLanguage(lang) {
+  document.documentElement.lang = lang;
+  // TODO: Add RTL support and translations
+}
+function showLanguageSelector() {
+  const modal = document.createElement('div');
+  modal.style.position = 'fixed';
+  modal.style.top = '50%';
+  modal.style.left = '50%';
+  modal.style.transform = 'translate(-50%, -50%)';
+  modal.style.background = '#fff';
+  modal.style.border = '2px solid #1976d2';
+  modal.style.borderRadius = '12px';
+  modal.style.padding = '24px';
+  modal.style.zIndex = '1002';
+  modal.innerHTML = `<h3>Select Language</h3><select id='lang-select'><option value='en'>English</option><option value='es'>Spanish</option><option value='ar'>Arabic (RTL)</option></select><button id='apply-lang'>Apply</button><button id='close-lang'>Close</button>`;
+  document.body.appendChild(modal);
+  modal.querySelector('#apply-lang').onclick = () => {
+    setLanguage(modal.querySelector('#lang-select').value);
+    modal.remove();
+  };
+  modal.querySelector('#close-lang').onclick = () => modal.remove();
+}
 // --- Onboarding & Help ---
-// Removed unused startOnboarding function for lint compliance
+function startOnboarding() {
+  alert('Welcome! Guided tour and help tooltips coming soon.');
+}
 // --- Backup & Sync ---
-// Removed unused backupData function for lint compliance
+function backupData() {
+  alert('Cloud backup and restore coming soon!');
+}
