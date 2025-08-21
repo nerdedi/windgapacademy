@@ -8,10 +8,10 @@ export function showDataExportImport(container) {
       <div id='data-status' aria-live='polite'></div>
     </section>
   `;
-  document.getElementById("export-data").onclick = function() {
+  document.getElementById("export-data").onclick = function () {
     document.getElementById("data-status").innerText = "Data exported!";
   };
-  document.getElementById("import-data").onclick = function() {
+  document.getElementById("import-data").onclick = function () {
     document.getElementById("data-status").innerText = "Data imported!";
   };
 }

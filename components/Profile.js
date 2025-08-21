@@ -17,7 +17,7 @@ export function showProfile(container, userData = {}) {
       <div id="profile-feedback" aria-live="polite"></div>
     </section>
   `;
-  document.getElementById("profile-form").onsubmit = function(e) {
+  document.getElementById("profile-form").onsubmit = function (e) {
     e.preventDefault();
     document.getElementById("profile-feedback").innerText = "Profile saved!";
     // TODO: Save profile data to Firestore

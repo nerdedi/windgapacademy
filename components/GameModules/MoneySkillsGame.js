@@ -10,7 +10,9 @@ export function showMoneySkillsGame(container, userData = {}) {
       <button id="money-return" class="nav-btn" aria-label="Return to Dashboard">Return to Dashboard</button>
     </section>
   `;
-  document.getElementById("money-return").onclick = function() { window.route("dashboard"); };
+  document.getElementById("money-return").onclick = function () {
+    window.route("dashboard");
+  };
   startMoneySkillsGame(userData);
 }
 
@@ -19,7 +21,7 @@ function startMoneySkillsGame() {
   let questions = [
     { q: "How much is a $5 note plus a $2 coin?", a: "7" },
     { q: "If Daisy buys apples for $3 and bread for $2, how much does she spend?", a: "5" },
-    { q: "Andy has $10 and spends $4. How much is left?", a: "6" }
+    { q: "Andy has $10 and spends $4. How much is left?", a: "6" },
   ];
   let current = 0;
   let progress = loadProgress();
@@ -29,7 +31,7 @@ function startMoneySkillsGame() {
       <input id='money-input' type='number' aria-label='Answer' style='margin-bottom:8px;' />
       <button id='money-submit' class='nav-btn' aria-label='Submit'>Submit</button>
       <div id='money-feedback' aria-live='polite' style='margin-top:8px;'></div>`;
-    document.getElementById("money-submit").onclick = function() {
+    document.getElementById("money-submit").onclick = function () {
       const val = document.getElementById("money-input").value.trim();
       const feedback = document.getElementById("money-feedback");
       if (val === questions[current].a) {
@@ -43,10 +45,11 @@ function startMoneySkillsGame() {
         } else if (!completed) {
           completed = true;
           setTimeout(() => {
-            feedback.innerHTML = "<span style='color:#3b82f6;font-weight:600;'>Game complete! Well done.</span>";
+            feedback.innerHTML =
+              "<span style='color:#3b82f6;font-weight:600;'>Game complete! Well done.</span>";
             progress.push({ action: "complete" });
             if (userData && userData.userId) {
-              import("../../firebase.js").then(mod => {
+              import("../../firebase.js").then((mod) => {
                 mod.saveLessonPlan("money-skills-game", userData.userId, JSON.stringify(progress));
               });
             }
@@ -70,7 +73,12 @@ function loadProgress() {
   return JSON.parse(localStorage.getItem("moneyGameProgress") || "[]");
 }
 // --- Accessibility Options ---
-let accessibilityOptions = { highContrast: false, textToSpeech: false, fontSize: "medium", keyboardOnly: false };
+let accessibilityOptions = {
+  highContrast: false,
+  textToSpeech: false,
+  fontSize: "medium",
+  keyboardOnly: false,
+};
 function setAccessibility(option, value) {
   accessibilityOptions[option] = value;
   if (option === "highContrast") {
@@ -201,14 +209,22 @@ function addControlPanel(container) {
   `;
   document.body.appendChild(modal);
 
-  settingsBtn.onclick = () => { modal.style.display = "block"; };
-  modal.querySelector("#close-settings").onclick = () => { modal.style.display = "none"; };
-  modal.querySelector("#high-contrast-toggle").onchange = e => setAccessibility("highContrast", e.target.checked);
-  modal.querySelector("#font-size-select").onchange = e => setAccessibility("fontSize", e.target.value);
-  modal.querySelector("#language-select").onchange = e => setLanguage(e.target.value);
+  settingsBtn.onclick = () => {
+    modal.style.display = "block";
+  };
+  modal.querySelector("#close-settings").onclick = () => {
+    modal.style.display = "none";
+  };
+  modal.querySelector("#high-contrast-toggle").onchange = (e) =>
+    setAccessibility("highContrast", e.target.checked);
+  modal.querySelector("#font-size-select").onchange = (e) =>
+    setAccessibility("fontSize", e.target.value);
+  modal.querySelector("#language-select").onchange = (e) => setLanguage(e.target.value);
   function updateAchievements() {
     const list = modal.querySelector("#achievements-list");
-    list.innerHTML = achievements.length ? achievements.map(a => `<li>${a}</li>`).join("") : "<li>No achievements yet.</li>";
+    list.innerHTML = achievements.length
+      ? achievements.map((a) => `<li>${a}</li>`).join("")
+      : "<li>No achievements yet.</li>";
   }
   updateAchievements();
   modal.querySelector("#hint-btn").onclick = () => {
@@ -218,7 +234,9 @@ function addControlPanel(container) {
   function updateProgress() {
     const summary = modal.querySelector("#progress-summary");
     const progress = loadProgress();
-    summary.textContent = progress.length ? `Completed: ${progress.length} steps.` : "No progress yet.";
+    summary.textContent = progress.length
+      ? `Completed: ${progress.length} steps.`
+      : "No progress yet.";
   }
   updateProgress();
   modal.querySelector("#voice-btn").onclick = enableVoiceRecognition;
@@ -241,7 +259,7 @@ function enableVoiceRecognition() {
   }
   const recognition = new webkitSpeechRecognition();
   recognition.lang = language;
-  recognition.onresult = function(event) {
+  recognition.onresult = function (event) {
     const transcript = event.results[0][0].transcript;
     alert("You said: " + transcript);
     const input = document.getElementById("money-input");
@@ -255,10 +273,13 @@ function syncProgressWithPlatform() {
   fetch("https://api.example.com/sync", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ game: "money-skills", progress })
-  }).then(r => r.json()).then(data => {
-    alert("Progress synced!");
-  }).catch(() => alert("Sync failed."));
+    body: JSON.stringify({ game: "money-skills", progress }),
+  })
+    .then((r) => r.json())
+    .then((data) => {
+      alert("Progress synced!");
+    })
+    .catch(() => alert("Sync failed."));
 }
 // 3. Parent/guardian feedback and messaging
 function openParentFeedback() {
@@ -287,7 +308,9 @@ function openParentFeedback() {
       localStorage.setItem("moneyGameParentFeedback", text);
       alert("Feedback sent!");
     };
-    modal.querySelector("#close-feedback").onclick = () => { modal.style.display = "none"; };
+    modal.querySelector("#close-feedback").onclick = () => {
+      modal.style.display = "none";
+    };
   }
   modal.style.display = "block";
 }
@@ -313,15 +336,23 @@ function showChallengesAndLeaderboard() {
       <button id="close-challenges">Close</button>
     `;
     document.body.appendChild(modal);
-    modal.querySelector("#close-challenges").onclick = () => { modal.style.display = "none"; };
+    modal.querySelector("#close-challenges").onclick = () => {
+      modal.style.display = "none";
+    };
   }
   const challenges = [
     { name: "Answer all questions correctly", completed: false },
-    { name: "Complete the game", completed: false }
+    { name: "Complete the game", completed: false },
   ];
-  modal.querySelector("#challenge-list").innerHTML = "<ul>" + challenges.map(c => `<li>${c.name} - ${c.completed ? "✔️" : "❌"}</li>`).join("") + "</ul>";
+  modal.querySelector("#challenge-list").innerHTML =
+    "<ul>" +
+    challenges.map((c) => `<li>${c.name} - ${c.completed ? "✔️" : "❌"}</li>`).join("") +
+    "</ul>";
   let leaderboard = JSON.parse(localStorage.getItem("moneyGameLeaderboard") || "[]");
-  modal.querySelector("#leaderboard-list").innerHTML = "<h4>Leaderboard</h4><ul>" + leaderboard.map(e => `<li>${e.name}: ${e.score}</li>`).join("") + "</ul>";
+  modal.querySelector("#leaderboard-list").innerHTML =
+    "<h4>Leaderboard</h4><ul>" +
+    leaderboard.map((e) => `<li>${e.name}: ${e.score}</li>`).join("") +
+    "</ul>";
   modal.style.display = "block";
 }
 // 5. AR/VR support for immersive learning
@@ -337,9 +368,12 @@ function enableARVRMode() {
 // 6. Offline mode
 function enableOfflineMode() {
   if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("/service-worker.js").then(() => {
-      alert("Offline mode enabled!");
-    }).catch(() => alert("Offline mode registration failed."));
+    navigator.serviceWorker
+      .register("/service-worker.js")
+      .then(() => {
+        alert("Offline mode enabled!");
+      })
+      .catch(() => alert("Offline mode registration failed."));
   }
 }
 // 7. Customizable themes and backgrounds
@@ -374,7 +408,9 @@ function showThemeCustomization() {
       document.body.className = theme;
       alert("Theme applied!");
     };
-    modal.querySelector("#close-theme").onclick = () => { modal.style.display = "none"; };
+    modal.querySelector("#close-theme").onclick = () => {
+      modal.style.display = "none";
+    };
   }
   modal.style.display = "block";
 }
@@ -393,7 +429,8 @@ function enableSignLanguageAvatar() {
     overlay.style.border = "2px solid #1976d2";
     overlay.style.borderRadius = "12px";
     overlay.style.zIndex = "1002";
-    overlay.innerHTML = "<img src=\"/assets/sign-avatar.gif\" alt=\"Sign Language Avatar\" style=\"width:100%;height:100%;object-fit:contain;\" />";
+    overlay.innerHTML =
+      "<img src=\"/assets/sign-avatar.gif\" alt=\"Sign Language Avatar\" style=\"width:100%;height:100%;object-fit:contain;\" />";
     document.body.appendChild(overlay);
   }
   overlay.style.display = "block";
@@ -428,10 +465,13 @@ function openContentCreationTools() {
       localStorage.setItem("moneyGameCustomQuestions", JSON.stringify(questions));
       updateQuestionsList();
     };
-    modal.querySelector("#close-content").onclick = () => { modal.style.display = "none"; };
+    modal.querySelector("#close-content").onclick = () => {
+      modal.style.display = "none";
+    };
     function updateQuestionsList() {
       let questions = JSON.parse(localStorage.getItem("moneyGameCustomQuestions") || "[]");
-      modal.querySelector("#custom-questions-list").innerHTML = "<ul>" + questions.map(q => `<li>${q}</li>`).join("") + "</ul>";
+      modal.querySelector("#custom-questions-list").innerHTML =
+        "<ul>" + questions.map((q) => `<li>${q}</li>`).join("") + "</ul>";
     }
     updateQuestionsList();
   }
@@ -440,7 +480,7 @@ function openContentCreationTools() {
 
 // --- Accessibility & Error Handling Implementation ---
 function enableKeyboardNavigation() {
-  document.addEventListener("keydown", function(e) {
+  document.addEventListener("keydown", function (e) {
     if (e.key === "Tab") {
       const focusable = Array.from(document.querySelectorAll("button, [tabindex], input, select"));
       const index = focusable.indexOf(document.activeElement);
@@ -542,7 +582,8 @@ function showLanguageSelector() {
   modal.style.borderRadius = "12px";
   modal.style.padding = "24px";
   modal.style.zIndex = "1002";
-  modal.innerHTML = "<h3>Select Language</h3><select id='lang-select'><option value='en'>English</option><option value='es'>Spanish</option><option value='ar'>Arabic (RTL)</option></select><button id='apply-lang'>Apply</button><button id='close-lang'>Close</button>";
+  modal.innerHTML =
+    "<h3>Select Language</h3><select id='lang-select'><option value='en'>English</option><option value='es'>Spanish</option><option value='ar'>Arabic (RTL)</option></select><button id='apply-lang'>Apply</button><button id='close-lang'>Close</button>";
   document.body.appendChild(modal);
   modal.querySelector("#apply-lang").onclick = () => {
     setLanguage(modal.querySelector("#lang-select").value);

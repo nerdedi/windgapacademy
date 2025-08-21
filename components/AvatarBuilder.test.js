@@ -11,7 +11,7 @@ describe("getAvatarState", () => {
       accessory: "glasses",
       wheelchair: true,
       wheelchairColour: "#1976d2",
-      wheelchairSize: 100
+      wheelchairSize: 100,
     };
     expect(getAvatarState(features)).toEqual(features);
   });
@@ -21,7 +21,7 @@ describe("getAvatarState", () => {
       skin: "#fff",
       hair: "#000",
       outfit: "casual",
-      pronoun: "she/her"
+      pronoun: "she/her",
     };
     expect(getAvatarState(features)).toEqual({
       skin: "#fff",
@@ -31,7 +31,7 @@ describe("getAvatarState", () => {
       accessory: undefined,
       wheelchair: undefined,
       wheelchairColour: undefined,
-      wheelchairSize: undefined
+      wheelchairSize: undefined,
     });
   });
 });

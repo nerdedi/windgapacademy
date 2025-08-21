@@ -8,10 +8,10 @@ export function showUserContent(container) {
       <div id='content-feedback' aria-live='polite'></div>
     </section>
   `;
-  document.getElementById("upload-lesson").onclick = function() {
+  document.getElementById("upload-lesson").onclick = function () {
     document.getElementById("content-feedback").innerText = "Lesson uploaded!";
   };
-  document.getElementById("share-tip").onclick = function() {
+  document.getElementById("share-tip").onclick = function () {
     document.getElementById("content-feedback").innerText = "Tip shared!";
   };
 }

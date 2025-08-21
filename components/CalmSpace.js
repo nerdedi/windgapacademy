@@ -1,39 +1,45 @@
 export function showCalmSpace(container) {
   // Modular UI templates
   function helpButton() {
-  return "<button id=\"calmspace-help\" aria-label=\"Help\" title=\"Help\">❓</button>";
+    return "<button id=\"calmspace-help\" aria-label=\"Help\" title=\"Help\">❓</button>";
   }
   function privacyNotice() {
-  return "<div id=\"privacy-notice\" style=\"font-size:0.9em;color:#555;margin:8px 0;\">Your Calm Space activities are private and only used for wellbeing support.</div>";
+    return "<div id=\"privacy-notice\" style=\"font-size:0.9em;color:#555;margin:8px 0;\">Your Calm Space activities are private and only used for wellbeing support.</div>";
   }
-    const stories = {
-      "life-skills": {
-        title: "Life Skills & Independence",
-        story: "Animated scenario: Navigating public transport, budgeting for groceries, and managing daily routines as a young adult. Includes realistic dialogue and decision points."
-      },
-      "communication": {
-        title: "Communication & Relationships",
-        story: "Animated scenario: Handling conflict with a flatmate, advocating for yourself at work, and building healthy relationships. Includes role-play and practical tips."
-      },
-      "digital": {
-        title: "Digital Safety & Online Behaviour",
-        story: "Animated scenario: Responding to online bullying, protecting privacy, and making safe choices online. Based on eSafety.gov.au guidelines."
-      },
-      "employability": {
-        title: "Employability & Workplace Skills",
-        story: "Animated scenario: Applying for a job, preparing for interviews, and managing workplace challenges. Includes realistic feedback and self-advocacy."
-      },
-      "money-skills": {
-        title: "Money Skills & Financial Independence",
-        story: "Animated scenario: Managing a bank account, paying bills, and saving for goals. Includes practical strategies and common pitfalls."
-      },
-      "wellbeing": {
-        title: "Wellbeing & Mental Health",
-        story: "Animated scenario: Coping with stress, seeking help, and building resilience. Includes mindfulness and self-care techniques."
-      }
-    };
+  const stories = {
+    "life-skills": {
+      title: "Life Skills & Independence",
+      story:
+        "Animated scenario: Navigating public transport, budgeting for groceries, and managing daily routines as a young adult. Includes realistic dialogue and decision points.",
+    },
+    communication: {
+      title: "Communication & Relationships",
+      story:
+        "Animated scenario: Handling conflict with a housemate, advocating for yourself at work, and building healthy relationships. Includes role-play and practical tips.",
+    },
+    digital: {
+      title: "Digital Safety & Online Behaviour",
+      story:
+        "Animated scenario: Responding to online bullying, protecting privacy, and making safe choices online. Based on eSafety.gov.au guidelines.",
+    },
+    employability: {
+      title: "Employability & Workplace Skills",
+      story:
+        "Animated scenario: Applying for a job, preparing for interviews, and managing workplace challenges. Includes realistic feedback and self-advocacy.",
+    },
+    "money-skills": {
+      title: "Money Skills & Financial Independence",
+      story:
+        "Animated scenario: Managing a bank account, paying bills, and saving for goals. Includes practical strategies and common pitfalls.",
+    },
+    wellbeing: {
+      title: "Wellbeing & Mental Health",
+      story:
+        "Animated scenario: Coping with stress, seeking help, and building resilience. Includes mindfulness and self-care techniques.",
+    },
+  };
 
-    container.innerHTML = `
+  container.innerHTML = `
       <header>
         <h2>🌿 Calm Space</h2>
         ${helpButton()}
@@ -44,7 +50,9 @@ export function showCalmSpace(container) {
           <label for="domain-selector">Choose a wellbeing topic:</label>
           <select id="domain-selector" aria-label="Select wellbeing topic">
             <option value="">-- Select --</option>
-            ${Object.keys(stories).map(domain => `<option value="${domain}">${stories[domain].title}</option>`).join("")}
+            ${Object.keys(stories)
+              .map((domain) => `<option value="${domain}">${stories[domain].title}</option>`)
+              .join("")}
           </select>
           <div id="story-display" style="margin-top:24px;"></div>
         </section>
@@ -66,7 +74,9 @@ export function showCalmSpace(container) {
         <label for="domain-selector">Choose a wellbeing topic:</label>
         <select id="domain-selector" aria-label="Select wellbeing topic">
           <option value="">-- Select --</option>
-          ${Object.keys(stories).map(domain => `<option value="${domain}">${stories[domain].title}</option>`).join("")}
+          ${Object.keys(stories)
+            .map((domain) => `<option value="${domain}">${stories[domain].title}</option>`)
+            .join("")}
         </select>
         <div id="story-display" style="margin-top:24px;"></div>
       </section>
@@ -78,7 +88,7 @@ export function showCalmSpace(container) {
   const selector = container.querySelector("#domain-selector");
   const storyDisplay = container.querySelector("#story-display");
   if (selector && storyDisplay) {
-    selector.addEventListener("change", function() {
+    selector.addEventListener("change", function () {
       const domain = this.value;
       if (stories[domain]) {
         storyDisplay.innerHTML = `<h4>${stories[domain].title}</h4><p>${stories[domain].story}</p>`;
@@ -120,11 +130,15 @@ export function showCalmSpace(container) {
   `;
   // Keyboard navigation for all buttons
   if (container) {
-    Array.from(container.querySelectorAll("button,audio")).forEach(el => { el.tabIndex = 0; });
+    Array.from(container.querySelectorAll("button,audio")).forEach((el) => {
+      el.tabIndex = 0;
+    });
   }
   // Help/info button
   document.getElementById("calmspace-help").onclick = () => {
-    alert("Calm Space offers mindfulness, breathing, and self-regulation activities. All features are accessible and private.");
+    alert(
+      "Calm Space offers mindfulness, breathing, and self-regulation activities. All features are accessible and private.",
+    );
   };
   // Button handlers
   const energyBtn = document.getElementById("energy-btn");
@@ -135,18 +149,22 @@ export function showCalmSpace(container) {
   if (journalBtn) journalBtn.onclick = () => alert("Journal entry saved!");
   const returnDashboardBtn = document.getElementById("return-dashboard");
   if (returnDashboardBtn) returnDashboardBtn.onclick = () => window.route("dashboard");
-  document.getElementById("story-life-skills").onclick = () => window.showSocialStory("life-skills");
-  document.getElementById("story-communication").onclick = () => window.showSocialStory("communication");
+  document.getElementById("story-life-skills").onclick = () =>
+    window.showSocialStory("life-skills");
+  document.getElementById("story-communication").onclick = () =>
+    window.showSocialStory("communication");
   document.getElementById("story-digital").onclick = () => window.showSocialStory("digital");
-  document.getElementById("story-employability").onclick = () => window.showSocialStory("employability");
-  document.getElementById("story-money-skills").onclick = () => window.showSocialStory("money-skills");
+  document.getElementById("story-employability").onclick = () =>
+    window.showSocialStory("employability");
+  document.getElementById("story-money-skills").onclick = () =>
+    window.showSocialStory("money-skills");
   document.getElementById("story-wellbeing").onclick = () => window.showSocialStory("wellbeing");
   // Rotating educational prompt
   const prompts = [
     "Tip: Try a breathing exercise for instant calm.",
     "Tip: Social stories help with real-life scenarios.",
     "Tip: All Calm Space activities are private and educator-reviewed.",
-    "Tip: Use the journal to reflect on your wellbeing."
+    "Tip: Use the journal to reflect on your wellbeing.",
   ];
   let promptIndex = 0;
   function showPrompt() {
@@ -155,4 +173,4 @@ export function showCalmSpace(container) {
     setTimeout(showPrompt, 7000);
   }
   showPrompt();
-  }
+}

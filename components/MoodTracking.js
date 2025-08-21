@@ -7,7 +7,7 @@ export function showMoodTracking(container) {
       <div id='mood-feedback' aria-live='polite'></div>
     </section>
   `;
-  document.getElementById("log-mood").onclick = function() {
+  document.getElementById("log-mood").onclick = function () {
     document.getElementById("mood-feedback").innerText = "Mood logged!";
   };
 }

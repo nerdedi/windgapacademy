@@ -1,20 +1,35 @@
 export function showDomainTabs(container, domain = "literacy") {
   const domains = [
-    "literacy", "numeracy", "communication", "digital", "life-skills", "money-skills", "employability", "virtual-world"
+    "literacy",
+    "numeracy",
+    "communication",
+    "digital",
+    "life-skills",
+    "money-skills",
+    "employability",
+    "virtual-world",
   ];
   function tabButton(label, value, active) {
     return `<button class="domain-tab${active ? " active" : ""}" aria-label="${label}" data-domain="${value}">${label}</button>`;
   }
   container.innerHTML = `
     <nav aria-label="Domain Tabs" style="margin-bottom:16px;">
-      ${domains.map(d => tabButton(d.replace("-", " ").replace(/\b\w/g, l => l.toUpperCase()), d, d === domain)).join("")}
+      ${domains
+        .map((d) =>
+          tabButton(
+            d.replace("-", " ").replace(/\b\w/g, (l) => l.toUpperCase()),
+            d,
+            d === domain,
+          ),
+        )
+        .join("")}
     </nav>
     <div id="interactive-scenario" aria-live="polite"></div>
   `;
   // Tab click logic
   var tabBtns = container.querySelectorAll(".domain-tab");
   for (var i = 0; i < tabBtns.length; i++) {
-    tabBtns[i].addEventListener("click", function() {
+    tabBtns[i].addEventListener("click", function () {
       var selectedDomain = this.getAttribute("data-domain");
       for (var j = 0; j < tabBtns.length; j++) {
         tabBtns[j].classList.remove("active");
@@ -25,18 +40,50 @@ export function showDomainTabs(container, domain = "literacy") {
   }
   // Launch initial scenario
   window.launchInteractiveScenario(domain);
-  window.launchInteractiveScenario = function(domain) {
+  window.launchInteractiveScenario = function (domain) {
     const scenarioDiv = document.getElementById("interactive-scenario");
     // Australian characters and voices
     const characters = {
-      literacy: { name: "Daisy", role: "Student President", intro: "G’day! I’m Daisy, your guide to reading and writing, Aussie style." },
-      numeracy: { name: "Winnie", role: "AI Mentor", intro: "Hello! I’m Winnie. Let’s tackle maths the Australian way." },
-      communication: { name: "Andy", role: "Chancellor", intro: "Welcome! I’m Andy. Let’s chat about communication, just like we do Down Under." },
-      digital: { name: "Natalie", role: "Head of Education", intro: "Hi! I’m Natalie. I’ll show you how Aussies use digital tools and stay safe online." },
-      "life-skills": { name: "Daisy", role: "Student President", intro: "G’day! I’m Daisy. Let’s build your independence for Aussie life." },
-      "money-skills": { name: "Winnie", role: "AI Mentor", intro: "Hello! I’m Winnie. Let’s learn about money and budgeting in Australia." },
-      employability: { name: "Andy", role: "Chancellor", intro: "Welcome! I’m Andy. I’ll help you get ready for work in Australia." },
-      "virtual-world": { name: "Natalie", role: "Head of Education", intro: "Hi! I’m Natalie. Let’s thrive in virtual environments, Aussie style." }
+      literacy: {
+        name: "Daisy",
+        role: "Student President",
+        intro: "G’day! I’m Daisy, your guide to reading and writing, Aussie style.",
+      },
+      numeracy: {
+        name: "Winnie",
+        role: "AI Mentor",
+        intro: "Hello! I’m Winnie. Let’s tackle maths the Australian way.",
+      },
+      communication: {
+        name: "Andy",
+        role: "Chancellor",
+        intro: "Welcome! I’m Andy. Let’s chat about communication, just like we do Down Under.",
+      },
+      digital: {
+        name: "Natalie",
+        role: "Head of Education",
+        intro: "Hi! I’m Natalie. I’ll show you how Aussies use digital tools and stay safe online.",
+      },
+      "life-skills": {
+        name: "Daisy",
+        role: "Student President",
+        intro: "G’day! I’m Daisy. Let’s build your independence for Aussie life.",
+      },
+      "money-skills": {
+        name: "Winnie",
+        role: "AI Mentor",
+        intro: "Hello! I’m Winnie. Let’s learn about money and budgeting in Australia.",
+      },
+      employability: {
+        name: "Andy",
+        role: "Chancellor",
+        intro: "Welcome! I’m Andy. I’ll help you get ready for work in Australia.",
+      },
+      "virtual-world": {
+        name: "Natalie",
+        role: "Head of Education",
+        intro: "Hi! I’m Natalie. Let’s thrive in virtual environments, Aussie style.",
+      },
     };
 
     const char = characters[domain];

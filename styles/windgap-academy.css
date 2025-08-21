@@ -1,9 +1,11 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap');
 /* Theme switching: dark mode, high contrast */
 .theme-dark {
   background: #181a1b;
   color: #f3f4f6;
 }
-.theme-dark header, .theme-dark footer {
+.theme-dark header,
+.theme-dark footer {
   background: #222;
   color: #fbbf24;
 }
@@ -11,7 +13,8 @@
   background: #000;
   color: #fff;
 }
-.theme-high-contrast .skill-card, .theme-high-contrast .activity-card {
+.theme-high-contrast .skill-card,
+.theme-high-contrast .activity-card {
   background: #fff;
   color: #000;
   border: 2px solid #fbbf24;
@@ -19,7 +22,10 @@
 /* Feedback animation: confetti */
 .confetti {
   position: fixed;
-  top: 0; left: 0; width: 100vw; height: 100vh;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
   pointer-events: none;
   z-index: 9999;
 }
@@ -30,8 +36,13 @@
 }
 /* Responsive design improvements */
 @media (max-width: 800px) {
-  .academy-title, h2 { font-size: 1.5em; }
-  .skill-card, .activity-card, .stat-card {
+  .academy-title,
+  h2 {
+    font-size: 1.5em;
+  }
+  .skill-card,
+  .activity-card,
+  .stat-card {
     padding: 12px;
     font-size: 0.95em;
   }
@@ -39,7 +50,10 @@
     max-width: 120px;
     margin: 8px;
   }
-  .tab-content { min-height: 200px; padding: 12px; }
+  .tab-content {
+    min-height: 200px;
+    padding: 12px;
+  }
 }
 /*
   Windgap Academy Stylesheet
@@ -65,7 +79,7 @@
   color: #004d40;
 }
 /* Windgap Academy UI, Australian branding, accessibility and advanced UI */
-@import url('https://fonts.googleapis.com/css2?family=Gotham:wght@400;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Gotham:wght@400;700&display=swap");
 body {
   font-family: Arial, sans-serif;
   margin: 0;
@@ -103,9 +117,15 @@ body:focus {
   animation: float 3s ease-in-out infinite;
 }
 @keyframes float {
-  0% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-  100% { transform: translateY(0); }
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0);
+  }
 }
 .music-controls {
   margin: 20px;
@@ -127,12 +147,13 @@ body:focus {
 }
 /* ...existing Windgap Academy styles below ... */
 body {
-  font-family: 'Gotham', Arial, sans-serif;
-  background: linear-gradient(135deg,#eaf6f6 0%,#f0f7fa 100%);
+  font-family: "Gotham", Arial, sans-serif;
+  background: linear-gradient(135deg, #eaf6f6 0%, #f0f7fa 100%);
   color: #1a2a2a;
   min-height: 100vh;
 }
-header, footer {
+header,
+footer {
   background: #b2d8d8;
   padding: 1em;
   text-align: center;
@@ -147,83 +168,211 @@ header, footer {
   font-size: 1.08em;
   color: #222;
   border-radius: 10px;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
   /* Age-appropriate, educator-reviewed social story area for neurodivergent learners 16+ */
 }
 /* Sticky notes and to-do list styles */
 .sticky-note {
-  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
   font-size: 1em;
   margin-bottom: 6px;
   display: inline-block;
 }
 .todo-item {
-  box-shadow: 0 1px 4px rgba(0,0,0,0.10);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
   font-size: 0.98em;
   margin-bottom: 4px;
   display: block;
 }
-#timer-status, #time-tracker {
+#timer-status,
+#time-tracker {
   font-size: 1em;
   margin-top: 8px;
   color: #1976d2;
 }
-.nav-btn:hover { color: #3b82f6; background: #eff6ff; border-color: #bfdbfe; }
-.nav-btn.active { background: #3b82f6; color: white; border-color: #3b82f6; }
+.nav-btn:hover {
+  color: #3b82f6;
+  background: #eff6ff;
+  border-color: #bfdbfe;
+}
+.nav-btn.active {
+  background: #3b82f6;
+  color: white;
+  border-color: #3b82f6;
+}
 .nav-btn:focus {
   outline: 2px solid #fbbf24;
 }
-.skill-card, .activity-card {
+.skill-card,
+.activity-card {
   background: white;
   border-radius: 20px;
   padding: 24px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  cursor: pointer; transition: .3s; text-align:center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: 0.3s;
+  text-align: center;
 }
-.skill-card:hover, .activity-card:hover {
-  transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+.skill-card:hover,
+.activity-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
 }
 .stat-card {
-  background: linear-gradient(135deg,#3b82f6,#8b5cf6);
-  border-radius:16px;padding:20px;text-align:center;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  border-radius: 16px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
-.answer-option { width:100%;text-align:left;padding:16px;background:#f8fafc;
-  border:2px solid #e2e8f0;border-radius:12px;transition:.2s;cursor:pointer;font-size:16px;}
-.answer-option:hover { background:#eff6ff; border-color:#3b82f6;transform:translateY(-2px); box-shadow:0 4px 12px rgba(0,0,0,0.1);}
-.progress-indicator {width:100%;height:8px;background:#e5e7eb;border-radius:4px;overflow:hidden;margin:8px 0;}
-.progress-fill {height:100%;background:linear-gradient(90deg,#10b981,#059669);transition:width .8s;}
-.notification {position:fixed;top:80px;right:20px;z-index:1000;padding:16px 20px;border-radius:8px;color:white;font-weight:600;box-shadow:0 4px 12px rgba(0,0,0,0.15);transform:translateX(400px);transition:transform .3s;}
-.notification { /* All notifications are private and educator-reviewed for compliance and safety */
-  position:fixed;top:80px;right:20px;z-index:1000;padding:16px 20px;border-radius:8px;color:white;font-weight:600;box-shadow:0 4px 12px rgba(0,0,0,0.15);transform:translateX(400px);transition:transform .3s;
+.answer-option {
+  width: 100%;
+  text-align: left;
+  padding: 16px;
+  background: #f8fafc;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  transition: 0.2s;
+  cursor: pointer;
+  font-size: 16px;
+}
+.answer-option:hover {
+  background: #eff6ff;
+  border-color: #3b82f6;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+.progress-indicator {
+  width: 100%;
+  height: 8px;
+  background: #e5e7eb;
+  border-radius: 4px;
+  overflow: hidden;
+  margin: 8px 0;
+}
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #10b981, #059669);
+  transition: width 0.8s;
+}
+.notification {
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  z-index: 1000;
+  padding: 16px 20px;
+  border-radius: 8px;
+  color: white;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transform: translateX(400px);
+  transition: transform 0.3s;
+}
+.notification {
+  /* All notifications are private and educator-reviewed for compliance and safety */
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  z-index: 1000;
+  padding: 16px 20px;
+  border-radius: 8px;
+  color: white;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transform: translateX(400px);
+  transition: transform 0.3s;
 }
 .notification:focus {
   outline: 2px solid #fbbf24;
 }
-.notification.show {transform:translateX(0);}
-.notification.success {background:#22c55e;}
-.notification.error {background:#ef4444;}
-.notification.info {background:#3b82f6;}
-.dyslexia-font {font-family:'OpenDyslexic',Arial,sans-serif;}
-.dyslexia-font { /* Accessibility: Dyslexia-friendly font for neurodivergent learners */
-  font-family:'OpenDyslexic',Arial,sans-serif;
+.notification.show {
+  transform: translateX(0);
 }
-.easy-read {font-size:1.25em;letter-spacing:.05em;}
-.easy-read { /* Accessibility: Easy-read style for improved legibility */
-  font-size:1.25em;letter-spacing:.05em;
+.notification.success {
+  background: #22c55e;
 }
-.tab-btn {padding:12px 24px;border-radius:12px 12px 0 0;font-weight:500;transition:.2s;color:#6b7280;background:#f3f4f6;border:2px solid #e5e7eb;border-bottom:none;cursor:pointer;}
-.tab-btn:hover {color:#3b82f6;background:#eff6ff;border-color:#bfdbfe;}
-.tab-btn.active {background:white;color:#3b82f6;border-color:#3b82f6;border-bottom:2px solid white;margin-bottom:-2px;}
+.notification.error {
+  background: #ef4444;
+}
+.notification.info {
+  background: #3b82f6;
+}
+.dyslexia-font {
+  font-family: "OpenDyslexic", Arial, sans-serif;
+}
+.dyslexia-font {
+  /* Accessibility: Dyslexia-friendly font for neurodivergent learners */
+  font-family: "OpenDyslexic", Arial, sans-serif;
+}
+.easy-read {
+  font-size: 1.25em;
+  letter-spacing: 0.05em;
+}
+.easy-read {
+  /* Accessibility: Easy-read style for improved legibility */
+  font-size: 1.25em;
+  letter-spacing: 0.05em;
+}
+.tab-btn {
+  padding: 12px 24px;
+  border-radius: 12px 12px 0 0;
+  font-weight: 500;
+  transition: 0.2s;
+  color: #6b7280;
+  background: #f3f4f6;
+  border: 2px solid #e5e7eb;
+  border-bottom: none;
+  cursor: pointer;
+}
+.tab-btn:hover {
+  color: #3b82f6;
+  background: #eff6ff;
+  border-color: #bfdbfe;
+}
+.tab-btn.active {
+  background: white;
+  color: #3b82f6;
+  border-color: #3b82f6;
+  border-bottom: 2px solid white;
+  margin-bottom: -2px;
+}
 .tab-btn:focus {
   outline: 2px solid #fbbf24;
 }
-.tab-content {background:white;border:2px solid #3b82f6;border-radius:0 12px 12px 12px;padding:24px;min-height:400px;}
-.achievement-badge {display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#fbbf24,#f59e0b);color:white;padding:8px 16px;border-radius:20px;font-size:14px;font-weight:600;margin:4px;}
+.tab-content {
+  background: white;
+  border: 2px solid #3b82f6;
+  border-radius: 0 12px 12px 12px;
+  padding: 24px;
+  min-height: 400px;
+}
+.achievement-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  margin: 4px;
+}
 .achievement-badge:focus {
   outline: 2px solid #3b82f6;
 }
-.ndis-section {background:white;border-radius:12px;padding:20px;margin:16px 0;box-shadow:0 2px 8px rgba(0,0,0,0.1);}
-.ndis-section { /* Compliance: NDIS information, educator-reviewed for privacy and accessibility */
-  background:white;border-radius:12px;padding:20px;margin:16px 0;box-shadow:0 2px 8px rgba(0,0,0,0.1);
+.ndis-section {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  margin: 16px 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+.ndis-section {
+  /* Compliance: NDIS information, educator-reviewed for privacy and accessibility */
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  margin: 16px 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }

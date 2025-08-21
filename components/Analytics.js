@@ -8,7 +8,7 @@ export function showAnalytics(container) {
       <div id="analytics-feedback" aria-live="polite"></div>
     </section>
   `;
-  document.getElementById("export-report").onclick = function() {
+  document.getElementById("export-report").onclick = function () {
     document.getElementById("analytics-feedback").innerText = "Report exported!";
   };
 }

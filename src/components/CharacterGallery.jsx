@@ -44,19 +44,25 @@ const CharacterGallery = () => {
           <img
             src={img.src}
             alt={img.alt}
-            style={{ maxWidth: "180px", margin: "8px", borderRadius: "12px", border: selected === idx ? "4px solid #3b82f6" : "2px solid #eee", cursor: "pointer" }}
+            style={{
+              maxWidth: "180px",
+              margin: "8px",
+              borderRadius: "12px",
+              border: selected === idx ? "4px solid #3b82f6" : "2px solid #eee",
+              cursor: "pointer",
+            }}
             onClick={() => setSelected(idx)}
             tabIndex={0}
             aria-label={`Select ${img.alt}`}
             loading="lazy"
-            />
+          />
           {selected === idx && (
             <div style={{ marginTop: "8px" }}>
               <input
                 type="text"
                 placeholder="Custom name..."
                 value={customName}
-                onChange={e => setCustomName(e.target.value)}
+                onChange={(e) => setCustomName(e.target.value)}
                 aria-label="Custom avatar name"
                 style={{ padding: "4px", borderRadius: "6px", border: "1px solid #ccc" }}
               />
