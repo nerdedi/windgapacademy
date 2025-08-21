@@ -4,7 +4,9 @@
   "description": "Modern build setup for Windgap Academy",
   "scripts": {
     "start": "node index.js",
-    "build": "echo \"Add your build script here\""
+    "build": "echo \"Add your build script here\"",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "test": "jest"
   },
   "devDependencies": {},
   "dependencies": {
@@ -23,4 +25,4 @@
     "modern"
   ],
   "author": "Your Name <natalie@example.com>"
-  }
+}

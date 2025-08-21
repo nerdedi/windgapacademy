@@ -96,173 +96,238 @@ export function showVirtualWorld(container) {
     </section>
   `;
   // Simulated movement and location info
-  window.moveTo = function(location) {
-  // Room teleportation logic
-  window.showRoom = function(room) {
-    const gameArea = document.getElementById("vw-game-area");
-    const rooms = {
-      common: {name:"Common Room",desc:"A cosy space for socialising, relaxing, and group activities."},
-      hall: {name:"Great Hall",desc:"A grand hall for assemblies, celebrations, and large events."},
-      dining: {name:"Dining Hall",desc:"A welcoming dining area for meals, cooking games, and nutrition lessons."},
-      kitchen: {name:"Kitchen",desc:"A fully equipped kitchen for cooking activities, food games, and healthy eating lessons."},
-      veggie: {name:"Vegetable Patch",desc:"Grow and harvest veggies for cooking, science, and sustainability lessons."},
-      fruit: {name:"Fruit Orchard",desc:"Pick fresh fruit and learn about nutrition, biology, and healthy choices."},
-      gym: {name:"Gym",desc:"Exercise, play sports, and learn about health and wellbeing."},
-      rec: {name:"Recreation Area",desc:"Play games, relax, and enjoy fun activities with friends."},
-      dorm: {name:"Dorm Room",desc:"Your personal space to rest, decorate, and reflect."},
-      home: {name:"Home Room",desc:"Start your day, meet your mentor, and get ready for learning."},
-      library: {name:"Library",desc:"Read, research, and study in a quiet, resource-rich environment."},
-      art: {name:"Art Studio",desc:"Create, paint, and express yourself through art."},
-      music: {name:"Music Room",desc:"Play instruments, sing, and explore music."},
-      science: {name:"Science Lab",desc:"Experiment, discover, and learn about the world."},
-      tech: {name:"Tech Lab",desc:"Build, code, and innovate with technology."},
-      wellbeing: {name:"Wellbeing Centre",desc:"Relax, recharge, and access support for mental health and wellbeing."},
-      "student-council": {name:"Student Council Room",desc:"Meet Daisy and the student council to discuss school events and advocacy."},
-      "chancellor-office": {name:"Chancellor Andy's Office",desc:"Meet Andy, the Chancellor of Windgap Academy, for important decisions and leadership."},
-      "natalie-office": {name:"Natalie's Office",desc:"Meet Natalie, Head of Education, for help, advice, and support. She is neurodivergent and gives clever, witty tips for learning."}
+  window.moveTo = function (location) {
+    // Room teleportation logic
+    window.showRoom = function (room) {
+      const gameArea = document.getElementById("vw-game-area");
+      const rooms = {
+        common: {
+          name: "Common Room",
+          desc: "A cosy space for socialising, relaxing, and group activities.",
+        },
+        hall: {
+          name: "Great Hall",
+          desc: "A grand hall for assemblies, celebrations, and large events.",
+        },
+        dining: {
+          name: "Dining Hall",
+          desc: "A welcoming dining area for meals, cooking games, and nutrition lessons.",
+        },
+        kitchen: {
+          name: "Kitchen",
+          desc: "A fully equipped kitchen for cooking activities, food games, and healthy eating lessons.",
+        },
+        veggie: {
+          name: "Vegetable Patch",
+          desc: "Grow and harvest veggies for cooking, science, and sustainability lessons.",
+        },
+        fruit: {
+          name: "Fruit Orchard",
+          desc: "Pick fresh fruit and learn about nutrition, biology, and healthy choices.",
+        },
+        gym: { name: "Gym", desc: "Exercise, play sports, and learn about health and wellbeing." },
+        rec: {
+          name: "Recreation Area",
+          desc: "Play games, relax, and enjoy fun activities with friends.",
+        },
+        dorm: { name: "Dorm Room", desc: "Your personal space to rest, decorate, and reflect." },
+        home: {
+          name: "Home Room",
+          desc: "Start your day, meet your mentor, and get ready for learning.",
+        },
+        library: {
+          name: "Library",
+          desc: "Read, research, and study in a quiet, resource-rich environment.",
+        },
+        art: { name: "Art Studio", desc: "Create, paint, and express yourself through art." },
+        music: { name: "Music Room", desc: "Play instruments, sing, and explore music." },
+        science: { name: "Science Lab", desc: "Experiment, discover, and learn about the world." },
+        tech: { name: "Tech Lab", desc: "Build, code, and innovate with technology." },
+        wellbeing: {
+          name: "Wellbeing Centre",
+          desc: "Relax, recharge, and access support for mental health and wellbeing.",
+        },
+        "student-council": {
+          name: "Student Council Room",
+          desc: "Meet Daisy and the student council to discuss school events and advocacy.",
+        },
+        "chancellor-office": {
+          name: "Chancellor Andy's Office",
+          desc: "Meet Andy, the Chancellor of Windgap Academy, for important decisions and leadership.",
+        },
+        "natalie-office": {
+          name: "Natalie's Office",
+          desc: "Meet Natalie, Head of Education, for help, advice, and support. She is neurodivergent and gives clever, witty tips for learning.",
+        },
+      };
+      const r = rooms[room];
+      if (r) {
+        gameArea.innerHTML = `<h3>${r.name}</h3><p>${r.desc}</p>`;
+      }
     };
-    const r = rooms[room];
-    if(r) {
-      gameArea.innerHTML = `<h3>${r.name}</h3><p>${r.desc}</p>`;
-    }
-  };
     const info = {
-      cathedral: "Cathedral Clubhouse: A grand, accessible academy building where learners gather for fun, learning, and community.",
-      arcade: "Arcade Zone: Play educational arcade games, challenge friends, and earn tokens for achievements.",
-      "ai-avatars": "AI Avatars: Interact with friendly AI avatars and certified learners, collaborate on projects, and learn together.",
-      multiplayer: "Multiplayer Games: Join team challenges, races, and multiplayer activities designed for fun and learning.",
-      races: "Races: Compete in exciting races across the clubhouse and virtual Sydney, celebrating effort and teamwork.",
+      cathedral:
+        "Cathedral Clubhouse: A grand, accessible academy building where learners gather for fun, learning, and community.",
+      arcade:
+        "Arcade Zone: Play educational arcade games, challenge friends, and earn tokens for achievements.",
+      "ai-avatars":
+        "AI Avatars: Interact with friendly AI avatars and certified learners, collaborate on projects, and learn together.",
+      multiplayer:
+        "Multiplayer Games: Join team challenges, races, and multiplayer activities designed for fun and learning.",
+      races:
+        "Races: Compete in exciting races across the clubhouse and virtual Sydney, celebrating effort and teamwork.",
       sims: "SIMS/Roblox Activities: Customise avatars, build virtual spaces, complete tasks, and unlock new features.",
-      store: "Academy Store: Purchase avatar upgrades, game power-ups, and decorations—everything is educational and relevant to gameplay.",
+      store:
+        "Academy Store: Purchase avatar upgrades, game power-ups, and decorations—everything is educational and relevant to gameplay.",
       common: "Common Room: A cosy space for socialising, relaxing, and group activities.",
       hall: "Great Hall: A grand hall for assemblies, celebrations, and large events.",
-      dining: "Dining Hall: A welcoming dining area for meals, cooking games, and nutrition lessons.",
-      kitchen: "Kitchen: A fully equipped kitchen for cooking activities, food games, and healthy eating lessons.",
-      veggie: "Vegetable Patch: Grow and harvest veggies for cooking, science, and sustainability lessons.",
-      fruit: "Fruit Orchard: Pick fresh fruit and learn about nutrition, biology, and healthy choices.",
+      dining:
+        "Dining Hall: A welcoming dining area for meals, cooking games, and nutrition lessons.",
+      kitchen:
+        "Kitchen: A fully equipped kitchen for cooking activities, food games, and healthy eating lessons.",
+      veggie:
+        "Vegetable Patch: Grow and harvest veggies for cooking, science, and sustainability lessons.",
+      fruit:
+        "Fruit Orchard: Pick fresh fruit and learn about nutrition, biology, and healthy choices.",
       gym: "Gym: Exercise, play sports, and learn about health and wellbeing.",
       rec: "Recreation Area: Play games, relax, and enjoy fun activities with friends.",
       dorm: "Dorm Room: Your personal space to rest, decorate, and reflect.",
       home: "Home Room: Start your day, meet your mentor, and get ready for learning.",
-      bondi: "Bondi Beach: Enjoy the sun, sand, and social games. Accessible paths and sensory-friendly spaces for all.",
-      opera: "Sydney Opera House: Attend virtual performances, music workshops, and creative events. Wheelchair access and Auslan interpreters available.",
-      botanic: "Royal Botanic Garden: Mindfulness walks, nature exploration, and wellbeing activities. Quiet zones and visual supports for neurodivergent users.",
+      bondi:
+        "Bondi Beach: Enjoy the sun, sand, and social games. Accessible paths and sensory-friendly spaces for all.",
+      opera:
+        "Sydney Opera House: Attend virtual performances, music workshops, and creative events. Wheelchair access and Auslan interpreters available.",
+      botanic:
+        "Royal Botanic Garden: Mindfulness walks, nature exploration, and wellbeing activities. Quiet zones and visual supports for neurodivergent users.",
       zoo: "Taronga Zoo: Meet virtual animals, learn about biodiversity, and join conservation projects. Audio description and tactile activities included.",
-      harbour: "Darling Harbour: Shop, dine, and explore interactive exhibits. All venues are accessible and inclusive.",
-      barangaroo: "Barangaroo Reserve: Discover Indigenous culture, art, and community gatherings. Respect First Nations perspectives and connection to land.",
-      school: "Virtual School: Collaborative learning, group projects, and inclusive classrooms. Reasonable adjustments and assistive technology for all.",
+      harbour:
+        "Darling Harbour: Shop, dine, and explore interactive exhibits. All venues are accessible and inclusive.",
+      barangaroo:
+        "Barangaroo Reserve: Discover Indigenous culture, art, and community gatherings. Respect First Nations perspectives and connection to land.",
+      school:
+        "Virtual School: Collaborative learning, group projects, and inclusive classrooms. Reasonable adjustments and assistive technology for all.",
     };
     document.getElementById("vw-location-info").textContent = info[location] || "";
   };
-    // Arcade Zone logic
-    window.enterArcade = function() {
-      const gameArea = document.getElementById("vw-game-area");
-      gameArea.innerHTML = `<h3>Arcade Zone</h3>
+  // Arcade Zone logic
+  window.enterArcade = function () {
+    const gameArea = document.getElementById("vw-game-area");
+    gameArea.innerHTML = `<h3>Arcade Zone</h3>
         <p>Choose a game:</p>
         <button onclick="playArcadeGame('math')">Math Challenge</button>
         <button onclick="playArcadeGame('memory')">Memory Match</button>
         <button onclick="playArcadeGame('reaction')">Reaction Race</button>
         <div id='arcade-game-content'></div>`;
-    };
-    window.playArcadeGame = function(type) {
-      const content = document.getElementById("arcade-game-content");
-      if(type==="math") {
-        content.innerHTML = "<p>Solve: 7 + 5 = ?</p><input id='math-input' type='number' /><button onclick=\"checkMathAnswer()\">Submit</button><div id='math-feedback'></div>";
-      } else if(type==="memory") {
-        content.innerHTML = "<p>Remember the sequence: Red, Blue, Green</p><input id='memory-input' type='text' placeholder='Type sequence...' /><button onclick=\"checkMemoryAnswer()\">Submit</button><div id='memory-feedback'></div>";
-      } else if(type==="reaction") {
-        content.innerHTML = "<p>Click as fast as you can!</p><button id='reaction-btn'>Click Me!</button><div id='reaction-feedback'></div>";
-        let start = Date.now();
-        document.getElementById("reaction-btn").onclick = () => {
-          let time = Date.now() - start;
-          document.getElementById("reaction-feedback").innerText = `Your time: ${time} ms!`;
-        };
-      }
-    };
-    window.checkMathAnswer = function() {
-      const val = document.getElementById("math-input").value;
-      document.getElementById("math-feedback").innerText = val == 12 ? "Correct!" : "Try again!";
-    };
-    window.checkMemoryAnswer = function() {
-      const val = document.getElementById("memory-input").value.trim().toLowerCase();
-      document.getElementById("memory-feedback").innerText = val === "red, blue, green" ? "Correct!" : "Try again!";
-    };
+  };
+  window.playArcadeGame = function (type) {
+    const content = document.getElementById("arcade-game-content");
+    if (type === "math") {
+      content.innerHTML =
+        "<p>Solve: 7 + 5 = ?</p><input id='math-input' type='number' /><button onclick=\"checkMathAnswer()\">Submit</button><div id='math-feedback'></div>";
+    } else if (type === "memory") {
+      content.innerHTML =
+        "<p>Remember the sequence: Red, Blue, Green</p><input id='memory-input' type='text' placeholder='Type sequence...' /><button onclick=\"checkMemoryAnswer()\">Submit</button><div id='memory-feedback'></div>";
+    } else if (type === "reaction") {
+      content.innerHTML =
+        "<p>Click as fast as you can!</p><button id='reaction-btn'>Click Me!</button><div id='reaction-feedback'></div>";
+      let start = Date.now();
+      document.getElementById("reaction-btn").onclick = () => {
+        let time = Date.now() - start;
+        document.getElementById("reaction-feedback").innerText = `Your time: ${time} ms!`;
+      };
+    }
+  };
+  window.checkMathAnswer = function () {
+    const val = document.getElementById("math-input").value;
+    document.getElementById("math-feedback").innerText = val == 12 ? "Correct!" : "Try again!";
+  };
+  window.checkMemoryAnswer = function () {
+    const val = document.getElementById("memory-input").value.trim().toLowerCase();
+    document.getElementById("memory-feedback").innerText =
+      val === "red, blue, green" ? "Correct!" : "Try again!";
+  };
 
-    // Multiplayer Race logic
-    window.startMultiplayerRace = function() {
-      const gameArea = document.getElementById("vw-game-area");
-      gameArea.innerHTML = `<h3>Multiplayer Race</h3>
+  // Multiplayer Race logic
+  window.startMultiplayerRace = function () {
+    const gameArea = document.getElementById("vw-game-area");
+    gameArea.innerHTML = `<h3>Multiplayer Race</h3>
         <p>Race against AI avatars and other learners!</p>
         <button onclick="runRace()">Start Race</button>
         <div id='race-results'></div>`;
-    };
-    window.runRace = function() {
-      const results = document.getElementById("race-results");
-      const racers = ["You", "Daisy (AI)", "Winnie (AI)", "Andy (AI)"];
-  const times = racers.map(() => Math.floor(Math.random()*2000+1000));
-      let sorted = racers.map((r,i) => ({name:r,time:times[i]})).sort((a,b)=>a.time-b.time);
-      results.innerHTML = "<ol>" + sorted.map(r => `<li>${r.name}: ${r.time} ms</li>`).join("") + "</ol>";
-      results.innerHTML += `<p>${sorted[0].name === "You" ? "Congratulations! You won the race!" : sorted[0].name + " wins!"}</p>`;
-    };
+  };
+  window.runRace = function () {
+    const results = document.getElementById("race-results");
+    const racers = ["You", "Daisy (AI)", "Winnie (AI)", "Andy (AI)"];
+    const times = racers.map(() => Math.floor(Math.random() * 2000 + 1000));
+    let sorted = racers
+      .map((r, i) => ({ name: r, time: times[i] }))
+      .sort((a, b) => a.time - b.time);
+    results.innerHTML =
+      "<ol>" + sorted.map((r) => `<li>${r.name}: ${r.time} ms</li>`).join("") + "</ol>";
+    results.innerHTML += `<p>${sorted[0].name === "You" ? "Congratulations! You won the race!" : sorted[0].name + " wins!"}</p>`;
+  };
 
-    // AI Avatar interaction logic
-    window.interactWithAI = function() {
-      const gameArea = document.getElementById("vw-game-area");
-      gameArea.innerHTML = `<h3>Academy Staff & Support</h3>
+  // AI Avatar interaction logic
+  window.interactWithAI = function () {
+    const gameArea = document.getElementById("vw-game-area");
+    gameArea.innerHTML = `<h3>Academy Staff & Support</h3>
         <p>Chat with:</p>
         <button onclick="chatWithAI('Andy')">Chancellor Andy</button>
         <button onclick="chatWithAI('Natalie')">Natalie (Head of Education)</button>
         <button onclick="chatWithAI('Daisy')">Daisy (Student President)</button>
         <button onclick="chatWithAI('Winnie')">Winnie (AI Mentor)</button>
         <div id='ai-chat-content'></div>`;
-    };
-    window.chatWithAI = function(name) {
-      const content = document.getElementById("ai-chat-content");
-      let responses = {
-        Andy: "Welcome! I am Andy, Chancellor of Windgap Academy. I oversee all academy decisions and ensure every learner is supported. If you need help with leadership, advocacy, or big ideas, come see me in my office.",
-        Natalie: "Hi! I'm Natalie, Head of Education. I'm neurodivergent, so if you ever feel stuck, confused, or need your work changed, come chat with me! I give the best tips for learning when your brain is a bit different—like, \"If you can't focus, try dancing while you study!\" Or, \"If you need a break, tell me and I'll make it happen!\" I'm a bit awkward, but super clever and always here for you.",
-        Daisy: "Hey! I am Daisy, Student President and your advocate. I help learners understand concepts in simple ways, give demonstrations, tips, and make sure you always have a friend on your side. If you need support, come to the Student Council Room!",
-        Winnie: "Hi! I am Winnie, your AI mentor. I can show you around, join a race, or help with any activity."
-      };
-      content.innerHTML = `<p>${responses[name]}</p>`;
-  // Example: Link lessons/activities to rooms
-  window.teleportToLessonRoom = function(lessonType) {
-    const lessonRooms = {
-      cooking: "kitchen",
-      nutrition: "dining",
-      gardening: "veggie",
-      fruit: "fruit",
-      exercise: "gym",
-      art: "art",
-      music: "music",
-      science: "science",
-      tech: "tech",
-      wellbeing: "wellbeing",
-      advocacy: "student-council",
-      leadership: "chancellor-office",
-      support: "natalie-office",
-      study: "library",
-      rest: "dorm",
-      start: "home"
-    };
-    if(lessonRooms[lessonType]) {
-      window.showRoom(lessonRooms[lessonType]);
-    }
   };
+  window.chatWithAI = function (name) {
+    const content = document.getElementById("ai-chat-content");
+    let responses = {
+      Andy: "Welcome! I am Andy, Chancellor of Windgap Academy. I oversee all academy decisions and ensure every learner is supported. If you need help with leadership, advocacy, or big ideas, come see me in my office.",
+      Natalie:
+        "Hi! I'm Natalie, Head of Education. I'm neurodivergent, so if you ever feel stuck, confused, or need your work changed, come chat with me! I give the best tips for learning when your brain is a bit different—like, \"If you can't focus, try dancing while you study!\" Or, \"If you need a break, tell me and I'll make it happen!\" I'm a bit awkward, but super clever and always here for you.",
+      Daisy:
+        "Hey! I am Daisy, Student President and your advocate. I help learners understand concepts in simple ways, give demonstrations, tips, and make sure you always have a friend on your side. If you need support, come to the Student Council Room!",
+      Winnie:
+        "Hi! I am Winnie, your AI mentor. I can show you around, join a race, or help with any activity.",
     };
+    content.innerHTML = `<p>${responses[name]}</p>`;
+    // Example: Link lessons/activities to rooms
+    window.teleportToLessonRoom = function (lessonType) {
+      const lessonRooms = {
+        cooking: "kitchen",
+        nutrition: "dining",
+        gardening: "veggie",
+        fruit: "fruit",
+        exercise: "gym",
+        art: "art",
+        music: "music",
+        science: "science",
+        tech: "tech",
+        wellbeing: "wellbeing",
+        advocacy: "student-council",
+        leadership: "chancellor-office",
+        support: "natalie-office",
+        study: "library",
+        rest: "dorm",
+        start: "home",
+      };
+      if (lessonRooms[lessonType]) {
+        window.showRoom(lessonRooms[lessonType]);
+      }
+    };
+  };
 
-    // Clubhouse customisation logic
-    window.customiseClubhouse = function() {
-      const gameArea = document.getElementById("vw-game-area");
-      gameArea.innerHTML = `<h3>Customise Clubhouse</h3>
+  // Clubhouse customisation logic
+  window.customiseClubhouse = function () {
+    const gameArea = document.getElementById("vw-game-area");
+    gameArea.innerHTML = `<h3>Customise Clubhouse</h3>
         <p>Choose a decoration:</p>
         <button onclick="addDecoration('Banner')">Add Banner</button>
         <button onclick="addDecoration('Plants')">Add Plants</button>
         <button onclick="addDecoration('Lights')">Add Lights</button>
         <div id='clubhouse-decor'></div>`;
-    };
-    window.addDecoration = function(item) {
-      const decor = document.getElementById("clubhouse-decor");
-      decor.innerHTML += `<div class='decoration'>${item} added!</div>`;
-    };
+  };
+  window.addDecoration = function (item) {
+    const decor = document.getElementById("clubhouse-decor");
+    decor.innerHTML += `<div class='decoration'>${item} added!</div>`;
+  };
 }

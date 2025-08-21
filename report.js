@@ -42,16 +42,8 @@ export function generateReport(data) {
 
   const r = z + 8 + data.remaining.length * 7 + 10;
   doc.text("Recommendations:", 10, r);
-  doc.text(
-    "• Continue support under Core – Group & Centre Activities.",
-    14,
-    r + 7
-  );
-  doc.text(
-    "• Build social and functional life skills under Capacity Building.",
-    14,
-    r + 14
-  );
+  doc.text("• Continue support under Core – Group & Centre Activities.", 14, r + 7);
+  doc.text("• Build social and functional life skills under Capacity Building.", 14, r + 14);
 
   doc.save(`NDIS_Report_${user}_${date}.pdf`);
 }

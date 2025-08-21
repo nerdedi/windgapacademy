@@ -14,10 +14,10 @@ export function showHelpSupport(container) {
       <div id="support-feedback" aria-live="polite"></div>
     </section>
   `;
-  document.getElementById("contact-support").onclick = function() {
+  document.getElementById("contact-support").onclick = function () {
     document.getElementById("support-feedback").innerText = "Email sent to support!";
   };
-  document.getElementById("live-chat").onclick = function() {
+  document.getElementById("live-chat").onclick = function () {
     document.getElementById("support-feedback").innerText = "Live chat started!";
   };
 }

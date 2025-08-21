@@ -14,7 +14,9 @@ export function showLiteracyGame(container, userData = {}) {
   <button id="literacy-return" class="nav-btn" aria-label="Return to Dashboard">Return to Dashboard</button>
     </section>
   `;
-  document.getElementById("literacy-return").onclick = function() { window.route("dashboard"); };
+  document.getElementById("literacy-return").onclick = function () {
+    window.route("dashboard");
+  };
   startLiteracyPlatformer(userData);
 }
 
@@ -22,7 +24,11 @@ function startLiteracyPlatformer() {
   const canvas = document.getElementById("literacy-platformer");
   const ctx = canvas.getContext("2d");
   let player = { x: 50, y: 350, vy: 0, jumping: false };
-  let coins = [{ x: 200, y: 350 }, { x: 400, y: 350 }, { x: 600, y: 350 }];
+  let coins = [
+    { x: 200, y: 350 },
+    { x: 400, y: 350 },
+    { x: 600, y: 350 },
+  ];
   let score = 0;
   let level = 1;
   let progress = [];
@@ -35,9 +41,15 @@ function startLiteracyPlatformer() {
     ctx.fillRect(0, 380, canvas.width, 20);
     // Parallax clouds
     ctx.fillStyle = "#fff";
-    ctx.beginPath(); ctx.arc(100, 80, 40, 0, 2 * Math.PI); ctx.fill();
-    ctx.beginPath(); ctx.arc(300, 60, 30, 0, 2 * Math.PI); ctx.fill();
-    ctx.beginPath(); ctx.arc(600, 100, 50, 0, 2 * Math.PI); ctx.fill();
+    ctx.beginPath();
+    ctx.arc(100, 80, 40, 0, 2 * Math.PI);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(300, 60, 30, 0, 2 * Math.PI);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(600, 100, 50, 0, 2 * Math.PI);
+    ctx.fill();
   }
 
   function drawPlayer() {
@@ -51,7 +63,9 @@ function startLiteracyPlatformer() {
   function drawCoins() {
     coins.forEach((coin) => {
       ctx.fillStyle = "#ffd700";
-      ctx.beginPath(); ctx.arc(coin.x, coin.y, 10, 0, 2 * Math.PI); ctx.fill();
+      ctx.beginPath();
+      ctx.arc(coin.x, coin.y, 10, 0, 2 * Math.PI);
+      ctx.fill();
     });
   }
 
@@ -69,14 +83,18 @@ function startLiteracyPlatformer() {
       if (Math.abs(player.x - coin.x) < 30 && Math.abs(player.y - coin.y) < 30) {
         coins.splice(idx, 1);
         score++;
-        document.getElementById("literacy-feedback").innerText = `Great job! Coin collected. Total: ${score}`;
-  document.getElementById("literacy-feedback").innerHTML = `<span style='color:#22c55e;font-weight:600;'>Great job! Coin collected. Total: ${score}</span>`;
+        document.getElementById("literacy-feedback").innerText =
+          `Great job! Coin collected. Total: ${score}`;
+        document.getElementById("literacy-feedback").innerHTML =
+          `<span style='color:#22c55e;font-weight:600;'>Great job! Coin collected. Total: ${score}</span>`;
         progress.push({ action: "coin", x: player.x, y: player.y, level });
         if (score === 3) {
           level++;
           document.getElementById("learner-level").innerText = `Learner Level: ${level}`;
-          document.getElementById("literacy-feedback").innerText = "Level up! Daisy: \"You did it!\" Winnie: \"Keep going!\" Andy: \"Awesome effort!\"";
-          document.getElementById("literacy-feedback").innerHTML = "<span style='color:#3b82f6;font-weight:600;'>Level up! Daisy: \"You did it!\" Winnie: \"Keep going!\" Andy: \"Awesome effort!\"</span>";
+          document.getElementById("literacy-feedback").innerText =
+            "Level up! Daisy: \"You did it!\" Winnie: \"Keep going!\" Andy: \"Awesome effort!\"";
+          document.getElementById("literacy-feedback").innerHTML =
+            "<span style='color:#3b82f6;font-weight:600;'>Level up! Daisy: \"You did it!\" Winnie: \"Keep going!\" Andy: \"Awesome effort!\"</span>";
           progress.push({ action: "levelup", level });
           // Reset coins for next level
           coins.push({ x: 200, y: 350 }, { x: 400, y: 350 }, { x: 600, y: 350 });
@@ -85,10 +103,11 @@ function startLiteracyPlatformer() {
             completed = true;
             setTimeout(() => {
               document.getElementById("literacy-feedback").innerText = "Game complete! Well done.";
-              document.getElementById("literacy-feedback").innerHTML = "<span style='color:#3b82f6;font-weight:600;'>Game complete! Well done.</span>";
+              document.getElementById("literacy-feedback").innerHTML =
+                "<span style='color:#3b82f6;font-weight:600;'>Game complete! Well done.</span>";
               progress.push({ action: "complete", level });
               if (userData && userData.userId) {
-                import("../../firebase.js").then(mod => {
+                import("../../firebase.js").then((mod) => {
                   mod.saveLessonPlan("literacy-game", userData.userId, JSON.stringify(progress));
                 });
               }
@@ -115,7 +134,8 @@ function startLiteracyPlatformer() {
       player.jumping = true;
       player.vy = -18;
       document.getElementById("literacy-feedback").innerText = "Jump!";
-  document.getElementById("literacy-feedback").innerHTML = "<span style='color:#fbbf24;font-weight:600;'>Jump!</span>";
+      document.getElementById("literacy-feedback").innerHTML =
+        "<span style='color:#fbbf24;font-weight:600;'>Jump!</span>";
       progress.push({ action: "jump", x: player.x, y: player.y, level });
     }
     if (e.code === "ArrowRight") {
@@ -139,7 +159,12 @@ function loadProgress() {
 }
 
 // --- Accessibility Options ---
-let accessibilityOptions = { highContrast: false, textToSpeech: false, fontSize: "medium", keyboardOnly: false };
+let accessibilityOptions = {
+  highContrast: false,
+  textToSpeech: false,
+  fontSize: "medium",
+  keyboardOnly: false,
+};
 function setAccessibility(option, value) {
   accessibilityOptions[option] = value;
   if (option === "highContrast") {
@@ -153,13 +178,21 @@ function setAccessibility(option, value) {
 
 // --- Feature Scaffolding ---
 let userProgress = [];
-function saveProgress(data) { /* TODO: Save progress to localStorage or backend */ }
+function saveProgress(data) {
+  /* TODO: Save progress to localStorage or backend */
+}
 let achievements = [];
-function unlockAchievement(name) { achievements.push(name); }
+function unlockAchievement(name) {
+  achievements.push(name);
+}
 let language = "en";
-function setLanguage(lang) { language = lang; }
+function setLanguage(lang) {
+  language = lang;
+}
 let storyProgress = 0;
-function advanceStory() { storyProgress++; }
+function advanceStory() {
+  storyProgress++;
+}
 // --- End Feature Scaffolding ---
 // --- Achievements ---
 let achievements = [];
@@ -268,11 +301,17 @@ function addControlPanel(container) {
   `;
   document.body.appendChild(modal);
 
-  settingsBtn.onclick = () => { modal.style.display = "block"; };
-  modal.querySelector("#close-settings").onclick = () => { modal.style.display = "none"; };
-  modal.querySelector("#high-contrast-toggle").onchange = e => setAccessibility("highContrast", e.target.checked);
-  modal.querySelector("#font-size-select").onchange = e => setAccessibility("fontSize", e.target.value);
-  modal.querySelector("#language-select").onchange = e => setLanguage(e.target.value);
+  settingsBtn.onclick = () => {
+    modal.style.display = "block";
+  };
+  modal.querySelector("#close-settings").onclick = () => {
+    modal.style.display = "none";
+  };
+  modal.querySelector("#high-contrast-toggle").onchange = (e) =>
+    setAccessibility("highContrast", e.target.checked);
+  modal.querySelector("#font-size-select").onchange = (e) =>
+    setAccessibility("fontSize", e.target.value);
+  modal.querySelector("#language-select").onchange = (e) => setLanguage(e.target.value);
   modal.innerHTML += `
     <hr>
     <div>
@@ -289,7 +328,9 @@ function addControlPanel(container) {
   `;
   function updateAchievements() {
     const list = modal.querySelector("#achievements-list");
-    list.innerHTML = achievements.length ? achievements.map(a => `<li>${a}</li>`).join("") : "<li>No achievements yet.</li>";
+    list.innerHTML = achievements.length
+      ? achievements.map((a) => `<li>${a}</li>`).join("")
+      : "<li>No achievements yet.</li>";
   }
   updateAchievements();
   modal.querySelector("#hint-btn").onclick = () => {
@@ -299,7 +340,9 @@ function addControlPanel(container) {
   function updateProgress() {
     const summary = modal.querySelector("#progress-summary");
     const progress = loadProgress();
-    summary.textContent = progress.length ? `Completed: ${progress.length} steps.` : "No progress yet.";
+    summary.textContent = progress.length
+      ? `Completed: ${progress.length} steps.`
+      : "No progress yet.";
   }
   updateProgress();
   modal.querySelector("#voice-btn").onclick = enableVoiceRecognition;
@@ -321,7 +364,7 @@ function enableVoiceRecognition() {
   }
   const recognition = new webkitSpeechRecognition();
   recognition.lang = language;
-  recognition.onresult = function(event) {
+  recognition.onresult = function (event) {
     const transcript = event.results[0][0].transcript;
     alert("You said: " + transcript);
     // Optionally, auto-fill input fields
@@ -334,10 +377,13 @@ function syncProgressWithPlatform() {
   fetch("https://api.example.com/sync", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ game: "literacy", progress })
-  }).then(r => r.json()).then(data => {
-    alert("Progress synced!");
-  }).catch(() => alert("Sync failed."));
+    body: JSON.stringify({ game: "literacy", progress }),
+  })
+    .then((r) => r.json())
+    .then((data) => {
+      alert("Progress synced!");
+    })
+    .catch(() => alert("Sync failed."));
 }
 function openParentFeedback() {
   let modal = document.getElementById("parent-feedback-modal");
@@ -365,7 +411,9 @@ function openParentFeedback() {
       localStorage.setItem("literacyGameParentFeedback", text);
       alert("Feedback sent!");
     };
-    modal.querySelector("#close-feedback").onclick = () => { modal.style.display = "none"; };
+    modal.querySelector("#close-feedback").onclick = () => {
+      modal.style.display = "none";
+    };
   }
   modal.style.display = "block";
 }
@@ -390,15 +438,23 @@ function showChallengesAndLeaderboard() {
       <button id="close-challenges">Close</button>
     `;
     document.body.appendChild(modal);
-    modal.querySelector("#close-challenges").onclick = () => { modal.style.display = "none"; };
+    modal.querySelector("#close-challenges").onclick = () => {
+      modal.style.display = "none";
+    };
   }
   const challenges = [
     { name: "Collect all coins", completed: false },
-    { name: "Reach level 3", completed: false }
+    { name: "Reach level 3", completed: false },
   ];
-  modal.querySelector("#challenge-list").innerHTML = "<ul>" + challenges.map(c => `<li>${c.name} - ${c.completed ? "✔️" : "❌"}</li>`).join("") + "</ul>";
+  modal.querySelector("#challenge-list").innerHTML =
+    "<ul>" +
+    challenges.map((c) => `<li>${c.name} - ${c.completed ? "✔️" : "❌"}</li>`).join("") +
+    "</ul>";
   let leaderboard = JSON.parse(localStorage.getItem("literacyGameLeaderboard") || "[]");
-  modal.querySelector("#leaderboard-list").innerHTML = "<h4>Leaderboard</h4><ul>" + leaderboard.map(e => `<li>${e.name}: ${e.score}</li>`).join("") + "</ul>";
+  modal.querySelector("#leaderboard-list").innerHTML =
+    "<h4>Leaderboard</h4><ul>" +
+    leaderboard.map((e) => `<li>${e.name}: ${e.score}</li>`).join("") +
+    "</ul>";
   modal.style.display = "block";
 }
 function enableARVRMode() {
@@ -412,9 +468,12 @@ function enableARVRMode() {
 }
 function enableOfflineMode() {
   if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("/service-worker.js").then(() => {
-      alert("Offline mode enabled!");
-    }).catch(() => alert("Offline mode registration failed."));
+    navigator.serviceWorker
+      .register("/service-worker.js")
+      .then(() => {
+        alert("Offline mode enabled!");
+      })
+      .catch(() => alert("Offline mode registration failed."));
   }
 }
 function showThemeCustomization() {
@@ -448,7 +507,9 @@ function showThemeCustomization() {
       document.body.className = theme;
       alert("Theme applied!");
     };
-    modal.querySelector("#close-theme").onclick = () => { modal.style.display = "none"; };
+    modal.querySelector("#close-theme").onclick = () => {
+      modal.style.display = "none";
+    };
   }
   modal.style.display = "block";
 }
@@ -466,7 +527,8 @@ function enableSignLanguageAvatar() {
     overlay.style.border = "2px solid #1976d2";
     overlay.style.borderRadius = "12px";
     overlay.style.zIndex = "1002";
-    overlay.innerHTML = "<img src=\"/assets/sign-avatar.gif\" alt=\"Sign Language Avatar\" style=\"width:100%;height:100%;object-fit:contain;\" />";
+    overlay.innerHTML =
+      "<img src=\"/assets/sign-avatar.gif\" alt=\"Sign Language Avatar\" style=\"width:100%;height:100%;object-fit:contain;\" />";
     document.body.appendChild(overlay);
   }
   overlay.style.display = "block";
@@ -500,10 +562,13 @@ function openContentCreationTools() {
       localStorage.setItem("literacyGameCustomLevels", JSON.stringify(levels));
       updateLevelsList();
     };
-    modal.querySelector("#close-content").onclick = () => { modal.style.display = "none"; };
+    modal.querySelector("#close-content").onclick = () => {
+      modal.style.display = "none";
+    };
     function updateLevelsList() {
       let levels = JSON.parse(localStorage.getItem("literacyGameCustomLevels") || "[]");
-      modal.querySelector("#custom-levels-list").innerHTML = "<ul>" + levels.map(l => `<li>${l}</li>`).join("") + "</ul>";
+      modal.querySelector("#custom-levels-list").innerHTML =
+        "<ul>" + levels.map((l) => `<li>${l}</li>`).join("") + "</ul>";
     }
     updateLevelsList();
   }
@@ -512,7 +577,7 @@ function openContentCreationTools() {
 // --- End Advanced Feature Implementations ---
 // --- Accessibility & Error Handling Implementation ---
 function enableKeyboardNavigation() {
-  document.addEventListener("keydown", function(e) {
+  document.addEventListener("keydown", function (e) {
     if (e.key === "Tab") {
       const focusable = Array.from(document.querySelectorAll("button, [tabindex], input, select"));
       const index = focusable.indexOf(document.activeElement);
@@ -591,7 +656,8 @@ function showLanguageSelector() {
   modal.style.borderRadius = "12px";
   modal.style.padding = "24px";
   modal.style.zIndex = "1002";
-  modal.innerHTML = "<h3>Select Language</h3><select id='lang-select'><option value='en'>English</option><option value='es'>Spanish</option><option value='ar'>Arabic (RTL)</option></select><button id='apply-lang'>Apply</button><button id='close-lang'>Close</button>";
+  modal.innerHTML =
+    "<h3>Select Language</h3><select id='lang-select'><option value='en'>English</option><option value='es'>Spanish</option><option value='ar'>Arabic (RTL)</option></select><button id='apply-lang'>Apply</button><button id='close-lang'>Close</button>";
   document.body.appendChild(modal);
   modal.querySelector("#apply-lang").onclick = () => {
     setLanguage(modal.querySelector("#lang-select").value);

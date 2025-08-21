@@ -48,7 +48,13 @@ export function showEducatorDashboard(container) {
           <button type="submit" aria-label="Add Assignment">Add Assignment</button>
         </form>
         <ul id="assignment-list" aria-label="Assignment List">
-          ${Object.keys(assignments).length > 0 ? Object.entries(assignments).map(([title, desc]) => `<li><strong>${title}:</strong> ${desc}</li>`).join("") : "<li>No assignments yet.</li>"}
+          ${
+            Object.keys(assignments).length > 0
+              ? Object.entries(assignments)
+                  .map(([title, desc]) => `<li><strong>${title}:</strong> ${desc}</li>`)
+                  .join("")
+              : "<li>No assignments yet.</li>"
+          }
         </ul>
       </div>
       <div class="report-section au-section" aria-label="Generate Report">
@@ -112,10 +118,14 @@ export function showEducatorDashboard(container) {
     </section>
   `;
   // Keyboard navigation for all buttons and inputs
-  Array.from(container.querySelectorAll("button,input,select")).forEach(el => { el.tabIndex = 0; });
+  Array.from(container.querySelectorAll("button,input,select")).forEach((el) => {
+    el.tabIndex = 0;
+  });
   // Help/info button
   document.getElementById("educator-help").onclick = () => {
-    alert("The Educator Dashboard provides tools for lesson planning, assessment, and learner support. All actions are private and educator-reviewed.");
+    alert(
+      "The Educator Dashboard provides tools for lesson planning, assessment, and learner support. All actions are private and educator-reviewed.",
+    );
   };
   // Button handlers
   document.getElementById("send-assessment").onclick = () => {
@@ -126,18 +136,22 @@ export function showEducatorDashboard(container) {
       return;
     }
     window.sendNotificationToLearner(title, urgency);
-    document.getElementById("assessment-status").innerText = `Assessment "${title}" sent with urgency: ${urgency}.`;
+    document.getElementById("assessment-status").innerText =
+      `Assessment "${title}" sent with urgency: ${urgency}.`;
   };
   document.getElementById("return-dashboard").onclick = () => window.route("dashboard");
-  document.getElementById("assign-literacy").onclick = () => window.assignTask("learner1","Literacy Lesson");
-  document.getElementById("upload-resource").onclick = () => window.uploadFile("learner1","resource.pdf");
-  document.getElementById("download-ndis").onclick = () => window.generateNDISReport({learner:"learner1"});
+  document.getElementById("assign-literacy").onclick = () =>
+    window.assignTask("learner1", "Literacy Lesson");
+  document.getElementById("upload-resource").onclick = () =>
+    window.uploadFile("learner1", "resource.pdf");
+  document.getElementById("download-ndis").onclick = () =>
+    window.generateNDISReport({ learner: "learner1" });
   // Rotating educational prompt
   const prompts = [
     "Tip: Use the six-module framework for lesson planning.",
     "Tip: Profiles update automatically as learners progress.",
     "Tip: All educator actions are private and logged for review.",
-    "Tip: Download NDIS reports for learner support."
+    "Tip: Download NDIS reports for learner support.",
   ];
   let promptIndex = 0;
   function showPrompt() {
@@ -147,17 +161,17 @@ export function showEducatorDashboard(container) {
   }
   showPrompt();
 }
-export function assignTask(username,task){
-  if(!assignments[username]) assignments[username]=[];
+export function assignTask(username, task) {
+  if (!assignments[username]) assignments[username] = [];
   assignments[username].push(task);
   alert(`Task "${task}" assigned to ${username}`);
 }
-export function uploadFile(username,fileName){
-  if(!assignments[username]) assignments[username]=[];
+export function uploadFile(username, fileName) {
+  if (!assignments[username]) assignments[username] = [];
   assignments[username].push(`File uploaded: ${fileName}`);
   alert(`File "${fileName}" uploaded to ${username}`);
 }
-export function generateNDISReport(data){
+export function generateNDISReport(data) {
   generateReport(data);
 }
 

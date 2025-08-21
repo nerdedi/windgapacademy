@@ -5,23 +5,27 @@ import fs from "fs";
 import path from "path";
 
 // CSS bundling/minification
-esbuild.build({
-  entryPoints: ["styles/windgap-academy.css"],
-  bundle: true,
-  minify: true,
-  outfile: "dist/windgap-academy.min.css",
-  watch: process.argv.includes("--watch"),
-}).catch(() => process.exit(1));
+esbuild
+  .build({
+    entryPoints: ["styles/windgap-academy.css"],
+    bundle: true,
+    minify: true,
+    outfile: "dist/windgap-academy.min.css",
+    watch: process.argv.includes("--watch"),
+  })
+  .catch(() => process.exit(1));
 
 // JS bundling/minification
-esbuild.build({
-  entryPoints: ["app.js"],
-  bundle: true,
-  minify: true,
-  outfile: "dist/app.bundle.js",
-  sourcemap: true,
-  watch: process.argv.includes("--watch"),
-}).catch(() => process.exit(1));
+esbuild
+  .build({
+    entryPoints: ["app.js"],
+    bundle: true,
+    minify: true,
+    outfile: "dist/app.bundle.js",
+    sourcemap: true,
+    watch: process.argv.includes("--watch"),
+  })
+  .catch(() => process.exit(1));
 
 // HTML minification
 const htmlPath = path.join(process.cwd(), "index.html");
@@ -35,7 +39,7 @@ if (fs.existsSync(htmlPath)) {
       minifyCSS: true,
       minifyJS: true,
     });
-    fs.writeFile(htmlOut, minified, err => {
+    fs.writeFile(htmlOut, minified, (err) => {
       if (err) throw err;
     });
   });

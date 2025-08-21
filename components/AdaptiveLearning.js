@@ -9,7 +9,7 @@ export function showAdaptiveLearning(container, userData = {}) {
       <div id='adaptive-feedback' aria-live='polite'></div>
     </section>
   `;
-  document.getElementById("adjust-difficulty").onclick = function() {
+  document.getElementById("adjust-difficulty").onclick = function () {
     document.getElementById("adaptive-feedback").innerText = "Difficulty adjusted!";
   };
 }
