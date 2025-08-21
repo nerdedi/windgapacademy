@@ -15,17 +15,17 @@ export function showNumeracyGame(container, userData = {}) {
       <button id="numeracy-return" class="nav-btn" aria-label="Return to Dashboard">Return to Dashboard</button>
     </section>
   `;
-  document.getElementById('numeracy-return').onclick = function() { window.route('dashboard'); };
+  document.getElementById("numeracy-return").onclick = function() { window.route("dashboard"); };
   startSupermarketSim(userData);
 }
 
 function startSupermarketSim() {
-  const canvas = document.getElementById('shop-map');
-  const ctx = canvas.getContext('2d');
+  const canvas = document.getElementById("shop-map");
+  const ctx = canvas.getContext("2d");
   let items = [
-    { name: 'Milk', x: 100, y: 100, price: 2.5 },
-    { name: 'Apples', x: 250, y: 100, price: 3.0 },
-    { name: 'Bread', x: 400, y: 100, price: 2.0 }
+    { name: "Milk", x: 100, y: 100, price: 2.5 },
+    { name: "Apples", x: 250, y: 100, price: 3.0 },
+    { name: "Bread", x: 400, y: 100, price: 2.0 }
   ];
   let cart = [];
   let dragging = null;
@@ -33,55 +33,55 @@ function startSupermarketSim() {
   let completed = false;
 
   function drawShop() {
-    ctx.fillStyle = '#eaf6f6';
+    ctx.fillStyle = "#eaf6f6";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.font = '18px Arial';
-    ctx.fillStyle = '#333';
-    ctx.fillText('Supermarket', 250, 40);
+    ctx.font = "18px Arial";
+    ctx.fillStyle = "#333";
+    ctx.fillText("Supermarket", 250, 40);
     items.forEach(item => {
-      ctx.fillStyle = '#fff';
+      ctx.fillStyle = "#fff";
       ctx.fillRect(item.x, item.y, 80, 40);
       ctx.strokeRect(item.x, item.y, 80, 40);
-      ctx.fillStyle = '#333';
+      ctx.fillStyle = "#333";
       ctx.fillText(item.name, item.x + 10, item.y + 25);
       ctx.fillText(`$${item.price.toFixed(2)}`, item.x + 10, item.y + 38);
     });
   }
 
   function drawCart() {
-  const cartDiv = document.getElementById('cart');
-  cartDiv.innerHTML = '<strong>Cart:</strong> ' + cart.map(i => i.name).join(', ');
-  progress.push({ action: 'cartUpdate', cart: cart.map(i => i.name) });
+  const cartDiv = document.getElementById("cart");
+  cartDiv.innerHTML = "<strong>Cart:</strong> " + cart.map(i => i.name).join(", ");
+  progress.push({ action: "cartUpdate", cart: cart.map(i => i.name) });
   }
 
   function drawCheckout() {
-    const checkoutDiv = document.getElementById('checkout');
+    const checkoutDiv = document.getElementById("checkout");
     let total = cart.reduce((sum, i) => sum + i.price, 0);
   checkoutDiv.innerHTML = `<strong>Total:</strong> $${total.toFixed(2)} <button id='pay-btn' class='nav-btn' aria-label='Pay'>Pay</button>`;
-    document.getElementById('pay-btn').onclick = () => {
+    document.getElementById("pay-btn").onclick = () => {
       if (total === 7.5) {
-        progress.push({ action: 'pay', total, correct: true });
-        checkoutDiv.innerHTML += `<div style='color:#22c55e;font-weight:600;margin-top:8px;'>Correct! Daisy: "Great shopping!" Winnie: "You paid the right amount!"</div>`;
+        progress.push({ action: "pay", total, correct: true });
+        checkoutDiv.innerHTML += "<div style='color:#22c55e;font-weight:600;margin-top:8px;'>Correct! Daisy: \"Great shopping!\" Winnie: \"You paid the right amount!\"</div>";
         if (!completed) {
           completed = true;
           setTimeout(() => {
-            checkoutDiv.innerHTML += `<div style='color:#3b82f6;font-weight:600;margin-top:8px;'>Game complete! Well done.</div>`;
-            progress.push({ action: 'complete' });
+            checkoutDiv.innerHTML += "<div style='color:#3b82f6;font-weight:600;margin-top:8px;'>Game complete! Well done.</div>";
+            progress.push({ action: "complete" });
             if (userData && userData.userId) {
-              import('../../firebase.js').then(mod => {
-                mod.saveLessonPlan('numeracy-game', userData.userId, JSON.stringify(progress));
+              import("../../firebase.js").then(mod => {
+                mod.saveLessonPlan("numeracy-game", userData.userId, JSON.stringify(progress));
               });
             }
           }, 1200);
         }
       } else {
-        progress.push({ action: 'pay', total, correct: false });
-        checkoutDiv.innerHTML += `<div style='color:#ef4444;font-weight:600;margin-top:8px;'>Try again! Andy: "Check your cart and total."</div>`;
+        progress.push({ action: "pay", total, correct: false });
+        checkoutDiv.innerHTML += "<div style='color:#ef4444;font-weight:600;margin-top:8px;'>Try again! Andy: \"Check your cart and total.\"</div>";
       }
     };
   }
 
-  canvas.addEventListener('mousedown', (e) => {
+  canvas.addEventListener("mousedown", (e) => {
     const rect = canvas.getBoundingClientRect();
     const mx = e.clientX - rect.left;
     const my = e.clientY - rect.top;
@@ -91,7 +91,7 @@ function startSupermarketSim() {
       }
     });
   });
-  canvas.addEventListener('mouseup', (e) => {
+  canvas.addEventListener("mouseup", (e) => {
     if (dragging) {
       cart.push(dragging);
       drawCart();
@@ -111,20 +111,20 @@ function startSupermarketSim() {
 
   // --- Progress Tracking ---
   function saveProgress(data) {
-    localStorage.setItem('numeracyGameProgress', JSON.stringify(data));
+    localStorage.setItem("numeracyGameProgress", JSON.stringify(data));
   }
   function loadProgress() {
-    return JSON.parse(localStorage.getItem('numeracyGameProgress') || '[]');
+    return JSON.parse(localStorage.getItem("numeracyGameProgress") || "[]");
   }
 
   // --- Accessibility Options ---
-  let accessibilityOptions = { highContrast: false, textToSpeech: false, fontSize: 'medium', keyboardOnly: false };
+  let accessibilityOptions = { highContrast: false, textToSpeech: false, fontSize: "medium", keyboardOnly: false };
   function setAccessibility(option, value) {
     accessibilityOptions[option] = value;
-    if (option === 'highContrast') {
-      document.body.classList.toggle('high-contrast', value);
+    if (option === "highContrast") {
+      document.body.classList.toggle("high-contrast", value);
     }
-    if (option === 'fontSize') {
+    if (option === "fontSize") {
       document.body.style.fontSize = value;
     }
     // TODO: Implement text-to-speech and keyboard-only navigation
@@ -165,7 +165,7 @@ function startSupermarketSim() {
     // TODO: Show reflection prompt after game
   }
   // --- Localization & Language Support ---
-  let language = 'en';
+  let language = "en";
   function setLanguage(lang) {
     language = lang;
   }
@@ -176,35 +176,35 @@ function startSupermarketSim() {
   }
   // --- UI Control Panel Integration ---
 function addControlPanel(container) {
-  const settingsBtn = document.createElement('button');
-  settingsBtn.id = 'settings-btn';
-  settingsBtn.textContent = '⚙️';
-  settingsBtn.style.position = 'fixed';
-  settingsBtn.style.top = '24px';
-  settingsBtn.style.right = '24px';
-  settingsBtn.style.zIndex = '1000';
-  settingsBtn.style.fontSize = '1.5em';
-  settingsBtn.style.background = '#fff';
-  settingsBtn.style.border = '1px solid #ccc';
-  settingsBtn.style.borderRadius = '50%';
-  settingsBtn.style.width = '48px';
-  settingsBtn.style.height = '48px';
-  settingsBtn.style.cursor = 'pointer';
+  const settingsBtn = document.createElement("button");
+  settingsBtn.id = "settings-btn";
+  settingsBtn.textContent = "⚙️";
+  settingsBtn.style.position = "fixed";
+  settingsBtn.style.top = "24px";
+  settingsBtn.style.right = "24px";
+  settingsBtn.style.zIndex = "1000";
+  settingsBtn.style.fontSize = "1.5em";
+  settingsBtn.style.background = "#fff";
+  settingsBtn.style.border = "1px solid #ccc";
+  settingsBtn.style.borderRadius = "50%";
+  settingsBtn.style.width = "48px";
+  settingsBtn.style.height = "48px";
+  settingsBtn.style.cursor = "pointer";
   document.body.appendChild(settingsBtn);
 
-  const modal = document.createElement('div');
-  modal.id = 'settings-modal';
-  modal.style.position = 'fixed';
-  modal.style.top = '50%';
-  modal.style.left = '50%';
-  modal.style.transform = 'translate(-50%, -50%)';
-  modal.style.background = '#fff';
-  modal.style.border = '2px solid #1976d2';
-  modal.style.borderRadius = '12px';
-  modal.style.padding = '24px';
-  modal.style.zIndex = '1001';
-  modal.style.display = 'none';
-  modal.style.minWidth = '320px';
+  const modal = document.createElement("div");
+  modal.id = "settings-modal";
+  modal.style.position = "fixed";
+  modal.style.top = "50%";
+  modal.style.left = "50%";
+  modal.style.transform = "translate(-50%, -50%)";
+  modal.style.background = "#fff";
+  modal.style.border = "2px solid #1976d2";
+  modal.style.borderRadius = "12px";
+  modal.style.padding = "24px";
+  modal.style.zIndex = "1001";
+  modal.style.display = "none";
+  modal.style.minWidth = "320px";
   modal.innerHTML = `
     <h3>Game Settings</h3>
     <div>
@@ -248,76 +248,76 @@ function addControlPanel(container) {
   `;
   document.body.appendChild(modal);
 
-  settingsBtn.onclick = () => { modal.style.display = 'block'; };
-  modal.querySelector('#close-settings').onclick = () => { modal.style.display = 'none'; };
-  modal.querySelector('#high-contrast-toggle').onchange = e => setAccessibility('highContrast', e.target.checked);
-  modal.querySelector('#font-size-select').onchange = e => setAccessibility('fontSize', e.target.value);
-  modal.querySelector('#language-select').onchange = e => setLanguage(e.target.value);
+  settingsBtn.onclick = () => { modal.style.display = "block"; };
+  modal.querySelector("#close-settings").onclick = () => { modal.style.display = "none"; };
+  modal.querySelector("#high-contrast-toggle").onchange = e => setAccessibility("highContrast", e.target.checked);
+  modal.querySelector("#font-size-select").onchange = e => setAccessibility("fontSize", e.target.value);
+  modal.querySelector("#language-select").onchange = e => setLanguage(e.target.value);
   function updateAchievements() {
-    const list = modal.querySelector('#achievements-list');
-    list.innerHTML = achievements.length ? achievements.map(a => `<li>${a}</li>`).join('') : '<li>No achievements yet.</li>';
+    const list = modal.querySelector("#achievements-list");
+    list.innerHTML = achievements.length ? achievements.map(a => `<li>${a}</li>`).join("") : "<li>No achievements yet.</li>";
   }
   updateAchievements();
-  modal.querySelector('#hint-btn').onclick = () => {
+  modal.querySelector("#hint-btn").onclick = () => {
     showHint();
-    alert('Hint: Try the supermarket simulator task!');
+    alert("Hint: Try the supermarket simulator task!");
   };
   function updateProgress() {
-    const summary = modal.querySelector('#progress-summary');
+    const summary = modal.querySelector("#progress-summary");
     const progress = loadProgress();
-    summary.textContent = progress.length ? `Completed: ${progress.length} steps.` : 'No progress yet.';
+    summary.textContent = progress.length ? `Completed: ${progress.length} steps.` : "No progress yet.";
   }
   updateProgress();
-  modal.querySelector('#voice-btn').onclick = enableVoiceRecognition;
-  modal.querySelector('#sync-btn').onclick = syncProgressWithPlatform;
-  modal.querySelector('#parent-feedback-btn').onclick = openParentFeedback;
-  modal.querySelector('#challenges-btn').onclick = showChallengesAndLeaderboard;
-  modal.querySelector('#arvr-btn').onclick = enableARVRMode;
-  modal.querySelector('#offline-btn').onclick = enableOfflineMode;
-  modal.querySelector('#theme-btn').onclick = showThemeCustomization;
-  modal.querySelector('#sign-avatar-btn').onclick = enableSignLanguageAvatar;
-  modal.querySelector('#content-create-btn').onclick = openContentCreationTools;
+  modal.querySelector("#voice-btn").onclick = enableVoiceRecognition;
+  modal.querySelector("#sync-btn").onclick = syncProgressWithPlatform;
+  modal.querySelector("#parent-feedback-btn").onclick = openParentFeedback;
+  modal.querySelector("#challenges-btn").onclick = showChallengesAndLeaderboard;
+  modal.querySelector("#arvr-btn").onclick = enableARVRMode;
+  modal.querySelector("#offline-btn").onclick = enableOfflineMode;
+  modal.querySelector("#theme-btn").onclick = showThemeCustomization;
+  modal.querySelector("#sign-avatar-btn").onclick = enableSignLanguageAvatar;
+  modal.querySelector("#content-create-btn").onclick = openContentCreationTools;
 }
 
 // --- Advanced Feature Implementations ---
 function enableVoiceRecognition() {
-  if (!('webkitSpeechRecognition' in window)) {
-    alert('Speech recognition not supported in this browser.');
+  if (!("webkitSpeechRecognition" in window)) {
+    alert("Speech recognition not supported in this browser.");
     return;
   }
   const recognition = new webkitSpeechRecognition();
   recognition.lang = language;
   recognition.onresult = function(event) {
     const transcript = event.results[0][0].transcript;
-    alert('You said: ' + transcript);
+    alert("You said: " + transcript);
     // Optionally, auto-fill input fields
   };
   recognition.start();
 }
 function syncProgressWithPlatform() {
   const progress = [];
-  fetch('https://api.example.com/sync', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ game: 'numeracy', progress })
+  fetch("https://api.example.com/sync", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ game: "numeracy", progress })
   }).then(r => r.json()).then(data => {
-    alert('Progress synced!');
-  }).catch(() => alert('Sync failed.'));
+    alert("Progress synced!");
+  }).catch(() => alert("Sync failed."));
 }
 function openParentFeedback() {
-  let modal = document.getElementById('parent-feedback-modal');
+  let modal = document.getElementById("parent-feedback-modal");
   if (!modal) {
-    modal = document.createElement('div');
-    modal.id = 'parent-feedback-modal';
-    modal.style.position = 'fixed';
-    modal.style.top = '50%';
-    modal.style.left = '50%';
-    modal.style.transform = 'translate(-50%, -50%)';
-    modal.style.background = '#fff';
-    modal.style.border = '2px solid #1976d2';
-    modal.style.borderRadius = '12px';
-    modal.style.padding = '24px';
-    modal.style.zIndex = '1002';
+    modal = document.createElement("div");
+    modal.id = "parent-feedback-modal";
+    modal.style.position = "fixed";
+    modal.style.top = "50%";
+    modal.style.left = "50%";
+    modal.style.transform = "translate(-50%, -50%)";
+    modal.style.background = "#fff";
+    modal.style.border = "2px solid #1976d2";
+    modal.style.borderRadius = "12px";
+    modal.style.padding = "24px";
+    modal.style.zIndex = "1002";
     modal.innerHTML = `
       <h3>Parent/Guardian Feedback</h3>
       <textarea id="feedback-text" rows="4" style="width:100%" placeholder="Enter feedback..."></textarea>
@@ -325,29 +325,29 @@ function openParentFeedback() {
       <button id="close-feedback">Close</button>
     `;
     document.body.appendChild(modal);
-    modal.querySelector('#send-feedback').onclick = () => {
-      const text = modal.querySelector('#feedback-text').value;
-      localStorage.setItem('numeracyGameParentFeedback', text);
-      alert('Feedback sent!');
+    modal.querySelector("#send-feedback").onclick = () => {
+      const text = modal.querySelector("#feedback-text").value;
+      localStorage.setItem("numeracyGameParentFeedback", text);
+      alert("Feedback sent!");
     };
-    modal.querySelector('#close-feedback').onclick = () => { modal.style.display = 'none'; };
+    modal.querySelector("#close-feedback").onclick = () => { modal.style.display = "none"; };
   }
-  modal.style.display = 'block';
+  modal.style.display = "block";
 }
 function showChallengesAndLeaderboard() {
-  let modal = document.getElementById('challenges-modal');
+  let modal = document.getElementById("challenges-modal");
   if (!modal) {
-    modal = document.createElement('div');
-    modal.id = 'challenges-modal';
-    modal.style.position = 'fixed';
-    modal.style.top = '50%';
-    modal.style.left = '50%';
-    modal.style.transform = 'translate(-50%, -50%)';
-    modal.style.background = '#fff';
-    modal.style.border = '2px solid #1976d2';
-    modal.style.borderRadius = '12px';
-    modal.style.padding = '24px';
-    modal.style.zIndex = '1002';
+    modal = document.createElement("div");
+    modal.id = "challenges-modal";
+    modal.style.position = "fixed";
+    modal.style.top = "50%";
+    modal.style.left = "50%";
+    modal.style.transform = "translate(-50%, -50%)";
+    modal.style.background = "#fff";
+    modal.style.border = "2px solid #1976d2";
+    modal.style.borderRadius = "12px";
+    modal.style.padding = "24px";
+    modal.style.zIndex = "1002";
     modal.innerHTML = `
       <h3>Challenges & Leaderboard</h3>
       <div id="challenge-list"></div>
@@ -355,47 +355,47 @@ function showChallengesAndLeaderboard() {
       <button id="close-challenges">Close</button>
     `;
     document.body.appendChild(modal);
-    modal.querySelector('#close-challenges').onclick = () => { modal.style.display = 'none'; };
+    modal.querySelector("#close-challenges").onclick = () => { modal.style.display = "none"; };
   }
   const challenges = [
-    { name: 'Buy all items', completed: false },
-    { name: 'Pay correct total', completed: false }
+    { name: "Buy all items", completed: false },
+    { name: "Pay correct total", completed: false }
   ];
-  modal.querySelector('#challenge-list').innerHTML = '<ul>' + challenges.map(c => `<li>${c.name} - ${c.completed ? '✔️' : '❌'}</li>`).join('') + '</ul>';
-  let leaderboard = JSON.parse(localStorage.getItem('numeracyGameLeaderboard') || '[]');
-  modal.querySelector('#leaderboard-list').innerHTML = '<h4>Leaderboard</h4><ul>' + leaderboard.map(e => `<li>${e.name}: ${e.score}</li>`).join('') + '</ul>';
-  modal.style.display = 'block';
+  modal.querySelector("#challenge-list").innerHTML = "<ul>" + challenges.map(c => `<li>${c.name} - ${c.completed ? "✔️" : "❌"}</li>`).join("") + "</ul>";
+  let leaderboard = JSON.parse(localStorage.getItem("numeracyGameLeaderboard") || "[]");
+  modal.querySelector("#leaderboard-list").innerHTML = "<h4>Leaderboard</h4><ul>" + leaderboard.map(e => `<li>${e.name}: ${e.score}</li>`).join("") + "</ul>";
+  modal.style.display = "block";
 }
 function enableARVRMode() {
-  if (!document.getElementById('arvr-scene')) {
-    const scene = document.createElement('a-scene');
-    scene.id = 'arvr-scene';
-    scene.innerHTML = `<a-box position="0 1 -3" color="#4CC3D9"></a-box>`;
+  if (!document.getElementById("arvr-scene")) {
+    const scene = document.createElement("a-scene");
+    scene.id = "arvr-scene";
+    scene.innerHTML = "<a-box position=\"0 1 -3\" color=\"#4CC3D9\"></a-box>";
     document.body.appendChild(scene);
-    alert('AR/VR mode enabled (A-Frame stub).');
+    alert("AR/VR mode enabled (A-Frame stub).");
   }
 }
 function enableOfflineMode() {
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/service-worker.js').then(() => {
-      alert('Offline mode enabled!');
-    }).catch(() => alert('Offline mode registration failed.'));
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("/service-worker.js").then(() => {
+      alert("Offline mode enabled!");
+    }).catch(() => alert("Offline mode registration failed."));
   }
 }
 function showThemeCustomization() {
-  let modal = document.getElementById('theme-modal');
+  let modal = document.getElementById("theme-modal");
   if (!modal) {
-    modal = document.createElement('div');
-    modal.id = 'theme-modal';
-    modal.style.position = 'fixed';
-    modal.style.top = '50%';
-    modal.style.left = '50%';
-    modal.style.transform = 'translate(-50%, -50%)';
-    modal.style.background = '#fff';
-    modal.style.border = '2px solid #1976d2';
-    modal.style.borderRadius = '12px';
-    modal.style.padding = '24px';
-    modal.style.zIndex = '1002';
+    modal = document.createElement("div");
+    modal.id = "theme-modal";
+    modal.style.position = "fixed";
+    modal.style.top = "50%";
+    modal.style.left = "50%";
+    modal.style.transform = "translate(-50%, -50%)";
+    modal.style.background = "#fff";
+    modal.style.border = "2px solid #1976d2";
+    modal.style.borderRadius = "12px";
+    modal.style.padding = "24px";
+    modal.style.zIndex = "1002";
     modal.innerHTML = `
       <h3>Theme Customization</h3>
       <select id="theme-select">
@@ -407,49 +407,49 @@ function showThemeCustomization() {
       <button id="close-theme">Close</button>
     `;
     document.body.appendChild(modal);
-    modal.querySelector('#apply-theme').onclick = () => {
-      const theme = modal.querySelector('#theme-select').value;
-      localStorage.setItem('numeracyGameTheme', theme);
+    modal.querySelector("#apply-theme").onclick = () => {
+      const theme = modal.querySelector("#theme-select").value;
+      localStorage.setItem("numeracyGameTheme", theme);
       document.body.className = theme;
-      alert('Theme applied!');
+      alert("Theme applied!");
     };
-    modal.querySelector('#close-theme').onclick = () => { modal.style.display = 'none'; };
+    modal.querySelector("#close-theme").onclick = () => { modal.style.display = "none"; };
   }
-  modal.style.display = 'block';
+  modal.style.display = "block";
 }
 function enableSignLanguageAvatar() {
-  let overlay = document.getElementById('sign-avatar-overlay');
+  let overlay = document.getElementById("sign-avatar-overlay");
   if (!overlay) {
-    overlay = document.createElement('div');
-    overlay.id = 'sign-avatar-overlay';
-    overlay.style.position = 'fixed';
-    overlay.style.bottom = '24px';
-    overlay.style.right = '24px';
-    overlay.style.width = '120px';
-    overlay.style.height = '120px';
-    overlay.style.background = '#fff';
-    overlay.style.border = '2px solid #1976d2';
-    overlay.style.borderRadius = '12px';
-    overlay.style.zIndex = '1002';
-    overlay.innerHTML = '<img src="/assets/sign-avatar.gif" alt="Sign Language Avatar" style="width:100%;height:100%;object-fit:contain;" />';
+    overlay = document.createElement("div");
+    overlay.id = "sign-avatar-overlay";
+    overlay.style.position = "fixed";
+    overlay.style.bottom = "24px";
+    overlay.style.right = "24px";
+    overlay.style.width = "120px";
+    overlay.style.height = "120px";
+    overlay.style.background = "#fff";
+    overlay.style.border = "2px solid #1976d2";
+    overlay.style.borderRadius = "12px";
+    overlay.style.zIndex = "1002";
+    overlay.innerHTML = "<img src=\"/assets/sign-avatar.gif\" alt=\"Sign Language Avatar\" style=\"width:100%;height:100%;object-fit:contain;\" />";
     document.body.appendChild(overlay);
   }
-  overlay.style.display = 'block';
+  overlay.style.display = "block";
 }
 function openContentCreationTools() {
-  let modal = document.getElementById('content-creation-modal');
+  let modal = document.getElementById("content-creation-modal");
   if (!modal) {
-    modal = document.createElement('div');
-    modal.id = 'content-creation-modal';
-    modal.style.position = 'fixed';
-    modal.style.top = '50%';
-    modal.style.left = '50%';
-    modal.style.transform = 'translate(-50%, -50%)';
-    modal.style.background = '#fff';
-    modal.style.border = '2px solid #1976d2';
-    modal.style.borderRadius = '12px';
-    modal.style.padding = '24px';
-    modal.style.zIndex = '1002';
+    modal = document.createElement("div");
+    modal.id = "content-creation-modal";
+    modal.style.position = "fixed";
+    modal.style.top = "50%";
+    modal.style.left = "50%";
+    modal.style.transform = "translate(-50%, -50%)";
+    modal.style.background = "#fff";
+    modal.style.border = "2px solid #1976d2";
+    modal.style.borderRadius = "12px";
+    modal.style.padding = "24px";
+    modal.style.zIndex = "1002";
     modal.innerHTML = `
       <h3>Custom Content Creation</h3>
       <input id="custom-item" type="text" placeholder="Enter new item..." style="width:100%;margin-bottom:8px;" />
@@ -458,37 +458,37 @@ function openContentCreationTools() {
       <div id="custom-items-list"></div>
     `;
     document.body.appendChild(modal);
-    modal.querySelector('#add-item').onclick = () => {
-      const item = modal.querySelector('#custom-item').value;
-      let items = JSON.parse(localStorage.getItem('numeracyGameCustomItems') || '[]');
+    modal.querySelector("#add-item").onclick = () => {
+      const item = modal.querySelector("#custom-item").value;
+      let items = JSON.parse(localStorage.getItem("numeracyGameCustomItems") || "[]");
       items.push(item);
-      localStorage.setItem('numeracyGameCustomItems', JSON.stringify(items));
+      localStorage.setItem("numeracyGameCustomItems", JSON.stringify(items));
       updateItemsList();
     };
-    modal.querySelector('#close-content').onclick = () => { modal.style.display = 'none'; };
+    modal.querySelector("#close-content").onclick = () => { modal.style.display = "none"; };
     function updateItemsList() {
-      let items = JSON.parse(localStorage.getItem('numeracyGameCustomItems') || '[]');
-      modal.querySelector('#custom-items-list').innerHTML = '<ul>' + items.map(i => `<li>${i}</li>`).join('') + '</ul>';
+      let items = JSON.parse(localStorage.getItem("numeracyGameCustomItems") || "[]");
+      modal.querySelector("#custom-items-list").innerHTML = "<ul>" + items.map(i => `<li>${i}</li>`).join("") + "</ul>";
     }
     updateItemsList();
   }
-  modal.style.display = 'block';
+  modal.style.display = "block";
 }
 // --- End Advanced Feature Suggestions ---
 
 // --- Analytics ---
 function trackEvent(event, data) {
   // Integrate with analytics service or log locally
-  console.log('Analytics Event:', event, data);
+  console.log("Analytics Event:", event, data);
 }
 function showAnalyticsDashboard() {
   // Simple dashboard stub
-  alert('Analytics dashboard coming soon!');
+  alert("Analytics dashboard coming soon!");
 }
 // --- Educator Tools ---
 function showEducatorDashboard() {
   // Simple educator dashboard stub
-  alert('Educator dashboard coming soon!');
+  alert("Educator dashboard coming soon!");
 }
 function openContentCreationTools() {
   // TODO: Implement content creation tools
@@ -496,7 +496,7 @@ function openContentCreationTools() {
 // --- Community Features ---
 function showCommunityFeatures() {
   // Simple community stub
-  alert('Community features (forums, chat, collaboration) coming soon!');
+  alert("Community features (forums, chat, collaboration) coming soon!");
 }
 // --- Internationalization ---
 function setLanguage(lang) {
@@ -504,36 +504,36 @@ function setLanguage(lang) {
   // TODO: Add RTL support and translations
 }
 function showLanguageSelector() {
-  const modal = document.createElement('div');
-  modal.style.position = 'fixed';
-  modal.style.top = '50%';
-  modal.style.left = '50%';
-  modal.style.transform = 'translate(-50%, -50%)';
-  modal.style.background = '#fff';
-  modal.style.border = '2px solid #1976d2';
-  modal.style.borderRadius = '12px';
-  modal.style.padding = '24px';
-  modal.style.zIndex = '1002';
-  modal.innerHTML = `<h3>Select Language</h3><select id='lang-select'><option value='en'>English</option><option value='es'>Spanish</option><option value='ar'>Arabic (RTL)</option></select><button id='apply-lang'>Apply</button><button id='close-lang'>Close</button>`;
+  const modal = document.createElement("div");
+  modal.style.position = "fixed";
+  modal.style.top = "50%";
+  modal.style.left = "50%";
+  modal.style.transform = "translate(-50%, -50%)";
+  modal.style.background = "#fff";
+  modal.style.border = "2px solid #1976d2";
+  modal.style.borderRadius = "12px";
+  modal.style.padding = "24px";
+  modal.style.zIndex = "1002";
+  modal.innerHTML = "<h3>Select Language</h3><select id='lang-select'><option value='en'>English</option><option value='es'>Spanish</option><option value='ar'>Arabic (RTL)</option></select><button id='apply-lang'>Apply</button><button id='close-lang'>Close</button>";
   document.body.appendChild(modal);
-  modal.querySelector('#apply-lang').onclick = () => {
-    setLanguage(modal.querySelector('#lang-select').value);
+  modal.querySelector("#apply-lang").onclick = () => {
+    setLanguage(modal.querySelector("#lang-select").value);
     modal.remove();
   };
-  modal.querySelector('#close-lang').onclick = () => modal.remove();
+  modal.querySelector("#close-lang").onclick = () => modal.remove();
 }
 // --- Onboarding & Help ---
 function startOnboarding() {
-  alert('Welcome! Guided tour and help tooltips coming soon.');
+  alert("Welcome! Guided tour and help tooltips coming soon.");
 }
 // --- Backup & Sync ---
 function backupData() {
-  alert('Cloud backup and restore coming soon!');
+  alert("Cloud backup and restore coming soon!");
 }
 
 // --- Security & UI Polish Implementation ---
 function sanitizeInput(input) {
-  const div = document.createElement('div');
+  const div = document.createElement("div");
   div.textContent = input;
   return div.innerHTML;
 }
@@ -547,9 +547,9 @@ function setModernTheme(theme) {
 
 // --- Accessibility & Error Handling Implementation ---
 function enableKeyboardNavigation() {
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'Tab') {
-      const focusable = Array.from(document.querySelectorAll('button, [tabindex], input, select'));
+  document.addEventListener("keydown", function(e) {
+    if (e.key === "Tab") {
+      const focusable = Array.from(document.querySelectorAll("button, [tabindex], input, select"));
       const index = focusable.indexOf(document.activeElement);
       const next = focusable[(index + 1) % focusable.length];
       if (next) next.focus();
@@ -558,13 +558,13 @@ function enableKeyboardNavigation() {
   });
 }
 function addAriaLabels() {
-  document.body.setAttribute('aria-label', 'Numeracy Game');
+  document.body.setAttribute("aria-label", "Numeracy Game");
 }
 function errorBoundary(fn) {
   try {
     fn();
   } catch (err) {
-    alert('An error occurred: ' + err.message);
+    alert("An error occurred: " + err.message);
   }
 }
 addAriaLabels();
@@ -618,19 +618,19 @@ enableKeyboardNavigation();
 
 // --- Input Validation & Engagement Implementation ---
 function validateInput(input) {
-  return typeof input === 'string' && input.trim().length > 0;
+  return typeof input === "string" && input.trim().length > 0;
 }
 function showAchievement(msg) {
-  const div = document.createElement('div');
+  const div = document.createElement("div");
   div.textContent = msg;
-  div.style.position = 'fixed';
-  div.style.top = '20px';
-  div.style.right = '20px';
-  div.style.background = '#22c55e';
-  div.style.color = '#fff';
-  div.style.padding = '12px 24px';
-  div.style.borderRadius = '8px';
-  div.style.zIndex = '1002';
+  div.style.position = "fixed";
+  div.style.top = "20px";
+  div.style.right = "20px";
+  div.style.background = "#22c55e";
+  div.style.color = "#fff";
+  div.style.padding = "12px 24px";
+  div.style.borderRadius = "8px";
+  div.style.zIndex = "1002";
   document.body.appendChild(div);
   setTimeout(() => div.remove(), 2000);
 }
@@ -638,7 +638,7 @@ function showAchievement(msg) {
 // --- Analytics, Educator Tools, Community, Internationalization, Onboarding, Backup/Sync Implementation ---
 function trackEvent(event, data) {
   // TODO: Integrate with analytics service
-  console.log('Event:', event, data);
+  console.log("Event:", event, data);
 }
 function showEducatorDashboard() {
   // TODO: Show educator dashboard and reporting tools

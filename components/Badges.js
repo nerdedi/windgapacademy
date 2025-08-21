@@ -1,5 +1,5 @@
 // Custom badges for achievements and participation
-export function showBadges(container, userData = {}) {
+export function showBadges(container) {
   container.innerHTML = `
     <section id="badges" aria-label="Badges">
       <h2>🏅 Your Badges</h2>

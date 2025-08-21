@@ -1,5 +1,5 @@
 // Leaderboard/Achievements Component
-export function showLeaderboard(container, userData = {}) {
+export function showLeaderboard(container) {
   container.innerHTML = `
     <section id="leaderboard" aria-label="Leaderboard & Achievements">
       <h2>🏆 Achievements</h2>

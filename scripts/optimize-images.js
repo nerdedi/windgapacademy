@@ -1,11 +1,12 @@
 // Image optimization and WebP conversion using sharp
-const fs = require('fs');
-const path = require('path');
-const sharp = require('sharp');
+import process from "node:process";
+import fs from "fs";
+import path from "path";
+import sharp from "sharp";
 
-const inputDir = path.join(__dirname, '../assets/images');
-const outputDir = path.join(__dirname, '../assets/images-optimized');
-const webpDir = path.join(__dirname, '../assets/images-webp');
+const inputDir = path.join(process.cwd(), "assets/images");
+const outputDir = path.join(process.cwd(), "assets/images-optimized");
+const webpDir = path.join(process.cwd(), "assets/images-webp");
 
 if (!fs.existsSync(outputDir)) fs.mkdirSync(outputDir, { recursive: true });
 if (!fs.existsSync(webpDir)) fs.mkdirSync(webpDir, { recursive: true });
@@ -14,7 +15,7 @@ fs.readdirSync(inputDir).forEach(file => {
   const ext = path.extname(file).toLowerCase();
   const inputPath = path.join(inputDir, file);
   const outputPath = path.join(outputDir, file);
-  const webpPath = path.join(webpDir, file.replace(ext, '.webp'));
+  const webpPath = path.join(webpDir, file.replace(ext, ".webp"));
 
   // Optimize and save original format
   sharp(inputPath)

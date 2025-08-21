@@ -9,10 +9,10 @@ export function showTwoFactorAuth(container) {
       <div id='auth-feedback' aria-live='polite'></div>
     </section>
   `;
-  document.getElementById('send-code').onclick = function() {
-    document.getElementById('auth-feedback').innerText = 'Code sent!';
+  document.getElementById("send-code").onclick = function() {
+    document.getElementById("auth-feedback").innerText = "Code sent!";
   };
-  document.getElementById('verify-code').onclick = function() {
-    document.getElementById('auth-feedback').innerText = 'Code verified!';
+  document.getElementById("verify-code").onclick = function() {
+    document.getElementById("auth-feedback").innerText = "Code verified!";
   };
 }

@@ -1,13 +1,13 @@
 export function showDashboard(container, data = {}) {
   // Modular UI templates
   function navButton(label, route, active = false) {
-    return `<button class="nav-btn${active ? ' active' : ''}" onclick="window.route('${route}')" aria-label="${label}">${label}</button>`;
+    return `<button class="nav-btn${active ? " active" : ""}" onclick="window.route('${route}')" aria-label="${label}">${label}</button>`;
   }
   function helpButton() {
-    return `<button id="dashboard-help" aria-label="Help" title="Help">❓</button>`;
+    return "<button id=\"dashboard-help\" aria-label=\"Help\" title=\"Help\">❓</button>";
   }
   function privacyNotice() {
-    return `<div id="privacy-notice" style="font-size:0.9em;color:#555;margin:8px 0;">Your data is private and only used for educational purposes.</div>`;
+    return "<div id=\"privacy-notice\" style=\"font-size:0.9em;color:#555;margin:8px 0;\">Your data is private and only used for educational purposes.</div>";
   }
   container.innerHTML = `
     <header>
@@ -17,16 +17,16 @@ export function showDashboard(container, data = {}) {
         ${helpButton()}
       </div>
       <nav aria-label="Main Navigation">
-        ${navButton('Home', 'dashboard', true)}
-        ${navButton('📚 Literacy', 'literacy-game')}
-        ${navButton('🔢 Numeracy', 'numeracy-game')}
-        ${navButton('💬 Communication', 'communication-game')}
-        ${navButton('💻 Digital Skills', 'digital-skills-game')}
-        ${navButton('🏠 Life Skills', 'life-skills-game')}
-        ${navButton('💰 Money Skills', 'money-skills-game')}
-        ${navButton('💼 Employability', 'employability-game')}
-        ${navButton('🌿 Calm Space', 'calm-space')}
-        ${navButton('🧑‍🏫 Educator', 'educator-dashboard')}
+        ${navButton("Home", "dashboard", true)}
+        ${navButton("📚 Literacy", "literacy-game")}
+        ${navButton("🔢 Numeracy", "numeracy-game")}
+        ${navButton("💬 Communication", "communication-game")}
+        ${navButton("💻 Digital Skills", "digital-skills-game")}
+        ${navButton("🏠 Life Skills", "life-skills-game")}
+        ${navButton("💰 Money Skills", "money-skills-game")}
+        ${navButton("💼 Employability", "employability-game")}
+        ${navButton("🌿 Calm Space", "calm-space")}
+        ${navButton("🧑‍🏫 Educator", "educator-dashboard")}
       </nav>
     </header>
     <main>
@@ -37,7 +37,7 @@ export function showDashboard(container, data = {}) {
       </section>
       <section id="learner-info" aria-label="Learner Information">
         <p>Level: <span id="learner-level">${data.level || 1}</span></p>
-        <p>Achievements: <span id="learner-achievements">${(data.achievements && data.achievements.length > 0) ? data.achievements.join(', ') : 'None yet'}</span></p>
+        <p>Achievements: <span id="learner-achievements">${(data.achievements && data.achievements.length > 0) ? data.achievements.join(", ") : "None yet"}</span></p>
         <p>Assigned Work: <span id="assigned-work">Literacy Lesson</span></p>
       </section>
       <section id="privacy-safety-info" class="au-section" aria-label="Privacy and Safety Information">
@@ -54,9 +54,9 @@ export function showDashboard(container, data = {}) {
         ${privacyNotice()}
       </section>
       <section aria-label="Quick Actions">
-        ${navButton('Go to Calm Space', 'calm')}
-        ${navButton('Play Literacy Game', 'literacy')}
-        ${navButton('Play Numeracy Game', 'numeracy')}
+        ${navButton("Go to Calm Space", "calm")}
+        ${navButton("Play Literacy Game", "literacy")}
+        ${navButton("Play Numeracy Game", "numeracy")}
       </section>
       <section id="dashboard-prompt" style="margin-top:12px;" aria-live="polite"></section>
     </main>
@@ -66,32 +66,32 @@ export function showDashboard(container, data = {}) {
   `;
   animateCharacters();
   // Keyboard navigation for nav buttons
-  Array.from(container.querySelectorAll('button,canvas')).forEach(el => { el.tabIndex = 0; });
+  Array.from(container.querySelectorAll("button,canvas")).forEach(el => { el.tabIndex = 0; });
   // Help/info button
-  document.getElementById('dashboard-help').onclick = () => {
-    alert('Welcome to Windgap Academy! Use the navigation buttons to explore learning domains. All features are accessible and safe.');
+  document.getElementById("dashboard-help").onclick = () => {
+    alert("Welcome to Windgap Academy! Use the navigation buttons to explore learning domains. All features are accessible and safe.");
   };
   // Rotating educational prompt
   const prompts = [
-    'Tip: Try Calm Space for self-regulation activities.',
-    'Tip: Achievements unlock new learning games!',
-    'Tip: All your progress is private and educator-reviewed.',
-    'Tip: Use the Educator tab for lesson plans and support.'
+    "Tip: Try Calm Space for self-regulation activities.",
+    "Tip: Achievements unlock new learning games!",
+    "Tip: All your progress is private and educator-reviewed.",
+    "Tip: Use the Educator tab for lesson plans and support."
   ];
   let promptIndex = 0;
   function showPrompt() {
-    document.getElementById('dashboard-prompt').textContent = prompts[promptIndex % prompts.length];
+    document.getElementById("dashboard-prompt").textContent = prompts[promptIndex % prompts.length];
     promptIndex++;
     setTimeout(showPrompt, 7000);
   }
   showPrompt();
 }
 function animateCharacters() {
-  ['daisy','winnie','andy'].forEach((name,i) => {
+  ["daisy","winnie","andy"].forEach((name,i) => {
     const canvas=document.getElementById(`${name}-anim`);
     if(canvas){
-      const ctx=canvas.getContext('2d');
-      ctx.fillStyle=['#ffe4e1','#90caf9','#e0f7fa'][i];
+      const ctx=canvas.getContext("2d");
+      ctx.fillStyle=["#ffe4e1","#90caf9","#e0f7fa"][i];
       ctx.beginPath(); ctx.arc(50,50,40,0,2*Math.PI); ctx.fill();
       ctx.font="16px Arial"; ctx.fillStyle="#333"; ctx.fillText(name.charAt(0).toUpperCase()+name.slice(1),25,55);
     }
