@@ -1,7 +1,7 @@
 // Tooltip logic
 export function showTooltip(target, message) {
-  const tip = document.createElement('div');
-  tip.className = 'tooltip';
+  const tip = document.createElement("div");
+  tip.className = "tooltip";
   tip.innerText = message;
   document.body.appendChild(tip);
   const rect = target.getBoundingClientRect();

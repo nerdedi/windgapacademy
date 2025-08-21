@@ -8,10 +8,10 @@ export function showErrorRecovery(container, errorMsg) {
       <button id="contact-btn">Contact Support</button>
     </section>
   `;
-  document.getElementById('retry-btn').onclick = function() {
+  document.getElementById("retry-btn").onclick = function() {
     location.reload();
   };
-  document.getElementById('contact-btn').onclick = function() {
-    window.open('mailto:info@windgapacademy.edu.au');
+  document.getElementById("contact-btn").onclick = function() {
+    window.open("mailto:info@windgapacademy.edu.au");
   };
 }

@@ -10,19 +10,19 @@ export function showAccessibilityAdvanced(container) {
       <div id="accessibility-feedback" aria-live="polite"></div>
     </section>
   `;
-  document.getElementById('tts-btn').onclick = function() {
-    window.narrate('This is a sample text for text-to-speech.');
-    document.getElementById('accessibility-feedback').innerText = 'Text-to-speech activated.';
+  document.getElementById("tts-btn").onclick = function() {
+    window.narrate("This is a sample text for text-to-speech.");
+    document.getElementById("accessibility-feedback").innerText = "Text-to-speech activated.";
   };
-  document.getElementById('color-btn').onclick = function() {
-    window.setTheme('high-contrast');
-    document.getElementById('accessibility-feedback').innerText = 'High contrast theme applied.';
+  document.getElementById("color-btn").onclick = function() {
+    window.setTheme("high-contrast");
+    document.getElementById("accessibility-feedback").innerText = "High contrast theme applied.";
   };
-  document.getElementById('font-btn').onclick = function() {
-    document.body.style.fontSize = 'x-large';
-    document.getElementById('accessibility-feedback').innerText = 'Font size increased.';
+  document.getElementById("font-btn").onclick = function() {
+    document.body.style.fontSize = "x-large";
+    document.getElementById("accessibility-feedback").innerText = "Font size increased.";
   };
-  document.getElementById('shortcut-btn').onclick = function() {
-    document.getElementById('accessibility-feedback').innerText = 'Shortcuts: Tab to navigate, Enter to select.';
+  document.getElementById("shortcut-btn").onclick = function() {
+    document.getElementById("accessibility-feedback").innerText = "Shortcuts: Tab to navigate, Enter to select.";
   };
 }
