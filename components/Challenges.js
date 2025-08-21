@@ -1,5 +1,5 @@
 // Daily/weekly challenges and streak rewards
-export function showChallenges(container, userData = {}) {
+export function showChallenges(container) {
   container.innerHTML = `
     <section id="challenges" aria-label="Challenges">
       <h2>🎯 Daily & Weekly Challenges</h2>

@@ -1,17 +1,17 @@
-import { generateReport } from '../report.js';
+import { generateReport } from "../report.js";
 
 let assignments = {};
 
 export function showEducatorDashboard(container) {
   // Modular UI templates
-  function eduButton(label, id, handler) {
+  function eduButton(label, id) {
     return `<button id="${id}" aria-label="${label}" title="${label}">${label}</button>`;
   }
   function helpButton() {
-    return `<button id="educator-help" aria-label="Help" title="Help">❓</button>`;
+    return "<button id=\"educator-help\" aria-label=\"Help\" title=\"Help\">❓</button>";
   }
   function privacyNotice() {
-    return `<div id="privacy-notice" style="font-size:0.9em;color:#555;margin:8px 0;">All educator actions are private and only used for supporting learners.</div>`;
+    return "<div id=\"privacy-notice\" style=\"font-size:0.9em;color:#555;margin:8px 0;\">All educator actions are private and only used for supporting learners.</div>";
   }
   container.innerHTML = `
     <section id="educator-dashboard" aria-label="Educator Dashboard">
@@ -48,7 +48,7 @@ export function showEducatorDashboard(container) {
           <button type="submit" aria-label="Add Assignment">Add Assignment</button>
         </form>
         <ul id="assignment-list" aria-label="Assignment List">
-          ${Object.keys(assignments).length > 0 ? Object.entries(assignments).map(([title, desc]) => `<li><strong>${title}:</strong> ${desc}</li>`).join('') : '<li>No assignments yet.</li>'}
+          ${Object.keys(assignments).length > 0 ? Object.entries(assignments).map(([title, desc]) => `<li><strong>${title}:</strong> ${desc}</li>`).join("") : "<li>No assignments yet.</li>"}
         </ul>
       </div>
       <div class="report-section au-section" aria-label="Generate Report">
@@ -99,49 +99,49 @@ export function showEducatorDashboard(container) {
           <option value="important">Important</option>
           <option value="urgent">Urgent</option>
         </select>
-        ${eduButton('Send to Learner', 'send-assessment', null)}
+        ${eduButton("Send to Learner", "send-assessment", null)}
         <div id="assessment-status"></div>
       </div>
-      ${eduButton('Return to Dashboard', 'return-dashboard', null)}
-      ${eduButton('Assign Literacy Lesson', 'assign-literacy', null)}
-      ${eduButton('Upload Resource', 'upload-resource', null)}
-      ${eduButton('Download NDIS Report PDF', 'download-ndis', null)}
+      ${eduButton("Return to Dashboard", "return-dashboard", null)}
+      ${eduButton("Assign Literacy Lesson", "assign-literacy", null)}
+      ${eduButton("Upload Resource", "upload-resource", null)}
+      ${eduButton("Download NDIS Report PDF", "download-ndis", null)}
       <div id="progress-overview"></div>
       ${privacyNotice()}
       <div id="educator-prompt" style="margin-top:12px;" aria-live="polite"></div>
     </section>
   `;
   // Keyboard navigation for all buttons and inputs
-  Array.from(container.querySelectorAll('button,input,select')).forEach(el => { el.tabIndex = 0; });
+  Array.from(container.querySelectorAll("button,input,select")).forEach(el => { el.tabIndex = 0; });
   // Help/info button
-  document.getElementById('educator-help').onclick = () => {
-    alert('The Educator Dashboard provides tools for lesson planning, assessment, and learner support. All actions are private and educator-reviewed.');
+  document.getElementById("educator-help").onclick = () => {
+    alert("The Educator Dashboard provides tools for lesson planning, assessment, and learner support. All actions are private and educator-reviewed.");
   };
   // Button handlers
-  document.getElementById('send-assessment').onclick = () => {
-    const title = document.getElementById('assessment-title').value;
-    const urgency = document.getElementById('assessment-urgency').value;
+  document.getElementById("send-assessment").onclick = () => {
+    const title = document.getElementById("assessment-title").value;
+    const urgency = document.getElementById("assessment-urgency").value;
     if (!title) {
-      document.getElementById('assessment-status').innerText = 'Please enter an assessment title.';
+      document.getElementById("assessment-status").innerText = "Please enter an assessment title.";
       return;
     }
     window.sendNotificationToLearner(title, urgency);
-    document.getElementById('assessment-status').innerText = `Assessment "${title}" sent with urgency: ${urgency}.`;
+    document.getElementById("assessment-status").innerText = `Assessment "${title}" sent with urgency: ${urgency}.`;
   };
-  document.getElementById('return-dashboard').onclick = () => window.route('dashboard');
-  document.getElementById('assign-literacy').onclick = () => window.assignTask('learner1','Literacy Lesson');
-  document.getElementById('upload-resource').onclick = () => window.uploadFile('learner1','resource.pdf');
-  document.getElementById('download-ndis').onclick = () => window.generateNDISReport({learner:'learner1'});
+  document.getElementById("return-dashboard").onclick = () => window.route("dashboard");
+  document.getElementById("assign-literacy").onclick = () => window.assignTask("learner1","Literacy Lesson");
+  document.getElementById("upload-resource").onclick = () => window.uploadFile("learner1","resource.pdf");
+  document.getElementById("download-ndis").onclick = () => window.generateNDISReport({learner:"learner1"});
   // Rotating educational prompt
   const prompts = [
-    'Tip: Use the six-module framework for lesson planning.',
-    'Tip: Profiles update automatically as learners progress.',
-    'Tip: All educator actions are private and logged for review.',
-    'Tip: Download NDIS reports for learner support.'
+    "Tip: Use the six-module framework for lesson planning.",
+    "Tip: Profiles update automatically as learners progress.",
+    "Tip: All educator actions are private and logged for review.",
+    "Tip: Download NDIS reports for learner support."
   ];
   let promptIndex = 0;
   function showPrompt() {
-    document.getElementById('educator-prompt').textContent = prompts[promptIndex % prompts.length];
+    document.getElementById("educator-prompt").textContent = prompts[promptIndex % prompts.length];
     promptIndex++;
     setTimeout(showPrompt, 7000);
   }

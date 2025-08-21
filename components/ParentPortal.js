@@ -8,7 +8,7 @@ export function showParentPortal(container) {
       <div id="parent-feedback" aria-live="polite"></div>
     </section>
   `;
-  document.getElementById('send-parent-message').onclick = function() {
-    document.getElementById('parent-feedback').innerText = 'Message sent to parent/educator!';
+  document.getElementById("send-parent-message").onclick = function() {
+    document.getElementById("parent-feedback").innerText = "Message sent to parent/educator!";
   };
 }

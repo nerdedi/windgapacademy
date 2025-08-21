@@ -8,10 +8,10 @@ export function showMiniGames(container) {
       <div id="mini-game-feedback" aria-live="polite"></div>
     </section>
   `;
-  document.getElementById('play-memory').onclick = function() {
-    document.getElementById('mini-game-feedback').innerText = 'Memory game coming soon!';
+  document.getElementById("play-memory").onclick = function() {
+    document.getElementById("mini-game-feedback").innerText = "Memory game coming soon!";
   };
-  document.getElementById('play-quiz').onclick = function() {
-    document.getElementById('mini-game-feedback').innerText = 'Quiz game coming soon!';
+  document.getElementById("play-quiz").onclick = function() {
+    document.getElementById("mini-game-feedback").innerText = "Quiz game coming soon!";
   };
 }

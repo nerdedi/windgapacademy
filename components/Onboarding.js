@@ -7,7 +7,7 @@ export function showOnboarding(container) {
       <button id='start-tour'>Start Tour</button>
     </section>
   `;
-  document.getElementById('start-tour').onclick = function() {
-    alert('Tour started!');
+  document.getElementById("start-tour").onclick = function() {
+    alert("Tour started!");
   };
 }

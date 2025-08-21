@@ -3,7 +3,7 @@
 
 // Pure functions for store logic
 function getItemCost(item) {
-  return item === 'Badge' ? 5 : item === 'Outfit' ? 10 : 3;
+  return item === "Badge" ? 5 : item === "Outfit" ? 10 : 3;
 // ...existing code...
 function canAfford(tokens, cost) {
   return tokens >= cost;
@@ -18,7 +18,7 @@ function playSound(src) {
   } catch (e) {}
 }
 function animateEffect(effect) {
-  const storeItems = document.getElementById('store-items');
+  const storeItems = document.getElementById("store-items");
   if (storeItems) {
     storeItems.classList.add(effect);
     setTimeout(() => storeItems.classList.remove(effect), 700);
@@ -27,10 +27,10 @@ function animateEffect(effect) {
 
 export function showAcademyStore(container, tokens = 0, userId = null) {
   function helpButton() {
-    return `<button id="store-help" aria-label="Help" title="Help">❓</button>`;
+    return "<button id=\"store-help\" aria-label=\"Help\" title=\"Help\">❓</button>";
   }
   function privacyNotice() {
-    return `<div id="privacy-notice" style="font-size:0.9em;color:#555;margin:8px 0;">All store actions are private and only used for educational financial literacy.</div>`;
+    return "<div id=\"privacy-notice\" style=\"font-size:0.9em;color:#555;margin:8px 0;\">All store actions are private and only used for educational financial literacy.</div>";
   }
   container.innerHTML = `
     <section id="academy-store" class="au-section" aria-label="Academy Store">
@@ -105,52 +105,52 @@ export function showAcademyStore(container, tokens = 0, userId = null) {
     </section>
   `;
   // Keyboard navigation for all buttons
-  Array.from(container.querySelectorAll('button')).forEach(el => { el.tabIndex = 0; });
+  Array.from(container.querySelectorAll("button")).forEach(el => { el.tabIndex = 0; });
   // Help/info button
-  const storeHelp = document.getElementById('store-help');
+  const storeHelp = document.getElementById("store-help");
   if (storeHelp) storeHelp.onclick = () => {
-    alert('The Academy Store teaches financial literacy. All actions are private and educator-reviewed.');
+    alert("The Academy Store teaches financial literacy. All actions are private and educator-reviewed.");
   };
 
   let currentTokens = tokens;
   function buyItem(item) {
-    playSound('assets/sounds/store-buy.mp3');
-    animateEffect('store-flash');
+    playSound("assets/sounds/store-buy.mp3");
+    animateEffect("store-flash");
     // import { savePurchase } from '../firebase.js';
     // savePurchase(userId, item);
-    if (window.logEducatorAction) window.logEducatorAction({ type: 'buyItem', item });
+    if (window.logEducatorAction) window.logEducatorAction({ type: "buyItem", item });
     let cost = getItemCost(item);
     if (!canAfford(currentTokens, cost)) {
-      alert('Not enough tokens!');
+      alert("Not enough tokens!");
       return;
     }
     currentTokens = deductTokens(currentTokens, cost);
-    const storeTokens = document.getElementById('store-tokens');
+    const storeTokens = document.getElementById("store-tokens");
     if (storeTokens) storeTokens.textContent = `Tokens: ${currentTokens}`;
     alert(`Purchased: ${item}`);
-    const purchases = document.getElementById('store-items');
+    const purchases = document.getElementById("store-items");
     if (purchases) purchases.innerHTML += `<div class='purchase'>${item} purchased!</div>`;
   }
 
-  const buyBadgeBtn = document.getElementById('buy-badge');
-  if (buyBadgeBtn) buyBadgeBtn.onclick = () => buyItem('Badge');
-  const buyOutfitBtn = document.getElementById('buy-outfit');
-  if (buyOutfitBtn) buyOutfitBtn.onclick = () => buyItem('Outfit');
-  const buyAccessoryBtn = document.getElementById('buy-accessory');
-  if (buyAccessoryBtn) buyAccessoryBtn.onclick = () => buyItem('Avatar Accessory');
-  const returnDashboardBtn = document.getElementById('return-dashboard');
-  if (returnDashboardBtn) returnDashboardBtn.onclick = () => window.route('dashboard');
+  const buyBadgeBtn = document.getElementById("buy-badge");
+  if (buyBadgeBtn) buyBadgeBtn.onclick = () => buyItem("Badge");
+  const buyOutfitBtn = document.getElementById("buy-outfit");
+  if (buyOutfitBtn) buyOutfitBtn.onclick = () => buyItem("Outfit");
+  const buyAccessoryBtn = document.getElementById("buy-accessory");
+  if (buyAccessoryBtn) buyAccessoryBtn.onclick = () => buyItem("Avatar Accessory");
+  const returnDashboardBtn = document.getElementById("return-dashboard");
+  if (returnDashboardBtn) returnDashboardBtn.onclick = () => window.route("dashboard");
 
   // Rotating educational prompt
   const prompts = [
-    'Tip: Budget your tokens before making a purchase.',
-    'Tip: All store actions are private and educator-reviewed.',
-    'Tip: Needs vs wants—make ethical choices.',
-    'Tip: Financial literacy helps with real-world decisions.'
+    "Tip: Budget your tokens before making a purchase.",
+    "Tip: All store actions are private and educator-reviewed.",
+    "Tip: Needs vs wants—make ethical choices.",
+    "Tip: Financial literacy helps with real-world decisions."
   ];
   let promptIndex = 0;
   function showPrompt() {
-    const storePrompt = document.getElementById('store-prompt');
+    const storePrompt = document.getElementById("store-prompt");
     if (storePrompt) storePrompt.textContent = prompts[promptIndex % prompts.length];
     promptIndex++;
     setTimeout(showPrompt, 7000);

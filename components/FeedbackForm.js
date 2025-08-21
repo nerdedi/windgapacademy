@@ -10,8 +10,8 @@ export function showFeedbackForm(container) {
       <div id='feedback-status' aria-live='polite'></div>
     </section>
   `;
-  document.getElementById('feedback-form-el').onsubmit = function(e) {
+  document.getElementById("feedback-form-el").onsubmit = function(e) {
     e.preventDefault();
-    document.getElementById('feedback-status').innerText = 'Feedback submitted!';
+    document.getElementById("feedback-status").innerText = "Feedback submitted!";
   };
 }

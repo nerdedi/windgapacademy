@@ -1,12 +1,12 @@
 // Messaging & Chat Module
 // Chat moderation, educator review, logs, terms acceptance
 
-export function showMessaging(container, unreadCount = 0, userId = null) {
+export function showMessaging(container, unreadCount = 0) {
   function helpButton() {
-    return `<button id="messaging-help" aria-label="Help" title="Help">❓</button>`;
+    return "<button id=\"messaging-help\" aria-label=\"Help\" title=\"Help\">❓</button>";
   }
   function privacyNotice() {
-    return `<div id="privacy-notice" style="font-size:0.9em;color:#555;margin:8px 0;">All messages and notifications are private and only used for educational support.</div>`;
+    return "<div id=\"privacy-notice\" style=\"font-size:0.9em;color:#555;margin:8px 0;\">All messages and notifications are private and only used for educational support.</div>";
   }
   container.innerHTML = `
     <section id="messaging" class="au-section" aria-label="Messaging">
@@ -61,10 +61,10 @@ export function showMessaging(container, unreadCount = 0, userId = null) {
 
     function renderNotifications() {
       notificationsDiv.innerHTML = notifications.length > 0 ? notifications.map(function(n) { return '<div>' + n + '</div>'; }).join('') : '<div>No notifications.</div>';
-    }
+  };
     function renderTodos() {
       todoListDiv.innerHTML = todos.length > 0 ? todos.map(function(t) { return '<div>' + t + '</div>'; }).join('') : '<div>No to-dos.</div>';
-    }
+  }
     if (addNotificationBtn && notificationInput) {
       addNotificationBtn.addEventListener('click', function() {
         var val = notificationInput.value.trim();
@@ -128,37 +128,37 @@ export function showMessaging(container, unreadCount = 0, userId = null) {
   `;
   startMessaging();
   // Keyboard navigation for all buttons and inputs
-  Array.from(container.querySelectorAll('button,input')).forEach(el => { el.tabIndex = 0; });
+  Array.from(container.querySelectorAll("button,input")).forEach(el => { el.tabIndex = 0; });
   // Help/info button
-  const helpBtn = document.getElementById('messaging-help');
+  const helpBtn = document.getElementById("messaging-help");
   if (helpBtn) helpBtn.onclick = () => {
-    alert('Messaging is safe, private, and educator-reviewed. Use the chat and notification centre for learning support.');
+    alert("Messaging is safe, private, and educator-reviewed. Use the chat and notification centre for learning support.");
   };
-  document.getElementById('set-timer').onclick = () => window.setTaskTimer();
-  document.getElementById('return-dashboard').onclick = () => window.route('dashboard');
+  document.getElementById("set-timer").onclick = () => window.setTaskTimer();
+  document.getElementById("return-dashboard").onclick = () => window.route("dashboard");
   // Rotating educational prompt
   const prompts = [
-    'Tip: Use the notification centre for important updates.',
-    'Tip: All chat messages are private and educator-reviewed.',
-    'Tip: Set timers to manage your learning tasks.',
-    'Tip: Role-play scenarios help with digital safety.'
+    "Tip: Use the notification centre for important updates.",
+    "Tip: All chat messages are private and educator-reviewed.",
+    "Tip: Set timers to manage your learning tasks.",
+    "Tip: Role-play scenarios help with digital safety."
   ];
   let promptIndex = 0;
   function showPrompt() {
-    document.getElementById('messaging-prompt').textContent = prompts[promptIndex % prompts.length];
+    document.getElementById("messaging-prompt").textContent = prompts[promptIndex % prompts.length];
     promptIndex++;
     setTimeout(showPrompt, 7000);
   }
   showPrompt();
   // Timer logic
   window.setTaskTimer = function() {
-    const title = document.getElementById('task-title').value;
-    const mins = parseInt(document.getElementById('task-minutes').value);
+    const title = document.getElementById("task-title").value;
+    const mins = parseInt(document.getElementById("task-minutes").value);
     if (!title || isNaN(mins)) {
-      document.getElementById('timer-status').innerText = 'Enter a task and minutes.';
+      document.getElementById("timer-status").innerText = "Enter a task and minutes.";
       return;
     }
-    document.getElementById('timer-status').innerText = `Timer set for "${title}" (${mins} min).`;
+    document.getElementById("timer-status").innerText = `Timer set for "${title}" (${mins} min).`;
     setTimeout(() => {
       alert(`Time's up for: ${title}`);
     }, mins * 60000);
@@ -166,46 +166,46 @@ export function showMessaging(container, unreadCount = 0, userId = null) {
   // Time tracker logic
   window.startTime = Date.now();
   window.updateTimeTracker = function() {
-    const tracker = document.getElementById('time-tracker');
+    const tracker = document.getElementById("time-tracker");
     const now = Date.now();
     const mins = Math.floor((now - window.startTime) / 60000);
     tracker.innerText = `Session time: ${mins} min`;
   };
   setInterval(window.updateTimeTracker, 60000);
   // Winnie error reminder
-  window.addEventListener('beforeunload', function(e) {
+  window.addEventListener("beforeunload", function(e) {
     // Simulate error check
     const hasError = false; // Replace with real error check
     if (hasError) {
-      alert('Winnie: Please fix any technological errors before logging off!');
+      alert("Winnie: Please fix any technological errors before logging off!");
       e.preventDefault();
-      e.returnValue = '';
+      e.returnValue = "";
     } else {
-      alert('Winnie: Progress saved! Have a great day!');
+      alert("Winnie: Progress saved! Have a great day!");
     }
   });
   // Notification logic
   window.sendNotificationToLearner = function(title, urgency) {
-    const notifications = document.getElementById('notifications');
-    const noteColor = urgency === 'urgent' ? '#ef4444' : urgency === 'important' ? '#fbbf24' : '#3b82f6';
+    const notifications = document.getElementById("notifications");
+    const noteColor = urgency === "urgent" ? "#ef4444" : urgency === "important" ? "#fbbf24" : "#3b82f6";
     notifications.innerHTML += `<div class='sticky-note' style='background:${noteColor};color:white;padding:8px;margin:4px;border-radius:8px;'>${title} <span style='font-weight:bold;'>[${urgency}]</span></div>`;
     // Add to prioritised to-do list
-    const todo = document.getElementById('todo-list');
+    const todo = document.getElementById("todo-list");
     todo.innerHTML += `<div class='todo-item' style='background:${noteColor};color:white;padding:6px;margin:2px;border-radius:6px;'>${title} <span>[${urgency}]</span> <button onclick='markTaskDone(this)'>Mark Done</button></div>`;
   };
   window.markTaskDone = function(btn) {
-    btn.parentElement.style.textDecoration = 'line-through';
+    btn.parentElement.style.textDecoration = "line-through";
     btn.remove();
   };
   // Timer logic
   window.setTaskTimer = function() {
-    const title = document.getElementById('task-title').value;
-    const mins = parseInt(document.getElementById('task-minutes').value);
+    const title = document.getElementById("task-title").value;
+    const mins = parseInt(document.getElementById("task-minutes").value);
     if (!title || isNaN(mins)) {
-      document.getElementById('timer-status').innerText = 'Enter a task and minutes.';
+      document.getElementById("timer-status").innerText = "Enter a task and minutes.";
       return;
     }
-    document.getElementById('timer-status').innerText = `Timer set for "${title}" (${mins} min).`;
+    document.getElementById("timer-status").innerText = `Timer set for "${title}" (${mins} min).`;
     setTimeout(() => {
       alert(`Time's up for: ${title}`);
     }, mins * 60000);
@@ -213,22 +213,22 @@ export function showMessaging(container, unreadCount = 0, userId = null) {
   // Time tracker logic
   window.startTime = Date.now();
   window.updateTimeTracker = function() {
-    const tracker = document.getElementById('time-tracker');
+    const tracker = document.getElementById("time-tracker");
     const now = Date.now();
     const mins = Math.floor((now - window.startTime) / 60000);
     tracker.innerText = `Session time: ${mins} min`;
   };
   setInterval(window.updateTimeTracker, 60000);
   // Winnie error reminder
-  window.addEventListener('beforeunload', function(e) {
+  window.addEventListener("beforeunload", function(e) {
     // Simulate error check
     const hasError = false; // Replace with real error check
     if (hasError) {
-      alert('Winnie: Please fix any technological errors before logging off!');
+      alert("Winnie: Please fix any technological errors before logging off!");
       e.preventDefault();
-      e.returnValue = '';
+      e.returnValue = "";
     } else {
-      alert('Winnie: Progress saved! Have a great day!');
+      alert("Winnie: Progress saved! Have a great day!");
     }
   });
 
@@ -244,13 +244,21 @@ export function showMessaging(container, unreadCount = 0, userId = null) {
     }
     // Load chat log from Firebase (pseudo-code)
     // import { saveChatLog } from '../firebase.js';
-    const chatArea = document.getElementById('chat-area');
-    const input = document.getElementById('chat-input');
-    const sendBtn = document.getElementById('send-btn');
+    const chatArea = document.getElementById("chat-area");
+    const input = document.getElementById("chat-input");
+    const sendBtn = document.getElementById("send-btn");
     let messages = [];
+    function playSound(src) {
+      const audio = new Audio(src);
+      audio.play();
+    }
+    function animateEffect(effect) {
+      document.getElementById("chat-area").classList.add(effect);
+      setTimeout(() => document.getElementById("chat-area").classList.remove(effect), 700);
+    }
     sendBtn.onclick = () => {
-    playSound('assets/sounds/message-send.mp3');
-    animateEffect('chat-bounce');
+      playSound("assets/sounds/message-send.mp3");
+      animateEffect("chat-bounce");
       const msg = input.value.trim();
       if (!msg) return;
       // Moderate chat
@@ -261,27 +269,18 @@ export function showMessaging(container, unreadCount = 0, userId = null) {
         messages = addMessage(messages, msg);
         updateChatLog();
       }
-      input.value = '';
-    };
+      input.value = "";
+  };
     function updateChatLog() {
-    playSound('assets/sounds/message-receive.mp3');
-      chatArea.innerHTML = messages.map(m => `<div class='chat-msg${m.reviewed ? ' reviewed' : ''}'>${m.text}${m.reviewed ? ' (Reviewed)' : ''}</div>`).join('');
+      playSound("assets/sounds/message-receive.mp3");
+      chatArea.innerHTML = messages.map(m => `<div class='chat-msg${m.reviewed ? " reviewed" : ""}'>${m.text}${m.reviewed ? " (Reviewed)" : ""}</div>`).join("");
     }
     // Educator review simulation
     window.reviewChat = () => {
-    playSound('assets/sounds/review.mp3');
-  function playSound(src) {
-    const audio = new Audio(src);
-    audio.play();
-  }
-
-  function animateEffect(effect) {
-    document.getElementById('chat-area').classList.add(effect);
-    setTimeout(() => document.getElementById('chat-area').classList.remove(effect), 700);
-  }
+      playSound("assets/sounds/review.mp3");
+  };
       messages = reviewMessages(messages);
       updateChatLog();
-      alert('All messages reviewed by educator.');
-    };
+      alert("All messages reviewed by educator.");
   }
-}
+  }

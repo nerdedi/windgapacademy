@@ -13,7 +13,7 @@ export function validateUserData(data) {
   // Validation is independent; only checks the provided data object.
   // Privacy: No data is stored, only validated
   // Educator log: user data validated
-  return typeof data === 'object' && data !== null;
+  return typeof data === "object" && data !== null;
 }
 
 // Pure function for transforming lesson plan data
@@ -28,89 +28,89 @@ export async function getAccessibilityPrefs(userId) {
   // Privacy: Accessibility preferences are private and educator-reviewed
   // Educator log: accessibility preferences accessed for userId
   try {
-    const { getFirestore, doc, getDoc } = await import('https://www.gstatic.com/firebasejs/10.1.0/firebase-firestore.js');
+    const { getFirestore, doc, getDoc } = await import("https://www.gstatic.com/firebasejs/10.1.0/firebase-firestore.js");
     const db = getFirestore(app);
-    return getDoc(doc(db, 'accessibility', userId));
+    return getDoc(doc(db, "accessibility", userId));
   } catch (err) {
-    console.error('Error accessing accessibility prefs:', err);
+    console.error("Error accessing accessibility prefs:", err);
     throw err;
   }
 }
 
-export function getLessonPlans(domain, userId) {
+export async function getLessonPlans(domain, userId) {
   // Privacy: Lesson plans are private and educator-reviewed
   // Educator log: lesson plans accessed for domain and userId
   try {
-    const { getFirestore, doc, getDoc } = await import('https://www.gstatic.com/firebasejs/10.1.0/firebase-firestore.js');
+    const { getFirestore, doc, getDoc } = await import("https://www.gstatic.com/firebasejs/10.1.0/firebase-firestore.js");
     const db = getFirestore(app);
-    return getDoc(doc(db, 'lessonplans', `${domain}_${userId}`));
+    return getDoc(doc(db, "lessonplans", `${domain}_${userId}`));
   } catch (err) {
-    console.error('Error accessing lesson plans:', err);
+    console.error("Error accessing lesson plans:", err);
     throw err;
   }
 }
 
-export function saveLessonPlan(domain, userId, plan) {
+export async function saveLessonPlan(domain, userId, plan) {
   // Privacy: Lesson plan changes are private and educator-reviewed
   // Educator log: lesson plan saved for domain and userId
   try {
-    const { getFirestore, doc, setDoc } = await import('https://www.gstatic.com/firebasejs/10.1.0/firebase-firestore.js');
+    const { getFirestore, doc, setDoc } = await import("https://www.gstatic.com/firebasejs/10.1.0/firebase-firestore.js");
     const db = getFirestore(app);
-    return setDoc(doc(db, 'lessonplans', `${domain}_${userId}`), { plan });
+    return setDoc(doc(db, "lessonplans", `${domain}_${userId}`), { plan });
   } catch (err) {
-    console.error('Error saving lesson plan:', err);
+    console.error("Error saving lesson plan:", err);
     throw err;
   }
 }
 
-export function saveAvatarData(userId, avatarData) {
+export async function saveAvatarData(userId, avatarData) {
   // Privacy: Avatar data is private and educator-reviewed
   // Educator log: avatar data saved for userId
   try {
-    const { getFirestore, doc, setDoc } = await import('https://www.gstatic.com/firebasejs/10.1.0/firebase-firestore.js');
+    const { getFirestore, doc, setDoc } = await import("https://www.gstatic.com/firebasejs/10.1.0/firebase-firestore.js");
     const db = getFirestore(app);
-    return setDoc(doc(db, 'avatars', userId), avatarData);
+    return setDoc(doc(db, "avatars", userId), avatarData);
   } catch (err) {
-    console.error('Error saving avatar data:', err);
+    console.error("Error saving avatar data:", err);
     throw err;
   }
 }
 
-export function saveTokens(userId, tokens) {
+export async async function saveTokens(userId, tokens) {
   // Privacy: Token changes are private and educator-reviewed
   // Educator log: tokens saved for userId
   try {
-    const { getFirestore, doc, setDoc } = await import('https://www.gstatic.com/firebasejs/10.1.0/firebase-firestore.js');
+    const { getFirestore, doc, setDoc } = await import("https://www.gstatic.com/firebasejs/10.1.0/firebase-firestore.js");
     const db = getFirestore(app);
-    return setDoc(doc(db, 'tokens', userId), { tokens });
+    return setDoc(doc(db, "tokens", userId), { tokens });
   } catch (err) {
-    console.error('Error saving tokens:', err);
+    console.error("Error saving tokens:", err);
     throw err;
   }
 }
 
-export function savePurchase(userId, item) {
+export async function savePurchase(userId, item) {
   // Privacy: Purchases are private and educator-reviewed
   // Educator log: purchase saved for userId and item
   try {
-    const { getFirestore, collection, addDoc } = await import('https://www.gstatic.com/firebasejs/10.1.0/firebase-firestore.js');
+    const { getFirestore, collection, addDoc } = await import("https://www.gstatic.com/firebasejs/10.1.0/firebase-firestore.js");
     const db = getFirestore(app);
-    return addDoc(collection(db, 'purchases'), { userId, item });
+    return addDoc(collection(db, "purchases"), { userId, item });
   } catch (err) {
-    console.error('Error saving purchase:', err);
+    console.error("Error saving purchase:", err);
     throw err;
   }
 }
 
-export function saveChatLog(userId, messages) {
+export async function saveChatLog(userId, messages) {
   // Privacy: Chat logs are private and educator-reviewed
   // Educator log: chat log saved for userId
   try {
-    const { getFirestore, doc, setDoc } = await import('https://www.gstatic.com/firebasejs/10.1.0/firebase-firestore.js');
+    const { getFirestore, doc, setDoc } = await import("https://www.gstatic.com/firebasejs/10.1.0/firebase-firestore.js");
     const db = getFirestore(app);
-    return setDoc(doc(db, 'chatlogs', userId), { messages });
+    return setDoc(doc(db, "chatlogs", userId), { messages });
   } catch (err) {
-    console.error('Error saving chat log:', err);
+    console.error("Error saving chat log:", err);
     throw err;
   }
 }

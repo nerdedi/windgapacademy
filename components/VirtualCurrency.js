@@ -8,7 +8,7 @@ export function showVirtualCurrency(container, userData = {}) {
       <div id='currency-feedback' aria-live='polite'></div>
     </section>
   `;
-  document.getElementById('open-store').onclick = function() {
-    document.getElementById('currency-feedback').innerText = 'Store opened!';
+  document.getElementById("open-store").onclick = function() {
+    document.getElementById("currency-feedback").innerText = "Store opened!";
   };
 }

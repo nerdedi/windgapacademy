@@ -1,5 +1,5 @@
 // Progress analytics and dashboards
-export function showAnalytics(container, userData = {}) {
+export function showAnalytics(container) {
   container.innerHTML = `
     <section id="analytics" aria-label="Analytics">
       <h2>📊 Progress Analytics</h2>
@@ -8,7 +8,7 @@ export function showAnalytics(container, userData = {}) {
       <div id="analytics-feedback" aria-live="polite"></div>
     </section>
   `;
-  document.getElementById('export-report').onclick = function() {
-    document.getElementById('analytics-feedback').innerText = 'Report exported!';
+  document.getElementById("export-report").onclick = function() {
+    document.getElementById("analytics-feedback").innerText = "Report exported!";
   };
 }
