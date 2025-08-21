@@ -128,12 +128,17 @@ export function showMessaging(container, unreadCount = 0) {
   `;
   startMessaging();
   // Keyboard navigation for all buttons and inputs
-  Array.from(container.querySelectorAll("button,input")).forEach(el => { el.tabIndex = 0; });
+  Array.from(container.querySelectorAll("button,input")).forEach((el) => {
+    el.tabIndex = 0;
+  });
   // Help/info button
   const helpBtn = document.getElementById("messaging-help");
-  if (helpBtn) helpBtn.onclick = () => {
-    alert("Messaging is safe, private, and educator-reviewed. Use the chat and notification centre for learning support.");
-  };
+  if (helpBtn)
+    helpBtn.onclick = () => {
+      alert(
+        "Messaging is safe, private, and educator-reviewed. Use the chat and notification centre for learning support.",
+      );
+    };
   document.getElementById("set-timer").onclick = () => window.setTaskTimer();
   document.getElementById("return-dashboard").onclick = () => window.route("dashboard");
   // Rotating educational prompt
@@ -141,7 +146,7 @@ export function showMessaging(container, unreadCount = 0) {
     "Tip: Use the notification centre for important updates.",
     "Tip: All chat messages are private and educator-reviewed.",
     "Tip: Set timers to manage your learning tasks.",
-    "Tip: Role-play scenarios help with digital safety."
+    "Tip: Role-play scenarios help with digital safety.",
   ];
   let promptIndex = 0;
   function showPrompt() {
@@ -151,7 +156,7 @@ export function showMessaging(container, unreadCount = 0) {
   }
   showPrompt();
   // Timer logic
-  window.setTaskTimer = function() {
+  window.setTaskTimer = function () {
     const title = document.getElementById("task-title").value;
     const mins = parseInt(document.getElementById("task-minutes").value);
     if (!title || isNaN(mins)) {
@@ -165,7 +170,7 @@ export function showMessaging(container, unreadCount = 0) {
   };
   // Time tracker logic
   window.startTime = Date.now();
-  window.updateTimeTracker = function() {
+  window.updateTimeTracker = function () {
     const tracker = document.getElementById("time-tracker");
     const now = Date.now();
     const mins = Math.floor((now - window.startTime) / 60000);
@@ -173,7 +178,7 @@ export function showMessaging(container, unreadCount = 0) {
   };
   setInterval(window.updateTimeTracker, 60000);
   // Winnie error reminder
-  window.addEventListener("beforeunload", function(e) {
+  window.addEventListener("beforeunload", function (e) {
     // Simulate error check
     const hasError = false; // Replace with real error check
     if (hasError) {
@@ -185,20 +190,21 @@ export function showMessaging(container, unreadCount = 0) {
     }
   });
   // Notification logic
-  window.sendNotificationToLearner = function(title, urgency) {
+  window.sendNotificationToLearner = function (title, urgency) {
     const notifications = document.getElementById("notifications");
-    const noteColor = urgency === "urgent" ? "#ef4444" : urgency === "important" ? "#fbbf24" : "#3b82f6";
+    const noteColor =
+      urgency === "urgent" ? "#ef4444" : urgency === "important" ? "#fbbf24" : "#3b82f6";
     notifications.innerHTML += `<div class='sticky-note' style='background:${noteColor};color:white;padding:8px;margin:4px;border-radius:8px;'>${title} <span style='font-weight:bold;'>[${urgency}]</span></div>`;
     // Add to prioritised to-do list
     const todo = document.getElementById("todo-list");
     todo.innerHTML += `<div class='todo-item' style='background:${noteColor};color:white;padding:6px;margin:2px;border-radius:6px;'>${title} <span>[${urgency}]</span> <button onclick='markTaskDone(this)'>Mark Done</button></div>`;
   };
-  window.markTaskDone = function(btn) {
+  window.markTaskDone = function (btn) {
     btn.parentElement.style.textDecoration = "line-through";
     btn.remove();
   };
   // Timer logic
-  window.setTaskTimer = function() {
+  window.setTaskTimer = function () {
     const title = document.getElementById("task-title").value;
     const mins = parseInt(document.getElementById("task-minutes").value);
     if (!title || isNaN(mins)) {
@@ -212,7 +218,7 @@ export function showMessaging(container, unreadCount = 0) {
   };
   // Time tracker logic
   window.startTime = Date.now();
-  window.updateTimeTracker = function() {
+  window.updateTimeTracker = function () {
     const tracker = document.getElementById("time-tracker");
     const now = Date.now();
     const mins = Math.floor((now - window.startTime) / 60000);
@@ -220,7 +226,7 @@ export function showMessaging(container, unreadCount = 0) {
   };
   setInterval(window.updateTimeTracker, 60000);
   // Winnie error reminder
-  window.addEventListener("beforeunload", function(e) {
+  window.addEventListener("beforeunload", function (e) {
     // Simulate error check
     const hasError = false; // Replace with real error check
     if (hasError) {
@@ -235,12 +241,12 @@ export function showMessaging(container, unreadCount = 0) {
   function startMessaging() {
     // Pure function for message state
     function addMessage(messages, msg, reviewed = false) {
-    // Each message is independent; adding a message does not affect others.
+      // Each message is independent; adding a message does not affect others.
       return [...messages, { text: msg, reviewed }];
     }
     function reviewMessages(messages) {
-    // Reviewing messages only updates the reviewed property; no hidden dependencies.
-      return messages.map(m => ({ ...m, reviewed: true }));
+      // Reviewing messages only updates the reviewed property; no hidden dependencies.
+      return messages.map((m) => ({ ...m, reviewed: true }));
     }
     // Load chat log from Firebase (pseudo-code)
     // import { saveChatLog } from '../firebase.js';
@@ -270,17 +276,22 @@ export function showMessaging(container, unreadCount = 0) {
         updateChatLog();
       }
       input.value = "";
-  };
+    };
     function updateChatLog() {
       playSound("assets/sounds/message-receive.mp3");
-      chatArea.innerHTML = messages.map(m => `<div class='chat-msg${m.reviewed ? " reviewed" : ""}'>${m.text}${m.reviewed ? " (Reviewed)" : ""}</div>`).join("");
+      chatArea.innerHTML = messages
+        .map(
+          (m) =>
+            `<div class='chat-msg${m.reviewed ? " reviewed" : ""}'>${m.text}${m.reviewed ? " (Reviewed)" : ""}</div>`,
+        )
+        .join("");
     }
     // Educator review simulation
     window.reviewChat = () => {
       playSound("assets/sounds/review.mp3");
-  };
-      messages = reviewMessages(messages);
-      updateChatLog();
-      alert("All messages reviewed by educator.");
+    };
+    messages = reviewMessages(messages);
+    updateChatLog();
+    alert("All messages reviewed by educator.");
   }
-  }
+}

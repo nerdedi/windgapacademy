@@ -33,11 +33,15 @@ export function showTokenSystem(container) {
       <div id="token-prompt" style="margin-top:12px;" aria-live="polite"></div>
     </section>
   `;
-  Array.from(container.querySelectorAll("button")).forEach(function(el) { el.tabIndex = 0; });
+  Array.from(container.querySelectorAll("button")).forEach(function (el) {
+    el.tabIndex = 0;
+  });
   var helpBtn = container.querySelector("#token-help");
   if (helpBtn) {
-    helpBtn.onclick = function() {
-      alert("Tokens motivate and reward positive behaviour. All actions are private and educator-reviewed.");
+    helpBtn.onclick = function () {
+      alert(
+        "Tokens motivate and reward positive behaviour. All actions are private and educator-reviewed.",
+      );
     };
   }
   var tokenCountDiv = container.querySelector("#token-count");
@@ -46,11 +50,13 @@ export function showTokenSystem(container) {
   var goStoreBtn = container.querySelector("#go-store");
   var returnDashboardBtn = container.querySelector("#return-dashboard");
   if (earnTokenBtn && tokenCountDiv && tokenPromptDiv) {
-    earnTokenBtn.onclick = function() {
+    earnTokenBtn.onclick = function () {
       tokens++;
       tokenCountDiv.textContent = "Tokens: " + tokens;
       tokenPromptDiv.textContent = "Great job! You earned a token for positive behaviour.";
-      setTimeout(function() { tokenPromptDiv.textContent = ""; }, 3000);
+      setTimeout(function () {
+        tokenPromptDiv.textContent = "";
+      }, 3000);
       playSound("assets/sounds/token-earn.mp3");
       animateEffect("token-pop");
       if (window.logEducatorAction) window.logEducatorAction({ type: "earnToken" });
@@ -60,12 +66,12 @@ export function showTokenSystem(container) {
     };
   }
   if (goStoreBtn) {
-    goStoreBtn.onclick = function() {
+    goStoreBtn.onclick = function () {
       window.route("academy-store");
     };
   }
   if (returnDashboardBtn) {
-    returnDashboardBtn.onclick = function() {
+    returnDashboardBtn.onclick = function () {
       window.route("dashboard");
     };
   }
@@ -74,7 +80,7 @@ export function showTokenSystem(container) {
     "Tip: Earn tokens for achievements and positive behaviour.",
     "Tip: All token actions are private and educator-reviewed.",
     "Tip: Visit the store to spend your tokens.",
-    "Tip: Achievements unlock new rewards."
+    "Tip: Achievements unlock new rewards.",
   ];
   let promptIndex = 0;
   function showPrompt() {

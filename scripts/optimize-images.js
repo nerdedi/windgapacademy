@@ -11,7 +11,7 @@ const webpDir = path.join(process.cwd(), "assets/images-webp");
 if (!fs.existsSync(outputDir)) fs.mkdirSync(outputDir, { recursive: true });
 if (!fs.existsSync(webpDir)) fs.mkdirSync(webpDir, { recursive: true });
 
-fs.readdirSync(inputDir).forEach(file => {
+fs.readdirSync(inputDir).forEach((file) => {
   const ext = path.extname(file).toLowerCase();
   const inputPath = path.join(inputDir, file);
   const outputPath = path.join(outputDir, file);
@@ -21,12 +21,12 @@ fs.readdirSync(inputDir).forEach(file => {
   sharp(inputPath)
     .toFile(outputPath)
     .then(() => console.log(`Optimized: ${file}`))
-    .catch(err => console.error(`Error optimizing ${file}:`, err));
+    .catch((err) => console.error(`Error optimizing ${file}:`, err));
 
   // Convert to WebP
   sharp(inputPath)
     .webp({ quality: 80 })
     .toFile(webpPath)
     .then(() => console.log(`Converted to WebP: ${file}`))
-    .catch(err => console.error(`Error converting ${file} to WebP:`, err));
+    .catch((err) => console.error(`Error converting ${file} to WebP:`, err));
 });

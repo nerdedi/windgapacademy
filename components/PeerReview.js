@@ -7,7 +7,7 @@ export function showPeerReview(container) {
       <div id='review-feedback' aria-live='polite'></div>
     </section>
   `;
-  document.getElementById("rate-resource").onclick = function() {
+  document.getElementById("rate-resource").onclick = function () {
     document.getElementById("review-feedback").innerText = "Resource rated!";
   };
 }

@@ -1,7 +1,7 @@
 // PWA features and push notifications
 export function registerPWA() {
   if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("/service-worker.js").then(function(reg) {
+    navigator.serviceWorker.register("/service-worker.js").then(function (reg) {
       console.log("Service Worker registered!", reg);
     });
   }
