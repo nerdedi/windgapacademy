@@ -1,3 +1,13 @@
+export function showChatModeration(container, userData = {}) {
+  container.innerHTML = `
+    <div class="card">
+      <h2 class="text-2xl font-bold mb-4">Chat Moderation</h2>
+      <p>Welcome to the Chat Moderation module!</p>
+      <!-- Add chat moderation UI here -->
+    </div>
+  `;
+  // Add your chat moderation logic here
+}
 import { saveChatLog } from "../firebase.js";
 const bannedWords = ["badword1", "badword2", "bullyword"];
 export function moderateChat(message, userId = null) {

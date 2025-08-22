@@ -6,6 +6,9 @@
   - Educator Logging: All data changes and access are logged
   - Last updated: August 14, 2025
 */
+import { initializeApp } from "firebase/app";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { getFirestore, doc, getDoc, setDoc, collection, addDoc } from "firebase/firestore";
 // Sample integration points for modules
 // Pure function for validating user data
 export function validateUserData(data) {
@@ -24,12 +27,7 @@ export function transformLessonPlan(plan) {
 }
 
 export async function getAccessibilityPrefs(userId) {
-  // Privacy: Accessibility preferences are private and educator-reviewed
-  // Educator log: accessibility preferences accessed for userId
   try {
-    const { getFirestore, doc, getDoc } = await import(
-      "https://www.gstatic.com/firebasejs/10.1.0/firebase-firestore.js"
-    );
     const db = getFirestore(app);
     return getDoc(doc(db, "accessibility", userId));
   } catch (err) {
@@ -39,12 +37,7 @@ export async function getAccessibilityPrefs(userId) {
 }
 
 export async function getLessonPlans(domain, userId) {
-  // Privacy: Lesson plans are private and educator-reviewed
-  // Educator log: lesson plans accessed for domain and userId
   try {
-    const { getFirestore, doc, getDoc } = await import(
-      "https://www.gstatic.com/firebasejs/10.1.0/firebase-firestore.js"
-    );
     const db = getFirestore(app);
     return getDoc(doc(db, "lessonplans", `${domain}_${userId}`));
   } catch (err) {
@@ -54,12 +47,7 @@ export async function getLessonPlans(domain, userId) {
 }
 
 export async function saveLessonPlan(domain, userId, plan) {
-  // Privacy: Lesson plan changes are private and educator-reviewed
-  // Educator log: lesson plan saved for domain and userId
   try {
-    const { getFirestore, doc, setDoc } = await import(
-      "https://www.gstatic.com/firebasejs/10.1.0/firebase-firestore.js"
-    );
     const db = getFirestore(app);
     return setDoc(doc(db, "lessonplans", `${domain}_${userId}`), { plan });
   } catch (err) {
@@ -69,12 +57,7 @@ export async function saveLessonPlan(domain, userId, plan) {
 }
 
 export async function saveAvatarData(userId, avatarData) {
-  // Privacy: Avatar data is private and educator-reviewed
-  // Educator log: avatar data saved for userId
   try {
-    const { getFirestore, doc, setDoc } = await import(
-      "https://www.gstatic.com/firebasejs/10.1.0/firebase-firestore.js"
-    );
     const db = getFirestore(app);
     return setDoc(doc(db, "avatars", userId), avatarData);
   } catch (err) {
@@ -84,12 +67,7 @@ export async function saveAvatarData(userId, avatarData) {
 }
 
 export async function saveTokens(userId, tokens) {
-  // Privacy: Token changes are private and educator-reviewed
-  // Educator log: tokens saved for userId
   try {
-    const { getFirestore, doc, setDoc } = await import(
-      "https://www.gstatic.com/firebasejs/10.1.0/firebase-firestore.js"
-    );
     const db = getFirestore(app);
     return setDoc(doc(db, "tokens", userId), { tokens });
   } catch (err) {
@@ -99,12 +77,7 @@ export async function saveTokens(userId, tokens) {
 }
 
 export async function savePurchase(userId, item) {
-  // Privacy: Purchases are private and educator-reviewed
-  // Educator log: purchase saved for userId and item
   try {
-    const { getFirestore, collection, addDoc } = await import(
-      "https://www.gstatic.com/firebasejs/10.1.0/firebase-firestore.js"
-    );
     const db = getFirestore(app);
     return addDoc(collection(db, "purchases"), { userId, item });
   } catch (err) {
@@ -114,12 +87,7 @@ export async function savePurchase(userId, item) {
 }
 
 export async function saveChatLog(userId, messages) {
-  // Privacy: Chat logs are private and educator-reviewed
-  // Educator log: chat log saved for userId
   try {
-    const { getFirestore, doc, setDoc } = await import(
-      "https://www.gstatic.com/firebasejs/10.1.0/firebase-firestore.js"
-    );
     const db = getFirestore(app);
     return setDoc(doc(db, "chatlogs", userId), { messages });
   } catch (err) {
@@ -128,11 +96,6 @@ export async function saveChatLog(userId, messages) {
   }
 }
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-app.js";
-import {
-  getAuth,
-  signInWithEmailAndPassword,
-} from "https://www.gstatic.com/firebasejs/10.1.0/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAHKxpp6tYRPJKih8Iu9OIrFcNc1pHRjaI",
