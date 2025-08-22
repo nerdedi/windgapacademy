@@ -28,12 +28,13 @@ function animateEffect(effect) {
   }
 }
 
-export function showAcademyStore(container, tokens = 0) {
+
+function showAcademyStore(container, tokens = 0) {
   function helpButton() {
     return "<button id=\"store-help\" aria-label=\"Help\" title=\"Help\">❓</button>";
   }
   function privacyNotice() {
-  return "<div id=\"privacy-notice\" class=\"text-sm text-gray-600 my-2\">All store actions are private and only used for educational financial literacy.</div>";
+    return "<div id=\"privacy-notice\" class=\"text-sm text-gray-600 my-2\">All store actions are private and only used for educational financial literacy.</div>";
   }
   container.innerHTML = `
     <section id="academy-store" class="au-section" aria-label="Academy Store">
@@ -43,11 +44,11 @@ export function showAcademyStore(container, tokens = 0) {
       </div>
       <div id="store-tokens" aria-label="Token Count">Tokens: ${tokens}</div>
       <div id="store-items" aria-label="Store Items">
-  <button class="btn-primary store-item" data-item="Badge" aria-label="Buy Badge">Buy Badge (5 tokens)</button>
-  <button class="btn-primary store-item" data-item="Outfit" aria-label="Buy Outfit">Buy Outfit (10 tokens)</button>
-  <button class="btn-primary store-item" data-item="Sticker" aria-label="Buy Sticker">Buy Sticker (3 tokens)</button>
+        <button class="btn-primary store-item" data-item="Badge" aria-label="Buy Badge">Buy Badge (5 tokens)</button>
+        <button class="btn-primary store-item" data-item="Outfit" aria-label="Buy Outfit">Buy Outfit (10 tokens)</button>
+        <button class="btn-primary store-item" data-item="Sticker" aria-label="Buy Sticker">Buy Sticker (3 tokens)</button>
       </div>
-  <div id="store-feedback" class="mt-3" aria-live="polite"></div>
+      <div id="store-feedback" class="mt-3" aria-live="polite"></div>
       ${privacyNotice()}
     </section>
   `;
@@ -85,3 +86,6 @@ export function showAcademyStore(container, tokens = 0) {
     }
   }, 0);
 }
+// Export alias for compatibility with app.js import
+const showTokenSystem = showAcademyStore;
+export { showAcademyStore, showTokenSystem };

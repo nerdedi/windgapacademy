@@ -18,6 +18,55 @@ export function showMessaging(container, unreadCount = 0) {
       <div class="notification-centre au-section" aria-label="Notification Centre">
         <h3>Notification Centre</h3>
         <div id="notifications"></div>
+        <input type="text" id="notification-input" placeholder="Add notification" aria-label="Add notification" class="input" />
+        <button id="add-notification" aria-label="Add Notification" class="btn-primary">Add</button>
+        <h4>Prioritised To-Do List</h4>
+        <div id="todo-list"></div>
+        <input type="text" id="todo-input" placeholder="Add to-do" aria-label="Add to-do" />
+        <button id="add-todo" aria-label="Add To-Do">Add</button>
+        <label for="task-title">Set Timer for Task:</label>
+        <input type="text" id="task-title" placeholder="Task Title" aria-label="Task Title" />
+        <input type="number" id="task-minutes" placeholder="Minutes" aria-label="Minutes" />
+        <button id="set-timer" aria-label="Set Timer">Set Timer</button>
+        <div id="timer-status"></div>
+        <h4>Time Tracker</h4>
+        <div id="time-tracker"></div>
+      </div>
+      <div class="msg-privacy-safety" aria-label="Privacy and Safety">
+        <h3>kidSAFE+ & COPPA Compliant</h3>
+        <ul>
+          <li>This chat is 100% ad-free and free of in-app purchases.</li>
+          <li>All experiences are educational and age-appropriate.</li>
+          <li>Social features are strictly moderated and educator-reviewed.</li>
+          <li>No personal data is collected beyond educational progress.</li>
+          <li>Privacy and safety are prioritised at every step.</li>
+          <li>All content and interactions are logged for safety and review.</li>
+        </ul>
+        <p><strong>Notice:</strong> All tokens and rewards are educational only and have no real-world value.</p>
+      </div>
+    </section>
+  `;
+  // ...existing interactive logic...
+
+// Export alias for compatibility with app.js import
+  }
+  export const showMessagingComponent = showMessaging;
+  function helpButton() {
+    return "<button id=\"messaging-help\" aria-label=\"Help\" title=\"Help\">❓</button>";
+  }
+  function privacyNotice() {
+    return "<div id=\"privacy-notice\" style=\"font-size:0.9em;color:#555;margin:8px 0;\">All messages and notifications are private and only used for educational support.</div>";
+  }
+  container.innerHTML = `
+    <section id="messaging" class="au-section" aria-label="Messaging">
+      <div class="flex justify-between items-center card smooth-shadow mb-4">
+        <h2 class="text-2xl font-bold text-primary text-smooth">Messaging</h2>
+        ${helpButton()}
+      </div>
+      ${privacyNotice()}
+      <div class="notification-centre au-section" aria-label="Notification Centre">
+        <h3>Notification Centre</h3>
+        <div id="notifications"></div>
   <input type="text" id="notification-input" placeholder="Add notification" aria-label="Add notification" class="input" />
   <button id="add-notification" aria-label="Add Notification" class="btn-primary">Add</button>
         <h4>Prioritised To-Do List</h4>
@@ -294,4 +343,3 @@ export function showMessaging(container, unreadCount = 0) {
     updateChatLog();
     alert("All messages reviewed by educator.");
   }
-}

@@ -6,8 +6,7 @@
   - Educator Logging: All report generation actions are logged
   - Last updated: August 14, 2025
 */
-import * as jspdf from "https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js";
-const jsPDF = jspdf.jsPDF;
+import { jsPDF } from "jspdf";
 
 export function generateReport(data) {
   // Privacy: All report data is private and educator-reviewed

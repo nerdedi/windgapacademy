@@ -1,3 +1,13 @@
+export function showAvatarBuilder(container, userData = {}) {
+  container.innerHTML = `
+    <div class="card">
+      <h2 class="text-2xl font-bold mb-4">Avatar Builder</h2>
+      <p>Build your custom avatar here!</p>
+      <!-- Add avatar builder UI here -->
+    </div>
+  `;
+  // Add your avatar builder logic here
+}
 /**
  * Avatar Builder Module
  * @module AvatarBuilder
