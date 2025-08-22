@@ -1,0 +1,130 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom sophisticated, clean, and smooth styles */
+
+@layer base {
+	html {
+ 		font-family: 'Inter', 'Segoe UI', 'Helvetica Neue', Arial, 'sans-serif';
+ 		background-color: #5ED1D2; /* Teal from banner */
+ 		color: #A32C2B; /* Red from banner */
+ 		scroll-behavior: smooth;
+ 	}
+}
+
+@layer components {
+ 	.card {
+ 		@apply bg-white rounded-xl shadow-lg p-6 transition-all duration-300 ease-in-out;
+		text-rendering: optimizeLegibility;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+ 		border: 2px solid #5ED1D2;
+		padding: 1rem;
+		@media (min-width: 640px) {
+			padding: 2rem;
+		}
+		@media (min-width: 768px) {
+			padding: 2.5rem;
+		}
+ 	}
+ 	.btn-primary {
+ 		background-color: #A32C2B;
+ 		color: #fff;
+ 		@apply font-semibold py-2 px-4 rounded-lg shadow transition-all duration-200 ease-in-out focus:outline-none;
+ 		@apply text-smooth;
+ 		@apply sm:px-6 md:px-8;
+ 	}
+ 	.btn-secondary {
+ 		background-color: #5ED1D2;
+ 		color: #58595B;
+ 		@apply font-medium py-2 px-4 rounded-lg shadow transition-all duration-200 ease-in-out focus:outline-none;
+ 		@apply text-smooth;
+ 		@apply sm:px-6 md:px-8;
+ 	}
+ 	.input {
+ 		border: 2px solid #5ED1D2;
+ 		@apply rounded-lg px-3 py-2 focus:outline-none transition-all duration-200 ease-in-out;
+ 		@apply text-smooth;
+ 		@apply sm:px-4 md:px-6;
+ 		background-color: #F8FAFC;
+ 	}
+ 	.alert {
+ 		@apply rounded-lg px-4 py-3 mb-4 font-semibold shadow text-smooth;
+ 		background-color: #5ED1D2;
+ 		color: #A32C2B;
+ 	}
+ 	.alert-success {
+ 		@apply alert;
+ 		background-color: #5ED1D2;
+ 		color: #A32C2B;
+ 		border: 2px solid #A32C2B;
+ 	}
+ 	.alert-error {
+ 		@apply alert;
+ 		background-color: #A32C2B;
+ 		color: #fff;
+ 		border: 2px solid #5ED1D2;
+ 	}
+ 	.alert-warning {
+ 		@apply alert;
+ 		background-color: #F8FAFC;
+ 		color: #58595B;
+ 		border: 2px solid #5ED1D2;
+ 	}
+ 	.badge {
+ 		@apply inline-block px-3 py-1 rounded-full font-medium text-smooth;
+ 		background-color: #5ED1D2;
+ 		color: #A32C2B;
+ 		border: 2px solid #A32C2B;
+ 	}
+ 	.badge-success {
+ 		@apply badge;
+ 		background-color: #5ED1D2;
+ 		color: #A32C2B;
+ 		border: 2px solid #A32C2B;
+ 	}
+ 	.badge-error {
+ 		@apply badge;
+ 		background-color: #A32C2B;
+ 		color: #fff;
+ 		border: 2px solid #5ED1D2;
+ 	}
+ 	.badge-warning {
+ 		@apply badge;
+ 		background-color: #F8FAFC;
+ 		color: #58595B;
+ 		border: 2px solid #5ED1D2;
+ 	}
+ 	.focus-ring {
+ 		@apply focus:outline-none;
+ 		outline: 2px solid #5ED1D2;
+ 	}
+ 	.accessible {
+ 		outline: 2px solid #A32C2B;
+ 	}
+}
+
+@layer utilities {
+	.smooth-shadow {
+		box-shadow: 0 2px 16px 0 rgba(60,72,88,0.10), 0 1.5px 4px 0 rgba(60,72,88,0.08);
+	}
+	.text-smooth {
+		text-rendering: optimizeLegibility;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+	}
+	.responsive {
+		@apply w-full max-w-screen-md mx-auto px-2 sm:px-4 md:px-8;
+	}
+	.accessible-hidden {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		padding: 0;
+		margin: -1px;
+		overflow: hidden;
+		clip: rect(0,0,0,0);
+		border: 0;
+	}
+}

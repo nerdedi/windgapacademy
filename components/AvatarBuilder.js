@@ -34,8 +34,8 @@ function renderAvatar() {
     outfit: document.getElementById("outfit-select").value,
     pronoun: document.getElementById("pronoun-select").value,
   });
-  preview.innerHTML = `<div style="width:120px;height:120px;border-radius:50%;background:${state.skin};display:flex;align-items:center;justify-content:center;position:relative;animation: avatar-bounce 0.7s;">
-        <span style="color:${state.hair};font-size:2em;">👤</span>
+  preview.innerHTML = `<div class="w-30 h-30 rounded-full flex items-center justify-center relative animate-bounce" style="background:${state.skin};">
+  <span class="text-2xl" style="color:${state.hair};">👤</span>
     </div>`;
 }
 

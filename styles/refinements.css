@@ -5,11 +5,11 @@
   align-items: center;
   height: 100px;
 }
-.spinner {
+ .spinner {
   width: 48px;
   height: 48px;
-  border: 6px solid #eee;
-  border-top: 6px solid #3b82f6;
+  border: 6px solid #5ED1D2;
+  border-top: 6px solid #A32C2B;
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
@@ -34,10 +34,10 @@
   }
 }
 /* Tooltip styles */
-.tooltip {
+ .tooltip {
   position: absolute;
-  background: #333;
-  color: #fff;
+  background: #A32C2B;
+  color: #5ED1D2;
   padding: 6px 12px;
   border-radius: 6px;
   font-size: 0.95em;

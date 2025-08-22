@@ -15,13 +15,13 @@ export function showEducatorDashboard(container) {
   }
   container.innerHTML = `
     <section id="educator-dashboard" aria-label="Educator Dashboard">
-      <div style="display:flex;justify-content:space-between;align-items:center;">
-        <h2>Educator Dashboard</h2>
+      <div class="flex justify-between items-center card smooth-shadow mb-4">
+        <h2 class="text-2xl font-bold text-primary text-smooth">Educator Dashboard</h2>
         ${helpButton()}
       </div>
       ${privacyNotice()}
       <div class="module-summary au-section" aria-label="Module Summary">
-        <h3>Six-Module Framework for Supporting Students with Learning Difficulties</h3>
+  <h3 class="text-lg font-semibold mt-4 mb-2">Six-Module Framework for Supporting Students with Learning Difficulties</h3>
         <ol>
           <li><strong>Module 1:</strong> Identifying learning difficulties and disorders, classroom presentation, assessment and diagnosis.</li>
           <li><strong>Module 2:</strong> Underlying processing skills for academic success (phonological, working memory, orthographic, number sense).</li>
@@ -33,7 +33,7 @@ export function showEducatorDashboard(container) {
         <p>All lesson plans and classroom strategies are aligned to this framework and reflect best practice for supporting diverse learners.</p>
       </div>
       <div class="learner-profile au-section" aria-label="Learner Profile">
-        <h3>Learner Profile: Outcomes, Aims, and Indicators</h3>
+  <h3 class="text-lg font-semibold mt-4 mb-2">Learner Profile: Outcomes, Aims, and Indicators</h3>
         <ul>
           <li><strong>Outcomes:</strong> Progress in Literacy, Numeracy, and Daily Living Skills (LLND Curriculum).</li>
           <li><strong>Aims:</strong> Develop executive functioning, independence, and self-management (CSFW).</li>
@@ -41,7 +41,7 @@ export function showEducatorDashboard(container) {
         </ul>
       </div>
       <div class="assignment-management au-section" aria-label="Assignment Management">
-        <h3>Assignment Management</h3>
+  <h3 class="text-lg font-semibold mt-4 mb-2">Assignment Management</h3>
         <form id="add-assignment-form" aria-label="Add Assignment">
           <input type="text" id="assignment-title" placeholder="Assignment Title" aria-label="Assignment Title" required />
           <input type="text" id="assignment-desc" placeholder="Description" aria-label="Assignment Description" required />
@@ -60,7 +60,7 @@ export function showEducatorDashboard(container) {
       <div class="report-section au-section" aria-label="Generate Report">
         <h3>Generate Learner Report</h3>
         <button id="generate-report" aria-label="Generate Report">Generate Report</button>
-        <div id="report-output" style="margin-top:16px;"></div>
+  <div id="report-output" class="mt-4"></div>
       </div>
   // Assignment form logic
   setTimeout(() => {
@@ -97,7 +97,7 @@ export function showEducatorDashboard(container) {
         <p>Profiles update automatically as learners complete activities and assessments.</p>
       </div>
       <div class="assessment-component au-section" aria-label="Assessment & Task Assignment">
-        <h3>Assessment & Task Assignment</h3>
+  <h3 class="text-lg font-semibold mt-4 mb-2">Assessment & Task Assignment</h3>
         <label for="assessment-title">Send Assessment/Test/Form to Learner:</label>
         <input type="text" id="assessment-title" placeholder="Assessment Title" aria-label="Assessment Title" />
         <select id="assessment-urgency" aria-label="Assessment Urgency">
@@ -114,7 +114,7 @@ export function showEducatorDashboard(container) {
       ${eduButton("Download NDIS Report PDF", "download-ndis", null)}
       <div id="progress-overview"></div>
       ${privacyNotice()}
-      <div id="educator-prompt" style="margin-top:12px;" aria-live="polite"></div>
+  <div id="educator-prompt" class="mt-3" aria-live="polite"></div>
     </section>
   `;
   // Keyboard navigation for all buttons and inputs

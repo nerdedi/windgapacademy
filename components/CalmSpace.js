@@ -4,7 +4,7 @@ export function showCalmSpace(container) {
     return "<button id=\"calmspace-help\" aria-label=\"Help\" title=\"Help\">❓</button>";
   }
   function privacyNotice() {
-    return "<div id=\"privacy-notice\" style=\"font-size:0.9em;color:#555;margin:8px 0;\">Your Calm Space activities are private and only used for wellbeing support.</div>";
+  return "<div id=\"privacy-notice\" class=\"text-sm text-gray-600 my-2\">Your Calm Space activities are private and only used for wellbeing support.</div>";
   }
   const stories = {
     "life-skills": {
@@ -41,12 +41,12 @@ export function showCalmSpace(container) {
 
   container.innerHTML = `
       <header>
-        <h2>🌿 Calm Space</h2>
+  <h2 class="text-2xl font-bold text-primary text-smooth">🌿 Calm Space</h2>
         ${helpButton()}
         ${privacyNotice()}
       </header>
       <main>
-        <section aria-label="Select a Social Story">
+  <section aria-label="Select a Social Story" class="card smooth-shadow mb-4">
           <label for="domain-selector">Choose a wellbeing topic:</label>
           <select id="domain-selector" aria-label="Select wellbeing topic">
             <option value="">-- Select --</option>
@@ -78,7 +78,7 @@ export function showCalmSpace(container) {
             .map((domain) => `<option value="${domain}">${stories[domain].title}</option>`)
             .join("")}
         </select>
-        <div id="story-display" style="margin-top:24px;"></div>
+  <div id="story-display" class="mt-6 card smooth-shadow"></div>
       </section>
   <!-- Removed Unlocked Calm Scenes and User Context for lint compliance -->
     </main>
@@ -100,13 +100,13 @@ export function showCalmSpace(container) {
   // ...existing code...
   container.innerHTML = `
     <section id="calm-space" class="au-section" aria-label="Calm Space">
-      <div style="display:flex;justify-content:space-between;align-items:center;">
-        <h2>Calm Space</h2>
+      <div class="flex justify-between items-center">
+        <h2 class="text-2xl font-bold text-primary">Calm Space</h2>
   <!-- Removed helpButton for lint compliance -->
       </div>
   <div id="calm-tools" aria-label="Calm Tools"></div>
       <div class="social-stories au-section" aria-label="Animated Social Stories">
-        <h3>Animated Social Stories</h3>
+  <h3 class="text-lg font-semibold mt-4 mb-2">Animated Social Stories</h3>
         <p>Explore animated social stories for every area of learning. These stories are designed for ages 16+ and focus on real-life scenarios, independence, and self-regulation.</p>
   <!-- Removed calmButton list for lint compliance -->
         <div id="social-story-content"></div>
@@ -125,7 +125,7 @@ export function showCalmSpace(container) {
         <p>All activities are designed for inclusion and can be adapted for students with disability. Reference Smiling Mind, ACARA, and NSW Department of Education inclusive education standards.</p>
         <p><strong>Educator Notes:</strong> Make reasonable adjustments, consult with support staff and families, and use evidence-based inclusive practices. Ensure every student is known, valued, and cared for. Respect First Nations perspectives and connection to land, culture, and community.</p>
       </div>
-      <div id="calmspace-prompt" style="margin-top:12px;" aria-live="polite"></div>
+  <div id="calmspace-prompt" class="mt-3" aria-live="polite"></div>
     </section>
   `;
   // Keyboard navigation for all buttons

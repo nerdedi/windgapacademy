@@ -11,9 +11,9 @@ export function showDashboard(container, data = {}) {
   }
   container.innerHTML = `
     <header>
-  <img src="assets/images/windgap_logo.png" alt="Windgap Foundation Logo" class="logo" loading="lazy" />
-      <div style="display:flex;justify-content:space-between;align-items:center;">
-        <h1>🌟 Windgap Academy of Learning</h1>
+  <img src="assets/images/windgap_logo.png" alt="Windgap Foundation Logo" class="logo card smooth-shadow mb-4" loading="lazy" />
+      <div class="flex justify-between items-center card smooth-shadow mb-4">
+        <h1 class="text-3xl font-bold text-primary text-smooth">🌟 Windgap Academy of Learning</h1>
         ${helpButton()}
       </div>
       <nav aria-label="Main Navigation">
@@ -30,18 +30,18 @@ export function showDashboard(container, data = {}) {
       </nav>
     </header>
     <main>
-      <section id="character-intro" aria-label="Character Introduction">
+  <section id="character-intro" aria-label="Character Introduction" class="card smooth-shadow mb-4">
         <canvas id="daisy-anim" width="100" height="100" tabindex="0" aria-label="Daisy Animation"></canvas>
         <canvas id="winnie-anim" width="100" height="100" tabindex="0" aria-label="Winnie Animation"></canvas>
         <canvas id="andy-anim" width="100" height="100" tabindex="0" aria-label="Andy Animation"></canvas>
       </section>
-      <section id="learner-info" aria-label="Learner Information">
+  <section id="learner-info" aria-label="Learner Information" class="card smooth-shadow mb-4">
         <p>Level: <span id="learner-level">${data.level || 1}</span></p>
         <p>Achievements: <span id="learner-achievements">${data.achievements && data.achievements.length > 0 ? data.achievements.join(", ") : "None yet"}</span></p>
         <p>Assigned Work: <span id="assigned-work">Literacy Lesson</span></p>
       </section>
-      <section id="privacy-safety-info" class="au-section" aria-label="Privacy and Safety Information">
-        <h3>kidSAFE+ & COPPA Compliant</h3>
+  <section id="privacy-safety-info" class="au-section card smooth-shadow mb-4" aria-label="Privacy and Safety Information">
+  <h3 class="text-lg font-semibold mt-4 mb-2">kidSAFE+ & COPPA Compliant</h3>
         <ul>
           <li>This platform is 100% ad-free and free of in-app purchases.</li>
           <li>All experiences are educational and age-appropriate.</li>
@@ -53,12 +53,12 @@ export function showDashboard(container, data = {}) {
         <p><strong>Notice:</strong> All tokens and rewards are educational only and have no real-world value.</p>
         ${privacyNotice()}
       </section>
-      <section aria-label="Quick Actions">
+  <section aria-label="Quick Actions" class="card smooth-shadow mb-4">
         ${navButton("Go to Calm Space", "calm")}
         ${navButton("Play Literacy Game", "literacy")}
         ${navButton("Play Numeracy Game", "numeracy")}
       </section>
-      <section id="dashboard-prompt" style="margin-top:12px;" aria-live="polite"></section>
+  <section id="dashboard-prompt" class="mt-3 card smooth-shadow" aria-live="polite"></section>
     </main>
     <footer>
       <p>&copy; 2025 Windgap Academy. All rights reserved.</p>

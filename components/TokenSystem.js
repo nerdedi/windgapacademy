@@ -11,8 +11,8 @@ export function showTokenSystem(container) {
   }
   container.innerHTML = ` 
     <section id="token-system" class="au-section" aria-label="Token System">
-      <div style="display:flex;justify-content:space-between;align-items:center;">
-        <h2>Token System</h2>
+      <div class="flex justify-between items-center">
+        <h2 class="text-2xl font-bold text-primary">Token System</h2>
         ${helpButton()}
       </div>
       <div id="token-count" aria-label="Token Count">Tokens: ${tokens}</div>
@@ -30,7 +30,7 @@ export function showTokenSystem(container) {
         </ul>
         <p>Educator Notes: Use tokens to reinforce positive behaviour and achievement, aligned to Australian values.</p>
       </div>
-      <div id="token-prompt" style="margin-top:12px;" aria-live="polite"></div>
+  <div id="token-prompt" class="mt-3" aria-live="polite"></div>
     </section>
   `;
   Array.from(container.querySelectorAll("button")).forEach(function (el) {

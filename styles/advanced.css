@@ -16,8 +16,9 @@
 #wellbeing-ai {
   margin: 24px auto;
   max-width: 540px;
-  background: #f7f9fa;
+  background: #5ED1D2;
   border-radius: 16px;
-  box-shadow: 0 2px 16px #0001;
+  box-shadow: 0 2px 16px #A32C2B22;
   padding: 24px;
+  color: #A32C2B;
 }

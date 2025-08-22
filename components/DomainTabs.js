@@ -10,10 +10,10 @@ export function showDomainTabs(container, domain = "literacy") {
     "virtual-world",
   ];
   function tabButton(label, value, active) {
-    return `<button class="domain-tab${active ? " active" : ""}" aria-label="${label}" data-domain="${value}">${label}</button>`;
+  return `<button class="domain-tab${active ? " active" : ""} btn-secondary" aria-label="${label}" data-domain="${value}">${label}</button>`;
   }
   container.innerHTML = `
-    <nav aria-label="Domain Tabs" style="margin-bottom:16px;">
+  <nav aria-label="Domain Tabs" class="mb-4">
       ${domains
         .map((d) =>
           tabButton(
@@ -94,7 +94,7 @@ export function showDomainTabs(container, domain = "literacy") {
 
     const avatarHtml = `
       <div>
-        <img src='assets/images/user_avatar.png' alt='Your Avatar' style='width:80px;height:80px;border-radius:50%;border:2px solid #8bc34a;' loading="lazy" />
+  <img src='assets/images/user_avatar.png' alt='Your Avatar' class='w-20 h-20 rounded-full border-2 border-green-400 card smooth-shadow' loading="lazy" />
       </div>
     `;
 
@@ -103,7 +103,7 @@ export function showDomainTabs(container, domain = "literacy") {
       <h4>Interactive Scenario: ${char.name} (${char.role})</h4>
       <p>${char.intro}</p>
       ${avatarHtml}
-      <div style='margin-top:12px;'>
+  <div class='mt-3'>
         <strong>Visual Demonstration:</strong>
         <ul>
           <li>See your avatar and the academy character interact in an Australian classroom scene.</li>

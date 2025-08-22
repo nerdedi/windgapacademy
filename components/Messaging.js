@@ -10,16 +10,16 @@ export function showMessaging(container, unreadCount = 0) {
   }
   container.innerHTML = `
     <section id="messaging" class="au-section" aria-label="Messaging">
-      <div style="display:flex;justify-content:space-between;align-items:center;">
-        <h2>Messaging</h2>
+      <div class="flex justify-between items-center card smooth-shadow mb-4">
+        <h2 class="text-2xl font-bold text-primary text-smooth">Messaging</h2>
         ${helpButton()}
       </div>
       ${privacyNotice()}
       <div class="notification-centre au-section" aria-label="Notification Centre">
         <h3>Notification Centre</h3>
         <div id="notifications"></div>
-        <input type="text" id="notification-input" placeholder="Add notification" aria-label="Add notification" />
-        <button id="add-notification" aria-label="Add Notification">Add</button>
+  <input type="text" id="notification-input" placeholder="Add notification" aria-label="Add notification" class="input" />
+  <button id="add-notification" aria-label="Add Notification" class="btn-primary">Add</button>
         <h4>Prioritised To-Do List</h4>
         <div id="todo-list"></div>
         <input type="text" id="todo-input" placeholder="Add to-do" aria-label="Add to-do" />
@@ -123,7 +123,7 @@ export function showMessaging(container, unreadCount = 0) {
         </ul>
         <p>Educator Notes: Refer to the eSafety Commissioner and ACARA for resources on digital safety in Australia.</p>
       </div>
-      <div id="messaging-prompt" style="margin-top:12px;" aria-live="polite"></div>
+  <div id="messaging-prompt" class="mt-3" aria-live="polite"></div>
     </section>
   `;
   startMessaging();
