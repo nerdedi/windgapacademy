@@ -198,6 +198,17 @@ function openContentCreationTools() {
 // --- End Advanced Feature Implementations ---
 
 // Export main game functions for use elsewhere
+export function showLiteracyGame(container, userData = {}) {
+  container.innerHTML = `
+    <div class="card">
+      <h2 class="text-2xl font-bold mb-4">Literacy Game</h2>
+      <p>Welcome to the Literacy Game module!</p>
+      <!-- Add literacy game UI here -->
+    </div>
+  `;
+  // Add your literacy game logic here
+}
+
 export {
   openParentFeedback,
   showChallengesAndLeaderboard,
