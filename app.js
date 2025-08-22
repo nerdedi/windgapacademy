@@ -1,3 +1,19 @@
+// --- Dashboard Button Listeners ---
+function setupDashboardButtonListeners() {
+  const buttonMap = {
+    lifeSkillsBtn: 'life-skills-game',
+    literacyBtn: 'literacy-game',
+    moneySkillsBtn: 'money-skills-game',
+    numeracyBtn: 'numeracy-game',
+  };
+  Object.entries(buttonMap).forEach(([btnId, routeName]) => {
+    const btn = document.getElementById(btnId);
+    if (btn) {
+      btn.addEventListener('click', () => window.route(routeName));
+    }
+  });
+}
+
 /*
   Windgap Academy Main App Logic
   - Accessibility: ARIA, narration, font toggles, focus management
@@ -56,7 +72,27 @@ import { showLifeSkillsGame } from "./components/GameModules/LifeSkillsGame.js";
 import { showMoneySkillsGame } from "./components/GameModules/MoneySkillsGame.js";
 import { showEmployabilityGame } from "./components/GameModules/EmployabilityGame.js";
 
+
 const app = document.getElementById("app");
+
+// --- Navigation Event Listeners ---
+function setupNavigationListeners() {
+  // Example: Add click listeners to all elements with data-route attribute
+  document.querySelectorAll('[data-route]').forEach(el => {
+    el.addEventListener('click', (e) => {
+      e.preventDefault();
+      const route = el.getAttribute('data-route');
+      if (route) window.route(route);
+    });
+  });
+}
+
+// --- Initial App Load ---
+document.addEventListener('DOMContentLoaded', () => {
+  mainInit();
+  setupNavigationListeners();
+  setupDashboardButtonListeners();
+});
 
 function showFallbackScreen(errorMsg = "Something went wrong while loading Windgap Academy.") {
   document.body.innerHTML = `
@@ -304,48 +340,133 @@ window.showMilestoneNotification = function (msg) {
 
 // Loading screen logic and homepage logic are now in mainInit()
 function mainInit() {
-  // Show dashboard on first load
-  window.route("dashboard");
-
-  // Loading screen logic
-  document.addEventListener("DOMContentLoaded", function () {
-    const loadingScreen = document.getElementById("loadingscreen");
-    const homepage = document.getElementById("homepage");
-    const enterButton = document.getElementById("enterbutton");
-    const musicSelector = document.getElementById("musicselector");
-
-    setTimeout(() => {
-      if (loadingScreen) loadingScreen.classList.add("hidden");
-      if (homepage) homepage.classList.remove("hidden");
-      window.narrate("Hi, I'm Winnie! Let's find your calm space.");
-      // Educational prompt: Welcome and encourage calm entry
-    }, 3000);
-
-    if (enterButton) {
-      enterButton.addEventListener("click", () => {
-        window.narrate("Welcome to Windgap Academy! Let's begin your journey.");
-        if (homepage) homepage.classList.add("hidden");
-        window.route("dashboard");
-      });
-    }
-
-    if (musicSelector) {
-      musicSelector.addEventListener("change", function () {
-        const selection = this.value;
-        let audioSrc = "";
-        if (selection === "nature") {
-          audioSrc = "assets/sounds/nature.mp3";
-        } else if (selection === "instrumental") {
-          audioSrc = "assets/sounds/instrumental.mp3";
-        }
-        if (audioSrc) {
-          const audio = new Audio(audioSrc);
-          audio.loop = true;
-          audio.play();
-        }
-      });
-    }
-  });
+  const app = document.getElementById("app");
+  // Smiling Mind style login page
+  app.innerHTML = `
+    <div class="min-h-screen flex flex-col justify-center items-center bg-gradient-to-br from-[#5ED1D2] to-[#A32C2B]">
+      <div class="w-full max-w-md bg-white rounded-2xl shadow-lg p-8 flex flex-col items-center">
+        <img src="assets/windgap-logo.png" alt="Windgap Academy Logo" class="h-16 mb-4" />
+        <h1 class="text-3xl font-extrabold text-[#A32C2B] mb-2">Welcome to Windgap Academy</h1>
+        <p class="text-[#58595B] mb-6 text-center">Log in to access your dashboard and all learning modules.</p>
+        <form id="loginForm" class="w-full flex flex-col gap-4">
+          <input type="text" id="username" class="input" placeholder="Username" required />
+          <input type="password" id="password" class="input" placeholder="Password" required />
+          <button type="submit" class="btn-primary w-full">Log In</button>
+        </form>
+        <div class="mt-4 text-sm text-[#58595B]">Forgot your password? <a href="#" class="underline">Reset</a></div>
+      </div>
+      <footer class="mt-8 text-center text-white text-sm opacity-80">
+        &copy; ${new Date().getFullYear()} Windgap Academy. All rights reserved.
+      </footer>
+    </div>
+  `;
+  // Login logic: on submit, show dashboard
+  const loginForm = document.getElementById("loginForm");
+  if (loginForm) {
+    loginForm.addEventListener("submit", function(e) {
+      e.preventDefault();
+      // Simulate login (replace with real auth if needed)
+      app.innerHTML = `
+        <div class="responsive">
+          <nav class="flex items-center justify-between py-6 mb-10 bg-white rounded-xl shadow-smooth px-6">
+            <div class="flex items-center gap-4">
+              <img src="assets/windgap-logo.png" alt="Windgap Academy Logo" class="h-14" />
+              <span class="text-3xl font-extrabold text-[#A32C2B] tracking-tight">Windgap Academy</span>
+            </div>
+            <ul class="flex gap-6">
+              <li><button class="btn-primary" data-route="dashboard">Dashboard</button></li>
+              <li><button class="btn-secondary" data-route="modules">Modules</button></li>
+              <li><button class="btn-secondary" data-route="profile">Profile</button></li>
+              <li><button class="btn-secondary" data-route="settings">Settings</button></li>
+            </ul>
+          </nav>
+          <header class="text-center mt-6 mb-10">
+            <h1 class="text-5xl font-extrabold text-[#A32C2B] mb-2">Dashboard</h1>
+            <p class="text-xl text-[#58595B] mb-4">Welcome back! Choose a module to get started.</p>
+          </header>
+          <section class="mt-8">
+            <h2 class="text-2xl font-bold text-[#A32C2B] mb-6 text-center">Featured Modules</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+              ${[
+                {name:"Adaptive Learning",route:"adaptive-learning",desc:"Personalized learning paths for every student."},
+                {name:"Virtual Currency",route:"virtual-currency",desc:"Earn and spend points in a safe environment."},
+                {name:"Seasonal Events",route:"seasonal-events",desc:"Special events and challenges throughout the year."},
+                {name:"Assignments",route:"assignments",desc:"Track and complete your assignments easily."},
+                {name:"Peer Review",route:"peer-review",desc:"Collaborate and review with classmates."},
+                {name:"Mini Games",route:"mini-games",desc:"Fun games to reinforce learning."},
+                {name:"Badges",route:"badges",desc:"Earn badges for achievements and progress."},
+                {name:"Leaderboard",route:"leaderboard",desc:"See how you rank among peers."}
+              ].map(mod=>`
+                <div class='card flex flex-col justify-between h-full'>
+                  <div>
+                    <h3 class='text-lg font-bold mb-1'>${mod.name}</h3>
+                    <p class='text-[#58595B] mb-2'>${mod.desc}</p>
+                  </div>
+                  <button class='btn-primary mt-auto' data-route='${mod.route}'>Open</button>
+                </div>
+              `).join('')}
+            </div>
+          </section>
+          <section class="mt-12">
+            <h2 class="text-2xl font-bold text-[#A32C2B] mb-6 text-center">All Modules & Features</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              ${[
+                {name:"Adaptive Learning",route:"adaptive-learning"},
+                {name:"Virtual Currency",route:"virtual-currency"},
+                {name:"Seasonal Events",route:"seasonal-events"},
+                {name:"Assignments",route:"assignments"},
+                {name:"Peer Review",route:"peer-review"},
+                {name:"Sign Language Avatar",route:"sign-language-avatar"},
+                {name:"AI Captioning",route:"ai-captioning"},
+                {name:"Two Factor Auth",route:"two-factor-auth"},
+                {name:"Calendar",route:"calendar"},
+                {name:"Dashboard Widgets",route:"dashboard-widgets"},
+                {name:"Collaboration",route:"collaboration"},
+                {name:"Onboarding",route:"onboarding"},
+                {name:"Challenges",route:"challenges"},
+                {name:"AI Recommendations",route:"ai-recommendations"},
+                {name:"Feedback Form",route:"feedback-form"},
+                {name:"Mini Games",route:"mini-games"},
+                {name:"Data Export/Import",route:"data-export-import"},
+                {name:"Analytics",route:"analytics"},
+                {name:"Badges",route:"badges"},
+                {name:"Leaderboard",route:"leaderboard"},
+                {name:"Group Projects",route:"group-projects"},
+                {name:"Resource Library",route:"resource-library"},
+                {name:"External Resources",route:"external-resources"},
+                {name:"Parent Portal",route:"parent-portal"},
+                {name:"Accessibility Advanced",route:"accessibility-advanced"},
+                {name:"Academy Store",route:"academy-store"},
+                {name:"Forums",route:"forums"},
+                {name:"Chat Moderation",route:"chat-moderation"},
+                {name:"Virtual World",route:"virtual-world"},
+                {name:"Calm Space",route:"calm-space"},
+                {name:"Educator Dashboard",route:"educator-dashboard"},
+                {name:"Avatar Builder",route:"avatar-builder"},
+                {name:"Domain Tabs",route:"domain-tabs"},
+                {name:"Messaging",route:"messaging"},
+                {name:"Token System",route:"token-system"},
+                {name:"Literacy Game",route:"literacy-game"},
+                {name:"Numeracy Game",route:"numeracy-game"},
+                {name:"Communication Game",route:"communication-game"},
+                {name:"Digital Skills Game",route:"digital-skills-game"},
+                {name:"Life Skills Game",route:"life-skills-game"},
+                {name:"Money Skills Game",route:"money-skills-game"},
+                {name:"Employability Game",route:"employability-game"}
+              ].map(mod=>`
+                <button class='card btn-secondary w-full mb-2' data-route='${mod.route}'>${mod.name}</button>
+              `).join('')}
+            </div>
+          </section>
+          <footer class="mt-16 text-center text-[#58595B] text-sm">
+            &copy; ${new Date().getFullYear()} Windgap Academy. All rights reserved.
+          </footer>
+        </div>
+      `;
+      setupNavigationListeners();
+      setupDashboardButtonListeners();
+    });
+  }
 }
 
 // --- Accessibility Improvements ---

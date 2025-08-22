@@ -4,13 +4,14 @@
 export function showLifeSkillsGame(container, userData = {}) {
   container.innerHTML = `
     <section id="life-skills-game" aria-label="Life Skills Game">
-      <h2>🏠 Life Skills Game</h2>
+  <h2 class="text-2xl font-bold text-primary text-smooth">🏠 Life Skills Game</h2>
       <div id="life-skills-challenge" aria-live="polite"></div>
-      <button id="life-return" aria-label="Return to Dashboard">Return to Dashboard</button>
+  <button id="life-return" class="btn-primary nav-btn" aria-label="Return to Dashboard">Return to Dashboard</button>
     </section>
   `;
   document.getElementById("life-return").onclick = function () {
-    window.route("dashboard");
+    // Navigation placeholder: implement dashboard navigation if needed
+    alert("Returning to dashboard (navigation not implemented).");
   };
   startLifeSkillsGame(userData);
 
@@ -22,7 +23,7 @@ function startLifeSkillsGame(userData) {
     "Remind Andy to take his medication.",
   ];
   var current = 0;
-  var progress = progress();
+  var progress = JSON.parse(localStorage.getItem("lifeGameProgress") || "[]");
   if (progress.length > 0) {
     current = progress.length;
     progress.forEach(function (item, index) {
@@ -34,7 +35,7 @@ function startLifeSkillsGame(userData) {
   function renderScenario() {
     area.innerHTML += `<p>${scenarios[current]}</p>
         <button id='life-btn' class='nav-btn' aria-label='Complete Task'>Complete Task</button>
-        <div id='life-feedback' aria-live='polite' style='margin-top:8px;'></div>`;
+  <div id='life-feedback' class='mt-2' aria-live='polite'></div>`;
     var btn = document.getElementById("life-btn");
     btn.focus();
     btn.onkeydown = function (e) {
