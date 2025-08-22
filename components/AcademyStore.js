@@ -33,21 +33,21 @@ export function showAcademyStore(container, tokens = 0) {
     return "<button id=\"store-help\" aria-label=\"Help\" title=\"Help\">❓</button>";
   }
   function privacyNotice() {
-    return "<div id=\"privacy-notice\" style=\"font-size:0.9em;color:#555;margin:8px 0;\">All store actions are private and only used for educational financial literacy.</div>";
+  return "<div id=\"privacy-notice\" class=\"text-sm text-gray-600 my-2\">All store actions are private and only used for educational financial literacy.</div>";
   }
   container.innerHTML = `
     <section id="academy-store" class="au-section" aria-label="Academy Store">
-      <div style="display:flex;justify-content:space-between;align-items:center;">
-        <h2>Academy Store</h2>
+      <div class="flex justify-between items-center card smooth-shadow mb-4">
+        <h2 class="text-2xl font-bold text-primary text-smooth">Academy Store</h2>
         ${helpButton()}
       </div>
       <div id="store-tokens" aria-label="Token Count">Tokens: ${tokens}</div>
       <div id="store-items" aria-label="Store Items">
-        <button class="store-item" data-item="Badge" aria-label="Buy Badge">Buy Badge (5 tokens)</button>
-        <button class="store-item" data-item="Outfit" aria-label="Buy Outfit">Buy Outfit (10 tokens)</button>
-        <button class="store-item" data-item="Sticker" aria-label="Buy Sticker">Buy Sticker (3 tokens)</button>
+  <button class="btn-primary store-item" data-item="Badge" aria-label="Buy Badge">Buy Badge (5 tokens)</button>
+  <button class="btn-primary store-item" data-item="Outfit" aria-label="Buy Outfit">Buy Outfit (10 tokens)</button>
+  <button class="btn-primary store-item" data-item="Sticker" aria-label="Buy Sticker">Buy Sticker (3 tokens)</button>
       </div>
-      <div id="store-feedback" style="margin-top:12px;" aria-live="polite"></div>
+  <div id="store-feedback" class="mt-3" aria-live="polite"></div>
       ${privacyNotice()}
     </section>
   `;

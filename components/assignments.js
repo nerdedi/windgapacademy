@@ -1,3 +1,23 @@
+// Render assignments dashboard/module
+export function showAssignments(app, userId) {
+  app.innerHTML = `
+    <section class="card">
+      <h2 class="text-2xl font-bold mb-4" style="color:#A32C2B">Assignments</h2>
+      <div id="assignment-list"></div>
+      <button class="btn-primary mt-4" onclick="window.route('dashboard')">Back to Dashboard</button>
+    </section>
+  `;
+  // Render user's assignments
+  const list = document.getElementById('assignment-list');
+  if (list) {
+    const tasks = userId ? listTasks(userId) : [];
+    if (tasks.length === 0) {
+      list.innerHTML = '<p>No assignments found.</p>';
+    } else {
+      list.innerHTML = '<ul>' + tasks.map(t => `<li>${t}</li>`).join('') + '</ul>';
+    }
+  }
+}
 // Simulate database (replace with Firestore in production)
 // Firestore integration for assignments
 

@@ -38,7 +38,7 @@ const CharacterGallery = () => {
   const [selected, setSelected] = useState(null);
   const [customName, setCustomName] = useState("");
   return (
-    <div className="character-gallery">
+  <div className="character-gallery card smooth-shadow">
       {images.map((img, idx) => (
         <div key={idx} style={{ display: "inline-block", margin: "12px", textAlign: "center" }}>
           <img

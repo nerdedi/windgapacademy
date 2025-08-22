@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Gotham:wght@400;700&display=swap");
 /* Theme switching: dark mode, high contrast */
 .theme-dark {
   background: #181a1b;
@@ -43,8 +44,8 @@
   .skill-card,
   .activity-card,
   .stat-card {
-    padding: 12px;
-    font-size: 0.95em;
+  background: #5ED1D2;
+  color: #A32C2B;
   }
   .character-gallery img {
     max-width: 120px;
@@ -79,12 +80,12 @@
   color: #004d40;
 }
 /* Windgap Academy UI, Australian branding, accessibility and advanced UI */
-@import url("https://fonts.googleapis.com/css2?family=Gotham:wght@400;700&display=swap");
 body {
-  font-family: Arial, sans-serif;
+  font-family: "Gotham", "Roboto", Arial, sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #f0f8ff;
+  background-color: #5ED1D2;
+  color: #A32C2B;
   outline: none;
 }
 body:focus {
@@ -133,17 +134,18 @@ body:focus {
 .enter-btn {
   padding: 10px 20px;
   font-size: 1em;
-  background-color: #005a9c;
-  color: white;
+  background-color: #A32C2B;
+  color: #fff;
   border: none;
   cursor: pointer;
   outline: none;
 }
 .enter-btn:focus {
-  outline: 3px solid #fbbf24;
+  outline: 3px solid #5ED1D2;
 }
 .enter-btn:hover {
-  background-color: #003f6b;
+  background-color: #5ED1D2;
+  color: #A32C2B;
 }
 /* ...existing Windgap Academy styles below ... */
 body {
@@ -289,27 +291,21 @@ footer {
   transform: translateX(0);
 }
 .notification.success {
-  background: #22c55e;
+  background: #5ED1D2;
+  color: #A32C2B;
 }
 .notification.error {
-  background: #ef4444;
+  background: #A32C2B;
+  color: #fff;
 }
 .notification.info {
-  background: #3b82f6;
+  background: #58595B;
+  color: #fff;
 }
 .dyslexia-font {
   font-family: "OpenDyslexic", Arial, sans-serif;
 }
-.dyslexia-font {
-  /* Accessibility: Dyslexia-friendly font for neurodivergent learners */
-  font-family: "OpenDyslexic", Arial, sans-serif;
-}
 .easy-read {
-  font-size: 1.25em;
-  letter-spacing: 0.05em;
-}
-.easy-read {
-  /* Accessibility: Easy-read style for improved legibility */
   font-size: 1.25em;
   letter-spacing: 0.05em;
 }
@@ -362,14 +358,6 @@ footer {
   outline: 2px solid #3b82f6;
 }
 .ndis-section {
-  background: white;
-  border-radius: 12px;
-  padding: 20px;
-  margin: 16px 0;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-.ndis-section {
-  /* Compliance: NDIS information, educator-reviewed for privacy and accessibility */
   background: white;
   border-radius: 12px;
   padding: 20px;

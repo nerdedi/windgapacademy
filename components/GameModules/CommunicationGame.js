@@ -5,9 +5,9 @@
 export function showCommunicationGame(container, userData = {}) {
   container.innerHTML = `
     <section id="communication-game" aria-label="Communication Game">
-      <h2>💬 Communication Game</h2>
+      <h2 class="text-2xl font-bold text-primary text-smooth">💬 Communication Game</h2>
       <div id="conversation-area" aria-live="polite"></div>
-      <button id="comm-return" aria-label="Return to Dashboard">Return to Dashboard</button>
+      <button id="comm-return" class="btn-primary" aria-label="Return to Dashboard">Return to Dashboard</button>
     </section>
   `;
   document.getElementById("comm-return").onclick = function () {
@@ -34,9 +34,9 @@ export function showCommunicationGame(container, userData = {}) {
     }
     function renderPrompt() {
       area.innerHTML += `<p>${prompts[current]}</p>
-        <input id='comm-input' type='text' placeholder='Type your response...' aria-label='Type your response' style='margin-bottom:8px;' />
-        <button id='comm-submit' class='nav-btn' aria-label='Send'>Send</button>
-        <div id='comm-feedback' aria-live='polite' style='margin-top:8px;'></div>`;
+        <input id='comm-input' type='text' placeholder='Type your response...' aria-label='Type your response' class='input mb-2' />
+        <button id='comm-submit' class='btn-primary nav-btn' aria-label='Send'>Send</button>
+        <div id='comm-feedback' class='mt-2' aria-live='polite'></div>`;
       var input = document.getElementById("comm-input");
       var submit = document.getElementById("comm-submit");
       input.focus();
@@ -56,7 +56,7 @@ export function showCommunicationGame(container, userData = {}) {
           saveProgress(progress);
         }
         document.getElementById("comm-feedback").innerHTML =
-          `<span style='color:#ef4444;font-weight:600;'>${feedback}</span>`;
+          `<span class='text-red-500 font-semibold'>${feedback}</span>`;
         if (feedback !== "Try again!" && current < prompts.length - 1) {
           current++;
           setTimeout(renderPrompt, 1200);

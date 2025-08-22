@@ -11,9 +11,9 @@
 export function showEmployabilityGame(container, userData = {}) {
   container.innerHTML = `
     <section id="employability-game" aria-label="Employability Game">
-      <h2>💼 Employability Game</h2>
+  <h2 class="text-2xl font-bold text-primary text-smooth">💼 Employability Game</h2>
       <div id="employability-challenge" aria-live="polite"></div>
-  <button id="employ-return" class="nav-btn" aria-label="Return to Dashboard">Return to Dashboard</button>
+  <button id="employ-return" class="btn-primary nav-btn" aria-label="Return to Dashboard">Return to Dashboard</button>
     </section>
   `;
   document.getElementById("employ-return").onclick = function () {
@@ -43,7 +43,7 @@ function startEmployabilityGame(userData) {
     if (current < scenarios.length) {
       area.innerHTML = `<p>${scenarios[current]}</p>
         <button id='employ-btn' class='nav-btn' aria-label='Complete Task'>Complete Task</button>
-        <div id='employ-feedback' aria-live='polite' style='margin-top:8px;'></div>`;
+  <div id='employ-feedback' class='mt-2' aria-live='polite'></div>`;
       var btn = document.getElementById("employ-btn");
       btn.focus();
       btn.onkeydown = function (e) {
@@ -51,7 +51,7 @@ function startEmployabilityGame(userData) {
       };
       btn.onclick = function () {
         document.getElementById("employ-feedback").innerHTML =
-          "<span style='color:#22c55e;font-weight:600;'>Task completed!</span>";
+          "<span class='text-green-500 font-semibold'>Task completed!</span>";
         progress[current] = { scenario: scenarios[current], completed: true };
         saveProgress(progress);
         if (current < scenarios.length - 1) {

@@ -4,9 +4,9 @@
 export function showDigitalSkillsGame(container) {
   container.innerHTML = `
     <section id="digital-skills-game" aria-label="Digital Skills Game">
-      <h2>💻 Digital Skills Game</h2>
+  <h2 class="text-2xl font-bold text-primary text-smooth">💻 Digital Skills Game</h2>
       <div id="digital-challenge" aria-live="polite"></div>
-      <button id="digital-return" class="nav-btn" aria-label="Return to Dashboard">Return to Dashboard</button>
+  <button id="digital-return" class="btn-primary nav-btn" aria-label="Return to Dashboard">Return to Dashboard</button>
     </section>
   `;
   document.getElementById("digital-return").onclick = function () {
