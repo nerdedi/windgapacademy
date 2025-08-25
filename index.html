@@ -7,26 +7,62 @@
   <meta name="description" content="Windgap Academy: Creating Opportunities. Accessible, inclusive, and modern learning platform for all." />
   <meta name="robots" content="index, follow" />
   <link href="https://fonts.googleapis.com/css2?family=Gotham:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles/windgap-academy.css" />
-  <link rel="stylesheet" href="styles/tailwind.generated.css" />
-  <link rel="stylesheet" href="styles/tailwind-theme.css" />
+  <link rel="stylesheet" href="styles/output.css" />
     <script src="https://cdn.jsdelivr.net/npm/howler"></script>
     <!-- Use ES module for app.js -->
     <script type="module" src="app.js"></script>
   </head>
   <body aria-label="Windgap Academy Entry" role="main" style="background: #5ED1D2; color: #A32C2B; min-height: 100vh;">
     <nav class="sticky top-0 z-50 bg-white shadow flex items-center justify-between px-8 py-4">
-      <div class="flex items-center gap-3">
-  <img src="assets/windgap-logo.png" alt="Windgap Academy Logo" class="h-14 w-auto" />
-  <span class="text-2xl font-bold" style="color: #A32C2B;">Windgap Academy</span>
+      <div class="flex items-center gap-3"<section class="stats-block grid gap-8 mb-8" style="grid-template-columns:repeat(auto-fit,minmax(250px,1fr));">
+  <div class="flex flex-col items-center card smooth-shadow p-6 rounded-xl bg-white/80">
+    <!-- ...existing content... -->
+  </div>
+  <div class="flex flex-col items-center card smooth-shadow p-6 rounded-xl bg-white/80">
+    <!-- ...existing content... -->
+  </div>
+  <div class="flex flex-col items-center card smooth-shadow p-6 rounded-xl bg-white/80">
+    <!-- ...existing content... -->
+  </div>
+</section>
+        <img src="assets/logo.png" alt="Windgap Academy Logo" class="h-14 w-auto" />
+        <span class="text-2xl font-bold text-[#A32C2B]">Windgap Academy</span>
       </div>
       <div class="flex gap-6">
-        <a data-route="dashboard" class="text-blue-700 hover:text-blue-900 font-semibold cursor-pointer">Home</a>
-        <a data-route="dashboard" class="text-blue-700 hover:text-blue-900 font-semibold cursor-pointer">Modules</a>
-        <a data-route="support" class="text-blue-700 hover:text-blue-900 font-semibold cursor-pointer">Support</a>
+  <a href="#dashboard" data-route="dashboard" class="btn-secondary" aria-label="Home">Home</a>
+  <a href="#modules" data-route="modules" class="btn-secondary" aria-label="Modules">Modules</a>
+  <a href="#support" data-route="support" class="btn-secondary" aria-label="Support">Support</a>
       </div>
     </nav>
-  <main id="app" aria-label="Windgap Academy Main App" role="main"></main>
+    <section class="banner flex items-center justify-center mb-8">
+      <img src="assets/logo.png" alt="Windgap Academy Logo" class="h-20 w-auto mr-6" />
+      <div>
+        <h1 class="text-4xl font-extrabold text-white mb-2">Welcome to Windgap Academy</h1>
+        <p class="text-lg text-white opacity-90">Accessible, inclusive, and modern learning for all.</p>
+      </div>
+    </section>
+    <section class="stats-block grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+      <div class="flex flex-col items-center">
+        <svg class="h-10 w-10 mb-2 text-yellow-300" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a8 8 0 100 16 8 8 0 000-16zm1 12H9v-2h2v2zm0-4H9V7h2v3z"/></svg>
+        <span class="text-2xl font-bold">12,000+</span>
+        <span class="text-sm">Active Learners</span>
+      </div>
+      <div class="flex flex-col items-center">
+        <svg class="h-10 w-10 mb-2 text-blue-300" fill="currentColor" viewBox="0 0 20 20"><path d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm0 2h12v10H4V5zm2 2v2h2V7H6zm4 0v2h2V7h-2z"/></svg>
+        <span class="text-2xl font-bold">150+</span>
+        <span class="text-sm">Courses</span>
+      </div>
+      <div class="flex flex-col items-center">
+        <svg class="h-10 w-10 mb-2 text-purple-300" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a8 8 0 100 16 8 8 0 000-16zm3.707 6.293a1 1 0 00-1.414 0L10 10.586 7.707 8.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 000-1.414z"/></svg>
+        <span class="text-2xl font-bold">98%</span>
+        <span class="text-sm">Satisfaction Rate</span>
+      </div>
+    </section>
+    <main id="app" aria-label="Windgap Academy Main App" role="main"></main>
+    <section class="flex flex-col items-center my-12">
+      <h2 class="text-3xl font-bold mb-4">Ready to start learning?</h2>
+      <button class="cta">Get Started</button>
+    </section>
   <!-- All button and module logic is now handled in app.js for consistency and maintainability. -->
   </body>
 </html>

@@ -1,0 +1,16 @@
+<svg width="1920" height="1080" viewBox="0 0 1920 1080" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="accessGradient" x1="0" y1="0" x2="0" y2="1080" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#e0c3fc"/>
+      <stop offset="1" stop-color="#b3e0ff"/>
+    </linearGradient>
+    <filter id="accessBlur" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6"/>
+    </filter>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#accessGradient)"/>
+  <!-- Preview panel -->
+  <rect x="800" y="400" width="320" height="180" rx="24" fill="#e0c3fc" filter="url(#accessBlur)"/>
+  <!-- Toggle switches -->
+  <ellipse cx="960" cy="700" rx="120" ry="40" fill="#b3e0ff" filter="url(#accessBlur)"/>
+</svg>

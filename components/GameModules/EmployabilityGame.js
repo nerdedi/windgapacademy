@@ -11,15 +11,35 @@
 export function showEmployabilityGame(container, userData = {}) {
   container.innerHTML = `
     <section id="employability-game" aria-label="Employability Game">
-  <h2 class="text-2xl font-bold text-primary text-smooth">💼 Employability Game</h2>
+      <h2 class="card animate-anticipate text-2xl font-bold text-primary text-smooth">💼 Employability Game</h2>
       <div id="employability-challenge" aria-live="polite"></div>
-  <button id="employ-return" class="btn-primary nav-btn" aria-label="Return to Dashboard">Return to Dashboard</button>
+      <button id="employ-return" class="nav-btn" aria-label="Return to Dashboard">Return to Dashboard</button>
     </section>
   `;
-  document.getElementById("employ-return").onclick = function () {
+  const returnBtn = document.getElementById("employ-return");
+  applyButtonAnimation(returnBtn);
+  returnBtn.onclick = function () {
     window.route("dashboard");
   };
   startEmployabilityGame(userData);
+    // Example usage for main button:
+    const btn = document.getElementById('employ-btn');
+    applyButtonAnimation(btn);
+    // Example usage for heading:
+    const heading = document.getElementById('employ-heading');
+    applyHeadingAnimation(heading);
+}
+
+/**
+ * Apply standardized button animation.
+ * @param {HTMLElement} btn - The button element to animate.
+ */
+function applyButtonAnimation(btn) {
+  if (!btn) return;
+  btn.classList.add("btn-primary", "animate-ease-in-out");
+  if (window.gsap) {
+    gsap.from(btn, { scale: 0.8, duration: 0.6, ease: "elastic.out(1, 0.5)" });
+  }
 }
 
 /**
@@ -43,8 +63,9 @@ function startEmployabilityGame(userData) {
     if (current < scenarios.length) {
       area.innerHTML = `<p>${scenarios[current]}</p>
         <button id='employ-btn' class='nav-btn' aria-label='Complete Task'>Complete Task</button>
-  <div id='employ-feedback' class='mt-2' aria-live='polite'></div>`;
+        <div id='employ-feedback' class='mt-2' aria-live='polite'></div>`;
       var btn = document.getElementById("employ-btn");
+      applyButtonAnimation(btn);
       btn.focus();
       btn.onkeydown = function (e) {
         if (e.key === "Enter") btn.click();

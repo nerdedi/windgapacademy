@@ -1,0 +1,24 @@
+<svg width="1920" height="1080" viewBox="0 0 1920 1080" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="skyGradient" x1="0" y1="0" x2="0" y2="1080" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#b3e0ff"/>
+      <stop offset="1" stop-color="#e0c3fc"/>
+    </linearGradient>
+    <filter id="cloudBlur" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="20"/>
+    </filter>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#skyGradient)"/>
+  <!-- Floating islands -->
+  <ellipse cx="400" cy="900" rx="180" ry="60" fill="#d1f7c4"/>
+  <ellipse cx="1500" cy="950" rx="220" ry="70" fill="#c3e6ff"/>
+  <ellipse cx="1000" cy="800" rx="120" ry="40" fill="#f7e6c4"/>
+  <!-- Animated clouds -->
+  <ellipse cx="600" cy="300" rx="120" ry="40" fill="#fff" filter="url(#cloudBlur)"/>
+  <ellipse cx="1300" cy="200" rx="160" ry="50" fill="#fff" filter="url(#cloudBlur)"/>
+  <ellipse cx="900" cy="500" rx="100" ry="30" fill="#fff" filter="url(#cloudBlur)"/>
+  <!-- Stars -->
+  <circle cx="300" cy="200" r="3" fill="#fff"/>
+  <circle cx="1700" cy="150" r="2" fill="#fff"/>
+  <circle cx="1200" cy="400" r="2.5" fill="#fff"/>
+</svg>
