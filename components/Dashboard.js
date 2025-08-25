@@ -10,13 +10,38 @@ export function showDashboard(container, data = {}) {
     return "<div id=\"privacy-notice\" style=\"font-size:0.9em;color:#555;margin:8px 0;\">Your data is private and only used for educational purposes.</div>";
   }
   container.innerHTML = `
-    <section id="dashboard" class="card bg-white shadow-xl p-8 rounded-2xl animated-bg">
+    <div class="dashboard-bg" style="position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:-1;background:url('/assets/backgrounds/analytics-bg.svg') center/cover no-repeat;"></div>
+    <section id="dashboard" class="card shadow-xl p-8 rounded-2xl mx-auto my-16 max-w-3xl relative bg-white/80 backdrop-blur-lg">
       <h2 id="dashboard-heading" class="text-3xl font-bold text-primary mb-6">Dashboard</h2>
-      <div id="dashboard-charts" class="mb-4 animated-charts"></div>
+      <div id="dashboard-charts" class="mb-4 flex gap-6 justify-center">
+        <div class="chart animated-charts" style="width:180px;height:120px;background:#e0ffe7;border-radius:16px;box-shadow:0 2px 8px #0001;"></div>
+        <div class="progress-ring animated-charts" style="width:120px;height:120px;border-radius:50%;background:#ffe0f7;box-shadow:0 2px 8px #0001;"></div>
+      </div>
       <button id="dashboard-feedback" class="btn-primary nav-btn" aria-label="Give Feedback">Give Feedback</button>
-      <div id="dashboard-progress" class="mt-6"></div>
+      <form id="feedback-form" class="mt-6 flex flex-col gap-2">
+        <label htmlFor="emoji-rating">Rate your experience:</label>
+        <div id="emoji-rating" class="flex gap-2">
+          <button type="button" class="emoji-btn" aria-label="Great">😊</button>
+          <button type="button" class="emoji-btn" aria-label="Okay">😐</button>
+          <button type="button" class="emoji-btn" aria-label="Bad">😞</button>
+        </div>
+        <textarea id="feedback-comment" rows="2" placeholder="Your feedback..." class="input"></textarea>
+        <button type="submit" class="btn-secondary">Submit</button>
+      </form>
     </section>
   `;
+  // Animate heading and button
+  applyHeadingAnimation(document.getElementById('dashboard-heading'));
+  applyButtonAnimation(document.getElementById('dashboard-feedback'));
+  document.querySelectorAll('.emoji-btn').forEach(btn => applyButtonAnimation(btn));
+  applyButtonAnimation(document.querySelector('button.btn-secondary'));
+  // Accessibility
+  setAriaAttributes(document.getElementById('dashboard'), { role: 'region', label: 'Dashboard' });
+  // Feedback form interactivity
+  document.getElementById('feedback-form').onsubmit = function(e) {
+    e.preventDefault();
+    alert('Thank you for your feedback!');
+  };
   // Animate heading and button
   applyHeadingAnimation(document.getElementById('dashboard-heading'));
   applyButtonAnimation(document.getElementById('dashboard-feedback'));
