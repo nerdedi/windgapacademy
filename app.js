@@ -1,3 +1,4 @@
+import { auth } from "./firebase.js";
 // --- Dashboard Button Listeners ---
 function setupDashboardButtonListeners() {
   const buttonMap = {
@@ -24,46 +25,16 @@ function setupDashboardButtonListeners() {
   - Last updated: August 18, 2025 (with fallback error screen)
 */
 import { showDashboard } from "./components/Dashboard.js";
-import { showAdaptiveLearning } from "./components/AdaptiveLearning.js";
-import { showVirtualCurrency } from "./components/VirtualCurrency.js";
-import { showSeasonalEvents } from "./components/SeasonalEvents.js";
-import { showUserContent } from "./components/UserContent.js";
-import { showPeerReview } from "./components/PeerReview.js";
-import { showSignLanguageAvatar } from "./components/SignLanguageAvatar.js";
-import { showAICaptioning } from "./components/AICaptioning.js";
-import { showTwoFactorAuth } from "./components/TwoFactorAuth.js";
-import { showOnboarding } from "./components/Onboarding.js";
-import { showCalendar } from "./components/Calendar.js";
-import { showDashboardWidgets } from "./components/DashboardWidgets.js";
-import { showCollaboration } from "./components/Collaboration.js";
-import { showVideoChat } from "./components/VideoChat.js";
-import { showAIRecommendations } from "./components/AIRecommendations.js";
-import { showFeedbackForm } from "./components/FeedbackForm.js";
-import { showAchievementSharing } from "./components/AchievementSharing.js";
-import { showDataExportImport } from "./components/DataExportImport.js";
-import { showExternalResources } from "./components/ExternalResources.js";
-import { showChallenges } from "./components/Challenges.js";
-import { showBadges } from "./components/Badges.js";
-import { showMiniGames } from "./components/MiniGames.js";
-import { showMessagingComponent } from "./components/Messaging.js";
-import { showGroupProjects } from "./components/GroupProjects.js";
-import { showForums } from "./components/Forums.js";
-import { showAccessibilityAdvanced } from "./components/AccessibilityAdvanced.js";
-import { showAnalytics } from "./components/Analytics.js";
-import { showResourceLibrary } from "./components/ResourceLibrary.js";
-import { showParentPortal } from "./components/ParentPortal.js";
-import { showLeaderboard } from "./components/Leaderboard.js";
-import { showNotification } from "./components/Notifications.js";
-import { showCalmSpace } from "./components/CalmSpace.js";
-import { showEducatorDashboard } from "./components/EducatorDashboard.js";
-import { showAvatarBuilder } from "./components/AvatarBuilder.js";
-import { showDomainTabs } from "./components/DomainTabs.js";
-import { showVirtualWorld } from "./components/VirtualWorld.js";
-import { showMessaging } from "./components/Messaging.js";
-import { showTokenSystem } from "./components/AcademyStore.js";
-import { auth } from "./firebase.js";
-import { showAssignments } from "./components/assignments.js";
-import { showChatModeration } from "./components/ChatModeration.js";
+import {
+  monitorPerformance,
+  trackErrorRates,
+  trackUserEngagement,
+  scheduleRegularUpdates,
+  setDebug,
+  logDebug,
+  warnDebug,
+  sendEvent
+} from "./utils/monitoring.js";
 // Lazy-load game modules for performance
 const lazyLoadGameModule = async (modulePath, ...args) => {
   const mod = await import(modulePath);
@@ -80,7 +51,7 @@ const lazyLoadGameModule = async (modulePath, ...args) => {
 };
 
 
-const app = document.getElementById("app");
+let app = document.getElementById("app");
 
 // --- Navigation Event Listeners ---
 function setupNavigationListeners() {
@@ -103,12 +74,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function showFallbackScreen(errorMsg = "Something went wrong while loading Windgap Academy.") {
   document.body.innerHTML = `
-    div style="max-width:540px;margin:48px auto;padding:32px;border-radius:12px;background:#ffecec;color:#b91c1c;box-shadow:0 2px 16px #0002;"
+    <div style="max-width:540px;margin:48px auto;padding:32px;border-radius:12px;background:#ffecec;color:#b91c1c;box-shadow:0 2px 16px #0002;">
       <h1 style="font-size:2em;margin-bottom:0.25em;">⚠️ Unable to load Windgap Academy</h1>
       <p style="font-size:1.2em;">${errorMsg}</p>
-// Removed unused imports for lint compliance
-        <pre style="white-space:pre-wrap;font-size:0.95em;">${window.lastWindgapError || "No details available."}</pre>
-      </details>
+      <pre style="white-space:pre-wrap;font-size:0.95em;">${window.lastWindgapError || "No details available."}</pre>
       <p style="margin-top:2em;">Please try reloading, or contact support at <a href="mailto:info@windgapacademy.edu.au">info@windgapacademy.edu.au</a>.</p>
     </div>
   `;
@@ -347,13 +316,19 @@ window.showMilestoneNotification = function (msg) {
 
 // Loading screen logic and homepage logic are now in mainInit()
 function mainInit() {
-  const app = document.getElementById("app");
+  app = document.getElementById("app");
+  // Educator debug toggle
+  let debugBar = `<div class="fixed top-0 right-0 z-50 bg-yellow-100 text-yellow-900 px-4 py-2 rounded-bl-xl shadow-lg flex items-center gap-2">
+    <label for="debug-toggle" class="font-bold">Educator Debug:</label>
+    <input type="checkbox" id="debug-toggle" />
+  </div>`;
   // Modern dashboard with real module loading
   app.innerHTML = `
+    ${debugBar}
     <div class="min-h-screen bg-gradient-to-br from-[#5ED1D2] to-[#A32C2B] flex flex-col">
       <nav class="flex items-center justify-between py-6 px-8 bg-white rounded-b-2xl shadow-lg">
         <div class="flex items-center gap-4">
-          <img src="assets/windgap-logo.png" alt="Windgap Academy Logo" class="h-14" />
+          <img src="assets/logo.png" alt="Windgap Academy Logo" class="h-14" />
           <span class="text-3xl font-extrabold text-[#A32C2B] tracking-tight">Windgap Academy</span>
         </div>
         <ul class="flex gap-6">
@@ -365,9 +340,23 @@ function mainInit() {
       </nav>
       <main class="flex-1 flex flex-col items-center justify-center">
         <header class="text-center mb-10">
-          <h1 class="text-5xl font-extrabold text-[#A32C2B] mb-2">Dashboard</h1>
-          <p class="text-xl text-[#58595B] mb-4">Welcome! Choose a module to get started.</p>
+          <h1 class="text-5xl font-extrabold text-[#A32C2B] mb-2">Welcome to Windgap Academy</h1>
+          <p class="text-xl text-[#58595B] mb-4">Accessible, inclusive, and modern learning for all.</p>
         </header>
+        <section class="w-full max-w-md mx-auto mb-10">
+          <div class="bg-white rounded-xl shadow-lg p-8">
+            <h2 class="text-2xl font-bold text-[#A32C2B] mb-4 text-center">Login</h2>
+            <form id="login-form" class="flex flex-col gap-4">
+              <input type="email" id="login-email" class="input input-bordered" placeholder="Email" required />
+              <div class="flex gap-2">
+                <input type="password" id="login-password" class="input input-bordered flex-1" placeholder="Password" required />
+                <button type="button" id="toggle-password" class="btn btn-secondary" aria-label="Toggle password visibility">👁️</button>
+              </div>
+              <button type="submit" class="btn btn-primary">Login</button>
+              <div id="login-error" class="text-red-600 text-sm mt-2" style="display:none;"></div>
+            </form>
+          </div>
+        </section>
         <section class="w-full max-w-6xl mx-auto">
           <h2 class="text-2xl font-bold text-[#A32C2B] mb-6 text-center">All Modules & Features</h2>
           <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
@@ -425,32 +414,91 @@ function mainInit() {
       </footer>
     </div>
   `;
+  // Debug toggle logic
+  const debugToggle = document.getElementById('debug-toggle');
+  if (debugToggle) {
+    debugToggle.onchange = (e) => {
+      setDebug(debugToggle.checked);
+      logDebug('Debug mode:', debugToggle.checked);
+    };
+  }
+  // Login form logic
+  const loginForm = document.getElementById('login-form');
+  if (loginForm) {
+    // Password visibility toggle
+    const passwordInput = document.getElementById('login-password');
+    const togglePassword = document.getElementById('toggle-password');
+    if (togglePassword && passwordInput) {
+      togglePassword.onclick = () => {
+        passwordInput.type = passwordInput.type === 'password' ? 'text' : 'password';
+        togglePassword.textContent = passwordInput.type === 'password' ? '👁️' : '🙈';
+      };
+    }
+    loginForm.onsubmit = async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('login-email').value;
+      const password = passwordInput.value;
+      const errorDiv = document.getElementById('login-error');
+      errorDiv.style.display = 'none';
+      if (!email.match(/^[^@]+@[^@]+\.[^@]+$/)) {
+        errorDiv.textContent = 'Please enter a valid email address.';
+        errorDiv.style.display = 'block';
+        return;
+      }
+      if (password.length < 6) {
+        errorDiv.textContent = 'Password must be at least 6 characters.';
+        errorDiv.style.display = 'block';
+        return;
+      }
+      try {
+        const { loginUser, auth } = await import('./firebase.js');
+        const userCredential = await loginUser(email, password);
+        sendEvent('login', { email });
+        // Route to educator or learner dashboard
+        const user = userCredential.user;
+        if (user && user.email && user.email.endsWith('@educator.windgapacademy.edu.au')) {
+          window.route('educator-dashboard');
+        } else {
+          window.route('dashboard');
+        }
+      } catch (err) {
+        errorDiv.textContent = err.message || 'Login failed. Please try again.';
+        errorDiv.style.display = 'block';
+        warnDebug('Login error:', err);
+      }
+    };
+  }
   // Real module loading for all modules
   app.querySelectorAll('[data-module]').forEach(btn => {
     btn.onclick = async (e) => {
       const modulePath = btn.getAttribute('data-module');
       const funcName = btn.getAttribute('data-func');
       const appContainer = document.getElementById('app');
-      appContainer.innerHTML = `<div class='card'>Loading ${btn.textContent}...</div>`;
+      appContainer.innerHTML = `<div class='card animate-pulse'>Loading ${btn.textContent}...</div>`;
       try {
         const mod = await import(/* @vite-ignore */ modulePath);
         if (mod[funcName]) {
           mod[funcName](appContainer);
         } else {
           appContainer.innerHTML = `<div class='alert-error'>Module loaded but no display function found.</div>`;
+          warnDebug('Missing display function for module:', modulePath, funcName);
         }
       } catch (err) {
         appContainer.innerHTML = `<div class='alert-error'>Error loading module: ${err}</div>`;
+        warnDebug('Module load error:', err);
       }
     };
   });
-  // Navigation buttons (dashboard/modules/profile/settings)
   app.querySelectorAll('[data-route]').forEach(btn => {
     btn.onclick = (e) => {
-      if (btn.getAttribute('data-route') === 'dashboard') mainInit();
-      // Add more navigation logic as needed
+      const route = btn.getAttribute('data-route');
+      if (route === 'dashboard') mainInit();
+      else window.route(route);
     };
   });
+  // Accessibility
+  addAriaLabels();
+  enableKeyboardNavigation();
 }
 
 // --- Accessibility Improvements ---
@@ -546,53 +594,6 @@ function collectUserFeedback() {
 }
 
 // Performance Monitoring Implementation
-function monitorPerformance() {
-  // Log app load time
-  const loadTime = window.performance.now();
-  // Removed undefined sendEvent for lint compliance
-  // Track resource usage
-  if (window.performance && window.performance.memory) {
-    // Removed undefined sendEvent for lint compliance
-  }
-  // Alert for slow operations
-  if (loadTime > 5000) {
-    alert("App is loading slowly. Please check your connection or device performance.");
-    // Removed undefined sendEvent for lint compliance
-  }
-}
-
-// Deeper Analytics Implementation
-function trackErrorRates() {
-  let errorCount = 0;
-  window.addEventListener("error", () => {
-    errorCount++;
-    // Removed undefined sendEvent for lint compliance
-    if (errorCount > 3) {
-      alert("Multiple errors detected. Please reload or contact support.");
-    }
-  });
-}
-
-function trackUserEngagement() {
-  // Removed unused variable for lint compliance
-  setInterval(() => {
-    // Removed unused variable for lint compliance
-    // Removed undefined sendEvent for lint compliance
-  }, 10000); // every 10 seconds
-}
-
-// Regular Update Checks
-function scheduleRegularUpdates() {
-  // Simulate update check every hour
-  setInterval(() => {
-    // TODO: Replace with real update check
-    const hasUpdate = Math.random() < 0.05; // 5% chance
-    if (hasUpdate) {
-      alert("New features are available! Please reload to update Windgap Academy.");
-      // Removed undefined sendEvent for lint compliance
-    }
-  }, 3600000);
-}
 
 // Call Phase 4 features at startup
 collectUserFeedback();
@@ -617,6 +618,7 @@ window.addEventListener("DOMContentLoaded", () => {
 window.onerror = function (message, source, lineno, colno, error) {
   window.lastWindgapError = `${message}\n${source}:${lineno}:${colno}\n${error && error.stack ? error.stack : ""}`;
   showFallbackScreen("A JavaScript error occurred and Windgap Academy could not start.");
+  warnDebug('Global error:', message, source, lineno, colno, error);
 };
 
 // --- Accessibility & Error Handling Implementation ---

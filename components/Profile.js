@@ -22,4 +22,9 @@ export function showProfile(container, userData = {}) {
     document.getElementById("profile-feedback").innerText = "Profile saved!";
     // TODO: Save profile data to Firestore
   };
+    // Animate button and heading
+    applyButtonAnimation(document.getElementById('profile-btn'));
+    applyHeadingAnimation(document.getElementById('profile-heading'));
+    // Accessibility
+    setAriaAttributes(document.getElementById('profile'), { role: 'region', label: 'Profile' });
 }

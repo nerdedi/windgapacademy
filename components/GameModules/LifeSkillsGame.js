@@ -3,10 +3,13 @@
 
 export function showLifeSkillsGame(container, userData = {}) {
   container.innerHTML = `
-    <section id="life-skills-game" aria-label="Life Skills Game">
-  <h2 class="text-2xl font-bold text-primary text-smooth">🏠 Life Skills Game</h2>
+    <section id="life-skills-game" aria-label="Life Skills Game" class="card fade-in max-w-2xl mx-auto my-8">
+      <h2 class="text-3xl font-bold text-primary text-smooth flex items-center gap-2 mb-4">
+        <svg class="h-8 w-8 text-green-400" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a8 8 0 100 16 8 8 0 000-16zm1 12H9v-2h2v2zm0-4H9V7h2v3z"/></svg>
+        Life Skills Game
+      </h2>
       <div id="life-skills-challenge" aria-live="polite"></div>
-  <button id="life-return" class="btn-primary nav-btn" aria-label="Return to Dashboard">Return to Dashboard</button>
+      <button id="life-return" class="btn-primary nav-btn mt-4" aria-label="Return to Dashboard">Return to Dashboard</button>
     </section>
   `;
   document.getElementById("life-return").onclick = function () {
@@ -14,6 +17,12 @@ export function showLifeSkillsGame(container, userData = {}) {
     alert("Returning to dashboard (navigation not implemented).");
   };
   startLifeSkillsGame(userData);
+    // Example usage for main button:
+    const btn = document.getElementById('life-btn');
+    applyButtonAnimation(btn);
+    // Example usage for heading:
+    const heading = document.getElementById('life-heading');
+    applyHeadingAnimation(heading);
 
 function startLifeSkillsGame(userData) {
   var area = document.getElementById("life-skills-challenge");
@@ -364,10 +373,14 @@ function saveProgress(data) {
       alert("Feedback sent!");
     };
     parentFeedbackModal.querySelector("#close-feedback").onclick = () => {
-      parentFeedbackModal.style.display = "none";
+      if (parentFeedbackModal) {
+        parentFeedbackModal.style.display = "none";
+      }
     };
   }
-  parentFeedbackModal.style.display = "block";
+  if (parentFeedbackModal) {
+    parentFeedbackModal.style.display = "block";
+  }
 // Removed unused function showChallengesAndLeaderboard
   let challengesModal = document.getElementById("challenges-modal");
   if (!modal) {

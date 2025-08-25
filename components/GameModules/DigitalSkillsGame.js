@@ -1,18 +1,28 @@
+import { applyButtonAnimation, applyHeadingAnimation, setAriaAttributes } from '../../utils/uiUtils.js';
 // Digital Skills Game Module
 // Practice basic digital skills with interactive challenges
 
 export function showDigitalSkillsGame(container) {
   container.innerHTML = `
-    <section id="digital-skills-game" aria-label="Digital Skills Game">
-  <h2 class="text-2xl font-bold text-primary text-smooth">💻 Digital Skills Game</h2>
+    <section id="digital-skills-game" aria-label="Digital Skills Game" class="card fade-in max-w-2xl mx-auto my-8">
+      <h2 class="text-3xl font-bold text-primary text-smooth flex items-center gap-2 mb-4">
+        <svg class="h-8 w-8 text-purple-400" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a8 8 0 100 16 8 8 0 000-16zm3.707 6.293a1 1 0 00-1.414 0L10 10.586 7.707 8.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 000-1.414z"/></svg>
+        Digital Skills Game
+      </h2>
       <div id="digital-challenge" aria-live="polite"></div>
-  <button id="digital-return" class="btn-primary nav-btn" aria-label="Return to Dashboard">Return to Dashboard</button>
+      <button id="digital-return" class="btn-primary nav-btn mt-4" aria-label="Return to Dashboard">Return to Dashboard</button>
     </section>
   `;
   document.getElementById("digital-return").onclick = function () {
     window.route("dashboard");
   };
   // ...existing code...
+  // Example usage for main button:
+  const btn = document.getElementById('digital-btn');
+  applyButtonAnimation(btn);
+  // Example usage for heading:
+  const heading = document.getElementById('digital-heading');
+  applyHeadingAnimation(heading);
 }
 // --- End Advanced Feature Suggestions ---
 // Call this in showDigitalSkillsGame

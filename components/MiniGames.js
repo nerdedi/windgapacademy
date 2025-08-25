@@ -1,3 +1,4 @@
+import { applyButtonAnimation, applyHeadingAnimation, setAriaAttributes } from '../utils/uiUtils.js';
 // Mini-games for skill reinforcement
 export function showMiniGames(container) {
   container.innerHTML = `
@@ -8,10 +9,13 @@ export function showMiniGames(container) {
       <div id="mini-game-feedback" aria-live="polite"></div>
     </section>
   `;
-  document.getElementById("play-memory").onclick = function () {
-    document.getElementById("mini-game-feedback").innerText = "Memory game coming soon!";
-  };
-  document.getElementById("play-quiz").onclick = function () {
-    document.getElementById("mini-game-feedback").innerText = "Quiz game coming soon!";
-  };
+    // Example usage for main button:
+    // Animate both buttons
+    applyButtonAnimation(document.getElementById('play-memory'));
+    applyButtonAnimation(document.getElementById('play-quiz'));
+    // Animate heading
+    applyHeadingAnimation(document.getElementById('minigame-heading'));
+    // Accessibility
+    setAriaAttributes(document.getElementById('mini-games'), { role: 'region', label: 'Mini Games' });
+  // Example usage for heading:
 }
