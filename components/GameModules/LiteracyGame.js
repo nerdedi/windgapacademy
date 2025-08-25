@@ -14,10 +14,7 @@ function openParentFeedback() {
     modal.style.top = "50%";
     modal.style.left = "50%";
     modal.style.transform = "translate(-50%, -50%)";
-    modal.style.background = "#fff";
-    modal.style.border = "2px solid #1976d2";
-    modal.style.borderRadius = "12px";
-    modal.style.padding = "24px";
+  modal.className = "card fade-in max-w-lg mx-auto";
     modal.style.zIndex = "1002";
     modal.innerHTML = `
       <h3>Parent/Guardian Feedback</h3>
@@ -46,10 +43,7 @@ function showChallengesAndLeaderboard() {
     modal.style.top = "50%";
     modal.style.left = "50%";
     modal.style.transform = "translate(-50%, -50%)";
-    modal.style.background = "#fff";
-    modal.style.border = "2px solid #1976d2";
-    modal.style.borderRadius = "12px";
-    modal.style.padding = "24px";
+  modal.className = "card fade-in max-w-lg mx-auto";
     modal.style.zIndex = "1002";
     modal.innerHTML = `
       <h3>Challenges & Leaderboard</h3>
@@ -206,7 +200,13 @@ export function showLiteracyGame(container, userData = {}) {
       <!-- Add literacy game UI here -->
     </div>
   `;
-  // Add your literacy game logic here
+    // Add your literacy game logic here
+    // Example usage for main button:
+    const btn = document.getElementById('literacy-btn');
+    applyButtonAnimation(btn);
+    // Example usage for heading:
+    const heading = document.getElementById('literacy-heading');
+    applyHeadingAnimation(heading);
 }
 
 export {

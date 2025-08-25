@@ -40,25 +40,55 @@ export function showCalmSpace(container) {
   };
 
   container.innerHTML = `
-      <header>
-  <h2 class="text-2xl font-bold text-primary text-smooth">🌿 Calm Space</h2>
-        ${helpButton()}
-        ${privacyNotice()}
-      </header>
-      <main>
-  <section aria-label="Select a Social Story" class="card smooth-shadow mb-4">
-          <label for="domain-selector">Choose a wellbeing topic:</label>
-          <select id="domain-selector" aria-label="Select wellbeing topic">
-            <option value="">-- Select --</option>
-            ${Object.keys(stories)
-              .map((domain) => `<option value="${domain}">${stories[domain].title}</option>`)
-              .join("")}
-          </select>
-          <div id="story-display" style="margin-top:24px;"></div>
-        </section>
-  <!-- Removed Unlocked Calm Scenes and User Context for lint compliance -->
-      </main>
-    `;
+    <div class="calmspace-bg" style="position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:-1;background:url('/assets/backgrounds/calmspace-bg.svg') center/cover no-repeat;"></div>
+    <section id="calm-space" class="card shadow-xl p-8 rounded-2xl mx-auto my-16 max-w-2xl relative bg-white/80 backdrop-blur-lg">
+      <h2 id="calm-heading" class="text-4xl font-bold text-primary mb-6">Heavenly Escape World</h2>
+      <div id="calm-interactive" class="mb-4 flex gap-4 justify-center">
+        <button id="star-1" class="star-btn" aria-label="Star 1">⭐</button>
+        <button id="star-2" class="star-btn" aria-label="Star 2">⭐</button>
+        <button id="star-3" class="star-btn" aria-label="Star 3">⭐</button>
+        <button id="sound-toggle" class="btn-secondary ml-4" aria-label="Toggle Ambient Sound">🔊</button>
+      </div>
+      <button id="calm-meditate" class="btn-primary nav-btn" aria-label="Start Meditation">Start Meditation</button>
+      <button id="calm-journal" class="btn-secondary nav-btn ml-2" aria-label="Open Journal">Open Journal</button>
+      <div id="calm-mood-tracker" class="mt-6"></div>
+      <div id="calm-particles" class="absolute top-0 left-0 w-full h-full pointer-events-none"></div>
+    </section>
+  `;
+  // Animate heading and buttons
+  applyHeadingAnimation(document.getElementById('calm-heading'));
+  applyButtonAnimation(document.getElementById('calm-meditate'));
+  applyButtonAnimation(document.getElementById('calm-journal'));
+  applyButtonAnimation(document.getElementById('sound-toggle'));
+  document.querySelectorAll('.star-btn').forEach(btn => applyButtonAnimation(btn));
+  // Accessibility
+  setAriaAttributes(document.getElementById('calm-space'), { role: 'region', label: 'Calm Space' });
+  // Interactive elements
+  document.getElementById('sound-toggle').onclick = () => alert('Ambient sound toggled!');
+  document.getElementById('calm-meditate').onclick = () => alert('Guided meditation coming soon!');
+  document.getElementById('calm-journal').onclick = () => alert('Journal feature coming soon!');
+  document.querySelectorAll('.star-btn').forEach(btn => btn.onclick = () => btn.classList.toggle('active'));
+  // Gentle particle effects
+  const particles = document.getElementById('calm-particles');
+  for(let i=0;i<20;i++){
+    const p=document.createElement('div');
+    p.className='particle';
+    p.style.position='absolute';
+    p.style.left=Math.random()*100+'%';
+    p.style.top=Math.random()*100+'%';
+    p.style.width='8px';
+    p.style.height='8px';
+    p.style.borderRadius='50%';
+    p.style.background='rgba(200,180,255,0.3)';
+    p.style.animation=`float ${2+Math.random()*3}s infinite ease-in-out`;
+    particles.appendChild(p);
+  }
+  // Animate heading and buttons
+  applyHeadingAnimation(document.getElementById('calm-heading'));
+  applyButtonAnimation(document.getElementById('calm-meditate'));
+  applyButtonAnimation(document.getElementById('calm-journal'));
+  // Accessibility
+  setAriaAttributes(document.getElementById('calm-space'), { role: 'region', label: 'Calm Space' });
 
   // ...existing code...
   if (!container) return;

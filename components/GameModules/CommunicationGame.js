@@ -4,10 +4,13 @@
 
 export function showCommunicationGame(container, userData = {}) {
   container.innerHTML = `
-    <section id="communication-game" aria-label="Communication Game">
-      <h2 class="text-2xl font-bold text-primary text-smooth">💬 Communication Game</h2>
+    <section id="communication-game" aria-label="Communication Game" class="card fade-in max-w-2xl mx-auto my-8">
+      <h2 class="text-3xl font-bold text-primary text-smooth flex items-center gap-2 mb-4">
+        <svg class="h-8 w-8 text-blue-400" fill="currentColor" viewBox="0 0 20 20"><path d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm0 2h12v10H4V5zm2 2v2h2V7H6zm4 0v2h2V7h-2z"/></svg>
+        Communication Game
+      </h2>
       <div id="conversation-area" aria-live="polite"></div>
-      <button id="comm-return" class="btn-primary" aria-label="Return to Dashboard">Return to Dashboard</button>
+      <button id="comm-return" class="btn-primary mt-4" aria-label="Return to Dashboard">Return to Dashboard</button>
     </section>
   `;
   document.getElementById("comm-return").onclick = function () {
