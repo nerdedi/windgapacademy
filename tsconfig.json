@@ -15,5 +15,6 @@
     "noUnusedParameters": true
   },
   "include": ["src", "src/**/*.ts", "src/**/*.tsx"],
-  "exclude": ["dist", "node_modules"]
+  "exclude": ["dist", "node_modules", "**/sizzle.d.ts"],
+  "types": []
 }

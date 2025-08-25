@@ -64,13 +64,20 @@ import { showTokenSystem } from "./components/AcademyStore.js";
 import { auth } from "./firebase.js";
 import { showAssignments } from "./components/assignments.js";
 import { showChatModeration } from "./components/ChatModeration.js";
-import { showLiteracyGame } from "./components/GameModules/LiteracyGame.js";
-import { showNumeracyGame } from "./components/GameModules/NumeracyGame.js";
-import { showCommunicationGame } from "./components/GameModules/CommunicationGame.js";
-import { showDigitalSkillsGame } from "./components/GameModules/DigitalSkillsGame.js";
-import { showLifeSkillsGame } from "./components/GameModules/LifeSkillsGame.js";
-import { showMoneySkillsGame } from "./components/GameModules/MoneySkillsGame.js";
-import { showEmployabilityGame } from "./components/GameModules/EmployabilityGame.js";
+// Lazy-load game modules for performance
+const lazyLoadGameModule = async (modulePath, ...args) => {
+  const mod = await import(modulePath);
+  // Each module exports a default function or named function
+  if (mod.default) return mod.default(...args);
+  // Try common named exports
+  if (mod.showLiteracyGame) return mod.showLiteracyGame(...args);
+  if (mod.showNumeracyGame) return mod.showNumeracyGame(...args);
+  if (mod.showCommunicationGame) return mod.showCommunicationGame(...args);
+  if (mod.showDigitalSkillsGame) return mod.showDigitalSkillsGame(...args);
+  if (mod.showLifeSkillsGame) return mod.showLifeSkillsGame(...args);
+  if (mod.showMoneySkillsGame) return mod.showMoneySkillsGame(...args);
+  if (mod.showEmployabilityGame) return mod.showEmployabilityGame(...args);
+};
 
 
 const app = document.getElementById("app");
@@ -275,25 +282,25 @@ window.route = async function (path, opts = {}) {
       showDomainTabs(app, opts.domain || "literacy", userId);
       break;
     case "literacy-game":
-      showLiteracyGame(app, userId);
+      lazyLoadGameModule("./components/GameModules/LiteracyGame.js", app, userId);
       break;
     case "numeracy-game":
-      showNumeracyGame(app, userId);
+      lazyLoadGameModule("./components/GameModules/NumeracyGame.js", app, userId);
       break;
     case "communication-game":
-      showCommunicationGame(app, userId);
+      lazyLoadGameModule("./components/GameModules/CommunicationGame.js", app, userId);
       break;
     case "digital-skills-game":
-      showDigitalSkillsGame(app, userId);
+      lazyLoadGameModule("./components/GameModules/DigitalSkillsGame.js", app, userId);
       break;
     case "life-skills-game":
-      showLifeSkillsGame(app, userId);
+      lazyLoadGameModule("./components/GameModules/LifeSkillsGame.js", app, userId);
       break;
     case "money-skills-game":
-      showMoneySkillsGame(app, userId);
+      lazyLoadGameModule("./components/GameModules/MoneySkillsGame.js", app, userId);
       break;
     case "employability-game":
-      showEmployabilityGame(app, userId);
+      lazyLoadGameModule("./components/GameModules/EmployabilityGame.js", app, userId);
       break;
     case "virtual-world":
       showVirtualWorld(app, userId);
