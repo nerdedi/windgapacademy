@@ -8,11 +8,7 @@
     <meta name="description" content="Windgap Academy: Creating Opportunities. Accessible, inclusive, and modern learning platform for all." />
     <meta name="robots" content="index, follow" />
     <!-- Sentry for error tracking -->
-    <!-- Vercel Speed Insights -->
-    <script type="module">
-      import { SpeedInsights } from "@vercel/speed-insights/next";
-      SpeedInsights();
-    </script>
+  <!-- Vercel Speed Insights integration removed: not needed for static sites, and Next.js import is invalid in HTML. Vercel automatically tracks performance. -->
     <script src="https://browser.sentry-cdn.com/7.100.0/bundle.min.js" crossorigin="anonymous"></script>
     <script>
       Sentry.init({ dsn: 'https://examplePublicKey@o0.ingest.sentry.io/0' }); // Replace with your DSN
@@ -142,7 +138,7 @@
       <h2 class="text-3xl font-bold mb-4">Ready to start learning?</h2>
       <button class="cta">Get Started</button>
     </section>
-    <script src="js/winniesWords.js"></script>
+  <script type="module" src="js/winniesWords.js"></script>
   <!-- All button and module logic is now handled in app.js for consistency and maintainability. -->
   <body>
     <div id="app"></div>
