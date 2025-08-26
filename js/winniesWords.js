@@ -107,14 +107,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function checkLetter(playerLetter) {
     letterFound = false;
+    // Defensive: ensure letters is a valid NodeList
+    if (!letters || typeof letters.length === 'undefined') {
+      letters = document.querySelectorAll('.letter');
+    }
     for (let i = 0; i < letters.length; i++) {
-      if (letters[i].innerHTML.toLowerCase() === playerLetter.toLowerCase()) {
+      if (letters[i].innerHTML && letters[i].innerHTML.toLowerCase() === playerLetter.toLowerCase()) {
         letterFound = true;
         letters[i].classList.add('show');
       }
     }
     if (!letterFound) {
-      tries[missed].src = 'images/lostHeart.png';
+      if (tries && tries[missed]) {
+        tries[missed].src = 'images/lostHeart.png';
+      }
       missed++;
       setWinnieDialogue('incorrect');
     } else {

@@ -25,15 +25,11 @@
       gtag('config', 'UA-XXXXXXXXX-X');
     </script>
     <script type="module">
-  // Use UMD/compat version for static HTML
-  // Remove ES module imports, use global firebase object
-  // See: https://firebase.google.com/docs/web/setup#add-sdks-initialize
-  // Firebase App (the core Firebase SDK) is always required and must be listed first
-  // Auth SDK
-  // These scripts should be placed before any Firebase usage
-  // Already loaded below, so this block is not needed
-  // Initialization is handled in the next script block
-    </script>
+  <!-- Firebase UMD/compat CDN scripts for browser compatibility -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-analytics-compat.js"></script>
+  <!-- Add other compat SDKs as needed -->
     <script type="module" src="app.js"></script>
   </head>
   <body aria-label="Windgap Academy Entry" role="main" style="background: #5ED1D2; color: #A32C2B; min-height: 100vh;">
@@ -285,61 +281,4 @@
       <div id="feature-container" style="width: 100%; min-height: 500px; background: #fff; border-radius: 12px; box-shadow: 0 2px 16px #0001; margin: auto; max-width: 1200px; padding: 2em;"></div>
     </main>
     <script type="module">
-      // Use dynamic imports for chunk optimization
-      window.showFeature = async function(feature) {
-        const container = document.getElementById('feature-container');
-        container.innerHTML = '';
-        switch(feature) {
-          // Games
-          case 'avatar': {
-            const mod = await import('./components/AvatarBuilder.js');
-            new mod.default(container);
-            break;
-          }
-          case 'stairs': {
-            const mod = await import('./components/ClimbingStairsAnimation.js');
-            new mod.ClimbingStairsAnimation(container);
-            break;
-          }
-          case 'island': {
-            const mod = await import('./components/MaxAreaOfIslandAnimation.js');
-            new mod.MaxAreaOfIslandAnimation(container);
-            break;
-          }
-          case 'cube': {
-            const mod = await import('./components/CubeMapDemo.js');
-            new mod.CubeMapDemo(container);
-            break;
-          }
-          case 'kitchen': {
-            const mod = await import('./components/HealthyKitchenChallenge.js');
-            new mod.HealthyKitchenChallenge(container);
-            break;
-          }
-          case 'foodcollector': {
-            const mod = await import('./components/FoodCollectorEnv.js');
-            new mod.FoodCollectorEnv(container);
-            break;
-          }
-          case 'zoo': {
-            const mod = await import('./components/AcademyZoo.js');
-            new mod.default(container);
-            break;
-          }
-          // Tools
-          case 'fluid':
-            container.innerHTML = '<iframe src="/fluid-simulation.html" style="width:100%;height:600px;border:none;border-radius:12px;"></iframe>';
-            break;
-          case 'dashboard': {
-            const mod = await import('./components/ResultsDashboard.js');
-            new mod.default(container);
-            break;
-          }
-          case 'whiteboard':
-            container.innerHTML = '<iframe src="/whiteboard.html" style="width:100%;height:700px;border:none;border-radius:12px;"></iframe>';
-            break;
-        }
-      }
-      // Show Windgap Academy branding splash or Avatar Creator by default
-      window.showFeature('avatar');
-    </script>
+  <script type="module" src="js/featureLoader.js"></script>

@@ -14,13 +14,7 @@ export function showNumeracyGame(container, userData = {}) {
     <div id="cart" aria-live="polite"></div>
     <div id="checkout" aria-live="polite"></div>
     <img src="assets/images/aud_notes.png" alt="Australian Currency" loading="lazy" class="rounded-xl shadow mb-4" />
-      <button id="numeracy-return" class="btn-primary nav-btn mt-4" aria-label="Return to Dashboard">Return to Dashboard</button>
-    // Example usage for main button:
-    const btn = document.getElementById('numeracy-btn');
-    applyButtonAnimation(btn);
-    // Example usage for heading:
-    const heading = document.getElementById('numeracy-heading');
-    applyHeadingAnimation(heading);
+    <button id="numeracy-return" class="btn-primary nav-btn mt-4" aria-label="Return to Dashboard">Return to Dashboard</button>
   </section>`;
   document.getElementById("numeracy-return").onclick = function () {
     window.route("dashboard");

@@ -13,8 +13,7 @@ export function showLifeSkillsGame(container, userData = {}) {
     </section>
   `;
   document.getElementById("life-return").onclick = function () {
-    // Navigation placeholder: implement dashboard navigation if needed
-    alert("Returning to dashboard (navigation not implemented).");
+    window.route("dashboard");
   };
   startLifeSkillsGame(userData);
     // Example usage for main button:

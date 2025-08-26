@@ -424,27 +424,21 @@ window.showMilestoneNotification = function (msg) {
 
 // Loading screen logic and homepage logic are now in mainInit()
 function mainInit() {
-  // app is already defined globally
-  // Educator debug toggle
-  let debugBar = `<div class="fixed top-0 right-0 z-50 bg-yellow-100 text-yellow-900 px-4 py-2 rounded-bl-xl shadow-lg flex items-center gap-2">
-    <label for="debug-toggle" class="font-bold">Educator Debug:</label>
-    <input type="checkbox" id="debug-toggle" />
-  </div>`;
-  // Modern dashboard with real module loading
-  if (app) {
+  // Only show homepage for guests
+  const user = window.firebase && window.firebase.auth && window.firebase.auth().currentUser;
+  if (!user) {
     app.innerHTML = `
-      ${debugBar}
-      <div class="min-h-screen bg-gradient-to-br from-[#5ED1D2] to-[#A32C2B] flex flex-col">
-        <nav class="flex items-center justify-between py-6 px-8 bg-white rounded-b-2xl shadow-lg">
+      <div class="min-h-screen bg-gradient-to-br from-[#5ED1D2] to-[#A32C2B] flex flex-col justify-center items-center">
+        <nav class="flex items-center justify-between py-6 px-8 bg-white rounded-b-2xl shadow-lg w-full max-w-2xl mx-auto">
           <div class="flex items-center gap-4">
             <img src="assets/logo.png" alt="Windgap Academy Logo" class="h-14" />
             <span class="text-3xl font-extrabold text-[#A32C2B] tracking-tight">Windgap Academy</span>
           </div>
           <ul class="flex gap-6">
-            <li><button class="btn-primary" data-route="dashboard">Dashboard</button></li>
-            <li><button class="btn-secondary" data-route="modules">Modules</button></li>
-            <li><button class="btn-secondary" data-route="profile">Profile</button></li>
-            <li><button class="btn-secondary" data-route="settings">Settings</button></li>
+            <li><button class="btn-primary" data-route="home">Home</button></li>
+            <li><button class="btn-secondary" data-route="sign-in">Sign In</button></li>
+            <li><button class="btn-secondary" data-route="accessibility">Accessibility</button></li>
+            <li><button class="btn-secondary" data-route="support">Support</button></li>
           </ul>
         </nav>
         <main class="flex-1 flex flex-col items-center justify-center">
@@ -466,63 +460,15 @@ function mainInit() {
               </form>
             </div>
           </section>
-          <section class="w-full max-w-6xl mx-auto">
-            <h2 class="text-2xl font-bold text-[#A32C2B] mb-6 text-center">All Modules & Features</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-              ${[
-                {name:"Adaptive Learning",route:"adaptive-learning",import:"./components/AdaptiveLearning.js",func:"showAdaptiveLearning"},
-                {name:"Virtual Currency",route:"virtual-currency",import:"./components/VirtualCurrency.js",func:"showVirtualCurrency"},
-                {name:"Seasonal Events",route:"seasonal-events",import:"./components/SeasonalEvents.js",func:"showSeasonalEvents"},
-                {name:"Assignments",route:"assignments",import:"./components/assignments.js",func:"showAssignments"},
-                {name:"Peer Review",route:"peer-review",import:"./components/PeerReview.js",func:"showPeerReview"},
-                {name:"Sign Language Avatar",route:"sign-language-avatar",import:"./components/SignLanguageAvatar.js",func:"showSignLanguageAvatar"},
-                {name:"AI Captioning",route:"ai-captioning",import:"./components/AICaptioning.js",func:"showAICaptioning"},
-                {name:"Two Factor Auth",route:"two-factor-auth",import:"./components/TwoFactorAuth.js",func:"showTwoFactorAuth"},
-                {name:"Calendar",route:"calendar",import:"./components/Calendar.js",func:"showCalendar"},
-                {name:"Dashboard Widgets",route:"dashboard-widgets",import:"./components/DashboardWidgets.js",func:"showDashboardWidgets"},
-                {name:"Collaboration",route:"collaboration",import:"./components/Collaboration.js",func:"showCollaboration"},
-                {name:"Onboarding",route:"onboarding",import:"./components/Onboarding.js",func:"showOnboarding"},
-                {name:"Challenges",route:"challenges",import:"./components/Challenges.js",func:"showChallenges"},
-                {name:"AI Recommendations",route:"ai-recommendations",import:"./components/AIRecommendations.js",func:"showAIRecommendations"},
-                {name:"Feedback Form",route:"feedback-form",import:"./components/FeedbackForm.js",func:"showFeedbackForm"},
-                {name:"Mini Games",route:"mini-games",import:"./components/MiniGames.js",func:"showMiniGames"},
-                {name:"Data Export/Import",route:"data-export-import",import:"./components/DataExportImport.js",func:"showDataExportImport"},
-                {name:"Analytics",route:"analytics",import:"./components/Analytics.js",func:"showAnalytics"},
-                {name:"Badges",route:"badges",import:"./components/Badges.js",func:"showBadges"},
-                {name:"Leaderboard",route:"leaderboard",import:"./components/Leaderboard.js",func:"showLeaderboard"},
-                {name:"Group Projects",route:"group-projects",import:"./components/GroupProjects.js",func:"showGroupProjects"},
-                {name:"Resource Library",route:"resource-library",import:"./components/ResourceLibrary.js",func:"showResourceLibrary"},
-                {name:"External Resources",route:"external-resources",import:"./components/ExternalResources.js",func:"showExternalResources"},
-                {name:"Parent Portal",route:"parent-portal",import:"./components/ParentPortal.js",func:"showParentPortal"},
-                {name:"Accessibility Advanced",route:"accessibility-advanced",import:"./components/AccessibilityAdvanced.js",func:"showAccessibilityAdvanced"},
-                {name:"Academy Store",route:"academy-store",import:"./components/AcademyStore.js",func:"showTokenSystem"},
-                {name:"Forums",route:"forums",import:"./components/Forums.js",func:"showForums"},
-                {name:"Chat Moderation",route:"chat-moderation",import:"./components/ChatModeration.js",func:"showChatModeration"},
-                {name:"Virtual World",route:"virtual-world",import:"./components/VirtualWorld.js",func:"showVirtualWorld"},
-                {name:"Calm Space",route:"calm-space",import:"./components/CalmSpace.js",func:"showCalmSpace"},
-                {name:"Educator Dashboard",route:"educator-dashboard",import:"./components/EducatorDashboard.js",func:"showEducatorDashboard"},
-                {name:"Avatar Builder",route:"avatar-builder",import:"./components/AvatarBuilder.js",func:"showAvatarBuilder"},
-                {name:"Domain Tabs",route:"domain-tabs",import:"./components/DomainTabs.js",func:"showDomainTabs"},
-                {name:"Messaging",route:"messaging",import:"./components/Messaging.js",func:"showMessaging"},
-                {name:"Token System",route:"token-system",import:"./components/AcademyStore.js",func:"showTokenSystem"},
-                {name:"Literacy Game",route:"literacy-game",import:"./components/GameModules/LiteracyGame.js",func:"showLiteracyGame"},
-                {name:"Numeracy Game",route:"numeracy-game",import:"./components/GameModules/NumeracyGame.js",func:"showNumeracyGame"},
-                {name:"Communication Game",route:"communication-game",import:"./components/GameModules/CommunicationGame.js",func:"showCommunicationGame"},
-                {name:"Digital Skills Game",route:"digital-skills-game",import:"./components/GameModules/DigitalSkillsGame.js",func:"showDigitalSkillsGame"},
-                {name:"Life Skills Game",route:"life-skills-game",import:"./components/GameModules/LifeSkillsGame.js",func:"showLifeSkillsGame"},
-                {name:"Money Skills Game",route:"money-skills-game",import:"./components/GameModules/MoneySkillsGame.js",func:"showMoneySkillsGame"},
-                {name:"Employability Game",route:"employability-game",import:"./components/GameModules/EmployabilityGame.js",func:"showEmployabilityGame"}
-              ].map(mod=>`
-                <button class='card btn-secondary w-full mb-2' data-module='${mod.import}' data-func='${mod.func}'>${mod.name}</button>
-              `).join('')}
-            </div>
-          </section>
         </main>
         <footer class="mt-8 text-center text-white text-sm opacity-80">
           &copy; ${new Date().getFullYear()} Windgap Academy. All rights reserved.
         </footer>
       </div>
     `;
+  } else {
+    // Show dashboard after login
+    showDashboard(app, {});
   }
   // Debug toggle logic
   const debugToggle = document.getElementById('debug-toggle');
@@ -617,7 +563,7 @@ function mainInit() {
 }
 
 // --- Accessibility Improvements ---
-function enableKeyboardNavigation() { /* TODO: Implement keyboard navigation */ }
+// Only one enableKeyboardNavigation function should exist. Already implemented above.
 function addTextToSpeechSupport() { /* TODO: Implement text-to-speech */ }
 function ensureModalsHaveAriaLabels() { /* TODO: Implement ARIA labels and focus trap for modals */ }
 
@@ -752,6 +698,80 @@ function addAriaLabels() {
   if (app) app.setAttribute("aria-label", "Windgap Academy Main App");
 }
 // ...existing code...
+// Provide a global stub for showFeature to prevent ReferenceError from index.html buttons
+window.showFeature = async function(feature) {
+  // Map feature names to routes or modules
+  const featureMap = {
+    avatar: {
+      module: './components/AvatarBuilder.js',
+      func: 'showAvatarBuilder'
+    },
+    stairs: {
+      module: './components/ClimbingStairsAnimation.js',
+      func: 'showClimbingStairsAnimation'
+    },
+    island: {
+      module: './components/MaxAreaOfIslandAnimation.js',
+      func: 'showMaxAreaOfIslandAnimation'
+    },
+    cube: {
+      module: './components/CubeMapDemo.js',
+      func: 'showCubeMapDemo'
+    },
+    kitchen: {
+      module: './components/HealthyKitchenChallenge.js',
+      func: 'showHealthyKitchenChallenge'
+    },
+    foodcollector: {
+      module: './components/FoodCollectorEnv.js',
+      func: 'showFoodCollectorEnv'
+    },
+    zoo: {
+      module: './components/AcademyZoo.js',
+      func: 'showAcademyZoo'
+    },
+    fluid: {
+      module: './fluid-simulation.html',
+      func: 'iframe'
+    },
+    dashboard: {
+      route: 'dashboard'
+    },
+    whiteboard: {
+      module: './whiteboard.html',
+      func: 'iframe'
+    }
+  };
+  const config = featureMap[feature];
+  if (!config) {
+    alert('Feature "' + feature + '" is not yet implemented.');
+    return;
+  }
+  if (config.route) {
+    window.route(config.route);
+    return;
+  }
+  // Use #feature-container if present, else fallback to app
+  const container = document.getElementById('feature-container') || app;
+  container.innerHTML = `<div class='card animate-pulse'>Loading feature...</div>`;
+  try {
+    if (config.func === 'iframe') {
+      // Render iframe for HTML features
+      container.innerHTML = `<iframe src='${config.module}' style='width:100%;height:80vh;border:none;border-radius:12px;box-shadow:0 2px 16px #0002;'></iframe>`;
+      return;
+    }
+    const mod = await import(/* @vite-ignore */ config.module);
+    if (mod[config.func]) {
+      mod[config.func](container);
+    } else {
+      container.innerHTML = `<div class='alert-error'>Feature loaded but no display function found.</div>`;
+      warnDebug('Missing display function for feature:', config.module, config.func);
+    }
+  } catch (err) {
+    container.innerHTML = `<div class='alert-error'>Error loading feature: ${err}</div>`;
+    warnDebug('Feature load error:', err);
+  }
+};
 addAriaLabels();
 enableKeyboardNavigation();
 
