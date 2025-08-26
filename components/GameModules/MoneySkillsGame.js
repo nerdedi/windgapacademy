@@ -1,4 +1,6 @@
 
+import { applyButtonAnimation, applyHeadingAnimation } from '../../utils/uiUtils.js';
+
 // Money Skills Game Module
 // Practice money handling and budgeting with Australian currency visuals
 
@@ -12,9 +14,12 @@ export function showMoneySkillsGame(container, userData = {}) {
     <img src="assets/images/aud_notes.png" alt="Australian Currency" loading="lazy" class="rounded-xl shadow mb-4" />
     <button id="money-return" class="btn-primary nav-btn mt-4" aria-label="Return to Dashboard">Return to Dashboard</button>
   </section>`;
-  document.getElementById("money-return").onclick = function () {
-    window.route("dashboard");
-  };
+  const moneyReturnBtn = document.getElementById("money-return");
+  if (moneyReturnBtn) {
+    moneyReturnBtn.onclick = function () {
+      window.route("dashboard");
+    };
+  }
     // Game logic stubbed; implement as needed
     // Example usage for main button:
     const btn = document.getElementById('money-btn');

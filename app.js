@@ -793,8 +793,7 @@ if (window.firebase && window.env && window.env.FIREBASE_CONFIG) {
     console.error('Firebase initialization error:', error);
   }
 } else {
-  console.warn('Firebase SDK or config not available.');
-}
+console.warn('Firebase SDK or config not available.');
   console.warn('Firebase SDK or config not available.');
 }
 // Safe DOM queries
