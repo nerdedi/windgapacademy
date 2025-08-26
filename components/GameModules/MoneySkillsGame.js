@@ -25,16 +25,46 @@ export function showMoneySkillsGame(container, userData = {}) {
 }
 
 // --- Feature Implementations ---
-function openParentFeedback() { /* TODO */ }
-function showThemeCustomization() { /* TODO */ }
-function showChallengesAndLeaderboard() { /* TODO */ }
-function enableSignLanguageAvatar() { /* TODO */ }
-function enableARVRMode() { /* TODO */ }
-function enableOfflineMode() { /* TODO */ }
-function setLanguage(lang) { /* TODO */ }
-function showLanguageSelector() { /* TODO */ }
-function startOnboarding() { /* TODO */ }
-function backupData() { /* TODO */ }
+function openParentFeedback() { 
+  // TODO: Implement parent feedback modal
+  console.warn('openParentFeedback not implemented');
+}
+function showThemeCustomization() { 
+  // TODO: Implement theme customization UI
+  console.warn('showThemeCustomization not implemented');
+}
+function showChallengesAndLeaderboard() { 
+  // TODO: Implement challenges and leaderboard
+  console.warn('showChallengesAndLeaderboard not implemented');
+}
+function enableSignLanguageAvatar() { 
+  // TODO: Implement sign language avatar
+  console.warn('enableSignLanguageAvatar not implemented');
+}
+function enableARVRMode() { 
+  // TODO: Implement AR/VR mode
+  console.warn('enableARVRMode not implemented');
+}
+function enableOfflineMode() { 
+  // TODO: Implement offline mode
+  console.warn('enableOfflineMode not implemented');
+}
+function setLanguage(lang) { 
+  // TODO: Implement language setting
+  console.warn('setLanguage not implemented');
+}
+function showLanguageSelector() { 
+  // TODO: Implement language selector UI
+  console.warn('showLanguageSelector not implemented');
+}
+function startOnboarding() { 
+  // TODO: Implement onboarding flow
+  console.warn('startOnboarding not implemented');
+}
+function backupData() { 
+  // TODO: Implement data backup
+  console.warn('backupData not implemented');
+}
 // TODO: Ensure secure API calls and data storage
 
 // --- UI Polish & Customization ---
