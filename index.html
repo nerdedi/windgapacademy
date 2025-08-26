@@ -111,5 +111,68 @@
     </section>
     <script src="js/winniesWords.js"></script>
   <!-- All button and module logic is now handled in app.js for consistency and maintainability. -->
-  </body>
-</html>
+  <body>
+    <div id="app"></div>
+    <nav style="margin: 2em 0; text-align: center;">
+      <button onclick="showFeature('avatar')">Avatar Creator</button>
+      <button onclick="showFeature('stairs')">Climbing Stairs Animation</button>
+      <button onclick="showFeature('island')">Max Area of Island Animation</button>
+      <button onclick="showFeature('cube')">Cube Map 3D Demo</button>
+      <button onclick="showFeature('kitchen')">Healthy Kitchen Challenge</button>
+      <button onclick="showFeature('foodcollector')">Food Collector Environment</button>
+      <button onclick="showFeature('zoo')">Academy Zoo Environment</button>
+      <button onclick="showFeature('fluid')">Fluid Simulation</button>
+      <button onclick="showFeature('dashboard')">Results Dashboard</button>
+      <button onclick="showFeature('whiteboard')">Whiteboard</button>
+    </nav>
+    <main>
+      <div id="feature-container" style="width: 100%; min-height: 500px; background: #fff; border-radius: 12px; box-shadow: 0 2px 16px #0001; margin: auto; max-width: 1200px; padding: 2em;"></div>
+    </main>
+    <script type="module">
+      import AvatarCreator from './components/AvatarBuilder.js';
+      import ClimbingStairsAnimation from './components/ClimbingStairsAnimation.js';
+      import MaxAreaOfIslandAnimation from './components/MaxAreaOfIslandAnimation.js';
+      import CubeMapDemo from './components/CubeMapDemo.js';
+      import HealthyKitchenChallenge from './components/HealthyKitchenChallenge.js';
+      import FoodCollectorEnv from './components/FoodCollectorEnv.js';
+      import AcademyZoo from './components/AcademyZoo.js';
+      import ResultsDashboard from './components/ResultsDashboard.js';
+      window.showFeature = function(feature) {
+        const container = document.getElementById('feature-container');
+        container.innerHTML = '';
+        switch(feature) {
+          case 'avatar':
+            new AvatarCreator(container);
+            break;
+          case 'stairs':
+            new ClimbingStairsAnimation(container);
+            break;
+          case 'island':
+            new MaxAreaOfIslandAnimation(container);
+            break;
+          case 'cube':
+            new CubeMapDemo(container);
+            break;
+          case 'kitchen':
+            new HealthyKitchenChallenge(container);
+            break;
+          case 'foodcollector':
+            new FoodCollectorEnv(container);
+            break;
+          case 'zoo':
+            new AcademyZoo(container);
+            break;
+          case 'fluid':
+            container.innerHTML = '<iframe src="/fluid-simulation.html" style="width:100%;height:600px;border:none;border-radius:12px;"></iframe>';
+            break;
+          case 'dashboard':
+            new ResultsDashboard(container);
+            break;
+          case 'whiteboard':
+            container.innerHTML = '<iframe src="/whiteboard.html" style="width:100%;height:700px;border:none;border-radius:12px;"></iframe>';
+            break;
+        }
+      }
+      // Show Windgap Academy branding splash or Avatar Creator by default
+      showFeature('avatar');
+    </script>
