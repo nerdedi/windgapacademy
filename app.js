@@ -69,37 +69,37 @@ const assetManager = new AssetManager();
 const progressionManager = new ProgressionManager();
 const adaptiveLearning = new AdaptiveLearning();
 // --- Hero Section Interactivity ---
-function setPersonalizedWelcome() {
-  const welcomeEl = document.getElementById('personal-welcome');
-  let user = window.currentUser || { name: 'Learner', role: 'Student' };
-  let hour = new Date().getHours();
-  let greeting = hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening';
-  if (welcomeEl) {
-    welcomeEl.textContent = `${greeting}, ${user.name}! Ready to learn and achieve today?`;
+document.addEventListener('DOMContentLoaded', function() {
+  function setPersonalizedWelcome() {
+    const welcomeEl = document.getElementById('personal-welcome');
+    let user = window.currentUser || { name: 'Learner', role: 'Student' };
+    let hour = new Date().getHours();
+    let greeting = hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening';
+    if (welcomeEl) {
+      welcomeEl.textContent = `${greeting}, ${user.name}! Ready to learn and achieve today?`;
+    }
+    // Example: log welcome event
+    analyticsLogger.logEvent('welcome', { user, greeting });
   }
-  // Example: log welcome event
-  analyticsLogger.logEvent('welcome', { user, greeting });
-}
 
-function setNewsTicker() {
-  const ticker = document.getElementById('news-ticker');
-  const updates = [
-    'New badges available in the Arcade Zone!',
-    'Upcoming event: Windgap Festival, Sept 10th',
-    'Tip: Try the Calm Space for relaxation and focus.',
-    'Educator resources updated for NDIS reporting.',
-    'Check out new mini-games in the Virtual World!'
-  ];
-  let idx = 0;
-  function rotate() {
-    ticker.textContent = updates[idx];
-    idx = (idx + 1) % updates.length;
+  function setNewsTicker() {
+    const ticker = document.getElementById('news-ticker');
+    const updates = [
+      'New badges available in the Arcade Zone!',
+      'Upcoming event: Windgap Festival, Sept 10th',
+      'Tip: Try the Calm Space for relaxation and focus.',
+      'Educator resources updated for NDIS reporting.',
+      'Check out new mini-games in the Virtual World!'
+    ];
+    let idx = 0;
+    function rotate() {
+      if (ticker) ticker.textContent = updates[idx];
+      idx = (idx + 1) % updates.length;
+    }
+    rotate();
+    setInterval(rotate, 6000);
   }
-  rotate();
-  setInterval(rotate, 6000);
-}
 
-window.addEventListener('DOMContentLoaded', () => {
   setPersonalizedWelcome();
   setNewsTicker();
 });
