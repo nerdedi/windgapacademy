@@ -32,18 +32,7 @@ export function showAvatarBuilder(container, userData = {}) {
   applyButtonAnimation(document.getElementById('avatar-random'));
   // Accessibility
   setAriaAttributes(document.getElementById('avatar-builder'), { role: 'region', label: 'Avatar Builder' });
-  `;
-    // Animate heading and buttons
-    applyHeadingAnimation(document.getElementById('avatar-heading'));
-    applyButtonAnimation(document.getElementById('avatar-save'));
-    applyButtonAnimation(document.getElementById('avatar-random'));
-    // Accessibility
-    setAriaAttributes(document.getElementById('avatar-builder'), { role: 'region', label: 'Avatar Builder' });
-    setTimeout(renderAvatar, 100);
-    document.getElementById("avatar-form").oninput = renderAvatar;
-    document.getElementById("avatar-save").onclick = function() {
-      alert("Avatar saved! More customization features coming soon.");
-    };
+  setTimeout(renderAvatar, 100);
   // Add your avatar builder logic here
 }
 /**
@@ -82,9 +71,10 @@ function renderAvatar() {
     outfit: document.getElementById("outfit-select").value,
     pronoun: document.getElementById("pronoun-select").value,
   });
-  preview.innerHTML = `<div class="w-30 h-30 rounded-full flex items-center justify-center relative animate-bounce" style="background:${state.skin};">
-  <span class="text-2xl" style="color:${state.hair};">👤</span>
-    </div>`;
+  // Set avatar preview image and styles
+  preview.src = "/assets/images/avatar-default.png";
+  preview.style.background = state.skin;
+  preview.style.borderColor = state.hair;
 }
 
 // Example usage: render avatar when DOM is loaded
