@@ -8,6 +8,11 @@
     <meta name="description" content="Windgap Academy: Creating Opportunities. Accessible, inclusive, and modern learning platform for all." />
     <meta name="robots" content="index, follow" />
     <!-- Sentry for error tracking -->
+    <!-- Vercel Speed Insights -->
+    <script type="module">
+      import { SpeedInsights } from "@vercel/speed-insights/next";
+      SpeedInsights();
+    </script>
     <script src="https://browser.sentry-cdn.com/7.100.0/bundle.min.js" crossorigin="anonymous"></script>
     <script>
       Sentry.init({ dsn: 'https://examplePublicKey@o0.ingest.sentry.io/0' }); // Replace with your DSN
