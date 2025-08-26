@@ -1,3 +1,5 @@
+import { applyHeadingAnimation, applyButtonAnimation, setAriaAttributes } from '../utils/uiUtils.js';
+
 export function showAvatarBuilder(container, userData = {}) {
   container.innerHTML = `
     <div class="avatarbuilder-bg" style="position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:-1;background:url('/assets/backgrounds/avatarbuilder-bg.svg') center/cover no-repeat;"></div>
@@ -79,4 +81,6 @@ function renderAvatar() {
 }
 
 // Example usage: render avatar when DOM is loaded
-document.addEventListener("DOMContentLoaded", renderAvatar);
+if (typeof document !== 'undefined') {
+  document.addEventListener("DOMContentLoaded", renderAvatar);
+}
