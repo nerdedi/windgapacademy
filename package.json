@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "description": "Modern build setup for Windgap Academy",
   "scripts": {
-  "prebuild": "node scripts/inject-env.js && bash scripts/optimize-images.sh",
-  "build": "npm run prebuild && vite build",
-  "start": "node server.cjs",
+  "prebuild": "bash scripts/optimize-images.sh",
+  "build": "vite build",
+  "start": "echo 'No server needed for Vercel static deployment'",
   "dev": "vite",
     "preview": "vite preview",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
