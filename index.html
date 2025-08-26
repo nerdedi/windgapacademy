@@ -6,6 +6,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Windgap Academy: Creating Opportunities. Accessible, inclusive, and modern learning platform for all." />
     <meta name="robots" content="index, follow" />
+    <!-- Sentry for error tracking -->
+    <script src="https://browser.sentry-cdn.com/7.100.0/bundle.min.js" crossorigin="anonymous"></script>
+    <script>
+      Sentry.init({ dsn: 'https://examplePublicKey@o0.ingest.sentry.io/0' }); // Replace with your DSN
+    </script>
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-XXXXXXXXX-X"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'UA-XXXXXXXXX-X'); // Replace with your GA ID
+    </script>
     <link href="https://fonts.googleapis.com/css2?family=Gotham:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles/output.css" />
     <script src="https://cdn.jsdelivr.net/npm/howler"></script>

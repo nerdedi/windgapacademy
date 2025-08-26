@@ -1,0 +1,30 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      - name: Install dependencies
+        run: npm install
+      - name: Inject environment variables
+        run: node scripts/inject-env.js
+      - name: Optimize images
+        run: sudo apt-get update && sudo apt-get install -y imagemagick && bash scripts/optimize-images.sh
+      - name: Run tests
+        run: npm test
+      - name: Build project
+        run: npm run build
+      # Add your deployment step here (e.g., Vercel, Netlify, Firebase, custom SSH)
+      # - name: Deploy
+      #   run: echo "Deploy step here"

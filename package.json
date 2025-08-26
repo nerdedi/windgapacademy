@@ -3,9 +3,10 @@
   "version": "1.0.0",
   "description": "Modern build setup for Windgap Academy",
   "scripts": {
-    "start": "node app.js",
-    "dev": "vite",
-    "build": "vite build",
+  "prebuild": "node scripts/inject-env.js && bash scripts/optimize-images.sh",
+  "build": "npm run prebuild && vite build",
+  "start": "node server.cjs",
+  "dev": "vite",
     "preview": "vite preview",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "test": "jest",
@@ -30,6 +31,7 @@
     "vite": "^7.1.3"
   },
   "dependencies": {
+    "express": "^5.1.0",
     "firebase": "^12.1.0",
     "jspdf": "^3.0.1",
     "react": "^19.1.1",
