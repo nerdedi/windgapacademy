@@ -1,0 +1,54 @@
+<!-- Windgap Academy Whiteboard (Excalidraw) Integration -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Whiteboard - Windgap Academy</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://unpkg.com/@excalidraw/excalidraw/dist/excalidraw.min.css" />
+  <style>
+    body {
+      background: linear-gradient(135deg, #e0f7fa 0%, #ffe066 100%);
+      font-family: 'Futura', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+    h1 {
+      color: #00796b;
+      margin-top: 2em;
+    }
+    #whiteboard-container {
+      width: 100%;
+      max-width: 1200px;
+      height: 700px;
+      margin: 2em auto;
+      border-radius: 12px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+      background: #fff;
+      overflow: hidden;
+    }
+  </style>
+</head>
+<body>
+  <h1>Windgap Academy Whiteboard</h1>
+  <div id="whiteboard-container"></div>
+  <script type="module">
+    import Excalidraw from 'https://unpkg.com/@excalidraw/excalidraw/dist/excalidraw.min.mjs';
+    const container = document.getElementById('whiteboard-container');
+    const excalidraw = new Excalidraw(container, {
+      theme: 'light',
+      langCode: 'en',
+      UIOptions: {
+        canvasActions: {
+          toggleTheme: true,
+          export: true,
+        },
+      },
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!-- Windgap Academy Fluid Simulation Demo -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Fluid Simulation - Windgap Academy</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      background: linear-gradient(135deg, #e0f7fa 0%, #ffe066 100%);
+      font-family: 'Futura', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+    h1 {
+      color: #00796b;
+      margin-top: 2em;
+    }
+    #fluid-canvas {
+      border-radius: 12px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+      margin-top: 2em;
+      background: #fff;
+    }
+  </style>
+</head>
+<body>
+  <h1>Windgap Academy Fluid Simulation</h1>
+  <canvas id="fluid-canvas" width="800" height="500"></canvas>
+  <script>
+    // Simple WebGL Fluid Simulation (placeholder)
+    const canvas = document.getElementById('fluid-canvas');
+    const ctx = canvas.getContext('2d');
+    let hue = 0;
+    function drawFluid() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let i = 0; i < 20; i++) {
+        ctx.beginPath();
+        ctx.arc(40*i+20, 250 + Math.sin(hue/20 + i)*80, 30, 0, 2*Math.PI);
+        ctx.fillStyle = `hsl(${(hue+i*18)%360}, 80%, 60%)`;
+        ctx.fill();
+      }
+      hue += 2;
+      requestAnimationFrame(drawFluid);
+    }
+    drawFluid();
+  </script>
+</body>
+</html>

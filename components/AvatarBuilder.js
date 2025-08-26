@@ -35,6 +35,7 @@ export function showAvatarBuilder(container, userData = {}) {
   setTimeout(renderAvatar, 100);
   // Add your avatar builder logic here
 }
+  export default showAvatarBuilder;
 /**
  * Avatar Builder Module
  * @module AvatarBuilder
