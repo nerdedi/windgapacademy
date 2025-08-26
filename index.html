@@ -17,7 +17,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Windgap Academy: Creating Opportunities. Accessible, inclusive, and modern learning platform for all." />
   <meta name="robots" content="index, follow" />
-  <link href="https://fonts.googleapis.com/css2?family=Gotham:wght@400;700&display=swap" rel="stylesheet">
+  <!-- Removed Gotham Google Fonts link -->
   <link rel="stylesheet" href="styles/output.css" />
     <script src="https://cdn.jsdelivr.net/npm/howler"></script>
     <!-- Use ES module for app.js -->
@@ -82,11 +82,11 @@
       .winnie-speech-bubble:after { content: ''; position: absolute; left: 30px; bottom: -20px; width: 40px; height: 20px; background: white; border-radius: 0 0 20px 20px; }
       .animate-bounce-in { animation: bounceIn 1s cubic-bezier(.68,-0.55,.27,1.55) both; }
       @keyframes bounceIn { 0% { transform: scale(0.5); opacity: 0; } 80% { transform: scale(1.1); opacity: 1; } 100% { transform: scale(1); opacity: 1; } }
+    <style>
+      body {
+        font-family: Arial, Helvetica, 'Segoe UI', Verdana, sans-serif;
+      }
     </style>
-      </div>
-      <div class="main-container">
-        <div id="overlay" class="start">
-          <h2 class="title slide-in-left">Guess This</h2>
           <a class="startBtn slide-in-left">Start Game</a>
         </div>
         <div id="banner" class="section">
