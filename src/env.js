@@ -1,0 +1,9 @@
+export const env = {
+  FIREBASE_API_KEY: "AIzaSyAHKxpp6tYRPJKih8Iu9OIrFcNc1pHRjaI",
+  FIREBASE_AUTH_DOMAIN: "windgap-academy.firebaseapp.com",
+  FIREBASE_PROJECT_ID: "windgap-academy",
+  FIREBASE_STORAGE_BUCKET: "windgap-academy.appspot.com",
+  FIREBASE_MESSAGING_SENDER_ID: "438303886042",
+  FIREBASE_APP_ID: "1:438303886042:web:19b166df519870baa433e3",
+  FIREBASE_MEASUREMENT_ID: "G-FXR0TX8S6X"
+};

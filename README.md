@@ -19,17 +19,53 @@ Windgap Academy is an inclusive, ad-free, educator-reviewed learning platform fo
 - Educator logging and privacy notices throughout
 - Accessible UI with font toggles, narration, and focus management
 
-## Usage
 
-1. Clone the repository and open in VS Code.
-2. Run a local server or open `index.html` in your browser.
-3. All navigation and actions are educator-logged and privacy protected.
-4. See `app.js` and `components/` for modular UI logic.
+# Windgap Academy
 
-## Contact & Support
+## Setup
+- Install dependencies: `npm install`
+- Fill in `.env` with your secrets
+- Inject env and optimize images: `npm run prebuild`
+- Build: `npm run build`
+- Start server: `npm start`
 
-For support, accessibility feedback, or educator inquiries, contact the Windgap Academy team at [info@windgapacademy.edu.au](mailto:info@windgapacademy.edu.au).
+## Testing
+- Run unit tests: `npm test`
+- Run e2e tests: `npx cypress run`
 
----
+## Deployment
+- Use HTTPS
+- Set environment variables securely
+- Use `server.cjs` for Node.js hosting
 
-_This project is maintained for educational, inclusive, and neurodivergent empowerment purposes. All contributions must meet accessibility, privacy, and compliance standards._
+## CI/CD
+- See `.github/workflows/deploy.yml` for automated pipeline
+
+## Monitoring & Logging
+- Sentry for frontend error tracking (see `index.html`)
+- Server logs and alerts recommended
+
+## Performance Optimization
+- Code splitting and lazy loading enabled
+- Asset compression via build tool
+- Optimized images in `assets/images-optimized/`
+
+## Security
+- Helmet for HTTP headers (see `server.cjs`)
+- Sanitize all user input
+- Regularly update dependencies
+
+## Accessibility
+- ARIA labels, alt text, axe-core for audits (see `scripts/i18n-setup.js`)
+
+## Internationalization
+- See `scripts/i18n-setup.js` for scaffolding
+
+## Backup & Recovery
+- See `scripts/backup.sh` for template
+
+## Analytics
+- Google Analytics integrated in `index.html`
+
+## Feedback
+- Use the built-in feedback form in the app
