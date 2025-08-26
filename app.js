@@ -109,11 +109,13 @@ document.addEventListener('DOMContentLoaded', function() {
 function setupNavigationListeners() {
   // Example: Add click listeners to all elements with data-route attribute
   document.querySelectorAll('[data-route]').forEach(el => {
-    el.addEventListener('click', (e) => {
-      e.preventDefault();
-      const route = el.getAttribute('data-route');
-      if (route) window.route(route);
-    });
+    if (el) {
+      el.addEventListener('click', (e) => {
+        e.preventDefault();
+        const route = el.getAttribute('data-route');
+        if (route) window.route(route);
+      });
+    }
   });
 }
 
@@ -260,14 +262,13 @@ window.route = async function (path, opts = {}) {
       break;
     case "external-resources":
       showExternalResources(app);
-      document.addEventListener('DOMContentLoaded', function() {
-  // Your DOM code here
-  const el = document.getElementById('yourElement');
-  if (el) {
-    el.textContent = '...';
-    el.addEventListener('click', function() {});
-  }
-});
+      // Removed HTML comment and added null check for demo code
+      // Example: Safe DOM query
+      const el = document.getElementById('yourElement');
+      if (el) {
+        el.textContent = '...';
+        el.addEventListener('click', function() {});
+      }
       break;
     case "challenges":
       showChallenges(app, opts.data || {});
@@ -792,6 +793,8 @@ if (window.firebase && window.env && window.env.FIREBASE_CONFIG) {
     console.error('Firebase initialization error:', error);
   }
 } else {
+  console.warn('Firebase SDK or config not available.');
+}
   console.warn('Firebase SDK or config not available.');
 }
 // Safe DOM queries
