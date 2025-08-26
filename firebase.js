@@ -97,14 +97,16 @@ export async function saveChatLog(userId, messages) {
 }
 
 
+
+import { env } from "./src/env.js";
 const firebaseConfig = {
-  apiKey: "AIzaSyAHKxpp6tYRPJKih8Iu9OIrFcNc1pHRjaI",
-  authDomain: "windgap-academy.firebaseapp.com",
-  projectId: "windgap-academy",
-  storageBucket: "windgap-academy.appspot.com",
-  messagingSenderId: "438303886042",
-  appId: "1:438303886042:web:19b166df519870baa433e3",
-  measurementId: "G-FXR0TX8S6X",
+  apiKey: env.FIREBASE_API_KEY,
+  authDomain: env.FIREBASE_AUTH_DOMAIN,
+  projectId: env.FIREBASE_PROJECT_ID,
+  storageBucket: env.FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: env.FIREBASE_MESSAGING_SENDER_ID,
+  appId: env.FIREBASE_APP_ID,
+  measurementId: env.FIREBASE_MEASUREMENT_ID,
 };
 
 const app = initializeApp(firebaseConfig);
