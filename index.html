@@ -12,7 +12,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/howler"></script>
-    <!-- Monitoring & Analytics (Sentry, GA, Firebase) -->
+    
     <script src="https://browser.sentry-cdn.com/7.100.0/bundle.min.js" crossorigin="anonymous"></script>
     <script>
       Sentry.init({ dsn: window.env && window.env.SENTRY_DSN ? window.env.SENTRY_DSN : '' });
@@ -24,12 +24,17 @@
       gtag('js', new Date());
       gtag('config', 'UA-XXXXXXXXX-X');
     </script>
-    <script type="module">
-  <!-- Firebase UMD/compat CDN scripts for browser compatibility -->
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-analytics-compat.js"></script>
-  <!-- Add other compat SDKs as needed -->
+    
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-analytics-compat.js"></script>
+    <!-- Add other compat SDKs as needed -->
+    <script>
+      // Ensure Firebase config is available before app.js runs
+      if (window.env && window.env.FIREBASE_CONFIG && window.firebase) {
+        firebase.initializeApp(window.env.FIREBASE_CONFIG);
+      }
+    </script>
     <script type="module" src="app.js"></script>
   </head>
   <body aria-label="Windgap Academy Entry" role="main" style="background: #5ED1D2; color: #A32C2B; min-height: 100vh;">
@@ -263,22 +268,22 @@
     </section>
   <script type="module" src="js/winniesWords.js"></script> <!-- Confirmed valid module path and MIME type for Vite static deployment. -->
   <!-- All button and module logic is now handled in app.js for consistency and maintainability. -->
-  <body>
-    <div id="app"></div>
-    <nav style="margin: 2em 0; text-align: center;">
-      <button onclick="showFeature('avatar')">Avatar Creator</button>
-      <button onclick="showFeature('stairs')">Climbing Stairs Animation</button>
-      <button onclick="showFeature('island')">Max Area of Island Animation</button>
-      <button onclick="showFeature('cube')">Cube Map 3D Demo</button>
-      <button onclick="showFeature('kitchen')">Healthy Kitchen Challenge</button>
-      <button onclick="showFeature('foodcollector')">Food Collector Environment</button>
-      <button onclick="showFeature('zoo')">Academy Zoo Environment</button>
-      <button onclick="showFeature('fluid')">Fluid Simulation</button>
-      <button onclick="showFeature('dashboard')">Results Dashboard</button>
-      <button onclick="showFeature('whiteboard')">Whiteboard</button>
-    </nav>
-    <main>
-      <div id="feature-container" style="width: 100%; min-height: 500px; background: #fff; border-radius: 12px; box-shadow: 0 2px 16px #0001; margin: auto; max-width: 1200px; padding: 2em;"></div>
-    </main>
-    <script type="module">
-  <script type="module" src="js/featureLoader.js"></script>
+      <div id="app"></div>
+      <nav style="margin: 2em 0; text-align: center;">
+        <button onclick="showFeature('avatar')">Avatar Creator</button>
+        <button onclick="showFeature('stairs')">Climbing Stairs Animation</button>
+        <button onclick="showFeature('island')">Max Area of Island Animation</button>
+        <button onclick="showFeature('cube')">Cube Map 3D Demo</button>
+        <button onclick="showFeature('kitchen')">Healthy Kitchen Challenge</button>
+        <button onclick="showFeature('foodcollector')">Food Collector Environment</button>
+        <button onclick="showFeature('zoo')">Academy Zoo Environment</button>
+        <button onclick="showFeature('fluid')">Fluid Simulation</button>
+        <button onclick="showFeature('dashboard')">Results Dashboard</button>
+        <button onclick="showFeature('whiteboard')">Whiteboard</button>
+      </nav>
+      <main>
+        <div id="feature-container" style="width: 100%; min-height: 500px; background: #fff; border-radius: 12px; box-shadow: 0 2px 16px #0001; margin: auto; max-width: 1200px; padding: 2em;"></div>
+      </main>
+      <script type="module" src="js/featureLoader.js"></script>
+    </body>
+  </html>

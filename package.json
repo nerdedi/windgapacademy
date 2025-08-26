@@ -8,7 +8,7 @@
   "dev": "vite",
     "preview": "vite preview",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "test": "jest",
+  "test": "jest --runInBand --watchAll=false --testNamePattern .* --testPathPatterns /workspaces/windgapacademy",
     "e2e": "cypress run",
     "e2e:open": "cypress open",
     "e2e:cypress": "cypress run",

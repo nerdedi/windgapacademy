@@ -1,3 +1,5 @@
+import { applyHeadingAnimation, applyButtonAnimation, setAriaAttributes } from '../utils/uiUtils.js';
+
 export function showDashboard(container, data = {}) {
   // Modular UI templates
   function navButton(label, route, active = false) {
@@ -38,10 +40,13 @@ export function showDashboard(container, data = {}) {
   // Accessibility
   setAriaAttributes(document.getElementById('dashboard'), { role: 'region', label: 'Dashboard' });
   // Feedback form interactivity
-  document.getElementById('feedback-form').onsubmit = function(e) {
-    e.preventDefault();
-    alert('Thank you for your feedback!');
-  };
+  const feedbackForm = document.getElementById('feedback-form');
+  if (feedbackForm) {
+    feedbackForm.onsubmit = function(e) {
+      e.preventDefault();
+      alert('Thank you for your feedback!');
+    };
+  }
   // Animate heading and button
   applyHeadingAnimation(document.getElementById('dashboard-heading'));
   applyButtonAnimation(document.getElementById('dashboard-feedback'));
@@ -53,11 +58,14 @@ export function showDashboard(container, data = {}) {
     el.tabIndex = 0;
   });
   // Help/info button
-  document.getElementById("dashboard-help").onclick = () => {
-    alert(
-      "Welcome to Windgap Academy! Use the navigation buttons to explore learning domains. All features are accessible and safe.",
-    );
-  };
+  const dashboardHelpBtn = document.getElementById("dashboard-help");
+  if (dashboardHelpBtn) {
+    dashboardHelpBtn.onclick = () => {
+      alert(
+        "Welcome to Windgap Academy! Use the navigation buttons to explore learning domains. All features are accessible and safe."
+      );
+    };
+  }
   // Rotating educational prompt
   const prompts = [
     "Tip: Try Calm Space for self-regulation activities.",
@@ -67,7 +75,10 @@ export function showDashboard(container, data = {}) {
   ];
   let promptIndex = 0;
   function showPrompt() {
-    document.getElementById("dashboard-prompt").textContent = prompts[promptIndex % prompts.length];
+    const dashboardPrompt = document.getElementById("dashboard-prompt");
+    if (dashboardPrompt) {
+      dashboardPrompt.textContent = prompts[promptIndex % prompts.length];
+    }
     promptIndex++;
     setTimeout(showPrompt, 7000);
   }
