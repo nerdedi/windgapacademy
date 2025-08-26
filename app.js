@@ -1,4 +1,6 @@
-import { auth } from "./firebase.js";
+// Firebase via CDN for browser compatibility
+// Remove ES module import and use global firebase object
+// See firebase.js for initialization
 // --- Dashboard Button Listeners ---
 function setupDashboardButtonListeners() {
   const buttonMap = {
@@ -25,6 +27,12 @@ function setupDashboardButtonListeners() {
   - Last updated: August 18, 2025 (with fallback error screen)
 */
 import { showDashboard } from "./components/Dashboard.js";
+import { GameStateManager } from "./src/components/GameStateManager.js";
+import { UnifiedUIManager } from "./src/components/UnifiedUIManager.js";
+import { AnalyticsLogger } from "./src/components/AnalyticsLogger.js";
+import { AssetManager } from "./src/components/AssetManager.js";
+import { ProgressionManager } from "./src/components/ProgressionManager.js";
+import { AdaptiveLearning } from "./src/components/AdaptiveLearning.js";
 import {
   monitorPerformance,
   trackErrorRates,
@@ -52,6 +60,14 @@ const lazyLoadGameModule = async (modulePath, ...args) => {
 
 
 let app = document.getElementById("app");
+
+// --- Core Managers ---
+const gameStateManager = new GameStateManager({});
+const uiManager = new UnifiedUIManager();
+const analyticsLogger = AnalyticsLogger;
+const assetManager = new AssetManager();
+const progressionManager = new ProgressionManager();
+const adaptiveLearning = new AdaptiveLearning();
 // --- Hero Section Interactivity ---
 function setPersonalizedWelcome() {
   const welcomeEl = document.getElementById('personal-welcome');
@@ -61,6 +77,8 @@ function setPersonalizedWelcome() {
   if (welcomeEl) {
     welcomeEl.textContent = `${greeting}, ${user.name}! Ready to learn and achieve today?`;
   }
+  // Example: log welcome event
+  analyticsLogger.logEvent('welcome', { user, greeting });
 }
 
 function setNewsTicker() {
@@ -103,6 +121,10 @@ document.addEventListener('DOMContentLoaded', () => {
   mainInit();
   setupNavigationListeners();
   setupDashboardButtonListeners();
+  // Example: initialize UI elements
+  uiManager.setTimer(60);
+  uiManager.setLives(3);
+  uiManager.setProgress(0);
 });
 
 function showFallbackScreen(errorMsg = "Something went wrong while loading Windgap Academy.") {
@@ -169,14 +191,23 @@ window.route = async function (path, opts = {}) {
   // All navigation and UI now uses Australian spelling, grammar, and context.
   // Routing logic is modular and independent; each route only affects its own module.
   app.innerHTML = "";
-  const userId = auth.currentUser ? auth.currentUser.uid : null;
+  const userId = window.firebase && window.firebase.auth && window.firebase.auth().currentUser ? window.firebase.auth().currentUser.uid : null;
   switch (path) {
     // ...existing code...
     case "dashboard":
       showDashboard(app, opts.data || {});
+      // Example: use progression manager to unlock modules
+      progressionManager.unlock('dashboard');
       break;
     case "adaptive-learning":
       showAdaptiveLearning(app, opts.data || {});
+      // Example: use adaptive learning for recommendations
+      const nextModule = adaptiveLearning.recommendNextModule([
+        'literacy-game', 'numeracy-game', 'life-skills-game'
+      ], progressionManager.getProgress());
+      if (nextModule) {
+        uiManager.setProgress(50);
+      }
       break;
     case "virtual-currency":
       showVirtualCurrency(app, opts.data || {});
@@ -284,25 +315,60 @@ window.route = async function (path, opts = {}) {
       showDomainTabs(app, opts.domain || "literacy", userId);
       break;
     case "literacy-game":
-      lazyLoadGameModule("./components/GameModules/LiteracyGame.js", app, userId);
+      lazyLoadGameModule("./components/GameModules/LiteracyGame.js", app, userId).then(() => {
+        gameStateManager.setState('play');
+        analyticsLogger.logEvent('game_start', { game: 'literacy', userId });
+        uiManager.setTimer(60);
+        uiManager.setLives(3);
+      });
       break;
     case "numeracy-game":
-      lazyLoadGameModule("./components/GameModules/NumeracyGame.js", app, userId);
+      lazyLoadGameModule("./components/GameModules/NumeracyGame.js", app, userId).then(() => {
+        gameStateManager.setState('play');
+        analyticsLogger.logEvent('game_start', { game: 'numeracy', userId });
+        uiManager.setTimer(60);
+        uiManager.setLives(3);
+      });
       break;
     case "communication-game":
-      lazyLoadGameModule("./components/GameModules/CommunicationGame.js", app, userId);
+      lazyLoadGameModule("./components/GameModules/CommunicationGame.js", app, userId).then(() => {
+        gameStateManager.setState('play');
+        analyticsLogger.logEvent('game_start', { game: 'communication', userId });
+        uiManager.setTimer(60);
+        uiManager.setLives(3);
+      });
       break;
     case "digital-skills-game":
-      lazyLoadGameModule("./components/GameModules/DigitalSkillsGame.js", app, userId);
+      lazyLoadGameModule("./components/GameModules/DigitalSkillsGame.js", app, userId).then(() => {
+        gameStateManager.setState('play');
+        analyticsLogger.logEvent('game_start', { game: 'digital-skills', userId });
+        uiManager.setTimer(60);
+        uiManager.setLives(3);
+      });
       break;
     case "life-skills-game":
-      lazyLoadGameModule("./components/GameModules/LifeSkillsGame.js", app, userId);
+      lazyLoadGameModule("./components/GameModules/LifeSkillsGame.js", app, userId).then(() => {
+        gameStateManager.setState('play');
+        analyticsLogger.logEvent('game_start', { game: 'life-skills', userId });
+        uiManager.setTimer(60);
+        uiManager.setLives(3);
+      });
       break;
     case "money-skills-game":
-      lazyLoadGameModule("./components/GameModules/MoneySkillsGame.js", app, userId);
+      lazyLoadGameModule("./components/GameModules/MoneySkillsGame.js", app, userId).then(() => {
+        gameStateManager.setState('play');
+        analyticsLogger.logEvent('game_start', { game: 'money-skills', userId });
+        uiManager.setTimer(60);
+        uiManager.setLives(3);
+      });
       break;
     case "employability-game":
-      lazyLoadGameModule("./components/GameModules/EmployabilityGame.js", app, userId);
+      lazyLoadGameModule("./components/GameModules/EmployabilityGame.js", app, userId).then(() => {
+        gameStateManager.setState('play');
+        analyticsLogger.logEvent('game_start', { game: 'employability', userId });
+        uiManager.setTimer(60);
+        uiManager.setLives(3);
+      });
       break;
     case "virtual-world":
       showVirtualWorld(app, userId);
@@ -486,16 +552,22 @@ function mainInit() {
         return;
       }
       try {
-        const { loginUser, auth } = await import('./firebase.js');
-        const userCredential = await loginUser(email, password);
-        sendEvent('login', { email });
-        // Route to educator or learner dashboard
-        const user = userCredential.user;
-        if (user && user.email && user.email.endsWith('@educator.windgapacademy.edu.au')) {
-          window.route('educator-dashboard');
-        } else {
-          window.route('dashboard');
-        }
+        // Use Firebase CDN global object
+        window.firebase.auth().signInWithEmailAndPassword(email, password)
+          .then((userCredential) => {
+            sendEvent('login', { email });
+            const user = userCredential.user;
+            if (user && user.email && user.email.endsWith('@educator.windgapacademy.edu.au')) {
+              window.route('educator-dashboard');
+            } else {
+              window.route('dashboard');
+            }
+          })
+          .catch((err) => {
+            errorDiv.textContent = err.message || 'Login failed. Please try again.';
+            errorDiv.style.display = 'block';
+            warnDebug('Login error:', err);
+          });
       } catch (err) {
         errorDiv.textContent = err.message || 'Login failed. Please try again.';
         errorDiv.style.display = 'block';
