@@ -259,6 +259,14 @@ window.route = async function (path, opts = {}) {
       break;
     case "external-resources":
       showExternalResources(app);
+      document.addEventListener('DOMContentLoaded', function() {
+  // Your DOM code here
+  const el = document.getElementById('yourElement');
+  if (el) {
+    el.textContent = '...';
+    el.addEventListener('click', function() {});
+  }
+});
       break;
     case "challenges":
       showChallenges(app, opts.data || {});
