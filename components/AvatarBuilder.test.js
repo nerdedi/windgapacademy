@@ -1,5 +1,5 @@
-import { describe, it, expect } from "@jest/globals";
-import { getAvatarState } from "./AvatarBuilder";
+const { describe, it, expect } = require("@jest/globals");
+const { getAvatarState } = require("./AvatarBuilder");
 
 describe("getAvatarState", () => {
   it("should return correct avatar state with all properties", () => {

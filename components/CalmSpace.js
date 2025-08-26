@@ -1,3 +1,4 @@
+import { showCalmSpaceGallery } from './CalmSpaceGallery.js';
 export function showCalmSpace(container) {
   // Modular UI templates
   function helpButton() {
@@ -52,9 +53,12 @@ export function showCalmSpace(container) {
       <button id="calm-meditate" class="btn-primary nav-btn" aria-label="Start Meditation">Start Meditation</button>
       <button id="calm-journal" class="btn-secondary nav-btn ml-2" aria-label="Open Journal">Open Journal</button>
       <div id="calm-mood-tracker" class="mt-6"></div>
+      <div id="calm-gallery"></div>
       <div id="calm-particles" class="absolute top-0 left-0 w-full h-full pointer-events-none"></div>
     </section>
   `;
+  // Show calming places gallery
+  showCalmSpaceGallery(document.getElementById('calm-gallery'));
   // Animate heading and buttons
   applyHeadingAnimation(document.getElementById('calm-heading'));
   applyButtonAnimation(document.getElementById('calm-meditate'));
