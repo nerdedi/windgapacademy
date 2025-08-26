@@ -59,7 +59,8 @@ const lazyLoadGameModule = async (modulePath, ...args) => {
 };
 
 
-let app = document.getElementById("app");
+// Single reference for main app container
+const app = document.getElementById("app");
 
 // --- Core Managers ---
 const gameStateManager = new GameStateManager({});
@@ -423,7 +424,7 @@ window.showMilestoneNotification = function (msg) {
 
 // Loading screen logic and homepage logic are now in mainInit()
 function mainInit() {
-  app = document.getElementById("app");
+  // app is already defined globally
   // Educator debug toggle
   let debugBar = `<div class="fixed top-0 right-0 z-50 bg-yellow-100 text-yellow-900 px-4 py-2 rounded-bl-xl shadow-lg flex items-center gap-2">
     <label for="debug-toggle" class="font-bold">Educator Debug:</label>
@@ -588,18 +589,17 @@ function mainInit() {
     btn.onclick = async (e) => {
       const modulePath = btn.getAttribute('data-module');
       const funcName = btn.getAttribute('data-func');
-      const appContainer = document.getElementById('app');
-      appContainer.innerHTML = `<div class='card animate-pulse'>Loading ${btn.textContent}...</div>`;
+      app.innerHTML = `<div class='card animate-pulse'>Loading ${btn.textContent}...</div>`;
       try {
         const mod = await import(/* @vite-ignore */ modulePath);
         if (mod[funcName]) {
-          mod[funcName](appContainer);
+          mod[funcName](app);
         } else {
-          appContainer.innerHTML = `<div class='alert-error'>Module loaded but no display function found.</div>`;
+          app.innerHTML = `<div class='alert-error'>Module loaded but no display function found.</div>`;
           warnDebug('Missing display function for module:', modulePath, funcName);
         }
       } catch (err) {
-        appContainer.innerHTML = `<div class='alert-error'>Error loading module: ${err}</div>`;
+        app.innerHTML = `<div class='alert-error'>Error loading module: ${err}</div>`;
         warnDebug('Module load error:', err);
       }
     };
@@ -617,20 +617,20 @@ function mainInit() {
 }
 
 // --- Accessibility Improvements ---
-// TODO: Implement keyboard-only navigation for all interactive elements
-// TODO: Add text-to-speech support for narration and feedback
-// TODO: Ensure all modals and popups have ARIA labels and focus trap
+function enableKeyboardNavigation() { /* TODO: Implement keyboard navigation */ }
+function addTextToSpeechSupport() { /* TODO: Implement text-to-speech */ }
+function ensureModalsHaveAriaLabels() { /* TODO: Implement ARIA labels and focus trap for modals */ }
 
 // --- Error Handling Improvements ---
-// TODO: Add global error boundary and fallback UI for unexpected failures
-// TODO: Improve error messages and recovery flows throughout the app
+function globalErrorBoundary() { /* TODO: Implement global error boundary */ }
+function improveErrorMessages() { /* TODO: Implement improved error messages and recovery flows */ }
 
 // --- Input Validation & Testing ---
-// TODO: Add input validation for all forms and user input
-// TODO: Expand automated unit and integration tests
+function validateAllForms() { /* TODO: Implement input validation for forms and user input */ }
+function expandAutomatedTests() { /* TODO: Expand automated unit and integration tests */ }
 
 // --- Engagement & Gamification ---
-// TODO: Add more real-time feedback (animations, sound effects, confetti for achievements)
+function addRealTimeFeedback() { /* TODO: Implement real-time feedback (animations, sound effects, confetti) */ }
 // TODO: Expand gamification with badges, streaks, and seasonal events
 // TODO: Add micro-interactions and smooth transitions to UI
 
@@ -659,8 +659,8 @@ function mainInit() {
 // TODO: Expand localization for all UI and content
 
 // --- Onboarding & Help ---
-// TODO: Add interactive onboarding for new users
-// TODO: Expand help/support with tooltips, guided tours, and FAQ
+function addInteractiveOnboarding() { /* TODO: Implement interactive onboarding for new users */ }
+function expandHelpSupport() { /* TODO: Implement help/support with tooltips, guided tours, and FAQ */ }
 
 // --- Backup & Sync ---
 // TODO: Add cloud backup and restore for user progress
@@ -756,6 +756,32 @@ addAriaLabels();
 enableKeyboardNavigation();
 
 // --- Input Validation & Engagement Implementation ---
+// Global error handler for uncaught errors
+window.addEventListener('error', function(event) {
+  console.error('Global error caught:', event.error || event.message);
+});
+
+window.addEventListener('unhandledrejection', function(event) {
+  console.error('Unhandled promise rejection:', event.reason);
+});
+// Firebase initialization (ensure SDK is loaded before this runs)
+if (window.firebase && window.env && window.env.FIREBASE_CONFIG) {
+  try {
+    firebase.initializeApp(window.env.FIREBASE_CONFIG);
+  } catch (error) {
+    console.error('Firebase initialization error:', error);
+  }
+} else {
+  console.warn('Firebase SDK or config not available.');
+}
+// Safe DOM queries
+// Safe DOM queries for ticker
+const ticker = document.getElementById('news-ticker');
+if (ticker) {
+  ticker.textContent = "Welcome to Windgap Academy!";
+} else {
+  console.error("Element #news-ticker not found.");
+}
 // ...existing code...
 // ...existing code...
 
