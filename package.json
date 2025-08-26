@@ -3,8 +3,7 @@
   "version": "1.0.0",
   "description": "Modern build setup for Windgap Academy",
   "scripts": {
-  "prebuild": "bash scripts/optimize-images.sh",
-  "build": "vite build",
+  "build": "bash scripts/optimize-images.sh && vite build",
   "start": "echo 'No server needed for Vercel static deployment'",
   "dev": "vite",
     "preview": "vite preview",
