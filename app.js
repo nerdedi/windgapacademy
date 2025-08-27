@@ -161,20 +161,7 @@ function setupNavigationListeners() {
 }
 
 // --- Main Initialization ---
-function mainInit() {
-  // Monitor performance and errors
-  monitorPerformance();
-  trackErrorRates();
-  trackLoadingTimes();
-  trackAPIUsage();
-  trackUserInteractions();
-  trackUserEngagement();
-  scheduleRegularUpdates();
-
-  // Set debug mode based on environment
-  const isDev = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-  setDebug(isDev);
-}
+// Removed duplicate mainInit
 
 // --- Initial App Load ---
 document.addEventListener('DOMContentLoaded', () => {
@@ -507,44 +494,31 @@ function mainInit() {
     // Show homepage for unauthenticated users
     app.innerHTML = `
       <div class="min-h-screen bg-gradient-to-br from-[#5ED1D2] to-[#A32C2B] flex flex-col justify-center items-center">
-        <nav class="flex items-center justify-between py-6 px-8 bg-white rounded-b-2xl shadow-lg w-full max-w-2xl mx-auto">
-          <div class="flex items-center gap-4">
-            <img src="assets/logo.svg" alt="Windgap Academy Logo" class="h-14" />
-            <span class="text-3xl font-extrabold text-[#A32C2B] tracking-tight">Windgap Academy</span>
-          </div>
-          <ul class="flex gap-6">
-            <li><button class="btn-primary" data-route="sign-in">Login</button></li>
-            <li><button class="btn-secondary" data-route="accessibility">Accessibility</button></li>
-            <li><button class="btn-secondary" data-route="support">Support</button></li>
-          </ul>
+        <header class="flex flex-col items-center mt-12 mb-8">
+          <img src="assets/logo.svg" alt="Windgap Academy Logo" class="h-24 mb-4" />
+          <h1 class="text-5xl font-extrabold text-[#A32C2B] mb-4">Windgap Academy of Learning</h1>
+          <img src="assets/images/main-characters-windgap.png" alt="Andy, Winnie, Daisy, Natalie" class="h-32 mb-4" />
+        </header>
+        <nav class="flex gap-6 mb-10">
+          <button id="sign-in-btn" class="btn-primary">Sign In</button>
+          <button id="accessibility-btn" class="btn-secondary">Accessibility</button>
+          <button id="support-btn" class="btn-secondary">Support</button>
         </nav>
-        <main class="flex-1 flex flex-col items-center justify-center">
-          <header class="text-center mb-10">
-            <h1 class="text-5xl font-extrabold text-[#A32C2B] mb-2">Welcome to Windgap Academy</h1>
-            <p class="text-xl text-[#58595B] mb-4">Accessible education made Fun.</p>
-          </header>
-          <section class="w-full max-w-md mx-auto mb-10">
-            <div class="bg-white rounded-xl shadow-lg p-8">
-              <h2 class="text-2xl font-bold text-[#A32C2B] mb-4 text-center">Login</h2>
-              <form id="login-form" class="flex flex-col gap-4">
-                <input type="email" id="login-email" class="input input-bordered" placeholder="Email" required />
-                <div class="flex gap-2">
-                  <input type="password" id="login-password" class="input input-bordered flex-1" placeholder="Password" required />
-                  <button type="button" id="toggle-password" class="btn btn-secondary" aria-label="Toggle password visibility">👁️</button>
-                </div>
-                <button type="submit" class="btn btn-primary">Login</button>
-                <div id="login-error" class="text-red-600 text-sm mt-2" style="display:none;"></div>
-              </form>
-            </div>
-          </section>
-        </main>
         <footer class="mt-8 text-center text-white text-sm opacity-80">
-          <p>
-            &copy; ${new Date().getFullYear()} Windgap Academy. All rights reserved.
-          </p>
+          <div class="flex flex-col items-center gap-2">
+            <a href="#" id="privacy-link" class="text-white underline">Privacy Policy</a>
+            <a href="#" id="terms-link" class="text-white underline">Terms of Service</a>
+          </div>
+          <p class="mt-2">&copy; ${new Date().getFullYear()} Windgap Academy. All rights reserved.</p>
         </footer>
       </div>
     `;
+    // Add working navigation for homepage buttons
+    document.getElementById('sign-in-btn').onclick = () => window.route ? window.route('sign-in') : alert('Sign In clicked');
+    document.getElementById('accessibility-btn').onclick = () => window.route ? window.route('accessibility') : alert('Accessibility clicked');
+    document.getElementById('support-btn').onclick = () => window.route ? window.route('support') : alert('Support clicked');
+    document.getElementById('privacy-link').onclick = (e) => { e.preventDefault(); alert('Privacy Policy'); };
+    document.getElementById('terms-link').onclick = (e) => { e.preventDefault(); alert('Terms of Service'); };
   } else {
     // Show dashboard after login
     showDashboard(app, {});
