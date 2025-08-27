@@ -46,19 +46,47 @@ Windgap Academy is an inclusive, ad-free, educator-reviewed learning platform fo
 - Server logs and alerts recommended
 
 ## Performance Optimization
-- Code splitting and lazy loading enabled
-- Asset compression via build tool
-- Optimized images in `assets/images-optimized/`
 
+# Production CSS Optimization
+
+For optimal performance, use the minified CSS files in production:
+
+- `styles/windgap-academy.min.css`
+- `styles/output.min.css`
+- `styles/tailwind-theme.min.css`
+- `styles/tailwind.min.css`
+- `styles/advanced.min.css`
+- `styles/refinements.min.css`
+
+## Automated Minification
+
+Minification is automated using the following script:
+
+```bash
+npx minify styles/windgap-academy.css > styles/windgap-academy.min.css && \
 ## Security
 - Helmet for HTTP headers (see `server.cjs`)
 - Sanitize all user input
 - Regularly update dependencies
 
-## Accessibility
-- ARIA labels, alt text, axe-core for audits (see `scripts/i18n-setup.js`)
+```
 
-## Internationalization
+You can add this as a build step in your deployment pipeline or as an npm script:
+
+```json
+"scripts": {
+	"build:css": "npx minify styles/windgap-academy.css > styles/windgap-academy.min.css && npx minify styles/output.css > styles/output.min.css && npx minify styles/tailwind-theme.css > styles/tailwind-theme.min.css && npx minify styles/tailwind.css > styles/tailwind.min.css && npx minify styles/advanced.css > styles/advanced.min.css && npx minify styles/refinements.css > styles/refinements.min.css"
+}
+```
+
+Run with:
+
+```bash
+npm run build:css
+```
+
+Update your HTML and build config to reference the `.min.css` files for production.
+## Accessibility
 - See `scripts/i18n-setup.js` for scaffolding
 
 ## Backup & Recovery

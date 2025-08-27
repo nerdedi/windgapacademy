@@ -58,41 +58,44 @@ export function showCalmSpace(container) {
     </section>
   `;
   // Show calming places gallery
-  showCalmSpaceGallery(document.getElementById('calm-gallery'));
+  const calmGallery = document.getElementById('calm-gallery');
+  if (calmGallery) showCalmSpaceGallery(calmGallery);
   // Animate heading and buttons
-  applyHeadingAnimation(document.getElementById('calm-heading'));
-  applyButtonAnimation(document.getElementById('calm-meditate'));
-  applyButtonAnimation(document.getElementById('calm-journal'));
-  applyButtonAnimation(document.getElementById('sound-toggle'));
-  document.querySelectorAll('.star-btn').forEach(btn => applyButtonAnimation(btn));
+  const headingEl = document.getElementById('calm-heading');
+  if (headingEl) applyHeadingAnimation(headingEl);
+  const meditateBtn = document.getElementById('calm-meditate');
+  if (meditateBtn) applyButtonAnimation(meditateBtn);
+  const calmJournalBtn = document.getElementById('calm-journal');
+  if (calmJournalBtn) applyButtonAnimation(calmJournalBtn);
+  const soundToggleBtn = document.getElementById('sound-toggle');
+  if (soundToggleBtn) applyButtonAnimation(soundToggleBtn);
+  const starBtns = document.querySelectorAll('.star-btn');
+  if (starBtns && starBtns.length) starBtns.forEach(btn => applyButtonAnimation(btn));
   // Accessibility
-  setAriaAttributes(document.getElementById('calm-space'), { role: 'region', label: 'Calm Space' });
+  const calmSpaceSection = document.getElementById('calm-space');
+  if (calmSpaceSection) setAriaAttributes(calmSpaceSection, { role: 'region', label: 'Calm Space' });
   // Interactive elements
-  document.getElementById('sound-toggle').onclick = () => alert('Ambient sound toggled!');
-  document.getElementById('calm-meditate').onclick = () => alert('Guided meditation coming soon!');
-  document.getElementById('calm-journal').onclick = () => alert('Journal feature coming soon!');
-  document.querySelectorAll('.star-btn').forEach(btn => btn.onclick = () => btn.classList.toggle('active'));
+  if (soundToggleBtn) soundToggleBtn.onclick = () => alert('Ambient sound toggled!');
+  if (meditateBtn) meditateBtn.onclick = () => alert('Guided meditation coming soon!');
+  if (calmJournalBtn) calmJournalBtn.onclick = () => alert('Journal feature coming soon!');
+  if (starBtns && starBtns.length) starBtns.forEach(btn => btn.onclick = () => btn.classList.toggle('active'));
   // Gentle particle effects
   const particles = document.getElementById('calm-particles');
-  for(let i=0;i<20;i++){
-    const p=document.createElement('div');
-    p.className='particle';
-    p.style.position='absolute';
-    p.style.left=Math.random()*100+'%';
-    p.style.top=Math.random()*100+'%';
-    p.style.width='8px';
-    p.style.height='8px';
-    p.style.borderRadius='50%';
-    p.style.background='rgba(200,180,255,0.3)';
-    p.style.animation=`float ${2+Math.random()*3}s infinite ease-in-out`;
-    particles.appendChild(p);
+  if (particles) {
+    for(let i=0;i<20;i++){
+      const p=document.createElement('div');
+      p.className='particle';
+      p.style.position='absolute';
+      p.style.left=Math.random()*100+'%';
+      p.style.top=Math.random()*100+'%';
+      p.style.width='8px';
+      p.style.height='8px';
+      p.style.borderRadius='50%';
+      p.style.background='rgba(200,180,255,0.3)';
+      p.style.animation=`float ${2+Math.random()*3}s infinite ease-in-out`;
+      particles.appendChild(p);
+    }
   }
-  // Animate heading and buttons
-  applyHeadingAnimation(document.getElementById('calm-heading'));
-  applyButtonAnimation(document.getElementById('calm-meditate'));
-  applyButtonAnimation(document.getElementById('calm-journal'));
-  // Accessibility
-  setAriaAttributes(document.getElementById('calm-space'), { role: 'region', label: 'Calm Space' });
 
   // ...existing code...
   if (!container) return;
@@ -179,7 +182,7 @@ export function showCalmSpace(container) {
   if (energyBtn) energyBtn.onclick = () => alert("Stand up, stretch, move!");
   const mantraBtn = document.getElementById("mantra-btn");
   if (mantraBtn) mantraBtn.onclick = () => alert("You are calm, capable, and strong.");
-  const journalBtn = document.getElementById("journal-btn");
+  const journalBtn2 = document.getElementById("journal-btn");
   if (journalBtn) journalBtn.onclick = () => alert("Journal entry saved!");
   const returnDashboardBtn = document.getElementById("return-dashboard");
   if (returnDashboardBtn) returnDashboardBtn.onclick = () => window.route("dashboard");
