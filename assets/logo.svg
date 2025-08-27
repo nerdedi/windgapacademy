@@ -1,4 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
   <circle cx="32" cy="32" r="30" fill="#5ED1D2" stroke="#A32C2B" stroke-width="2"/>
-  <text x="32" y="40" text-anchor="middle" font-size="24" fill="#A32C2B" font-family="Arial, sans-serif">W</text>
+</svg>
+<svg width="1245" height="768" viewBox="0 0 1245 768" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M293 301C293 301 627-80 1062 111" stroke="#5ED1D2" stroke-width="40"/>
+  <text x="30" y="520" font-family="Montserrat, Arial, sans-serif" font-size="260" fill="#A32C2B">windgap</text>
+  <text x="120" y="700" font-family="Montserrat, Arial, sans-serif" font-size="90" fill="#58595B">Creating Opportunities</text>
+</svg>
 </svg>

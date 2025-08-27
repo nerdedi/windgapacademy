@@ -31,10 +31,13 @@
     if (line && line.audio) {
       const sound = new Howl({ src: [line.audio], volume: 0.8 });
       sound.play();
+      sound.on('end', () => {
+        sound.unload();
+      });
     }
   }
 // Winnie's Words - Language Module Game Show
-// Hosted by Winnie, educator mascot at Windgap Academy
+// Hosted by Winnie, the mascot at Windgap Academy
 
 document.addEventListener('DOMContentLoaded', () => {
   // Game State
@@ -47,6 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const tries = document.querySelectorAll('#scoreboard li img');
   const hostArea = document.createElement('div');
   hostArea.id = 'host-area';
+  document.body.appendChild(hostArea);
   // Mascot and speech bubble are now in HTML, update speech bubble dynamically
 
   // Phrases for language learning (idioms, vocabulary, etc.)
@@ -153,19 +157,29 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(function () {
       message.innerHTML = `You ${wonLost}! Play again?`;
       overlay.className = `${wonLost} slide-in-left`;
+      // Play win/lose sound effect
+      if (wonLost === 'won') {
+        const winSound = new Audio('sounds/win.mp3');
+        winSound.volume = 0.7;
+        winSound.play();
+      } else if (wonLost === 'lost') {
+        const loseSound = new Audio('sounds/lose.mp3');
+        loseSound.volume = 0.7;
+        loseSound.play();
+      }
     }, 2000);
   }
 
   function rollOut(i, direction) {
-    setTimeout(() => {
-      if (i < 0) return;
-      if (direction === 'animate-out') {
-        letters[i - 1].className = letters[i - 1].className.replace(/(?:^|\s)animate-in(?!\S)/g, ' animate-out');
-      } else {
-        letters[i - 1].classList.add(direction);
-      }
-      if (i > 1) rollOut(i - 1, direction);
-    }, 100);
+    if (i < 1) return;
+    letters[i - 1].classList.remove('animate-in');
+    letters[i - 1].classList.add(direction);
+    if (direction === 'animate-out') {
+      letters[i - 1].className = letters[i - 1].className.replace(/(?:^|\s)animate-in(?!\S)/g, ' animate-out');
+    } else {
+      letters[i - 1].classList.add(direction);
+    }
+    if (i > 1) rollOut(i - 1, direction);
   }
 
   function clearBoard() {
@@ -195,44 +209,75 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Add event listeners
-  if (qwerty) {
-    qwerty.addEventListener('click', (e) => {
-      if (e.target.tagName === 'BUTTON' && win === null) {
-        let clickedBtn = e.target;
-        clickedBtn.disabled = true;
-        clickedBtn.className = checkLetter(clickedBtn.innerHTML) ? 'correct' : 'wrong';
-        checkWinState();
-      }
-    });
+  // --- Event Listeners (Refactored for Simplicity) ---
+  function handleQwertyClick(e) {
+    if (e.target.tagName === 'BUTTON' && win === null) {
+      let clickedBtn = e.target;
+      clickedBtn.disabled = true;
+      clickedBtn.className = checkLetter(clickedBtn.innerHTML) ? 'correct' : 'wrong';
+      checkWinState();
+    }
   }
-
-  if (startGame) {
-    startGame.addEventListener('click', () => {
-      clearBoard();
-      addPhraseToDisplay();
-    });
+  function handleStartGame() {
+    clearBoard();
+    addPhraseToDisplay();
+    buttons = document.querySelectorAll('#qwerty button'); // update buttons after board reset
   }
-
-  document.addEventListener('keyup', (e) => {
+  function handleKeyUp(e) {
     if (e.key === 'Enter' && !document.querySelector('.letter')) {
-      clearBoard();
-      addPhraseToDisplay();
+      handleStartGame();
     }
     buttons.forEach(button => {
       if (e.key.toLowerCase() === button.innerHTML.toLowerCase() && win === null) {
         button.disabled = true;
-        button.className = checkLetter(button.innerHTML) ? 'correct' : 'wrong';
+        button.className = checkLetter(button.innerHTML) ? 'correct' : 'Incorrect';
         checkWinState();
       }
     });
-  });
+  }
+  if (qwerty) qwerty.addEventListener('click', handleQwertyClick);
+  if (startGame) startGame.addEventListener('click', handleStartGame);
+  document.addEventListener('keyup', handleKeyUp);
 
   // Game show features: random bonus round
   function bonusRound() {
     setWinnieDialogue('bonus');
     missed = 0;
     addPhraseToDisplay();
-    // Implement bonus scoring logic as needed
+    // --- Bonus Scoring Logic ---
+    let bonusActive = true;
+    let bonusScore = 0;
+    function bonusListener(e) {
+      if (win !== null) return;
+      let letter = null;
+      if (e.type === 'click' && e.target.tagName === 'BUTTON') {
+        letter = e.target.innerHTML;
+      } else if (e.type === 'keyup') {
+        buttons.forEach(button => {
+          if (e.key.toLowerCase() === button.innerHTML.toLowerCase()) {
+            letter = button.innerHTML;
+          }
+        });
+      }
+      if (letter && checkLetter(letter)) {
+        bonusScore += 2; // Double points for correct guess
+        displayScore[0].innerHTML = `Wins: ${wins} | Bonus: ${bonusScore}`;
+      } else if (letter) {
+        bonusActive = false;
+        setWinnieDialogue('Bonus round ended!');
+        document.removeEventListener('click', bonusListener, true);
+        document.removeEventListener('keyup', bonusListener, true);
+      }
+      checkWinState();
+      if (win !== null) {
+        bonusActive = false;
+        setWinnieDialogue('Bonus round ended!');
+        document.removeEventListener('click', bonusListener, true);
+        document.removeEventListener('keyup', bonusListener, true);
+      }
+    }
+    document.addEventListener('click', bonusListener, true);
+    document.addEventListener('keyup', bonusListener, true);
   }
 
   // Add a button for bonus round
@@ -240,13 +285,12 @@ document.addEventListener('DOMContentLoaded', () => {
   if (winniesWordsDiv) {
     const bonusBtn = document.createElement('button');
     bonusBtn.textContent = 'Bonus Round!';
-    bonusBtn.className = 'startBtn';
+    bonusBtn.className = 'startBtn bonus-btn';
+    bonusBtn.setAttribute('aria-label', 'Start Bonus Round');
     bonusBtn.onclick = bonusRound;
     winniesWordsDiv.appendChild(bonusBtn);
   }
 
   // Add sound effects (optional)
-  // let winSound = new Audio('sounds/win.mp3');
-  // let loseSound = new Audio('sounds/lose.mp3');
-  // Play winSound/loseSound in setMessage()
+  // Sound effects implemented in setMessage()
 });

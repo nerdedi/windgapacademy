@@ -1,4 +1,30 @@
+/**
+ * Returns a normalized avatar state object with all expected properties.
+ * @param {Object} features - Partial avatar features.
+ * @returns {Object} Avatar state with all properties.
+ */
+export function getAvatarState(features = {}) {
+  return {
+    skin: features.skin,
+    hair: features.hair,
+    outfit: features.outfit,
+    pronoun: features.pronoun,
+    accessory: features.accessory,
+    wheelchair: features.wheelchair,
+    wheelchairColour: features.wheelchairColour,
+    wheelchairSize: features.wheelchairSize,
+  };
+}
 import { applyHeadingAnimation, applyButtonAnimation, setAriaAttributes } from '../utils/uiUtils.js';
+/**
+ * Avatar Builder Module
+ * @module AvatarBuilder
+ */
+/**
+ * Renders the Avatar Builder UI.
+ * @param {HTMLElement} container - The container to render the UI into.
+ * @param {Object} userData - User data for personalization.
+ */
 
 export function showAvatarBuilder(container, userData = {}) {
   container.innerHTML = `
@@ -8,85 +34,33 @@ export function showAvatarBuilder(container, userData = {}) {
         <h2 id="avatar-heading" class="text-3xl font-bold text-primary">Avatar Builder</h2>
         <div class="live-preview-window rounded-xl shadow-lg bg-gradient-to-br from-yellow-100 to-blue-100 flex items-center justify-center" style="width:120px;height:120px;">
           <img id="avatar-preview" src="/assets/images/avatar-default.png" alt="Avatar Preview" class="w-24 h-24 rounded-full" />
+          <div class="avatar-overlay"></div>
         </div>
       </div>
       <aside class="col-span-1 flex flex-col gap-4">
         <div class="feature-card bg-white rounded shadow p-4">Hair</div>
         <div class="feature-card bg-white rounded shadow p-4">Outfits</div>
         <div class="feature-card bg-white rounded shadow p-4">Accessories</div>
+        <div class="feature-card bg-white rounded shadow p-4">Facial Features</div>
+        <div class="feature-card bg-white rounded shadow p-4">Body Type</div>
+        <div class="feature-card bg-white rounded shadow p-4">Wheelchair</div>
       </aside>
-      <main class="col-span-2 flex flex-col items-center justify-center">
+      <main class="col-span-2 flex flex-col items-center justify-center"></main>
         <div id="customization-area" class="drag-drop-area bg-gray-100 rounded shadow p-4">Drag & Drop Customization</div>
       </main>
       <aside class="col-span-1 flex flex-col gap-4">
-        <div class="color-picker bg-white rounded shadow p-4">Color Pickers</div>
+        <div class="color-picker bg-white rounded shadow p-4">Colour Pickers</div>
         <div class="unlockable-packs bg-white rounded shadow p-4 mt-4">Unlockable Style Packs</div>
       </aside>
       <div class="col-span-4 flex gap-4 mt-6">
         <button id="avatar-save" class="btn-primary nav-btn">Save Avatar</button>
-        <button id="avatar-random" class="btn-secondary nav-btn">Randomize</button>
+        <button id="avatar-reset" class="btn-secondary nav-btn">Reset</button>
+        <button id="avatar-apply" class="btn-secondary nav-btn">Apply</button>
+        <button id="avatar-random" class="btn-secondary nav-btn">Randomise</button>
       </div>
     </section>
   `;
-  // Animate heading and buttons
-  applyHeadingAnimation(document.getElementById('avatar-heading'));
-  applyButtonAnimation(document.getElementById('avatar-save'));
-  applyButtonAnimation(document.getElementById('avatar-random'));
-  // Accessibility
-  setAriaAttributes(document.getElementById('avatar-builder'), { role: 'region', label: 'Avatar Builder' });
-  setTimeout(renderAvatar, 100);
-  // Add your avatar builder logic here
-}
-  export default showAvatarBuilder;
-/**
- * Avatar Builder Module
- * @module AvatarBuilder
- */
-/**
- * Calculates avatar state from selected features.
- * @param {Object} features - Avatar features
- * @returns {Object} Avatar state
- */
-
-export function getAvatarState({
-  skin,
-  hair,
-  outfit,
-  pronoun,
-  accessory,
-  wheelchair,
-  wheelchairColour,
-  wheelchairSize,
-}) {
-  // Avatar properties are independent; changing one does not require changing another.
-  return { skin, hair, outfit, pronoun, accessory, wheelchair, wheelchairColour, wheelchairSize };
-}
+  // All event listeners and state logic should be implemented in a separate function or class, not here.
+          }
 
 // ...existing code...
-
-// Call renderAvatar to use the function and avoid unused error
-function renderAvatar() {
-  // Render avatar based on independent state properties
-  const preview = document.getElementById("avatar-preview");
-  const skinEl = document.getElementById("skin-tone");
-  const hairEl = document.getElementById("hair-colour");
-  const outfitEl = document.getElementById("outfit-select");
-  const pronounEl = document.getElementById("pronoun-select");
-  const state = getAvatarState({
-    skin: skinEl ? skinEl.value : "#ffe4e1",
-    hair: hairEl ? hairEl.value : "#333",
-    outfit: outfitEl ? outfitEl.value : "default",
-    pronoun: pronounEl ? pronounEl.value : "they/them",
-  });
-  // Set avatar preview image and styles
-  if (preview) {
-    preview.src = "/assets/images/avatar-default.png";
-    preview.style.background = state.skin;
-    preview.style.borderColor = state.hair;
-  }
-}
-
-// Example usage: render avatar when DOM is loaded
-if (typeof document !== 'undefined') {
-  document.addEventListener("DOMContentLoaded", renderAvatar);
-}
