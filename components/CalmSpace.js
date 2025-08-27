@@ -1,11 +1,82 @@
 import { showCalmSpaceGallery } from './CalmSpaceGallery.js';
+import { applyHeadingAnimation, applyButtonAnimation, setAriaAttributes } from '../utils/uiUtils.js';
 export function showCalmSpace(container) {
   // Modular UI templates
   function helpButton() {
     return "<button id=\"calmspace-help\" aria-label=\"Help\" title=\"Help\">❓</button>";
   }
   function privacyNotice() {
-  return "<div id=\"privacy-notice\" class=\"text-sm text-gray-600 my-2\">Your Calm Space activities are private and only used for wellbeing support.</div>";
+    return "<div id=\"privacy-notice\" class=\"text-sm text-gray-600 my-2\">Your Calm Space activities are private and only used for wellbeing support.</div>";
+  }
+  if (!container) return;
+
+  // Helper: Guided Meditation Modal
+  function showMeditationModal() {
+    let modal = document.createElement('div');
+    modal.id = 'meditation-modal';
+    modal.style = 'position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.5);z-index:999;display:flex;align-items:center;justify-content:center;';
+    modal.innerHTML = `<div style='background:#fff;padding:2em;border-radius:1em;max-width:400px;text-align:center;'>
+      <h3>Guided Meditation</h3>
+      <ol style='text-align:left;'>
+        <li>Find a comfortable position and close your eyes.</li>
+        <li>Take a deep breath in... and out.</li>
+        <li>Focus on the sensation of your breath.</li>
+        <li>Let thoughts pass by like clouds.</li>
+        <li>Continue for 1-2 minutes.</li>
+      </ol>
+      <button id='close-meditation' style='margin-top:1em;' class='btn-primary'>Close</button>
+    </div>`;
+    document.body.appendChild(modal);
+    document.getElementById('close-meditation').onclick = () => modal.remove();
+  }
+
+  // Helper: Journal Feature
+  function showJournal() {
+    // Inject handwriting font from Google Fonts
+    if (!document.getElementById('handwriting-font')) {
+      const fontLink = document.createElement('link');
+      fontLink.id = 'handwriting-font';
+      fontLink.rel = 'stylesheet';
+      fontLink.href = 'https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap';
+      document.head.appendChild(fontLink);
+    }
+    let journal = document.getElementById('calm-journal-modal');
+    if (!journal) {
+      journal = document.createElement('div');
+      journal.id = 'calm-journal-modal';
+      journal.style = 'position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.5);z-index:999;display:flex;align-items:center;justify-content:center;';
+      journal.innerHTML = `<div style='background:#fff;padding:2em 2em 1em 2em;border-radius:1em;max-width:420px;width:95vw;box-shadow:0 4px 24px rgba(0,0,0,0.12);position:relative;'>
+        <h3 style='font-family:Indie Flower, cursive;font-size:2em;margin-bottom:0.5em;'>My Journal</h3>
+        <button id='toggle-prompts' style='position:absolute;top:1em;right:1em;' class='btn-secondary'>Prompts</button>
+        <div id='journal-prompts' style='display:none;margin-bottom:1em;'>
+          <ul style='font-family:Indie Flower, cursive;font-size:1.1em;line-height:1.6;'>
+            <li>What made you smile today?</li>
+            <li>Describe a challenge you overcame.</li>
+            <li>How did you help someone recently?</li>
+            <li>What is one thing you want to improve?</li>
+            <li>Write a message to your future self.</li>
+          </ul>
+        </div>
+        <textarea id='journal-entry' rows='8' style='width:100%;background:repeating-linear-gradient(white, white 28px, #e0e0e0 29px);font-family:Indie Flower, cursive;font-size:1.2em;line-height:2.2;padding:1em;border-radius:0.5em;border:1px solid #ccc;margin-bottom:1em;' placeholder='Write your thoughts...'></textarea>
+        <div style='display:flex;justify-content:flex-end;gap:1em;'>
+          <button id='save-journal' class='btn-primary'>Save</button>
+          <button id='close-journal' class='btn-secondary'>Close</button>
+        </div>
+      </div>`;
+      document.body.appendChild(journal);
+      // Load previous entry
+      const entry = localStorage.getItem('calmJournal') || '';
+      document.getElementById('journal-entry').value = entry;
+      document.getElementById('save-journal').onclick = () => {
+        localStorage.setItem('calmJournal', document.getElementById('journal-entry').value);
+        alert('Journal entry saved!');
+      };
+      document.getElementById('close-journal').onclick = () => journal.remove();
+      document.getElementById('toggle-prompts').onclick = () => {
+        const prompts = document.getElementById('journal-prompts');
+        prompts.style.display = prompts.style.display === 'none' ? 'block' : 'none';
+      };
+    }
   }
   const stories = {
     "life-skills": {
@@ -76,9 +147,32 @@ export function showCalmSpace(container) {
   if (calmSpaceSection) setAriaAttributes(calmSpaceSection, { role: 'region', label: 'Calm Space' });
   // Interactive elements
   if (soundToggleBtn) soundToggleBtn.onclick = () => alert('Ambient sound toggled!');
-  if (meditateBtn) meditateBtn.onclick = () => alert('Guided meditation coming soon!');
-  if (calmJournalBtn) calmJournalBtn.onclick = () => alert('Journal feature coming soon!');
+  if (meditateBtn) meditateBtn.onclick = showMeditationModal;
+  if (calmJournalBtn) calmJournalBtn.onclick = showJournal;
   if (starBtns && starBtns.length) starBtns.forEach(btn => btn.onclick = () => btn.classList.toggle('active'));
+  // Mood tracker (simple version)
+  const moodTracker = document.getElementById('calm-mood-tracker');
+  if (moodTracker) {
+    moodTracker.innerHTML = `
+      <label for="mood-select">How are you feeling today?</label>
+      <select id="mood-select" aria-label="Select your mood">
+        <option value="">-- Select --</option>
+        <option value="happy">😊 Happy</option>
+        <option value="sad">😢 Sad</option>
+        <option value="anxious">😰 Anxious</option>
+        <option value="calm">😌 Calm</option>
+        <option value="frustrated">😠 Frustrated</option>
+      </select>
+    `;
+    const moodSelect = document.getElementById('mood-select');
+    if (moodSelect) {
+      moodSelect.addEventListener('change', function() {
+        alert(`Mood recorded: ${this.value}`);
+        // Here you can add code to save the mood selection
+        localStorage.setItem('userMood', this.value);
+      });
+    }
+  }
   // Gentle particle effects
   const particles = document.getElementById('calm-particles');
   if (particles) {
@@ -95,9 +189,144 @@ export function showCalmSpace(container) {
       p.style.animation=`float ${2+Math.random()*3}s infinite ease-in-out`;
       particles.appendChild(p);
     }
+    const style = document.createElement('style');
+    style.innerHTML = `
+      @keyframes float {
+        0% { transform: translateY(0) scale(1); opacity: 1; }
+        50% { transform: translateY(-20px) scale(1.2); opacity: 0.7; }
+        100% { transform: translateY(0) scale(1); opacity: 1; }
+      }
+    `;
+    document.head.appendChild(style);
   }
 
   // ...existing code...
+// --- Advanced Feature Upgrades & TODOs ---
+// Accessibility: ARIA roles, keyboard navigation
+// Onboarding/help modal
+// Backup/sync logic
+// Gamification: challenges, leaderboard
+// Educator/parent feedback
+// Analytics integration
+// Error boundaries
+// UI settings modal
+// Comprehensive calm space logic
+
+function showOnboarding() {
+  const modal = document.createElement('div');
+  modal.className = 'onboarding-modal';
+  modal.innerHTML = `<h2>Welcome to Calm Space!</h2><p>Relax and recharge. Use the settings to personalize your experience.</p><button id='close-onboarding'>Close</button>`;
+  document.body.appendChild(modal);
+  document.getElementById('close-onboarding').onclick = () => modal.remove();
+}
+
+function setAccessibility() {
+  const calmEl = document.getElementById('calm-space');
+  if (calmEl) {
+    calmEl.setAttribute('role', 'region');
+    calmEl.setAttribute('aria-label', 'Calm Space');
+  }
+}
+
+function backupProgress(progress) {
+  localStorage.setItem('calmSpaceProgress', JSON.stringify(progress));
+}
+function syncProgress() {
+  return JSON.parse(localStorage.getItem('calmSpaceProgress') || '{}');
+}
+
+function updateLeaderboard(score) {
+  // ...leaderboard logic...
+}
+
+function sendFeedback(feedback) {
+  // ...send feedback to server...
+}
+
+function logEvent(event) {
+  // ...analytics logic...
+}
+
+function safeRun(fn) {
+  try { fn(); } catch (e) { console.error('Error:', e); }
+}
+
+function showSettings() {
+  // ...settings modal logic...
+}
+
+function startCalmSpace() {
+  showOnboarding();
+  setAccessibility();
+  // ...calm space logic...
+}
+
+if (typeof document !== 'undefined') {
+  document.addEventListener('DOMContentLoaded', startCalmSpace);
+}
+// --- Advanced Feature Upgrades & TODOs ---
+// Accessibility: ARIA roles, keyboard navigation
+// Onboarding/help modal
+// Backup/sync logic
+// Gamification: challenges, leaderboard
+// Educator/parent feedback
+// Analytics integration
+// Error boundaries
+// UI settings modal
+// Comprehensive calm space logic
+
+function showOnboarding() {
+  const modal = document.createElement('div');
+  modal.className = 'onboarding-modal';
+  modal.innerHTML = `<h2>Welcome to Calm Space!</h2><p>Relax and recharge in your personal calm space. Use the settings to customize your experience.</p><button id='close-onboarding'>Close</button>`;
+  document.body.appendChild(modal);
+  document.getElementById('close-onboarding').onclick = () => modal.remove();
+}
+
+function setAccessibility() {
+  const calmEl = document.getElementById('calm-space');
+  if (calmEl) {
+    calmEl.setAttribute('role', 'region');
+    calmEl.setAttribute('aria-label', 'Calm Space');
+  }
+}
+
+function backupProgress(progress) {
+  localStorage.setItem('calmSpaceProgress', JSON.stringify(progress));
+}
+function syncProgress() {
+  return JSON.parse(localStorage.getItem('calmSpaceProgress') || '{}');
+}
+
+function updateLeaderboard(score) {
+  // ...leaderboard logic...
+}
+
+function sendFeedback(feedback) {
+  // ...send feedback to server...
+}
+
+function logEvent(event) {
+  // ...analytics logic...
+}
+
+function safeRun(fn) {
+  try { fn(); } catch (e) { console.error('Error:', e); }
+}
+
+function showSettings() {
+  // ...settings modal logic...
+}
+
+function startCalmSpace() {
+  showOnboarding();
+  setAccessibility();
+  // ...calm space logic...
+}
+
+if (typeof document !== 'undefined') {
+  document.addEventListener('DOMContentLoaded', startCalmSpace);
+}
   if (!container) return;
   if (!container) return;
   container.innerHTML = `
@@ -211,3 +440,5 @@ export function showCalmSpace(container) {
   }
   showPrompt();
 }
+// Animate heading and button
+
