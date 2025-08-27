@@ -9,8 +9,11 @@ export function showResourceLibrary(container) {
     </section>
   `;
   // Animate heading and button
-  applyHeadingAnimation(document.getElementById('resource-heading'));
-  applyButtonAnimation(document.getElementById('download-resource'));
+  const headingEl = document.getElementById('resource-heading');
+  if (headingEl) applyHeadingAnimation(headingEl);
+  const downloadBtn = document.getElementById('download-resource');
+  if (downloadBtn) applyButtonAnimation(downloadBtn);
   // Accessibility
-  setAriaAttributes(document.getElementById('resource-library'), { role: 'region', label: 'Resource Library' });
+  const librarySection = document.getElementById('resource-library');
+  if (librarySection) setAriaAttributes(librarySection, { role: 'region', label: 'Resource Library' });
 }

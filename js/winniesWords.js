@@ -84,7 +84,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function addPhraseToDisplay() {
-    phrase.innerHTML = '<ul></ul>';
+  if (!phrase) return;
+  phrase.innerHTML = '<ul></ul>';
     let random = Math.floor(Math.random() * phrases.length);
     let splitPhrase = phrases[random].split('');
     let word = 0;
@@ -187,24 +188,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function getCurrentPhrase() {
     let phraseText = '';
-    document.querySelectorAll('#phrase .letter').forEach(l => phraseText += l.innerHTML);
+  const letterEls = document.querySelectorAll('#phrase .letter');
+  if (!letterEls) return '';
+  letterEls.forEach(l => phraseText += l.innerHTML);
     return phraseText;
   }
 
   // Add event listeners
-  qwerty.addEventListener('click', (e) => {
-    if (e.target.tagName === 'BUTTON' && win === null) {
-      let clickedBtn = e.target;
-      clickedBtn.disabled = true;
-      clickedBtn.className = checkLetter(clickedBtn.innerHTML) ? 'correct' : 'wrong';
-      checkWinState();
-    }
-  });
+  if (qwerty) {
+    qwerty.addEventListener('click', (e) => {
+      if (e.target.tagName === 'BUTTON' && win === null) {
+        let clickedBtn = e.target;
+        clickedBtn.disabled = true;
+        clickedBtn.className = checkLetter(clickedBtn.innerHTML) ? 'correct' : 'wrong';
+        checkWinState();
+      }
+    });
+  }
 
-  startGame.addEventListener('click', () => {
-    clearBoard();
-    addPhraseToDisplay();
-  });
+  if (startGame) {
+    startGame.addEventListener('click', () => {
+      clearBoard();
+      addPhraseToDisplay();
+    });
+  }
 
   document.addEventListener('keyup', (e) => {
     if (e.key === 'Enter' && !document.querySelector('.letter')) {
@@ -229,11 +236,14 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Add a button for bonus round
-  const bonusBtn = document.createElement('button');
-  bonusBtn.textContent = 'Bonus Round!';
-  bonusBtn.className = 'startBtn';
-  bonusBtn.onclick = bonusRound;
-  document.getElementById('winnies-words').appendChild(bonusBtn);
+  const winniesWordsDiv = document.getElementById('winnies-words');
+  if (winniesWordsDiv) {
+    const bonusBtn = document.createElement('button');
+    bonusBtn.textContent = 'Bonus Round!';
+    bonusBtn.className = 'startBtn';
+    bonusBtn.onclick = bonusRound;
+    winniesWordsDiv.appendChild(bonusBtn);
+  }
 
   // Add sound effects (optional)
   // let winSound = new Audio('sounds/win.mp3');

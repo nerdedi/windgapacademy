@@ -275,13 +275,20 @@ export function showVirtualWorld(container) {
     }
   };
   window.checkMathAnswer = function () {
-    const val = document.getElementById("math-input").value;
-    document.getElementById("math-feedback").innerText = val == 12 ? "Correct!" : "Try again!";
+    const mathInput = document.getElementById("math-input");
+    const mathFeedback = document.getElementById("math-feedback");
+    const val = mathInput ? mathInput.value : "";
+    if (mathFeedback) {
+      mathFeedback.innerText = val == 12 ? "Correct!" : "Try again!";
+    }
   };
   window.checkMemoryAnswer = function () {
-    const val = document.getElementById("memory-input").value.trim().toLowerCase();
-    document.getElementById("memory-feedback").innerText =
-      val === "red, blue, green" ? "Correct!" : "Try again!";
+    const memoryInput = document.getElementById("memory-input");
+    const memoryFeedback = document.getElementById("memory-feedback");
+    const val = memoryInput ? memoryInput.value.trim().toLowerCase() : "";
+    if (memoryFeedback) {
+      memoryFeedback.innerText = val === "red, blue, green" ? "Correct!" : "Try again!";
+    }
   };
 
   // Multiplayer Race logic

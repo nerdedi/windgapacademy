@@ -9,8 +9,11 @@ export function showCollaboration(container) {
     </section>
   `;
   // Animate heading and button
-  applyHeadingAnimation(document.getElementById('collab-heading'));
-  applyButtonAnimation(document.getElementById('start-collab'));
+    const headingEl = document.getElementById('collab-heading');
+    if (headingEl) applyHeadingAnimation(headingEl);
+    const startBtn = document.getElementById('start-collab');
+    if (startBtn) applyButtonAnimation(startBtn);
   // Accessibility
-  setAriaAttributes(document.getElementById('collaboration'), { role: 'region', label: 'Collaboration' });
+    const collabSection = document.getElementById('collaboration');
+    if (collabSection) setAriaAttributes(collabSection, { role: 'region', label: 'Collaboration' });
 }

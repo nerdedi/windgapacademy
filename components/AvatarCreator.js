@@ -147,73 +147,92 @@ export class AvatarCreator {
   }
 
   attachEvents() {
-    this.container.querySelector('#skin-tone').addEventListener('input', e => {
+    const skinTone = this.container.querySelector('#skin-tone');
+    if (skinTone) skinTone.addEventListener('input', e => {
       this.state.skin = e.target.value;
       this.render();
     });
-    this.container.querySelector('#hair-color').addEventListener('input', e => {
+    const hairColor = this.container.querySelector('#hair-color');
+    if (hairColor) hairColor.addEventListener('input', e => {
       this.state.hair = e.target.value;
       this.render();
     });
-    this.container.querySelector('#hairstyle-select').addEventListener('change', e => {
+    const hairstyleSelect = this.container.querySelector('#hairstyle-select');
+    if (hairstyleSelect) hairstyleSelect.addEventListener('change', e => {
       this.state.hairstyle = e.target.value;
       this.render();
     });
-    this.container.querySelector('#eyes-select').addEventListener('change', e => {
+    const eyesSelect = this.container.querySelector('#eyes-select');
+    if (eyesSelect) eyesSelect.addEventListener('change', e => {
       this.state.eyes = e.target.value;
       this.render();
     });
-    this.container.querySelector('#mouth-select').addEventListener('change', e => {
+    const mouthSelect = this.container.querySelector('#mouth-select');
+    if (mouthSelect) mouthSelect.addEventListener('change', e => {
       this.state.mouth = e.target.value;
       this.render();
     });
-    this.container.querySelector('#bodytype-select').addEventListener('change', e => {
+    const bodyTypeSelect = this.container.querySelector('#bodytype-select');
+    if (bodyTypeSelect) bodyTypeSelect.addEventListener('change', e => {
       this.state.bodyType = e.target.value;
       this.render();
     });
-    this.container.querySelector('#outfit-select').addEventListener('change', e => {
+    const outfitSelect = this.container.querySelector('#outfit-select');
+    if (outfitSelect) outfitSelect.addEventListener('change', e => {
       this.state.outfit = e.target.value;
       this.render();
     });
-    this.container.querySelector('#outfitpattern-select').addEventListener('change', e => {
+    const outfitPatternSelect = this.container.querySelector('#outfitpattern-select');
+    if (outfitPatternSelect) outfitPatternSelect.addEventListener('change', e => {
       this.state.outfitPattern = e.target.value;
       this.render();
     });
-    this.container.querySelector('#accessory-select').addEventListener('change', e => {
+    const accessorySelect = this.container.querySelector('#accessory-select');
+    if (accessorySelect) accessorySelect.addEventListener('change', e => {
       this.state.accessory = e.target.value;
       this.render();
     });
-    this.container.querySelector('#mood-select').addEventListener('change', e => {
+    const moodSelect = this.container.querySelector('#mood-select');
+    if (moodSelect) moodSelect.addEventListener('change', e => {
       this.state.mood = e.target.value;
       this.render();
     });
-    this.container.querySelector('#shoes-select').addEventListener('change', e => {
+    const shoesSelect = this.container.querySelector('#shoes-select');
+    if (shoesSelect) shoesSelect.addEventListener('change', e => {
       this.state.shoes = e.target.value;
       this.render();
     });
-    this.container.querySelector('#pronoun-select').addEventListener('change', e => {
+    const pronounSelect = this.container.querySelector('#pronoun-select');
+    if (pronounSelect) pronounSelect.addEventListener('change', e => {
       this.state.pronoun = e.target.value;
       this.render();
     });
-    this.container.querySelector('#background-select').addEventListener('input', e => {
+    const backgroundSelect = this.container.querySelector('#background-select');
+    if (backgroundSelect) backgroundSelect.addEventListener('input', e => {
       this.state.background = e.target.value;
       this.render();
     });
-    this.container.querySelector('#animation-select').addEventListener('change', e => {
+    const animationSelect = this.container.querySelector('#animation-select');
+    if (animationSelect) animationSelect.addEventListener('change', e => {
       this.state.animation = e.target.value;
       this.render();
     });
-    this.container.querySelector('#save-avatar').addEventListener('click', () => {
+    const saveAvatar = this.container.querySelector('#save-avatar');
+    if (saveAvatar) saveAvatar.addEventListener('click', () => {
       localStorage.setItem('academyAvatar', JSON.stringify(this.state));
-      document.getElementById('avatar-status').textContent = 'Avatar saved!';
+      const statusDiv = document.getElementById('avatar-status');
+      if (statusDiv) statusDiv.textContent = 'Avatar saved!';
     });
-    this.container.querySelector('#export-avatar').addEventListener('click', () => {
+    const exportAvatar = this.container.querySelector('#export-avatar');
+    if (exportAvatar) exportAvatar.addEventListener('click', () => {
       this.exportAvatar();
     });
-    this.container.querySelector('#add-to-gallery').addEventListener('click', () => {
+    const addToGallery = this.container.querySelector('#add-to-gallery');
+    if (addToGallery) addToGallery.addEventListener('click', () => {
       this.gallery.push({ ...this.state });
       this.renderGallery();
-      document.getElementById('avatar-status').textContent = 'Avatar added to gallery!';
+      const statusDiv = document.getElementById('avatar-status');
+      if (statusDiv) statusDiv.textContent = 'Avatar added to gallery!';
     });
   }
 

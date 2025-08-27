@@ -3,12 +3,12 @@
   "version": "1.0.0",
   "description": "Modern build setup for Windgap Academy",
   "scripts": {
-  "build": "vite build",
-  "start": "echo 'No server needed for Vercel static deployment'",
-  "dev": "vite",
+    "build": "vite build",
+    "start": "echo 'No server needed for Vercel static deployment'",
+    "dev": "vite",
     "preview": "vite preview",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-  "test": "jest --runInBand --watchAll=false --testNamePattern .* --testPathPatterns /workspaces/windgapacademy",
+    "test": "jest --runInBand --watchAll=false --testNamePattern .* --testPathPatterns /workspaces/windgapacademy",
     "e2e": "cypress run",
     "e2e:open": "cypress open",
     "e2e:cypress": "cypress run",
@@ -30,6 +30,7 @@
     "vite": "^7.1.3"
   },
   "dependencies": {
+    "compression": "^1.8.1",
     "express": "^5.1.0",
     "firebase": "^12.1.0",
     "jspdf": "^3.0.1",

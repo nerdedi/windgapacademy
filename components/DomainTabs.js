@@ -28,20 +28,23 @@ export function showDomainTabs(container, domain = "literacy") {
   `;
   // Tab click logic
   var tabBtns = container.querySelectorAll(".domain-tab");
-  for (var i = 0; i < tabBtns.length; i++) {
-    tabBtns[i].addEventListener("click", function () {
-      var selectedDomain = this.getAttribute("data-domain");
-      for (var j = 0; j < tabBtns.length; j++) {
-        tabBtns[j].classList.remove("active");
-      }
-      this.classList.add("active");
-      window.launchInteractiveScenario(selectedDomain);
-    });
+  if (tabBtns && tabBtns.length) {
+    for (var i = 0; i < tabBtns.length; i++) {
+      tabBtns[i].addEventListener("click", function () {
+        var selectedDomain = this.getAttribute("data-domain");
+        for (var j = 0; j < tabBtns.length; j++) {
+          tabBtns[j].classList.remove("active");
+        }
+        this.classList.add("active");
+        if (window.launchInteractiveScenario) window.launchInteractiveScenario(selectedDomain);
+      });
+    }
   }
   // Launch initial scenario
-  window.launchInteractiveScenario(domain);
+  if (window.launchInteractiveScenario) window.launchInteractiveScenario(domain);
   window.launchInteractiveScenario = function (domain) {
     const scenarioDiv = document.getElementById("interactive-scenario");
+    if (!scenarioDiv) return;
     // Australian characters and voices
     const characters = {
       literacy: {
