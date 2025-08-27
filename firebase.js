@@ -98,19 +98,38 @@ export async function saveChatLog(userId, messages) {
 
 
 
-import { env } from "./src/env.js";
-const firebaseConfig = {
-  apiKey: env.FIREBASE_API_KEY,
-  authDomain: env.FIREBASE_AUTH_DOMAIN,
-  projectId: env.FIREBASE_PROJECT_ID,
-  storageBucket: env.FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: env.FIREBASE_MESSAGING_SENDER_ID,
-  appId: env.FIREBASE_APP_ID,
-  measurementId: env.FIREBASE_MEASUREMENT_ID,
-};
 
-const app = initializeApp(firebaseConfig);
-export const auth = getAuth(app);
+import { env } from "./src/env.js";
+let app = null;
+let auth = null;
+let firebaseConfig = null;
+try {
+  firebaseConfig = {
+    apiKey: env.FIREBASE_API_KEY,
+    authDomain: env.FIREBASE_AUTH_DOMAIN,
+    projectId: env.FIREBASE_PROJECT_ID,
+    storageBucket: env.FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: env.FIREBASE_MESSAGING_SENDER_ID,
+    appId: env.FIREBASE_APP_ID,
+    measurementId: env.FIREBASE_MEASUREMENT_ID,
+  };
+  if (
+    firebaseConfig.apiKey &&
+    firebaseConfig.authDomain &&
+    firebaseConfig.projectId &&
+    firebaseConfig.storageBucket &&
+    firebaseConfig.messagingSenderId &&
+    firebaseConfig.appId
+  ) {
+    app = initializeApp(firebaseConfig);
+    auth = getAuth(app);
+  } else {
+    console.warn("Firebase config is incomplete. App will not be initialized.");
+  }
+} catch (err) {
+  console.error("Error initializing Firebase:", err);
+}
+export { app, auth };
 
 export function loginUser(email, password) {
   // Privacy: Login credentials are securely handled and educator-reviewed

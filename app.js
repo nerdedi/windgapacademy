@@ -1,6 +1,6 @@
 // Firebase via CDN for browser compatibility
-// Remove ES module import and use global firebase object
-// See firebase.js for initialization
+// Use ES module import for Firebase. See firebase.js for initialization.
+import { app, auth, loginUser } from "./firebase.js";
 // --- Dashboard Button Listeners ---
 function setupDashboardButtonListeners() {
   const buttonMap = {
@@ -60,7 +60,7 @@ const lazyLoadGameModule = async (modulePath, ...args) => {
 
 
 // Single reference for main app container
-const app = document.getElementById("app");
+const appContainer = document.getElementById("app");
 
 // --- Core Managers ---
 const gameStateManager = new GameStateManager({});
@@ -426,7 +426,12 @@ window.showMilestoneNotification = function (msg) {
 // Loading screen logic and homepage logic are now in mainInit()
 function mainInit() {
   // Only show homepage for guests
-  const user = window.firebase && window.firebase.auth && window.firebase.auth().currentUser;
+  let user = null;
+  try {
+    user = auth && auth.currentUser ? auth.currentUser : null;
+  } catch (err) {
+    console.error("Firebase SDK or config not available.", err);
+  }
   if (!user) {
     app.innerHTML = `
       <div class="min-h-screen bg-gradient-to-br from-[#5ED1D2] to-[#A32C2B] flex flex-col justify-center items-center">
@@ -508,8 +513,7 @@ function mainInit() {
         return;
       }
       try {
-        // Use Firebase CDN global object
-        window.firebase.auth().signInWithEmailAndPassword(email, password)
+        loginUser(email, password)
           .then((userCredential) => {
             sendEvent('login', { email });
             const user = userCredential.user;
@@ -780,22 +784,29 @@ enableKeyboardNavigation();
 // Global error handler for uncaught errors
 window.addEventListener('error', function(event) {
   console.error('Global error caught:', event.error || event.message);
+  // Optionally display a user-friendly error message in the UI
+  if (app) {
+    app.innerHTML = `<div class="error-message" style="color:red;padding:2em;text-align:center;">
+      <h2>Something went wrong</h2>
+      <p>${event.error ? event.error.message : event.message}</p>
+      <p>Please refresh the page or contact support if the problem persists.</p>
+    </div>`;
+  }
 });
 
 window.addEventListener('unhandledrejection', function(event) {
   console.error('Unhandled promise rejection:', event.reason);
+  // Optionally display a user-friendly error message in the UI
+  if (appContainer) {
+    appContainer.innerHTML = `<div class="error-message" style="color:red;padding:2em;text-align:center;">
+      <h2>Something went wrong</h2>
+      <p>${event.reason && event.reason.message ? event.reason.message : event.reason}</p>
+      <p>Please refresh the page or contact support if the problem persists.</p>
+    </div>`;
+  }
 });
 // Firebase initialization (ensure SDK is loaded before this runs)
-if (window.firebase && window.env && window.env.FIREBASE_CONFIG) {
-  try {
-    firebase.initializeApp(window.env.FIREBASE_CONFIG);
-  } catch (error) {
-    console.error('Firebase initialization error:', error);
-  }
-} else {
-console.warn('Firebase SDK or config not available.');
-  console.warn('Firebase SDK or config not available.');
-}
+// Firebase is initialized via ES module in firebase.js
 // Safe DOM queries
 // Safe DOM queries for ticker
 const ticker = document.getElementById('news-ticker');

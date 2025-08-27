@@ -22,11 +22,11 @@ export function showMoneySkillsGame(container, userData = {}) {
   }
     // Game logic stubbed; implement as needed
     // Example usage for main button:
-    const btn = document.getElementById('money-btn');
-    applyButtonAnimation(btn);
-    // Example usage for heading:
-    const heading = document.getElementById('money-heading');
-    applyHeadingAnimation(heading);
+  const btn = document.getElementById('money-btn');
+  if (btn) applyButtonAnimation(btn);
+  // Example usage for heading:
+  const heading = document.getElementById('money-heading');
+  if (heading) applyHeadingAnimation(heading);
 }
 
 // --- Feature Implementations ---

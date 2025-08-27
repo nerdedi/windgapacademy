@@ -68,16 +68,22 @@ export function getAvatarState({
 function renderAvatar() {
   // Render avatar based on independent state properties
   const preview = document.getElementById("avatar-preview");
+  const skinEl = document.getElementById("skin-tone");
+  const hairEl = document.getElementById("hair-colour");
+  const outfitEl = document.getElementById("outfit-select");
+  const pronounEl = document.getElementById("pronoun-select");
   const state = getAvatarState({
-    skin: document.getElementById("skin-tone").value,
-    hair: document.getElementById("hair-colour").value,
-    outfit: document.getElementById("outfit-select").value,
-    pronoun: document.getElementById("pronoun-select").value,
+    skin: skinEl ? skinEl.value : "#ffe4e1",
+    hair: hairEl ? hairEl.value : "#333",
+    outfit: outfitEl ? outfitEl.value : "default",
+    pronoun: pronounEl ? pronounEl.value : "they/them",
   });
   // Set avatar preview image and styles
-  preview.src = "/assets/images/avatar-default.png";
-  preview.style.background = state.skin;
-  preview.style.borderColor = state.hair;
+  if (preview) {
+    preview.src = "/assets/images/avatar-default.png";
+    preview.style.background = state.skin;
+    preview.style.borderColor = state.hair;
+  }
 }
 
 // Example usage: render avatar when DOM is loaded

@@ -9,8 +9,11 @@ export function showVideoChat(container) {
     </section>
   `;
   // Animate heading and button
-  applyHeadingAnimation(document.getElementById('video-heading'));
-  applyButtonAnimation(document.getElementById('start-video'));
+    const headingEl = document.getElementById('video-heading');
+    if (headingEl) applyHeadingAnimation(headingEl);
+    const startBtn = document.getElementById('start-video');
+    if (startBtn) applyButtonAnimation(startBtn);
   // Accessibility
-  setAriaAttributes(document.getElementById('video-chat'), { role: 'region', label: 'Video Chat' });
+    const chatSection = document.getElementById('video-chat');
+    if (chatSection) setAriaAttributes(chatSection, { role: 'region', label: 'Video Chat' });
 }
