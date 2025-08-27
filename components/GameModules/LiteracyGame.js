@@ -1,10 +1,228 @@
+// --- Advanced Feature Upgrades & TODOs ---
+// Accessibility: ARIA roles, keyboard navigation
+// Onboarding/help modal
+// Backup/sync logic
+// Gamification: challenges, leaderboard
+// Educator/parent feedback
+// Analytics integration
+// Error boundaries
+// UI settings modal
+// Comprehensive game logic
+
+// Example: Add onboarding modal
+function showOnboarding() {
+  const modal = document.createElement('div');
+  modal.className = 'onboarding-modal';
+  modal.innerHTML = `<h2>Welcome to Literacy Game!</h2><p>Practice literacy skills interactively. Use the settings to customize your experience.</p><button id='close-onboarding'>Close</button>`;
+  document.body.appendChild(modal);
+  document.getElementById('close-onboarding').onclick = () => modal.remove();
+}
+
+// Example: Add ARIA attributes
+function setAccessibility() {
+  const gameEl = document.getElementById('literacy-game');
+  if (gameEl) {
+    gameEl.setAttribute('role', 'region');
+    gameEl.setAttribute('aria-label', 'Literacy Game');
+  }
+}
+
+// Example: Add backup/sync logic
+function backupProgress(progress) {
+  localStorage.setItem('literacyProgress', JSON.stringify(progress));
+}
+function syncProgress() {
+  return JSON.parse(localStorage.getItem('literacyProgress') || '{}');
+}
+
+// Example: Gamification
+function updateLeaderboard(score) {
+  // ...leaderboard logic...
+}
+
+// Example: Educator/parent feedback
+function sendFeedback(feedback) {
+  // ...send feedback to server...
+}
+
+// Example: Analytics
+function logEvent(event) {
+  // ...analytics logic...
+}
+
+// Example: Error boundary
+function safeRun(fn) {
+  try { fn(); } catch (e) { console.error('Error:', e); }
+}
+
+// Example: UI settings modal
+function showSettings() {
+  // ...settings modal logic...
+}
+
+// Comprehensive game logic placeholder
+function startGame() {
+  showOnboarding();
+  setAccessibility();
+  // ...game logic...
+}
+
+// Run game on DOMContentLoaded
+if (typeof document !== 'undefined') {
+  document.addEventListener('DOMContentLoaded', startGame);
+}
 // Literacy Game Module: Platformer
+// --- i18n & Language Switching ---
+const i18n = {
+  en: {
+    title: "Literacy Game",
+    return: "Return to Dashboard",
+    onboarding: "Welcome! Practice literacy skills in a fun platformer.",
+    faq: "FAQ: Learn about reading, writing, and comprehension.",
+    backup: "Backup your progress to the cloud.",
+    sync: "Sync your achievements with your educator.",
+    placeholder: "Feature coming soon!"
+  },
+  es: {
+    title: "Juego de Alfabetización",
+    return: "Volver al Panel",
+    onboarding: "¡Bienvenido! Practica habilidades de alfabetización en un juego de plataformas.",
+    faq: "FAQ: Aprende sobre lectura, escritura y comprensión.",
+    backup: "Respalda tu progreso en la nube.",
+    sync: "Sincroniza tus logros con tu educador.",
+    placeholder: "¡Función próximamente!"
+  },
+  ar: {
+    title: "لعبة محو الأمية",
+    return: "العودة إلى لوحة التحكم",
+    onboarding: "مرحبًا! تدرب على مهارات القراءة والكتابة في لعبة منصات ممتعة.",
+    faq: "الأسئلة الشائعة: تعرف على القراءة والكتابة والفهم.",
+    backup: "انسخ تقدمك إلى السحابة.",
+    sync: "زامن إنجازاتك مع المعلم.",
+    placeholder: "الميزة قادمة قريبًا!"
+  }
+};
+let currentLang = "en";
+function setLanguage(lang) {
+  currentLang = lang;
+  document.documentElement.lang = lang;
+  document.body.dir = ["ar"].includes(lang) ? "rtl" : "ltr";
+  addTooltips();
+}
+
+// --- Tooltips ---
+function addTooltips() {
+  document.querySelectorAll("button, [aria-label]").forEach(el => {
+    if (el.title || el.getAttribute("aria-label")) {
+      el.setAttribute("tabindex", "0");
+      el.onfocus = el.onmouseover = function() {
+        let tip = document.createElement("div");
+        tip.className = "tooltip";
+        tip.textContent = el.title || el.getAttribute("aria-label");
+        tip.style.position = "absolute";
+        tip.style.background = "#333";
+        tip.style.color = "#fff";
+        tip.style.padding = "4px 8px";
+        tip.style.borderRadius = "4px";
+        tip.style.top = (el.getBoundingClientRect().top - 30) + "px";
+        tip.style.left = (el.getBoundingClientRect().left) + "px";
+        tip.style.zIndex = 9999;
+        tip.id = "active-tooltip";
+        document.body.appendChild(tip);
+      };
+      el.onblur = el.onmouseout = function() {
+        let tip = document.getElementById("active-tooltip");
+        if (tip) tip.remove();
+      };
+    }
+  });
+}
+
+// --- Onboarding & FAQ Modals ---
+function showOnboarding() {
+  let modal = document.getElementById("onboarding-modal");
+  if (!modal) {
+    modal = document.createElement("div");
+    modal.id = "onboarding-modal";
+    modal.style = "position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.5);z-index:2000;display:flex;align-items:center;justify-content:center;";
+    modal.innerHTML = `<div style='background:#fff;padding:2em;border-radius:1em;max-width:400px;text-align:center;'>
+      <h3>Onboarding</h3>
+      <p>${i18n[currentLang].onboarding}</p>
+      <button id='close-onboarding' class='btn-primary'>Close</button>
+    </div>`;
+    document.body.appendChild(modal);
+    document.getElementById('close-onboarding').onclick = () => modal.remove();
+  }
+}
+function showFAQ() {
+  let modal = document.getElementById("faq-modal");
+  if (!modal) {
+    modal = document.createElement("div");
+    modal.id = "faq-modal";
+    modal.style = "position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.5);z-index:2000;display:flex;align-items:center;justify-content:center;";
+    modal.innerHTML = `<div style='background:#fff;padding:2em;border-radius:1em;max-width:400px;text-align:left;'>
+      <h3>FAQ</h3>
+      <ul><li>${i18n[currentLang].faq}</li></ul>
+      <button id='close-faq' class='btn-primary'>Close</button>
+    </div>`;
+    document.body.appendChild(modal);
+    document.getElementById('close-faq').onclick = () => modal.remove();
+  }
+}
+
+// --- Backup & Sync Placeholders ---
+function backupProgress() { alert(i18n[currentLang].backup); }
+function syncProgress() { alert(i18n[currentLang].sync); }
 // Daisy explains rules, Winnie cheers, Andy motivates
 // Levels increase in difficulty, feedback is motivational and independence-focused
 // Visual effects: parallax backgrounds, animated coins, smooth transitions
 // Learner Level shown instead of Score
 
 // --- Progress Tracking ---
+function showSettings() {
+  let modal = document.getElementById("settings-modal");
+  if (!modal) {
+    modal = document.createElement("div");
+    modal.id = "settings-modal";
+    modal.style = "position:fixed;top:50%;left:50%;transform:translate(-50%, -50%);background:#fff;border:2px solid #1976d2;border-radius:12px;padding:24px;z-index:1001;min-width:320px;";
+    modal.innerHTML = `
+      <h3>Game Settings</h3>
+      <div>
+        <label>Language: <select id="language-select">
+          <option value="en">English</option>
+          <option value="es">Spanish</option>
+          <option value="ar">Arabic</option>
+        </select></label>
+      </div>
+      <hr>
+      <div>
+        <button id="onboarding-btn">Onboarding</button>
+        <button id="faq-btn">FAQ</button>
+        <button id="backup-btn">Backup Progress</button>
+        <button id="sync-btn">Sync Progress</button>
+        <button id="close-settings">Close</button>
+      </div>
+    `;
+    document.body.appendChild(modal);
+    document.getElementById("close-settings").onclick = () => modal.remove();
+    document.getElementById("onboarding-btn").onclick = showOnboarding;
+    document.getElementById("faq-btn").onclick = showFAQ;
+    document.getElementById("backup-btn").onclick = backupProgress;
+    document.getElementById("sync-btn").onclick = syncProgress;
+    document.getElementById("language-select").onchange = (e) => { setLanguage(e.target.value); modal.remove(); };
+  } else { modal.style.display = "block"; }
+  addTooltips();
+}
+window.addEventListener("DOMContentLoaded", () => {
+  addTooltips();
+  const settingsBtn = document.createElement("button");
+  settingsBtn.id = "settings-btn";
+  settingsBtn.className = "btn-secondary ml-2";
+  settingsBtn.setAttribute("aria-label", "Settings");
+  settingsBtn.textContent = "⚙️";
+  document.body.appendChild(settingsBtn);
+  settingsBtn.onclick = showSettings;
+});
 function openParentFeedback() {
   let modal = document.getElementById("parent-feedback-modal");
   if (!modal) {

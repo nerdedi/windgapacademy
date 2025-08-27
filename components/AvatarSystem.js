@@ -1,5 +1,5 @@
 // AvatarSystem.js
-// Core logic for live avatars, customization, emotes, accessories, backgrounds, and sharing
+// Core logic for live avatars, customisation, emotes, accessories, backgrounds, and sharing
 
 export class AvatarSystem {
   constructor(container) {
