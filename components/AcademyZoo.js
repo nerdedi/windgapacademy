@@ -211,6 +211,8 @@ export default class AcademyZoo {
         logEvent('Navigate right');
         // Simulate moving to next animal
         zooEl.innerHTML += '<div>Moved to next animal (simulated)</div>';
+        const nextAnimal = zooEl.querySelector('.animal:nth-child(2)');
+        if (nextAnimal) nextAnimal.scrollIntoView({ behavior: 'smooth' });
       } else if (e.key === 'ArrowLeft') {
         logEvent('Navigate left');
         // Simulate moving to previous animal
@@ -257,6 +259,8 @@ export default class AcademyZoo {
       // Simulate zoo logic
       zooEl.innerHTML += '<div>Zoo logic executed (simulated)</div>';
       if (Math.random() < 0.01) throw new Error('Zoo error!');
+      const nextAnimal = zooEl.querySelector('.animal:nth-child(2)');
+      if (nextAnimal) nextAnimal.scrollIntoView({ behavior: 'smooth' });
     });
     // Analytics
     logEvent('Academy Zoo started');
