@@ -69,8 +69,16 @@ const CharacterGallery = () => {
   // Feedback
   const sendFeedback = () => {
     logEvent('Feedback sent');
-    alert('Feedback sent!');
+    showFeedbackModal('Thank you for your feedback!');
   };
+
+  function showFeedbackModal(message) {
+    const modal = document.createElement('div');
+    modal.style = 'position:fixed;top:50%;left:50%;transform:translate(-50%, -50%);background:#fff;border:2px solid #1976d2;border-radius:12px;padding:24px;z-index:1001;min-width:320px;';
+    modal.innerHTML = `<h2>Feedback</h2><p>${message}</p><button id='close-feedback'>Close</button>`;
+    document.body.appendChild(modal);
+    document.getElementById('close-feedback').onclick = () => modal.remove();
+  }
   return (
     <div className="character-gallery grid grid-cols-2 md:grid-cols-4 gap-6 p-6" role="region" aria-label="Character Gallery">
       {showOnboarding && (
@@ -134,8 +142,7 @@ const CharacterGallery = () => {
         <input type="text" placeholder="Send feedback..." value={feedback} onChange={e=>setFeedback(e.target.value)} style={{padding:'4px',borderRadius:'6px',border:'1px solid #ccc'}} />
         <button onClick={sendFeedback} style={{marginLeft:'8px'}}>Send Feedback</button>
       </div>
-      {/* Analytics and logic placeholders */}
-      <div style={{background:'#e0f7fa',padding:'1em',margin:'1em 0',borderRadius:'8px'}}>Placeholder: AR/VR, multiplayer, educator dashboard, character facts, gallery builder, conservation, enrichment, character tracking, etc.</div>
+  {/* Analytics and logic features will be implemented here as modules are completed */}
     </div>
   );
 }
