@@ -3,3 +3,8 @@ dist/
 assets/images-optimized/
 assets/images-webp/
 .env
+
+# Temporary test files
+o3de-test.html
+test-o3de-monitoring.js
+

@@ -22,6 +22,7 @@
     "autoprefixer": "^10.4.21",
     "babel-jest": "^30.0.5",
     "cypress": "^15.0.0",
+    "eslint": "^9.34.0",
     "jest-environment-jsdom": "^30.0.5",
     "playwright": "^1.55.0",
     "postcss": "^8.5.6",

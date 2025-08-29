@@ -46,7 +46,8 @@ async function getData() {
 // Use ES module import for Firebase. See firebase.js for initialization.
 import { app, auth, loginUser } from "./firebase.js";
 import { showDashboard } from "./components/Dashboard.js";
-import { monitorPerformance, trackErrorRates, trackUserEngagement, scheduleRegularUpdates, warnDebug, setDebug, logDebug, sendEvent } from "./utils/monitoring.js";
+import { showO3DEStatus } from "./components/O3DEStatus.js";
+import { monitorPerformance, trackErrorRates, trackUserEngagement, scheduleRegularUpdates, scheduleO3DEUpdateChecks, warnDebug, setDebug, logDebug, sendEvent } from "./utils/monitoring.js";
 import { GameStateManager } from "./src/components/GameStateManager.js";
 import { UnifiedUIManager } from "./src/components/UnifiedUIManager.js";
 import { AnalyticsLogger } from "./src/components/AnalyticsLogger.js";
@@ -465,6 +466,9 @@ window.route = async function (path, opts = {}) {
       break;
     case "privacy-dashboard":
       break;
+    case "o3de-status":
+      showO3DEStatus(app);
+      break;
     case "integration-api":
       break;
     case "smart-scheduling":
@@ -833,6 +837,7 @@ monitorPerformance();
 trackErrorRates();
 trackUserEngagement();
 scheduleRegularUpdates();
+scheduleO3DEUpdateChecks();
 
 // DOM loaded entry point (with error fallback)
 window.addEventListener("DOMContentLoaded", () => {
