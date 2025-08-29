@@ -1,4 +1,4 @@
-// --- Advanced Feature Upgrades & TODOs ---
+// --- Advanced Feature Upgrades ---
 // Accessibility: ARIA roles, keyboard navigation
 // Onboarding/help modal
 // Backup/sync logic
@@ -37,11 +37,24 @@ function updateLeaderboard(score) {
 }
 
 function sendFeedback(feedback) {
-  // ...send feedback to server...
+  logEvent('Feedback sent', { feedback });
+  showFeedbackModal('Thank you for your feedback!');
 }
 
-function logEvent(event) {
-  // ...existing code...
+function logEvent(event, data = {}) {
+  // Real analytics logic
+  if (window.analytics) {
+    window.analytics.track(event, data);
+  }
+  console.log('Analytics event:', event, data);
+}
+
+function showFeedbackModal(message) {
+  const modal = document.createElement('div');
+  modal.style = 'position:fixed;top:50%;left:50%;transform:translate(-50%, -50%);background:#fff;border:2px solid #1976d2;border-radius:12px;padding:24px;z-index:1001;min-width:320px;';
+  modal.innerHTML = `<h2>Feedback</h2><p>${message}</p><button id='close-feedback'>Close</button>`;
+  document.body.appendChild(modal);
+  document.getElementById('close-feedback').onclick = () => modal.remove();
 }
 
 function safeRun(fn) {

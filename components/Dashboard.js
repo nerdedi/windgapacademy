@@ -145,6 +145,7 @@ export function showDashboard(container, data = {}) {
           </div>
         </div>
         <div id="privacy-notice" style="font-size:0.9em;color:#555;margin:8px 0;">${i18n[currentLang].privacy}</div>
+        <div id="island-scene-container" style="margin-bottom:32px;"></div>
         <div id="dashboard-charts" class="mb-4 flex gap-6 justify-center">
           <div class="chart animated-charts" style="width:180px;height:120px;background:#e0ffe7;border-radius:16px;box-shadow:0 2px 8px #0001;"></div>
           <div class="progress-ring animated-charts" style="width:120px;height:120px;border-radius:50%;background:#ffe0f7;box-shadow:0 2px 8px #0001;"></div>
@@ -185,12 +186,39 @@ export function showDashboard(container, data = {}) {
     applyButtonAnimation(document.querySelector('button.btn-secondary'));
     // Accessibility
     setAriaAttributes(document.getElementById('dashboard'), { role: 'region', label: i18n[currentLang].dashboard });
+    // Mount Babylon.js IslandScene React component into dashboard
+    try {
+      const islandSceneContainer = document.getElementById('island-scene-container');
+      if (islandSceneContainer) {
+        // Dynamically import React and IslandScene
+        import('react').then(React => {
+          import('./IslandScene.jsx').then(mod => {
+            const IslandScene = mod.default;
+            // Use ReactDOM to render
+            import('react-dom').then(ReactDOM => {
+              ReactDOM.render(React.createElement(IslandScene), islandSceneContainer);
+            });
+          });
+        });
+      }
+    } catch (e) {
+      console.error('Failed to mount IslandScene:', e);
+    }
     // Feedback form interactivity
     const feedbackForm = document.getElementById('feedback-form');
     if (feedbackForm) {
       feedbackForm.onsubmit = function(e) {
         e.preventDefault();
-        alert('Thank you for your feedback!');
+  showFeedbackModal('Thank you for your feedback!');
+  logEvent('Feedback submitted');
+// Feedback modal implementation
+function showFeedbackModal(message) {
+  const modal = document.createElement('div');
+  modal.style = 'position:fixed;top:50%;left:50%;transform:translate(-50%, -50%);background:#fff;border:2px solid #1976d2;border-radius:12px;padding:24px;z-index:1001;min-width:320px;';
+  modal.innerHTML = `<h2>Feedback</h2><p>${message}</p><button id='close-feedback'>Close</button>`;
+  document.body.appendChild(modal);
+  document.getElementById('close-feedback').onclick = () => modal.remove();
+}
       };
     }
     // Theme and language switching

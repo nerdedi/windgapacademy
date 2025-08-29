@@ -1,6 +1,59 @@
+// --- Dynamic Script Inspection & Debugging ---
+async function getScriptContent(url) {
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      return null;
+    }
+    return await response.text();
+  } catch (e) {
+    console.error(`Failed to fetch script content from ${url}:`, e);
+    return null;
+  }
+}
+
+async function getStackTraceUrls() {
+  const stack = new Error().stack;
+  if (!stack) {
+    return [];
+  }
+  const urls = stack.split('\n')
+    .map(line => {
+      const match = line.match(/(http[s]?:\/\/[^\s]+)/);
+      return match ? match[1].replace(/:\d+:\d+$/, '') : null;
+    })
+    .filter(url => url !== null);
+  return [...new Set(urls)]; // Get unique URLs
+}
+
+async function getData() {
+  const scriptUrls = await getStackTraceUrls();
+  const featureLoaderUrl = scriptUrls.find(url => url.includes('featureLoader.js'));
+
+  if (!featureLoaderUrl) {
+    return { scriptContent: 'Could not find featureLoader.js in stack trace.', stackTraceUrls: scriptUrls };
+  }
+
+  const scriptContent = await getScriptContent(featureLoaderUrl);
+
+  return {
+    scriptContent: scriptContent,
+    featureLoaderUrl: featureLoaderUrl,
+    stackTraceUrls: scriptUrls
+  };
+}
 // Firebase via CDN for browser compatibility
 // Use ES module import for Firebase. See firebase.js for initialization.
 import { app, auth, loginUser } from "./firebase.js";
+import { showDashboard } from "./components/Dashboard.js";
+import { monitorPerformance, trackErrorRates, trackUserEngagement, scheduleRegularUpdates, warnDebug, setDebug, logDebug, sendEvent } from "./utils/monitoring.js";
+import { GameStateManager } from "./src/components/GameStateManager.js";
+import { UnifiedUIManager } from "./src/components/UnifiedUIManager.js";
+import { AnalyticsLogger } from "./src/components/AnalyticsLogger.js";
+import { AssetManager } from "./src/components/AssetManager.js";
+import { ProgressionManager } from "./src/components/ProgressionManager.js";
+import { AdaptiveLearning } from "./src/components/AdaptiveLearning.js";
+
 // --- Dashboard Button Listeners ---
 function setupDashboardButtonListeners() {
   const buttonMap = {
@@ -27,8 +80,6 @@ function setupDashboardButtonListeners() {
       btn.addEventListener('click', () => window.route(routeName));
     }
   });
-}
-
 /*
   Windgap Academy Main App Logic
   - Accessibility: ARIA, narration, font toggles, focus management
@@ -50,33 +101,8 @@ function setupDashboardButtonListeners() {
   - Offline Support: Basic offline functionality with service workers
   - Compliance: GDPR and COPPA compliant data handling
   - Testing: Expanded automated tests for reliability
-  - Documentation: Comprehensive developer and user documentation
-  - Privacy: All user actions are private and educator-reviewed
-  - Compliance: Age-appropriate, ad-free, NDIS and Australian standards
-  - Educator Logging: All navigation and moderation actions are logged
-  - Educational Prompts: Narration and tips for self-regulation
-  - Last updated: August 18, 2025 (with fallback error screen)
-*/
-import { showDashboard } from "./components/Dashboard.js";
-import { GameStateManager } from "./src/components/GameStateManager.js";
-import { UnifiedUIManager } from "./src/components/UnifiedUIManager.js";
-import { AnalyticsLogger } from "./src/components/AnalyticsLogger.js";
-import { AssetManager } from "./src/components/AssetManager.js";
-import { ProgressionManager } from "./src/components/ProgressionManager.js";
-import { AdaptiveLearning } from "./src/components/AdaptiveLearning.js";
-import {
-  monitorPerformance,
-  trackErrorRates,
-  trackLoadingTimes,
-  trackAPIUsage,
-  trackUserInteractions,
-  trackUserEngagement,
-  scheduleRegularUpdates,
-  setDebug,
-  logDebug,
-  warnDebug,
-  sendEvent
-} from "./utils/monitoring.js"
+/* (imports moved to top of file) */
+// import { showDashboard } from "./components/Dashboard.js";
 
 // Lazy-load game modules for performance
 const lazyLoadGameModule = async (modulePath, ...args) => {
@@ -491,19 +517,27 @@ function mainInit() {
     return;
   }
   if (!user) {
-    // Show homepage for unauthenticated users
+    // Show homepage for unauthenticated users ONLY
     app.innerHTML = `
       <div class="min-h-screen bg-gradient-to-br from-[#5ED1D2] to-[#A32C2B] flex flex-col justify-center items-center">
         <header class="flex flex-col items-center mt-12 mb-8">
-          <img src="assets/logo.svg" alt="Windgap Academy Logo" class="h-24 mb-4" />
+          <img src="assets/logo.svg" alt="Windgap Academy Logo" class="h-24 mb-4" style="vertical-align:middle;" />
           <h1 class="text-5xl font-extrabold text-[#A32C2B] mb-4">Windgap Academy of Learning</h1>
-          <img src="assets/images/main-characters-windgap.png" alt="Andy, Winnie, Daisy, Natalie" class="h-32 mb-4" />
+          <img src="assets/images/main-characters-windgap.png" alt="Andy, Winnie, Daisy, Natalie" class="h-32 mb-4" style="vertical-align:middle;" />
         </header>
         <nav class="flex gap-6 mb-10">
           <button id="sign-in-btn" class="btn-primary">Sign In</button>
           <button id="accessibility-btn" class="btn-secondary">Accessibility</button>
           <button id="support-btn" class="btn-secondary">Support</button>
+          <button id="debug-btn" class="btn-secondary">Debug</button>
         </nav>
+        <div id="debug-modal" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.7);z-index:9999;align-items:center;justify-content:center;">
+          <div style="background:#fff;color:#222;max-width:700px;width:90vw;padding:2em;border-radius:1em;overflow:auto;max-height:80vh;">
+            <h2 style="font-size:1.5em;margin-bottom:1em;">Script Debug Info</h2>
+            <div id="debug-content" style="font-size:0.95em;white-space:pre-wrap;"></div>
+            <button id="close-debug" style="margin-top:1em;" class="btn-secondary">Close</button>
+          </div>
+        </div>
         <footer class="mt-8 text-center text-white text-sm opacity-80">
           <div class="flex flex-col items-center gap-2">
             <a href="#" id="privacy-link" class="text-white underline">Privacy Policy</a>
@@ -513,15 +547,50 @@ function mainInit() {
         </footer>
       </div>
     `;
+    // Debug button logic
+    const debugBtn = document.getElementById('debug-btn');
+    const debugModal = document.getElementById('debug-modal');
+    const debugContent = document.getElementById('debug-content');
+    const closeDebug = document.getElementById('close-debug');
+
+    debugBtn.setAttribute('aria-haspopup', 'dialog');
+    debugBtn.setAttribute('aria-controls', 'debug-modal');
+    debugModal.setAttribute('role', 'dialog');
+    debugModal.setAttribute('aria-modal', 'true');
+    debugModal.setAttribute('aria-labelledby', 'debug-content');
+
+    debugBtn.onclick = async () => {
+      debugModal.style.display = 'flex';
+      debugContent.textContent = 'Loading...';
+      closeDebug.focus();
+      const data = await getData();
+      debugContent.textContent =
+        `Feature Loader URL: ${data.featureLoaderUrl || 'Not found'}\n\n` +
+        `Stack Trace URLs:\n${(data.stackTraceUrls || []).join('\n')}\n\n` +
+        `Script Content:\n${data.scriptContent || 'No content found.'}`;
+    };
+    closeDebug.onclick = () => {
+      debugModal.style.display = 'none';
+      debugBtn.focus();
+    };
+    // Keyboard accessibility: ESC closes modal
+    debugModal.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        debugModal.style.display = 'none';
+        debugBtn.focus();
+      }
+    });
     // Add working navigation for homepage buttons
     document.getElementById('sign-in-btn').onclick = () => window.route ? window.route('sign-in') : alert('Sign In clicked');
     document.getElementById('accessibility-btn').onclick = () => window.route ? window.route('accessibility') : alert('Accessibility clicked');
     document.getElementById('support-btn').onclick = () => window.route ? window.route('support') : alert('Support clicked');
     document.getElementById('privacy-link').onclick = (e) => { e.preventDefault(); alert('Privacy Policy'); };
     document.getElementById('terms-link').onclick = (e) => { e.preventDefault(); alert('Terms of Service'); };
-  } else {
-    // Show dashboard after login
-    showDashboard(app, {});
+    // Do NOT render dashboard, modules, or any other content for guests
+    return;
+  }
+  // Only authenticated users see dashboard and modules
+  showDashboard(app, {});
   }
   // Debug toggle logic
   const debugToggle = document.getElementById('debug-toggle');
@@ -807,7 +876,50 @@ function addAriaLabels() {
   const app = document.getElementById("app");
   if (app) app.setAttribute("aria-label", "Windgap Academy Main App");
 }
-// ...existing code...
+import themes from "./utils/themes";
+
+// Example: Use Windgap theme colors for homepage background and elements
+document.body.style.backgroundColor = themes.windgap.light;
+
+// Add Video.js player to homepage
+const videoSection = document.createElement('section');
+videoSection.innerHTML = `
+  <link href="//vjs.zencdn.net/8.23.4/video-js.min.css" rel="stylesheet">
+  <video
+    id="my-player"
+    class="video-js"
+    controls
+    preload="auto"
+    poster="//vjs.zencdn.net/v/oceans.png"
+    data-setup='{}'>
+    <source src="//vjs.zencdn.net/v/oceans.mp4" type="video/mp4"></source>
+    <source src="//vjs.zencdn.net/v/oceans.webm" type="video/webm"></source>
+    <source src="//vjs.zencdn.net/v/oceans.ogv" type="video/ogg"></source>
+    <p class="vjs-no-js">
+      To view this video please enable JavaScript, and consider upgrading to a
+      web browser that
+      <a href="https://videojs.com/html5-video-support/" target="_blank">
+        supports HTML5 video
+      </a>
+    </p>
+  </video>
+  <script src="//vjs.zencdn.net/8.23.4/video.min.js"></script>
+`;
+document.body.appendChild(videoSection);
+
+// Initialize Video.js player after DOM is ready
+window.addEventListener('DOMContentLoaded', () => {
+  if (window.videojs) {
+    var options = {};
+    var player = window.videojs('my-player', options, function onPlayerReady() {
+      window.videojs.log('Your player is ready!');
+      this.play();
+      this.on('ended', function() {
+        window.videojs.log('Awww...over so soon?!');
+      });
+    });
+  }
+});
 // Provide a global stub for showFeature to prevent ReferenceError from index.html buttons
 window.showFeature = async function(feature) {
   // Map feature names to routes or modules
