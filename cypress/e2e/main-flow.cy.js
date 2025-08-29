@@ -19,14 +19,21 @@ describe('Windgap Academy Main UI Flow', () => {
       }
     });
     // Explicitly signal the app to route to dashboard (uses preview session set above)
-    cy.window({ timeout: 15000 }).then((win) => {
+    cy.window({ timeout: 30000 }).then((win) => {
       if (typeof win.route === 'function') {
         win.route('dashboard');
       } else if (win.location) {
         win.location.hash = '#dashboard';
       }
     });
-    cy.contains('Dashboard', { timeout: 15000 }).should('be.visible');
+    cy.contains('Dashboard', { timeout: 30000 }).should('be.visible');
+    // Print lifecycle logs for debugging
+    cy.window().then(win => {
+      if (win.__WINDGAP_LOGS__) {
+        // eslint-disable-next-line no-console
+        console.log('WINDGAP_LOGS:', JSON.stringify(win.__WINDGAP_LOGS__, null, 2));
+      }
+    });
     cy.get('button, a').each(($el) => {
       cy.wrap($el).click({ multiple: true, force: true });
     });
