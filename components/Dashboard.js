@@ -64,6 +64,10 @@ if (typeof document !== 'undefined') {
 import { applyHeadingAnimation, applyButtonAnimation, setAriaAttributes } from '../utils/uiUtils.js';
 
 export function showDashboard(container, data = {}) {
+  try {
+    if (!window.__WINDGAP_LOGS__) window.__WINDGAP_LOGS__ = [];
+    window.__WINDGAP_LOGS__.push({ ts: Date.now(), msg: 'showDashboard:entry', data });
+  } catch (e) {}
   // Mark dashboard as about-to-render for test harnesses and consumers
   try {
     window.__WINDGAP_READY__ = false;
@@ -220,6 +224,9 @@ export function showDashboard(container, data = {}) {
     window.__WINDGAP_READY__ = true;
     window.dispatchEvent(new Event('windgap:ready'));
   } catch (e) { /* noop in non-browser contexts */ }
+  try {
+    window.__WINDGAP_LOGS__.push({ ts: Date.now(), msg: 'showDashboard:render' });
+  } catch (e) {}
   render();
 }
 function animateCharacters() {

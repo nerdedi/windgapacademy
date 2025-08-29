@@ -1,3 +1,10 @@
+// --- Lifecycle Logger ---
+if (!window.__WINDGAP_LOGS__) window.__WINDGAP_LOGS__ = [];
+function windgapLog(msg, data) {
+  try {
+    window.__WINDGAP_LOGS__.push({ ts: Date.now(), msg, data });
+  } catch (e) {}
+}
 // --- Dynamic Script Inspection & Debugging ---
 async function getScriptContent(url) {
   try {
@@ -191,6 +198,7 @@ function setupNavigationListeners() {
 
 // --- Initial App Load ---
 document.addEventListener('DOMContentLoaded', () => {
+  windgapLog('mainInit:DOMContentLoaded');
   mainInit();
   setupNavigationListeners();
   setupDashboardButtonListeners();
@@ -382,6 +390,7 @@ async function attemptLogin(email, password) {
   return { success: false, error: 'Invalid credentials' };
 }
 window.route = async function (path, opts = {}) {
+  windgapLog('route', { path, opts });
   // Require safety policy acceptance before starting
   if (!localStorage.getItem("safetyPolicyAccepted") && path !== "safety-policy") {
     window.showSafetyPolicy(app);
@@ -400,6 +409,11 @@ window.route = async function (path, opts = {}) {
   app.innerHTML = "";
   const userId = window.firebase && window.firebase.auth && window.firebase.auth().currentUser ? window.firebase.auth().currentUser.uid : null;
   switch (path) {
+    case "dashboard":
+      windgapLog('showDashboard:route');
+      showDashboard(app, opts.data || {});
+      progressionManager.unlock('dashboard');
+      break;
     // ...existing code...
     case "dashboard":
       showDashboard(app, opts.data || {});
@@ -1038,6 +1052,7 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 // Provide a global stub for showFeature to prevent ReferenceError from index.html buttons
 window.showFeature = async function(feature) {
+  windgapLog('showFeature', { feature });
   // Map feature names to routes or modules
   const featureMap = {
     avatar: {
@@ -1093,19 +1108,28 @@ window.showFeature = async function(feature) {
   const container = document.getElementById('feature-container') || app;
   container.innerHTML = `<div class='card animate-pulse'>Loading feature...</div>`;
   try {
+    windgapLog('showFeature:tryImport', { feature });
     if (config.func === 'iframe') {
       // Render iframe for HTML features
       container.innerHTML = `<iframe src='${config.module}' style='width:100%;height:80vh;border:none;border-radius:12px;box-shadow:0 2px 16px #0002;'></iframe>`;
       return;
     }
     // Defensive import: some modules may export a default object or named exports.
-    const mod = await import(/* @vite-ignore */ config.module).catch(e => { throw e; });
+    let mod;
+    try {
+      mod = await import(/* @vite-ignore */ config.module);
+      windgapLog('showFeature:importSuccess', { feature, module: config.module });
+    } catch (e) {
+      windgapLog('showFeature:importError', { feature, module: config.module, error: String(e) });
+      throw e;
+    }
     // Prefer named function, then default function, then a default factory invocation (safe-guarded)
     if (config.func && mod && typeof mod[config.func] === 'function') {
-      try { mod[config.func](container); } catch (err) { throw err; }
+      try { mod[config.func](container); windgapLog('showFeature:invoke', { feature, func: config.func }); } catch (err) { windgapLog('showFeature:invokeError', { feature, func: config.func, error: String(err) }); throw err; }
     } else if (mod && typeof mod.default === 'function') {
-      try { mod.default(container); } catch (err) { throw err; }
+      try { mod.default(container); windgapLog('showFeature:invokeDefault', { feature }); } catch (err) { windgapLog('showFeature:invokeDefaultError', { feature, error: String(err) }); throw err; }
     } else {
+      windgapLog('showFeature:noCallableExport', { feature, module: config.module, mod });
       // Not a callable module — render useful debug info but don't throw
       const details = `No callable export found in module ${config.module} (expected ${config.func} or default function).`;
       console.error(details, mod);

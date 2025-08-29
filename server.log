@@ -81,3 +81,14 @@
 {"level":"info","message":"::ffff:127.0.0.1 - - [29/Aug/2025:05:01:56 +0000] \"GET /assets/index-CAQEchXJ.css HTTP/1.1\" 200 35622 \"-\" \"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Cypress/15.0.0 Chrome/136.0.7103.149 Electron/36.4.0 Safari/537.36\""}
 {"level":"info","message":"::ffff:127.0.0.1 - - [29/Aug/2025:05:01:56 +0000] \"GET /assets/vendor-BZdBOzuO.js HTTP/1.1\" 200 259249 \"-\" \"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Cypress/15.0.0 Chrome/136.0.7103.149 Electron/36.4.0 Safari/537.36\""}
 {"level":"info","message":"::ffff:127.0.0.1 - - [29/Aug/2025:05:01:57 +0000] \"GET /assets/AvatarBuilder-K5gsrH7E.js HTTP/1.1\" 200 2587 \"-\" \"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Cypress/15.0.0 Chrome/136.0.7103.149 Electron/36.4.0 Safari/537.36\""}
+{"level":"info","message":"::ffff:127.0.0.1 - - [29/Aug/2025:05:18:58 +0000] \"GET / HTTP/1.1\" 200 20313 \"-\" \"curl/8.5.0\""}
+{"level":"info","message":"Windgap Academy server running and listening at http://localhost:9110"}
+{"level":"info","message":"::ffff:127.0.0.1 - - [29/Aug/2025:05:19:06 +0000] \"GET / HTTP/1.1\" 200 20313 \"-\" \"curl/8.5.0\""}
+{"level":"info","message":"::ffff:127.0.0.1 - - [29/Aug/2025:05:19:47 +0000] \"GET / HTTP/1.1\" 200 20313 \"-\" \"curl/8.5.0\""}
+{"level":"info","message":"Windgap Academy server running and listening at http://localhost:9110"}
+{"level":"info","message":"::ffff:127.0.0.1 - - [29/Aug/2025:05:26:20 +0000] \"GET / HTTP/1.1\" 200 20313 \"-\" \"curl/8.5.0\""}
+{"level":"info","message":"::ffff:127.0.0.1 - - [29/Aug/2025:05:28:36 +0000] \"GET / HTTP/1.1\" 200 20313 \"-\" \"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Cypress/15.0.0 Chrome/136.0.7103.149 Electron/36.4.0 Safari/537.36\""}
+{"level":"info","message":"::ffff:127.0.0.1 - - [29/Aug/2025:05:28:36 +0000] \"GET /assets/index-ne6yCpoa.js HTTP/1.1\" 200 22148 \"-\" \"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Cypress/15.0.0 Chrome/136.0.7103.149 Electron/36.4.0 Safari/537.36\""}
+{"level":"info","message":"::ffff:127.0.0.1 - - [29/Aug/2025:05:28:36 +0000] \"GET /assets/index-CAQEchXJ.css HTTP/1.1\" 200 35622 \"-\" \"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Cypress/15.0.0 Chrome/136.0.7103.149 Electron/36.4.0 Safari/537.36\""}
+{"level":"info","message":"::ffff:127.0.0.1 - - [29/Aug/2025:05:28:36 +0000] \"GET /assets/vendor-BZdBOzuO.js HTTP/1.1\" 200 259249 \"-\" \"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Cypress/15.0.0 Chrome/136.0.7103.149 Electron/36.4.0 Safari/537.36\""}
+{"level":"info","message":"::ffff:127.0.0.1 - - [29/Aug/2025:05:28:37 +0000] \"GET /assets/AvatarBuilder-K5gsrH7E.js HTTP/1.1\" 200 2587 \"-\" \"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Cypress/15.0.0 Chrome/136.0.7103.149 Electron/36.4.0 Safari/537.36\""}
