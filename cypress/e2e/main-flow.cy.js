@@ -32,6 +32,14 @@ describe('Windgap Academy Main UI Flow', () => {
       if (win.__WINDGAP_LOGS__) {
         // eslint-disable-next-line no-console
         console.log('WINDGAP_LOGS:', JSON.stringify(win.__WINDGAP_LOGS__, null, 2));
+        // Also persist logs to disk so we can inspect them after the run
+        try {
+          cy.writeFile('cypress/logs/windgap_logs.json', JSON.stringify(win.__WINDGAP_LOGS__, null, 2));
+        } catch (e) {
+          // ignore write errors in restricted environments
+          // eslint-disable-next-line no-console
+          console.error('Failed to write WINDGAP_LOGS to disk:', e);
+        }
       }
     });
     cy.get('button, a').each(($el) => {
