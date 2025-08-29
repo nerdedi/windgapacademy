@@ -1,0 +1,19 @@
+{"level":"info","message":"Windgap Academy server running and listening at http://localhost:9005"}
+If you are using Codespaces or a devcontainer, make sure port 9003 is forwarded and public.
+ValidationError: The 'X-Forwarded-For' header is set but the Express 'trust proxy' setting is false (default). This could indicate a misconfiguration which would prevent express-rate-limit from accurately identifying users. See https://express-rate-limit.github.io/ERR_ERL_UNEXPECTED_X_FORWARDED_FOR/ for more information.
+    at Object.xForwardedForHeader (/workspaces/windgapacademy/node_modules/express-rate-limit/dist/index.cjs:364:13)
+    at wrappedValidations.<computed> [as xForwardedForHeader] (/workspaces/windgapacademy/node_modules/express-rate-limit/dist/index.cjs:606:22)
+    at Object.keyGenerator (/workspaces/windgapacademy/node_modules/express-rate-limit/dist/index.cjs:708:20)
+    at /workspaces/windgapacademy/node_modules/express-rate-limit/dist/index.cjs:766:32
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async /workspaces/windgapacademy/node_modules/express-rate-limit/dist/index.cjs:747:5 {
+  code: 'ERR_ERL_UNEXPECTED_X_FORWARDED_FOR',
+  help: 'https://express-rate-limit.github.io/ERR_ERL_UNEXPECTED_X_FORWARDED_FOR/'
+}
+{"level":"info","message":"::1 - - [29/Aug/2025:03:23:31 +0000] \"GET / HTTP/1.1\" 200 19341 \"https://github.com/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36 Edg/139.0.0.0\""}
+{"level":"info","message":"::1 - - [29/Aug/2025:03:23:32 +0000] \"GET /assets/index-BCWwIxdB.js HTTP/1.1\" 200 19474 \"https://supreme-barnacle-pjqr4v4r5r5wfrr5g-9005.app.github.dev/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36 Edg/139.0.0.0\""}
+{"level":"info","message":"::1 - - [29/Aug/2025:03:23:32 +0000] \"GET /assets/index-C6s0FqCR.css HTTP/1.1\" 200 34326 \"https://supreme-barnacle-pjqr4v4r5r5wfrr5g-9005.app.github.dev/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36 Edg/139.0.0.0\""}
+{"level":"info","message":"::1 - - [29/Aug/2025:03:23:32 +0000] \"GET /assets/vendor-BZdBOzuO.js HTTP/1.1\" 200 259249 \"https://supreme-barnacle-pjqr4v4r5r5wfrr5g-9005.app.github.dev/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36 Edg/139.0.0.0\""}
+{"level":"info","message":"::1 - - [29/Aug/2025:03:23:32 +0000] \"GET /assets/vendor-three-Bej_9hos.js HTTP/1.1\" 200 476897 \"https://supreme-barnacle-pjqr4v4r5r5wfrr5g-9005.app.github.dev/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36 Edg/139.0.0.0\""}
+{"level":"info","message":"::1 - - [29/Aug/2025:03:23:32 +0000] \"GET /assets/AvatarBuilder-K5gsrH7E.js HTTP/1.1\" 200 2587 \"https://supreme-barnacle-pjqr4v4r5r5wfrr5g-9005.app.github.dev/assets/index-BCWwIxdB.js\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36 Edg/139.0.0.0\""}
+{"level":"info","message":"::1 - - [29/Aug/2025:03:23:33 +0000] \"GET /assets/logo-B_SY1GJM.png HTTP/1.1\" 200 - \"https://supreme-barnacle-pjqr4v4r5r5wfrr5g-9005.app.github.dev/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36 Edg/139.0.0.0\""}

@@ -7,7 +7,8 @@
     <meta name="description" content="Windgap Academy: Accessible, inclusive, and modern learning platform for all." />
     <meta name="robots" content="index, follow" />
     <link rel="icon" href="assets/logo.png">
-    <link rel="stylesheet" href="styles/output.css" />
+  <!-- styles/output.css restored -->
+  <link rel="stylesheet" href="styles/output.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
@@ -35,6 +36,21 @@
         firebase.initializeApp(window.env.FIREBASE_CONFIG);
       }
     </script>
+    <!-- Runtime shim: ensure a global fallback function exists before any bundled code executes -->
+    <script>
+      if (!window.showFallbackScreen) {
+        window.showFallbackScreen = function(msg) {
+          try {
+            document.body.innerHTML = '<div style="max-width:540px;margin:48px auto;padding:32px;border-radius:12px;background:#ffecec;color:#b91c1c;box-shadow:0 2px 16px #0002;">' +
+              '<h1 style="font-size:2em;margin-bottom:0.25em;">⚠️ Unable to load Windgap Academy</h1>' +
+              '<p style="font-size:1.2em;">' + (msg || 'An error occurred.') + '</p>' +
+              '</div>';
+          } catch (e) {
+            /* noop */
+          }
+        };
+      }
+    </script>
     <script type="module" src="app.js"></script>
   </head>
   <body aria-label="Windgap Academy Entry" role="main" style="background: #5ED1D2; color: #A32C2B; min-height: 100vh;">
@@ -55,6 +71,7 @@
     </header>
     <nav class="sticky top-0 z-50 bg-white shadow flex items-center justify-between px-8 py-4">
       <div class="flex items-center gap-3">
+        <!-- Keep header logo only; hero will use a smaller mark below -->
         <img src="assets/logo.png" alt="Windgap Academy Logo" class="h-14 w-auto animate-float" />
         <span class="text-2xl font-bold text-[#A32C2B]">Windgap Academy</span>
       </div>
@@ -135,7 +152,8 @@
       </div>
       <div class="absolute inset-0 z-0 animate-bg-particles"></div>
       <div class="relative z-10 flex flex-col items-center">
-        <img src="assets/logo.png" alt="Windgap Academy Logo" class="h-24 w-auto mb-4 animate-float" />
+  <!-- Use a smaller mark in the hero to avoid duplicate branding -->
+  <img src="assets/windgap-logo.png" alt="Windgap Academy Mark" class="h-16 w-auto mb-4 animate-float" />
         <h1 class="text-5xl font-extrabold text-white mb-2 drop-shadow-lg">Welcome to Windgap Academy</h1>
         <p class="text-xl text-white opacity-90 mb-4">Accessible, inclusive, and modern learning for all.</p>
         <div class="quick-links flex gap-6 mb-4">
@@ -261,11 +279,11 @@
         <button onclick="showFeature('avatar')">Avatar Creator</button>
         <button onclick="showFeature('stairs')">Climbing Stairs Animation</button>
         <button onclick="showFeature('island')">Max Area of Island Animation</button>
-        <button onclick="showFeature('cube')">Cube Map 3D Demo</button>
-        <button onclick="showFeature('kitchen')">Healthy Kitchen Challenge</button>
+        <button onclick="showFeature('cube')">Cube Map 3D Demo <span class="coming-soon" aria-hidden="true">(Coming Soon)</span></button>
+        <button onclick="showFeature('kitchen')">Healthy Kitchen Challenge <span class="coming-soon" aria-hidden="true">(Coming Soon)</span></button>
         <button onclick="showFeature('foodcollector')">Food Collector Environment</button>
         <button onclick="showFeature('zoo')">Academy Zoo Environment</button>
-        <button onclick="showFeature('fluid')">Fluid Simulation</button>
+        <button onclick="showFeature('fluid')">Fluid Simulation <span class="coming-soon" aria-hidden="true">(Coming Soon)</span></button>
         <button onclick="showFeature('dashboard')">Results Dashboard</button>
         <button onclick="showFeature('whiteboard')">Whiteboard</button>
       </nav>

@@ -4,7 +4,7 @@
   "description": "Modern build setup for Windgap Academy",
   "scripts": {
     "build": "vite build",
-    "start": "echo 'No server needed for Vercel static deployment'",
+    "start": "node server.cjs",
     "dev": "vite",
     "preview": "vite preview",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
@@ -12,15 +12,22 @@
     "e2e": "cypress run",
     "e2e:open": "cypress open",
     "e2e:cypress": "cypress run",
-    "e2e:playwright": "playwright test"
+    "e2e:playwright": "playwright test",
+    "prebuild": "npm run optimize:images && npm run inject:env",
+    "optimize:images": "echo 'Image optimization placeholder'",
+    "inject:env": "echo 'Env injection placeholder'",
+    "build:css": "npx minify styles/windgap-academy.css > styles/windgap-academy.min.css && npx minify styles/output.css > styles/output.min.css && npx minify styles/tailwind-theme.css > styles/tailwind-theme.min.css && npx minify styles/tailwind.css > styles/tailwind.min.css && npx minify styles/advanced.css > styles/advanced.min.css && npx minify styles/refinements.css > styles/refinements.min.css",
+    "regen:css": "npx tailwindcss -i ./styles/tailwind.css -o ./styles/output.css --minify --config tailwind.config.js && node ./scripts/sanitize-css.js"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.28.3",
     "@playwright/test": "^1.55.0",
+    "@tailwindcss/forms": "^0.5.10",
     "@testing-library/jest-dom": "^6.8.0",
     "@vitejs/plugin-react": "^5.0.1",
     "autoprefixer": "^10.4.21",
     "babel-jest": "^30.0.5",
+    "cheerio": "^1.1.2",
     "cypress": "^15.0.0",
     "jest-environment-jsdom": "^30.0.5",
     "playwright": "^1.55.0",
@@ -33,13 +40,19 @@
     "@babylonjs/core": "^8.25.0",
     "@babylonjs/gui": "^8.25.0",
     "@babylonjs/loaders": "^8.25.0",
+    "@react-three/drei": "^10.7.4",
+    "@react-three/fiber": "^9.3.0",
     "compression": "^1.8.1",
     "express": "^5.1.0",
+    "express-rate-limit": "^8.0.1",
     "firebase": "^12.1.0",
+    "helmet": "^8.1.0",
     "jspdf": "^3.0.1",
+    "morgan": "^1.10.1",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
-    "three": "^0.179.1"
+    "three": "^0.179.1",
+    "winston": "^3.17.0"
   },
   "repository": {
     "type": "git",

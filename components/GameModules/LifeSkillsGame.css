@@ -1,0 +1,82 @@
+/* Styles extracted from LifeSkillsGame.js to avoid raw CSS in JS file */
+.onboarding-modal,
+.settings-modal,
+.faq-modal,
+.parent-feedback-modal,
+.challenges-modal,
+.content-creation-modal,
+.theme-modal,
+.sign-avatar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.5);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.onboarding-modal > div,
+.settings-modal > div,
+.faq-modal > div,
+.parent-feedback-modal > div,
+.challenges-modal > div,
+.content-creation-modal > div,
+.theme-modal > div {
+  background: #fff;
+  padding: 2em;
+  border-radius: 1em;
+  max-width: 480px;
+  width: 100%;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+}
+
+.card {
+  border-radius: .75rem;
+  background-color: #fff;
+  border: 2px solid #5ED1D2;
+  padding: 1rem;
+  box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+}
+
+.btn-primary {
+  background-color: #A32C2B;
+  color: #fff;
+  border-radius: .5rem;
+  padding: .5rem 1rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-secondary {
+  background-color: #5ED1D2;
+  color: #58595B;
+  border-radius: .5rem;
+  padding: .5rem 1rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.nav-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.tooltip {
+  position: absolute;
+  background: #333;
+  color: #fff;
+  padding: 4px 8px;
+  border-radius: 4px;
+  z-index: 9999;
+  font-size: 0.9rem;
+}
+
+/* Basic responsive container used in this component */
+.max-w-2xl { max-width: 42rem; }
+.mx-auto { margin-left: auto; margin-right: auto; }
+.my-8 { margin-top: 2rem; margin-bottom: 2rem; }

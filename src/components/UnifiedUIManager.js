@@ -69,8 +69,9 @@ function startUnifiedUIManager() {
   setAccessibility();
   // ...UI manager logic...
 }
-
-if (typeof document !== 'undefined') {
+// Gate unified UI initialization for dev/debug only by default.
+const __DEV_UI__ = (typeof process !== 'undefined' && process.env && process.env.NODE_ENV !== 'production') || (typeof window !== 'undefined' && window.__ENABLE_DEV_UI__ === true);
+if (typeof document !== 'undefined' && __DEV_UI__) {
   document.addEventListener('DOMContentLoaded', startUnifiedUIManager);
 }
 // Centralized UI manager for timer, lives, progress bar

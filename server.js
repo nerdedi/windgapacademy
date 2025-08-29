@@ -2,7 +2,7 @@
 const express = require('express');
 const path = require('path');
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 9003;
 
 // Serve static files from the root and subfolders
 app.use(express.static(path.join(__dirname)));
@@ -13,5 +13,6 @@ app.get('*', (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Windgap Academy server running at http://localhost:${PORT}`);
+  console.log(`Windgap Academy server running and listening at http://localhost:${PORT}`);
+  console.log('If you are using Codespaces or a devcontainer, make sure port 9003 is forwarded and public.');
 });

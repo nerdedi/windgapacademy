@@ -1,0 +1,21 @@
+{
+  "name": "Windgap Academy Dev Container",
+  "image": "mcr.microsoft.com/vscode/devcontainers/javascript-node:20",
+  "features": {},
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "terminal.integrated.shell.linux": "/bin/bash"
+      },
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "ms-playwright.playwright"
+      ]
+    }
+  },
+  "postCreateCommand": "npm install",
+  "postStartCommand": "npm start",
+  "forwardPorts": [3000, 9003],
+  "remoteUser": "vscode"
+}

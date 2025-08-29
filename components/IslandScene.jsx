@@ -1,15 +1,10 @@
-import React, { Suspense } from "react";
+import React, { Suspense, useCallback } from 'react';
 import Spinner from "./Spinner";
-import Tooltip from "./Tooltip";
+import { showTooltip } from "./Tooltip";
 import BackToTopButton from "./BackToTopButton";
-import { Canvas } from "@react-three/fiber";
+import { Canvas } from '@react-three/fiber';
 // You can import Drei helpers for lights, controls, etc.
 // import { OrbitControls, Environment } from '@react-three/drei';
-
-// ...existing code...
-
-import React, { Suspense, useCallback } from 'react';
-import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Html, useGLTF } from '@react-three/drei';
 
 // Simple 3D Building logic

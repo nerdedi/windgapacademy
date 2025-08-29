@@ -71,7 +71,9 @@ function startGameStateManager() {
   // ...game state manager logic...
 }
 
-if (typeof document !== 'undefined') {
+// Only auto-run onboarding in development or when explicitly enabled.
+const __DEV_UI__ = (typeof process !== 'undefined' && process.env && process.env.NODE_ENV !== 'production') || (typeof window !== 'undefined' && window.__ENABLE_DEV_UI__ === true);
+if (typeof document !== 'undefined' && __DEV_UI__) {
   document.addEventListener('DOMContentLoaded', startGameStateManager);
 }
 // Modular state machine for games (inspired by Antura)
