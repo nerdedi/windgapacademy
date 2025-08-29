@@ -200,7 +200,59 @@ document.addEventListener('DOMContentLoaded', () => {
   uiManager.setProgress(0);
 });
 
-function showFallbackScreen(errorMsg = "Something went wrong while loading Windgap Academy.") {
+// --- Daily Challenge Timer Persistence ---
+const DAILY_CHALLENGE_KEY = 'windgap_daily_challenge_v1';
+function formatTime(seconds) {
+  const mm = String(Math.floor(seconds / 60)).padStart(2, '0');
+  const ss = String(seconds % 60).padStart(2, '0');
+  return `${mm}:${ss}`;
+}
+function loadDailyChallenge() {
+  try {
+    const raw = localStorage.getItem(DAILY_CHALLENGE_KEY);
+    if (!raw) return null;
+    return JSON.parse(raw);
+  } catch (e) { return null; }
+}
+function saveDailyChallenge(state) {
+  try { localStorage.setItem(DAILY_CHALLENGE_KEY, JSON.stringify(state)); } catch (e) {}
+}
+function startOrResumeDailyTimer(defaultSeconds = 10 * 60) {
+  const el = document.getElementById('challenge-timer');
+  if (!el) return;
+  let state = loadDailyChallenge();
+  let remaining = defaultSeconds;
+  let lastTick = Date.now();
+  if (state && typeof state.remaining === 'number' && state.expiresAt && Date.now() < state.expiresAt) {
+    // resume from stored remaining seconds, compensate for elapsed time
+    const elapsedSinceStore = Math.floor((Date.now() - (state.storedAt || Date.now())) / 1000);
+    remaining = Math.max(0, state.remaining - elapsedSinceStore);
+  }
+  el.textContent = formatTime(remaining);
+  const iv = setInterval(() => {
+    const now = Date.now();
+    const delta = Math.floor((now - lastTick) / 1000);
+    if (delta <= 0) return;
+    lastTick = now;
+    remaining = Math.max(0, remaining - delta);
+    el.textContent = formatTime(remaining);
+    saveDailyChallenge({ remaining, storedAt: Date.now(), expiresAt: Date.now() + 24 * 60 * 60 * 1000 });
+    if (remaining <= 0) {
+      clearInterval(iv);
+      // Optionally mark completion
+      el.dispatchEvent(new CustomEvent('challenge:complete'));
+    }
+  }, 1000);
+  // Persist on page hide/unload
+  window.addEventListener('beforeunload', () => {
+    saveDailyChallenge({ remaining, storedAt: Date.now(), expiresAt: Date.now() + 24 * 60 * 60 * 1000 });
+  });
+}
+// start/resume when DOM ready
+document.addEventListener('DOMContentLoaded', () => startOrResumeDailyTimer(10 * 60));
+
+// Expose a global fallback screen function so it's always callable from bundled/runtime code.
+window.showFallbackScreen = function(errorMsg = "Something went wrong while loading Windgap Academy.") {
   document.body.innerHTML = `
     <div style="max-width:540px;margin:48px auto;padding:32px;border-radius:12px;background:#ffecec;color:#b91c1c;box-shadow:0 2px 16px #0002;">
       <h1 style="font-size:2em;margin-bottom:0.25em;">⚠️ Unable to load Windgap Academy</h1>
@@ -212,22 +264,59 @@ function showFallbackScreen(errorMsg = "Something went wrong while loading Windg
       <p style="margin-top:2em;">Please try reloading, or contact support at <a href="mailto:info@windgapacademy.edu.au">info@windgapacademy.edu.au</a>.</p>
     </div>
   `;
-}
+};
+// Provide a local alias so existing module-level code can call `showFallbackScreen(...)` without changing all call sites.
+const showFallbackScreen = window.showFallbackScreen;
 
 // Removed unused function for lint compliance
 
 // Accessibility toggles (all actions are private and educator-reviewed)
-window.increaseFont = () => {
-  document.body.style.fontSize = "larger";
-  // Educator log: font size increased for accessibility
+// Accessibility preferences persisted in localStorage and applied to the root element.
+const ACCESSIBILITY_PREF_KEY = 'windgap_accessibility_prefs_v1';
+function loadAccessibilityPrefs() {
+  try {
+    return JSON.parse(localStorage.getItem(ACCESSIBILITY_PREF_KEY) || '{}');
+  } catch (e) { return {}; }
+}
+function saveAccessibilityPrefs(prefs) {
+  try { localStorage.setItem(ACCESSIBILITY_PREF_KEY, JSON.stringify(prefs)); } catch (e) {}
+}
+function applyAccessibilityPrefs(prefs = {}) {
+  const root = document.documentElement || document.body;
+  if (!root) return;
+  // fontSize can be 'normal' | 'larger'
+  if (prefs.fontSize === 'larger') root.style.fontSize = '18px';
+  else root.style.fontSize = '';
+  if (prefs.dyslexia === true) root.classList.add('dyslexia-font'); else root.classList.remove('dyslexia-font');
+  if (prefs.easyRead === true) root.classList.add('easy-read'); else root.classList.remove('easy-read');
+}
+
+// Initialize on load
+document.addEventListener('DOMContentLoaded', () => {
+  const prefs = loadAccessibilityPrefs();
+  applyAccessibilityPrefs(prefs);
+});
+
+window.increaseFont = (enable = true) => {
+  const prefs = loadAccessibilityPrefs();
+  prefs.fontSize = enable ? 'larger' : 'normal';
+  applyAccessibilityPrefs(prefs);
+  saveAccessibilityPrefs(prefs);
+  // Educator log: font size preference changed
 };
-window.toggleDyslexiaFont = () => {
-  document.body.classList.toggle("dyslexia-font");
-  // Educator log: dyslexia font toggled for accessibility
+window.toggleDyslexiaFont = (enable) => {
+  const prefs = loadAccessibilityPrefs();
+  prefs.dyslexia = (typeof enable === 'boolean') ? enable : !prefs.dyslexia;
+  applyAccessibilityPrefs(prefs);
+  saveAccessibilityPrefs(prefs);
+  // Educator log: dyslexia font preference changed
 };
-window.toggleEasyRead = () => {
-  document.body.classList.toggle("easy-read");
-  // Educator log: easy-read mode toggled for accessibility
+window.toggleEasyRead = (enable) => {
+  const prefs = loadAccessibilityPrefs();
+  prefs.easyRead = (typeof enable === 'boolean') ? enable : !prefs.easyRead;
+  applyAccessibilityPrefs(prefs);
+  saveAccessibilityPrefs(prefs);
+  // Educator log: easy-read preference changed
 };
 window.narrate = (text) => {
   const utter = new SpeechSynthesisUtterance(text);
@@ -262,10 +351,48 @@ window.acceptSafetyPolicy = function () {
   // Educator log: safety policy accepted
   window.route("dashboard");
 };
+// --- Mock / Preview Authentication Helpers ---
+const SESSION_KEY = 'windgap_session_v1';
+const DEV_TEST_ACCOUNTS = [
+  { email: 'educator@test.com', password: 'password', role: 'educator', name: 'Dev Educator' },
+  { email: 'learner@test.com', password: 'password', role: 'learner', name: 'Dev Learner' }
+];
+function getSession() {
+  try { return JSON.parse(localStorage.getItem(SESSION_KEY) || 'null'); } catch (e) { return null; }
+}
+function setSession(sess) {
+  try { localStorage.setItem(SESSION_KEY, JSON.stringify(sess)); window.currentUser = sess; } catch (e) {}
+}
+function clearSession() {
+  try { localStorage.removeItem(SESSION_KEY); window.currentUser = null; } catch (e) {}
+}
+async function attemptLogin(email, password) {
+  // Prefer real backend if loginUser is available
+  if (typeof loginUser === 'function') {
+    try {
+      const cred = await loginUser(email, password);
+      const user = cred && cred.user ? { email: cred.user.email || email, role: (cred.user.email && cred.user.email.endsWith('@educator.windgapacademy.edu.au')) ? 'educator' : 'learner', name: cred.user.displayName || cred.user.email } : null;
+      if (user) return { success: true, user };
+    } catch (err) {
+      // ignore and fall back to dev accounts
+    }
+  }
+  const found = DEV_TEST_ACCOUNTS.find(a => a.email === email && a.password === password);
+  if (found) return { success: true, user: { email: found.email, role: found.role, name: found.name } };
+  return { success: false, error: 'Invalid credentials' };
+}
 window.route = async function (path, opts = {}) {
   // Require safety policy acceptance before starting
   if (!localStorage.getItem("safetyPolicyAccepted") && path !== "safety-policy") {
     window.showSafetyPolicy(app);
+    return;
+  }
+  // Simple session guard for preview: if route is protected, require session
+  const publicRoutes = new Set(['/', 'home', 'sign-in', 'safety-policy', 'privacy', 'terms']);
+  const session = getSession();
+  if (!session && !publicRoutes.has(path)) {
+    // If no session, show minimal home/login
+    mainInit();
     return;
   }
   // All navigation and UI now uses Australian spelling, grammar, and context.
@@ -517,77 +644,66 @@ function mainInit() {
     return;
   }
   if (!user) {
-    // Show homepage for unauthenticated users ONLY
-    app.innerHTML = `
-      <div class="min-h-screen bg-gradient-to-br from-[#5ED1D2] to-[#A32C2B] flex flex-col justify-center items-center">
-        <header class="flex flex-col items-center mt-12 mb-8">
-          <img src="assets/logo.svg" alt="Windgap Academy Logo" class="h-24 mb-4" style="vertical-align:middle;" />
-          <h1 class="text-5xl font-extrabold text-[#A32C2B] mb-4">Windgap Academy of Learning</h1>
-          <img src="assets/images/main-characters-windgap.png" alt="Andy, Winnie, Daisy, Natalie" class="h-32 mb-4" style="vertical-align:middle;" />
-        </header>
-        <nav class="flex gap-6 mb-10">
-          <button id="sign-in-btn" class="btn-primary">Sign In</button>
-          <button id="accessibility-btn" class="btn-secondary">Accessibility</button>
-          <button id="support-btn" class="btn-secondary">Support</button>
-          <button id="debug-btn" class="btn-secondary">Debug</button>
-        </nav>
-        <div id="debug-modal" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.7);z-index:9999;align-items:center;justify-content:center;">
-          <div style="background:#fff;color:#222;max-width:700px;width:90vw;padding:2em;border-radius:1em;overflow:auto;max-height:80vh;">
-            <h2 style="font-size:1.5em;margin-bottom:1em;">Script Debug Info</h2>
-            <div id="debug-content" style="font-size:0.95em;white-space:pre-wrap;"></div>
-            <button id="close-debug" style="margin-top:1em;" class="btn-secondary">Close</button>
-          </div>
-        </div>
-        <footer class="mt-8 text-center text-white text-sm opacity-80">
-          <div class="flex flex-col items-center gap-2">
-            <a href="#" id="privacy-link" class="text-white underline">Privacy Policy</a>
-            <a href="#" id="terms-link" class="text-white underline">Terms of Service</a>
-          </div>
-          <p class="mt-2">&copy; ${new Date().getFullYear()} Windgap Academy. All rights reserved.</p>
-        </footer>
-      </div>
-    `;
-    // Debug button logic
-    const debugBtn = document.getElementById('debug-btn');
-    const debugModal = document.getElementById('debug-modal');
-    const debugContent = document.getElementById('debug-content');
-    const closeDebug = document.getElementById('close-debug');
-
-    debugBtn.setAttribute('aria-haspopup', 'dialog');
-    debugBtn.setAttribute('aria-controls', 'debug-modal');
-    debugModal.setAttribute('role', 'dialog');
-    debugModal.setAttribute('aria-modal', 'true');
-    debugModal.setAttribute('aria-labelledby', 'debug-content');
-
-    debugBtn.onclick = async () => {
-      debugModal.style.display = 'flex';
-      debugContent.textContent = 'Loading...';
-      closeDebug.focus();
-      const data = await getData();
-      debugContent.textContent =
-        `Feature Loader URL: ${data.featureLoaderUrl || 'Not found'}\n\n` +
-        `Stack Trace URLs:\n${(data.stackTraceUrls || []).join('\n')}\n\n` +
-        `Script Content:\n${data.scriptContent || 'No content found.'}`;
-    };
-    closeDebug.onclick = () => {
-      debugModal.style.display = 'none';
-      debugBtn.focus();
-    };
-    // Keyboard accessibility: ESC closes modal
-    debugModal.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        debugModal.style.display = 'none';
-        debugBtn.focus();
+    // If a preview/local session exists, treat it as authenticated for rendering the dashboard
+    try {
+      const sess = getSession();
+      if (sess) {
+        user = sess;
       }
-    });
-    // Add working navigation for homepage buttons
-    document.getElementById('sign-in-btn').onclick = () => window.route ? window.route('sign-in') : alert('Sign In clicked');
-    document.getElementById('accessibility-btn').onclick = () => window.route ? window.route('accessibility') : alert('Accessibility clicked');
-    document.getElementById('support-btn').onclick = () => window.route ? window.route('support') : alert('Support clicked');
+    } catch (e) { /* noop */ }
+    
+    // If still no user, show minimal homepage
+    if (!user) {
+    // Minimal homepage for preview: branding + login form
+    app.innerHTML = `
+      <main class="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#5ED1D2] to-[#A32C2B]">
+        <section class="card w-full max-w-md">
+          <header class="text-center mb-4">
+            <img src="assets/logo.svg" alt="Windgap Academy" class="mx-auto h-20" />
+            <h2 class="text-2xl font-bold mt-2">Windgap Academy of Learning</h2>
+            <p class="text-sm text-gray-700 mt-1">Accessible • Inclusive • Interactive Learning</p>
+          </header>
+          <form id="login-form-preview" class="flex flex-col gap-3" aria-label="Login form">
+            <label>Email<input id="login-email" class="input" type="email" required placeholder="you@example.com" /></label>
+            <label>Password<input id="login-password" class="input" type="password" required placeholder="password" /></label>
+            <div class="flex items-center justify-between">
+              <button id="login-submit" class="btn-primary touch-target" type="submit">Sign In</button>
+              <button id="login-guest" type="button" class="btn-secondary touch-target">Continue as Guest</button>
+            </div>
+            <p class="text-xs text-gray-600">Use <strong>educator@test.com</strong> or <strong>learner@test.com</strong> (password: <em>password</em>) for dev preview.</p>
+          </form>
+          <footer class="mt-4 text-center text-xs text-gray-600">
+            <a href="#" id="privacy-link">Privacy Policy</a> | <a href="#" id="terms-link">Terms</a>
+          </footer>
+        </section>
+      </main>
+    `;
+    const loginForm = document.getElementById('login-form-preview');
+    const emailInput = document.getElementById('login-email');
+    const passwordInput = document.getElementById('login-password');
+    const guestBtn = document.getElementById('login-guest');
+    loginForm.onsubmit = async (e) => {
+      e.preventDefault();
+      const email = emailInput.value.trim();
+      const password = passwordInput.value;
+      const res = await attemptLogin(email, password);
+      if (res.success && res.user) {
+        setSession({ email: res.user.email, role: res.user.role, name: res.user.name, createdAt: Date.now() });
+        // role-based redirect
+        if (res.user.role === 'educator') window.route('educator-dashboard');
+        else window.route('dashboard');
+        return;
+      }
+      alert(res.error || 'Login failed');
+    };
+    guestBtn.onclick = () => {
+      setSession({ email: 'guest@preview.local', role: 'learner', name: 'Guest', createdAt: Date.now() });
+      window.route('dashboard');
+    };
     document.getElementById('privacy-link').onclick = (e) => { e.preventDefault(); alert('Privacy Policy'); };
     document.getElementById('terms-link').onclick = (e) => { e.preventDefault(); alert('Terms of Service'); };
-    // Do NOT render dashboard, modules, or any other content for guests
-    return;
+      return;
+    }
   }
   // Only authenticated users see dashboard and modules
   showDashboard(app, {});
@@ -982,16 +1098,25 @@ window.showFeature = async function(feature) {
       container.innerHTML = `<iframe src='${config.module}' style='width:100%;height:80vh;border:none;border-radius:12px;box-shadow:0 2px 16px #0002;'></iframe>`;
       return;
     }
-    const mod = await import(/* @vite-ignore */ config.module);
-    if (mod[config.func]) {
-      mod[config.func](container);
+    // Defensive import: some modules may export a default object or named exports.
+    const mod = await import(/* @vite-ignore */ config.module).catch(e => { throw e; });
+    // Prefer named function, then default function, then a default factory invocation (safe-guarded)
+    if (config.func && mod && typeof mod[config.func] === 'function') {
+      try { mod[config.func](container); } catch (err) { throw err; }
+    } else if (mod && typeof mod.default === 'function') {
+      try { mod.default(container); } catch (err) { throw err; }
     } else {
+      // Not a callable module — render useful debug info but don't throw
+      const details = `No callable export found in module ${config.module} (expected ${config.func} or default function).`;
+      console.error(details, mod);
       container.innerHTML = `<div class='alert-error'>Feature loaded but no display function found.</div>`;
-      warnDebug('Missing display function for feature:', config.module, config.func);
+      warnDebug('Missing display function for feature:', config.module, config.func, mod);
     }
   } catch (err) {
-    container.innerHTML = `<div class='alert-error'>Error loading feature: ${err}</div>`;
-    warnDebug('Feature load error:', err);
+    // Log and show an inline error; prevent uncaught exceptions from breaking test harness
+    console.error('Error loading feature', feature, err);
+    container.innerHTML = `<div class='alert-error'>Error loading feature: ${String(err && err.message ? err.message : err)}</div>`;
+    try { warnDebug('Feature load error:', err); } catch (e) { /* noop */ }
   }
 };
 addAriaLabels();

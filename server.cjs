@@ -7,7 +7,7 @@ const morgan = require('morgan');
 const winston = require('winston');
 const rateLimit = require('express-rate-limit');
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 9003;
 
 // Security headers
 app.use(helmet());
@@ -30,14 +30,16 @@ const limiter = rateLimit({
 });
 app.use(limiter);
 
-// Serve static files from the root and subfolders
-app.use(express.static(__dirname));
+// Serve static files from the Vite build output (dist)
+app.use(express.static(path.join(__dirname, 'dist')));
 
-// Fallback: serve index.html for all other routes (SPA support)
+// Fallback: serve dist/index.html for all other routes (SPA support)
 app.use((req, res, next) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
+  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
-
+// Start the server
 app.listen(PORT, () => {
-  logger.info(`Windgap Academy server running at http://localhost:${PORT}`);
+  logger.info(`Windgap Academy server running and listening at http://localhost:${PORT}`);
+  console.log('If you are using Codespaces or a devcontainer, make sure port 9003 is forwarded and public.');
 });
+// single listen retained above

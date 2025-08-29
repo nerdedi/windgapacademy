@@ -70,7 +70,8 @@ function startProgressionManager() {
   // ...progression manager logic...
 }
 
-if (typeof document !== 'undefined') {
+const __DEV_UI__ = (typeof process !== 'undefined' && process.env && process.env.NODE_ENV !== 'production') || (typeof window !== 'undefined' && window.__ENABLE_DEV_UI__ === true);
+if (typeof document !== 'undefined' && __DEV_UI__) {
   document.addEventListener('DOMContentLoaded', startProgressionManager);
 }
 // Progression system to unlock modules/games

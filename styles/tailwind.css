@@ -1,4 +1,10 @@
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+/* Tailwind directives required for @layer usage below */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 body {
 	margin: 0;
@@ -245,5 +251,21 @@ nav.sticky {
 		overflow: hidden;
 		clip: rect(0,0,0,0);
 		border: 0;
+	}
+}
+
+/* Utility to increase mobile touch targets for buttons/links */
+@layer components {
+	.touch-target {
+		padding-top: 0.75rem !important;
+		padding-bottom: 0.75rem !important;
+		padding-left: 1rem !important;
+		padding-right: 1rem !important;
+		min-height: 44px;
+		min-width: 44px;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: 0.5rem;
 	}
 }

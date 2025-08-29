@@ -1,3 +1,5 @@
+import './LifeSkillsGame.css';
+
 // --- Advanced Feature Upgrades & TODOs ---
 // Accessibility: ARIA roles, keyboard navigation
 // Onboarding/help modal
