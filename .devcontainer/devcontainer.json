@@ -1,1 +1,10 @@
-{"name":"Windgap Academy Dev Container","image":"mcr.microsoft.com/devcontainers/base:ubuntu","remoteUser":"vscode","workspaceFolder":"/workspaces/windgapacademy","features":{},"settings":{},"extensions":[],"postCreateCommand":"echo 'Container created!'"}
+{
+  "name": "Windgap Academy Dev Container",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+  "remoteUser": "vscode",
+  "workspaceFolder": "/workspaces/windgapacademy",
+  "features": {},
+  "settings": {},
+  "extensions": [],
+  "postCreateCommand": "echo 'Container created!'"
+}
