@@ -1,0 +1,9 @@
+{
+  "name": "Windgap Academy Dev Container",
+  "workspaceFolder": "/workspaces/windgapacademy",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+  "features": {},
+  "settings": {},
+  "extensions": [],
+  "postCreateCommand": "echo 'Container created!'"
+}
