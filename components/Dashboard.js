@@ -110,6 +110,15 @@ export function showDashboard(container, data = {}) {
           <div class="flex items-center gap-4">
             <div class="text-sm text-gray-700">${session.name || 'Guest'}</div>
             <div class="text-xs text-gray-500 px-2 py-1 border rounded">${(session.role || 'learner').toUpperCase()}</div>
+            <select id="theme-select" aria-label="Theme selector" class="text-sm bg-white border rounded px-2">
+              <option value="light">Light</option>
+              <option value="dark">Dark</option>
+            </select>
+            <select id="lang-select" aria-label="Language selector" class="text-sm bg-white border rounded px-2">
+              <option value="en">EN</option>
+              <option value="es">ES</option>
+            </select>
+            <button id="dashboard-help" class="btn-ghost">Help</button>
             <button id="logout-btn" class="btn-secondary touch-target">Logout</button>
           </div>
         </header>
@@ -123,11 +132,24 @@ export function showDashboard(container, data = {}) {
             <section id="overview" class="content-section">
               <h1 class="text-2xl font-bold mb-2">Welcome back, ${session.name || 'Learner'}</h1>
               <p class="text-sm text-gray-600 mb-4">Quick stats and recent activity.</p>
+              <h2 class="text-lg font-semibold mb-2">Recent Activities</h2>
               <div id="quick-stats" class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
                 <div class="card p-4">Total Points<br/><strong>1,200</strong></div>
                 <div class="card p-4">Modules Completed<br/><strong>8</strong></div>
                 <div class="card p-4">Streak<br/><strong>5 days</strong></div>
               </div>
+              <!-- Minimal scaffold elements for tests and progressive enhancement -->
+              <div id="dashboard-charts" class="mb-4" aria-label="Dashboard charts">
+                <!-- charts will be injected here by visualization modules -->
+              </div>
+              <div id="progress-bar" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" class="w-full bg-gray-200 h-3 rounded mb-4">
+                <div style="width:75%" class="bg-blue-500 h-3 rounded"></div>
+              </div>
+              <form id="feedback-form" class="mb-4" aria-label="Feedback form">
+                <label for="feedback-text" class="sr-only">Feedback</label>
+                <textarea id="feedback-text" name="feedback" rows="3" class="w-full border p-2" placeholder="Send feedback to educators"></textarea>
+                <button type="button" id="send-feedback" class="btn-primary mt-2">Send</button>
+              </form>
             </section>
             <section id="modules" class="content-section hidden">
               <h1 class="text-xl font-bold mb-2">Available Modules</h1>

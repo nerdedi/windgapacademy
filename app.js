@@ -113,7 +113,7 @@ function setupDashboardButtonListeners() {
 
 // Lazy-load game modules for performance
 const lazyLoadGameModule = async (modulePath, ...args) => {
-  const mod = await import(modulePath);
+  const mod = await import(/* @vite-ignore */ modulePath);
   // Each module exports a default function or named function
   if (mod.default) return mod.default(...args);
   // Try common named exports
