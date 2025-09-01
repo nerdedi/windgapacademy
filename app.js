@@ -53,6 +53,43 @@ async function getData() {
 // Use ES module import for Firebase. See firebase.js for initialization.
 import { app, auth, loginUser } from "./firebase.js";
 import { showDashboard } from "./components/Dashboard.js";
+import { showAdaptiveLearning } from "./components/AdaptiveLearning.js";
+import { showVirtualCurrency } from "./components/VirtualCurrency.js";
+import { showSeasonalEvents } from "./components/SeasonalEvents.js";
+import { showUserContent } from "./components/UserContent.js";
+import { showPeerReview } from "./components/PeerReview.js";
+import { showSignLanguageAvatar } from "./components/SignLanguageAvatar.js";
+import { showAICaptioning } from "./components/AICaptioning.js";
+import { showTwoFactorAuth } from "./components/TwoFactorAuth.js";
+import { showOnboarding } from "./components/Onboarding.js";
+import { showCalendar } from "./components/Calendar.js";
+import { showDashboardWidgets } from "./components/DashboardWidgets.js";
+import { showCollaboration } from "./components/Collaboration.js";
+import { showVideoChat } from "./components/VideoChat.js";
+import { showAIRecommendations } from "./components/AIRecommendations.js";
+import { showFeedbackForm } from "./components/FeedbackForm.js";
+import { showAchievementSharing } from "./components/AchievementSharing.js";
+import { showDataExportImport } from "./components/DataExportImport.js";
+import { showExternalResources } from "./components/ExternalResources.js";
+import { showChallenges } from "./components/Challenges.js";
+import { showBadges } from "./components/Badges.js";
+import { showMiniGames } from "./components/MiniGames.js";
+import { showMessagingComponent } from "./components/Messaging.js";
+import { showGroupProjects } from "./components/GroupProjects.js";
+import { showForums } from "./components/Forums.js";
+import { showAccessibilityAdvanced } from "./components/AccessibilityAdvanced.js";
+import { showAnalytics } from "./components/Analytics.js";
+import { showResourceLibrary } from "./components/ResourceLibrary.js";
+import { showParentPortal } from "./components/ParentPortal.js";
+import { showCalmSpace } from "./components/CalmSpace.js";
+import { showEducatorDashboard } from "./components/EducatorDashboard.js";
+import { showAssignments } from "./components/Assignments.js";
+import { showChatModeration } from "./components/ChatModeration.js";
+import { showAvatarBuilder } from "./components/AvatarBuilder.js";
+import { showMessaging } from "./components/Messaging.js";
+import { showTokenSystem } from "./components/TokenSystem.js";
+import { showDomainTabs } from "./components/DomainTabs.js";
+import { showLeaderboard } from "./components/Leaderboard.js";
 import { monitorPerformance, trackErrorRates, trackUserEngagement, scheduleRegularUpdates, warnDebug, setDebug, logDebug, sendEvent } from "./utils/monitoring.js";
 import { GameStateManager } from "./src/components/GameStateManager.js";
 import { UnifiedUIManager } from "./src/components/UnifiedUIManager.js";
@@ -130,6 +167,11 @@ const lazyLoadGameModule = async (modulePath, ...args) => {
 
 // Single reference for main app container
 const appContainer = document.getElementById("app");
+
+// Ensure appContainer is always defined in error handlers
+function getAppContainer() {
+  return document.getElementById("app") || appContainer;
+}
 
 // --- Core Managers ---
 const gameStateManager = new GameStateManager({});
@@ -668,30 +710,101 @@ function mainInit() {
     
     // If still no user, show minimal homepage
     if (!user) {
-    // Minimal homepage for preview: branding + login form
+    // Rich homepage layout for guests (based on index.html, with requested exclusions)
     app.innerHTML = `
-      <main class="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#5ED1D2] to-[#A32C2B]">
-        <section class="card w-full max-w-md">
-          <header class="text-center mb-4">
-            <img src="assets/logo.svg" alt="Windgap Academy" class="mx-auto h-20" />
-            <h2 class="text-2xl font-bold mt-2">Windgap Academy of Learning</h2>
-            <p class="text-sm text-gray-700 mt-1">Accessible • Inclusive • Interactive Learning</p>
-          </header>
-          <form id="login-form-preview" class="flex flex-col gap-3" aria-label="Login form">
-            <label>Email<input id="login-email" class="input" type="email" required placeholder="you@example.com" /></label>
-            <label>Password<input id="login-password" class="input" type="password" required placeholder="password" /></label>
-            <div class="flex items-center justify-between">
-              <button id="login-submit" class="btn-primary touch-target" type="submit">Sign In</button>
-              <button id="login-guest" type="button" class="btn-secondary touch-target">Continue as Guest</button>
-            </div>
-            <p class="text-xs text-gray-600">Use <strong>educator@test.com</strong> or <strong>learner@test.com</strong> (password: <em>password</em>) for dev preview.</p>
-          </form>
-          <footer class="mt-4 text-center text-xs text-gray-600">
-            <a href="#" id="privacy-link">Privacy Policy</a> | <a href="#" id="terms-link">Terms</a>
-          </footer>
-        </section>
-      </main>
-    `;
+    <header class="flex items-center justify-between px-8 py-4 bg-white shadow">
+      <div class="flex items-center gap-3">
+        <img src="assets/logo.png" alt="Windgap Academy Logo" class="h-14 w-auto animate-float" />
+        <span class="text-2xl font-bold text-[#A32C2B]">Windgap Academy</span>
+      </div>
+      <div class="flex items-center gap-4">
+        <img src="assets/windgap-logo.png" alt="User Avatar" class="h-10 w-10 rounded-full border-2 border-[#A32C2B]" id="user-avatar" />
+        <span class="font-semibold text-[#A32C2B]" id="welcome-user">Welcome, Guest!</span>
+      </div>
+    </header>
+    <nav class="sticky top-0 z-50 bg-white shadow flex items-center justify-between px-8 py-4">
+      <div class="flex items-center gap-3">
+        <img src="assets/logo.png" alt="Windgap Academy Logo" class="h-14 w-auto animate-float" />
+        <span class="text-2xl font-bold text-[#A32C2B]">Windgap Academy</span>
+      </div>
+      <div class="flex gap-6">
+        <a href="#home" data-route="home" class="btn-secondary" aria-label="Home">Home</a>
+        <a href="#signin" data-route="signin" class="btn-secondary" aria-label="Sign In">Sign In</a>
+        <a href="#accessibility" data-route="accessibility" class="btn-secondary" aria-label="Accessibility">Accessibility</a>
+        <a href="#support" data-route="support" class="btn-secondary" aria-label="Support">Support</a>
+      </div>
+    </nav>
+    <div class="hero-section relative flex flex-col items-center justify-center min-h-[60vh] bg-gradient-to-br from-[#5ED1D2] via-[#A32C2B] to-[#FBBF24] overflow-hidden">
+      <div class="carousel w-full max-w-2xl mb-6 flex items-center justify-center" id="featured-carousel">
+        <button class="carousel-control" aria-label="Previous Module">&#8592;</button>
+        <div class="carousel-slide flex-1 text-center">
+          <h3 class="text-2xl font-bold text-white">Math Quest</h3>
+          <p class="text-white">Sharpen your math skills in a fun adventure!</p>
+        </div>
+        <button class="carousel-control" aria-label="Next Module">&#8594;</button>
+      </div>
+      <div class="progress-tracker w-full max-w-md mb-4 flex flex-col gap-2" id="progress-tracker">
+        <div class="flex items-center justify-between"><span>Math Quest</span><span>80%</span></div>
+        <div class="w-full bg-gray-200 rounded-full h-2"><div class="bg-[#A32C2B] h-2 rounded-full" style="width:80%"></div></div>
+        <div class="flex items-center justify-between"><span>Reading Adventure</span><span>60%</span></div>
+        <div class="w-full bg-gray-200 rounded-full h-2"><div class="bg-[#5ED1D2] h-2 rounded-full" style="width:60%"></div></div>
+      </div>
+      <div class="leaderboard w-full max-w-md mb-4 bg-white/80 rounded-lg shadow p-4" id="homepage-leaderboard">
+        <h3 class="text-xl font-bold text-[#A32C2B] mb-2">Top Learners</h3>
+        <div class="carousel w-full max-w-2xl mb-6" id="featured-carousel"></div>
+        <div class="badges flex gap-3 mb-4" id="achievement-badges"></div>
+        <div class="progress-tracker w-full max-w-md mb-4" id="progress-tracker"></div>
+        <div class="leaderboard w-full max-w-md mb-4" id="homepage-leaderboard"></div>
+        <div class="challenge-block w-full max-w-md mb-4" id="daily-challenge"></div>
+        <div class="welcome-message text-lg text-white font-semibold mb-2" id="personal-welcome"></div>
+        <div class="news-ticker bg-white/80 text-[#A32C2B] px-4 py-2 rounded-full shadow mb-4" id="news-ticker">Loading updates...</div>
+        <div class="accessibility-toggles flex gap-3 mb-4" id="accessibility-toggles">
+          <button onclick="window.increaseFont()" class="btn-secondary">A+</button>
+          <button onclick="window.toggleDyslexiaFont()" class="btn-secondary">Dyslexia Font</button>
+          <button onclick="window.toggleEasyRead()" class="btn-secondary">Easy Read</button>
+        </div>
+        <div class="avatar-customization w-full max-w-md mb-4" id="avatar-customization"></div>
+        <div class="social-sharing flex gap-3 mb-4" id="social-sharing">
+          <button class="btn-secondary">Share</button>
+          <button class="btn-secondary">Invite Friends</button>
+        </div>
+        <div class="feedback-support w-full max-w-md mb-4" id="feedback-support">
+          <a href="#feedback" class="btn-secondary">Feedback</a>
+          <a href="#support" class="btn-secondary">Support</a>
+        </div>
+      </div>
+    </div>
+    <div style="margin:2em 0;text-align:center;">
+      <img src="assets/images/main-characters-windgap.png" alt="Main Characters: Andy, Daisy, Natalie, Winnie" style="max-width:100%;height:auto;border:2px solid #A32C2B;border-radius:16px;background:#f8f8f8;object-fit:contain;" />
+      <div style="color:#A32C2B;font-weight:bold;margin-top:0.5em;">Main Characters: Andy, Daisy, Natalie, Winnie (left to right)</div>
+    </div>
+    <section class="flex flex-col items-center my-12">
+      <h2 class="text-3xl font-bold mb-4">Ready to start learning?</h2>
+      <button class="cta">Get Started</button>
+    </section>
+    <footer class="w-full bg-white py-6 mt-12 shadow text-center text-[#A32C2B]">
+      <div class="flex flex-col md:flex-row items-center justify-center gap-6">
+        <a href="#privacy" class="underline">Privacy Policy</a>
+        <a href="#terms" class="underline">Terms of Service</a>
+        <a href="#contact" class="underline">Contact</a>
+      </div>
+      <div class="mt-2 text-sm">&copy; 2025 Windgap Academy. All rights reserved.</div>
+    </footer>
+    <nav style="margin: 2em 0; text-align: center;">
+      <button onclick="showFeature('avatar')">Avatar Creator</button>
+      <button onclick="showFeature('stairs')">Climbing Stairs Animation</button>
+      <button onclick="showFeature('island')">Max Area of Island Animation</button>
+      <button onclick="showFeature('cube')">Cube Map 3D Demo <span class="coming-soon" aria-hidden="true">(Coming Soon)</span></button>
+      <button onclick="showFeature('kitchen')">Healthy Kitchen Challenge <span class="coming-soon" aria-hidden="true">(Coming Soon)</span></button>
+      <button onclick="showFeature('foodcollector')">Food Collector Environment</button>
+      <button onclick="showFeature('zoo')">Academy Zoo Environment</button>
+      <button onclick="showFeature('fluid')">Fluid Simulation <span class="coming-soon" aria-hidden="true">(Coming Soon)</span></button>
+      <button onclick="showFeature('dashboard')">Results Dashboard</button>
+      <button onclick="showFeature('whiteboard')">Whiteboard</button>
+    </nav>
+    <main>
+      <div id="feature-container" style="width: 100%; min-height: 500px; background: #fff; border-radius: 12px; box-shadow: 0 2px 16px #0001; margin: auto; max-width: 1200px; padding: 2em;"></div>
+    </main>
     const loginForm = document.getElementById('login-form-preview');
     const emailInput = document.getElementById('login-email');
     const passwordInput = document.getElementById('login-password');
@@ -767,100 +880,100 @@ function mainInit() {
       try {
         loginUser(email, password)
           .then((userCredential) => {
-            const user = userCredential.user;
-            sendEvent('login', { email });
-            if (userCredential && userCredential.user && userCredential.user.email && userCredential.user.email.endsWith('@educator.windgapacademy.edu.au')) {
-              window.route('educator-dashboard');
-            } else {
-              window.route('dashboard');
-              sendEvent('login_success', { email });
-              const progress = syncProgress();
-              updateProgress(progress);
-              const adaptiveLearning = new AdaptiveLearning();
-              const nextModule = adaptiveLearning.recommendNextModule(modules, progress);
-              if (nextModule) {
-                logEvent('adaptive_recommendation', { module: nextModule });
-              }
-            }
-          })
-          .catch((err) => {
-            errorDiv.textContent = err.message || 'Login failed. Please try again.';
-            sendEvent('login_error', { email });
-            errorDiv.style.display = 'block';
-            warnDebug('Login error:', err);        
-          });
-      } catch (err) {
-        errorDiv.textContent = err.message || 'Login failed. Please try again.';
-        errorDiv.style.display = 'block';
-        sendEvent('login_error', { email });
-        warnDebug('Login error:', err);
-      }
-    };
-  }
-  // Real module loading for all modules
-  app.querySelectorAll('[data-module]').forEach(btn => {
-    btn.onclick = async (e) => {
-      const modulePath = btn.getAttribute('data-module');
-      const funcName = btn.getAttribute('data-func');
-      app.innerHTML = `<div class='card animate-pulse'>Loading ${btn.textContent}...</div>`;
-      try {
-        const progress = syncProgress();
-        const mod = await import(/* @vite-ignore */ modulePath);
-        if (mod[funcName]) {
-          mod[funcName](app);
-          updateProgress(progress);
-          logEvent('module_loaded', { module: modulePath });
-          // Update adaptive learning recommendations
-          const adaptiveLearning = new AdaptiveLearning();
-          const nextModule = adaptiveLearning.recommendNextModule(modules, progress);
-          if (nextModule) {
-            logEvent('adaptive_recommendation', { module: nextModule });
-          }
-        } else {
-          app.innerHTML = `<div class='alert-error'>Module loaded but no display function found.</div>`;
-          warnDebug('Missing display function for module:', modulePath, funcName);
-          sendEvent('module_load_error', { module: modulePath });
-        }
-      } catch (err) {
-        app.innerHTML = `<div class='alert-error'>Error loading module: ${err}</div>`;
-        warnDebug('Module load error:', err);
-      }
-    };
-  });
-  app.querySelectorAll('[data-route]').forEach(btn => {
-    btn.onclick = (e) => {
-      const route = btn.getAttribute('data-route');
-      if (route === 'dashboard') mainInit();
-      else window.route(route);
-    };
-  });
-  // Accessibility
-  addAriaLabels();
-  enableKeyboardNavigation();
-}
-
-// --- Accessibility Improvements ---
-// Only one enableKeyboardNavigation function should exist. Already implemented above.
-function addTextToSpeechSupport() { /* TODO: Implement text-to-speech */ }
-function ensureModalsHaveAriaLabels() { /* TODO: Implement ARIA labels and focus trap for modals */ }
-
-// --- Error Handling Improvements ---
-function globalErrorBoundary() { /* TODO: Implement global error boundary */ }
-function improveErrorMessages() { /* TODO: Implement improved error messages and recovery flows */ }
-
-// --- Input Validation & Testing ---
-function validateAllForms() { /* TODO: Implement input validation for forms and user input */ }
-function expandAutomatedTests() { /* TODO: Expand automated unit and integration tests */ }
-
-// --- Engagement & Gamification ---
-function addRealTimeFeedback() { /* TODO: Implement real-time feedback (animations, sound effects, confetti) */ }
-// TODO: Expand gamification with badges, streaks, and seasonal events
-// TODO: Add micro-interactions and smooth transitions to UI
-
-// --- Security Improvements ---
-// TODO: Review and improve authentication flows (two-factor, token system)
-// TODO: Sanitize all user-generated content and feedback
-// TODO: Ensure secure API calls and data storage
+            app.innerHTML =
+              '<header class="flex items-center justify-between px-8 py-4 bg-white shadow">' +
+              '<div class="flex items-center gap-3">' +
+                '<img src="assets/logo.png" alt="Windgap Academy Logo" class="h-14 w-auto animate-float" />' +
+                '<span class="text-2xl font-bold text-[#A32C2B]">Windgap Academy</span>' +
+              '</div>' +
+              '<div class="flex items-center gap-4">' +
+                '<img src="assets/windgap-logo.png" alt="User Avatar" class="h-10 w-10 rounded-full border-2 border-[#A32C2B]" id="user-avatar" />' +
+                '<span class="font-semibold text-[#A32C2B]" id="welcome-user">Welcome, Guest!</span>' +
+              '</div>' +
+              '</header>' +
+              '<nav class="sticky top-0 z-50 bg-white shadow flex items-center justify-between px-8 py-4">' +
+              '<div class="flex items-center gap-3">' +
+                '<img src="assets/logo.png" alt="Windgap Academy Logo" class="h-14 w-auto animate-float" />' +
+                '<span class="text-2xl font-bold text-[#A32C2B]">Windgap Academy</span>' +
+              '</div>' +
+              '<div class="flex gap-6">' +
+                '<a href="#home" data-route="home" class="btn-secondary" aria-label="Home">Home</a>' +
+                '<a href="#signin" data-route="signin" class="btn-secondary" aria-label="Sign In">Sign In</a>' +
+                '<a href="#accessibility" data-route="accessibility" class="btn-secondary" aria-label="Accessibility">Accessibility</a>' +
+                '<a href="#support" data-route="support" class="btn-secondary" aria-label="Support">Support</a>' +
+              '</div>' +
+              '</nav>' +
+              '<div class="hero-section relative flex flex-col items-center justify-center min-h-[60vh] bg-gradient-to-br from-[#5ED1D2] via-[#A32C2B] to-[#FBBF24] overflow-hidden">' +
+              '<div class="carousel w-full max-w-2xl mb-6 flex items-center justify-center" id="featured-carousel">' +
+                '<button class="carousel-control" aria-label="Previous Module">&#8592;</button>' +
+                '<div class="carousel-slide flex-1 text-center">' +
+                  '<h3 class="text-2xl font-bold text-white">Math Quest</h3>' +
+                  '<p class="text-white">Sharpen your math skills in a fun adventure!</p>' +
+                '</div>' +
+                '<button class="carousel-control" aria-label="Next Module">&#8594;</button>' +
+              '</div>' +
+              '<div class="progress-tracker w-full max-w-md mb-4 flex flex-col gap-2" id="progress-tracker">' +
+                '<div class="flex items-center justify-between"><span>Math Quest</span><span>80%</span></div>' +
+                '<div class="w-full bg-gray-200 rounded-full h-2"><div class="bg-[#A32C2B] h-2 rounded-full" style="width:80%"></div></div>' +
+                '<div class="flex items-center justify-between"><span>Reading Adventure</span><span>60%</span></div>' +
+                '<div class="w-full bg-gray-200 rounded-full h-2"><div class="bg-[#5ED1D2] h-2 rounded-full" style="width:60%"></div></div>' +
+              '</div>' +
+              '<div class="leaderboard w-full max-w-md mb-4 bg-white/80 rounded-lg shadow p-4" id="homepage-leaderboard">' +
+                '<h3 class="text-xl font-bold text-[#A32C2B] mb-2">Top Learners</h3>' +
+                '<div class="carousel w-full max-w-2xl mb-6" id="featured-carousel"></div>' +
+                '<div class="badges flex gap-3 mb-4" id="achievement-badges"></div>' +
+                '<div class="progress-tracker w-full max-w-md mb-4" id="progress-tracker"></div>' +
+                '<div class="leaderboard w-full max-w-md mb-4" id="homepage-leaderboard"></div>' +
+                '<div class="challenge-block w-full max-w-md mb-4" id="daily-challenge"></div>' +
+                '<div class="welcome-message text-lg text-white font-semibold mb-2" id="personal-welcome"></div>' +
+                '<div class="news-ticker bg-white/80 text-[#A32C2B] px-4 py-2 rounded-full shadow mb-4" id="news-ticker">Loading updates...</div>' +
+                '<div class="accessibility-toggles flex gap-3 mb-4" id="accessibility-toggles">' +
+                  '<button onclick="window.increaseFont()" class="btn-secondary">A+</button>' +
+                  '<button onclick="window.toggleDyslexiaFont()" class="btn-secondary">Dyslexia Font</button>' +
+                  '<button onclick="window.toggleEasyRead()" class="btn-secondary">Easy Read</button>' +
+                '</div>' +
+                '<div class="avatar-customization w-full max-w-md mb-4" id="avatar-customization"></div>' +
+                '<div class="social-sharing flex gap-3 mb-4" id="social-sharing">' +
+                  '<button class="btn-secondary">Share</button>' +
+                  '<button class="btn-secondary">Invite Friends</button>' +
+                '</div>' +
+                '<div class="feedback-support w-full max-w-md mb-4" id="feedback-support">' +
+                  '<a href="#feedback" class="btn-secondary">Feedback</a>' +
+                  '<a href="#support" class="btn-secondary">Support</a>' +
+                '</div>' +
+              '</div>' +
+            '</div>' +
+            '<div style="margin:2em 0;text-align:center;">' +
+              '<img src="assets/images/main-characters-windgap.png" alt="Main Characters: Andy, Daisy, Natalie, Winnie" style="max-width:100%;height:auto;border:2px solid #A32C2B;border-radius:16px;background:#f8f8f8;object-fit:contain;" />' +
+              '<div style="color:#A32C2B;font-weight:bold;margin-top:0.5em;">Main Characters: Andy, Daisy, Natalie, Winnie (left to right)</div>' +
+            '</div>' +
+            '<section class="flex flex-col items-center my-12">' +
+              '<h2 class="text-3xl font-bold mb-4">Ready to start learning?</h2>' +
+              '<button class="cta">Get Started</button>' +
+            '</section>' +
+            '<footer class="w-full bg-white py-6 mt-12 shadow text-center text-[#A32C2B]">' +
+              '<div class="flex flex-col md:flex-row items-center justify-center gap-6">' +
+                '<a href="#privacy" class="underline">Privacy Policy</a>' +
+                '<a href="#terms" class="underline">Terms of Service</a>' +
+                '<a href="#contact" class="underline">Contact</a>' +
+              '</div>' +
+              '<div class="mt-2 text-sm">&copy; 2025 Windgap Academy. All rights reserved.</div>' +
+            '</footer>' +
+            '<nav style="margin: 2em 0; text-align: center;">' +
+              '<button onclick="showFeature(\'avatar\')">Avatar Creator</button>' +
+              '<button onclick="showFeature(\'stairs\')">Climbing Stairs Animation</button>' +
+              '<button onclick="showFeature(\'island\')">Max Area of Island Animation</button>' +
+              '<button onclick="showFeature(\'cube\')">Cube Map 3D Demo <span class="coming-soon" aria-hidden="true">(Coming Soon)</span></button>' +
+              '<button onclick="showFeature(\'kitchen\')">Healthy Kitchen Challenge <span class="coming-soon" aria-hidden="true">(Coming Soon)</span></button>' +
+              '<button onclick="showFeature(\'foodcollector\')">Food Collector Environment</button>' +
+              '<button onclick="showFeature(\'zoo\')">Academy Zoo Environment</button>' +
+              '<button onclick="showFeature(\'fluid\')">Fluid Simulation <span class="coming-soon" aria-hidden="true">(Coming Soon)</span></button>' +
+              '<button onclick="showFeature(\'dashboard\')">Results Dashboard</button>' +
+              '<button onclick="showFeature(\'whiteboard\')">Whiteboard</button>' +
+            '</nav>' +
+            '<main>' +
+              '<div id="feature-container" style="width: 100%; min-height: 500px; background: #fff; border-radius: 12px; box-shadow: 0 2px 16px #0001; margin: auto; max-width: 1200px; padding: 2em;"></div>' +
+            '</main>';
 
 // --- UI Polish & Customization ---
 // TODO: Polish UI with modern design patterns and transitions
@@ -910,19 +1023,18 @@ function collectUserFeedback() {
     form.style.border = "1px solid #ccc";
     form.style.padding = "16px";
     form.style.zIndex = "1001";
-    form.innerHTML = `
-      <h3>Feedback</h3>
-      <textarea id='feedback-comment' rows='3' style='width:100%;'></textarea><br>
-      <label>Category: <select id='feedback-category'>
-        <option>General</option>
-        <option>Bug Report</option>
-        <option>Feature Request</option>
-      </select></label><br>
-      <label>Details: <textarea id='feedback-details' rows='3' style='width:100%;'></textarea></label><br>
-      <label>Rating: <select id='feedback-rating'><option>5</option><option>4</option><option>3</option><option>2</option><option>1</option></select></label><br>
-      <button id='submit-feedback'>Submit</button>
-      <button id='close-feedback'>Close</button>
-    `;
+    form.innerHTML =
+      '<h3>Feedback</h3>' +
+      "<textarea id='feedback-comment' rows='3' style='width:100%;'></textarea><br />" +
+      "<label>Category: <select id='feedback-category'>" +
+        "<option>General</option>" +
+        "<option>Bug Report</option>" +
+        "<option>Feature Request</option>" +
+      "</select></label><br />" +
+      "<label>Details: <textarea id='feedback-details' rows='3' style='width:100%;'></textarea></label><br />" +
+      "<label>Rating: <select id='feedback-rating'><option>5</option><option>4</option><option>3</option><option>2</option><option>1</option></select></label><br />" +
+      "<button id='submit-feedback'>Submit</button>" +
+      "<button id='close-feedback'>Close</button>";
     document.body.appendChild(form);
     document.getElementById("submit-feedback").onclick = async () => {
       form.remove();
@@ -969,16 +1081,14 @@ window.addEventListener("DOMContentLoaded", () => {
   try {
     mainInit();
   } catch (err) {
-    window.lastWindgapError = err.stack || err.toString()    
-    showFallbackScreen(
-      "An error occurred during initialization. Please check your connection or contact support.",
-    );
+    window.lastWindgapError = 'Initialization error: ' + (err && err.stack ? err.stack : err);
+    showFallbackScreen('An error occurred during initialization. Please check your connection or contact support.');
   }
 });
 
 // Global error handler for anything uncaught
 window.onerror = function (message, source, lineno, colno, error) {
-  window.lastWindgapError = `${message}\n${source}:${lineno}:${colno}\n${error && error.stack ? error.stack : ""}`;
+  window.lastWindgapError = message + '\n' + source + ':' + lineno + ':' + colno + '\n' + (error && error.stack ? error.stack : '');
   showFallbackScreen("A JavaScript error occurred and Windgap Academy could not start.");
   warnDebug('Global error:', message, source, lineno, colno, error);
   // TODO: Implement error reporting to server
@@ -1013,28 +1123,15 @@ document.body.style.backgroundColor = themes.windgap.light;
 
 // Add Video.js player to homepage
 const videoSection = document.createElement('section');
-videoSection.innerHTML = `
-  <link href="//vjs.zencdn.net/8.23.4/video-js.min.css" rel="stylesheet">
-  <video
-    id="my-player"
-    class="video-js"
-    controls
-    preload="auto"
-    poster="//vjs.zencdn.net/v/oceans.png"
-    data-setup='{}'>
-    <source src="//vjs.zencdn.net/v/oceans.mp4" type="video/mp4"></source>
-    <source src="//vjs.zencdn.net/v/oceans.webm" type="video/webm"></source>
-    <source src="//vjs.zencdn.net/v/oceans.ogv" type="video/ogg"></source>
-    <p class="vjs-no-js">
-      To view this video please enable JavaScript, and consider upgrading to a
-      web browser that
-      <a href="https://videojs.com/html5-video-support/" target="_blank">
-        supports HTML5 video
-      </a>
-    </p>
-  </video>
-  <script src="//vjs.zencdn.net/8.23.4/video.min.js"></script>
-`;
+videoSection.innerHTML =
+  '<link href="//vjs.zencdn.net/8.23.4/video-js.min.css" rel="stylesheet">' +
+  '<video id="my-player" class="video-js" controls preload="auto" poster="//vjs.zencdn.net/v/oceans.png" data-setup="{}">' +
+    '<source src="//vjs.zencdn.net/v/oceans.mp4" type="video/mp4"></source>' +
+    '<source src="//vjs.zencdn.net/v/oceans.webm" type="video/webm"></source>' +
+    '<source src="//vjs.zencdn.net/v/oceans.ogv" type="video/ogg"></source>' +
+    '<p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>' +
+  '</video>' +
+  '<script src="//vjs.zencdn.net/8.23.4/video.min.js"></script>';
 document.body.appendChild(videoSection);
 
 // Initialize Video.js player after DOM is ready
@@ -1104,14 +1201,14 @@ window.showFeature = async function(feature) {
     window.route(config.route);
     return;
   }
-  // Use #feature-container if present, else fallback to app
-  const container = document.getElementById('feature-container') || app;
-  container.innerHTML = `<div class='card animate-pulse'>Loading feature...</div>`;
+  // Use #feature-container if present, else fallback to #app
+  const container = document.getElementById('feature-container') || document.getElementById('app');
+  container.innerHTML = '<div class="card animate-pulse">Loading feature...</div>';
   try {
     windgapLog('showFeature:tryImport', { feature });
     if (config.func === 'iframe') {
       // Render iframe for HTML features
-      container.innerHTML = `<iframe src='${config.module}' style='width:100%;height:80vh;border:none;border-radius:12px;box-shadow:0 2px 16px #0002;'></iframe>`;
+  container.innerHTML = '<iframe src="' + config.module + '" style="width:100%;height:80vh;border:none;border-radius:12px;box-shadow:0 2px 16px #0002;"></iframe>';
       return;
     }
     // Defensive import: some modules may export a default object or named exports.
@@ -1131,15 +1228,15 @@ window.showFeature = async function(feature) {
     } else {
       windgapLog('showFeature:noCallableExport', { feature, module: config.module, mod });
       // Not a callable module — render useful debug info but don't throw
-      const details = `No callable export found in module ${config.module} (expected ${config.func} or default function).`;
+  const details = 'No callable export found in module ' + config.module + ' (expected ' + config.func + ' or default function).';
       console.error(details, mod);
-      container.innerHTML = `<div class='alert-error'>Feature loaded but no display function found.</div>`;
+  container.innerHTML = '<div class="alert-error">Feature loaded but no display function found.</div>';
       warnDebug('Missing display function for feature:', config.module, config.func, mod);
     }
   } catch (err) {
     // Log and show an inline error; prevent uncaught exceptions from breaking test harness
     console.error('Error loading feature', feature, err);
-    container.innerHTML = `<div class='alert-error'>Error loading feature: ${String(err && err.message ? err.message : err)}</div>`;
+  container.innerHTML = '<div class="alert-error">Error loading feature: ' + (err && err.message ? err.message : err) + '</div>';
     try { warnDebug('Feature load error:', err); } catch (e) { /* noop */ }
   }
 };
@@ -1152,23 +1249,26 @@ window.addEventListener('error', function(event) {
   console.error('Global error caught:', event.error || event.message);
   // Optionally display a user-friendly error message in the UI
   if (app) {
-    app.innerHTML = `<div class="error-message" style="color:red;padding:2em;text-align:center;">
-      <h2>Something went wrong</h2>
-      <p>${event.error ? event.error.message : event.message}</p>
-      <p>Please refresh the page or contact support if the problem persists.</p>
-    </div>`;
+    var msg = event.error ? event.error.message : event.message;
+    app.innerHTML = '<div class="error-message" style="color:red;padding:2em;text-align:center;">' +
+      '<h2>Something went wrong</h2>' +
+      '<p>' + msg + '</p>' +
+      '<p>Please refresh the page or contact support if the problem persists.</p>' +
+    '</div>';
   }
 });
 
 window.addEventListener('unhandledrejection', function(event) {
   console.error('Unhandled promise rejection:', event.reason);
   // Optionally display a user-friendly error message in the UI
-  if (appContainer) {
-    appContainer.innerHTML = `<div class="error-message" style="color:red;padding:2em;text-align:center;">
-      <h2>Something went wrong</h2>
-      <p>${event.reason && event.reason.message ? event.reason.message : event.reason}</p>
-      <p>Please refresh the page or contact support if the problem persists.</p>
-    </div>`;
+  const container = getAppContainer();
+  if (container) {
+    var msg = event.reason && event.reason.message ? event.reason.message : event.reason;
+    container.innerHTML = '<div class="error-message" style="color:red;padding:2em;text-align:center;">' +
+      '<h2>Something went wrong</h2>' +
+      '<p>' + msg + '</p>' +
+      '<p>Please refresh the page or contact support if the problem persists.</p>' +
+    '</div>';
   }
 });
 // Firebase initialization (ensure SDK is loaded before this runs)
