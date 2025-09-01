@@ -1,10 +1,18 @@
 {
   "name": "Windgap Academy Dev Container",
-  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
-  "remoteUser": "vscode",
+  "image": "mcr.microsoft.com/vscode/devcontainers/javascript-node:0-18",
   "workspaceFolder": "/workspaces/windgapacademy",
   "features": {},
-  "settings": {},
-  "extensions": [],
-  "postCreateCommand": "echo 'Container created!'"
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode"
+      ],
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash"
+      }
+    }
+  },
+  "postCreateCommand": "bash .devcontainer/post-create.sh"
 }
