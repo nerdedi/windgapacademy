@@ -2,20 +2,25 @@
 
 set -e
 
-# Remove current repo if it's broken
-cd /workspaces
-if [ -d "windgapacademy" ]; then
-  rm -rf windgapacademy
+# Move to your workspace directory
+cd /workspaces/windgapacademy
+
+# If local changes exist, stash them to avoid conflicts
+if ! git diff --quiet || ! git diff --cached --quiet; then
+  echo "Stashing local changes..."
+  git stash
 fi
 
-# Re-clone your repository
-git clone https://github.com/nerdedi/windgapacademy.git
-cd windgapacademy
+# Pull latest changes from remote main branch, using merge
+git pull --no-rebase origin main
 
-# Initialize submodules (if you use any; safe to run even if you don't)
-git submodule update --init --recursive
+# Show that the script is present
+ls -l fix-codespace.sh
 
-# Fix workspace folder permissions
-sudo chown -R vscode:vscode /workspaces/windgapacademy
+# Make sure the script is executable
+chmod +x fix-codespace.sh
 
-echo "Workspace reset complete. Please trigger a Full Rebuild Container from Codespaces menu."
+echo "Run this script again to reset your workspace if needed:"
+echo "bash fix-codespace.sh"
+
+# You may now run any further recovery steps, e.g. rebuilding container
