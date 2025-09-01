@@ -1,5 +1,39 @@
 # Windgap Academy
 
+## Development Best Practices
+
+- Modularize code by feature (see `src/app/`)
+- Use TypeScript for type safety
+- Run tests with Jest, Playwright, or Cypress
+- Enforce code style with ESLint and Prettier
+- Use robust error handling and accessibility features
+- Optimize performance and security
+- See `.github/workflows/ci.yml` for CI/CD setup
+
+## Getting Started
+
+1. Install dependencies: `npm install`
+2. Run linter: `npm run lint`
+3. Run tests: `npm test`
+4. Build: `npm run build`
+5. Start: `npm start` or `npm run dev`
+
+## Directory Structure
+
+- `src/app/` — Modularized app logic
+- `components/` — UI components
+- `backend/` — API and server logic
+- `public/` — Static assets
+
+## Accessibility & Error Handling
+
+- ARIA roles, keyboard navigation, narration
+- Global error handlers and error boundaries
+
+## CI/CD
+
+Automated build, lint, and test on every push/PR via GitHub Actions.
+
 ## Overview
 
 Windgap Academy is an inclusive, ad-free, educator-reviewed learning platform for neurodivergent learners aged 16+. The platform is designed to meet Australian NDIS standards and prioritizes accessibility, privacy, and educational best practices.
