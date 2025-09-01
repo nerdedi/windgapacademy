@@ -110,3 +110,4 @@
 {"level":"info","message":"::1 - - [01/Sep/2025:02:10:24 +0000] \"GET / HTTP/1.1\" 200 20313 \"-\" \"curl/8.12.1\""}
 {"level":"info","message":"::1 - - [01/Sep/2025:02:10:33 +0000] \"GET / HTTP/1.1\" 200 20313 \"-\" \"curl/8.12.1\""}
 {"level":"info","message":"::1 - - [01/Sep/2025:02:15:33 +0000] \"GET /assets/logo-B_SY1GJM.png HTTP/1.1\" 304 - \"https://supreme-barnacle-pjqr4v4r5r5wfrr5g-9003.app.github.dev/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36\""}
+{"level":"info","message":"Windgap Academy server running and listening at http://localhost:9003"}
