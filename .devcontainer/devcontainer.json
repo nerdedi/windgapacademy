@@ -1,25 +1,10 @@
-<<<<<<< HEAD
 {
   "name": "Windgap Academy Dev Container",
-  "image": "mcr.microsoft.com/vscode/devcontainers/javascript-node:20",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+  "remoteUser": "vscode",
+  "workspaceFolder": "/workspaces/windgapacademy",
   "features": {},
-  "customizations": {
-    "vscode": {
-      "settings": {
-        "terminal.integrated.shell.linux": "/bin/bash"
-      },
-      "extensions": [
-        "dbaeumer.vscode-eslint",
-        "esbenp.prettier-vscode",
-        "ms-playwright.playwright"
-      ]
-    }
-  },
-  "postCreateCommand": "npm install",
-  "postStartCommand": "npm start",
-  "forwardPorts": [3000, 9003],
-  "remoteUser": "vscode"
+  "settings": {},
+  "extensions": [],
+  "postCreateCommand": "echo 'Container created!'"
 }
-=======
-{"name":"Windgap Academy Dev Container","image":"mcr.microsoft.com/devcontainers/base:ubuntu","remoteUser":"vscode","workspaceFolder":"/workspaces/windgapacademy","features":{},"settings":{},"extensions":[],"postCreateCommand":"echo 'Container created!'"}
->>>>>>> 8fb94b23b7cee96f36b091f3ef5effeee1a0484c
