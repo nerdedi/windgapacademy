@@ -10,8 +10,19 @@ function windgapLog(msg, data) {
 // --- Dynamic Script Inspection & Debugging ---
 async function getScriptContent(url) {
   try {
-    const response = await fetch(url);
+    // Always use GET for script content, but validate URL
+    if (!url || typeof url !== 'string' || !/^https?:\/\//.test(url)) {
+      console.error('Invalid URL for fetch:', url);
+      return null;
+    }
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Accept': 'text/javascript,application/javascript,text/plain,*/*'
+      }
+    });
     if (!response.ok) {
+      console.error('Fetch failed with status:', response.status);
       return null;
     }
     return await response.text();
@@ -19,7 +30,6 @@ async function getScriptContent(url) {
     console.error(`Failed to fetch script content from ${url}:`, e);
     return null;
   }
-}
 
 async function getStackTraceUrls() {
   const stack = new Error().stack;
@@ -33,7 +43,6 @@ async function getStackTraceUrls() {
     })
     .filter(url => url !== null);
   return [...new Set(urls)]; // Get unique URLs
-}
 
 async function getData() {
   const scriptUrls = await getStackTraceUrls();
@@ -561,11 +570,11 @@ function mainInit() {
     '</nav>' +
     '<main>' +
       '<div id="feature-container" style="width: 100%; min-height: 500px; background: #fff; border-radius: 12px; box-shadow: 0 2px 16px #0001; margin: auto; max-width: 1200px; padding: 2em;"></div>' +
-    '</main>';
+  '</main>';
+  }
   }
   // Only authenticated users see dashboard and modules
   showDashboard(app, {});
-  }
   // Debug toggle logic
   const debugToggle = document.getElementById('debug-toggle');
   if (debugToggle) {
@@ -887,45 +896,7 @@ window.showFeature = async function(feature) {
     window.route(config.route);
     return;
   }
-  // Use #feature-container if present, else fallback to #app
-  const container = document.getElementById('feature-container') || document.getElementById('app');
-  container.innerHTML = '<div class="card animate-pulse">Loading feature...</div>';
-  try {
-    windgapLog('showFeature:tryImport', { feature });
-    if (config.func === 'iframe') {
-      // Render iframe for HTML features
-  container.innerHTML = '<iframe src="' + config.module + '" style="width:100%;height:80vh;border:none;border-radius:12px;box-shadow:0 2px 16px #0002;"></iframe>';
-      return;
-    }
-    // Defensive import: some modules may export a default object or named exports.
-    let mod;
-    try {
-      mod = await import(/* @vite-ignore */ config.module);
-      windgapLog('showFeature:importSuccess', { feature, module: config.module });
-    } catch (e) {
-      windgapLog('showFeature:importError', { feature, module: config.module, error: String(e) });
-      throw e;
-    }
-    // Prefer named function, then default function, then a default factory invocation (safe-guarded)
-    if (config.func && mod && typeof mod[config.func] === 'function') {
-      try { mod[config.func](container); windgapLog('showFeature:invoke', { feature, func: config.func }); } catch (err) { windgapLog('showFeature:invokeError', { feature, func: config.func, error: String(err) }); throw err; }
-    } else if (mod && typeof mod.default === 'function') {
-      try { mod.default(container); windgapLog('showFeature:invokeDefault', { feature }); } catch (err) { windgapLog('showFeature:invokeDefaultError', { feature, error: String(err) }); throw err; }
-    } else {
-      windgapLog('showFeature:noCallableExport', { feature, module: config.module, mod });
-      // Not a callable module — render useful debug info but don't throw
-  const details = 'No callable export found in module ' + config.module + ' (expected ' + config.func + ' or default function).';
-      console.error(details, mod);
-  container.innerHTML = '<div class="alert-error">Feature loaded but no display function found.</div>';
-      warnDebug('Missing display function for feature:', config.module, config.func, mod);
-    }
-  } catch (err) {
-    // Log and show an inline error; prevent uncaught exceptions from breaking test harness
-    console.error('Error loading feature', feature, err);
-  container.innerHTML = '<div class="alert-error">Error loading feature: ' + (err && err.message ? err.message : err) + '</div>';
-    try { warnDebug('Feature load error:', err); } catch (e) { /* noop */ }
-  }
-};
+}
 addAriaLabels();
 enableKeyboardNavigation();
 
@@ -1001,6 +972,7 @@ window.addEventListener('unhandledrejection', function(event) {
 // --- Advanced Feature Upgrades & TODOs ---
 // End of file: close last open block
 // Accessibility: ARIA roles, keyboard navigation, narration
+}
 // Onboarding/help modal
 // Backup/sync logic
 // Gamification: challenges, leaderboard
