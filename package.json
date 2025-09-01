@@ -1,4 +1,5 @@
 {
+  "type": "module",
   "name": "windgap-academy",
   "version": "1.0.0",
   "description": "Modern build setup for Windgap Academy",
