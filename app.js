@@ -124,6 +124,7 @@ function setupDashboardButtonListeners() {
       btn.addEventListener('click', () => window.route(routeName));
     }
   });
+} // <-- Added missing closing brace for setupDashboardButtonListeners
 /*
   Windgap Academy Main App Logic
   - Accessibility: ARIA, narration, font toggles, focus management
@@ -153,254 +154,8 @@ const lazyLoadGameModule = async (modulePath, ...args) => {
   const mod = await import(/* @vite-ignore */ modulePath);
   // Each module exports a default function or named function
   if (mod.default) return mod.default(...args);
-  // Try common named exports
-  if (mod.showLiteracyGame) return mod.showLiteracyGame(...args);
-  if (mod.showNumeracyGame) return mod.showNumeracyGame(...args);
-  if (mod.showCommunicationGame) return mod.showCommunicationGame(...args);
-  if (mod.showDigitalSkillsGame) return mod.showDigitalSkillsGame(...args);
-  if (mod.showLifeSkillsGame) return mod.showLifeSkillsGame(...args);
-  if (mod.showMoneySkillsGame) return mod.showMoneySkillsGame(...args);
-  if (mod.showEmployabilityGame) return mod.showEmployabilityGame(...args);
-  if (mod.showSocialEmotionalLearningGame) return mod.showSocialEmotionalLearningGame(...args)
 };
-
-
-// Single reference for main app container
-const appContainer = document.getElementById("app");
-
-// Ensure appContainer is always defined in error handlers
-function getAppContainer() {
-  return document.getElementById("app") || appContainer;
-}
-
-// --- Core Managers ---
-const gameStateManager = new GameStateManager({});
-const uiManager = new UnifiedUIManager();
-const analyticsLogger = AnalyticsLogger;
-const assetManager = new AssetManager();
-const progressionManager = new ProgressionManager();
-const adaptiveLearning = new AdaptiveLearning();
-// --- Hero Section Interactivity ---
-document.addEventListener('DOMContentLoaded', function() {
-  function setPersonalizedWelcome() {
-    const welcomeEl = document.getElementById('personal-welcome');
-    welcomeEl.classList.add('fade-in');
-    let user = window.currentUser || { name: 'User', role: 'learner' };
-    let hour = new Date().getHours();
-    let greeting = hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening';
-    if (welcomeEl) {
-      welcomeEl.textContent = `${greeting}, ${user.name}! Ready to learn and achieve today?`;
-      welcomeEl.classList.add('fade-in');
-    }
-    // Example: log welcome event
-    analyticsLogger.logEvent('welcome', { user, greeting });
-  }
-
-  function setNewsTicker() {
-    const ticker = document.getElementById('news-ticker');
-    const updates = [
-      'New badges available in the Arcade Zone!',
-      'Check out the latest updates in the Academy Hub!',
-      'New interactive lessons added!',
-      'Tip: Try the Calm Space for relaxation and focus.',
-      'Educator resources updated for NDIS reporting.',
-      'Check out new mini-games in the Virtual World!'
-    ];
-    let idx = 0;
-    function rotate() {
-      if (ticker) ticker.textContent = updates[idx];
-      idx = (idx + 1) % updates.length;
-    }
-    rotate();
-    setInterval(rotate, 6000);
-  }
-
-  setPersonalizedWelcome();
-  setNewsTicker();
-});
-
-// --- Navigation Event Listeners ---
-function setupNavigationListeners() {
-  // Example: Add click listeners to all elements with data-route attribute
-  document.querySelectorAll('[data-route]').forEach(el => {
-    if (el) {
-      el.addEventListener('click', (e) => { 
-        e.preventDefault();
-        const route = el.getAttribute('data-route');
-        if (route) window.route(route);
-        // Educator log: navigation event
-        analyticsLogger.logEvent('navigation', { route });
-      });
-    }
-  });
-}
-
-// --- Main Initialization ---
-// Removed duplicate mainInit
-
-// --- Initial App Load ---
-document.addEventListener('DOMContentLoaded', () => {
-  windgapLog('mainInit:DOMContentLoaded');
-  mainInit();
-  setupNavigationListeners();
-  setupDashboardButtonListeners();
-  // Example: initialize UI elements
-  uiManager.setTimer(60);
-  uiManager.setLives(3);
-  uiManager.setProgress(0);
-});
-
-// --- Daily Challenge Timer Persistence ---
-const DAILY_CHALLENGE_KEY = 'windgap_daily_challenge_v1';
-function formatTime(seconds) {
-  const mm = String(Math.floor(seconds / 60)).padStart(2, '0');
-  const ss = String(seconds % 60).padStart(2, '0');
-  return `${mm}:${ss}`;
-}
-function loadDailyChallenge() {
-  try {
-    const raw = localStorage.getItem(DAILY_CHALLENGE_KEY);
-    if (!raw) return null;
-    return JSON.parse(raw);
-  } catch (e) { return null; }
-}
-function saveDailyChallenge(state) {
-  try { localStorage.setItem(DAILY_CHALLENGE_KEY, JSON.stringify(state)); } catch (e) {}
-}
-function startOrResumeDailyTimer(defaultSeconds = 10 * 60) {
-  const el = document.getElementById('challenge-timer');
-  if (!el) return;
-  let state = loadDailyChallenge();
-  let remaining = defaultSeconds;
-  let lastTick = Date.now();
-  if (state && typeof state.remaining === 'number' && state.expiresAt && Date.now() < state.expiresAt) {
-    // resume from stored remaining seconds, compensate for elapsed time
-    const elapsedSinceStore = Math.floor((Date.now() - (state.storedAt || Date.now())) / 1000);
-    remaining = Math.max(0, state.remaining - elapsedSinceStore);
-  }
-  el.textContent = formatTime(remaining);
-  const iv = setInterval(() => {
-    const now = Date.now();
-    const delta = Math.floor((now - lastTick) / 1000);
-    if (delta <= 0) return;
-    lastTick = now;
-    remaining = Math.max(0, remaining - delta);
-    el.textContent = formatTime(remaining);
-    saveDailyChallenge({ remaining, storedAt: Date.now(), expiresAt: Date.now() + 24 * 60 * 60 * 1000 });
-    if (remaining <= 0) {
-      clearInterval(iv);
-      // Optionally mark completion
-      el.dispatchEvent(new CustomEvent('challenge:complete'));
-    }
-  }, 1000);
-  // Persist on page hide/unload
-  window.addEventListener('beforeunload', () => {
-    saveDailyChallenge({ remaining, storedAt: Date.now(), expiresAt: Date.now() + 24 * 60 * 60 * 1000 });
-  });
-}
-// start/resume when DOM ready
-document.addEventListener('DOMContentLoaded', () => startOrResumeDailyTimer(10 * 60));
-
-// Expose a global fallback screen function so it's always callable from bundled/runtime code.
-window.showFallbackScreen = function(errorMsg = "Something went wrong while loading Windgap Academy.") {
-  document.body.innerHTML = `
-    <div style="max-width:540px;margin:48px auto;padding:32px;border-radius:12px;background:#ffecec;color:#b91c1c;box-shadow:0 2px 16px #0002;">
-      <h1 style="font-size:2em;margin-bottom:0.25em;">⚠️ Unable to load Windgap Academy</h1>
-      <p style="font-size:1.2em;">${errorMsg}</p>
-      <details>
-        <summary style="cursor:pointer;">View Error Details</summary>
-        <pre style="white-space:pre-wrap;font-size:0.95em;">${window.lastWindgapError || "No details available."}</pre>
-      </details>
-      <p style="margin-top:2em;">Please try reloading, or contact support at <a href="mailto:info@windgapacademy.edu.au">info@windgapacademy.edu.au</a>.</p>
-    </div>
-  `;
-};
-// Provide a local alias so existing module-level code can call `showFallbackScreen(...)` without changing all call sites.
-const showFallbackScreen = window.showFallbackScreen;
-
-// Removed unused function for lint compliance
-
-// Accessibility toggles (all actions are private and educator-reviewed)
-// Accessibility preferences persisted in localStorage and applied to the root element.
-const ACCESSIBILITY_PREF_KEY = 'windgap_accessibility_prefs_v1';
-function loadAccessibilityPrefs() {
-  try {
-    return JSON.parse(localStorage.getItem(ACCESSIBILITY_PREF_KEY) || '{}');
-  } catch (e) { return {}; }
-}
-function saveAccessibilityPrefs(prefs) {
-  try { localStorage.setItem(ACCESSIBILITY_PREF_KEY, JSON.stringify(prefs)); } catch (e) {}
-}
-function applyAccessibilityPrefs(prefs = {}) {
-  const root = document.documentElement || document.body;
-  if (!root) return;
-  // fontSize can be 'normal' | 'larger'
-  if (prefs.fontSize === 'larger') root.style.fontSize = '18px';
-  else root.style.fontSize = '';
-  if (prefs.dyslexia === true) root.classList.add('dyslexia-font'); else root.classList.remove('dyslexia-font');
-  if (prefs.easyRead === true) root.classList.add('easy-read'); else root.classList.remove('easy-read');
-}
-
-// Initialize on load
-document.addEventListener('DOMContentLoaded', () => {
-  const prefs = loadAccessibilityPrefs();
-  applyAccessibilityPrefs(prefs);
-});
-
-window.increaseFont = (enable = true) => {
-  const prefs = loadAccessibilityPrefs();
-  prefs.fontSize = enable ? 'larger' : 'normal';
-  applyAccessibilityPrefs(prefs);
-  saveAccessibilityPrefs(prefs);
-  // Educator log: font size preference changed
-};
-window.toggleDyslexiaFont = (enable) => {
-  const prefs = loadAccessibilityPrefs();
-  prefs.dyslexia = (typeof enable === 'boolean') ? enable : !prefs.dyslexia;
-  applyAccessibilityPrefs(prefs);
-  saveAccessibilityPrefs(prefs);
-  // Educator log: dyslexia font preference changed
-};
-window.toggleEasyRead = (enable) => {
-  const prefs = loadAccessibilityPrefs();
-  prefs.easyRead = (typeof enable === 'boolean') ? enable : !prefs.easyRead;
-  applyAccessibilityPrefs(prefs);
-  saveAccessibilityPrefs(prefs);
-  // Educator log: easy-read preference changed
-};
-window.narrate = (text) => {
-  const utter = new SpeechSynthesisUtterance(text);
-  utter.voice = window.speechSynthesis.getVoices().find(voice => voice.name === "Google Australian English");
-  utter.pitch = 1.2;
-  utter.rate = 1;
-  utter.volume = 1;
-  utter.lang = "en-AU";
-  window.speechSynthesis.speak(utter);
-  // Educator log: narration triggered for accessibility
-};
-
-// Routing
-window.showSafetyPolicy = function (container) {
-  container.innerHTML = `
-    <section class='au-section' aria-label='Online Safety Expectations'>
-      <h2>Online Safety Expectations</h2>
-      <p>Before starting your learning journey, you must accept Windgap Academy's policies and guidelines, based on <a href='https://www.esafety.gov.au/industry/basic-online-safety-expectations#summary-of-the-expectations' target='_blank'>eSafety.gov.au Basic Online Safety Expectations</a>.</p>
-      <ul>
-        <li>Respect others and keep all interactions safe and inclusive.</li>
-        <li>No bullying, threats, or unsafe behaviour.</li>
-        <li>Follow all educator instructions and platform guidelines.</li>
-        <li>Report any unsafe or concerning behaviour.</li>
-      </ul>
-      <button onclick='window.acceptSafetyPolicy()' aria-label='Accept Safety Policy'>I Accept</button>
-    </section>
-  `;
-  // Educator log: safety policy shown
-};
-window.acceptSafetyPolicy = function () {
-  localStorage.setItem("safetyPolicyAccepted", "true");
-  // Educator log: safety policy accepted
-  window.route("dashboard");
-};
+  
 // --- Mock / Preview Authentication Helpers ---
 const SESSION_KEY = 'windgap_session_v1';
 const DEV_TEST_ACCOUNTS = [
@@ -711,126 +466,100 @@ function mainInit() {
     // If still no user, show minimal homepage
     if (!user) {
     // Rich homepage layout for guests (based on index.html, with requested exclusions)
-    app.innerHTML = `
-    <header class="flex items-center justify-between px-8 py-4 bg-white shadow">
-      <div class="flex items-center gap-3">
-        <img src="assets/logo.png" alt="Windgap Academy Logo" class="h-14 w-auto animate-float" />
-        <span class="text-2xl font-bold text-[#A32C2B]">Windgap Academy</span>
-      </div>
-      <div class="flex items-center gap-4">
-        <img src="assets/windgap-logo.png" alt="User Avatar" class="h-10 w-10 rounded-full border-2 border-[#A32C2B]" id="user-avatar" />
-        <span class="font-semibold text-[#A32C2B]" id="welcome-user">Welcome, Guest!</span>
-      </div>
-    </header>
-    <nav class="sticky top-0 z-50 bg-white shadow flex items-center justify-between px-8 py-4">
-      <div class="flex items-center gap-3">
-        <img src="assets/logo.png" alt="Windgap Academy Logo" class="h-14 w-auto animate-float" />
-        <span class="text-2xl font-bold text-[#A32C2B]">Windgap Academy</span>
-      </div>
-      <div class="flex gap-6">
-        <a href="#home" data-route="home" class="btn-secondary" aria-label="Home">Home</a>
-        <a href="#signin" data-route="signin" class="btn-secondary" aria-label="Sign In">Sign In</a>
-        <a href="#accessibility" data-route="accessibility" class="btn-secondary" aria-label="Accessibility">Accessibility</a>
-        <a href="#support" data-route="support" class="btn-secondary" aria-label="Support">Support</a>
-      </div>
-    </nav>
-    <div class="hero-section relative flex flex-col items-center justify-center min-h-[60vh] bg-gradient-to-br from-[#5ED1D2] via-[#A32C2B] to-[#FBBF24] overflow-hidden">
-      <div class="carousel w-full max-w-2xl mb-6 flex items-center justify-center" id="featured-carousel">
-        <button class="carousel-control" aria-label="Previous Module">&#8592;</button>
-        <div class="carousel-slide flex-1 text-center">
-          <h3 class="text-2xl font-bold text-white">Math Quest</h3>
-          <p class="text-white">Sharpen your math skills in a fun adventure!</p>
-        </div>
-        <button class="carousel-control" aria-label="Next Module">&#8594;</button>
-      </div>
-      <div class="progress-tracker w-full max-w-md mb-4 flex flex-col gap-2" id="progress-tracker">
-        <div class="flex items-center justify-between"><span>Math Quest</span><span>80%</span></div>
-        <div class="w-full bg-gray-200 rounded-full h-2"><div class="bg-[#A32C2B] h-2 rounded-full" style="width:80%"></div></div>
-        <div class="flex items-center justify-between"><span>Reading Adventure</span><span>60%</span></div>
-        <div class="w-full bg-gray-200 rounded-full h-2"><div class="bg-[#5ED1D2] h-2 rounded-full" style="width:60%"></div></div>
-      </div>
-      <div class="leaderboard w-full max-w-md mb-4 bg-white/80 rounded-lg shadow p-4" id="homepage-leaderboard">
-        <h3 class="text-xl font-bold text-[#A32C2B] mb-2">Top Learners</h3>
-        <div class="carousel w-full max-w-2xl mb-6" id="featured-carousel"></div>
-        <div class="badges flex gap-3 mb-4" id="achievement-badges"></div>
-        <div class="progress-tracker w-full max-w-md mb-4" id="progress-tracker"></div>
-        <div class="leaderboard w-full max-w-md mb-4" id="homepage-leaderboard"></div>
-        <div class="challenge-block w-full max-w-md mb-4" id="daily-challenge"></div>
-        <div class="welcome-message text-lg text-white font-semibold mb-2" id="personal-welcome"></div>
-        <div class="news-ticker bg-white/80 text-[#A32C2B] px-4 py-2 rounded-full shadow mb-4" id="news-ticker">Loading updates...</div>
-        <div class="accessibility-toggles flex gap-3 mb-4" id="accessibility-toggles">
-          <button onclick="window.increaseFont()" class="btn-secondary">A+</button>
-          <button onclick="window.toggleDyslexiaFont()" class="btn-secondary">Dyslexia Font</button>
-          <button onclick="window.toggleEasyRead()" class="btn-secondary">Easy Read</button>
-        </div>
-        <div class="avatar-customization w-full max-w-md mb-4" id="avatar-customization"></div>
-        <div class="social-sharing flex gap-3 mb-4" id="social-sharing">
-          <button class="btn-secondary">Share</button>
-          <button class="btn-secondary">Invite Friends</button>
-        </div>
-        <div class="feedback-support w-full max-w-md mb-4" id="feedback-support">
-          <a href="#feedback" class="btn-secondary">Feedback</a>
-          <a href="#support" class="btn-secondary">Support</a>
-        </div>
-      </div>
-    </div>
-    <div style="margin:2em 0;text-align:center;">
-      <img src="assets/images/main-characters-windgap.png" alt="Main Characters: Andy, Daisy, Natalie, Winnie" style="max-width:100%;height:auto;border:2px solid #A32C2B;border-radius:16px;background:#f8f8f8;object-fit:contain;" />
-      <div style="color:#A32C2B;font-weight:bold;margin-top:0.5em;">Main Characters: Andy, Daisy, Natalie, Winnie (left to right)</div>
-    </div>
-    <section class="flex flex-col items-center my-12">
-      <h2 class="text-3xl font-bold mb-4">Ready to start learning?</h2>
-      <button class="cta">Get Started</button>
-    </section>
-    <footer class="w-full bg-white py-6 mt-12 shadow text-center text-[#A32C2B]">
-      <div class="flex flex-col md:flex-row items-center justify-center gap-6">
-        <a href="#privacy" class="underline">Privacy Policy</a>
-        <a href="#terms" class="underline">Terms of Service</a>
-        <a href="#contact" class="underline">Contact</a>
-      </div>
-      <div class="mt-2 text-sm">&copy; 2025 Windgap Academy. All rights reserved.</div>
-    </footer>
-    <nav style="margin: 2em 0; text-align: center;">
-      <button onclick="showFeature('avatar')">Avatar Creator</button>
-      <button onclick="showFeature('stairs')">Climbing Stairs Animation</button>
-      <button onclick="showFeature('island')">Max Area of Island Animation</button>
-      <button onclick="showFeature('cube')">Cube Map 3D Demo <span class="coming-soon" aria-hidden="true">(Coming Soon)</span></button>
-      <button onclick="showFeature('kitchen')">Healthy Kitchen Challenge <span class="coming-soon" aria-hidden="true">(Coming Soon)</span></button>
-      <button onclick="showFeature('foodcollector')">Food Collector Environment</button>
-      <button onclick="showFeature('zoo')">Academy Zoo Environment</button>
-      <button onclick="showFeature('fluid')">Fluid Simulation <span class="coming-soon" aria-hidden="true">(Coming Soon)</span></button>
-      <button onclick="showFeature('dashboard')">Results Dashboard</button>
-      <button onclick="showFeature('whiteboard')">Whiteboard</button>
-    </nav>
-    <main>
-      <div id="feature-container" style="width: 100%; min-height: 500px; background: #fff; border-radius: 12px; box-shadow: 0 2px 16px #0001; margin: auto; max-width: 1200px; padding: 2em;"></div>
-    </main>
-    const loginForm = document.getElementById('login-form-preview');
-    const emailInput = document.getElementById('login-email');
-    const passwordInput = document.getElementById('login-password');
-    const guestBtn = document.getElementById('login-guest');
-    loginForm.onsubmit = async (e) => {
-      e.preventDefault();
-      const email = emailInput.value.trim();
-      const password = passwordInput.value;
-      const res = await attemptLogin(email, password);
-      if (res.success && res.user) {
-        setSession({ email: res.user.email, role: res.user.role, name: res.user.name, createdAt: Date.now() });
-        // role-based redirect
-        if (res.user.role === 'educator') window.route('educator-dashboard');
-        else window.route('dashboard');
-        return;
-      }
-      alert(res.error || 'Login failed');
-    };
-    guestBtn.onclick = () => {
-      setSession({ email: 'guest@preview.local', role: 'learner', name: 'Guest', createdAt: Date.now() });
-      window.route('dashboard');
-    };
-    document.getElementById('privacy-link').onclick = (e) => { e.preventDefault(); alert('Privacy Policy'); };
-    document.getElementById('terms-link').onclick = (e) => { e.preventDefault(); alert('Terms of Service'); };
-      return;
-    }
+    app.innerHTML =
+      '<header class="flex items-center justify-between px-8 py-4 bg-white shadow">' +
+      '<div class="flex items-center gap-3">' +
+        '<img src="assets/logo.png" alt="Windgap Academy Logo" class="h-14 w-auto animate-float" />' +
+        '<span class="text-2xl font-bold text-[#A32C2B]">Windgap Academy</span>' +
+      '</div>' +
+      '<div class="flex items-center gap-4">' +
+        '<img src="assets/windgap-logo.png" alt="User Avatar" class="h-10 w-10 rounded-full border-2 border-[#A32C2B]" id="user-avatar" />' +
+        '<span class="font-semibold text-[#A32C2B]" id="welcome-user">Welcome, Guest!</span>' +
+      '</div>' +
+      '</header>' +
+      '<nav class="sticky top-0 z-50 bg-white shadow flex items-center justify-between px-8 py-4">' +
+      '<div class="flex items-center gap-3">' +
+        '<img src="assets/logo.png" alt="Windgap Academy Logo" class="h-14 w-auto animate-float" />' +
+        '<span class="text-2xl font-bold text-[#A32C2B]">Windgap Academy</span>' +
+      '</div>' +
+      '<div class="flex gap-6">' +
+        '<a href="#home" data-route="home" class="btn-secondary" aria-label="Home">Home</a>' +
+        '<a href="#signin" data-route="signin" class="btn-secondary" aria-label="Sign In">Sign In</a>' +
+        '<a href="#accessibility" data-route="accessibility" class="btn-secondary" aria-label="Accessibility">Accessibility</a>' +
+        '<a href="#support" data-route="support" class="btn-secondary" aria-label="Support">Support</a>' +
+      '</div>' +
+      '</nav>' +
+      '<div class="hero-section relative flex flex-col items-center justify-center min-h-[60vh] bg-gradient-to-br from-[#5ED1D2] via-[#A32C2B] to-[#FBBF24] overflow-hidden">' +
+      '<div class="carousel w-full max-w-2xl mb-6 flex items-center justify-center" id="featured-carousel">' +
+        '<button class="carousel-control" aria-label="Previous Module">&#8592;</button>' +
+        '<div class="carousel-slide flex-1 text-center">' +
+          '<h3 class="text-2xl font-bold text-white">Math Quest</h3>' +
+          '<p class="text-white">Sharpen your math skills in a fun adventure!</p>' +
+        '</div>' +
+        '<button class="carousel-control" aria-label="Next Module">&#8594;</button>' +
+      '</div>' +
+      '<div class="progress-tracker w-full max-w-md mb-4 flex flex-col gap-2" id="progress-tracker">' +
+        '<div class="flex items-center justify-between"><span>Math Quest</span><span>80%</span></div>' +
+        '<div class="w-full bg-gray-200 rounded-full h-2"><div class="bg-[#A32C2B] h-2 rounded-full" style="width:80%"></div></div>' +
+        '<div class="flex items-center justify-between"><span>Reading Adventure</span><span>60%</span></div>' +
+        '<div class="w-full bg-gray-200 rounded-full h-2"><div class="bg-[#5ED1D2] h-2 rounded-full" style="width:60%"></div></div>' +
+      '</div>' +
+      '<div class="leaderboard w-full max-w-md mb-4 bg-white/80 rounded-lg shadow p-4" id="homepage-leaderboard">' +
+        '<h3 class="text-xl font-bold text-[#A32C2B] mb-2">Top Learners</h3>' +
+        '<div class="carousel w-full max-w-2xl mb-6" id="featured-carousel"></div>' +
+        '<div class="badges flex gap-3 mb-4" id="achievement-badges"></div>' +
+        '<div class="progress-tracker w-full max-w-md mb-4" id="progress-tracker"></div>' +
+        '<div class="leaderboard w-full max-w-md mb-4" id="homepage-leaderboard"></div>' +
+        '<div class="challenge-block w-full max-w-md mb-4" id="daily-challenge"></div>' +
+        '<div class="welcome-message text-lg text-white font-semibold mb-2" id="personal-welcome"></div>' +
+        '<div class="news-ticker bg-white/80 text-[#A32C2B] px-4 py-2 rounded-full shadow mb-4" id="news-ticker">Loading updates...</div>' +
+        '<div class="accessibility-toggles flex gap-3 mb-4" id="accessibility-toggles">' +
+          '<button onclick="window.increaseFont()" class="btn-secondary">A+</button>' +
+          '<button onclick="window.toggleDyslexiaFont()" class="btn-secondary">Dyslexia Font</button>' +
+          '<button onclick="window.toggleEasyRead()" class="btn-secondary">Easy Read</button>' +
+        '</div>' +
+        '<div class="avatar-customization w-full max-w-md mb-4" id="avatar-customization"></div>' +
+        '<div class="social-sharing flex gap-3 mb-4" id="social-sharing">' +
+          '<button class="btn-secondary">Share</button>' +
+          '<button class="btn-secondary">Invite Friends</button>' +
+        '</div>' +
+        '<div class="feedback-support w-full max-w-md mb-4" id="feedback-support">' +
+          '<a href="#feedback" class="btn-secondary">Feedback</a>' +
+          '<a href="#support" class="btn-secondary">Support</a>' +
+        '</div>' +
+      '</div>' +
+    '</div>' +
+    '<div style="margin:2em 0;text-align:center;">' +
+      '<img src="assets/images/main-characters-windgap.png" alt="Main Characters: Andy, Daisy, Natalie, Winnie" style="max-width:100%;height:auto;border:2px solid #A32C2B;border-radius:16px;background:#f8f8f8;object-fit:contain;" />' +
+      '<div style="color:#A32C2B;font-weight:bold;margin-top:0.5em;">Main Characters: Andy, Daisy, Natalie, Winnie (left to right)</div>' +
+    '</div>' +
+    '<section class="flex flex-col items-center my-12">' +
+      '<h2 class="text-3xl font-bold mb-4">Ready to start learning?</h2>' +
+      '<button class="cta">Get Started</button>' +
+    '</section>' +
+    '<footer class="w-full bg-white py-6 mt-12 shadow text-center text-[#A32C2B]">' +
+      '<div class="flex flex-col md:flex-row items-center justify-center gap-6">' +
+        '<a href="#privacy" class="underline">Privacy Policy</a>' +
+        '<a href="#terms" class="underline">Terms of Service</a>' +
+        '<a href="#contact" class="underline">Contact</a>' +
+      '</div>' +
+      '<div class="mt-2 text-sm">&copy; 2025 Windgap Academy. All rights reserved.</div>' +
+    '</footer>' +
+    '<nav style="margin: 2em 0; text-align: center;">' +
+      '<button onclick="showFeature(\'avatar\')">Avatar Creator</button>' +
+      '<button onclick="showFeature(\'stairs\')">Climbing Stairs Animation</button>' +
+      '<button onclick="showFeature(\'island\')">Max Area of Island Animation</button>' +
+      '<button onclick="showFeature(\'cube\')">Cube Map 3D Demo <span class="coming-soon" aria-hidden="true">(Coming Soon)</span></button>' +
+      '<button onclick="showFeature(\'kitchen\')">Healthy Kitchen Challenge <span class="coming-soon" aria-hidden="true">(Coming Soon)</span></button>' +
+      '<button onclick="showFeature(\'foodcollector\')">Food Collector Environment</button>' +
+      '<button onclick="showFeature(\'zoo\')">Academy Zoo Environment</button>' +
+      '<button onclick="showFeature(\'fluid\')">Fluid Simulation <span class="coming-soon" aria-hidden="true">(Coming Soon)</span></button>' +
+      '<button onclick="showFeature(\'dashboard\')">Results Dashboard</button>' +
+      '<button onclick="showFeature(\'whiteboard\')">Whiteboard</button>' +
+    '</nav>' +
+    '<main>' +
+      '<div id="feature-container" style="width: 100%; min-height: 500px; background: #fff; border-radius: 12px; box-shadow: 0 2px 16px #0001; margin: auto; max-width: 1200px; padding: 2em;"></div>' +
+    '</main>';
   }
   // Only authenticated users see dashboard and modules
   showDashboard(app, {});
