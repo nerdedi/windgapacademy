@@ -1,55 +1,68 @@
 // Use dynamic imports for chunk optimization
 window.showFeature = async function(feature) {
-  const container = document.getElementById('feature-container');
-  container.innerHTML = '';
+  const app = document.getElementById('feature-container') || document.getElementById('app');
+  app.innerHTML = '';
+  // Helper to safely invoke module
+  async function invokeModule(mod, funcName) {
+    if (mod && typeof mod[funcName] === 'function') {
+      mod[funcName](app);
+    } else if (mod && typeof mod.default === 'function') {
+      mod.default(app);
+    } else if (mod && typeof mod.default === 'object' && typeof mod.default.constructor === 'function') {
+      new mod.default(app);
+    } else {
+      app.innerHTML = `<div class='alert-error'>Feature loaded but no display function found.</div>`;
+      console.warn('Missing display function for feature:', mod, funcName);
+    }
+  }
   switch(feature) {
     // Games
     case 'avatar': {
       const mod = await import('../components/AvatarBuilder.js');
-      new mod.default(container);
+      await invokeModule(mod, 'showAvatarBuilder');
       break;
     }
     case 'stairs': {
       const mod = await import('../components/ClimbingStairsAnimation.js');
-      new mod.ClimbingStairsAnimation(container);
+      await invokeModule(mod, 'showClimbingStairsAnimation');
       break;
     }
     case 'island': {
       const mod = await import('../components/MaxAreaOfIslandAnimation.js');
-      new mod.MaxAreaOfIslandAnimation(container);
+      await invokeModule(mod, 'showMaxAreaOfIslandAnimation');
       break;
     }
     case 'cube': {
       const mod = await import('../components/CubeMapDemo.js');
-      new mod.CubeMapDemo(container);
+      await invokeModule(mod, 'showCubeMapDemo');
       break;
     }
     case 'kitchen': {
       const mod = await import('../components/HealthyKitchenChallenge.js');
-      new mod.HealthyKitchenChallenge(container);
+      await invokeModule(mod, 'showHealthyKitchenChallenge');
       break;
     }
     case 'foodcollector': {
       const mod = await import('../components/FoodCollectorEnv.js');
-      new mod.FoodCollectorEnv(container);
+      await invokeModule(mod, 'showFoodCollectorEnv');
       break;
     }
     case 'zoo': {
       const mod = await import('../components/AcademyZoo.js');
-      new mod.default(container);
+      await invokeModule(mod, 'showAcademyZoo');
       break;
     }
     // Tools
     case 'fluid':
-      container.innerHTML = '<iframe src="/fluid-simulation.html" style="width:100%;height:600px;border:none;border-radius:12px;"></iframe>';
+      app.innerHTML = '<iframe src="/fluid-simulation.html" style="width:100%;height:600px;border:none;border-radius:12px;"></iframe>';
       break;
     case 'dashboard': {
       const mod = await import('../components/ResultsDashboard.js');
-      new mod.default(container);
+      await invokeModule(mod, 'showResultsDashboard');
       break;
     }
     case 'whiteboard':
-      container.innerHTML = '<iframe src="/whiteboard.html" style="width:100%;height:700px;border:none;border-radius:12px;"></iframe>';
+      app.innerHTML = '<iframe src="/whiteboard.html" style="width:100%;height:700px;border:none;border-radius:12px;"></iframe>';
       break;
   }
 }
