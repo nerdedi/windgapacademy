@@ -4,7 +4,7 @@ import Tooltip from "../../components/Tooltip";
 import { letterMap, punctuationMap1, punctuationMap2, longPunctuationMap } from '../../utils/speechrecMappings';
 import { motion } from 'framer-motion';
 
-export default function AvatarBuilder() {
+function AvatarBuilder() {
   // Speech recognition setup
   React.useEffect(() => {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -109,3 +109,5 @@ export default function AvatarBuilder() {
     </motion.section>
   );
 }
+
+export default AvatarBuilder;
