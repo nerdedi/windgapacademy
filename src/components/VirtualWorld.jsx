@@ -1,7 +1,12 @@
 // Virtual World Component
 // Immersive, inclusive, and interactive environment for all learners
 
-export function showVirtualWorld(container) {
+function VirtualWorld() {
+  // Placeholder React component for navigation
+  return <div id="virtual-world-root">Virtual World Loaded</div>;
+}
+
+export default VirtualWorld;
   container.innerHTML = [
     '<div class="lesson-bg" style="position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:-1;background:url(\'/assets/backgrounds/lesson-bg.svg\') center/cover no-repeat;"></div>',
     '<section id="virtual-world" class="card shadow-xl p-8 rounded-2xl mx-auto my-16 max-w-2xl relative bg-white/80 backdrop-blur-lg">',
@@ -386,7 +391,7 @@ export function showVirtualWorld(container) {
   window.addDecoration = function (item) {
     const decor = document.getElementById("clubhouse-decor");
     decor.innerHTML = `<p>${item} added to the clubhouse!</p>`;
-  }
+  
   // Avatar customisation logic
   window.customiseAvatar = function () {
     const gameArea = document.getElementById("vw-game-area");
