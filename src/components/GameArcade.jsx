@@ -1,5 +1,5 @@
 import React from "react";
-import { GameModes } from "./GameModes";
+import GameModes from "./GameModes";
 import { windgapCharacters } from "./Characters";
 
 export default function GameArcade() {
