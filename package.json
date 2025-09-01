@@ -72,6 +72,5 @@
     "react",
     "modern"
   ],
-  "author": "Your Name <natalie@example.com>",
-  "type": "module"
+  "author": "Your Name <natalie@example.com>"
 }

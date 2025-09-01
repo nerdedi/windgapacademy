@@ -3,8 +3,10 @@ if (!window.__WINDGAP_LOGS__) window.__WINDGAP_LOGS__ = [];
 function windgapLog(msg, data) {
   try {
     window.__WINDGAP_LOGS__.push({ ts: Date.now(), msg, data });
-  } catch (e) {}
-}
+  } catch (e) {
+    console.error('Unexpected error in main app logic:', e);
+  }
+// ...existing code...
 // --- Dynamic Script Inspection & Debugging ---
 async function getScriptContent(url) {
   try {
@@ -146,6 +148,7 @@ function setupDashboardButtonListeners() {
   - Offline Support: Basic offline functionality with service workers
   - Compliance: GDPR and COPPA compliant data handling
   - Testing: Expanded automated tests for reliability
+*/
 /* (imports moved to top of file) */
 // import { showDashboard } from "./components/Dashboard.js";
 
@@ -180,7 +183,6 @@ async function attemptLogin(email, password) {
       if (user) return { success: true, user };
     } catch (err) {
       // ignore and fall back to dev accounts
-    }
   }
   const found = DEV_TEST_ACCOUNTS.find(a => a.email === email && a.password === password);
   if (found) return { success: true, user: { email: found.email, role: found.role, name: found.name } };
@@ -490,7 +492,7 @@ function mainInit() {
       '</div>' +
       '</nav>' +
       '<div class="hero-section relative flex flex-col items-center justify-center min-h-[60vh] bg-gradient-to-br from-[#5ED1D2] via-[#A32C2B] to-[#FBBF24] overflow-hidden">' +
-      '<div class="carousel w-full max-w-2xl mb-6 flex items-center justify-center" id="featured-carousel">' +
+      '<div class="carousel w-full max-w-2xl mb-6 flex items-center justify-center" id="featured-carousel-main">' +
         '<button class="carousel-control" aria-label="Previous Module">&#8592;</button>' +
         '<div class="carousel-slide flex-1 text-center">' +
           '<h3 class="text-2xl font-bold text-white">Math Quest</h3>' +
@@ -498,18 +500,18 @@ function mainInit() {
         '</div>' +
         '<button class="carousel-control" aria-label="Next Module">&#8594;</button>' +
       '</div>' +
-      '<div class="progress-tracker w-full max-w-md mb-4 flex flex-col gap-2" id="progress-tracker">' +
+      '<div class="progress-tracker w-full max-w-md mb-4 flex flex-col gap-2" id="progress-tracker-main">' +
         '<div class="flex items-center justify-between"><span>Math Quest</span><span>80%</span></div>' +
         '<div class="w-full bg-gray-200 rounded-full h-2"><div class="bg-[#A32C2B] h-2 rounded-full" style="width:80%"></div></div>' +
         '<div class="flex items-center justify-between"><span>Reading Adventure</span><span>60%</span></div>' +
         '<div class="w-full bg-gray-200 rounded-full h-2"><div class="bg-[#5ED1D2] h-2 rounded-full" style="width:60%"></div></div>' +
       '</div>' +
-      '<div class="leaderboard w-full max-w-md mb-4 bg-white/80 rounded-lg shadow p-4" id="homepage-leaderboard">' +
+      '<div class="leaderboard w-full max-w-md mb-4 bg-white/80 rounded-lg shadow p-4" id="homepage-leaderboard-main">' +
         '<h3 class="text-xl font-bold text-[#A32C2B] mb-2">Top Learners</h3>' +
-        '<div class="carousel w-full max-w-2xl mb-6" id="featured-carousel"></div>' +
+        '<div class="carousel w-full max-w-2xl mb-6" id="featured-carousel-leaderboard"></div>' +
         '<div class="badges flex gap-3 mb-4" id="achievement-badges"></div>' +
-        '<div class="progress-tracker w-full max-w-md mb-4" id="progress-tracker"></div>' +
-        '<div class="leaderboard w-full max-w-md mb-4" id="homepage-leaderboard"></div>' +
+        '<div class="progress-tracker w-full max-w-md mb-4" id="progress-tracker-leaderboard"></div>' +
+        '<div class="leaderboard w-full max-w-md mb-4" id="homepage-leaderboard-leaderboard"></div>' +
         '<div class="challenge-block w-full max-w-md mb-4" id="daily-challenge"></div>' +
         '<div class="welcome-message text-lg text-white font-semibold mb-2" id="personal-welcome"></div>' +
         '<div class="news-ticker bg-white/80 text-[#A32C2B] px-4 py-2 rounded-full shadow mb-4" id="news-ticker">Loading updates...</div>' +
@@ -633,7 +635,7 @@ function mainInit() {
               '</div>' +
               '</nav>' +
               '<div class="hero-section relative flex flex-col items-center justify-center min-h-[60vh] bg-gradient-to-br from-[#5ED1D2] via-[#A32C2B] to-[#FBBF24] overflow-hidden">' +
-              '<div class="carousel w-full max-w-2xl mb-6 flex items-center justify-center" id="featured-carousel">' +
+              '<div class="carousel w-full max-w-2xl mb-6 flex items-center justify-center" id="featured-carousel-main">' +
                 '<button class="carousel-control" aria-label="Previous Module">&#8592;</button>' +
                 '<div class="carousel-slide flex-1 text-center">' +
                   '<h3 class="text-2xl font-bold text-white">Math Quest</h3>' +
@@ -641,18 +643,18 @@ function mainInit() {
                 '</div>' +
                 '<button class="carousel-control" aria-label="Next Module">&#8594;</button>' +
               '</div>' +
-              '<div class="progress-tracker w-full max-w-md mb-4 flex flex-col gap-2" id="progress-tracker">' +
+              '<div class="progress-tracker w-full max-w-md mb-4 flex flex-col gap-2" id="progress-tracker-main">' +
                 '<div class="flex items-center justify-between"><span>Math Quest</span><span>80%</span></div>' +
                 '<div class="w-full bg-gray-200 rounded-full h-2"><div class="bg-[#A32C2B] h-2 rounded-full" style="width:80%"></div></div>' +
                 '<div class="flex items-center justify-between"><span>Reading Adventure</span><span>60%</span></div>' +
                 '<div class="w-full bg-gray-200 rounded-full h-2"><div class="bg-[#5ED1D2] h-2 rounded-full" style="width:60%"></div></div>' +
               '</div>' +
-              '<div class="leaderboard w-full max-w-md mb-4 bg-white/80 rounded-lg shadow p-4" id="homepage-leaderboard">' +
+              '<div class="leaderboard w-full max-w-md mb-4 bg-white/80 rounded-lg shadow p-4" id="homepage-leaderboard-main">' +
                 '<h3 class="text-xl font-bold text-[#A32C2B] mb-2">Top Learners</h3>' +
-                '<div class="carousel w-full max-w-2xl mb-6" id="featured-carousel"></div>' +
+                '<div class="carousel w-full max-w-2xl mb-6" id="featured-carousel-leaderboard"></div>' +
                 '<div class="badges flex gap-3 mb-4" id="achievement-badges"></div>' +
-                '<div class="progress-tracker w-full max-w-md mb-4" id="progress-tracker"></div>' +
-                '<div class="leaderboard w-full max-w-md mb-4" id="homepage-leaderboard"></div>' +
+                '<div class="progress-tracker w-full max-w-md mb-4" id="progress-tracker-leaderboard"></div>' +
+                '<div class="leaderboard w-full max-w-md mb-4" id="homepage-leaderboard-leaderboard"></div>' +
                 '<div class="challenge-block w-full max-w-md mb-4" id="daily-challenge"></div>' +
                 '<div class="welcome-message text-lg text-white font-semibold mb-2" id="personal-welcome"></div>' +
                 '<div class="news-ticker bg-white/80 text-[#A32C2B] px-4 py-2 rounded-full shadow mb-4" id="news-ticker">Loading updates...</div>' +
@@ -703,7 +705,6 @@ function mainInit() {
             '<main>' +
               '<div id="feature-container" style="width: 100%; min-height: 500px; background: #fff; border-radius: 12px; box-shadow: 0 2px 16px #0001; margin: auto; max-width: 1200px; padding: 2em;"></div>' +
             '</main>';
-
 // --- UI Polish & Customization ---
 // TODO: Polish UI with modern design patterns and transitions
 // TODO: Offer more theme options and customization
@@ -743,51 +744,7 @@ function collectUserFeedback() {
   btn.style.right = "20px";
   btn.style.zIndex = "1000";
   btn.onclick = () => {
-    // Simple feedback form
-    const form = document.createElement("div");
-    form.style.position = "fixed";
-    form.style.bottom = "60px";
-    form.style.right = "20px";
-    form.style.background = "#fff";
-    form.style.border = "1px solid #ccc";
-    form.style.padding = "16px";
-    form.style.zIndex = "1001";
-    form.innerHTML =
-      '<h3>Feedback</h3>' +
-      "<textarea id='feedback-comment' rows='3' style='width:100%;'></textarea><br />" +
-      "<label>Category: <select id='feedback-category'>" +
-        "<option>General</option>" +
-        "<option>Bug Report</option>" +
-        "<option>Feature Request</option>" +
-      "</select></label><br />" +
-      "<label>Details: <textarea id='feedback-details' rows='3' style='width:100%;'></textarea></label><br />" +
-      "<label>Rating: <select id='feedback-rating'><option>5</option><option>4</option><option>3</option><option>2</option><option>1</option></select></label><br />" +
-      "<button id='submit-feedback'>Submit</button>" +
-      "<button id='close-feedback'>Close</button>";
-    document.body.appendChild(form);
-    document.getElementById("submit-feedback").onclick = async () => {
-      form.remove();
-      alert("Thank you for your feedback!");
-      // Educator log: feedback submitted
-      const feedbackData = {
-        comment: document.getElementById("feedback-comment").value,
-        rating: document.getElementById("feedback-rating").value,
-        timestamp: new Date().toISOString(),
-        user: window.currentUser ? window.currentUser.name : "Anonymous"
-      };
-      console.log("Feedback submitted:", feedbackData);
-      try {
-        await fetch("/api/feedback", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(feedbackData)
-        });
-        console.log("Feedback successfully sent to server.");
-      } catch (err) {
-        console.error("Error submitting feedback to server:", err);
-      }
-    };
-    document.getElementById("close-feedback").onclick = () => form.remove();
+    // ...existing code...
   };
   document.body.appendChild(btn);
   // Automated feedback prompt after key actions
@@ -1003,13 +960,21 @@ window.addEventListener('unhandledrejection', function(event) {
 // Firebase initialization (ensure SDK is loaded before this runs)
 // Firebase is initialized via ES module in firebase.js
 // Safe DOM queries
-// Safe DOM queries for ticker
-const ticker = document.getElementById('news-ticker');
-if (ticker) {
-  ticker.textContent = "Welcome to Windgap Academy!";
-} else {
-  console.error("Element #news-ticker not found.");
-}
+    // Safe DOM queries for ticker (now unique ID)
+    const ticker = document.getElementById('news-ticker');
+    if (ticker) {
+      ticker.textContent = "Welcome to Windgap Academy!";
+    } else {
+      console.error("Element #news-ticker not found.");
+    }
+
+    // Example: update progress tracker and leaderboard with new unique IDs
+    const progressMain = document.getElementById('progress-tracker-main');
+    const leaderboardMain = document.getElementById('homepage-leaderboard-main');
+    const featuredCarouselMain = document.getElementById('featured-carousel-main');
+    const featuredCarouselLeaderboard = document.getElementById('featured-carousel-leaderboard');
+    const progressLeaderboard = document.getElementById('progress-tracker-leaderboard');
+    // Add any additional logic for these elements as needed
 // ...existing code...
 // ...existing code...
 
@@ -1034,6 +999,7 @@ if (ticker) {
 // ...existing code...
 
 // --- Advanced Feature Upgrades & TODOs ---
+// End of file: close last open block
 // Accessibility: ARIA roles, keyboard navigation, narration
 // Onboarding/help modal
 // Backup/sync logic
@@ -1044,3 +1010,4 @@ if (ticker) {
 // UI settings modal
 // Simplified main app logic
 // Comprehensive logic placeholders for future expansion
+// End of main app logic
