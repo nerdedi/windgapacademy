@@ -1,6 +1,9 @@
 {
   "name": "Windgap Academy Dev Container",
-  "image": "mcr.microsoft.com/vscode/devcontainers/javascript-node:0-18",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": ".."
+  },
   "workspaceFolder": "/workspaces/windgapacademy",
   "features": {},
   "customizations": {
