@@ -1,9 +1,7 @@
 
 # Windgap Academy Build & Asset Optimization
 
-
 ## Quick Start
-
 
 1. **Install dependencies:**
 
@@ -32,22 +30,16 @@
    - This uses [sharp](https://sharp.pixelplumbing.com/) to compress images and convert them to WebP format for faster loading.
    - Place your source images in `assets/images/` before running the script.
 
-
 ## Output
-
 
 - Bundled/minified JS and CSS will be in the `dist/` folder.
 - Optimized images will be in `assets/images-optimized/` and `assets/images-webp/`.
 
-
 ## Requirements
-
 
 - Node.js and npm installed on your system.
 
-
 ## Notes
-
 
 - You can adjust entry points in the scripts if your main JS file is not `app.js`.
 - For advanced configuration, see the [esbuild documentation](https://esbuild.github.io/).
