@@ -30,7 +30,8 @@ async function getScriptContent(url) {
     console.error(`Failed to fetch script content from ${url}:`, e);
     return null;
   }
-
+// ...existing code...
+async function getStackTraceUrls() {
 async function getStackTraceUrls() {
   const stack = new Error().stack;
   if (!stack) {
@@ -61,31 +62,7 @@ async function getData() {
   };
 // Firebase via CDN for browser compatibility
 // Use ES module import for Firebase. See firebase.js for initialization.
-import { app, auth, loginUser } from "./firebase.js";
-import { showDashboard } from "./components/Dashboard.js";
-import { showAdaptiveLearning } from "./components/AdaptiveLearning.js";
-import { showVirtualCurrency } from "./components/VirtualCurrency.js";
-import { showSeasonalEvents } from "./components/SeasonalEvents.js";
-import { showUserContent } from "./components/UserContent.js";
-import { showPeerReview } from "./components/PeerReview.js";
-import { showSignLanguageAvatar } from "./components/SignLanguageAvatar.js";
-import { showAICaptioning } from "./components/AICaptioning.js";
-import { showTwoFactorAuth } from "./components/TwoFactorAuth.js";
-import { showOnboarding } from "./components/Onboarding.js";
-import { showCalendar } from "./components/Calendar.js";
-import { showDashboardWidgets } from "./components/DashboardWidgets.js";
-import { showCollaboration } from "./components/Collaboration.js";
-import { showVideoChat } from "./components/VideoChat.js";
-import { showAIRecommendations } from "./components/AIRecommendations.js";
-import { showFeedbackForm } from "./components/FeedbackForm.js";
-import { showAchievementSharing } from "./components/AchievementSharing.js";
-import { showDataExportImport } from "./components/DataExportImport.js";
-import { showExternalResources } from "./components/ExternalResources.js";
-import { showChallenges } from "./components/Challenges.js";
-import { showBadges } from "./components/Badges.js";
-import { showMiniGames } from "./components/MiniGames.js";
-import { showMessagingComponent } from "./components/Messaging.js";
-import { showGroupProjects } from "./components/GroupProjects.js";
+// ...imports removed for build compatibility. Use require or move to src/ for ESM/React code.
   // Login form logic
   const loginForm = document.getElementById('login-form');
   if (loginForm) {
@@ -160,7 +137,6 @@ import { showGroupProjects } from "./components/GroupProjects.js";
       }
     }
   };
-}
   // Only authenticated users see dashboard and modules
   showDashboard(app, {});
   // Debug toggle logic
@@ -348,7 +324,6 @@ function collectUserFeedback() {
   window.addEventListener("routeChange", () => {
     if (Math.random() < 0.1) btn.click(); // 10% chance to prompt feedback
   });
-}
 
 // Performance Monitoring Implementation
 
@@ -399,23 +374,28 @@ function addAriaLabels() {
   const app = document.getElementById("app");
   if (app) app.setAttribute("aria-label", "Windgap Academy Main App");
 }
-import themes from "./utils/themes";
+
+// Import modules
+import { themes } from './js/themes.js';
+import { setupVideoPlayer } from './js/videoPlayer.js';
+import { addAriaLabels, enableKeyboardNavigation } from './js/accessibility.js';
+import { showFeature } from './js/showFeature.js';
+document.body.style.backgroundColor = themes.windgap.light;
+setupVideoPlayer();
 
 // Example: Use Windgap theme colors for homepage background and elements
 document.body.style.backgroundColor = themes.windgap.light;
 
-// Add Video.js player to homepage
-const videoSection = document.createElement('section');
-videoSection.innerHTML =
-  '<link href="//vjs.zencdn.net/8.23.4/video-js.min.css" rel="stylesheet">' +
-  '<video id="my-player" class="video-js" controls preload="auto" poster="//vjs.zencdn.net/v/oceans.png" data-setup="{}">' +
-    '<source src="//vjs.zencdn.net/v/oceans.mp4" type="video/mp4"></source>' +
-    '<source src="//vjs.zencdn.net/v/oceans.webm" type="video/webm"></source>' +
-    '<source src="//vjs.zencdn.net/v/oceans.ogv" type="video/ogg"></source>' +
-    '<p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>' +
-  '</video>' +
-  '<script src="//vjs.zencdn.net/8.23.4/video.min.js"></script>';
-document.body.appendChild(videoSection);
+  if (window.videojs) {
+    var options = {};
+    var player = window.videojs('my-player', options, function onPlayerReady() {
+      window.videojs.log('Your player is ready!');
+      this.play();
+      this.on('ended', function() {
+        window.videojs.log('Awww...over so soon?!');
+      });
+    });
+  }
 
 // Initialize Video.js player after DOM is ready
 window.addEventListener('DOMContentLoaded', () => {
@@ -432,67 +412,15 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 // Provide a global stub for showFeature to prevent ReferenceError from index.html buttons
 window.showFeature = async function(feature) {
-  windgapLog('showFeature', { feature });
-  // Map feature names to routes or modules
-  const featureMap = {
-    avatar: {
-      module: './components/AvatarBuilder.js',
-      func: 'showAvatarBuilder'
-    },
-    stairs: {
-      module: './components/ClimbingStairsAnimation.js',
-      func: 'showClimbingStairsAnimation'
-    },
-    island: {
-      module: './components/MaxAreaOfIslandAnimation.js',
-      func: 'showMaxAreaOfIslandAnimation'
-    },
-    cube: {
-      module: './components/CubeMapDemo.js',
-      func: 'showCubeMapDemo'
-    },
-    kitchen: {
-      module: './components/HealthyKitchenChallenge.js',
-      func: 'showHealthyKitchenChallenge'
-    },
-    foodcollector: {
-      module: './components/FoodCollectorEnv.js',
-      func: 'showFoodCollectorEnv'
-    },
-    zoo: {
-      module: './components/AcademyZoo.js',
-      func: 'showAcademyZoo'
-    },
-    fluid: {
-      module: './fluid-simulation.html',
-      func: 'iframe'
-    },
-    dashboard: {
-      route: 'dashboard'
-    },
-    whiteboard: {
-      module: './whiteboard.html',
-      func: 'iframe'
-    }
-  };
-  const config = featureMap[feature];
-  if (!config) {
-    alert('Feature "' + feature + '" is not yet implemented.');
-    return;
-  }
-  if (config.route) {
-    window.route(config.route);
-    return;
-  }
-  }
-  // --- Advanced Feature Upgrades & TODOs ---
+  showFeature(feature);
+}
+addAriaLabels();
+enableKeyboardNavigation();
 addAriaLabels();
 enableKeyboardNavigation();
 
 // --- Input Validation & Engagement Implementation ---
 // Global error handler for uncaught errors
-import { setupGlobalErrorHandlers } from "./src/app/errorHandling";
-setupGlobalErrorHandlers();
 // Firebase initialization (ensure SDK is loaded before this runs)
 // Firebase is initialized via ES module in firebase.js
 // Safe DOM queries
@@ -511,68 +439,6 @@ const featuredCarouselMain = document.getElementById('featured-carousel-main');
 const featuredCarouselLeaderboard = document.getElementById('featured-carousel-leaderboard');
 const progressLeaderboard = document.getElementById('progress-tracker-leaderboard');
 // Add any additional logic for these elements as needed
-// ...existing code...
-import React, { useState } from 'react';
-import AppRouter from './src/app/Router';
-import { UserProvider, useUser } from './src/app/UserContext';
-
-  const [showLogin, setShowLogin] = useState(true);
-  const [inputId, setInputId] = useState('');
-  const { userId, setUserId } = useUser();
-
-  function handleLogin() {
-    if (inputId.trim()) {
-      setUserId(inputId.trim());
-      setShowLogin(false);
-    }
-  }
-
-  if (showLogin) {
-    return (
-      <main style={{ padding: '2rem', textAlign: 'center' }}>
-        <h2>Login</h2>
-        <input
-          type="text"
-          placeholder="Enter User ID"
-          value={inputId}
-          onChange={e => setInputId(e.target.value)}
-          aria-label="User ID"
-        />
-        <button onClick={handleLogin} style={{ marginLeft: '1rem' }}>Login</button>
-      </main>
-    );
-  }
-
-  return <AppRouter />;
 }
-
-const AppWithProvider = () => (
-const AppWithProvider = () => (
-  <UserProvider>
-    <App />
-  </UserProvider>
-);
-
-export default AppWithProvider;
-// ...existing code...
-
-// --- Security & UI Polish Implementation ---
-// ...existing code...
-// ...existing code...
-
-// --- Analytics, Educator Tools, Community, Internationalization, Onboarding, Backup/Sync Implementation ---
-// ...existing code...
-// ...existing code...
-// --- Educator Tools ---
-// ...existing code...
-// ...existing code...
-// --- Community Features ---
-// ...existing code...
-// --- Internationalization ---
-// ...existing code...
-// ...existing code...
-// --- Onboarding & Help ---
-// ...existing code...
-// --- Backup & Sync ---
-// ...existing code...
+}
 

@@ -1,3 +1,9 @@
+
+// Polyfill TextEncoder for Node.js
+if (typeof global.TextEncoder === 'undefined') {
+  global.TextEncoder = require('util').TextEncoder;
+}
+
 const request = require('supertest');
 const app = require('../server');
 
