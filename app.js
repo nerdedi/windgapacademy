@@ -64,46 +64,7 @@ async function getData() {
 // Use ES module import for Firebase. See firebase.js for initialization.
 // ...imports removed for build compatibility. Use require or move to src/ for ESM/React code.
   // Login form logic
-  const loginForm = document.getElementById('login-form');
-  if (loginForm) {
-    // Password visibility toggle
-    const passwordInput = document.getElementById('login-password');
-    const togglePassword = document.getElementById('toggle-password');
-    if (togglePassword && passwordInput) {
-      togglePassword.onclick = () => {
-        togglePassword.classList.toggle('active');
-        passwordInput.type = passwordInput.type === 'password' ? 'text' : 'password';
-        togglePassword.textContent = passwordInput.type === 'password' ? '👁️' : '🙈';
-      };
-    }
-    loginForm.onsubmit = async (e) => {
-      e.preventDefault();
-      const email = document.getElementById('login-email').value.trim();
-      const password = passwordInput.value.trim();
-      const errorDiv = document.getElementById('login-error');
-      errorDiv.style.display = 'none';
-      // Basic input sanitization
-      if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
-        errorDiv.textContent = 'Please enter a valid email address.';
-        errorDiv.style.display = 'block';
-        return;
-      }
-      if (password.length < 6 || /[<>"'`]/.test(password)) {
-        errorDiv.textContent = 'Password must be at least 6 characters and not contain special characters.';
-        errorDiv.style.display = 'block';
-        return;
-      }
-      try {
-        loginUser(email, password)
-          .then((userCredential) => {
-            // ...existing code...
-          });
-      } catch (err) {
-        errorDiv.textContent = 'Login failed. Please try again.';
-        errorDiv.style.display = 'block';
-      }
-    };
-  }
+  // (Removed duplicate declaration of loginForm)
   if (footer) footer.setAttribute("aria-label", "Footer Information");
   const app = document.getElementById("app");
   if (app) app.setAttribute("aria-label", "Windgap Academy Main App");
@@ -439,6 +400,5 @@ const featuredCarouselMain = document.getElementById('featured-carousel-main');
 const featuredCarouselLeaderboard = document.getElementById('featured-carousel-leaderboard');
 const progressLeaderboard = document.getElementById('progress-tracker-leaderboard');
 // Add any additional logic for these elements as needed
-}
-}
+// (No extra closing braces needed here)
 
