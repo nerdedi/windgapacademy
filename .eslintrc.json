@@ -1,6 +1,7 @@
 {
   "extends": [
-    "next/core-web-vitals",
+    "eslint:recommended",
+    "plugin:react/recommended",
     "prettier",
     "plugin:react-hooks/recommended"
   ],
@@ -29,6 +30,10 @@
       "node": {
         "paths": ["src", "components", "utils"]
       }
+    }
+    ,
+    "react": {
+      "version": "detect"
     }
   },
   "parserOptions": {
