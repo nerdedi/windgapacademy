@@ -84,7 +84,86 @@ export default function ConnectFour() {
         default:
           alert(`Triggered game action for: ${char}`);
       }
-      } else {
-        alert(`No mapping found for phrase: ${phrase}`);
+    } else {
+      alert(`No mapping found for phrase: ${phrase}`);
+    }
+  }
+
+  // Game state
+  const [board, setBoard] = useState(getInitialBoard());
+  const [currentPlayer, setCurrentPlayer] = useState(0); // 0 or 1
+  const [winner, setWinner] = useState(null);
+
+  function handleColumnClick(col) {
+    if (winner) return;
+    const newBoard = board.map(row => row.slice());
+    for (let r = ROWS - 1; r >= 0; r--) {
+      if (newBoard[r][col] === EMPTY) {
+        newBoard[r][col] = PLAYER[currentPlayer];
+        setBoard(newBoard);
+        const w = checkWinner(newBoard);
+        if (w) setWinner(w);
+        setCurrentPlayer((currentPlayer + 1) % PLAYER.length);
+        return;
       }
     }
+    // Column full
+  }
+
+  function handleReset() {
+    setBoard(getInitialBoard());
+    setCurrentPlayer(0);
+    setWinner(null);
+  }
+
+  // Simple visual cell renderer
+  function renderCell(cell, r, c) {
+    const color = cell === PLAYER[0] ? COLORS[0] : cell === PLAYER[1] ? COLORS[1] : 'transparent';
+    return (
+      <div key={`${r}-${c}`} className="cf-cell" style={{
+        width: 48,
+        height: 48,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        border: '1px solid #ccc',
+        background: '#0066cc',
+        borderRadius: 6,
+      }}>
+        <div style={{
+          width: 36,
+          height: 36,
+          borderRadius: '50%',
+          background: color,
+          boxShadow: color !== 'transparent' ? 'inset 0 -4px 6px rgba(0,0,0,0.2)' : 'none'
+        }} />
+      </div>
+    );
+  }
+
+  return (
+    <div style={{ padding: 12 }}>
+      <h3>Connect Four</h3>
+      <div style={{ marginBottom: 8 }}>
+        <button onClick={handleReset}>Reset</button>
+        <span style={{ marginLeft: 12 }}>{winner ? `Winner: ${winner}` : `Current: ${PLAYER[currentPlayer]}`}</span>
+      </div>
+
+      <div style={{ display: 'grid', gridTemplateColumns: `repeat(${COLS}, 48px)`, gap: 6 }}>
+        {/* Column click overlays */}
+        {Array.from({ length: COLS }).map((_, c) => (
+          <button key={`col-${c}`} onClick={() => handleColumnClick(c)} style={{ height: 24 }}>Drop</button>
+        ))}
+      </div>
+
+      <div style={{ marginTop: 8, display: 'grid', gridTemplateColumns: `repeat(${COLS}, 48px)`, gap: 6 }}>
+        {board.map((row, r) => row.map((cell, c) => renderCell(cell, r, c)))}
+      </div>
+
+      <div style={{ marginTop: 12 }}>
+        <BackToTopButton />
+      </div>
+    </div>
+  );
+
+}
