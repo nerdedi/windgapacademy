@@ -1,5 +1,7 @@
 # Windgap Academy
 
+Inclusive, ad-free, educator-reviewed learning platform for neurodivergent learners aged 16+. Meets Australian NDIS standards and prioritizes accessibility, privacy, and educational best practices.
+
 ## Development Best Practices
 
 - Modularize code by feature (see `src/app/`)
@@ -10,54 +12,40 @@
 - Optimize performance and security
 - See `.github/workflows/ci.yml` for CI/CD setup
 
-## Getting Started
+## Setup & Getting Started
 
 1. Install dependencies: `npm install`
-2. Run linter: `npm run lint`
-3. Run tests: `npm test`
-4. Build: `npm run build`
-5. Start: `npm start` or `npm run dev`
-
-## Directory Structure
-
-- `src/app/` — Modularized app logic
-- `components/` — UI components
-- `backend/` — API and server logic
-- `public/` — Static assets
-
-## Accessibility & Error Handling
-
-- ARIA roles, keyboard navigation, narration
-- Global error handlers and error boundaries
-
-## CI/CD
-
-Automated build, lint, and test on every push/PR via GitHub Actions.
-
-## Overview
-
-Windgap Academy is an inclusive, ad-free, educator-reviewed learning platform for neurodivergent learners aged 16+. The platform is designed to meet Australian NDIS standards and prioritizes accessibility, privacy, and educational best practices.
-
-## Accessibility & Compliance
-
-- All features are designed for accessibility (ARIA, dyslexia-friendly fonts, easy-read modes, narration, keyboard navigation).
-- Privacy is enforced: all user actions are private and educator-reviewed.
-- Compliant with Australian eSafety, NDIS, and age-appropriate guidelines.
-- No advertising, tracking, or non-educational data collection.
-
-## Key Features
-
-- Modular dashboard, calm space, educator dashboard, and domain tabs
-- Avatar builder, messaging, token system, and academy store
-- Animated social stories and self-regulation prompts
-- Educator logging and privacy notices throughout
-- Accessible UI with font toggles, narration, and focus management
 
 
-# Windgap Academy
+npx minify styles/windgap-academy.css > styles/windgap-academy.min.css && \
+```bash
+npm run build:css
+```
 
-## Setup
-- Install dependencies: `npm install`
+Update your HTML and build config to reference the `.min.css` files for production.
+```
+
+## Security
+
+- Helmet for HTTP headers (see `server.cjs`)
+- Sanitize all user input
+- Regularly update dependencies
+
+## Accessibility
+
+- See `scripts/i18n-setup.js` for scaffolding
+
+## Backup & Recovery
+
+- See `scripts/backup.sh` for template
+
+## Analytics
+
+- Google Analytics integrated in `index.html`
+
+## Feedback
+
+- Use the built-in feedback form in the app
 - Fill in `.env` with your secrets
 - Inject env and optimize images: `npm run prebuild`
 - Build: `npm run build`
@@ -120,14 +108,23 @@ npm run build:css
 ```
 
 Update your HTML and build config to reference the `.min.css` files for production.
+
+
 ## Accessibility
+
 - See `scripts/i18n-setup.js` for scaffolding
 
+
 ## Backup & Recovery
+
 - See `scripts/backup.sh` for template
 
+
 ## Analytics
+
 - Google Analytics integrated in `index.html`
 
+
 ## Feedback
+
 - Use the built-in feedback form in the app
