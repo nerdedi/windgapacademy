@@ -24,11 +24,10 @@
     },
     {
       "name": "Python: Current File",
-      "type": "python",
+      "type": "node",
       "request": "launch",
       "program": "${file}",
-      "console": "integratedTerminal",
-      "justMyCode": false
+      "console": "integratedTerminal"
     },
     {
       "name": "Debug Server",
@@ -38,7 +37,7 @@
     },
     {
       "name": "Debug Client",
-      "type": "pwa-chrome",
+      "type": "chrome",
       "request": "launch",
       "url": "http://localhost:3000"
     },
@@ -47,7 +46,6 @@
       "type": "node-terminal",
       "request": "launch",
       "command": "yarn dev",
-      "console": "integratedTerminal",
       "serverReadyAction": {
         "pattern": "Ready on (https?://.+)",
         "uriFormat": "%s",

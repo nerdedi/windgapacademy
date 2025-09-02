@@ -1,9 +1,9 @@
 // SimulationManager: coordinates all simulation modules and manages global state
-import SupermarketSimulation from '../../components/SupermarketSimulation';
-import ClubhouseSimulation from '../../components/ClubhouseSimulation';
-import KitchenSimulation from '../../components/KitchenSimulation';
-import CalmSpaceSimulation from '../../components/CalmSpaceSimulation';
-import ZooSimulation from '../../components/ZooSimulation';
+import SupermarketSimulation from '../../components/SupermarketSimulation.jsx';
+import ClubhouseSimulation from '../../components/ClubhouseSimulation.jsx';
+import KitchenSimulation from '../../components/KitchenSimulation.jsx';
+import CalmSpaceSimulation from '../../components/CalmSpaceSimulation.jsx';
+import ZooSimulation from '../../components/ZooSimulation.jsx';
 
 export type SimulationArea = 'supermarket' | 'clubhouse' | 'kitchen' | 'calmspace' | 'zoo';
 
