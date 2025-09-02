@@ -1,8 +1,13 @@
 import React, { createContext, useContext, useState } from 'react';
 
-const UserContext = createContext({
+type UserContextType = {
+  userId: string;
+  setUserId: (userId: string) => void;
+};
+
+const UserContext = createContext<UserContextType>({
   userId: '',
-  setUserId: (id: string) => {},
+  setUserId: () => {},
 });
 
 export function useUser() {
