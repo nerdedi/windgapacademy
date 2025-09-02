@@ -1,5 +1,3 @@
-      - name: Lint
-        run: npx eslint . --ext .js,.jsx,.ts,.tsx || true
 name: CI
 
 on:
