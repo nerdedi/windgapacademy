@@ -1,3 +1,18 @@
 {
-  "recommendations": ["matthiesen-technology.yaml-with-script"]
+  "recommendations": [
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "stylelint.vscode-stylelint",
+    "ms-vscode.cmake-tools",
+    "ms-vscode.cpptools-extension-pack",
+    "ms-vscode.cpptools",
+    "xaver.clang-format",
+    "cs128.cs128-clang-tidy",
+    "raczzalan.webgl-glsl-editor",
+    "arcanis.vscode-zipfs",
+    "ms-python.python",
+    "rust-lang.rust-analyzer",
+    "hbenl.vscode-mocha-test-adapter",
+    "bradlc.vscode-tailwindcss"
+  ]
 }
