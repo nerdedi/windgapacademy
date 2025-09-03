@@ -4,10 +4,10 @@
 export function showTokenSystem(container) {
   let tokens = 0;
   function helpButton() {
-    return "<button id=\"token-help\" aria-label=\"Help\" title=\"Help\">❓</button>";
+    return '<button id="token-help" aria-label="Help" title="Help">❓</button>';
   }
   function privacyNotice() {
-    return "<div id=\"privacy-notice\" style=\"font-size:0.9em;color:#555;margin:8px 0;\">All token actions are private and only used for educational motivation.</div>";
+    return '<div id="privacy-notice" style="font-size:0.9em;color:#555;margin:8px 0;">All token actions are private and only used for educational motivation.</div>';
   }
   container.innerHTML = ` 
     <section id="token-system" class="au-section" aria-label="Token System">

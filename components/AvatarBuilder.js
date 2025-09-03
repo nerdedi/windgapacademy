@@ -15,7 +15,11 @@ export function getAvatarState(features = {}) {
     wheelchairSize: features.wheelchairSize,
   };
 }
-import { applyHeadingAnimation, applyButtonAnimation, setAriaAttributes } from '../utils/uiUtils.js';
+import {
+  applyHeadingAnimation,
+  applyButtonAnimation,
+  setAriaAttributes,
+} from "../utils/uiUtils.js";
 /**
  * Avatar Builder Module
  * @module AvatarBuilder
@@ -61,6 +65,6 @@ export function showAvatarBuilder(container, userData = {}) {
     </section>
   `;
   // All event listeners and state logic should be implemented in a separate function or class, not here.
-          }
+}
 
 // ...existing code...

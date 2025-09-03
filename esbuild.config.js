@@ -1,8 +1,9 @@
+import fs from "fs";
 import process from "node:process";
+import path from "path";
+
 import esbuild from "esbuild";
 import { minify } from "html-minifier-terser";
-import fs from "fs";
-import path from "path";
 
 // CSS bundling/minification
 esbuild

@@ -3,7 +3,11 @@ import React from "react";
 export default function Spinner({ show = true, size = 32, className = "" }) {
   if (!show) return null;
   return (
-    <div className={`flex items-center justify-center ${className}`} role="status" aria-label="Loading">
+    <div
+      className={`flex items-center justify-center ${className}`}
+      role="status"
+      aria-label="Loading"
+    >
       <svg
         className="animate-spin text-blue-500"
         width={size}
@@ -20,11 +24,7 @@ export default function Spinner({ show = true, size = 32, className = "" }) {
           stroke="currentColor"
           strokeWidth="4"
         />
-        <path
-          className="opacity-75"
-          fill="currentColor"
-          d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
-        />
+        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" />
       </svg>
       <span className="sr-only">Loading...</span>
     </div>

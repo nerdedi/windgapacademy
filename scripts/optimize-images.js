@@ -1,7 +1,8 @@
 // Image optimization and WebP conversion using sharp
-import process from "node:process";
 import fs from "fs";
+import process from "node:process";
 import path from "path";
+
 import sharp from "sharp";
 
 const inputDir = path.join(process.cwd(), "assets/images");

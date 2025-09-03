@@ -1,5 +1,7 @@
 # Windgap Academy
 
+[![Deploy to Vercel](https://vercel.com/button)](https://vercel.com/import/project?template=windgapacademy)
+
 Inclusive, ad-free, educator-reviewed learning platform for neurodivergent learners aged 16+. Meets Australian NDIS standards and prioritizes accessibility, privacy, and educational best practices.
 
 ## Development Best Practices

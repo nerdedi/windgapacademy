@@ -8,10 +8,10 @@ export function showEducatorDashboard(container) {
     return `<button id="${id}" aria-label="${label}" title="${label}">${label}</button>`;
   }
   function helpButton() {
-    return "<button id=\"educator-help\" aria-label=\"Help\" title=\"Help\">❓</button>";
+    return '<button id="educator-help" aria-label="Help" title="Help">❓</button>';
   }
   function privacyNotice() {
-    return "<div id=\"privacy-notice\" style=\"font-size:0.9em;color:#555;margin:8px 0;\">All educator actions are private and only used for supporting learners.</div>";
+    return '<div id="privacy-notice" style="font-size:0.9em;color:#555;margin:8px 0;">All educator actions are private and only used for supporting learners.</div>';
   }
   container.innerHTML = `
     <section id="educator-dashboard" aria-label="Educator Dashboard">

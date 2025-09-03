@@ -1,20 +1,26 @@
-import { showCalmSpaceGallery } from './CalmSpaceGallery.js';
-import { applyHeadingAnimation, applyButtonAnimation, setAriaAttributes } from '../utils/uiUtils.js';
+import {
+  applyHeadingAnimation,
+  applyButtonAnimation,
+  setAriaAttributes,
+} from "../utils/uiUtils.js";
+
+import { showCalmSpaceGallery } from "./CalmSpaceGallery.js";
 export function showCalmSpace(container) {
   // Modular UI templates
   function helpButton() {
-    return "<button id=\"calmspace-help\" aria-label=\"Help\" title=\"Help\">❓</button>";
+    return '<button id="calmspace-help" aria-label="Help" title="Help">❓</button>';
   }
   function privacyNotice() {
-    return "<div id=\"privacy-notice\" class=\"text-sm text-gray-600 my-2\">Your Calm Space activities are private and only used for wellbeing support.</div>";
+    return '<div id="privacy-notice" class="text-sm text-gray-600 my-2">Your Calm Space activities are private and only used for wellbeing support.</div>';
   }
   if (!container) return;
 
   // Helper: Guided Meditation Modal
   function showMeditationModal() {
-    let modal = document.createElement('div');
-    modal.id = 'meditation-modal';
-    modal.style = 'position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.5);z-index:999;display:flex;align-items:center;justify-content:center;';
+    let modal = document.createElement("div");
+    modal.id = "meditation-modal";
+    modal.style =
+      "position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.5);z-index:999;display:flex;align-items:center;justify-content:center;";
     modal.innerHTML = `<div style='background:#fff;padding:2em;border-radius:1em;max-width:400px;text-align:center;'>
       <h3>Guided Meditation</h3>
       <ol style='text-align:left;'>
@@ -27,24 +33,25 @@ export function showCalmSpace(container) {
       <button id='close-meditation' style='margin-top:1em;' class='btn-primary'>Close</button>
     </div>`;
     document.body.appendChild(modal);
-    document.getElementById('close-meditation').onclick = () => modal.remove();
+    document.getElementById("close-meditation").onclick = () => modal.remove();
   }
 
   // Helper: Journal Feature
   function showJournal() {
     // Inject handwriting font from Google Fonts
-    if (!document.getElementById('handwriting-font')) {
-      const fontLink = document.createElement('link');
-      fontLink.id = 'handwriting-font';
-      fontLink.rel = 'stylesheet';
-      fontLink.href = 'https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap';
+    if (!document.getElementById("handwriting-font")) {
+      const fontLink = document.createElement("link");
+      fontLink.id = "handwriting-font";
+      fontLink.rel = "stylesheet";
+      fontLink.href = "https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap";
       document.head.appendChild(fontLink);
     }
-    let journal = document.getElementById('calm-journal-modal');
+    let journal = document.getElementById("calm-journal-modal");
     if (!journal) {
-      journal = document.createElement('div');
-      journal.id = 'calm-journal-modal';
-      journal.style = 'position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.5);z-index:999;display:flex;align-items:center;justify-content:center;';
+      journal = document.createElement("div");
+      journal.id = "calm-journal-modal";
+      journal.style =
+        "position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.5);z-index:999;display:flex;align-items:center;justify-content:center;";
       journal.innerHTML = `<div style='background:#fff;padding:2em 2em 1em 2em;border-radius:1em;max-width:420px;width:95vw;box-shadow:0 4px 24px rgba(0,0,0,0.12);position:relative;'>
         <h3 style='font-family:Indie Flower, cursive;font-size:2em;margin-bottom:0.5em;'>My Journal</h3>
         <button id='toggle-prompts' style='position:absolute;top:1em;right:1em;' class='btn-secondary'>Prompts</button>
@@ -65,16 +72,16 @@ export function showCalmSpace(container) {
       </div>`;
       document.body.appendChild(journal);
       // Load previous entry
-      const entry = localStorage.getItem('calmJournal') || '';
-      document.getElementById('journal-entry').value = entry;
-      document.getElementById('save-journal').onclick = () => {
-        localStorage.setItem('calmJournal', document.getElementById('journal-entry').value);
-        alert('Journal entry saved!');
+      const entry = localStorage.getItem("calmJournal") || "";
+      document.getElementById("journal-entry").value = entry;
+      document.getElementById("save-journal").onclick = () => {
+        localStorage.setItem("calmJournal", document.getElementById("journal-entry").value);
+        alert("Journal entry saved!");
       };
-      document.getElementById('close-journal').onclick = () => journal.remove();
-      document.getElementById('toggle-prompts').onclick = () => {
-        const prompts = document.getElementById('journal-prompts');
-        prompts.style.display = prompts.style.display === 'none' ? 'block' : 'none';
+      document.getElementById("close-journal").onclick = () => journal.remove();
+      document.getElementById("toggle-prompts").onclick = () => {
+        const prompts = document.getElementById("journal-prompts");
+        prompts.style.display = prompts.style.display === "none" ? "block" : "none";
       };
     }
   }
@@ -129,29 +136,31 @@ export function showCalmSpace(container) {
     </section>
   `;
   // Show calming places gallery
-  const calmGallery = document.getElementById('calm-gallery');
+  const calmGallery = document.getElementById("calm-gallery");
   if (calmGallery) showCalmSpaceGallery(calmGallery);
   // Animate heading and buttons
-  const headingEl = document.getElementById('calm-heading');
+  const headingEl = document.getElementById("calm-heading");
   if (headingEl) applyHeadingAnimation(headingEl);
-  const meditateBtn = document.getElementById('calm-meditate');
+  const meditateBtn = document.getElementById("calm-meditate");
   if (meditateBtn) applyButtonAnimation(meditateBtn);
-  const calmJournalBtn = document.getElementById('calm-journal');
+  const calmJournalBtn = document.getElementById("calm-journal");
   if (calmJournalBtn) applyButtonAnimation(calmJournalBtn);
-  const soundToggleBtn = document.getElementById('sound-toggle');
+  const soundToggleBtn = document.getElementById("sound-toggle");
   if (soundToggleBtn) applyButtonAnimation(soundToggleBtn);
-  const starBtns = document.querySelectorAll('.star-btn');
-  if (starBtns && starBtns.length) starBtns.forEach(btn => applyButtonAnimation(btn));
+  const starBtns = document.querySelectorAll(".star-btn");
+  if (starBtns && starBtns.length) starBtns.forEach((btn) => applyButtonAnimation(btn));
   // Accessibility
-  const calmSpaceSection = document.getElementById('calm-space');
-  if (calmSpaceSection) setAriaAttributes(calmSpaceSection, { role: 'region', label: 'Calm Space' });
+  const calmSpaceSection = document.getElementById("calm-space");
+  if (calmSpaceSection)
+    setAriaAttributes(calmSpaceSection, { role: "region", label: "Calm Space" });
   // Interactive elements
-  if (soundToggleBtn) soundToggleBtn.onclick = () => alert('Ambient sound toggled!');
+  if (soundToggleBtn) soundToggleBtn.onclick = () => alert("Ambient sound toggled!");
   if (meditateBtn) meditateBtn.onclick = showMeditationModal;
   if (calmJournalBtn) calmJournalBtn.onclick = showJournal;
-  if (starBtns && starBtns.length) starBtns.forEach(btn => btn.onclick = () => btn.classList.toggle('active'));
+  if (starBtns && starBtns.length)
+    starBtns.forEach((btn) => (btn.onclick = () => btn.classList.toggle("active")));
   // Mood tracker (simple version)
-  const moodTracker = document.getElementById('calm-mood-tracker');
+  const moodTracker = document.getElementById("calm-mood-tracker");
   if (moodTracker) {
     moodTracker.innerHTML = `
       <label for="mood-select">How are you feeling today?</label>
@@ -164,32 +173,32 @@ export function showCalmSpace(container) {
         <option value="frustrated">😠 Frustrated</option>
       </select>
     `;
-    const moodSelect = document.getElementById('mood-select');
+    const moodSelect = document.getElementById("mood-select");
     if (moodSelect) {
-      moodSelect.addEventListener('change', function() {
+      moodSelect.addEventListener("change", function () {
         alert(`Mood recorded: ${this.value}`);
         // Here you can add code to save the mood selection
-        localStorage.setItem('userMood', this.value);
+        localStorage.setItem("userMood", this.value);
       });
     }
   }
   // Gentle particle effects
-  const particles = document.getElementById('calm-particles');
+  const particles = document.getElementById("calm-particles");
   if (particles) {
-    for(let i=0;i<20;i++){
-      const p=document.createElement('div');
-      p.className='particle';
-      p.style.position='absolute';
-      p.style.left=Math.random()*100+'%';
-      p.style.top=Math.random()*100+'%';
-      p.style.width='8px';
-      p.style.height='8px';
-      p.style.borderRadius='50%';
-      p.style.background='rgba(200,180,255,0.3)';
-      p.style.animation=`float ${2+Math.random()*3}s infinite ease-in-out`;
+    for (let i = 0; i < 20; i++) {
+      const p = document.createElement("div");
+      p.className = "particle";
+      p.style.position = "absolute";
+      p.style.left = Math.random() * 100 + "%";
+      p.style.top = Math.random() * 100 + "%";
+      p.style.width = "8px";
+      p.style.height = "8px";
+      p.style.borderRadius = "50%";
+      p.style.background = "rgba(200,180,255,0.3)";
+      p.style.animation = `float ${2 + Math.random() * 3}s infinite ease-in-out`;
       particles.appendChild(p);
     }
-    const style = document.createElement('style');
+    const style = document.createElement("style");
     style.innerHTML = `
       @keyframes float {
         0% { transform: translateY(0) scale(1); opacity: 1; }
@@ -201,132 +210,140 @@ export function showCalmSpace(container) {
   }
 
   // ...existing code...
-// --- Advanced Feature Upgrades & TODOs ---
-// Accessibility: ARIA roles, keyboard navigation
-// Onboarding/help modal
-// Backup/sync logic
-// Gamification: challenges, leaderboard
-// Educator/parent feedback
-// Analytics integration
-// Error boundaries
-// UI settings modal
-// Comprehensive calm space logic
+  // --- Advanced Feature Upgrades & TODOs ---
+  // Accessibility: ARIA roles, keyboard navigation
+  // Onboarding/help modal
+  // Backup/sync logic
+  // Gamification: challenges, leaderboard
+  // Educator/parent feedback
+  // Analytics integration
+  // Error boundaries
+  // UI settings modal
+  // Comprehensive calm space logic
 
-function showOnboarding() {
-  const modal = document.createElement('div');
-  modal.className = 'onboarding-modal';
-  modal.innerHTML = `<h2>Welcome to Calm Space!</h2><p>Relax and recharge. Use the settings to personalize your experience.</p><button id='close-onboarding'>Close</button>`;
-  document.body.appendChild(modal);
-  document.getElementById('close-onboarding').onclick = () => modal.remove();
-}
-
-function setAccessibility() {
-  const calmEl = document.getElementById('calm-space');
-  if (calmEl) {
-    calmEl.setAttribute('role', 'region');
-    calmEl.setAttribute('aria-label', 'Calm Space');
+  function showOnboarding() {
+    const modal = document.createElement("div");
+    modal.className = "onboarding-modal";
+    modal.innerHTML = `<h2>Welcome to Calm Space!</h2><p>Relax and recharge. Use the settings to personalize your experience.</p><button id='close-onboarding'>Close</button>`;
+    document.body.appendChild(modal);
+    document.getElementById("close-onboarding").onclick = () => modal.remove();
   }
-}
 
-function backupProgress(progress) {
-  localStorage.setItem('calmSpaceProgress', JSON.stringify(progress));
-}
-function syncProgress() {
-  return JSON.parse(localStorage.getItem('calmSpaceProgress') || '{}');
-}
-
-function updateLeaderboard(score) {
-  // ...leaderboard logic...
-}
-
-function sendFeedback(feedback) {
-  // ...send feedback to server...
-}
-
-function logEvent(event) {
-  // ...analytics logic...
-}
-
-function safeRun(fn) {
-  try { fn(); } catch (e) { console.error('Error:', e); }
-}
-
-function showSettings() {
-  // ...settings modal logic...
-}
-
-function startCalmSpace() {
-  showOnboarding();
-  setAccessibility();
-  // ...calm space logic...
-}
-
-if (typeof document !== 'undefined') {
-  document.addEventListener('DOMContentLoaded', startCalmSpace);
-}
-// --- Advanced Feature Upgrades & TODOs ---
-// Accessibility: ARIA roles, keyboard navigation
-// Onboarding/help modal
-// Backup/sync logic
-// Gamification: challenges, leaderboard
-// Educator/parent feedback
-// Analytics integration
-// Error boundaries
-// UI settings modal
-// Comprehensive calm space logic
-
-function showOnboarding() {
-  const modal = document.createElement('div');
-  modal.className = 'onboarding-modal';
-  modal.innerHTML = `<h2>Welcome to Calm Space!</h2><p>Relax and recharge in your personal calm space. Use the settings to customize your experience.</p><button id='close-onboarding'>Close</button>`;
-  document.body.appendChild(modal);
-  document.getElementById('close-onboarding').onclick = () => modal.remove();
-}
-
-function setAccessibility() {
-  const calmEl = document.getElementById('calm-space');
-  if (calmEl) {
-    calmEl.setAttribute('role', 'region');
-    calmEl.setAttribute('aria-label', 'Calm Space');
+  function setAccessibility() {
+    const calmEl = document.getElementById("calm-space");
+    if (calmEl) {
+      calmEl.setAttribute("role", "region");
+      calmEl.setAttribute("aria-label", "Calm Space");
+    }
   }
-}
 
-function backupProgress(progress) {
-  localStorage.setItem('calmSpaceProgress', JSON.stringify(progress));
-}
-function syncProgress() {
-  return JSON.parse(localStorage.getItem('calmSpaceProgress') || '{}');
-}
+  function backupProgress(progress) {
+    localStorage.setItem("calmSpaceProgress", JSON.stringify(progress));
+  }
+  function syncProgress() {
+    return JSON.parse(localStorage.getItem("calmSpaceProgress") || "{}");
+  }
 
-function updateLeaderboard(score) {
-  // ...leaderboard logic...
-}
+  function updateLeaderboard(score) {
+    // ...leaderboard logic...
+  }
 
-function sendFeedback(feedback) {
-  // ...send feedback to server...
-}
+  function sendFeedback(feedback) {
+    // ...send feedback to server...
+  }
 
-function logEvent(event) {
-  // ...analytics logic...
-}
+  function logEvent(event) {
+    // ...analytics logic...
+  }
 
-function safeRun(fn) {
-  try { fn(); } catch (e) { console.error('Error:', e); }
-}
+  function safeRun(fn) {
+    try {
+      fn();
+    } catch (e) {
+      console.error("Error:", e);
+    }
+  }
 
-function showSettings() {
-  // ...settings modal logic...
-}
+  function showSettings() {
+    // ...settings modal logic...
+  }
 
-function startCalmSpace() {
-  showOnboarding();
-  setAccessibility();
-  // ...calm space logic...
-}
+  function startCalmSpace() {
+    showOnboarding();
+    setAccessibility();
+    // ...calm space logic...
+  }
 
-if (typeof document !== 'undefined') {
-  document.addEventListener('DOMContentLoaded', startCalmSpace);
-}
+  if (typeof document !== "undefined") {
+    document.addEventListener("DOMContentLoaded", startCalmSpace);
+  }
+  // --- Advanced Feature Upgrades & TODOs ---
+  // Accessibility: ARIA roles, keyboard navigation
+  // Onboarding/help modal
+  // Backup/sync logic
+  // Gamification: challenges, leaderboard
+  // Educator/parent feedback
+  // Analytics integration
+  // Error boundaries
+  // UI settings modal
+  // Comprehensive calm space logic
+
+  function showOnboarding() {
+    const modal = document.createElement("div");
+    modal.className = "onboarding-modal";
+    modal.innerHTML = `<h2>Welcome to Calm Space!</h2><p>Relax and recharge in your personal calm space. Use the settings to customize your experience.</p><button id='close-onboarding'>Close</button>`;
+    document.body.appendChild(modal);
+    document.getElementById("close-onboarding").onclick = () => modal.remove();
+  }
+
+  function setAccessibility() {
+    const calmEl = document.getElementById("calm-space");
+    if (calmEl) {
+      calmEl.setAttribute("role", "region");
+      calmEl.setAttribute("aria-label", "Calm Space");
+    }
+  }
+
+  function backupProgress(progress) {
+    localStorage.setItem("calmSpaceProgress", JSON.stringify(progress));
+  }
+  function syncProgress() {
+    return JSON.parse(localStorage.getItem("calmSpaceProgress") || "{}");
+  }
+
+  function updateLeaderboard(score) {
+    // ...leaderboard logic...
+  }
+
+  function sendFeedback(feedback) {
+    // ...send feedback to server...
+  }
+
+  function logEvent(event) {
+    // ...analytics logic...
+  }
+
+  function safeRun(fn) {
+    try {
+      fn();
+    } catch (e) {
+      console.error("Error:", e);
+    }
+  }
+
+  function showSettings() {
+    // ...settings modal logic...
+  }
+
+  function startCalmSpace() {
+    showOnboarding();
+    setAccessibility();
+    // ...calm space logic...
+  }
+
+  if (typeof document !== "undefined") {
+    document.addEventListener("DOMContentLoaded", startCalmSpace);
+  }
   if (!container) return;
   if (!container) return;
   container.innerHTML = `
@@ -441,4 +458,3 @@ if (typeof document !== 'undefined') {
   showPrompt();
 }
 // Animate heading and button
-

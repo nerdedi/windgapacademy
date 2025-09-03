@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect } from "react";
 
 export default function useAnalytics(eventName, eventData) {
   useEffect(() => {
@@ -6,7 +6,7 @@ export default function useAnalytics(eventName, eventData) {
     if (eventName) {
       // window.analytics.track(eventName, eventData);
       // Replace with your analytics logic
-      console.log('Analytics event:', eventName, eventData);
+      console.log("Analytics event:", eventName, eventData);
     }
   }, [eventName, eventData]);
 }

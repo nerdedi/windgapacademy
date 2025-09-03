@@ -1,10 +1,9 @@
+import { showAvatarBuilder } from "../AvatarBuilder.js";
 
-import { showAvatarBuilder } from '../AvatarBuilder.js';
-
-describe('showAvatarBuilder', () => {
-  it('should render avatar builder UI', () => {
-    const container = document.createElement('div');
+describe("showAvatarBuilder", () => {
+  it("should render avatar builder UI", () => {
+    const container = document.createElement("div");
     showAvatarBuilder(container);
-    expect(container.innerHTML).toContain('Avatar');
+    expect(container.innerHTML).toContain("Avatar");
   });
 });

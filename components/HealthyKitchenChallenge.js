@@ -16,35 +16,39 @@ export class HealthyKitchenChallenge {
       nutrition: {},
     };
     this.brands = [
-      { name: 'Sanitarium', type: 'wholegrain', img: 'brands/sanitarium.png' },
-      { name: 'Helga’s', type: 'bread', img: 'brands/helgas.png' },
-      { name: 'Bega', type: 'cheese', img: 'brands/bega.png' },
-      { name: 'SPC', type: 'fruit', img: 'brands/spc.png' },
-      { name: 'Birds Eye', type: 'vegetable', img: 'brands/birdseye.png' },
-      { name: 'Coles', type: 'egg', img: 'brands/coles.png' },
-      { name: 'Woolworths', type: 'milk', img: 'brands/woolworths.png' },
-      { name: 'SunRice', type: 'rice', img: 'brands/sunrice.png' },
-      { name: 'Steggles', type: 'chicken', img: 'brands/steggles.png' },
-      { name: 'John West', type: 'fish', img: 'brands/johnwest.png' }
+      { name: "Sanitarium", type: "wholegrain", img: "brands/sanitarium.png" },
+      { name: "Helga’s", type: "bread", img: "brands/helgas.png" },
+      { name: "Bega", type: "cheese", img: "brands/bega.png" },
+      { name: "SPC", type: "fruit", img: "brands/spc.png" },
+      { name: "Birds Eye", type: "vegetable", img: "brands/birdseye.png" },
+      { name: "Coles", type: "egg", img: "brands/coles.png" },
+      { name: "Woolworths", type: "milk", img: "brands/woolworths.png" },
+      { name: "SunRice", type: "rice", img: "brands/sunrice.png" },
+      { name: "Steggles", type: "chicken", img: "brands/steggles.png" },
+      { name: "John West", type: "fish", img: "brands/johnwest.png" },
     ];
     this.utensils = [
-      { name: 'Knife', img: 'utensils/knife.png' },
-      { name: 'Pan', img: 'utensils/pan.png' },
-      { name: 'Pot', img: 'utensils/pot.png' },
-      { name: 'Oven', img: 'utensils/oven.png' },
-      { name: 'Cutting Board', img: 'utensils/board.png' },
-      { name: 'Spoon', img: 'utensils/spoon.png' },
-      { name: 'Tongs', img: 'utensils/tongs.png' }
+      { name: "Knife", img: "utensils/knife.png" },
+      { name: "Pan", img: "utensils/pan.png" },
+      { name: "Pot", img: "utensils/pot.png" },
+      { name: "Oven", img: "utensils/oven.png" },
+      { name: "Cutting Board", img: "utensils/board.png" },
+      { name: "Spoon", img: "utensils/spoon.png" },
+      { name: "Tongs", img: "utensils/tongs.png" },
     ];
     this.achievementsList = [
-      'Healthy Chef', 'Safety Star', 'Nutrition Expert', 'Quick Cook', 'Creative Combo'
+      "Healthy Chef",
+      "Safety Star",
+      "Nutrition Expert",
+      "Quick Cook",
+      "Creative Combo",
     ];
     this.safetyTips = [
-      'Wash your hands before cooking!',
-      'Use the correct knife for chopping.',
-      'Keep raw meat separate from veggies.',
-      'Check food is cooked through before serving.',
-      'Store leftovers safely in the fridge.'
+      "Wash your hands before cooking!",
+      "Use the correct knife for chopping.",
+      "Keep raw meat separate from veggies.",
+      "Check food is cooked through before serving.",
+      "Store leftovers safely in the fridge.",
     ];
     this.render();
   }
@@ -52,26 +56,26 @@ export class HealthyKitchenChallenge {
   getRecipe() {
     // Example: Chicken & Veggie Stir-Fry
     return {
-      name: 'Chicken & Veggie Stir-Fry',
+      name: "Chicken & Veggie Stir-Fry",
       steps: [
-        'Select healthy ingredients from the pantry.',
-        'Wash hands and prepare the cutting board.',
-        'Chop chicken and vegetables using the knife.',
-        'Heat pan and add a small amount of oil.',
-        'Cook chicken until browned, then add vegetables.',
-        'Stir-fry until veggies are tender.',
-        'Serve with steamed rice.',
-        'Enjoy your healthy meal!'
+        "Select healthy ingredients from the pantry.",
+        "Wash hands and prepare the cutting board.",
+        "Chop chicken and vegetables using the knife.",
+        "Heat pan and add a small amount of oil.",
+        "Cook chicken until browned, then add vegetables.",
+        "Stir-fry until veggies are tender.",
+        "Serve with steamed rice.",
+        "Enjoy your healthy meal!",
       ],
-      requiredIngredients: ['Steggles', 'Birds Eye', 'SunRice'],
-      requiredUtensils: ['Knife', 'Pan', 'Cutting Board', 'Spoon'],
+      requiredIngredients: ["Steggles", "Birds Eye", "SunRice"],
+      requiredUtensils: ["Knife", "Pan", "Cutting Board", "Spoon"],
       nutrition: {
         calories: 420,
-        protein: '28g',
-        carbs: '55g',
-        fat: '8g',
-        vitamins: ['A', 'C', 'B6']
-      }
+        protein: "28g",
+        carbs: "55g",
+        fat: "8g",
+        vitamins: ["A", "C", "B6"],
+      },
     };
   }
 
@@ -84,21 +88,21 @@ export class HealthyKitchenChallenge {
         <div class="pantry mb-4">
           <h4>Choose Ingredients (Australian Brands)</h4>
           <div class="flex flex-wrap gap-2">
-            ${this.brands.map(b => `<button class="ingredient-btn" data-brand="${b.name}"><img src="${b.img}" alt="${b.name}" width="48"/><br>${b.name}</button>`).join('')}
+            ${this.brands.map((b) => `<button class="ingredient-btn" data-brand="${b.name}"><img src="${b.img}" alt="${b.name}" width="48"/><br>${b.name}</button>`).join("")}
           </div>
         </div>
         <div class="utensils mb-4">
           <h4>Select Utensils</h4>
           <div class="flex flex-wrap gap-2">
-            ${this.utensils.map(u => `<button class="utensil-btn" data-utensil="${u.name}"><img src="${u.img}" alt="${u.name}" width="48"/><br>${u.name}</button>`).join('')}
+            ${this.utensils.map((u) => `<button class="utensil-btn" data-utensil="${u.name}"><img src="${u.img}" alt="${u.name}" width="48"/><br>${u.name}</button>`).join("")}
           </div>
         </div>
         <div class="actions mb-4">
           <button class="btn-next">Next Step</button>
         </div>
         <div class="safety mb-2 text-red-700 font-bold">${this.safetyTips[this.state.step % this.safetyTips.length]}</div>
-        <div class="progress mb-2">Achievements: ${this.state.achievements.join(', ') || 'None yet'}</div>
-        <div class="nutrition mb-2">Nutrition: ${Object.keys(this.state.nutrition).length ? JSON.stringify(this.state.nutrition) : 'Complete the meal to see nutrition info.'}</div>
+        <div class="progress mb-2">Achievements: ${this.state.achievements.join(", ") || "None yet"}</div>
+        <div class="nutrition mb-2">Nutrition: ${Object.keys(this.state.nutrition).length ? JSON.stringify(this.state.nutrition) : "Complete the meal to see nutrition info."}</div>
         <div class="canvas-area mb-4" style="width:400px;height:300px;background:#f8f8f8;border:1px solid #ccc;"></div>
       </section>
     `;
@@ -107,37 +111,37 @@ export class HealthyKitchenChallenge {
   }
 
   attachEvents() {
-    this.container.querySelectorAll('.ingredient-btn').forEach(btn => {
+    this.container.querySelectorAll(".ingredient-btn").forEach((btn) => {
       btn.onclick = () => {
-        const brand = btn.getAttribute('data-brand');
+        const brand = btn.getAttribute("data-brand");
         if (!this.state.selectedIngredients.includes(brand)) {
           this.state.selectedIngredients.push(brand);
-          btn.classList.add('selected');
+          btn.classList.add("selected");
         }
       };
     });
-    this.container.querySelectorAll('.utensil-btn').forEach(btn => {
+    this.container.querySelectorAll(".utensil-btn").forEach((btn) => {
       btn.onclick = () => {
-        const utensil = btn.getAttribute('data-utensil');
+        const utensil = btn.getAttribute("data-utensil");
         if (!this.state.utensils.includes(utensil)) {
           this.state.utensils.push(utensil);
-          btn.classList.add('selected');
+          btn.classList.add("selected");
         }
       };
     });
-    this.container.querySelector('.btn-next').onclick = () => {
+    this.container.querySelector(".btn-next").onclick = () => {
       if (this.state.step < this.state.recipe.steps.length - 1) {
         this.state.step++;
         // Achievements
         if (this.state.step === 2 && this.state.selectedIngredients.length >= 3) {
-          this.state.achievements.push('Healthy Chef');
+          this.state.achievements.push("Healthy Chef");
         }
-        if (this.state.step === 3 && this.state.utensils.includes('Knife')) {
-          this.state.achievements.push('Safety Star');
+        if (this.state.step === 3 && this.state.utensils.includes("Knife")) {
+          this.state.achievements.push("Safety Star");
         }
         if (this.state.step === this.state.recipe.steps.length - 1) {
           this.state.nutrition = this.state.recipe.nutrition;
-          this.state.achievements.push('Nutrition Expert');
+          this.state.achievements.push("Nutrition Expert");
         }
         this.render();
       }
@@ -146,7 +150,7 @@ export class HealthyKitchenChallenge {
 
   updateCanvas() {
     // Placeholder for adapted optics/canvas engine
-    const area = this.container.querySelector('.canvas-area');
+    const area = this.container.querySelector(".canvas-area");
     area.innerHTML = `<div style="padding:2em;text-align:center;color:#888;">Cooking simulation will appear here.<br>Drag ingredients and utensils to interact.</div>`;
     // You can adapt the optics engine here for heat flow, mixing, etc.
   }

@@ -4,6 +4,7 @@ if (typeof global.TextEncoder === "undefined") {
 }
 
 const request = require("supertest");
+
 const app = require("../server");
 
 describe("API Endpoints", () => {

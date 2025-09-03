@@ -1,6 +1,12 @@
 import React, { useState } from "react";
 
-export default function Carousel({ items, renderItem, className = "", autoPlay = true, interval = 3000 }) {
+export default function Carousel({
+  items,
+  renderItem,
+  className = "",
+  autoPlay = true,
+  interval = 3000,
+}) {
   const [current, setCurrent] = useState(0);
   React.useEffect(() => {
     if (!autoPlay) return;
@@ -12,7 +18,10 @@ export default function Carousel({ items, renderItem, className = "", autoPlay =
 
   return (
     <div className={`carousel relative overflow-hidden ${className}`} aria-label="Carousel">
-      <div className="flex transition-transform duration-500" style={{ transform: `translateX(-${current * 100}%)` }}>
+      <div
+        className="flex transition-transform duration-500"
+        style={{ transform: `translateX(-${current * 100}%)` }}
+      >
         {items.map((item, idx) => (
           <div key={idx} className="w-full flex-shrink-0">
             {renderItem(item, idx)}

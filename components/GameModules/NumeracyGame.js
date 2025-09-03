@@ -11,28 +11,28 @@
 
 // Example: Add onboarding modal
 function showOnboarding() {
-  const modal = document.createElement('div');
-  modal.className = 'onboarding-modal';
+  const modal = document.createElement("div");
+  modal.className = "onboarding-modal";
   modal.innerHTML = `<h2>Welcome to Numeracy Game!</h2><p>Practice numeracy skills interactively. Use the settings to customize your experience.</p><button id='close-onboarding'>Close</button>`;
   document.body.appendChild(modal);
-  document.getElementById('close-onboarding').onclick = () => modal.remove();
+  document.getElementById("close-onboarding").onclick = () => modal.remove();
 }
 
 // Example: Add ARIA attributes
 function setAccessibility() {
-  const gameEl = document.getElementById('numeracy-game');
+  const gameEl = document.getElementById("numeracy-game");
   if (gameEl) {
-    gameEl.setAttribute('role', 'region');
-    gameEl.setAttribute('aria-label', 'Numeracy Game');
+    gameEl.setAttribute("role", "region");
+    gameEl.setAttribute("aria-label", "Numeracy Game");
   }
 }
 
 // Example: Add backup/sync logic
 function backupProgress(progress) {
-  localStorage.setItem('numeracyProgress', JSON.stringify(progress));
+  localStorage.setItem("numeracyProgress", JSON.stringify(progress));
 }
 function syncProgress() {
-  return JSON.parse(localStorage.getItem('numeracyProgress') || '{}');
+  return JSON.parse(localStorage.getItem("numeracyProgress") || "{}");
 }
 
 // Example: Gamification
@@ -52,7 +52,11 @@ function logEvent(event) {
 
 // Example: Error boundary
 function safeRun(fn) {
-  try { fn(); } catch (e) { console.error('Error:', e); }
+  try {
+    fn();
+  } catch (e) {
+    console.error("Error:", e);
+  }
 }
 
 // Example: UI settings modal
@@ -68,8 +72,8 @@ function startGame() {
 }
 
 // Run game on DOMContentLoaded
-if (typeof document !== 'undefined') {
-  document.addEventListener('DOMContentLoaded', startGame);
+if (typeof document !== "undefined") {
+  document.addEventListener("DOMContentLoaded", startGame);
 }
 // Numeracy Game Module: Supermarket Simulator
 // Drag and drop items, pay with correct money, animated Daisy explains, Winnie cheers
@@ -86,7 +90,7 @@ export function showNumeracyGame(container, userData = {}) {
       faq: "FAQ: Learn about Australian currency and shopping skills.",
       backup: "Backup your progress to the cloud.",
       sync: "Sync your achievements with your educator.",
-      placeholder: "Feature coming soon!"
+      placeholder: "Feature coming soon!",
     },
     es: {
       title: "Simulador de Supermercado",
@@ -95,7 +99,7 @@ export function showNumeracyGame(container, userData = {}) {
       faq: "FAQ: Aprende sobre la moneda australiana y habilidades de compra.",
       backup: "Respalda tu progreso en la nube.",
       sync: "Sincroniza tus logros con tu educador.",
-      placeholder: "¡Función próximamente!"
+      placeholder: "¡Función próximamente!",
     },
     ar: {
       title: "محاكاة السوبرماركت",
@@ -104,8 +108,8 @@ export function showNumeracyGame(container, userData = {}) {
       faq: "الأسئلة الشائعة: تعرف على العملة الأسترالية ومهارات التسوق.",
       backup: "انسخ تقدمك إلى السحابة.",
       sync: "زامن إنجازاتك مع المعلم.",
-      placeholder: "الميزة قادمة قريبًا!"
-    }
+      placeholder: "الميزة قادمة قريبًا!",
+    },
   };
   let currentLang = "en";
   function setLanguage(lang) {
@@ -117,10 +121,10 @@ export function showNumeracyGame(container, userData = {}) {
 
   // --- Tooltips ---
   function addTooltips() {
-    document.querySelectorAll("button, [aria-label]").forEach(el => {
+    document.querySelectorAll("button, [aria-label]").forEach((el) => {
       if (el.title || el.getAttribute("aria-label")) {
         el.setAttribute("tabindex", "0");
-        el.onfocus = el.onmouseover = function() {
+        el.onfocus = el.onmouseover = function () {
           let tip = document.createElement("div");
           tip.className = "tooltip";
           tip.textContent = el.title || el.getAttribute("aria-label");
@@ -129,13 +133,13 @@ export function showNumeracyGame(container, userData = {}) {
           tip.style.color = "#fff";
           tip.style.padding = "4px 8px";
           tip.style.borderRadius = "4px";
-          tip.style.top = (el.getBoundingClientRect().top - 30) + "px";
-          tip.style.left = (el.getBoundingClientRect().left) + "px";
+          tip.style.top = el.getBoundingClientRect().top - 30 + "px";
+          tip.style.left = el.getBoundingClientRect().left + "px";
           tip.style.zIndex = 9999;
           tip.id = "active-tooltip";
           document.body.appendChild(tip);
         };
-        el.onblur = el.onmouseout = function() {
+        el.onblur = el.onmouseout = function () {
           let tip = document.getElementById("active-tooltip");
           if (tip) tip.remove();
         };
@@ -149,14 +153,15 @@ export function showNumeracyGame(container, userData = {}) {
     if (!modal) {
       modal = document.createElement("div");
       modal.id = "onboarding-modal";
-      modal.style = "position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.5);z-index:2000;display:flex;align-items:center;justify-content:center;";
+      modal.style =
+        "position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.5);z-index:2000;display:flex;align-items:center;justify-content:center;";
       modal.innerHTML = `<div style='background:#fff;padding:2em;border-radius:1em;max-width:400px;text-align:center;'>
         <h3>Onboarding</h3>
         <p>${i18n[currentLang].onboarding}</p>
         <button id='close-onboarding' class='btn-primary'>Close</button>
       </div>`;
       document.body.appendChild(modal);
-      document.getElementById('close-onboarding').onclick = () => modal.remove();
+      document.getElementById("close-onboarding").onclick = () => modal.remove();
     }
   }
   function showFAQ() {
@@ -164,20 +169,25 @@ export function showNumeracyGame(container, userData = {}) {
     if (!modal) {
       modal = document.createElement("div");
       modal.id = "faq-modal";
-      modal.style = "position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.5);z-index:2000;display:flex;align-items:center;justify-content:center;";
+      modal.style =
+        "position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.5);z-index:2000;display:flex;align-items:center;justify-content:center;";
       modal.innerHTML = `<div style='background:#fff;padding:2em;border-radius:1em;max-width:400px;text-align:left;'>
         <h3>FAQ</h3>
         <ul><li>${i18n[currentLang].faq}</li></ul>
         <button id='close-faq' class='btn-primary'>Close</button>
       </div>`;
       document.body.appendChild(modal);
-      document.getElementById('close-faq').onclick = () => modal.remove();
+      document.getElementById("close-faq").onclick = () => modal.remove();
     }
   }
 
   // --- Backup & Sync Placeholders ---
-  function backupProgress() { alert(i18n[currentLang].backup); }
-  function syncProgress() { alert(i18n[currentLang].sync); }
+  function backupProgress() {
+    alert(i18n[currentLang].backup);
+  }
+  function syncProgress() {
+    alert(i18n[currentLang].sync);
+  }
 
   container.innerHTML = `<section id="supermarket-sim" aria-label="Supermarket Simulator" class="card fade-in max-w-2xl mx-auto my-8">
     <h2 class="text-3xl font-bold text-primary text-smooth flex items-center gap-2 mb-4">
@@ -197,7 +207,8 @@ export function showNumeracyGame(container, userData = {}) {
     if (!modal) {
       modal = document.createElement("div");
       modal.id = "settings-modal";
-      modal.style = "position:fixed;top:50%;left:50%;transform:translate(-50%, -50%);background:#fff;border:2px solid #1976d2;border-radius:12px;padding:24px;z-index:1001;min-width:320px;";
+      modal.style =
+        "position:fixed;top:50%;left:50%;transform:translate(-50%, -50%);background:#fff;border:2px solid #1976d2;border-radius:12px;padding:24px;z-index:1001;min-width:320px;";
       modal.innerHTML = `
         <h3>Game Settings</h3>
         <div>
@@ -222,8 +233,13 @@ export function showNumeracyGame(container, userData = {}) {
       document.getElementById("faq-btn").onclick = showFAQ;
       document.getElementById("backup-btn").onclick = backupProgress;
       document.getElementById("sync-btn").onclick = syncProgress;
-      document.getElementById("language-select").onchange = (e) => { setLanguage(e.target.value); modal.remove(); };
-    } else { modal.style.display = "block"; }
+      document.getElementById("language-select").onchange = (e) => {
+        setLanguage(e.target.value);
+        modal.remove();
+      };
+    } else {
+      modal.style.display = "block";
+    }
     addTooltips();
   };
   addTooltips();
@@ -234,18 +250,48 @@ export function showNumeracyGame(container, userData = {}) {
 }
 
 // --- Feature Implementations ---
-function openParentFeedback() { /* TODO */ }
-function showThemeCustomization() { /* TODO */ }
-function showChallengesAndLeaderboard() { /* TODO */ }
-function enableSignLanguageAvatar() { /* TODO */ }
-function enableARVRMode() { /* TODO */ }
-function enableOfflineMode() { /* TODO */ }
-function openContentCreationTools() { /* TODO */ }
-function trackEvent(event, data) { /* TODO */ }
-function showAnalyticsDashboard() { /* TODO */ }
-function showEducatorDashboard() { /* TODO */ }
-function showCommunityFeatures() { /* TODO */ }
-function setLanguage(lang) { /* TODO */ }
-function showLanguageSelector() { /* TODO */ }
-function startOnboarding() { /* TODO */ }
-function backupData() { /* TODO */ }
+function openParentFeedback() {
+  /* TODO */
+}
+function showThemeCustomization() {
+  /* TODO */
+}
+function showChallengesAndLeaderboard() {
+  /* TODO */
+}
+function enableSignLanguageAvatar() {
+  /* TODO */
+}
+function enableARVRMode() {
+  /* TODO */
+}
+function enableOfflineMode() {
+  /* TODO */
+}
+function openContentCreationTools() {
+  /* TODO */
+}
+function trackEvent(event, data) {
+  /* TODO */
+}
+function showAnalyticsDashboard() {
+  /* TODO */
+}
+function showEducatorDashboard() {
+  /* TODO */
+}
+function showCommunityFeatures() {
+  /* TODO */
+}
+function setLanguage(lang) {
+  /* TODO */
+}
+function showLanguageSelector() {
+  /* TODO */
+}
+function startOnboarding() {
+  /* TODO */
+}
+function backupData() {
+  /* TODO */
+}

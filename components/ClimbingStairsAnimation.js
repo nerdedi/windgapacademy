@@ -31,9 +31,9 @@ export class ClimbingStairsAnimation {
   }
 
   renderStairs() {
-    let stairs = '';
+    let stairs = "";
     for (let i = 0; i < this.n; i++) {
-      stairs += `<rect x="${30 + i * 30}" y="${100 - i * 10}" width="28" height="10" fill="${i <= this.currentStep ? '#1976d2' : '#ccc'}" />`;
+      stairs += `<rect x="${30 + i * 30}" y="${100 - i * 10}" width="28" height="10" fill="${i <= this.currentStep ? "#1976d2" : "#ccc"}" />`;
       stairs += `<text x="${44 + i * 30}" y="${110 - i * 10}" font-size="10" text-anchor="middle">${i}</text>`;
     }
     stairs += `<circle cx="${44 + this.currentStep * 30}" cy="${95 - this.currentStep * 10}" r="8" fill="#ffe066" stroke="#222" stroke-width="2" />`;
@@ -45,30 +45,30 @@ export class ClimbingStairsAnimation {
     for (let i = 0; i <= this.n; i++) {
       table += `<th>${i}</th>`;
     }
-    table += '</tr><tr>';
+    table += "</tr><tr>";
     for (let i = 0; i <= this.n; i++) {
       table += `<td>${this.dp[i]}</td>`;
     }
-    table += '</tr></table>';
+    table += "</tr></table>";
     return table;
   }
 
   attachEvents() {
-    this.container.querySelector('#stairs-n').addEventListener('input', e => {
+    this.container.querySelector("#stairs-n").addEventListener("input", (e) => {
       this.n = Math.max(2, Math.min(20, parseInt(e.target.value)));
       this.dp = Array(this.n + 1).fill(0);
       this.currentStep = 0;
       this.isPlaying = false;
       this.render();
     });
-    this.container.querySelector('#play-anim').addEventListener('click', () => {
+    this.container.querySelector("#play-anim").addEventListener("click", () => {
       this.isPlaying = true;
       this.playAnimation();
     });
-    this.container.querySelector('#step-anim').addEventListener('click', () => {
+    this.container.querySelector("#step-anim").addEventListener("click", () => {
       this.stepAnimation();
     });
-    this.container.querySelector('#reset-anim').addEventListener('click', () => {
+    this.container.querySelector("#reset-anim").addEventListener("click", () => {
       this.dp = Array(this.n + 1).fill(0);
       this.currentStep = 0;
       this.isPlaying = false;

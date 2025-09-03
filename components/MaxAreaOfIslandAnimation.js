@@ -5,16 +5,18 @@ export class MaxAreaOfIslandAnimation {
   constructor(container) {
     this.container = container;
     this.grid = [
-      [0,0,1,0,0,0,0,1,0,0,0,0,0],
-      [0,0,0,0,0,0,0,1,1,1,0,0,0],
-      [0,1,1,0,1,0,0,0,0,0,0,0,0],
-      [0,1,0,0,1,1,0,0,1,0,1,0,0],
-      [0,1,0,0,1,1,0,0,1,1,1,0,0],
-      [0,0,0,0,0,0,0,0,0,0,1,0,0],
-      [0,0,0,0,0,0,0,1,1,1,0,0,0],
-      [0,0,0,0,0,0,0,1,1,0,0,0,0]
+      [0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0],
+      [0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 0, 0],
+      [0, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0],
     ];
-    this.visited = Array.from({length: this.grid.length}, () => Array(this.grid[0].length).fill(false));
+    this.visited = Array.from({ length: this.grid.length }, () =>
+      Array(this.grid[0].length).fill(false),
+    );
     this.maxArea = 0;
     this.currentArea = 0;
     this.currentIsland = [];
@@ -41,24 +43,26 @@ export class MaxAreaOfIslandAnimation {
   }
 
   renderGrid() {
-    let svg = '';
+    let svg = "";
     for (let r = 0; r < this.grid.length; r++) {
       for (let c = 0; c < this.grid[0].length; c++) {
-        let fill = this.grid[r][c] === 1 ? '#ffe066' : '#e0f7fa';
-        if (this.visited[r][c]) fill = '#1976d2';
-        if (this.currentIsland.some(([rr,cc]) => rr === r && cc === c)) fill = '#d16d6d';
-        svg += `<rect x="${c*40}" y="${r*40}" width="38" height="38" fill="${fill}" stroke="#222" stroke-width="2" />`;
+        let fill = this.grid[r][c] === 1 ? "#ffe066" : "#e0f7fa";
+        if (this.visited[r][c]) fill = "#1976d2";
+        if (this.currentIsland.some(([rr, cc]) => rr === r && cc === c)) fill = "#d16d6d";
+        svg += `<rect x="${c * 40}" y="${r * 40}" width="38" height="38" fill="${fill}" stroke="#222" stroke-width="2" />`;
       }
     }
     return svg;
   }
 
   attachEvents() {
-    this.container.querySelector('#step-dfs').addEventListener('click', () => {
+    this.container.querySelector("#step-dfs").addEventListener("click", () => {
       this.stepDFS();
     });
-    this.container.querySelector('#reset-dfs').addEventListener('click', () => {
-      this.visited = Array.from({length: this.grid.length}, () => Array(this.grid[0].length).fill(false));
+    this.container.querySelector("#reset-dfs").addEventListener("click", () => {
+      this.visited = Array.from({ length: this.grid.length }, () =>
+        Array(this.grid[0].length).fill(false),
+      );
       this.maxArea = 0;
       this.currentArea = 0;
       this.currentIsland = [];
@@ -90,7 +94,7 @@ export class MaxAreaOfIslandAnimation {
     this.visited[r][c] = true;
     this.currentArea++;
     this.currentIsland.push([r, c]);
-    this.stepQueue.push([r-1, c], [r+1, c], [r, c-1], [r, c+1]);
+    this.stepQueue.push([r - 1, c], [r + 1, c], [r, c - 1], [r, c + 1]);
     if (this.stepQueue.length === 0) {
       if (this.currentArea > this.maxArea) this.maxArea = this.currentArea;
       this.currentIsland = [];

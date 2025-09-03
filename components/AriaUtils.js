@@ -10,26 +10,26 @@
 // Comprehensive ARIA utils logic
 
 function showOnboarding() {
-  const modal = document.createElement('div');
-  modal.className = 'onboarding-modal';
+  const modal = document.createElement("div");
+  modal.className = "onboarding-modal";
   modal.innerHTML = `<h2>Welcome to ARIA Utils!</h2><p>Manage ARIA attributes for accessibility. Use the settings to personalize your experience.</p><button id='close-onboarding'>Close</button>`;
   document.body.appendChild(modal);
-  document.getElementById('close-onboarding').onclick = () => modal.remove();
+  document.getElementById("close-onboarding").onclick = () => modal.remove();
 }
 
 function setAccessibility() {
-  const ariaEl = document.getElementById('aria-utils');
+  const ariaEl = document.getElementById("aria-utils");
   if (ariaEl) {
-    ariaEl.setAttribute('role', 'region');
-    ariaEl.setAttribute('aria-label', 'ARIA Utils');
+    ariaEl.setAttribute("role", "region");
+    ariaEl.setAttribute("aria-label", "ARIA Utils");
   }
 }
 
 function backupProgress(progress) {
-  localStorage.setItem('ariaUtilsProgress', JSON.stringify(progress));
+  localStorage.setItem("ariaUtilsProgress", JSON.stringify(progress));
 }
 function syncProgress() {
-  return JSON.parse(localStorage.getItem('ariaUtilsProgress') || '{}');
+  return JSON.parse(localStorage.getItem("ariaUtilsProgress") || "{}");
 }
 
 function updateLeaderboard(score) {
@@ -45,7 +45,11 @@ function logEvent(event) {
 }
 
 function safeRun(fn) {
-  try { fn(); } catch (e) { console.error('Error:', e); }
+  try {
+    fn();
+  } catch (e) {
+    console.error("Error:", e);
+  }
 }
 
 function showSettings() {
@@ -58,8 +62,8 @@ function startAriaUtils() {
   // ...ARIA utils logic...
 }
 
-if (typeof document !== 'undefined') {
-  document.addEventListener('DOMContentLoaded', startAriaUtils);
+if (typeof document !== "undefined") {
+  document.addEventListener("DOMContentLoaded", startAriaUtils);
 }
 // ARIA roles and labels utility
 export function setAriaRole(element, role) {

@@ -1,0 +1,10 @@
+node_modules/
+backend/
+o3de/backend/
+scripts/
+playwright/
+cypress/
+coverage/
+test-results/
+.next/
+dist/

@@ -4,9 +4,9 @@ export default function BabylonScene({ createScene, width = 600, height = 400, c
   const canvasRef = useRef(null);
   useEffect(() => {
     let engine, scene;
-    import("babylonjs").then(BABYLON => {
+    import("babylonjs").then((BABYLON) => {
       engine = new BABYLON.Engine(canvasRef.current, true);
-      createScene(engine, canvasRef.current).then(s => {
+      createScene(engine, canvasRef.current).then((s) => {
         scene = s;
         engine.runRenderLoop(() => scene.render());
       });
@@ -19,7 +19,5 @@ export default function BabylonScene({ createScene, width = 600, height = 400, c
       }
     };
   }, [createScene]);
-  return (
-    <canvas ref={canvasRef} width={width} height={height} className={className} />
-  );
+  return <canvas ref={canvasRef} width={width} height={height} className={className} />;
 }

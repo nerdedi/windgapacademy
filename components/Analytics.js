@@ -10,26 +10,26 @@
 // Comprehensive analytics logic
 
 function showOnboarding() {
-  const modal = document.createElement('div');
-  modal.className = 'onboarding-modal';
+  const modal = document.createElement("div");
+  modal.className = "onboarding-modal";
   modal.innerHTML = `<h2>Welcome to Analytics!</h2><p>Analyze your progress and performance. Use the settings to personalize your experience.</p><button id='close-onboarding'>Close</button>`;
   document.body.appendChild(modal);
-  document.getElementById('close-onboarding').onclick = () => modal.remove();
+  document.getElementById("close-onboarding").onclick = () => modal.remove();
 }
 
 function setAccessibility() {
-  const anEl = document.getElementById('analytics');
+  const anEl = document.getElementById("analytics");
   if (anEl) {
-    anEl.setAttribute('role', 'region');
-    anEl.setAttribute('aria-label', 'Analytics');
+    anEl.setAttribute("role", "region");
+    anEl.setAttribute("aria-label", "Analytics");
   }
 }
 
 function backupProgress(progress) {
-  localStorage.setItem('analyticsProgress', JSON.stringify(progress));
+  localStorage.setItem("analyticsProgress", JSON.stringify(progress));
 }
 function syncProgress() {
-  return JSON.parse(localStorage.getItem('analyticsProgress') || '{}');
+  return JSON.parse(localStorage.getItem("analyticsProgress") || "{}");
 }
 
 function updateLeaderboard(score) {
@@ -45,7 +45,11 @@ function logEvent(event) {
 }
 
 function safeRun(fn) {
-  try { fn(); } catch (e) { console.error('Error:', e); }
+  try {
+    fn();
+  } catch (e) {
+    console.error("Error:", e);
+  }
 }
 
 function showSettings() {
@@ -58,8 +62,8 @@ function startAnalytics() {
   // ...analytics logic...
 }
 
-if (typeof document !== 'undefined') {
-  document.addEventListener('DOMContentLoaded', startAnalytics);
+if (typeof document !== "undefined") {
+  document.addEventListener("DOMContentLoaded", startAnalytics);
 }
 // Progress analytics and dashboards
 export function showAnalytics(container) {

@@ -25,7 +25,10 @@ export default function DropdownMenu({ label, children, className = "" }) {
         {label}
       </button>
       {open && (
-        <div className="dropdown-menu absolute left-0 mt-2 w-48 bg-white border rounded shadow z-40" role="menu">
+        <div
+          className="dropdown-menu absolute left-0 mt-2 w-48 bg-white border rounded shadow z-40"
+          role="menu"
+        >
           {children}
         </div>
       )}

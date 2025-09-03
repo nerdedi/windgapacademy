@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 
 const StudyMaterials = () => {
   const [materials, setMaterials] = useState([]);
 
   useEffect(() => {
     fetch("/api/materials")
-      .then(res => res.json())
+      .then((res) => res.json())
       .then(setMaterials);
   }, []);
 
@@ -17,7 +17,9 @@ const StudyMaterials = () => {
           <li>No materials available</li>
         ) : (
           materials.map((m) => (
-            <li key={m.id} className="py-1">{m.title}</li>
+            <li key={m.id} className="py-1">
+              {m.title}
+            </li>
           ))
         )}
       </ul>

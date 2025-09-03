@@ -1,8 +1,21 @@
+import {
+  Home,
+  BookOpen,
+  Trophy,
+  Play,
+  Settings,
+  Bell,
+  Search,
+  Flame,
+  Star,
+  Menu,
+  X,
+} from "lucide-react";
 import React, { useState } from "react";
-import { Button } from "./ui/button";
-import { Badge } from "./ui/badge";
+
 import { Avatar, AvatarFallback } from "./ui/avatar";
-import { Home, BookOpen, Trophy, Play, Settings, Bell, Search, Flame, Star, Menu, X } from "lucide-react";
+import { Badge } from "./ui/badge";
+import { Button } from "./ui/button";
 
 export function Navigation({ currentView, onViewChange }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -19,7 +32,7 @@ export function Navigation({ currentView, onViewChange }) {
     xp: 2450,
     level: 12,
     streak: 7,
-    notifications: 3
+    notifications: 3,
   };
 
   const NavItems = () => (
@@ -125,7 +138,9 @@ export function Navigation({ currentView, onViewChange }) {
               )}
             </Button>
             <Avatar className="h-8 w-8">
-              <AvatarFallback className="bg-primary text-primary-foreground text-xs">AC</AvatarFallback>
+              <AvatarFallback className="bg-primary text-primary-foreground text-xs">
+                AC
+              </AvatarFallback>
             </Avatar>
           </div>
         </div>
@@ -137,7 +152,9 @@ export function Navigation({ currentView, onViewChange }) {
               <div className="flex items-center justify-between p-3 bg-accent/50 rounded-lg mb-4">
                 <div className="flex items-center space-x-2">
                   <Avatar className="h-8 w-8">
-                    <AvatarFallback className="bg-primary text-primary-foreground text-xs">AC</AvatarFallback>
+                    <AvatarFallback className="bg-primary text-primary-foreground text-xs">
+                      AC
+                    </AvatarFallback>
                   </Avatar>
                   <div>
                     <div className="font-medium text-sm">{userStats.name}</div>

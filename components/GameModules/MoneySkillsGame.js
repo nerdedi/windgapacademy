@@ -1,5 +1,4 @@
-
-import { applyButtonAnimation, applyHeadingAnimation } from '../../utils/uiUtils.js';
+import { applyButtonAnimation, applyHeadingAnimation } from "../../utils/uiUtils.js";
 
 // Money Skills Game Module
 // --- Australian Money Skills Game: Sophisticated Logic & Mechanics ---
@@ -14,19 +13,19 @@ function getRandomAmount() {
 }
 
 function renderCurrencyOptions(container) {
-  const currencyDiv = container.querySelector('#currency-options');
+  const currencyDiv = container.querySelector("#currency-options");
   if (!currencyDiv) return;
-  currencyDiv.innerHTML = '<h4>Select coins and notes to match the amount</h4>';
-  AUD_COINS.forEach(coin => {
-    const btn = document.createElement('button');
-    btn.className = 'coin-btn';
+  currencyDiv.innerHTML = "<h4>Select coins and notes to match the amount</h4>";
+  AUD_COINS.forEach((coin) => {
+    const btn = document.createElement("button");
+    btn.className = "coin-btn";
     btn.textContent = `$${(coin / 100).toFixed(2)}`;
     btn.onclick = () => selectCurrency(coin / 100);
     currencyDiv.appendChild(btn);
   });
-  AUD_NOTES.forEach(note => {
-    const btn = document.createElement('button');
-    btn.className = 'note-btn';
+  AUD_NOTES.forEach((note) => {
+    const btn = document.createElement("button");
+    btn.className = "note-btn";
     btn.textContent = `$${note}`;
     btn.onclick = () => selectCurrency(note);
     currencyDiv.appendChild(btn);
@@ -42,7 +41,7 @@ function selectCurrency(value) {
 }
 
 function updateGameStatus() {
-  const statusDiv = document.getElementById('money-skills-content');
+  const statusDiv = document.getElementById("money-skills-content");
   if (!statusDiv) return;
   statusDiv.innerHTML = `<p>Target: $${targetAmount.toFixed(2)}</p><p>Selected: $${selectedTotal.toFixed(2)}</p>`;
   if (Math.abs(selectedTotal - targetAmount) < 0.01) {
@@ -74,7 +73,7 @@ export function showMoneySkillsGame(container, userData = {}) {
       faq: "FAQ: Learn about Australian currency and budgeting.",
       backup: "Backup your progress to the cloud.",
       sync: "Sync your achievements with your educator.",
-      placeholder: "Feature coming soon!"
+      placeholder: "Feature coming soon!",
     },
     es: {
       title: "Juego de Habilidades Monetarias",
@@ -83,7 +82,7 @@ export function showMoneySkillsGame(container, userData = {}) {
       faq: "FAQ: Aprende sobre la moneda australiana y el presupuesto.",
       backup: "Respalda tu progreso en la nube.",
       sync: "Sincroniza tus logros con tu educador.",
-      placeholder: "¡Función próximamente!"
+      placeholder: "¡Función próximamente!",
     },
     ar: {
       title: "لعبة المهارات المالية",
@@ -92,8 +91,8 @@ export function showMoneySkillsGame(container, userData = {}) {
       faq: "الأسئلة الشائعة: تعرف على العملة الأسترالية والميزانية.",
       backup: "انسخ تقدمك إلى السحابة.",
       sync: "زامن إنجازاتك مع المعلم.",
-      placeholder: "الميزة قادمة قريبًا!"
-    }
+      placeholder: "الميزة قادمة قريبًا!",
+    },
   };
   let currentLang = "en";
   function setLanguage(lang) {
@@ -105,10 +104,10 @@ export function showMoneySkillsGame(container, userData = {}) {
 
   // --- Tooltips ---
   function addTooltips() {
-    document.querySelectorAll("button, [aria-label]").forEach(el => {
+    document.querySelectorAll("button, [aria-label]").forEach((el) => {
       if (el.title || el.getAttribute("aria-label")) {
         el.setAttribute("tabindex", "0");
-        el.onfocus = el.onmouseover = function() {
+        el.onfocus = el.onmouseover = function () {
           let tip = document.createElement("div");
           tip.className = "tooltip";
           tip.textContent = el.title || el.getAttribute("aria-label");
@@ -117,13 +116,13 @@ export function showMoneySkillsGame(container, userData = {}) {
           tip.style.color = "#fff";
           tip.style.padding = "4px 8px";
           tip.style.borderRadius = "4px";
-          tip.style.top = (el.getBoundingClientRect().top - 30) + "px";
-          tip.style.left = (el.getBoundingClientRect().left) + "px";
+          tip.style.top = el.getBoundingClientRect().top - 30 + "px";
+          tip.style.left = el.getBoundingClientRect().left + "px";
           tip.style.zIndex = 9999;
           tip.id = "active-tooltip";
           document.body.appendChild(tip);
         };
-        el.onblur = el.onmouseout = function() {
+        el.onblur = el.onmouseout = function () {
           let tip = document.getElementById("active-tooltip");
           if (tip) tip.remove();
         };
@@ -137,14 +136,15 @@ export function showMoneySkillsGame(container, userData = {}) {
     if (!modal) {
       modal = document.createElement("div");
       modal.id = "onboarding-modal";
-      modal.style = "position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.5);z-index:2000;display:flex;align-items:center;justify-content:center;";
+      modal.style =
+        "position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.5);z-index:2000;display:flex;align-items:center;justify-content:center;";
       modal.innerHTML = `<div style='background:#fff;padding:2em;border-radius:1em;max-width:400px;text-align:center;'>
         <h3>Onboarding</h3>
         <p>${i18n[currentLang].onboarding}</p>
         <button id='close-onboarding' class='btn-primary'>Close</button>
       </div>`;
       document.body.appendChild(modal);
-      document.getElementById('close-onboarding').onclick = () => modal.remove();
+      document.getElementById("close-onboarding").onclick = () => modal.remove();
     }
   }
   function showFAQ() {
@@ -152,20 +152,25 @@ export function showMoneySkillsGame(container, userData = {}) {
     if (!modal) {
       modal = document.createElement("div");
       modal.id = "faq-modal";
-      modal.style = "position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.5);z-index:2000;display:flex;align-items:center;justify-content:center;";
+      modal.style =
+        "position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.5);z-index:2000;display:flex;align-items:center;justify-content:center;";
       modal.innerHTML = `<div style='background:#fff;padding:2em;border-radius:1em;max-width:400px;text-align:left;'>
         <h3>FAQ</h3>
         <ul><li>${i18n[currentLang].faq}</li></ul>
         <button id='close-faq' class='btn-primary'>Close</button>
       </div>`;
       document.body.appendChild(modal);
-      document.getElementById('close-faq').onclick = () => modal.remove();
+      document.getElementById("close-faq").onclick = () => modal.remove();
     }
   }
 
   // --- Backup & Sync Placeholders ---
-  function backupProgress() { alert(i18n[currentLang].backup); }
-  function syncProgress() { alert(i18n[currentLang].sync); }
+  function backupProgress() {
+    alert(i18n[currentLang].backup);
+  }
+  function syncProgress() {
+    alert(i18n[currentLang].sync);
+  }
 
   container.innerHTML = `<section id="money-skills-game" aria-label="Money Skills Game" class="card fade-in max-w-2xl mx-auto my-8">
     <h2 class="text-3xl font-bold text-primary text-smooth flex items-center gap-2 mb-4">
@@ -188,7 +193,8 @@ export function showMoneySkillsGame(container, userData = {}) {
     if (!modal) {
       modal = document.createElement("div");
       modal.id = "settings-modal";
-      modal.style = "position:fixed;top:50%;left:50%;transform:translate(-50%, -50%);background:#fff;border:2px solid #1976d2;border-radius:12px;padding:24px;z-index:1001;min-width:320px;";
+      modal.style =
+        "position:fixed;top:50%;left:50%;transform:translate(-50%, -50%);background:#fff;border:2px solid #1976d2;border-radius:12px;padding:24px;z-index:1001;min-width:320px;";
       modal.innerHTML = `
         <h3>Game Settings</h3>
         <div>
@@ -216,8 +222,13 @@ export function showMoneySkillsGame(container, userData = {}) {
       document.getElementById("faq-btn").onclick = showFAQ;
       document.getElementById("backup-btn").onclick = backupProgress;
       document.getElementById("sync-btn").onclick = syncProgress;
-      document.getElementById("language-select").onchange = (e) => { setLanguage(e.target.value); modal.remove(); };
-    } else { modal.style.display = "block"; }
+      document.getElementById("language-select").onchange = (e) => {
+        setLanguage(e.target.value);
+        modal.remove();
+      };
+    } else {
+      modal.style.display = "block";
+    }
     addTooltips();
   };
   addTooltips();
@@ -227,55 +238,55 @@ export function showMoneySkillsGame(container, userData = {}) {
       window.route("dashboard");
     };
   }
-    // Game logic stubbed; implement as needed
-    // Example usage for main button:
-  const btn = document.getElementById('money-btn');
+  // Game logic stubbed; implement as needed
+  // Example usage for main button:
+  const btn = document.getElementById("money-btn");
   if (btn) applyButtonAnimation(btn);
   // Example usage for heading:
-  const heading = document.getElementById('money-heading');
+  const heading = document.getElementById("money-heading");
   if (heading) applyHeadingAnimation(heading);
 }
 
 // --- Feature Implementations ---
-function openParentFeedback() { 
+function openParentFeedback() {
   // TODO: Implement parent feedback modal
-  console.warn('openParentFeedback not implemented');
+  console.warn("openParentFeedback not implemented");
 }
-function showThemeCustomization() { 
+function showThemeCustomization() {
   // TODO: Implement theme customization UI
-  console.warn('showThemeCustomization not implemented');
+  console.warn("showThemeCustomization not implemented");
 }
-function showChallengesAndLeaderboard() { 
+function showChallengesAndLeaderboard() {
   // TODO: Implement challenges and leaderboard
-  console.warn('showChallengesAndLeaderboard not implemented');
+  console.warn("showChallengesAndLeaderboard not implemented");
 }
-function enableSignLanguageAvatar() { 
+function enableSignLanguageAvatar() {
   // TODO: Implement sign language avatar
-  console.warn('enableSignLanguageAvatar not implemented');
+  console.warn("enableSignLanguageAvatar not implemented");
 }
-function enableARVRMode() { 
+function enableARVRMode() {
   // TODO: Implement AR/VR mode
-  console.warn('enableARVRMode not implemented');
+  console.warn("enableARVRMode not implemented");
 }
-function enableOfflineMode() { 
+function enableOfflineMode() {
   // TODO: Implement offline mode
-  console.warn('enableOfflineMode not implemented');
+  console.warn("enableOfflineMode not implemented");
 }
-function setLanguage(lang) { 
+function setLanguage(lang) {
   // TODO: Implement language setting
-  console.warn('setLanguage not implemented');
+  console.warn("setLanguage not implemented");
 }
-function showLanguageSelector() { 
+function showLanguageSelector() {
   // TODO: Implement language selector UI
-  console.warn('showLanguageSelector not implemented');
+  console.warn("showLanguageSelector not implemented");
 }
-function startOnboarding() { 
+function startOnboarding() {
   // TODO: Implement onboarding flow
-  console.warn('startOnboarding not implemented');
+  console.warn("startOnboarding not implemented");
 }
-function backupData() { 
+function backupData() {
   // TODO: Implement data backup
-  console.warn('backupData not implemented');
+  console.warn("backupData not implemented");
 }
 // TODO: Ensure secure API calls and data storage
 
@@ -304,7 +315,3 @@ function showCommunityFeatures() {
   // Simple community stub
   alert("Community features (forums, chat, collaboration) coming soon!");
 }
-
-
-
-

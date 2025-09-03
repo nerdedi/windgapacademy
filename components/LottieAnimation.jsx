@@ -1,7 +1,13 @@
 import React from "react";
 import Lottie from "react-lottie-player";
 
-export default function LottieAnimation({ src, loop = false, play = true, style = {}, className = "" }) {
+export default function LottieAnimation({
+  src,
+  loop = false,
+  play = true,
+  style = {},
+  className = "",
+}) {
   const [animationData, setAnimationData] = React.useState(null);
 
   React.useEffect(() => {
