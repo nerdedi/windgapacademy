@@ -1,9 +1,44 @@
 const express = require("express");
 const router = express.Router();
 const authenticateToken = require("../middleware/authenticateToken");
+const fs = require("fs");
+const path = require("path");
 
-// Map of userId -> state for demo persistence
+// File to persist user game states for demo durability
+const DATA_DIR = path.resolve(__dirname, "..", "data");
+const DATA_FILE = path.join(DATA_DIR, "game-states.json");
+
+// Map of userId -> state for demo persistence (in-memory cache)
 const USER_GAME_STATES = new Map();
+
+async function loadStates() {
+  try {
+    if (!fs.existsSync(DATA_FILE)) return;
+    const raw = await fs.promises.readFile(DATA_FILE, "utf8");
+    const obj = JSON.parse(raw || "{}");
+    Object.keys(obj).forEach((k) => USER_GAME_STATES.set(k, obj[k]));
+    console.log("[game] loaded game states from disk");
+  } catch (err) {
+    console.error("[game] error loading states:", err);
+  }
+}
+
+async function saveStates() {
+  try {
+    if (!fs.existsSync(DATA_DIR)) {
+      await fs.promises.mkdir(DATA_DIR, { recursive: true });
+    }
+    const obj = {};
+    for (const [k, v] of USER_GAME_STATES.entries()) obj[k] = v;
+    await fs.promises.writeFile(DATA_FILE, JSON.stringify(obj, null, 2), "utf8");
+    // console.log("[game] persisted game states to disk");
+  } catch (err) {
+    console.error("[game] error saving states:", err);
+  }
+}
+
+// load persisted states at startup (best-effort)
+loadStates();
 
 router.get("/state", (req, res) => {
   // Public read of default demo state
@@ -27,12 +62,15 @@ router.post("/action", express.json(), authenticateToken, (req, res) => {
     const { id, x, y } = req.body;
     state.characters = state.characters.map((c) => (c.id === id ? { ...c, x, y } : c));
     USER_GAME_STATES.set(uid, state);
+    // persist asynchronously, best-effort
+    saveStates().catch(() => {});
     return res.json({ ok: true });
   }
   if (action === "event") {
     // noop for demo, but record lastEvent
     state.lastEvent = req.body.event || null;
     USER_GAME_STATES.set(uid, state);
+    saveStates().catch(() => {});
     return res.json({ ok: true });
   }
   res.status(400).json({ error: "unknown action" });
@@ -43,8 +81,10 @@ router.post("/save", express.json(), authenticateToken, (req, res) => {
   const uid = (req.user && (req.user.id || req.user.username)) || null;
   if (!uid) return res.status(401).json({ error: "unauthenticated" });
   if (state) {
-    USER_GAME_STATES.set(uid, state);
-    return res.json({ ok: true });
+  USER_GAME_STATES.set(uid, state);
+  // persist to disk
+  saveStates().catch(() => {});
+  return res.json({ ok: true });
   }
   res.status(400).json({ error: "no state provided" });
 });
