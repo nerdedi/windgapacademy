@@ -1,51 +1,87 @@
-import React from "react";
-import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
+/* eslint-disable import/order */
+import React, { Suspense, lazy } from "react";
+import { Route, Routes, Navigate, Link } from "react-router-dom";
 
-import CalmSpaceSimulation from "../../components/CalmSpaceSimulation.jsx";
-import ClubhouseSimulation from "../../components/ClubhouseSimulation.jsx";
-import KitchenSimulation from "../../components/KitchenSimulation.jsx";
-import SupermarketSimulation from "../../components/SupermarketSimulation.jsx";
-import ZooSimulation from "../../components/ZooSimulation.jsx";
+import Navbar from "../../components/Navbar.jsx";
+
+import ErrorBoundary from "../components/ErrorBoundary.jsx";
+import ProtectedRoute from "./ProtectedRoute.jsx";
+const HomePage = lazy(() => import("../pages/HomePage.jsx"));
+const EducatorDashboard = lazy(() => import("../pages/EducatorDashboard.tsx"));
+const LearnerDashboard = lazy(() => import("../pages/LearnerDashboard.tsx"));
+const GamePlayground = lazy(() => import("../../components/GameModules/GamePlayground.jsx"));
+const CalmSpaceSimulation = lazy(() => import("../../components/CalmSpaceSimulation.jsx"));
+const ClubhouseSimulation = lazy(() => import("../../components/ClubhouseSimulation.jsx"));
+const KitchenSimulation = lazy(() => import("../../components/KitchenSimulation.jsx"));
+const SupermarketSimulation = lazy(() => import("../../components/SupermarketSimulation.jsx"));
+const ZooSimulation = lazy(() => import("../../components/ZooSimulation.jsx"));
 
 export default function AppRouter() {
   return (
-    <Router>
+    <>
+      <Navbar />
       <nav
         aria-label="Simulation Areas"
-        style={{
-          marginBottom: "1rem",
-          padding: "1rem",
-          background: "#e3e3e3",
-          borderRadius: "8px",
-          display: "flex",
-          gap: "1rem",
-          justifyContent: "center",
-        }}
+        className="mb-4 p-4 bg-gray-200 rounded flex gap-4 justify-center"
       >
-        <a href="/supermarket" style={{ textDecoration: "none", fontWeight: "bold" }}>
+        <Link to="/supermarket" className="font-bold">
           Supermarket
-        </a>
-        <a href="/clubhouse" style={{ textDecoration: "none", fontWeight: "bold" }}>
+        </Link>
+        <Link to="/clubhouse" className="font-bold">
           Clubhouse
-        </a>
-        <a href="/kitchen" style={{ textDecoration: "none", fontWeight: "bold" }}>
+        </Link>
+        <Link to="/kitchen" className="font-bold">
           Kitchen
-        </a>
-        <a href="/calmspace" style={{ textDecoration: "none", fontWeight: "bold" }}>
+        </Link>
+        <Link to="/calmspace" className="font-bold">
           CalmSpace
-        </a>
-        <a href="/zoo" style={{ textDecoration: "none", fontWeight: "bold" }}>
+        </Link>
+        <Link to="/zoo" className="font-bold">
           Zoo
-        </a>
+        </Link>
       </nav>
-      <Routes>
-        <Route path="/" element={<Navigate to="/supermarket" />} />
-        <Route path="/supermarket" element={<SupermarketSimulation />} />
-        <Route path="/clubhouse" element={<ClubhouseSimulation />} />
-        <Route path="/kitchen" element={<KitchenSimulation />} />
-        <Route path="/calmspace" element={<CalmSpaceSimulation />} />
-        <Route path="/zoo" element={<ZooSimulation />} />
-      </Routes>
-    </Router>
+      <ErrorBoundary>
+        <Suspense fallback={<div className="p-8 text-center">Loading...</div>}>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/home" element={<HomePage />} />
+
+            <Route
+              path="/educator"
+              element={
+                <ProtectedRoute role="educator">
+                  <EducatorDashboard />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/learner"
+              element={
+                <ProtectedRoute role="learner">
+                  <LearnerDashboard />
+                </ProtectedRoute>
+              }
+            />
+
+            {/* Backwards compatible redirects */}
+            <Route path="/trainer" element={<Navigate to="/educator" replace />} />
+            <Route path="/student" element={<Navigate to="/learner" replace />} />
+
+            <Route path="/game" element={<GamePlayground />} />
+            <Route path="/assignments" element={<div>Assignments</div>} />
+            <Route path="/materials" element={<div>Materials</div>} />
+            <Route path="/" element={<Navigate to="/supermarket" />} />
+            <Route path="/supermarket" element={<SupermarketSimulation />} />
+            <Route path="/clubhouse" element={<ClubhouseSimulation />} />
+            <Route path="/kitchen" element={<KitchenSimulation />} />
+            <Route path="/calmspace" element={<CalmSpaceSimulation />} />
+            <Route path="/zoo" element={<ZooSimulation />} />
+            {/* catch-all: redirect unknown routes to home */}
+            <Route path="*" element={<Navigate to="/" />} />
+          </Routes>
+        </Suspense>
+      </ErrorBoundary>
+    </>
   );
 }

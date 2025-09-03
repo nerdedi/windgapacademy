@@ -1,0 +1,18 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    match /users/{userId} {
+      allow read, write: if request.auth.uid == userId;
+    }
+
+    match /progress/{userId} {
+      allow read, write: if request.auth.uid == userId;
+    }
+
+    match /assignments/{assignmentId} {
+      allow read: if request.auth.uid != null;
+  allow write: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "educator" || get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "trainer";
+    }
+  }
+}
