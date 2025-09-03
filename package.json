@@ -29,6 +29,7 @@
   "client": "cd client && npm start",
   "devDependencies": {
     "@babel/preset-env": "^7.28.3",
+  "@babel/preset-react": "^7.28.0",
     "@playwright/test": "^1.55.0",
     "@tailwindcss/forms": "^0.5.10",
     "@testing-library/jest-dom": "^6.8.0",
