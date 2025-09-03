@@ -5,5 +5,6 @@ router.use("/auth", require("./auth"));
 router.use("/users", require("./users"));
 router.use("/assignments", require("./assignments"));
 router.use("/materials", require("./materials"));
+router.use("/game", require("./game"));
 
 module.exports = router;
