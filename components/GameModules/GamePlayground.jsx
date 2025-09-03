@@ -1,4 +1,5 @@
 import React from "react";
+
 import GameProvider, { useGame } from "./GameManager";
 
 function PlaygroundInner() {
@@ -37,7 +38,6 @@ export default function GamePlayground() {
 import React from "react";
 
 import { useGame } from "./GameManager";
-
 function Character({ c, onMove }) {
   const style = {
     position: "absolute",
