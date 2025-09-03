@@ -11,9 +11,15 @@ router.get("/:userId", (req, res) => {
 });
 
 // Save simulation progress for a user
-router.post("/:userId", (req, res) => {
+router.post("/:userId", express.json(), (req, res) => {
   const { userId } = req.params;
-  userProgress[userId] = req.body;
+  const progress = req.body;
+
+  if (!progress || typeof progress !== "object") {
+    return res.status(400).json({ error: "Invalid progress data" });
+  }
+
+  userProgress[userId] = progress;
   res.json({ success: true });
 });
 

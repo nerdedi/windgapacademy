@@ -4,6 +4,8 @@
 	"framework": null,
 		"routes": [
 			{ "src": "/(.*\.(js|css|png|jpg|svg|ico|json|webp|woff2?|ttf|map))", "dest": "/$1" },
+			{ "src": "/assets/(.*)", "dest": "/dist/assets/$1" },
+			{ "src": "/dist/(.*)", "dest": "/dist/$1" },
 			{ "src": "/(.*)", "dest": "/index.html" }
 		]
 }
