@@ -42,13 +42,13 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
         const snap = await getDoc(doc(db, "users", uid));
         const data = snap.exists() ? snap.data() : null;
         if (!data) {
-          // create a minimal user doc with default role 'student'
+          // create a minimal user doc with default role 'learner'
           await setDoc(doc(db, "users", uid), {
-            role: "student",
+            role: "learner",
             name: firebaseUser.displayName || "",
             email: firebaseUser.email || "",
           });
-          setUser({ id: uid, role: "student" });
+          setUser({ id: uid, role: "learner" });
         } else {
           setUser({ id: uid, role: data.role });
         }

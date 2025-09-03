@@ -11,25 +11,25 @@ const Navbar = () => {
           Windgap Academy
         </Link>
         <ul className="flex items-center space-x-4" role="menu">
-          {user?.role === "student" && (
+      {user?.role === "learner" && (
             <li role="none">
               <Link
                 role="menuitem"
-                to="/student"
+        to="/learner"
                 className="focus-visible:outline focus-visible:outline-2 focus-visible:outline-white"
               >
-                Student
+        Learner
               </Link>
             </li>
           )}
-          {user?.role === "trainer" && (
+      {user?.role === "educator" && (
             <li role="none">
               <Link
                 role="menuitem"
-                to="/trainer"
+        to="/educator"
                 className="focus-visible:outline focus-visible:outline-2 focus-visible:outline-white"
               >
-                Trainer
+        Educator
               </Link>
             </li>
           )}

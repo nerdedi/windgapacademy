@@ -1,13 +1,17 @@
+/* eslint-disable import/order */
 import React, { Suspense, lazy } from "react";
-import { BrowserRouter as Router, Route, Routes, Navigate, Link } from "react-router-dom";
+import { Route, Routes, Navigate, Link } from "react-router-dom";
 
-import Navbar from "../../components/Navbar";
+import Navbar from "../../components/Navbar.jsx";
+
 import ErrorBoundary from "../components/ErrorBoundary.jsx";
 import ProtectedRoute from "./ProtectedRoute.jsx";
-
 const HomePage = lazy(() => import("../pages/HomePage.jsx"));
 const TrainerDashboard = lazy(() => import("../pages/TrainerDashboard.jsx"));
 const StudentDashboard = lazy(() => import("../pages/StudentDashboard.jsx"));
+const EducatorDashboard = lazy(() => import("../pages/EducatorDashboard.jsx"));
+const LearnerDashboard = lazy(() => import("../pages/LearnerDashboard.jsx"));
+const GamePlayground = lazy(() => import("../../components/GameModules/GamePlayground.jsx"));
 const CalmSpaceSimulation = lazy(() => import("../../components/CalmSpaceSimulation.jsx"));
 const ClubhouseSimulation = lazy(() => import("../../components/ClubhouseSimulation.jsx"));
 const KitchenSimulation = lazy(() => import("../../components/KitchenSimulation.jsx"));
@@ -16,7 +20,7 @@ const ZooSimulation = lazy(() => import("../../components/ZooSimulation.jsx"));
 
 export default function AppRouter() {
   return (
-    <Router>
+    <>
       <Navbar />
       <nav
         aria-label="Simulation Areas"
@@ -43,22 +47,39 @@ export default function AppRouter() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/home" element={<HomePage />} />
+
             <Route
-              path="/trainer"
+              path="/educator"
               element={
-                <ProtectedRoute role="trainer">
-                  <TrainerDashboard />
+                <ProtectedRoute role="educator">
+                  <EducatorDashboard />
                 </ProtectedRoute>
               }
             />
+
+            <Route
+              path="/learner"
+              element={
+                <ProtectedRoute role="learner">
+                  <LearnerDashboard />
+                </ProtectedRoute>
+              }
+            />
+
+            {/* Backwards compatible redirects */}
+            <Route path="/trainer" element={<Navigate to="/educator" replace />} />
+            <Route path="/student" element={<Navigate to="/learner" replace />} />
+
             <Route
               path="/student"
               element={
-                <ProtectedRoute role="student">
+                <ProtectedRoute role="learner">
                   <StudentDashboard />
                 </ProtectedRoute>
               }
             />
+
+            <Route path="/game" element={<GamePlayground />} />
             <Route path="/assignments" element={<div>Assignments</div>} />
             <Route path="/materials" element={<div>Materials</div>} />
             <Route path="/" element={<Navigate to="/supermarket" />} />
@@ -72,6 +93,6 @@ export default function AppRouter() {
           </Routes>
         </Suspense>
       </ErrorBoundary>
-    </Router>
+    </>
   );
 }
