@@ -2,11 +2,12 @@ import { Link } from "react-router-dom";
 import { useUser } from "../app/UserContext";
 
 const Navbar = () => {
-  const { userId, setUserId } = useUser();
+  const { user, logout } = useUser();
 
-  const logout = () => {
-    setUserId("");
-  };
+  const role = user?.role || null;
+  // support both old/new role vocabulary
+  const isLearner = role === "learner" || role === "student";
+  const isEducator = role === "educator" || role === "trainer";
 
   return (
     <nav className="bg-[#5ED1D2] text-white p-4 flex justify-between">
@@ -14,11 +15,17 @@ const Navbar = () => {
         Windgap Academy
       </Link>
       <div className="space-x-4">
-        {userId && <Link to="/student">Student</Link>}
-        {userId && <Link to="/trainer">Trainer</Link>}
-        <button onClick={logout} className="ml-4">
-          Logout
-        </button>
+        {isLearner && <Link to="/learner">Learner</Link>}
+        {isEducator && <Link to="/educator">Educator</Link>}
+        {user ? (
+          <button onClick={logout} className="ml-4">
+            Logout
+          </button>
+        ) : (
+          <Link to="/" className="ml-4">
+            Login
+          </Link>
+        )}
       </div>
     </nav>
   );
