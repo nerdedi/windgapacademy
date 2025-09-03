@@ -9,10 +9,10 @@ router.get("/", (req, res) => {
   ]);
 });
 
-// POST create assignment (restricted to trainer/admin)
+// POST create assignment (restricted to educator/admin)
 const authenticateToken = require("../middleware/authenticateToken");
 router.post("/", authenticateToken, (req, res) => {
-  if (req.user.role !== "trainer" && req.user.role !== "educator" && req.user.role !== "admin") {
+  if (req.user.role !== "educator" && req.user.role !== "admin") {
     return res.status(403).json({ error: "Access denied" });
   }
   const { title } = req.body;

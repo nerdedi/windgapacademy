@@ -133,3 +133,31 @@ export function loginUser(email, password) {
   // Educator log: login attempted for email
   return signInWithEmailAndPassword(auth, email, password);
 }
+
+// User role initialization: new Firestore user docs default to role "learner"
+export async function initializeUser(userId, userData = {}) {
+  try {
+    const db = getFirestore(app);
+    const userDoc = {
+      role: "learner", // Default role for new users
+      createdAt: new Date().toISOString(),
+      ...userData, // Allow overriding defaults
+    };
+    
+    // Only set if user document doesn't already exist
+    const userRef = doc(db, "users", userId);
+    const existingUser = await getDoc(userRef);
+    
+    if (!existingUser.exists()) {
+      await setDoc(userRef, userDoc);
+      console.log(`[FIREBASE] User ${userId} initialized with role: ${userDoc.role}`);
+      return userDoc;
+    } else {
+      console.log(`[FIREBASE] User ${userId} already exists, skipping initialization`);
+      return existingUser.data();
+    }
+  } catch (err) {
+    console.error("Error initializing user:", err);
+    throw err;
+  }
+}
