@@ -7,7 +7,7 @@ import Navbar from "../../components/Navbar.jsx";
 import ErrorBoundary from "../components/ErrorBoundary.jsx";
 import ProtectedRoute from "./ProtectedRoute.jsx";
 const HomePage = lazy(() => import("../pages/HomePage.jsx"));
-const EducatorDashboard = lazy(() => import("../pages/EducatorDashboard.jsx"));
+const EducatorDashboard = lazy(() => import("../pages/EducatorDashboard.tsx"));
 const LearnerDashboard = lazy(() => import("../pages/LearnerDashboard.jsx"));
 const GamePlayground = lazy(() => import("../../components/GameModules/GamePlayground.jsx"));
 const CalmSpaceSimulation = lazy(() => import("../../components/CalmSpaceSimulation.jsx"));
