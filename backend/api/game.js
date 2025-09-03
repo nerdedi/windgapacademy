@@ -17,7 +17,8 @@ router.get("/state", (req, res) => {
 
 router.post("/action", express.json(), authenticateToken, (req, res) => {
   const { action } = req.body || {};
-  const uid = req.user && req.user.id;
+  // support tokens issued with { id } or { username } in payload
+  const uid = (req.user && (req.user.id || req.user.username)) || null;
   if (!uid) return res.status(401).json({ error: "unauthenticated" });
 
   const state = USER_GAME_STATES.get(uid) || { currentGame: null, characters: [], started: false };
@@ -39,7 +40,7 @@ router.post("/action", express.json(), authenticateToken, (req, res) => {
 
 router.post("/save", express.json(), authenticateToken, (req, res) => {
   const { state } = req.body || {};
-  const uid = req.user && req.user.id;
+  const uid = (req.user && (req.user.id || req.user.username)) || null;
   if (!uid) return res.status(401).json({ error: "unauthenticated" });
   if (state) {
     USER_GAME_STATES.set(uid, state);
