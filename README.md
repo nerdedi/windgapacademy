@@ -79,6 +79,8 @@ For optimal performance, use the minified CSS files in production:
 // trigger redeploy
 ## Automated Minification
 
+// another redeploy trigger
+
 Minification is automated using the following script:
 
 ```bash
