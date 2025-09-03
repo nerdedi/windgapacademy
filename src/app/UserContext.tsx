@@ -1,7 +1,10 @@
 import { onAuthStateChanged, signOut } from "firebase/auth";
+import { Auth } from "firebase/auth";
 import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { auth } from "../../firebase.js";
+
+import { auth as importedAuth } from "../../firebase.js";
+const typedAuth: Auth = importedAuth as Auth;
 
 type User = {
   id: string;
@@ -28,10 +31,11 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-  const fbAuth: any = auth;
-  if (!fbAuth) return undefined;
-  const db = getFirestore();
-  const unsub = onAuthStateChanged(fbAuth, async (firebaseUser) => {
+    const fbAuth: Auth = typedAuth;
+    if (!fbAuth) return;
+
+    const db = getFirestore();
+    const unsub = onAuthStateChanged(fbAuth, async (firebaseUser) => {
       if (!firebaseUser) {
         setUser(null);
         return;
@@ -41,6 +45,17 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
       try {
         const snap = await getDoc(doc(db, "users", uid));
         const data = snap.exists() ? snap.data() : null;
+        // normalize legacy role strings if present (trainer->educator, student->learner)
+        const normalizeRole = (r: any) => {
+          if (!r) return undefined;
+          const s = String(r).toLowerCase();
+          if (s === "student") return "learner";
+          if (s === "trainer") return "educator";
+          // allow existing educator/learner values through
+          if (s === "educator" || s === "learner") return s;
+          return s; // unknown roles returned as-is
+        };
+
         if (!data) {
           // create a minimal user doc with default role 'learner'
           await setDoc(doc(db, "users", uid), {
@@ -50,7 +65,8 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
           });
           setUser({ id: uid, role: "learner" });
         } else {
-          setUser({ id: uid, role: data.role });
+          const role = normalizeRole(data.role) || "learner";
+          setUser({ id: uid, role });
         }
       } catch (e) {
         // eslint-disable-next-line no-console
@@ -63,8 +79,7 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const logout = () => {
-    const fbAuth: any = auth;
-    if (fbAuth) signOut(fbAuth).catch(() => {});
+    if (typedAuth) signOut(typedAuth).catch(() => {});
     setUser(null);
   };
 
