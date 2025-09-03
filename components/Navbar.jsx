@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+
 import { useUser } from "../src/app/UserContext";
 
 const Navbar = () => {
@@ -11,25 +12,25 @@ const Navbar = () => {
           Windgap Academy
         </Link>
         <ul className="flex items-center space-x-4" role="menu">
-      {user?.role === "learner" && (
+          {user?.role === "learner" && (
             <li role="none">
               <Link
                 role="menuitem"
-        to="/learner"
+                to="/learner"
                 className="focus-visible:outline focus-visible:outline-2 focus-visible:outline-white"
               >
-        Learner
+                Learner
               </Link>
             </li>
           )}
-      {user?.role === "educator" && (
+          {user?.role === "educator" && (
             <li role="none">
               <Link
                 role="menuitem"
-        to="/educator"
+                to="/educator"
                 className="focus-visible:outline focus-visible:outline-2 focus-visible:outline-white"
               >
-        Educator
+                Educator
               </Link>
             </li>
           )}
