@@ -1,5 +1,5 @@
 import React, { Suspense, lazy } from "react";
-import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, Navigate, Link } from "react-router-dom";
 
 import Navbar from "../../components/Navbar";
 import ErrorBoundary from "../components/ErrorBoundary.jsx";
@@ -22,21 +22,21 @@ export default function AppRouter() {
         aria-label="Simulation Areas"
         className="mb-4 p-4 bg-gray-200 rounded flex gap-4 justify-center"
       >
-        <a href="/supermarket" className="font-bold">
+        <Link to="/supermarket" className="font-bold">
           Supermarket
-        </a>
-        <a href="/clubhouse" className="font-bold">
+        </Link>
+        <Link to="/clubhouse" className="font-bold">
           Clubhouse
-        </a>
-        <a href="/kitchen" className="font-bold">
+        </Link>
+        <Link to="/kitchen" className="font-bold">
           Kitchen
-        </a>
-        <a href="/calmspace" className="font-bold">
+        </Link>
+        <Link to="/calmspace" className="font-bold">
           CalmSpace
-        </a>
-        <a href="/zoo" className="font-bold">
+        </Link>
+        <Link to="/zoo" className="font-bold">
           Zoo
-        </a>
+        </Link>
       </nav>
       <ErrorBoundary>
         <Suspense fallback={<div className="p-8 text-center">Loading...</div>}>
@@ -51,7 +51,14 @@ export default function AppRouter() {
                 </ProtectedRoute>
               }
             />
-            <Route path="/student" element={<StudentDashboard />} />
+            <Route
+              path="/student"
+              element={
+                <ProtectedRoute role="student">
+                  <StudentDashboard />
+                </ProtectedRoute>
+              }
+            />
             <Route path="/assignments" element={<div>Assignments</div>} />
             <Route path="/materials" element={<div>Materials</div>} />
             <Route path="/" element={<Navigate to="/supermarket" />} />
@@ -60,6 +67,8 @@ export default function AppRouter() {
             <Route path="/kitchen" element={<KitchenSimulation />} />
             <Route path="/calmspace" element={<CalmSpaceSimulation />} />
             <Route path="/zoo" element={<ZooSimulation />} />
+            {/* catch-all: redirect unknown routes to home */}
+            <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </Suspense>
       </ErrorBoundary>
