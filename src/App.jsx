@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 
+import GameProvider from "../components/GameModules/GameManager";
+import { loginUser, auth } from "../firebase.js";
+
 import AppRouter from "./app/Router";
 import useRoute from "./app/routing";
 import { UserProvider, useUser } from "./app/UserContext";
-import GameProvider from "../components/GameModules/GameManager";
 import SimulationManager from "./simulation/SimulationManager";
-
-import { loginUser, auth } from "../firebase.js";
 
 function MainApp() {
   const [showLogin, setShowLogin] = useState(true);

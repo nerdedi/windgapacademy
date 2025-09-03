@@ -57,6 +57,26 @@ Update your HTML and build config to reference the `.min.css` files for producti
 - Run unit tests: `npm test`
 - Run e2e tests: `npx cypress run`
 
+### Enabling JSX tests locally
+
+Some developer environments (CI) install `@babel/preset-react` to transform JSX in Jest. This repo's Babel config will only load `@babel/preset-react` when it's installed locally. If your local environment blocks package installs (for example in restricted containers), the preset will be skipped and JSX-heavy component tests will be disabled.
+
+To enable full JSX tests locally:
+
+1. Install dev dependencies locally:
+
+```bash
+npm install --save-dev @babel/preset-react
+```
+
+2. Re-run the test suite:
+
+```bash
+npm test
+```
+
+CI (GitHub Actions) runs `npm ci` which installs devDependencies and runs the full test suite, so opening a PR will validate the JSX tests automatically.
+
 ## Deployment
 - Use HTTPS
 - Set environment variables securely

@@ -1,0 +1,13 @@
+{
+  "admin": {
+    "currentGame": "demo",
+    "characters": [
+      {
+        "id": "c1",
+        "x": 10,
+        "y": 20
+      }
+    ],
+    "started": true
+  }
+}

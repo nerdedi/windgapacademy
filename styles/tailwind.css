@@ -1,10 +1,10 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
 
-/* Tailwind directives required for @layer usage below */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* If using Tailwind, process this file with Tailwind CLI or build tool.
+   If not, remove the @tailwind directives below. */
+
+/* Removed @tailwind directives to prevent unknown at-rule errors. */
 
 /*
 	Best-practices stylesheet adjustments:
