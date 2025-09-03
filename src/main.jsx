@@ -10,6 +10,6 @@ if (container) {
   root.render(
     <BrowserRouter>
       <App />
-    </BrowserRouter>
+    </BrowserRouter>,
   );
 }
