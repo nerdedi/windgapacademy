@@ -30,7 +30,7 @@ export default function useAnalytics(eventName, eventData = {}, sender = null, o
       }
     };
 
-  if (debounceMs > 0) {
+    if (debounceMs > 0) {
       if (timerRef.current) clearTimeout(timerRef.current);
       timerRef.current = setTimeout(() => doSend(), debounceMs);
       return () => {
@@ -40,6 +40,6 @@ export default function useAnalytics(eventName, eventData = {}, sender = null, o
 
     doSend();
     return undefined;
-  // payload covers eventData; include sender, debounceMs and eventData explicitly
+    // payload covers eventData; include sender, debounceMs and eventData explicitly
   }, [eventName, payload, sender, debounceMs, eventData]);
 }
