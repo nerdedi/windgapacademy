@@ -75,13 +75,8 @@ Update your HTML and build config to reference the `.min.css` files for producti
 
 For optimal performance, use the minified CSS files in production:
 
-- `styles/windgap-academy.min.css`
-- `styles/output.min.css`
-- `styles/tailwind-theme.min.css`
-- `styles/tailwind.min.css`
-- `styles/advanced.min.css`
-- `styles/refinements.min.css`
 
+// trigger redeploy
 ## Automated Minification
 
 Minification is automated using the following script:
