@@ -1,11 +1,12 @@
-import React, { useRef } from 'react';
+import { useGLTF } from "@react-three/drei";
+import { useFrame } from "@react-three/fiber";
+import React, { useRef } from "react";
+
 import Spinner from "./Spinner";
 import Tooltip from "./Tooltip";
-import { useFrame } from '@react-three/fiber';
-import { useGLTF } from '@react-three/drei';
 
 // Example: Load a glTF planet model and animate rotation
-export default function PlanetModel({ url, position = [0,0,0], scale = 1 }) {
+export default function PlanetModel({ url, position = [0, 0, 0], scale = 1 }) {
   const group = useRef();
   const { scene, animations } = useGLTF(url);
 

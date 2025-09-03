@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 const AssignmentSubmission = () => {
   const [file, setFile] = useState(null);
@@ -43,7 +43,13 @@ const AssignmentSubmission = () => {
       <h2 className="text-xl font-semibold mb-2">Submit Assignment</h2>
       <form onSubmit={handleSubmit}>
         <input type="file" onChange={handleFileChange} className="mb-2" />
-        <button type="submit" className="px-4 py-2 bg-green-600 text-white rounded" disabled={loading}>Submit</button>
+        <button
+          type="submit"
+          className="px-4 py-2 bg-green-600 text-white rounded"
+          disabled={loading}
+        >
+          Submit
+        </button>
       </form>
       {loading && <div className="text-gray-500">Submitting...</div>}
       {error && <div className="text-red-500">{error}</div>}

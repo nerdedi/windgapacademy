@@ -5,12 +5,12 @@ export class AvatarSystem {
   constructor(container) {
     this.container = container;
     this.avatar = {
-      base: 'default',
+      base: "default",
       accessories: [],
-      outfit: 'standard',
-      background: 'academy',
+      outfit: "standard",
+      background: "academy",
       emote: null,
-      idleAnimation: 'bounce',
+      idleAnimation: "bounce",
       seasonal: null,
       miniGames: [],
       savedDesigns: [],
@@ -39,57 +39,76 @@ export class AvatarSystem {
   }
 
   renderAvatar() {
-    const preview = this.container.querySelector('#avatar-preview');
+    const preview = this.container.querySelector("#avatar-preview");
     preview.innerHTML = `
       <div class="avatar-bg ${this.avatar.background}"></div>
       <div class="avatar-base ${this.avatar.base}"></div>
       <div class="avatar-outfit ${this.avatar.outfit}"></div>
-      ${this.avatar.accessories.map(a => `<div class='avatar-accessory ${a}'></div>`).join('')}
-      ${this.avatar.seasonal ? `<div class='avatar-seasonal ${this.avatar.seasonal}'></div>` : ''}
+      ${this.avatar.accessories.map((a) => `<div class='avatar-accessory ${a}'></div>`).join("")}
+      ${this.avatar.seasonal ? `<div class='avatar-seasonal ${this.avatar.seasonal}'></div>` : ""}
       <div class="avatar-idle ${this.avatar.idleAnimation}"></div>
-      ${this.avatar.emote ? `<div class='avatar-emote ${this.avatar.emote}'></div>` : ''}
+      ${this.avatar.emote ? `<div class='avatar-emote ${this.avatar.emote}'></div>` : ""}
     `;
   }
 
   showEmoteMenu() {
-    this.showMenu(['wave', 'dance', 'laugh', 'cheer', 'idle'], 'emote', 'Choose Emote');
+    this.showMenu(["wave", "dance", "laugh", "cheer", "idle"], "emote", "Choose Emote");
   }
   showAccessoryMenu() {
-    this.showMenu(['glasses', 'hat', 'scarf', 'badge', 'earrings'], 'accessory', 'Choose Accessory');
+    this.showMenu(
+      ["glasses", "hat", "scarf", "badge", "earrings"],
+      "accessory",
+      "Choose Accessory",
+    );
   }
   showOutfitMenu() {
-    this.showMenu(['standard', 'sport', 'formal', 'seasonal', 'custom'], 'outfit', 'Choose Outfit');
+    this.showMenu(["standard", "sport", "formal", "seasonal", "custom"], "outfit", "Choose Outfit");
   }
   showBackgroundMenu() {
-    this.showMenu(['academy', 'garden', 'beach', 'night', 'event'], 'background', 'Choose Background');
+    this.showMenu(
+      ["academy", "garden", "beach", "night", "event"],
+      "background",
+      "Choose Background",
+    );
   }
   showSeasonalMenu() {
-    this.showMenu(['spring', 'summer', 'autumn', 'winter', 'holiday'], 'seasonal', 'Choose Seasonal');
+    this.showMenu(
+      ["spring", "summer", "autumn", "winter", "holiday"],
+      "seasonal",
+      "Choose Seasonal",
+    );
   }
 
   showMenu(options, type, title) {
-    const menu = this.container.querySelector('#avatar-menu');
-    menu.innerHTML = `<h4>${title}</h4>` + options.map(opt => `<button onclick="window.avatarSystem.selectOption('${type}','${opt}')">${opt}</button>`).join('');
+    const menu = this.container.querySelector("#avatar-menu");
+    menu.innerHTML =
+      `<h4>${title}</h4>` +
+      options
+        .map(
+          (opt) =>
+            `<button onclick="window.avatarSystem.selectOption('${type}','${opt}')">${opt}</button>`,
+        )
+        .join("");
   }
 
   selectOption(type, value) {
-    if (type === 'accessory') {
+    if (type === "accessory") {
       if (!this.avatar.accessories.includes(value)) this.avatar.accessories.push(value);
     } else {
       this.avatar[type] = value;
     }
     this.renderAvatar();
-    this.container.querySelector('#avatar-menu').innerHTML = '';
+    this.container.querySelector("#avatar-menu").innerHTML = "";
   }
 
   saveDesign() {
-    this.avatar.savedDesigns.push({...this.avatar});
-    alert('Avatar design saved!');
+    this.avatar.savedDesigns.push({ ...this.avatar });
+    alert("Avatar design saved!");
   }
 
   shareDesign() {
     // Simulate sharing (could integrate with backend/social)
-    alert('Avatar design shared!');
+    alert("Avatar design shared!");
   }
 }
 

@@ -56,7 +56,7 @@ export default function LanguagePhonicsLesson() {
   const objectives = [
     "Knowledge of the alphabet and sounds",
     "Read and spell sight words",
-    "Build simple sentences"
+    "Build simple sentences",
   ];
   return (
     <div className="lesson-module p-6 bg-white rounded-xl shadow-lg max-w-2xl mx-auto">
@@ -64,7 +64,9 @@ export default function LanguagePhonicsLesson() {
       <div className="mb-4">
         <h3 className="font-semibold">Learning Objectives</h3>
         <ul className="list-disc ml-6">
-          {objectives.map((obj, idx) => <li key={idx}>{obj}</li>)}
+          {objectives.map((obj, idx) => (
+            <li key={idx}>{obj}</li>
+          ))}
         </ul>
       </div>
       <AlphabetSoundsActivity />

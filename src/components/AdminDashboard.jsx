@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import UserRequests from './UserRequests';
-import AssignmentsManager from './AssignmentsManager';
-import AnalyticsOverview from './AnalyticsOverview';
+import React, { useEffect, useState } from "react";
+
+import AnalyticsOverview from "./AnalyticsOverview";
+import AssignmentsManager from "./AssignmentsManager";
+import UserRequests from "./UserRequests";
 
 const AdminDashboard = () => {
   return (

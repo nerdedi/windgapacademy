@@ -10,26 +10,26 @@
 // Simplified clubhouse logic
 
 function showOnboarding() {
-  const modal = document.createElement('div');
-  modal.className = 'onboarding-modal';
+  const modal = document.createElement("div");
+  modal.className = "onboarding-modal";
   modal.innerHTML = `<h2>Welcome to Club House!</h2><p>Connect and collaborate. Use the settings to personalize your experience.</p><button id='close-onboarding'>Close</button>`;
   document.body.appendChild(modal);
-  document.getElementById('close-onboarding').onclick = () => modal.remove();
+  document.getElementById("close-onboarding").onclick = () => modal.remove();
 }
 
 function setAccessibility() {
-  const clubEl = document.getElementById('club-house');
+  const clubEl = document.getElementById("club-house");
   if (clubEl) {
-    clubEl.setAttribute('role', 'region');
-    clubEl.setAttribute('aria-label', 'Club House');
+    clubEl.setAttribute("role", "region");
+    clubEl.setAttribute("aria-label", "Club House");
   }
 }
 
 function backupProgress(progress) {
-  localStorage.setItem('clubHouseProgress', JSON.stringify(progress));
+  localStorage.setItem("clubHouseProgress", JSON.stringify(progress));
 }
 function syncProgress() {
-  return JSON.parse(localStorage.getItem('clubHouseProgress') || '{}');
+  return JSON.parse(localStorage.getItem("clubHouseProgress") || "{}");
 }
 
 function updateLeaderboard(score) {
@@ -45,7 +45,11 @@ function logEvent(event) {
 }
 
 function safeRun(fn) {
-  try { fn(); } catch (e) { console.error('Error:', e); }
+  try {
+    fn();
+  } catch (e) {
+    console.error("Error:", e);
+  }
 }
 
 function showSettings() {
@@ -58,10 +62,14 @@ function startClubHouse() {
   // ...simplified clubhouse logic...
 }
 
-if (typeof document !== 'undefined') {
-  document.addEventListener('DOMContentLoaded', startClubHouse);
+if (typeof document !== "undefined") {
+  document.addEventListener("DOMContentLoaded", startClubHouse);
 }
-import { applyButtonAnimation, applyHeadingAnimation, setAriaAttributes } from '../utils/uiUtils.js';
+import {
+  applyButtonAnimation,
+  applyHeadingAnimation,
+  setAriaAttributes,
+} from "../utils/uiUtils.js";
 
 export function showClubHouse(container, userData = {}) {
   container.innerHTML = `
@@ -91,8 +99,10 @@ export function showClubHouse(container, userData = {}) {
     </section>
   `;
   // Animate heading and buttons
-  applyHeadingAnimation(document.getElementById('club-heading'));
-  ['club-chat','club-events','club-members','club-achievements'].forEach(id=>applyButtonAnimation(document.getElementById(id)));
+  applyHeadingAnimation(document.getElementById("club-heading"));
+  ["club-chat", "club-events", "club-members", "club-achievements"].forEach((id) =>
+    applyButtonAnimation(document.getElementById(id)),
+  );
   // Accessibility
-  setAriaAttributes(document.getElementById('club-house'), { role: 'region', label: 'Club House' });
+  setAriaAttributes(document.getElementById("club-house"), { role: "region", label: "Club House" });
 }

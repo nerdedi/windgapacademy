@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
-import { heroVideo, smallHeroVideo } from '../utils';
+import { motion } from "framer-motion";
+import React, { useEffect, useState } from "react";
+
+import { heroVideo, smallHeroVideo } from "../utils";
 
 const Hero = () => {
   const [videoSrc, setVideoSrc] = useState(window.innerWidth < 760 ? smallHeroVideo : heroVideo);
 
   const handleVideoSrcSet = () => {
-    if(window.innerWidth < 760) {
+    if (window.innerWidth < 760) {
       setVideoSrc(smallHeroVideo);
     } else {
       setVideoSrc(heroVideo);
@@ -14,9 +15,9 @@ const Hero = () => {
   };
 
   useEffect(() => {
-    window.addEventListener('resize', handleVideoSrcSet);
+    window.addEventListener("resize", handleVideoSrcSet);
     return () => {
-      window.removeEventListener('resize', handleVideoSrcSet);
+      window.removeEventListener("resize", handleVideoSrcSet);
     };
   }, []);
 
@@ -50,7 +51,9 @@ const Hero = () => {
         animate={{ opacity: 1, y: -50 }}
         transition={{ delay: 2, duration: 1 }}
       >
-        <a href="#highlights" className="btn">Explore</a>
+        <a href="#highlights" className="btn">
+          Explore
+        </a>
         <p className="font-normal text-xl">Empowering learning for everyone</p>
       </motion.div>
     </motion.section>

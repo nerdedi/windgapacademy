@@ -10,26 +10,26 @@
 // Comprehensive dashboard widgets logic
 
 function showOnboarding() {
-  const modal = document.createElement('div');
-  modal.className = 'onboarding-modal';
+  const modal = document.createElement("div");
+  modal.className = "onboarding-modal";
   modal.innerHTML = `<h2>Welcome to Dashboard Widgets!</h2><p>Customize your dashboard with interactive widgets. Use the settings to personalize your experience.</p><button id='close-onboarding'>Close</button>`;
   document.body.appendChild(modal);
-  document.getElementById('close-onboarding').onclick = () => modal.remove();
+  document.getElementById("close-onboarding").onclick = () => modal.remove();
 }
 
 function setAccessibility() {
-  const dwEl = document.getElementById('dashboard-widgets');
+  const dwEl = document.getElementById("dashboard-widgets");
   if (dwEl) {
-    dwEl.setAttribute('role', 'region');
-    dwEl.setAttribute('aria-label', 'Dashboard Widgets');
+    dwEl.setAttribute("role", "region");
+    dwEl.setAttribute("aria-label", "Dashboard Widgets");
   }
 }
 
 function backupProgress(progress) {
-  localStorage.setItem('dashboardWidgetsProgress', JSON.stringify(progress));
+  localStorage.setItem("dashboardWidgetsProgress", JSON.stringify(progress));
 }
 function syncProgress() {
-  return JSON.parse(localStorage.getItem('dashboardWidgetsProgress') || '{}');
+  return JSON.parse(localStorage.getItem("dashboardWidgetsProgress") || "{}");
 }
 
 function updateLeaderboard(score) {
@@ -45,7 +45,11 @@ function logEvent(event) {
 }
 
 function safeRun(fn) {
-  try { fn(); } catch (e) { console.error('Error:', e); }
+  try {
+    fn();
+  } catch (e) {
+    console.error("Error:", e);
+  }
 }
 
 function showSettings() {
@@ -58,8 +62,8 @@ function startDashboardWidgets() {
   // ...dashboard widgets logic...
 }
 
-if (typeof document !== 'undefined') {
-  document.addEventListener('DOMContentLoaded', startDashboardWidgets);
+if (typeof document !== "undefined") {
+  document.addEventListener("DOMContentLoaded", startDashboardWidgets);
 }
 // Customizable dashboard widgets
 export function showDashboardWidgets(container) {

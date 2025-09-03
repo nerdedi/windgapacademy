@@ -1,16 +1,32 @@
 import React from "react";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "./ui/tabs";
+
 import { getCharacterForSubject } from "./Characters";
-import NumeracyCountingMoneyLesson from "./lessonModules/NumeracyCountingMoneyLesson";
 import LanguagePhonicsLesson from "./lessonModules/LanguagePhonicsLesson";
 import LiteracyReadingLesson from "./lessonModules/LiteracyReadingLesson";
+import NumeracyCountingMoneyLesson from "./lessonModules/NumeracyCountingMoneyLesson";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "./ui/tabs";
 
 const subjects = [
   { id: "language", label: "Language", color: "orange-500", component: <LanguagePhonicsLesson /> },
   { id: "literacy", label: "Literacy", color: "teal-500", component: <LiteracyReadingLesson /> },
-  { id: "numeracy", label: "Numeracy", color: "yellow-500", component: <NumeracyCountingMoneyLesson /> },
-  { id: "digital", label: "Digital Literacy", color: "green-500", component: <div>Digital Literacy Module Coming Soon</div> },
-  { id: "independence", label: "Skills for Independence", color: "pink-500", component: <div>Independence Module Coming Soon</div> },
+  {
+    id: "numeracy",
+    label: "Numeracy",
+    color: "yellow-500",
+    component: <NumeracyCountingMoneyLesson />,
+  },
+  {
+    id: "digital",
+    label: "Digital Literacy",
+    color: "green-500",
+    component: <div>Digital Literacy Module Coming Soon</div>,
+  },
+  {
+    id: "independence",
+    label: "Skills for Independence",
+    color: "pink-500",
+    component: <div>Independence Module Coming Soon</div>,
+  },
 ];
 
 export default function SubjectTabs() {

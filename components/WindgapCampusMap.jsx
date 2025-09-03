@@ -1,9 +1,16 @@
 import React from "react";
+
+import { useWindgapGame, GameActions } from "../context/WindgapGameContext";
+import {
+  letterMap,
+  punctuationMap1,
+  punctuationMap2,
+  longPunctuationMap,
+} from "../utils/speechrecMappings";
+
+import BackToTopButton from "./BackToTopButton";
 import Spinner from "./Spinner";
 import Tooltip from "./Tooltip";
-import BackToTopButton from "./BackToTopButton";
-import { letterMap, punctuationMap1, punctuationMap2, longPunctuationMap } from '../utils/speechrecMappings';
-import { useWindgapGame, GameActions } from "../context/WindgapGameContext";
 
 // Example: Accepts mapData as prop (from JSON)
 export default function WindgapCampusMap({ mapData }) {
@@ -13,13 +20,13 @@ export default function WindgapCampusMap({ mapData }) {
   React.useEffect(() => {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (!SpeechRecognition) {
-      console.warn('SpeechRecognition API not supported');
+      console.warn("SpeechRecognition API not supported");
       return;
     }
     const recognition = new SpeechRecognition();
     recognition.continuous = true;
     recognition.interimResults = false;
-    recognition.lang = 'en-US';
+    recognition.lang = "en-US";
 
     recognition.onresult = (event) => {
       for (let i = event.resultIndex; i < event.results.length; ++i) {
@@ -30,7 +37,7 @@ export default function WindgapCampusMap({ mapData }) {
       }
     };
     recognition.onerror = (event) => {
-      console.error('Speech recognition error:', event.error);
+      console.error("Speech recognition error:", event.error);
     };
     recognition.onend = () => {
       recognition.start(); // Restart for continuous listening
@@ -41,19 +48,33 @@ export default function WindgapCampusMap({ mapData }) {
 
   // Expanded logic for more items
   function handleVoiceCommand(phrase) {
-    const char = letterMap[phrase] || punctuationMap1[phrase] || punctuationMap2[phrase] || longPunctuationMap[phrase];
+    const char =
+      letterMap[phrase] ||
+      punctuationMap1[phrase] ||
+      punctuationMap2[phrase] ||
+      longPunctuationMap[phrase];
     if (char) {
       switch (char) {
-        case 'a':
-          dispatch({ type: GameActions.SHOW_DIALOG, dialog: 'Planted apple or selected avatar A' });
+        case "a":
+          dispatch({ type: GameActions.SHOW_DIALOG, dialog: "Planted apple or selected avatar A" });
           return (
             <div className="relative">
               <Spinner show={false} size={32} className="absolute left-1/2 top-1/2" />
               <BackToTopButton />
-              <div className="campus-map grid grid-cols-50 gap-0 border border-gray-300 bg-blue-50" style={{ width: width * tileSize, height: height * tileSize }} role="grid" aria-label="Campus Map">
+              <div
+                className="campus-map grid grid-cols-50 gap-0 border border-gray-300 bg-blue-50"
+                style={{ width: width * tileSize, height: height * tileSize }}
+                role="grid"
+                aria-label="Campus Map"
+              >
                 {/* Example usage: call handleVoiceCommand with a test phrase */}
                 <Tooltip text="Test voice command">
-                  <button onClick={() => handleVoiceCommand('acid')} className="m-2 p-2 bg-green-200 rounded">Test: Plant Apple ("acid")</button>
+                  <button
+                    onClick={() => handleVoiceCommand("acid")}
+                    className="m-2 p-2 bg-green-200 rounded"
+                  >
+                    Test: Plant Apple ("acid")
+                  </button>
                 </Tooltip>
                 {baseLayer.data.map((tileId, i) => {
                   const x = i % width;
@@ -74,71 +95,113 @@ export default function WindgapCampusMap({ mapData }) {
               </div>
             </div>
           );
-        case 'i':
-          dispatch({ type: GameActions.SHOW_DIALOG, dialog: 'Planted iceberg lettuce or selected avatar I' });
+        case "i":
+          dispatch({
+            type: GameActions.SHOW_DIALOG,
+            dialog: "Planted iceberg lettuce or selected avatar I",
+          });
           break;
-        case 'j':
-          dispatch({ type: GameActions.SHOW_DIALOG, dialog: 'Planted jalapeno or selected avatar J' });
+        case "j":
+          dispatch({
+            type: GameActions.SHOW_DIALOG,
+            dialog: "Planted jalapeno or selected avatar J",
+          });
           break;
-        case 'k':
-          dispatch({ type: GameActions.SHOW_DIALOG, dialog: 'Planted kale or selected avatar K' });
+        case "k":
+          dispatch({ type: GameActions.SHOW_DIALOG, dialog: "Planted kale or selected avatar K" });
           break;
-        case 'l':
-          dispatch({ type: GameActions.SHOW_DIALOG, dialog: 'Planted leek or selected avatar L' });
+        case "l":
+          dispatch({ type: GameActions.SHOW_DIALOG, dialog: "Planted leek or selected avatar L" });
           break;
-        case 'm':
-          dispatch({ type: GameActions.SHOW_DIALOG, dialog: 'Planted mushroom or selected avatar M' });
+        case "m":
+          dispatch({
+            type: GameActions.SHOW_DIALOG,
+            dialog: "Planted mushroom or selected avatar M",
+          });
           break;
-        case 'n':
-          dispatch({ type: GameActions.SHOW_DIALOG, dialog: 'Planted napa cabbage or selected avatar N' });
+        case "n":
+          dispatch({
+            type: GameActions.SHOW_DIALOG,
+            dialog: "Planted napa cabbage or selected avatar N",
+          });
           break;
-        case 'o':
-          dispatch({ type: GameActions.SHOW_DIALOG, dialog: 'Planted onion or selected avatar O' });
+        case "o":
+          dispatch({ type: GameActions.SHOW_DIALOG, dialog: "Planted onion or selected avatar O" });
           break;
-        case 'p':
-          dispatch({ type: GameActions.SHOW_DIALOG, dialog: 'Planted potato or selected avatar P' });
+        case "p":
+          dispatch({
+            type: GameActions.SHOW_DIALOG,
+            dialog: "Planted potato or selected avatar P",
+          });
           break;
-        case 'q':
-          dispatch({ type: GameActions.SHOW_DIALOG, dialog: 'Planted quince or selected avatar Q' });
+        case "q":
+          dispatch({
+            type: GameActions.SHOW_DIALOG,
+            dialog: "Planted quince or selected avatar Q",
+          });
           break;
-        case 'r':
-          dispatch({ type: GameActions.SHOW_DIALOG, dialog: 'Planted radish or selected avatar R' });
+        case "r":
+          dispatch({
+            type: GameActions.SHOW_DIALOG,
+            dialog: "Planted radish or selected avatar R",
+          });
           break;
-        case 's':
-          dispatch({ type: GameActions.SHOW_DIALOG, dialog: 'Planted spinach or selected avatar S' });
+        case "s":
+          dispatch({
+            type: GameActions.SHOW_DIALOG,
+            dialog: "Planted spinach or selected avatar S",
+          });
           break;
-        case 't':
-          dispatch({ type: GameActions.SHOW_DIALOG, dialog: 'Planted tomato or selected avatar T' });
+        case "t":
+          dispatch({
+            type: GameActions.SHOW_DIALOG,
+            dialog: "Planted tomato or selected avatar T",
+          });
           break;
-        case 'u':
-          dispatch({ type: GameActions.SHOW_DIALOG, dialog: 'Planted ugli fruit or selected avatar U' });
+        case "u":
+          dispatch({
+            type: GameActions.SHOW_DIALOG,
+            dialog: "Planted ugli fruit or selected avatar U",
+          });
           break;
-        case 'v':
-          dispatch({ type: GameActions.SHOW_DIALOG, dialog: 'Planted vanilla bean or selected avatar V' });
+        case "v":
+          dispatch({
+            type: GameActions.SHOW_DIALOG,
+            dialog: "Planted vanilla bean or selected avatar V",
+          });
           break;
-        case 'w':
-          dispatch({ type: GameActions.SHOW_DIALOG, dialog: 'Planted watermelon or selected avatar W' });
+        case "w":
+          dispatch({
+            type: GameActions.SHOW_DIALOG,
+            dialog: "Planted watermelon or selected avatar W",
+          });
           break;
-        case 'x':
-          dispatch({ type: GameActions.SHOW_DIALOG, dialog: 'Planted xigua (Chinese melon) or selected avatar X' });
+        case "x":
+          dispatch({
+            type: GameActions.SHOW_DIALOG,
+            dialog: "Planted xigua (Chinese melon) or selected avatar X",
+          });
           break;
-        case 'y':
-          dispatch({ type: GameActions.SHOW_DIALOG, dialog: 'Planted yam or selected avatar Y' });
+        case "y":
+          dispatch({ type: GameActions.SHOW_DIALOG, dialog: "Planted yam or selected avatar Y" });
           break;
-        case 'z':
-          dispatch({ type: GameActions.SHOW_DIALOG, dialog: 'Planted zucchini or selected avatar Z' });
+        case "z":
+          dispatch({
+            type: GameActions.SHOW_DIALOG,
+            dialog: "Planted zucchini or selected avatar Z",
+          });
           break;
-        case '.':
-          dispatch({ type: GameActions.SHOW_DIALOG, dialog: 'Added salt (dot)' });
+        case ".":
+          dispatch({ type: GameActions.SHOW_DIALOG, dialog: "Added salt (dot)" });
           break;
-        case ',':
-          dispatch({ type: GameActions.SHOW_DIALOG, dialog: 'Added pepper (comma)' });
+        case ",":
+          dispatch({ type: GameActions.SHOW_DIALOG, dialog: "Added pepper (comma)" });
           break;
-        case '+':
-          dispatch({ type: GameActions.SHOW_DIALOG, dialog: 'Added ingredient (plus)' });
+        case "+":
+          dispatch({ type: GameActions.SHOW_DIALOG, dialog: "Added ingredient (plus)" });
           break;
-        case '-':
-          dispatch({ type: GameActions.SHOW_DIALOG, dialog: 'Removed ingredient (minus)' });
+        case "-":
+          dispatch({ type: GameActions.SHOW_DIALOG, dialog: "Removed ingredient (minus)" });
           break;
         default:
           dispatch({ type: GameActions.SHOW_DIALOG, dialog: `Triggered action for: ${char}` });
@@ -150,15 +213,22 @@ export default function WindgapCampusMap({ mapData }) {
 
   // Voice command handler using speech recognition mappings
   function handleVoiceCommand(phrase) {
-    const char = letterMap[phrase] || punctuationMap1[phrase] || punctuationMap2[phrase] || longPunctuationMap[phrase];
+    const char =
+      letterMap[phrase] ||
+      punctuationMap1[phrase] ||
+      punctuationMap2[phrase] ||
+      longPunctuationMap[phrase];
     if (char) {
       // Example logic: select avatar, plant vegetable, or trigger food item action
-      if (char === 'a') {
+      if (char === "a") {
         // Plant apple or select avatar 'A'
-        dispatch({ type: GameActions.SHOW_DIALOG, dialog: 'Planted apple or selected avatar A' });
-      } else if (char === 'b') {
+        dispatch({ type: GameActions.SHOW_DIALOG, dialog: "Planted apple or selected avatar A" });
+      } else if (char === "b") {
         // Plant broccoli or select avatar 'B'
-        dispatch({ type: GameActions.SHOW_DIALOG, dialog: 'Planted broccoli or selected avatar B' });
+        dispatch({
+          type: GameActions.SHOW_DIALOG,
+          dialog: "Planted broccoli or selected avatar B",
+        });
       } else {
         dispatch({ type: GameActions.SHOW_DIALOG, dialog: `Triggered action for: ${char}` });
       }
@@ -171,20 +241,28 @@ export default function WindgapCampusMap({ mapData }) {
   const tileSize = mapData.tilewidth || 32;
   const width = mapData.width;
   const height = mapData.height;
-  const baseLayer = mapData.layers.find(l => l.name === "base layer");
+  const baseLayer = mapData.layers.find((l) => l.name === "base layer");
 
   // Click handler for tiles
   function handleTileClick(x, y, tileId) {
     dispatch({ type: GameActions.SET_LOCATION, location: { x, y, tileId } });
-    dispatch({ type: GameActions.SHOW_DIALOG, dialog: `You clicked tile ${tileId} at (${x},${y})` });
+    dispatch({
+      type: GameActions.SHOW_DIALOG,
+      dialog: `You clicked tile ${tileId} at (${x},${y})`,
+    });
   }
 
   return (
-    <div className="campus-map grid grid-cols-50 gap-0 border border-gray-300 bg-blue-50" style={{ width: width * tileSize, height: height * tileSize }}>
+    <div
+      className="campus-map grid grid-cols-50 gap-0 border border-gray-300 bg-blue-50"
+      style={{ width: width * tileSize, height: height * tileSize }}
+    >
       {/* Example usage: call handleVoiceCommand with a test phrase */}
       {/* Remove or replace this with actual speech input integration */}
-      <button onClick={() => handleVoiceCommand('acid')} className="m-2 p-2 bg-green-200 rounded">Test: Plant Apple ("acid")</button>
-  {baseLayer.data.map((tileId, i) => {
+      <button onClick={() => handleVoiceCommand("acid")} className="m-2 p-2 bg-green-200 rounded">
+        Test: Plant Apple ("acid")
+      </button>
+      {baseLayer.data.map((tileId, i) => {
         const x = i % width;
         const y = Math.floor(i / width);
         return (

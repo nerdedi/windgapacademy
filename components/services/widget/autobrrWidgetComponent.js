@@ -28,8 +28,14 @@ export default function Component({ service }) {
 
   return (
     <Container service={service}>
-      <Block label="autobrr.approvedPushes" value={t("common.number", { value: statsData.push_approved_count })} />
-      <Block label="autobrr.rejectedPushes" value={t("common.number", { value: statsData.push_rejected_count })} />
+      <Block
+        label="autobrr.approvedPushes"
+        value={t("common.number", { value: statsData.push_approved_count })}
+      />
+      <Block
+        label="autobrr.rejectedPushes"
+        value={t("common.number", { value: statsData.push_rejected_count })}
+      />
       <Block label="autobrr.filters" value={t("common.number", { value: filtersData.length })} />
       <Block label="autobrr.indexers" value={t("common.number", { value: indexersData.length })} />
     </Container>

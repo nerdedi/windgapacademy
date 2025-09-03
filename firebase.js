@@ -96,9 +96,6 @@ export async function saveChatLog(userId, messages) {
   }
 }
 
-
-
-
 import { env } from "./src/env.js";
 let app = null;
 let auth = null;

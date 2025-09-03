@@ -1,4 +1,8 @@
-import { applyButtonAnimation, applyHeadingAnimation, setAriaAttributes } from '../../utils/uiUtils.js';
+import {
+  applyButtonAnimation,
+  applyHeadingAnimation,
+  setAriaAttributes,
+} from "../../utils/uiUtils.js";
 // Digital Skills Game Module
 // Practice basic digital skills with interactive challenges
 
@@ -18,7 +22,7 @@ export function showDigitalSkillsGame(container) {
       parentFeedback: "Parent Feedback",
       analytics: "Analytics",
       error: "An error occurred. Please try again.",
-      validate: "Please enter a valid response."
+      validate: "Please enter a valid response.",
     },
     es: {
       title: "Juego de Habilidades Digitales",
@@ -33,7 +37,7 @@ export function showDigitalSkillsGame(container) {
       parentFeedback: "Retroalimentación de Padres",
       analytics: "Analítica",
       error: "Ocurrió un error. Por favor, inténtalo de nuevo.",
-      validate: "Por favor, ingresa una respuesta válida."
+      validate: "Por favor, ingresa una respuesta válida.",
     },
     ar: {
       title: "لعبة المهارات الرقمية",
@@ -48,8 +52,8 @@ export function showDigitalSkillsGame(container) {
       parentFeedback: "ملاحظات الوالدين",
       analytics: "تحليلات",
       error: "حدث خطأ. يرجى المحاولة مرة أخرى.",
-      validate: "يرجى إدخال إجابة صالحة."
-    }
+      validate: "يرجى إدخال إجابة صالحة.",
+    },
   };
   let currentLang = "en";
   function setLanguage(lang) {
@@ -62,8 +66,10 @@ export function showDigitalSkillsGame(container) {
 
   // --- Error Boundary ---
   function errorBoundary(fn) {
-    try { fn(); } catch (e) {
-      if (typeof window !== 'undefined' && typeof window.alert === 'function') {
+    try {
+      fn();
+    } catch (e) {
+      if (typeof window !== "undefined" && typeof window.alert === "function") {
         window.alert(i18n[currentLang].error);
       } else {
         console.error(i18n[currentLang].error);
@@ -86,23 +92,30 @@ export function showDigitalSkillsGame(container) {
     if (!modal) {
       modal = document.createElement("div");
       modal.id = "achievements-modal";
-      modal.style = "position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.5);z-index:2000;display:flex;align-items:center;justify-content:center;";
+      modal.style =
+        "position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.5);z-index:2000;display:flex;align-items:center;justify-content:center;";
       modal.innerHTML = `<div style='background:#fff;padding:2em;border-radius:1em;max-width:400px;text-align:center;'>
         <h3>${i18n[currentLang].achievements}</h3>
         <ul><li>Completed Digital Safety Challenge</li><li>Unlocked Badge: Cyber Hero</li></ul>
         <button id='close-achievements' class='btn-primary'>Close</button>
       </div>`;
       document.body.appendChild(modal);
-      document.getElementById('close-achievements').onclick = () => modal.remove();
+      document.getElementById("close-achievements").onclick = () => modal.remove();
     }
   }
 
   // --- Educator/Parent Feedback ---
-  function showEducatorFeedback() { alert(i18n[currentLang].educatorFeedback + ': Great progress!'); }
-  function showParentFeedback() { alert(i18n[currentLang].parentFeedback + ': Keep practicing digital safety!'); }
+  function showEducatorFeedback() {
+    alert(i18n[currentLang].educatorFeedback + ": Great progress!");
+  }
+  function showParentFeedback() {
+    alert(i18n[currentLang].parentFeedback + ": Keep practicing digital safety!");
+  }
 
   // --- Analytics ---
-  function showAnalytics() { alert(i18n[currentLang].analytics + ': You completed 3 challenges this week!'); }
+  function showAnalytics() {
+    alert(i18n[currentLang].analytics + ": You completed 3 challenges this week!");
+  }
 
   // --- Main Game Render ---
   function renderGame() {
@@ -127,7 +140,8 @@ export function showDigitalSkillsGame(container) {
       if (!modal) {
         modal = document.createElement("div");
         modal.id = "settings-modal";
-        modal.style = "position:fixed;top:50%;left:50%;transform:translate(-50%, -50%);background:#fff;border:2px solid #1976d2;border-radius:12px;padding:24px;z-index:1001;min-width:320px;";
+        modal.style =
+          "position:fixed;top:50%;left:50%;transform:translate(-50%, -50%);background:#fff;border:2px solid #1976d2;border-radius:12px;padding:24px;z-index:1001;min-width:320px;";
         modal.innerHTML = `
           <h3>Game Settings</h3>
           <div>
@@ -156,8 +170,13 @@ export function showDigitalSkillsGame(container) {
         document.getElementById("faq-btn").onclick = showFAQ;
         document.getElementById("backup-btn").onclick = backupProgress;
         document.getElementById("sync-btn").onclick = syncProgress;
-        document.getElementById("language-select").onchange = (e) => { setLanguage(e.target.value); modal.remove(); };
-      } else { modal.style.display = "block"; }
+        document.getElementById("language-select").onchange = (e) => {
+          setLanguage(e.target.value);
+          modal.remove();
+        };
+      } else {
+        modal.style.display = "block";
+      }
       addTooltips();
     };
     document.getElementById("achievements-btn").onclick = showAchievements;
@@ -183,8 +202,14 @@ export function showDigitalSkillsGame(container) {
       };
     }
     // Accessibility & ARIA
-    setAriaAttributes(document.getElementById('digital-skills-game'), { role: 'region', label: i18n[currentLang].title });
-    setAriaAttributes(document.getElementById('digital-challenge'), { role: 'region', label: 'Challenge' });
+    setAriaAttributes(document.getElementById("digital-skills-game"), {
+      role: "region",
+      label: i18n[currentLang].title,
+    });
+    setAriaAttributes(document.getElementById("digital-challenge"), {
+      role: "region",
+      label: "Challenge",
+    });
     // Keyboard navigation
     enableKeyboardNavigation();
   }
@@ -192,10 +217,10 @@ export function showDigitalSkillsGame(container) {
 
   // --- Tooltips ---
   function addTooltips() {
-    document.querySelectorAll("button, [aria-label]").forEach(el => {
+    document.querySelectorAll("button, [aria-label]").forEach((el) => {
       if (el.title || el.getAttribute("aria-label")) {
         el.setAttribute("tabindex", "0");
-        el.onfocus = el.onmouseover = function() {
+        el.onfocus = el.onmouseover = function () {
           let tip = document.createElement("div");
           tip.className = "tooltip";
           tip.textContent = el.title || el.getAttribute("aria-label");
@@ -204,13 +229,13 @@ export function showDigitalSkillsGame(container) {
           tip.style.color = "#fff";
           tip.style.padding = "4px 8px";
           tip.style.borderRadius = "4px";
-          tip.style.top = (el.getBoundingClientRect().top - 30) + "px";
-          tip.style.left = (el.getBoundingClientRect().left) + "px";
+          tip.style.top = el.getBoundingClientRect().top - 30 + "px";
+          tip.style.left = el.getBoundingClientRect().left + "px";
           tip.style.zIndex = 9999;
           tip.id = "active-tooltip";
           document.body.appendChild(tip);
         };
-        el.onblur = el.onmouseout = function() {
+        el.onblur = el.onmouseout = function () {
           let tip = document.getElementById("active-tooltip");
           if (tip) tip.remove();
         };
@@ -224,7 +249,8 @@ export function showDigitalSkillsGame(container) {
     if (!modal) {
       modal = document.createElement("div");
       modal.id = "onboarding-modal";
-      modal.style = "position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.5);z-index:2000;display:flex;align-items:center;justify-content:center;";
+      modal.style =
+        "position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.5);z-index:2000;display:flex;align-items:center;justify-content:center;";
       modal.innerHTML = `<div style='background:#fff;padding:2em;border-radius:1em;max-width:400px;text-align:center;'>
         <h3>Onboarding</h3>
         <p>${i18n[currentLang].onboarding}</p>
@@ -233,12 +259,12 @@ export function showDigitalSkillsGame(container) {
         <button id='close-onboarding' class='btn-primary'>Close</button>
       </div>`;
       document.body.appendChild(modal);
-      document.getElementById('close-onboarding').onclick = () => modal.remove();
-      document.getElementById('start-onboarding').onclick = () => {
+      document.getElementById("close-onboarding").onclick = () => modal.remove();
+      document.getElementById("start-onboarding").onclick = () => {
         modal.remove();
         startOnboarding();
       };
-      document.getElementById('reset-onboarding').onclick = () => {
+      document.getElementById("reset-onboarding").onclick = () => {
         modal.remove();
         resetOnboarding();
       };
@@ -249,20 +275,25 @@ export function showDigitalSkillsGame(container) {
     if (!modal) {
       modal = document.createElement("div");
       modal.id = "faq-modal";
-      modal.style = "position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.5);z-index:2000;display:flex;align-items:center;justify-content:center;";
+      modal.style =
+        "position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.5);z-index:2000;display:flex;align-items:center;justify-content:center;";
       modal.innerHTML = `<div style='background:#fff;padding:2em;border-radius:1em;max-width:400px;text-align:left;'>
         <h3>FAQ</h3>
         <ul><li>${i18n[currentLang].faq}</li></ul>
         <button id='close-faq' class='btn-primary'>Close</button>
       </div>`;
       document.body.appendChild(modal);
-      document.getElementById('close-faq').onclick = () => modal.remove();
+      document.getElementById("close-faq").onclick = () => modal.remove();
     }
   }
 
   // --- Backup & Sync Placeholders ---
-  function backupProgress() { alert(i18n[currentLang].backup); }
-  function syncProgress() { alert(i18n[currentLang].sync); }
+  function backupProgress() {
+    alert(i18n[currentLang].backup);
+  }
+  function syncProgress() {
+    alert(i18n[currentLang].sync);
+  }
 
   container.innerHTML = `
     <section id="digital-skills-game" aria-label="Digital Skills Game" class="card fade-in max-w-2xl mx-auto my-8">
@@ -275,15 +306,16 @@ export function showDigitalSkillsGame(container) {
       <button id="settings-btn" class="btn-secondary ml-2" aria-label="Settings">⚙️</button>
     </section>
   `;
-    const settingsBtn = container.querySelector("#settings-btn");
-    if (settingsBtn) {
-      settingsBtn.onclick = function () {
-        let modal = container.querySelector("#settings-modal");
-        if (!modal) {
-          modal = document.createElement("div");
-          modal.id = "settings-modal";
-          modal.style = "position:fixed;top:50%;left:50%;transform:translate(-50%, -50%);background:#fff;border:2px solid #1976d2;border-radius:12px;padding:24px;z-index:1001;min-width:320px;";
-          modal.innerHTML = `
+  const settingsBtn = container.querySelector("#settings-btn");
+  if (settingsBtn) {
+    settingsBtn.onclick = function () {
+      let modal = container.querySelector("#settings-modal");
+      if (!modal) {
+        modal = document.createElement("div");
+        modal.id = "settings-modal";
+        modal.style =
+          "position:fixed;top:50%;left:50%;transform:translate(-50%, -50%);background:#fff;border:2px solid #1976d2;border-radius:12px;padding:24px;z-index:1001;min-width:320px;";
+        modal.innerHTML = `
             <h3>Game Settings</h3>
             <div>
               <label>Language: <select id="language-select">
@@ -301,103 +333,112 @@ export function showDigitalSkillsGame(container) {
               <button id="close-settings">Close</button>
             </div>
           `;
-          container.appendChild(modal);
-          modal.querySelector("#close-settings").onclick = () => modal.remove();
-          modal.querySelector("#onboarding-btn").onclick = showOnboarding;
-          modal.querySelector("#faq-btn").onclick = showFAQ;
-          modal.querySelector("#backup-btn").onclick = backupProgress;
-          modal.querySelector("#sync-btn").onclick = syncProgress;
-          modal.querySelector("#language-select").onchange = (e) => { setLanguage(e.target.value); modal.remove(); };
-        } else { modal.style.display = "block"; }
-        addTooltips();
-      };
-    }
-    addTooltips();
-    const returnBtn = container.querySelector("#digital-return");
-    if (returnBtn) {
-      returnBtn.onclick = function () {
-        window.route("dashboard");
-      };
-    }
-  // ...existing code...
-// --- Advanced Feature Upgrades & TODOs ---
-// Accessibility: ARIA roles, keyboard navigation
-// Onboarding/help modal
-// Backup/sync logic
-// Gamification: challenges, leaderboard
-// Educator/parent feedback
-// Analytics integration
-// Error boundaries
-// UI settings modal
-// Comprehensive game logic
-
-// Example: Add onboarding modal
-function showOnboarding() {
-  const modal = document.createElement('div');
-  modal.className = 'onboarding-modal';
-  modal.innerHTML = `<h2>Welcome to Digital Skills Game!</h2><p>Learn digital skills interactively. Use the settings to customize your experience.</p><button id='close-onboarding'>Close</button>`;
-  document.body.appendChild(modal);
-  document.getElementById('close-onboarding').onclick = () => modal.remove();
-}
-
-// Example: Add ARIA attributes
-function setAccessibility() {
-  const gameEl = document.getElementById('digital-skills-game');
-  if (gameEl) {
-    gameEl.setAttribute('role', 'region');
-    gameEl.setAttribute('aria-label', 'Digital Skills Game');
+        container.appendChild(modal);
+        modal.querySelector("#close-settings").onclick = () => modal.remove();
+        modal.querySelector("#onboarding-btn").onclick = showOnboarding;
+        modal.querySelector("#faq-btn").onclick = showFAQ;
+        modal.querySelector("#backup-btn").onclick = backupProgress;
+        modal.querySelector("#sync-btn").onclick = syncProgress;
+        modal.querySelector("#language-select").onchange = (e) => {
+          setLanguage(e.target.value);
+          modal.remove();
+        };
+      } else {
+        modal.style.display = "block";
+      }
+      addTooltips();
+    };
   }
-}
+  addTooltips();
+  const returnBtn = container.querySelector("#digital-return");
+  if (returnBtn) {
+    returnBtn.onclick = function () {
+      window.route("dashboard");
+    };
+  }
+  // ...existing code...
+  // --- Advanced Feature Upgrades & TODOs ---
+  // Accessibility: ARIA roles, keyboard navigation
+  // Onboarding/help modal
+  // Backup/sync logic
+  // Gamification: challenges, leaderboard
+  // Educator/parent feedback
+  // Analytics integration
+  // Error boundaries
+  // UI settings modal
+  // Comprehensive game logic
 
-// Example: Add backup/sync logic
-function backupProgress(progress) {
-  localStorage.setItem('digitalSkillsProgress', JSON.stringify(progress));
-}
-function syncProgress() {
-  return JSON.parse(localStorage.getItem('digitalSkillsProgress') || '{}');
-}
+  // Example: Add onboarding modal
+  function showOnboarding() {
+    const modal = document.createElement("div");
+    modal.className = "onboarding-modal";
+    modal.innerHTML = `<h2>Welcome to Digital Skills Game!</h2><p>Learn digital skills interactively. Use the settings to customize your experience.</p><button id='close-onboarding'>Close</button>`;
+    document.body.appendChild(modal);
+    document.getElementById("close-onboarding").onclick = () => modal.remove();
+  }
 
-// Example: Gamification
-function updateLeaderboard(score) {
-  // ...leaderboard logic...
-}
+  // Example: Add ARIA attributes
+  function setAccessibility() {
+    const gameEl = document.getElementById("digital-skills-game");
+    if (gameEl) {
+      gameEl.setAttribute("role", "region");
+      gameEl.setAttribute("aria-label", "Digital Skills Game");
+    }
+  }
 
-// Example: Educator/parent feedback
-function sendFeedback(feedback) {
-  // ...send feedback to server...
-}
+  // Example: Add backup/sync logic
+  function backupProgress(progress) {
+    localStorage.setItem("digitalSkillsProgress", JSON.stringify(progress));
+  }
+  function syncProgress() {
+    return JSON.parse(localStorage.getItem("digitalSkillsProgress") || "{}");
+  }
 
-// Example: Analytics
-function logEvent(event) {
-  // ...analytics logic...
-}
+  // Example: Gamification
+  function updateLeaderboard(score) {
+    // ...leaderboard logic...
+  }
 
-// Example: Error boundary
-function safeRun(fn) {
-  try { fn(); } catch (e) { console.error('Error:', e); }
-}
+  // Example: Educator/parent feedback
+  function sendFeedback(feedback) {
+    // ...send feedback to server...
+  }
 
-// Example: UI settings modal
-function showSettings() {
-  // ...settings modal logic...
-}
+  // Example: Analytics
+  function logEvent(event) {
+    // ...analytics logic...
+  }
 
-// Comprehensive game logic placeholder
-function startGame() {
-  showOnboarding();
-  setAccessibility();
-  // ...game logic...
-}
+  // Example: Error boundary
+  function safeRun(fn) {
+    try {
+      fn();
+    } catch (e) {
+      console.error("Error:", e);
+    }
+  }
 
-// Run game on DOMContentLoaded
-if (typeof document !== 'undefined') {
-  document.addEventListener('DOMContentLoaded', startGame);
-}
+  // Example: UI settings modal
+  function showSettings() {
+    // ...settings modal logic...
+  }
+
+  // Comprehensive game logic placeholder
+  function startGame() {
+    showOnboarding();
+    setAccessibility();
+    // ...game logic...
+  }
+
+  // Run game on DOMContentLoaded
+  if (typeof document !== "undefined") {
+    document.addEventListener("DOMContentLoaded", startGame);
+  }
   // Example usage for main button:
-  const btn = document.getElementById('digital-btn');
+  const btn = document.getElementById("digital-btn");
   applyButtonAnimation(btn);
   // Example usage for heading:
-  const heading = document.getElementById('digital-heading');
+  const heading = document.getElementById("digital-heading");
   applyHeadingAnimation(heading);
 }
 // --- End Advanced Feature Suggestions ---

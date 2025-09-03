@@ -23,11 +23,11 @@ export class EnvironmentBase {
     // Basic layout, can be extended
     this.container.innerHTML = `
       <section class="env-base flex flex-col items-center p-8">
-        <h2 class="text-2xl font-bold mb-4">${this.options.title || 'Learning Environment'}</h2>
+        <h2 class="text-2xl font-bold mb-4">${this.options.title || "Learning Environment"}</h2>
         <div class="env-canvas mb-4" style="width:400px;height:300px;background:#f8f8f8;border:1px solid #ccc;"></div>
         <div class="env-controls mb-4"></div>
         <div class="env-feedback mb-2"></div>
-        <div class="env-achievements mb-2">Achievements: ${this.achievements.join(', ') || 'None yet'}</div>
+        <div class="env-achievements mb-2">Achievements: ${this.achievements.join(", ") || "None yet"}</div>
       </section>
     `;
   }

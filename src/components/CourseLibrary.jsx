@@ -1,11 +1,11 @@
 // ...existing code...
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
-import { Badge } from "./ui/badge";
-import { Button } from "./ui/button";
-import { Progress } from "./ui/progress";
 import { Clock, Users, Star, PlayCircle, CheckCircle } from "lucide-react";
 
 import SubjectTabs from "./SubjectTabs";
+import { Badge } from "./ui/badge";
+import { Button } from "./ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
+import { Progress } from "./ui/progress";
 
 export function CourseLibrary() {
   return (

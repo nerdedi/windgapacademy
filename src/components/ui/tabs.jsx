@@ -4,7 +4,7 @@ export function Tabs({ defaultValue, className = "", children, ...props }) {
   const [value, setValue] = React.useState(defaultValue);
   return (
     <div className={`tabs ${className}`} {...props}>
-      {React.Children.map(children, child => {
+      {React.Children.map(children, (child) => {
         if (child.type === TabsList) {
           return React.cloneElement(child, { value, setValue });
         }
@@ -20,9 +20,12 @@ export function Tabs({ defaultValue, className = "", children, ...props }) {
 export function TabsList({ value, setValue, className = "", children, ...props }) {
   return (
     <div className={`flex ${className}`} {...props}>
-      {React.Children.map(children, child => {
+      {React.Children.map(children, (child) => {
         if (child.type === TabsTrigger) {
-          return React.cloneElement(child, { isActive: value === child.props.value, onClick: () => setValue(child.props.value) });
+          return React.cloneElement(child, {
+            isActive: value === child.props.value,
+            onClick: () => setValue(child.props.value),
+          });
         }
         return child;
       })}
@@ -32,7 +35,11 @@ export function TabsList({ value, setValue, className = "", children, ...props }
 
 export function TabsTrigger({ value, isActive, onClick, className = "", children, ...props }) {
   return (
-    <button className={`px-4 py-2 rounded ${isActive ? "bg-card font-bold" : "bg-muted text-muted-foreground"} ${className}`} onClick={onClick} {...props}>
+    <button
+      className={`px-4 py-2 rounded ${isActive ? "bg-card font-bold" : "bg-muted text-muted-foreground"} ${className}`}
+      onClick={onClick}
+      {...props}
+    >
       {children}
     </button>
   );

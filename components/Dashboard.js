@@ -10,26 +10,26 @@
 // Comprehensive dashboard logic
 
 function showOnboarding() {
-  const modal = document.createElement('div');
-  modal.className = 'onboarding-modal';
+  const modal = document.createElement("div");
+  modal.className = "onboarding-modal";
   modal.innerHTML = `<h2>Welcome to Dashboard!</h2><p>View your progress and manage your learning. Use the settings to customize your experience.</p><button id='close-onboarding'>Close</button>`;
   document.body.appendChild(modal);
-  document.getElementById('close-onboarding').onclick = () => modal.remove();
+  document.getElementById("close-onboarding").onclick = () => modal.remove();
 }
 
 function setAccessibility() {
-  const dashEl = document.getElementById('dashboard');
+  const dashEl = document.getElementById("dashboard");
   if (dashEl) {
-    dashEl.setAttribute('role', 'region');
-    dashEl.setAttribute('aria-label', 'Dashboard');
+    dashEl.setAttribute("role", "region");
+    dashEl.setAttribute("aria-label", "Dashboard");
   }
 }
 
 function backupProgress(progress) {
-  localStorage.setItem('dashboardProgress', JSON.stringify(progress));
+  localStorage.setItem("dashboardProgress", JSON.stringify(progress));
 }
 function syncProgress() {
-  return JSON.parse(localStorage.getItem('dashboardProgress') || '{}');
+  return JSON.parse(localStorage.getItem("dashboardProgress") || "{}");
 }
 
 function updateLeaderboard(score) {
@@ -45,7 +45,11 @@ function logEvent(event) {
 }
 
 function safeRun(fn) {
-  try { fn(); } catch (e) { console.error('Error:', e); }
+  try {
+    fn();
+  } catch (e) {
+    console.error("Error:", e);
+  }
 }
 
 function showSettings() {
@@ -58,38 +62,48 @@ function startDashboard() {
   // ...dashboard logic...
 }
 
-if (typeof document !== 'undefined') {
-  document.addEventListener('DOMContentLoaded', startDashboard);
+if (typeof document !== "undefined") {
+  document.addEventListener("DOMContentLoaded", startDashboard);
 }
-import { applyHeadingAnimation, applyButtonAnimation, setAriaAttributes } from '../utils/uiUtils.js';
+import {
+  applyHeadingAnimation,
+  applyButtonAnimation,
+  setAriaAttributes,
+} from "../utils/uiUtils.js";
 
 export function showDashboard(container, data = {}) {
   try {
     if (!window.__WINDGAP_LOGS__) window.__WINDGAP_LOGS__ = [];
-    window.__WINDGAP_LOGS__.push({ ts: Date.now(), msg: 'showDashboard:entry', data });
+    window.__WINDGAP_LOGS__.push({ ts: Date.now(), msg: "showDashboard:entry", data });
   } catch (e) {}
   // Mark dashboard as about-to-render for test harnesses and consumers
   try {
     window.__WINDGAP_READY__ = false;
-  } catch (e) { /* noop */ }
+  } catch (e) {
+    /* noop */
+  }
   // Read preview session from window or localStorage
   function readSession() {
     if (window.currentUser) return window.currentUser;
-    try { return JSON.parse(localStorage.getItem('windgap_session_v1') || 'null'); } catch (e) { return null; }
+    try {
+      return JSON.parse(localStorage.getItem("windgap_session_v1") || "null");
+    } catch (e) {
+      return null;
+    }
   }
-  const session = readSession() || { name: 'Guest', email: 'guest@preview.local', role: 'learner' };
+  const session = readSession() || { name: "Guest", email: "guest@preview.local", role: "learner" };
 
   function buildSidebar(role) {
     const common = [
-      { id: 'overview', label: 'Overview' },
-      { id: 'modules', label: 'Modules' },
-      { id: 'leaderboard', label: 'Leaderboard' },
-      { id: 'daily-challenge', label: 'Daily Challenge' },
-      { id: 'achievements', label: 'Achievements' },
-      { id: 'settings', label: 'Settings' }
+      { id: "overview", label: "Overview" },
+      { id: "modules", label: "Modules" },
+      { id: "leaderboard", label: "Leaderboard" },
+      { id: "daily-challenge", label: "Daily Challenge" },
+      { id: "achievements", label: "Achievements" },
+      { id: "settings", label: "Settings" },
     ];
-    if (role === 'educator') {
-      common.splice(3, 0, { id: 'educator-tools', label: 'Educator Tools' });
+    if (role === "educator") {
+      common.splice(3, 0, { id: "educator-tools", label: "Educator Tools" });
     }
     return common;
   }
@@ -104,12 +118,12 @@ export function showDashboard(container, data = {}) {
             <div>
       <div class="text-sm font-medium text-gray-700">Dashboard</div>
               <div class="text-lg font-bold">Windgap Academy</div>
-              <div class="text-sm text-gray-600">${session.email || ''}</div>
+              <div class="text-sm text-gray-600">${session.email || ""}</div>
             </div>
           </div>
           <div class="flex items-center gap-4">
-            <div class="text-sm text-gray-700">${session.name || 'Guest'}</div>
-            <div class="text-xs text-gray-500 px-2 py-1 border rounded">${(session.role || 'learner').toUpperCase()}</div>
+            <div class="text-sm text-gray-700">${session.name || "Guest"}</div>
+            <div class="text-xs text-gray-500 px-2 py-1 border rounded">${(session.role || "learner").toUpperCase()}</div>
             <select id="theme-select" aria-label="Theme selector" class="text-sm bg-white border rounded px-2">
               <option value="light">Light</option>
               <option value="dark">Dark</option>
@@ -125,12 +139,12 @@ export function showDashboard(container, data = {}) {
         <div class="dashboard-container flex flex-1">
           <nav class="sidebar w-56 bg-[#5ED1D2] p-4 text-white">
             <ul id="dashboard-sidebar" class="space-y-2">
-              ${sidebarItems.map(item => `<li><a href="#${item.id}" data-section="${item.id}" class="sidebar-link block px-3 py-2 rounded">${item.label}</a></li>`).join('')}
+              ${sidebarItems.map((item) => `<li><a href="#${item.id}" data-section="${item.id}" class="sidebar-link block px-3 py-2 rounded">${item.label}</a></li>`).join("")}
             </ul>
           </nav>
           <main class="main-content flex-1 p-6 bg-gray-50 overflow-auto">
             <section id="overview" class="content-section">
-              <h1 class="text-2xl font-bold mb-2">Welcome back, ${session.name || 'Learner'}</h1>
+              <h1 class="text-2xl font-bold mb-2">Welcome back, ${session.name || "Learner"}</h1>
               <p class="text-sm text-gray-600 mb-4">Quick stats and recent activity.</p>
               <h2 class="text-lg font-semibold mb-2">Recent Activities</h2>
               <div id="quick-stats" class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
@@ -196,64 +210,86 @@ export function showDashboard(container, data = {}) {
     `;
 
     // Hook up sidebar navigation
-    const links = container.querySelectorAll('.sidebar-link');
-    links.forEach(link => {
-      link.addEventListener('click', (e) => {
+    const links = container.querySelectorAll(".sidebar-link");
+    links.forEach((link) => {
+      link.addEventListener("click", (e) => {
         e.preventDefault();
-        const section = link.getAttribute('data-section');
-        container.querySelectorAll('.content-section').forEach(s => s.classList.add('hidden'));
+        const section = link.getAttribute("data-section");
+        container.querySelectorAll(".content-section").forEach((s) => s.classList.add("hidden"));
         const el = container.querySelector(`#${section}`);
-        if (el) el.classList.remove('hidden');
-        container.querySelectorAll('.sidebar-link').forEach(a => a.classList.remove('active'));
-        link.classList.add('active');
+        if (el) el.classList.remove("hidden");
+        container.querySelectorAll(".sidebar-link").forEach((a) => a.classList.remove("active"));
+        link.classList.add("active");
       });
     });
 
     // Default active
-    const first = container.querySelector('.sidebar-link');
+    const first = container.querySelector(".sidebar-link");
     if (first) first.click();
 
     // Logout
-    const logoutBtn = container.querySelector('#logout-btn');
+    const logoutBtn = container.querySelector("#logout-btn");
     if (logoutBtn) {
-      logoutBtn.addEventListener('click', () => {
-        try { localStorage.removeItem('windgap_session_v1'); } catch (e) {}
+      logoutBtn.addEventListener("click", () => {
+        try {
+          localStorage.removeItem("windgap_session_v1");
+        } catch (e) {}
         window.currentUser = null;
         // route to home/login
-        if (typeof window.route === 'function') window.route('home'); else location.reload();
+        if (typeof window.route === "function") window.route("home");
+        else location.reload();
       });
     }
 
     // Populate achievements
-    const achievements = ['First Login','Completed Money Skills','Top Score'];
-    const achEl = container.querySelector('#achievements-list');
-    if (achEl) achievements.forEach(a => { const b=document.createElement('span'); b.className='badge'; b.textContent=a; achEl.appendChild(b); });
+    const achievements = ["First Login", "Completed Money Skills", "Top Score"];
+    const achEl = container.querySelector("#achievements-list");
+    if (achEl)
+      achievements.forEach((a) => {
+        const b = document.createElement("span");
+        b.className = "badge";
+        b.textContent = a;
+        achEl.appendChild(b);
+      });
 
     // Wire clear progress
-    const clearBtn = container.querySelector('#clear-progress');
-    if (clearBtn) clearBtn.addEventListener('click', () => { localStorage.removeItem('dashboardProgress'); alert('Local progress cleared'); });
+    const clearBtn = container.querySelector("#clear-progress");
+    if (clearBtn)
+      clearBtn.addEventListener("click", () => {
+        localStorage.removeItem("dashboardProgress");
+        alert("Local progress cleared");
+      });
 
     // Wire daily challenge timer element from app-level timer if present
-    const challengeTimer = document.getElementById('challenge-timer');
+    const challengeTimer = document.getElementById("challenge-timer");
     if (challengeTimer) {
-      const stored = (() => { try { return JSON.parse(localStorage.getItem('windgap_daily_challenge_v1')||'null'); } catch (e) { return null; }})();
-      if (stored && typeof stored.remaining === 'number') challengeTimer.textContent = `${String(Math.floor(stored.remaining/60)).padStart(2,'0')}:${String(stored.remaining%60).padStart(2,'0')}`;
+      const stored = (() => {
+        try {
+          return JSON.parse(localStorage.getItem("windgap_daily_challenge_v1") || "null");
+        } catch (e) {
+          return null;
+        }
+      })();
+      if (stored && typeof stored.remaining === "number")
+        challengeTimer.textContent = `${String(Math.floor(stored.remaining / 60)).padStart(2, "0")}:${String(stored.remaining % 60).padStart(2, "0")}`;
     }
   }
 
   // Immediately mark ready before render so tests waiting on the flag don't race.
   try {
     window.__WINDGAP_READY__ = true;
-    window.dispatchEvent(new Event('windgap:ready'));
-  } catch (e) { /* noop in non-browser contexts */ }
+    window.dispatchEvent(new Event("windgap:ready"));
+  } catch (e) {
+    /* noop in non-browser contexts */
+  }
   try {
-    window.__WINDGAP_LOGS__.push({ ts: Date.now(), msg: 'showDashboard:render' });
+    window.__WINDGAP_LOGS__.push({ ts: Date.now(), msg: "showDashboard:render" });
   } catch (e) {}
   render();
 }
 function animateCharacters() {
-// --- Data Visualization Example ---
-// You can add chart.js or similar for real charts
+  // --- Data Visualization Example ---
+  // You can add chart.js or similar for real charts
   ["daisy", "winnie", "andy"].forEach((name, i) => {
     const canvas = document.getElementById(`${name}-anim`);
     if (canvas) {
