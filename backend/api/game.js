@@ -16,8 +16,7 @@ async function loadStates() {
     if (!fs.existsSync(DATA_FILE)) return;
     const raw = await fs.promises.readFile(DATA_FILE, "utf8");
     const obj = JSON.parse(raw || "{}");
-    Object.keys(obj).forEach((k) => USER_GAME_STATES.set(k, obj[k]));
-    console.log("[game] loaded game states from disk");
+  Object.keys(obj).forEach((k) => USER_GAME_STATES.set(k, obj[k]));
   } catch (err) {
     console.error("[game] error loading states:", err);
   }
