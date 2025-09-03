@@ -5,7 +5,7 @@ const Navbar = () => {
   const { user, logout } = useUser();
 
   const role = user?.role || null;
-  // support both old/new role vocabulary
+  // prefer new vocabulary but support legacy strings
   const isLearner = role === "learner" || role === "student";
   const isEducator = role === "educator" || role === "trainer";
 

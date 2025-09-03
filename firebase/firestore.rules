@@ -12,7 +12,7 @@ service cloud.firestore {
 
     match /assignments/{assignmentId} {
       allow read: if request.auth.uid != null;
-      allow write: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "trainer";
+  allow write: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "educator" || get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "trainer";
     }
   }
 }

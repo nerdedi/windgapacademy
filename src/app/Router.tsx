@@ -7,8 +7,6 @@ import Navbar from "../../components/Navbar.jsx";
 import ErrorBoundary from "../components/ErrorBoundary.jsx";
 import ProtectedRoute from "./ProtectedRoute.jsx";
 const HomePage = lazy(() => import("../pages/HomePage.jsx"));
-const TrainerDashboard = lazy(() => import("../pages/TrainerDashboard.jsx"));
-const StudentDashboard = lazy(() => import("../pages/StudentDashboard.jsx"));
 const EducatorDashboard = lazy(() => import("../pages/EducatorDashboard.jsx"));
 const LearnerDashboard = lazy(() => import("../pages/LearnerDashboard.jsx"));
 const GamePlayground = lazy(() => import("../../components/GameModules/GamePlayground.jsx"));
@@ -69,15 +67,6 @@ export default function AppRouter() {
             {/* Backwards compatible redirects */}
             <Route path="/trainer" element={<Navigate to="/educator" replace />} />
             <Route path="/student" element={<Navigate to="/learner" replace />} />
-
-            <Route
-              path="/student"
-              element={
-                <ProtectedRoute role="learner">
-                  <StudentDashboard />
-                </ProtectedRoute>
-              }
-            />
 
             <Route path="/game" element={<GamePlayground />} />
             <Route path="/assignments" element={<div>Assignments</div>} />

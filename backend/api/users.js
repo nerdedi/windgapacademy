@@ -3,7 +3,7 @@ const authenticateToken = require("../middleware/authenticateToken");
 const router = express.Router();
 
 const mockUsers = [
-  { id: 1, name: "Natalie Erdedi", role: "trainer" },
+  { id: 1, name: "Natalie Erdedi", role: "educator" },
   { id: 2, name: "Jin Young Lee", role: "coordinator" },
   { id: 3, name: "Shannon O'Shea", role: "support" },
 ];

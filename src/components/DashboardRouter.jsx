@@ -15,7 +15,8 @@ const DashboardRouter = () => {
   if (user.role === "admin") {
     return <AdminDashboard />;
   }
-  if (user.role === "student") {
+  // Support legacy student role; prefer 'learner'
+  if (user.role === "learner" || user.role === "student") {
     return <StudentDashboard />;
   }
   return <div>Unknown role.</div>;
