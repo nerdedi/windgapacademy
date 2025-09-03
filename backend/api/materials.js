@@ -9,10 +9,14 @@ router.get("/", (req, res) => {
   ]);
 });
 
-// POST create material
+// POST create material (public, with validation)
 router.post("/", (req, res) => {
-  // Add material creation logic
-  res.status(201).json({ message: "Material created" });
+  const { title } = req.body;
+  if (!title) {
+    return res.status(400).json({ error: "Title is required" });
+  }
+  // Simulate material creation
+  res.status(201).json({ message: "Material created", material: { title } });
 });
 
 module.exports = router;

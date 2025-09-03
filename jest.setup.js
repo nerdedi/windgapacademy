@@ -13,3 +13,8 @@ if (typeof window !== "undefined" && typeof window.alert !== "function") {
     console.info("window.alert called during test:", msg);
   };
 }
+
+// Ensure JWT_SECRET is available during tests
+if (!process.env.JWT_SECRET) {
+  process.env.JWT_SECRET = "test-secret-for-jest";
+}
