@@ -1,11 +1,8 @@
-// Basic Express server for Windgap Academy static files
-
-const express = require('express');
-const helmet = require('helmet');
-const path = require('path');
-const morgan = require('morgan');
-const winston = require('winston');
-const rateLimit = require('express-rate-limit');
+const express = require("express");
+const helmet = require("helmet");
+const path = require("path");
+const morgan = require("morgan");
+const fs = require("fs");
 const app = express();
 const PORT = process.env.PORT || 9003;
 
@@ -13,33 +10,30 @@ const PORT = process.env.PORT || 9003;
 app.use(helmet());
 
 // Logging
-const logger = winston.createLogger({
-  level: 'info',
-  format: winston.format.json(),
-  transports: [
-    new winston.transports.Console(),
-    new winston.transports.File({ filename: 'server.log' })
-  ]
-});
-app.use(morgan('combined', { stream: { write: msg => logger.info(msg.trim()) } }));
+const accessLogStream = fs.createWriteStream(path.join(__dirname, "server.log"), { flags: "a" });
+app.use(morgan("combined", { stream: accessLogStream }));
 
-// Rate limiting
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100 // limit each IP to 100 requests per windowMs
+// Serve favicon.ico or fallback to logo
+const faviconPath = path.join(__dirname, "favicon.ico");
+const logoPath = path.join(__dirname, "assets", "logo.png");
+app.get("/favicon.ico", (req, res) => {
+  res.sendFile(faviconPath, (err) => {
+    if (err) {
+      res.sendFile(logoPath);
+    }
+  });
 });
-app.use(limiter);
 
-// Serve static files from the Vite build output (dist)
-app.use(express.static(path.join(__dirname, 'dist')));
+// Serve static assets
+app.use("/assets", express.static(path.join(__dirname, "dist/assets")));
+app.use(express.static(path.join(__dirname, "dist")));
 
-// Fallback: serve dist/index.html for all other routes (SPA support)
-app.use((req, res, next) => {
-  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+// SPA fallback
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "dist", "index.html"));
 });
-// Start the server
+
+// Start server
 app.listen(PORT, () => {
-  logger.info(`Windgap Academy server running and listening at http://localhost:${PORT}`);
-  console.log('If you are using Codespaces or a devcontainer, make sure port 9003 is forwarded and public.');
+  console.log(`✅ Windgap Academy server running at http://localhost:${PORT}`);
 });
-// single listen retained above

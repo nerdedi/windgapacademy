@@ -10,7 +10,10 @@
     "vscode": {
       "extensions": [
         "dbaeumer.vscode-eslint",
-        "esbenp.prettier-vscode"
+        "esbenp.prettier-vscode",
+        "ms-python.python",
+        "hbenl.vscode-mocha-test-adapter",
+        "eg2.vscode-npm-script"
       ],
       "settings": {
         "terminal.integrated.defaultProfile.linux": "bash"

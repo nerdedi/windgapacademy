@@ -1,3 +1,15 @@
+Windgap Academy Dev Container
+=============================
+
+This devcontainer builds from the project `Dockerfile` and runs `.devcontainer/post-create.sh` after creation.
+
+Environment
+-----------
+Copy `.env.example` to `.env` and fill in the required secrets (do NOT commit `.env`).
+
+CI / Deployment
+----------------
+The GitHub Actions workflow will run tests and (on `main`) deploy to Firebase Hosting. Add `FIREBASE_SERVICE_ACCOUNT` as a secret in your repository settings.
 Dev Container quick guide
 
 This repository includes a devcontainer configuration to run Windgap Academy in a reproducible environment.
