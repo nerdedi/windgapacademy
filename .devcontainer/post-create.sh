@@ -4,20 +4,27 @@ set -euo pipefail
 echo "Running post-create steps..."
 cd /workspaces/windgapacademy
 
-# Install dependencies if package.json exists and SKIP_NPM is not set
-if [ -f package.json ] && [ "${SKIP_NPM:-0}" != "1" ]; then
+# Install dependencies using Yarn if yarn.lock exists
+if [ -f yarn.lock ]; then
+  echo "Installing Yarn dependencies..."
+  yarn install
+# Otherwise, install dependencies using npm if package.json exists and SKIP_NPM is not set
+elif [ -f package.json ] && [ "${SKIP_NPM:-0}" != "1" ]; then
   echo "Installing npm dependencies..."
   npm install --no-audit --no-fund
 else
-  echo "Skipping npm install (SKIP_NPM=${SKIP_NPM:-0})"
+  echo "Skipping dependency installation (SKIP_NPM=${SKIP_NPM:-0})"
 fi
 
-# Run a quick build if a build script exists and SKIP_NPM is not set
-if [ "${SKIP_NPM:-0}" != "1" ] && npm run | grep -q "build"; then
-  echo "Running npm run build..."
-  npm run build || true
+# Run a build using npm if a build script exists, SKIP_NPM is not set, and the previous steps were successful
+if [ -f package.json ] && [ -z "${SKIP_NPM:-}" ]; then
+  echo "Running build..."
+  if ! npm run build; then
+    echo "Build failed! Check logs above."
+    exit 1
+  fi
 else
-  echo "Skipping npm run build (SKIP_NPM=${SKIP_NPM:-0})"
+  echo "Skipping build (SKIP_NPM=${SKIP_NPM:-0})"
 fi
 
 echo "Post-create tasks completed."

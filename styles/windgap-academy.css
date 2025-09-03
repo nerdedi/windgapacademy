@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap');
-@import url("https://fonts.googleapis.com/css2?family=Gotham:wght@400;700&display=swap");
+/* Gotham is a licensed font. Keep only a fallback here unless you host/provide Gotham via @font-face. */
+/* OpenDyslexic: load from a CDN if available, otherwise rely on system fallback */
+@import url('https://cdn.jsdelivr.net/gh/antijingoist/open-dyslexic@latest/open-dyslexic.css');
 /* Hero Section Animations */
 .hero-section {
   position: relative;
@@ -98,10 +100,24 @@ nav.sticky {
   pointer-events: none;
   z-index: 9999;
 }
-/* Improved focus indicators */
-*:focus {
-  outline: 3px solid #fbbf24 !important;
-  outline-offset: 2px;
+/* Theme variables and improved focus indicators */
+:root{
+  --color-primary: #A32C2B;
+  --color-accent: #5ED1D2;
+  --color-yellow: #FBBF24;
+  --color-muted: #58595B;
+  --bg-default: #5ED1D2;
+  --bg-surface: #ffffff;
+  --shadow-1: 0 4px 12px rgba(0,0,0,0.1);
+  --radius-lg: 20px;
+}
+
+/* Prefer focus-visible to avoid showing outlines on mouse click */
+:focus-visible { outline: 3px solid var(--color-yellow); outline-offset: 2px; }
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
 }
 /* Responsive design improvements */
 @media (max-width: 800px) {
@@ -148,16 +164,12 @@ nav.sticky {
   color: #004d40;
 }
 /* Windgap Academy UI, Australian branding, accessibility and advanced UI */
-body {
-  font-family: "Gotham", "Roboto", Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  background-color: #5ED1D2;
-  color: #A32C2B;
-  outline: none;
-}
-body:focus {
-  outline: 3px solid #3b82f6;
+.windgap-body {
+  /* Consolidated body rules. Use .windgap-body on <body> when you want to apply the app theme. */
+  font-family: "Gotham", "Roboto", Arial, sans-serif; /* Gotham will fall back to Roboto if not available */
+  margin: 0; padding: 0;
+  background-color: var(--bg-default);
+  color: var(--color-primary);
 }
 .loading {
   text-align: center;
@@ -326,31 +338,11 @@ footer {
   transition: width 0.8s;
 }
 .notification {
-  position: fixed;
-  top: 80px;
-  right: 20px;
-  z-index: 1000;
-  padding: 16px 20px;
-  border-radius: 8px;
-  color: white;
-  font-weight: 600;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  transform: translateX(400px);
-  transition: transform 0.3s;
-}
-.notification {
-  /* All notifications are private and educator-reviewed for compliance and safety */
-  position: fixed;
-  top: 80px;
-  right: 20px;
-  z-index: 1000;
-  padding: 16px 20px;
-  border-radius: 8px;
-  color: white;
-  font-weight: 600;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  transform: translateX(400px);
-  transition: transform 0.3s;
+  /* Consolidated notification styles (private & educator-reviewed) */
+  position: fixed; top: 80px; right: 20px; z-index: 1000;
+  padding: 16px 20px; border-radius: 8px; color: white; font-weight: 600;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  transform: translateX(400px); transition: transform 0.3s;
 }
 .notification:focus {
   outline: 2px solid #fbbf24;
@@ -370,6 +362,12 @@ footer {
   background: #58595B;
   color: #fff;
 }
+.notification.show { transform: translateX(0); }
+
+/* Loading spinner used by many pages */
+.loading-spinner{ display:flex; justify-content:center; align-items:center; height:100px; }
+.spinner{ border:6px solid var(--color-accent); border-top-color:var(--color-primary); border-radius:50%; width:48px; height:48px; animation: spin 1s linear infinite; }
+@keyframes spin{ 0%{ transform: rotate(0); } to{ transform: rotate(360deg); } }
 .dyslexia-font {
   font-family: "OpenDyslexic", Arial, sans-serif;
 }

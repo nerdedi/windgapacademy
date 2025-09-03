@@ -1,33 +1,39 @@
-// Image optimization and WebP conversion using sharp
-import fs from "fs";
-import process from "node:process";
-import path from "path";
 
-import sharp from "sharp";
+// scripts/optimize-images.js
+const fs = require('fs');
+const path = require('path');
+const sharp = require('sharp');
 
-const inputDir = path.join(process.cwd(), "assets/images");
-const outputDir = path.join(process.cwd(), "assets/images-optimized");
-const webpDir = path.join(process.cwd(), "assets/images-webp");
+const inputDir = path.join(__dirname, '../assets/images');
+const outputDir = path.join(__dirname, '../dist/assets/images');
 
-if (!fs.existsSync(outputDir)) fs.mkdirSync(outputDir, { recursive: true });
-if (!fs.existsSync(webpDir)) fs.mkdirSync(webpDir, { recursive: true });
+// Create output directory if it doesn't exist
+if (!fs.existsSync(outputDir)) {
+  fs.mkdirSync(outputDir, { recursive: true });
+}
 
-fs.readdirSync(inputDir).forEach((file) => {
+// Supported image formats
+const supportedExtensions = ['.jpg', '.jpeg', '.png', '.webp'];
+
+fs.readdirSync(inputDir).forEach(file => {
   const ext = path.extname(file).toLowerCase();
   const inputPath = path.join(inputDir, file);
   const outputPath = path.join(outputDir, file);
-  const webpPath = path.join(webpDir, file.replace(ext, ".webp"));
 
-  // Optimize and save original format
-  sharp(inputPath)
-    .toFile(outputPath)
-    .then(() => console.log(`Optimized: ${file}`))
-    .catch((err) => console.error(`Error optimizing ${file}:`, err));
+  if (!supportedExtensions.includes(ext)) {
+    console.log(`Skipping unsupported file: ${file}`);
+    return;
+  }
 
-  // Convert to WebP
   sharp(inputPath)
+    .resize({ width: 1200 }) // Resize to max width of 1200px
+    .toFormat('webp') // Convert to WebP for better compression
     .webp({ quality: 80 })
-    .toFile(webpPath)
-    .then(() => console.log(`Converted to WebP: ${file}`))
-    .catch((err) => console.error(`Error converting ${file} to WebP:`, err));
+    .toFile(outputPath.replace(ext, '.webp'))
+    .then(() => {
+      console.log(`✅ Optimized: ${file}`);
+    })
+    .catch(err => {
+      console.error(`❌ Error optimizing ${file}:`, err);
+    });
 });

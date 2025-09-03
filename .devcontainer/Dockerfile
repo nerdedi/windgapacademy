@@ -12,8 +12,8 @@ RUN set -eux \
   && adduser -D -G ${USERNAME} -u ${USER_UID} ${USERNAME} || true
 
 # Install Node 18 LTS and common build tools
-RUN apk add --no-cache nodejs=18.20.6-r0 npm build-base python3 \
-  || apk add --no-cache nodejs npm build-base python3
+RUN apk add --no-cache nodejs=18.20.6-r0 npm python3 py3-pip build-base bash git curl \
+  || apk add --no-cache nodejs npm python3 py3-pip build-base bash git curl
 
 # Ensure workspace permissions are ok
 RUN mkdir -p /workspaces && chown -R ${USERNAME}:${USERNAME} /workspaces
