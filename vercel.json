@@ -2,7 +2,8 @@
 	"buildCommand": "npm run build",
 	"outputDirectory": "dist",
 	"framework": null,
-	"routes": [
-		{ "src": "/(.*)", "dest": "/index.html" }
-	]
+		"routes": [
+			{ "src": "/(.*\.(js|css|png|jpg|svg|ico|json|webp|woff2?|ttf|map))", "dest": "/$1" },
+			{ "src": "/(.*)", "dest": "/index.html" }
+		]
 }
