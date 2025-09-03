@@ -1,7 +1,31 @@
-import { useState } from "react";
+import { useEffect, useState } from 'react';
 
-export default function useSecureToken() {
-  const [token, setToken] = useState(null);
-  // Example: fetch/store token securely
-  return [token, setToken];
+/**
+ * useSecureToken
+ * - key: storage key
+ * Returns [token, setToken, clearToken]
+ * - Note: for production you may want to encrypt tokens before storing.
+ */
+export default function useSecureToken(key = 'wg_token') {
+  const [token, setToken] = useState(() => {
+    try {
+      return sessionStorage.getItem(key) || null;
+    } catch (e) {
+      return null;
+    }
+  });
+
+  useEffect(() => {
+    try {
+      if (token) sessionStorage.setItem(key, token);
+      else sessionStorage.removeItem(key);
+    } catch (e) {
+      // ignore storage errors
+    }
+  }, [key, token]);
+
+  const clearToken = () => setToken(null);
+
+  return [token, setToken, clearToken];
 }
+
