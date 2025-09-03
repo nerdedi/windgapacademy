@@ -16,13 +16,13 @@ const EducatorDashboard = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <Panel title="NDIS Goal Tracker">
-          View and manage NDIS-aligned goals for your learners. Navigate to detailed goal
-          pages to update status and add educator notes.
+          View and manage NDIS-aligned goals for your learners. Navigate to detailed goal pages to
+          update status and add educator notes.
         </Panel>
 
         <Panel title="Funding Management">
-          Track funding allocations, used amounts, and prepare justifications for future
-          funding requests.
+          Track funding allocations, used amounts, and prepare justifications for future funding
+          requests.
         </Panel>
 
         <Panel title="Progress Monitoring">
