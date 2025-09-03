@@ -10,26 +10,26 @@
 // Simplified forums logic
 
 function showOnboarding() {
-  const modal = document.createElement('div');
-  modal.className = 'onboarding-modal';
+  const modal = document.createElement("div");
+  modal.className = "onboarding-modal";
   modal.innerHTML = `<h2>Welcome to Forums!</h2><p>Join discussions and share ideas. Use the settings to personalize your experience.</p><button id='close-onboarding'>Close</button>`;
   document.body.appendChild(modal);
-  document.getElementById('close-onboarding').onclick = () => modal.remove();
+  document.getElementById("close-onboarding").onclick = () => modal.remove();
 }
 
 function setAccessibility() {
-  const forumsEl = document.getElementById('forums');
+  const forumsEl = document.getElementById("forums");
   if (forumsEl) {
-    forumsEl.setAttribute('role', 'region');
-    forumsEl.setAttribute('aria-label', 'Forums');
+    forumsEl.setAttribute("role", "region");
+    forumsEl.setAttribute("aria-label", "Forums");
   }
 }
 
 function backupProgress(progress) {
-  localStorage.setItem('forumsProgress', JSON.stringify(progress));
+  localStorage.setItem("forumsProgress", JSON.stringify(progress));
 }
 function syncProgress() {
-  return JSON.parse(localStorage.getItem('forumsProgress') || '{}');
+  return JSON.parse(localStorage.getItem("forumsProgress") || "{}");
 }
 
 function updateLeaderboard(score) {
@@ -45,7 +45,11 @@ function logEvent(event) {
 }
 
 function safeRun(fn) {
-  try { fn(); } catch (e) { console.error('Error:', e); }
+  try {
+    fn();
+  } catch (e) {
+    console.error("Error:", e);
+  }
 }
 
 function showSettings() {
@@ -58,8 +62,8 @@ function startForums() {
   // ...simplified forums logic...
 }
 
-if (typeof document !== 'undefined') {
-  document.addEventListener('DOMContentLoaded', startForums);
+if (typeof document !== "undefined") {
+  document.addEventListener("DOMContentLoaded", startForums);
 }
 // Discussion forums for learners
 export function showForums(container) {

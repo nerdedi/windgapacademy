@@ -10,26 +10,26 @@
 // Comprehensive adaptive learning logic
 
 function showOnboarding() {
-  const modal = document.createElement('div');
-  modal.className = 'onboarding-modal';
+  const modal = document.createElement("div");
+  modal.className = "onboarding-modal";
   modal.innerHTML = `<h2>Welcome to Adaptive Learning!</h2><p>Personalize your learning experience. Use the settings to customize your experience.</p><button id='close-onboarding'>Close</button>`;
   document.body.appendChild(modal);
-  document.getElementById('close-onboarding').onclick = () => modal.remove();
+  document.getElementById("close-onboarding").onclick = () => modal.remove();
 }
 
 function setAccessibility() {
-  const alEl = document.getElementById('adaptive-learning');
+  const alEl = document.getElementById("adaptive-learning");
   if (alEl) {
-    alEl.setAttribute('role', 'region');
-    alEl.setAttribute('aria-label', 'Adaptive Learning');
+    alEl.setAttribute("role", "region");
+    alEl.setAttribute("aria-label", "Adaptive Learning");
   }
 }
 
 function backupProgress(progress) {
-  localStorage.setItem('adaptiveLearningProgress', JSON.stringify(progress));
+  localStorage.setItem("adaptiveLearningProgress", JSON.stringify(progress));
 }
 function syncProgress() {
-  return JSON.parse(localStorage.getItem('adaptiveLearningProgress') || '{}');
+  return JSON.parse(localStorage.getItem("adaptiveLearningProgress") || "{}");
 }
 
 function updateLeaderboard(score) {
@@ -45,7 +45,11 @@ function logEvent(event) {
 }
 
 function safeRun(fn) {
-  try { fn(); } catch (e) { console.error('Error:', e); }
+  try {
+    fn();
+  } catch (e) {
+    console.error("Error:", e);
+  }
 }
 
 function showSettings() {
@@ -58,8 +62,8 @@ function startAdaptiveLearning() {
   // ...adaptive learning logic...
 }
 
-if (typeof document !== 'undefined') {
-  document.addEventListener('DOMContentLoaded', startAdaptiveLearning);
+if (typeof document !== "undefined") {
+  document.addEventListener("DOMContentLoaded", startAdaptiveLearning);
 }
 // Adaptive learning: personalized paths, dynamic difficulty
 export function showAdaptiveLearning(container, userData = {}) {
@@ -75,8 +79,7 @@ export function showAdaptiveLearning(container, userData = {}) {
       <div id='adaptive-feedback' aria-live='polite'></div>
     </section>
   `;
-      document.getElementById("adjust-difficulty").onclick = function () {
-        document.getElementById("adaptive-feedback").innerText = "Difficulty adjusted!";
-      };
-  }
-
+  document.getElementById("adjust-difficulty").onclick = function () {
+    document.getElementById("adaptive-feedback").innerText = "Difficulty adjusted!";
+  };
+}

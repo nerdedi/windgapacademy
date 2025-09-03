@@ -44,7 +44,9 @@ export default function Component({ service }) {
   );
   const name = serverData.online ? serverData.name : "-";
   const map = serverData.online ? serverData.map : "-";
-  const currentPlayers = serverData.online ? `${serverData.players} / ${serverData.maxplayers}` : "-";
+  const currentPlayers = serverData.online
+    ? `${serverData.players} / ${serverData.maxplayers}`
+    : "-";
   const players = serverData.online ? `${serverData.players}` : "-";
   const maxPlayers = serverData.online ? `${serverData.maxplayers}` : "-";
   const bots = serverData.online ? `${serverData.bots}` : "-";

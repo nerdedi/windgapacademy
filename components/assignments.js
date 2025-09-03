@@ -8,13 +8,13 @@ export function showAssignments(app, userId) {
     </section>
   `;
   // Render user's assignments
-  const list = document.getElementById('assignment-list');
+  const list = document.getElementById("assignment-list");
   if (list) {
     const tasks = userId ? listTasks(userId) : [];
     if (tasks.length === 0) {
-      list.innerHTML = '<p>No assignments found.</p>';
+      list.innerHTML = "<p>No assignments found.</p>";
     } else {
-      list.innerHTML = '<ul>' + tasks.map(t => `<li>${t}</li>`).join('') + '</ul>';
+      list.innerHTML = "<ul>" + tasks.map((t) => `<li>${t}</li>`).join("") + "</ul>";
     }
   }
 }
@@ -28,7 +28,8 @@ export function assignTask(username, task) {
   if (!assignments[username]) assignments[username] = [];
   assignments[username].push(task);
   // Log for educator review
-  if (window && window.logEducatorAction) window.logEducatorAction({ type: "assignTask", username, task });
+  if (window && window.logEducatorAction)
+    window.logEducatorAction({ type: "assignTask", username, task });
   alert(
     `Task "${task}" assigned to ${username}. This action is private and logged for educator review.`,
   );

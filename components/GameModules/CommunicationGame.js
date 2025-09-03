@@ -11,10 +11,10 @@ export function showCommunicationGame(container, userData = {}) {
 
   // --- Tooltips ---
   function addTooltips() {
-    document.querySelectorAll("button, [aria-label]").forEach(el => {
+    document.querySelectorAll("button, [aria-label]").forEach((el) => {
       if (el.title || el.getAttribute("aria-label")) {
         el.setAttribute("tabindex", "0");
-        el.onfocus = el.onmouseover = function() {
+        el.onfocus = el.onmouseover = function () {
           let tip = document.createElement("div");
           tip.className = "tooltip";
           tip.textContent = el.title || el.getAttribute("aria-label");
@@ -23,13 +23,13 @@ export function showCommunicationGame(container, userData = {}) {
           tip.style.color = "#fff";
           tip.style.padding = "4px 8px";
           tip.style.borderRadius = "4px";
-          tip.style.top = (el.getBoundingClientRect().top - 30) + "px";
-          tip.style.left = (el.getBoundingClientRect().left) + "px";
+          tip.style.top = el.getBoundingClientRect().top - 30 + "px";
+          tip.style.left = el.getBoundingClientRect().left + "px";
           tip.style.zIndex = 9999;
           tip.id = "active-tooltip";
           document.body.appendChild(tip);
         };
-        el.onblur = el.onmouseout = function() {
+        el.onblur = el.onmouseout = function () {
           let tip = document.getElementById("active-tooltip");
           if (tip) tip.remove();
         };
@@ -43,7 +43,8 @@ export function showCommunicationGame(container, userData = {}) {
     if (!modal) {
       modal = document.createElement("div");
       modal.id = "onboarding-modal";
-      modal.style = "position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.5);z-index:2000;display:flex;align-items:center;justify-content:center;";
+      modal.style =
+        "position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.5);z-index:2000;display:flex;align-items:center;justify-content:center;";
       modal.innerHTML = `<div style='background:#fff;padding:2em;border-radius:1em;max-width:400px;text-align:center;'>
         <h3>${i18n[currentLang].onboardingTour}</h3>
         <p>${i18n[currentLang].onboarding}</p>
@@ -54,7 +55,7 @@ export function showCommunicationGame(container, userData = {}) {
         <button id='close-onboarding' class='btn-primary'>Close</button>
       </div>`;
       document.body.appendChild(modal);
-      document.getElementById('close-onboarding').onclick = () => modal.remove();
+      document.getElementById("close-onboarding").onclick = () => modal.remove();
     }
   }
 
@@ -64,7 +65,8 @@ export function showCommunicationGame(container, userData = {}) {
     if (!modal) {
       modal = document.createElement("div");
       modal.id = "faq-modal";
-      modal.style = "position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.5);z-index:2000;display:flex;align-items:center;justify-content:center;";
+      modal.style =
+        "position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.5);z-index:2000;display:flex;align-items:center;justify-content:center;";
       modal.innerHTML = `<div style='background:#fff;padding:2em;border-radius:1em;max-width:400px;text-align:left;'>
         <h3>FAQ</h3>
         <ul>
@@ -75,7 +77,7 @@ export function showCommunicationGame(container, userData = {}) {
         <button id='close-faq' class='btn-primary'>Close</button>
       </div>`;
       document.body.appendChild(modal);
-      document.getElementById('close-faq').onclick = () => modal.remove();
+      document.getElementById("close-faq").onclick = () => modal.remove();
     }
   }
 
@@ -126,7 +128,7 @@ export function showCommunicationGame(container, userData = {}) {
       sound: "Sound effect: Ding!",
       onboardingTour: "Take a guided tour of the game.",
       faq: "FAQ: Find answers to common questions.",
-      placeholder: "Feature coming soon!"
+      placeholder: "Feature coming soon!",
     },
     es: {
       greet: "Saluda a Daisy con calidez y sinceridad.",
@@ -139,94 +141,98 @@ export function showCommunicationGame(container, userData = {}) {
       askHelp: "以有创意的方式向温妮寻求帮助。",
       thank: "用真挚的话语感谢安迪。",
       // ...other translations...
-    }
+    },
   };
   let currentLang = "en";
   function setLanguage(lang) {
-  currentLang = lang;
-  document.documentElement.lang = lang;
-  updateRTL(lang);
-  // Update all prompts and UI
-  addTooltips();
-  // ...existing code...
-// --- Advanced Feature Upgrades & TODOs ---
-// Accessibility: ARIA roles, keyboard navigation
-// Onboarding/help modal
-// Backup/sync logic
-// Gamification: challenges, leaderboard
-// Educator/parent feedback
-// Analytics integration
-// Error boundaries
-// UI settings modal
-// Comprehensive game logic
+    currentLang = lang;
+    document.documentElement.lang = lang;
+    updateRTL(lang);
+    // Update all prompts and UI
+    addTooltips();
+    // ...existing code...
+    // --- Advanced Feature Upgrades & TODOs ---
+    // Accessibility: ARIA roles, keyboard navigation
+    // Onboarding/help modal
+    // Backup/sync logic
+    // Gamification: challenges, leaderboard
+    // Educator/parent feedback
+    // Analytics integration
+    // Error boundaries
+    // UI settings modal
+    // Comprehensive game logic
 
-// Example: Add onboarding modal
-function showOnboarding() {
-  const modal = document.createElement('div');
-  modal.className = 'onboarding-modal';
-  modal.innerHTML = `<h2>Welcome to Communication Game!</h2><p>Practice communication skills interactively. Use the settings to customize your experience.</p><button id='close-onboarding'>Close</button>`;
-  document.body.appendChild(modal);
-  document.getElementById('close-onboarding').onclick = () => modal.remove();
-}
+    // Example: Add onboarding modal
+    function showOnboarding() {
+      const modal = document.createElement("div");
+      modal.className = "onboarding-modal";
+      modal.innerHTML = `<h2>Welcome to Communication Game!</h2><p>Practice communication skills interactively. Use the settings to customize your experience.</p><button id='close-onboarding'>Close</button>`;
+      document.body.appendChild(modal);
+      document.getElementById("close-onboarding").onclick = () => modal.remove();
+    }
 
-// Example: Add ARIA attributes
-function setAccessibility() {
-  const gameEl = document.getElementById('communication-game');
-  if (gameEl) {
-    gameEl.setAttribute('role', 'region');
-    gameEl.setAttribute('aria-label', 'Communication Game');
-  }
-}
+    // Example: Add ARIA attributes
+    function setAccessibility() {
+      const gameEl = document.getElementById("communication-game");
+      if (gameEl) {
+        gameEl.setAttribute("role", "region");
+        gameEl.setAttribute("aria-label", "Communication Game");
+      }
+    }
 
-// Example: Add backup/sync logic
-function backupProgress(progress) {
-  localStorage.setItem('communicationProgress', JSON.stringify(progress));
-}
-function syncProgress() {
-  return JSON.parse(localStorage.getItem('communicationProgress') || '{}');
-}
+    // Example: Add backup/sync logic
+    function backupProgress(progress) {
+      localStorage.setItem("communicationProgress", JSON.stringify(progress));
+    }
+    function syncProgress() {
+      return JSON.parse(localStorage.getItem("communicationProgress") || "{}");
+    }
 
-// Example: Gamification
-function updateLeaderboard(score) {
-  // ...leaderboard logic...
-}
+    // Example: Gamification
+    function updateLeaderboard(score) {
+      // ...leaderboard logic...
+    }
 
-// Example: Educator/parent feedback
-function sendFeedback(feedback) {
-  // ...send feedback to server...
-}
+    // Example: Educator/parent feedback
+    function sendFeedback(feedback) {
+      // ...send feedback to server...
+    }
 
-// Example: Analytics
-function logEvent(event) {
-  // ...analytics logic...
-}
+    // Example: Analytics
+    function logEvent(event) {
+      // ...analytics logic...
+    }
 
-// Example: Error boundary
-function safeRun(fn) {
-  try { fn(); } catch (e) { console.error('Error:', e); }
-}
+    // Example: Error boundary
+    function safeRun(fn) {
+      try {
+        fn();
+      } catch (e) {
+        console.error("Error:", e);
+      }
+    }
 
-// Example: UI settings modal
-function showSettings() {
-  // ...settings modal logic...
-}
+    // Example: UI settings modal
+    function showSettings() {
+      // ...settings modal logic...
+    }
 
-// Comprehensive game logic placeholder
-function startGame() {
-  showOnboarding();
-  setAccessibility();
-  // ...game logic...
-}
+    // Comprehensive game logic placeholder
+    function startGame() {
+      showOnboarding();
+      setAccessibility();
+      // ...game logic...
+    }
 
-// Run game on DOMContentLoaded
-if (typeof document !== 'undefined') {
-  document.addEventListener('DOMContentLoaded', startGame);
-}
+    // Run game on DOMContentLoaded
+    if (typeof document !== "undefined") {
+      document.addEventListener("DOMContentLoaded", startGame);
+    }
   }
 
   // --- Text-to-Speech ---
   function speak(text) {
-    if ('speechSynthesis' in window) {
+    if ("speechSynthesis" in window) {
       const utter = new SpeechSynthesisUtterance(text);
       utter.lang = currentLang;
       window.speechSynthesis.speak(utter);
@@ -237,7 +243,9 @@ if (typeof document !== 'undefined') {
   function enableKeyboardNavigation() {
     document.addEventListener("keydown", function (e) {
       if (e.key === "Tab") {
-        const focusable = Array.from(document.querySelectorAll("button, [tabindex], input, select"));
+        const focusable = Array.from(
+          document.querySelectorAll("button, [tabindex], input, select"),
+        );
         const index = focusable.indexOf(document.activeElement);
         const next = focusable[(index + 1) % focusable.length];
         if (next) next.focus();
@@ -253,7 +261,11 @@ if (typeof document !== 'undefined') {
 
   // --- Error Boundary ---
   function errorBoundary(fn) {
-    try { fn(); } catch (e) { alert(i18n[currentLang].error); }
+    try {
+      fn();
+    } catch (e) {
+      alert(i18n[currentLang].error);
+    }
   }
 
   // ...existing code...
@@ -278,9 +290,9 @@ if (typeof document !== 'undefined') {
     var prompts = [i18n[currentLang].greet, i18n[currentLang].askHelp, i18n[currentLang].thank];
     var answers = ["hello", "help", "thank"];
     var feedbacks = [
-      "Daisy: \"You made my day!\"",
-      "Winnie: \"That was a creative request!\"",
-      "Andy: \"Your gratitude means a lot!\"",
+      'Daisy: "You made my day!"',
+      'Winnie: "That was a creative request!"',
+      'Andy: "Your gratitude means a lot!"',
     ];
     var current = 0;
     var progress = loadProgress();
@@ -306,7 +318,8 @@ if (typeof document !== 'undefined') {
         var feedback = "";
         if (!validateInput(val)) {
           feedback = i18n[currentLang].invalid;
-          document.getElementById("comm-feedback").innerHTML = `<span class='text-red-500 font-semibold'>${feedback}</span>`;
+          document.getElementById("comm-feedback").innerHTML =
+            `<span class='text-red-500 font-semibold'>${feedback}</span>`;
           speak(feedback);
           return;
         }
@@ -512,7 +525,9 @@ if (typeof document !== 'undefined') {
   modal.querySelector("#language-select").onchange = (e) => setLanguage(e.target.value);
 
   // Achievements logic
-  modal.querySelector("#achievements-list").innerHTML = getAchievements().map(ach => `<li>${ach}</li>`).join("");
+  modal.querySelector("#achievements-list").innerHTML = getAchievements()
+    .map((ach) => `<li>${ach}</li>`)
+    .join("");
   // Removed unused updateAchievements for lint compliance
   modal.querySelector("#hint-btn").onclick = () => {
     alert("Hint: Try greeting Daisy politely!");
@@ -628,16 +643,21 @@ function showChallengesAndLeaderboard() {
   const challenges = [
     { name: i18n[currentLang].challenge1, completed: false },
     { name: i18n[currentLang].challenge2, completed: false },
-    { name: i18n[currentLang].challenge3, completed: false }
+    { name: i18n[currentLang].challenge3, completed: false },
   ];
   modal.querySelector("#challenge-list").innerHTML =
     `<ul>` +
-    challenges.map((c, i) => `<li style='animation:fadeIn 0.8s ${i * 0.2}s forwards;'>${c.name} <button class='btn-primary' onclick='alert("${i18n[currentLang].placeholder}")'>Try</button> - ${c.completed ? "✔️" : "❌"}</li>`).join("") +
+    challenges
+      .map(
+        (c, i) =>
+          `<li style='animation:fadeIn 0.8s ${i * 0.2}s forwards;'>${c.name} <button class='btn-primary' onclick='alert("${i18n[currentLang].placeholder}")'>Try</button> - ${c.completed ? "✔️" : "❌"}</li>`,
+      )
+      .join("") +
     `</ul>`;
   // Add animation style
-  if (!document.getElementById('challenge-anim-style')) {
-    const style = document.createElement('style');
-    style.id = 'challenge-anim-style';
+  if (!document.getElementById("challenge-anim-style")) {
+    const style = document.createElement("style");
+    style.id = "challenge-anim-style";
     style.innerHTML = `@keyframes fadeIn { from { opacity: 0; transform: translateY(20px);} to { opacity: 1; transform: none;} }`;
     document.head.appendChild(style);
   }
@@ -656,7 +676,7 @@ function enableARVRMode() {
   if (!document.getElementById("arvr-scene")) {
     const scene = document.createElement("a-scene");
     scene.id = "arvr-scene";
-    scene.innerHTML = "<a-box position=\"0 1 -3\" color=\"#4CC3D9\"></a-box>";
+    scene.innerHTML = '<a-box position="0 1 -3" color="#4CC3D9"></a-box>';
     document.body.appendChild(scene);
     updateProgress();
     alert("AR/VR mode enabled (A-Frame stub).");
@@ -733,7 +753,7 @@ function enableSignLanguageAvatar() {
     overlay.style.borderRadius = "12px";
     overlay.style.zIndex = "1002";
     overlay.innerHTML =
-      "<img src=\"/assets/sign-avatar.gif\" alt=\"Sign Language Avatar\" style=\"width:100%;height:100%;object-fit:contain;\" />";
+      '<img src="/assets/sign-avatar.gif" alt="Sign Language Avatar" style="width:100%;height:100%;object-fit:contain;" />';
     document.body.appendChild(overlay);
     updateProgress();
   }
@@ -786,7 +806,7 @@ function updatePromptsList() {
   if (modal) {
     modal.querySelector("#custom-prompts-list").innerHTML =
       "<ul>" + prompts.map((p) => `<li>${p}</li>`).join("") + "</ul>";
-      updateProgress();
+    updateProgress();
   }
   modal.style.display = "block";
 }

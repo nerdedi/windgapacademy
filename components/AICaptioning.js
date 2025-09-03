@@ -10,26 +10,26 @@
 // Comprehensive AI captioning logic
 
 function showOnboarding() {
-  const modal = document.createElement('div');
-  modal.className = 'onboarding-modal';
+  const modal = document.createElement("div");
+  modal.className = "onboarding-modal";
   modal.innerHTML = `<h2>Welcome to AI Captioning!</h2><p>Enable captions and improve accessibility. Use the settings to personalize your experience.</p><button id='close-onboarding'>Close</button>`;
   document.body.appendChild(modal);
-  document.getElementById('close-onboarding').onclick = () => modal.remove();
+  document.getElementById("close-onboarding").onclick = () => modal.remove();
 }
 
 function setAccessibility() {
-  const aiEl = document.getElementById('ai-captioning');
+  const aiEl = document.getElementById("ai-captioning");
   if (aiEl) {
-    aiEl.setAttribute('role', 'region');
-    aiEl.setAttribute('aria-label', 'AI Captioning');
+    aiEl.setAttribute("role", "region");
+    aiEl.setAttribute("aria-label", "AI Captioning");
   }
 }
 
 function backupProgress(progress) {
-  localStorage.setItem('aiCaptioningProgress', JSON.stringify(progress));
+  localStorage.setItem("aiCaptioningProgress", JSON.stringify(progress));
 }
 function syncProgress() {
-  return JSON.parse(localStorage.getItem('aiCaptioningProgress') || '{}');
+  return JSON.parse(localStorage.getItem("aiCaptioningProgress") || "{}");
 }
 
 function updateLeaderboard(score) {
@@ -45,7 +45,11 @@ function logEvent(event) {
 }
 
 function safeRun(fn) {
-  try { fn(); } catch (e) { console.error('Error:', e); }
+  try {
+    fn();
+  } catch (e) {
+    console.error("Error:", e);
+  }
 }
 
 function showSettings() {
@@ -58,8 +62,8 @@ function startAICaptioning() {
   // ...AI captioning logic...
 }
 
-if (typeof document !== 'undefined') {
-  document.addEventListener('DOMContentLoaded', startAICaptioning);
+if (typeof document !== "undefined") {
+  document.addEventListener("DOMContentLoaded", startAICaptioning);
 }
 // AI-powered captioning and translation
 export function showAICaptioning(container) {

@@ -61,7 +61,7 @@ export default function NumeracyCountingMoneyLesson() {
   const objectives = [
     "Recognise Australian coins and notes",
     "Add together different combinations of notes",
-    "Participate in practice activity using menu and prices"
+    "Participate in practice activity using menu and prices",
   ];
   return (
     <div className="lesson-module p-6 bg-white rounded-xl shadow-lg max-w-2xl mx-auto">
@@ -69,7 +69,9 @@ export default function NumeracyCountingMoneyLesson() {
       <div className="mb-4">
         <h3 className="font-semibold">Learning Objectives</h3>
         <ul className="list-disc ml-6">
-          {objectives.map((obj, idx) => <li key={idx}>{obj}</li>)}
+          {objectives.map((obj, idx) => (
+            <li key={idx}>{obj}</li>
+          ))}
         </ul>
       </div>
       <MoneyMatchingGame />

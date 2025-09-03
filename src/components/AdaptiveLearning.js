@@ -10,26 +10,26 @@
 // Comprehensive adaptive learning logic
 
 function showOnboarding() {
-  const modal = document.createElement('div');
-  modal.className = 'onboarding-modal';
+  const modal = document.createElement("div");
+  modal.className = "onboarding-modal";
   modal.innerHTML = `<h2>Welcome to Adaptive Learning!</h2><p>Personalize your learning experience. Use the settings to customize your experience.</p><button id='close-onboarding'>Close</button>`;
   document.body.appendChild(modal);
-  document.getElementById('close-onboarding').onclick = () => modal.remove();
+  document.getElementById("close-onboarding").onclick = () => modal.remove();
 }
 
 function setAccessibility() {
-  const alEl = document.getElementById('adaptive-learning');
+  const alEl = document.getElementById("adaptive-learning");
   if (alEl) {
-    alEl.setAttribute('role', 'region');
-    alEl.setAttribute('aria-label', 'Adaptive Learning');
+    alEl.setAttribute("role", "region");
+    alEl.setAttribute("aria-label", "Adaptive Learning");
   }
 }
 
 function backupProgress(progress) {
-  localStorage.setItem('adaptiveLearningProgress', JSON.stringify(progress));
+  localStorage.setItem("adaptiveLearningProgress", JSON.stringify(progress));
 }
 function syncProgress() {
-  return JSON.parse(localStorage.getItem('adaptiveLearningProgress') || '{}');
+  return JSON.parse(localStorage.getItem("adaptiveLearningProgress") || "{}");
 }
 
 function updateLeaderboard(score) {
@@ -37,8 +37,8 @@ function updateLeaderboard(score) {
 }
 
 function sendFeedback(feedback) {
-  logEvent('Feedback sent', { feedback });
-  showFeedbackModal('Thank you for your feedback!');
+  logEvent("Feedback sent", { feedback });
+  showFeedbackModal("Thank you for your feedback!");
 }
 
 function logEvent(event, data = {}) {
@@ -46,18 +46,23 @@ function logEvent(event, data = {}) {
   if (window.analytics) {
     window.analytics.track(event, data);
   }
-  console.log('Analytics event:', event, data);
+  console.log("Analytics event:", event, data);
 }
 function showFeedbackModal(message) {
-  const modal = document.createElement('div');
-  modal.style = 'position:fixed;top:50%;left:50%;transform:translate(-50%, -50%);background:#fff;border:2px solid #1976d2;border-radius:12px;padding:24px;z-index:1001;min-width:320px;';
+  const modal = document.createElement("div");
+  modal.style =
+    "position:fixed;top:50%;left:50%;transform:translate(-50%, -50%);background:#fff;border:2px solid #1976d2;border-radius:12px;padding:24px;z-index:1001;min-width:320px;";
   modal.innerHTML = `<h2>Feedback</h2><p>${message}</p><button id='close-feedback'>Close</button>`;
   document.body.appendChild(modal);
-  document.getElementById('close-feedback').onclick = () => modal.remove();
+  document.getElementById("close-feedback").onclick = () => modal.remove();
 }
 
 function safeRun(fn) {
-  try { fn(); } catch (e) { console.error('Error:', e); }
+  try {
+    fn();
+  } catch (e) {
+    console.error("Error:", e);
+  }
 }
 
 function showSettings() {
@@ -70,9 +75,11 @@ function startAdaptiveLearning() {
   // ...adaptive learning logic...
 }
 
-const __DEV_UI__ = (typeof process !== 'undefined' && process.env && process.env.NODE_ENV !== 'production') || (typeof window !== 'undefined' && window.__ENABLE_DEV_UI__ === true);
-if (typeof document !== 'undefined' && __DEV_UI__) {
-  document.addEventListener('DOMContentLoaded', startAdaptiveLearning);
+const __DEV_UI__ =
+  (typeof process !== "undefined" && process.env && process.env.NODE_ENV !== "production") ||
+  (typeof window !== "undefined" && window.__ENABLE_DEV_UI__ === true);
+if (typeof document !== "undefined" && __DEV_UI__) {
+  document.addEventListener("DOMContentLoaded", startAdaptiveLearning);
 }
 // Adaptive learning: personalized recommendations and difficulty
 export class AdaptiveLearning {
@@ -90,23 +97,23 @@ export class AdaptiveLearning {
   recommendNextModule(modules, progress) {
     try {
       // Accessibility: ARIA live region for recommendations
-      let ariaLive = document.getElementById('aria-adaptive-feedback');
+      let ariaLive = document.getElementById("aria-adaptive-feedback");
       if (!ariaLive) {
-        ariaLive = document.createElement('div');
-        ariaLive.id = 'aria-adaptive-feedback';
-        ariaLive.setAttribute('aria-live', 'polite');
-        ariaLive.style.position = 'absolute';
-        ariaLive.style.left = '-9999px';
+        ariaLive = document.createElement("div");
+        ariaLive.id = "aria-adaptive-feedback";
+        ariaLive.setAttribute("aria-live", "polite");
+        ariaLive.style.position = "absolute";
+        ariaLive.style.left = "-9999px";
         document.body.appendChild(ariaLive);
       }
       // Simple recommendation: pick next incomplete module
-      const next = modules.find(m => !progress[m]);
-      ariaLive.textContent = next ? `Recommended module: ${next}` : 'All modules complete!';
-      if (window.educatorLog) window.educatorLog('Adaptive recommendation', next);
+      const next = modules.find((m) => !progress[m]);
+      ariaLive.textContent = next ? `Recommended module: ${next}` : "All modules complete!";
+      if (window.educatorLog) window.educatorLog("Adaptive recommendation", next);
       return next;
     } catch (err) {
-      console.error('AdaptiveLearning error:', err);
-      if (window.educatorLog) window.educatorLog('AdaptiveLearning error', err);
+      console.error("AdaptiveLearning error:", err);
+      if (window.educatorLog) window.educatorLog("AdaptiveLearning error", err);
       return null;
     }
   }

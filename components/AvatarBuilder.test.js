@@ -1,4 +1,5 @@
 const { describe, it, expect } = require("@jest/globals");
+
 const { getAvatarState } = require("./AvatarBuilder");
 
 describe("getAvatarState", () => {

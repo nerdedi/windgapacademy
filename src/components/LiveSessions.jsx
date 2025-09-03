@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 
 const LiveSessions = () => {
   const [sessions, setSessions] = useState([]);
@@ -6,12 +6,12 @@ const LiveSessions = () => {
   useEffect(() => {
     setLoading(true);
     fetch("/api/sessions")
-      .then(res => res.json())
-      .then(data => {
+      .then((res) => res.json())
+      .then((data) => {
         setSessions(data);
         setLoading(false);
       })
-      .catch(err => {
+      .catch((err) => {
         setError("Failed to load live sessions");
         setLoading(false);
       });
@@ -27,7 +27,9 @@ const LiveSessions = () => {
           <li>No live sessions scheduled</li>
         ) : (
           sessions.map((s) => (
-            <li key={s.id} className="py-1">{s.title} - {s.time}</li>
+            <li key={s.id} className="py-1">
+              {s.title} - {s.time}
+            </li>
           ))
         )}
       </ul>

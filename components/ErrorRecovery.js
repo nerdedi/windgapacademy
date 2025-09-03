@@ -10,26 +10,26 @@
 // Simplified error recovery logic
 
 function showOnboarding() {
-  const modal = document.createElement('div');
-  modal.className = 'onboarding-modal';
+  const modal = document.createElement("div");
+  modal.className = "onboarding-modal";
   modal.innerHTML = `<h2>Error Recovery</h2><p>Recover from errors and continue learning. Use the settings to personalize your experience.</p><button id='close-onboarding'>Close</button>`;
   document.body.appendChild(modal);
-  document.getElementById('close-onboarding').onclick = () => modal.remove();
+  document.getElementById("close-onboarding").onclick = () => modal.remove();
 }
 
 function setAccessibility() {
-  const errEl = document.getElementById('error-recovery');
+  const errEl = document.getElementById("error-recovery");
   if (errEl) {
-    errEl.setAttribute('role', 'region');
-    errEl.setAttribute('aria-label', 'Error Recovery');
+    errEl.setAttribute("role", "region");
+    errEl.setAttribute("aria-label", "Error Recovery");
   }
 }
 
 function backupProgress(progress) {
-  localStorage.setItem('errorRecoveryProgress', JSON.stringify(progress));
+  localStorage.setItem("errorRecoveryProgress", JSON.stringify(progress));
 }
 function syncProgress() {
-  return JSON.parse(localStorage.getItem('errorRecoveryProgress') || '{}');
+  return JSON.parse(localStorage.getItem("errorRecoveryProgress") || "{}");
 }
 
 function updateLeaderboard(score) {
@@ -45,7 +45,11 @@ function logEvent(event) {
 }
 
 function safeRun(fn) {
-  try { fn(); } catch (e) { console.error('Error:', e); }
+  try {
+    fn();
+  } catch (e) {
+    console.error("Error:", e);
+  }
 }
 
 function showSettings() {
@@ -58,8 +62,8 @@ function startErrorRecovery() {
   // ...simplified error recovery logic...
 }
 
-if (typeof document !== 'undefined') {
-  document.addEventListener('DOMContentLoaded', startErrorRecovery);
+if (typeof document !== "undefined") {
+  document.addEventListener("DOMContentLoaded", startErrorRecovery);
 }
 // Enhanced error handling and recovery
 export function showErrorRecovery(container, errorMsg) {

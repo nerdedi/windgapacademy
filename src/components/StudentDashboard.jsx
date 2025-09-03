@@ -1,8 +1,9 @@
-import React from 'react';
-import StudyMaterials from './StudyMaterials';
-import AssignmentSubmission from './AssignmentSubmission';
-import LiveSessions from './LiveSessions';
-import QnAForum from './QnAForum';
+import React from "react";
+
+import AssignmentSubmission from "./AssignmentSubmission";
+import LiveSessions from "./LiveSessions";
+import QnAForum from "./QnAForum";
+import StudyMaterials from "./StudyMaterials";
 
 const StudentDashboard = () => {
   return (

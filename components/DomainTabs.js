@@ -10,7 +10,7 @@ export function showDomainTabs(container, domain = "literacy") {
     "virtual-world",
   ];
   function tabButton(label, value, active) {
-  return `<button class="domain-tab${active ? " active" : ""} btn-secondary" aria-label="${label}" data-domain="${value}">${label}</button>`;
+    return `<button class="domain-tab${active ? " active" : ""} btn-secondary" aria-label="${label}" data-domain="${value}">${label}</button>`;
   }
   container.innerHTML = `
   <nav aria-label="Domain Tabs" class="mb-4">
@@ -119,6 +119,6 @@ export function showDomainTabs(container, domain = "literacy") {
     `;
   };
   // Show the scenario for the selected domain
-  container.innerHTML = "<div id=\"interactive-scenario\"></div>";
+  container.innerHTML = '<div id="interactive-scenario"></div>';
   window.launchInteractiveScenario(domain);
 }

@@ -10,26 +10,26 @@
 // Simplified group projects logic
 
 function showOnboarding() {
-  const modal = document.createElement('div');
-  modal.className = 'onboarding-modal';
+  const modal = document.createElement("div");
+  modal.className = "onboarding-modal";
   modal.innerHTML = `<h2>Welcome to Group Projects!</h2><p>Collaborate and complete projects together. Use the settings to personalize your experience.</p><button id='close-onboarding'>Close</button>`;
   document.body.appendChild(modal);
-  document.getElementById('close-onboarding').onclick = () => modal.remove();
+  document.getElementById("close-onboarding").onclick = () => modal.remove();
 }
 
 function setAccessibility() {
-  const gpEl = document.getElementById('group-projects');
+  const gpEl = document.getElementById("group-projects");
   if (gpEl) {
-    gpEl.setAttribute('role', 'region');
-    gpEl.setAttribute('aria-label', 'Group Projects');
+    gpEl.setAttribute("role", "region");
+    gpEl.setAttribute("aria-label", "Group Projects");
   }
 }
 
 function backupProgress(progress) {
-  localStorage.setItem('groupProjectsProgress', JSON.stringify(progress));
+  localStorage.setItem("groupProjectsProgress", JSON.stringify(progress));
 }
 function syncProgress() {
-  return JSON.parse(localStorage.getItem('groupProjectsProgress') || '{}');
+  return JSON.parse(localStorage.getItem("groupProjectsProgress") || "{}");
 }
 
 function updateLeaderboard(score) {
@@ -45,7 +45,11 @@ function logEvent(event) {
 }
 
 function safeRun(fn) {
-  try { fn(); } catch (e) { console.error('Error:', e); }
+  try {
+    fn();
+  } catch (e) {
+    console.error("Error:", e);
+  }
 }
 
 function showSettings() {
@@ -58,8 +62,8 @@ function startGroupProjects() {
   // ...simplified group projects logic...
 }
 
-if (typeof document !== 'undefined') {
-  document.addEventListener('DOMContentLoaded', startGroupProjects);
+if (typeof document !== "undefined") {
+  document.addEventListener("DOMContentLoaded", startGroupProjects);
 }
 // Group projects or collaborative activities
 export function showGroupProjects(container) {

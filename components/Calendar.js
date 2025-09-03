@@ -10,26 +10,26 @@
 // Comprehensive calendar logic
 
 function showOnboarding() {
-  const modal = document.createElement('div');
-  modal.className = 'onboarding-modal';
+  const modal = document.createElement("div");
+  modal.className = "onboarding-modal";
   modal.innerHTML = `<h2>Welcome to Calendar!</h2><p>Manage your events and deadlines. Use the settings to personalize your experience.</p><button id='close-onboarding'>Close</button>`;
   document.body.appendChild(modal);
-  document.getElementById('close-onboarding').onclick = () => modal.remove();
+  document.getElementById("close-onboarding").onclick = () => modal.remove();
 }
 
 function setAccessibility() {
-  const calEl = document.getElementById('calendar');
+  const calEl = document.getElementById("calendar");
   if (calEl) {
-    calEl.setAttribute('role', 'region');
-    calEl.setAttribute('aria-label', 'Calendar');
+    calEl.setAttribute("role", "region");
+    calEl.setAttribute("aria-label", "Calendar");
   }
 }
 
 function backupProgress(progress) {
-  localStorage.setItem('calendarProgress', JSON.stringify(progress));
+  localStorage.setItem("calendarProgress", JSON.stringify(progress));
 }
 function syncProgress() {
-  return JSON.parse(localStorage.getItem('calendarProgress') || '{}');
+  return JSON.parse(localStorage.getItem("calendarProgress") || "{}");
 }
 
 function updateLeaderboard(score) {
@@ -45,7 +45,11 @@ function logEvent(event) {
 }
 
 function safeRun(fn) {
-  try { fn(); } catch (e) { console.error('Error:', e); }
+  try {
+    fn();
+  } catch (e) {
+    console.error("Error:", e);
+  }
 }
 
 function showSettings() {
@@ -58,8 +62,8 @@ function startCalendar() {
   // ...calendar logic...
 }
 
-if (typeof document !== 'undefined') {
-  document.addEventListener('DOMContentLoaded', startCalendar);
+if (typeof document !== "undefined") {
+  document.addEventListener("DOMContentLoaded", startCalendar);
 }
 // In-app calendar for scheduling
 export function showCalendar(container) {

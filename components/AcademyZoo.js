@@ -60,7 +60,7 @@ export default class AcademyZoo {
     `;
   }
   initInteractiveZoo() {
-    const zooEl = this.container.querySelector('#academy-zoo');
+    const zooEl = this.container.querySelector("#academy-zoo");
     if (!zooEl) return;
     // Add onboarding/help
     showOnboarding();
@@ -68,20 +68,20 @@ export default class AcademyZoo {
     showSettings();
     // Add keyboard navigation
     zooEl.tabIndex = 0;
-    zooEl.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowRight') {
-        logEvent('Navigate right');
+    zooEl.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight") {
+        logEvent("Navigate right");
         // Simulate moving to next animal
-  // Track navigation event
-  logEvent('Navigate right');
-  // Optionally show a toast or modal for navigation
-        const nextAnimal = zooEl.querySelector('.animal:nth-child(2)');
-        if (nextAnimal) nextAnimal.scrollIntoView({ behavior: 'smooth' });
-      } else if (e.key === 'ArrowLeft') {
-        logEvent('Navigate left');
+        // Track navigation event
+        logEvent("Navigate right");
+        // Optionally show a toast or modal for navigation
+        const nextAnimal = zooEl.querySelector(".animal:nth-child(2)");
+        if (nextAnimal) nextAnimal.scrollIntoView({ behavior: "smooth" });
+      } else if (e.key === "ArrowLeft") {
+        logEvent("Navigate left");
         // Simulate moving to previous animal
-  logEvent('Navigate left');
-      } else if (e.key === 'a') {
+        logEvent("Navigate left");
+      } else if (e.key === "a") {
         // Show animal care guidelines
         zooEl.innerHTML += `<div style='background:#e6ffe6;padding:1em;margin:1em 0;border-radius:8px;'>
           <h4>Ethical Animal Care Guidelines (Taronga Zoo)</h4>
@@ -97,62 +97,65 @@ export default class AcademyZoo {
       }
     });
     // Add gamification: challenge button
-    const challengeBtn = document.createElement('button');
-    challengeBtn.textContent = 'Complete Challenge';
+    const challengeBtn = document.createElement("button");
+    challengeBtn.textContent = "Complete Challenge";
     challengeBtn.onclick = () => {
       let score = syncProgress().score || 0;
       score += 10;
       updateLeaderboard(score);
-      logEvent('Challenge completed');
+      logEvent("Challenge completed");
       backupProgress({ score });
-      alert('Challenge complete! Score: ' + score);
+      alert("Challenge complete! Score: " + score);
       // Simulate challenge logic
-  logEvent('Challenge completed');
-  // Show feedback modal for challenge completion
-  showFeedbackModal('Challenge completed! How did you feel about this challenge?');
+      logEvent("Challenge completed");
+      // Show feedback modal for challenge completion
+      showFeedbackModal("Challenge completed! How did you feel about this challenge?");
     };
     zooEl.appendChild(challengeBtn);
     // Add feedback button
-    const feedbackBtn = document.createElement('button');
-    feedbackBtn.textContent = 'Send Feedback';
+    const feedbackBtn = document.createElement("button");
+    feedbackBtn.textContent = "Send Feedback";
     feedbackBtn.onclick = () => {
-      sendFeedback('Great zoo!');
-  logEvent('Feedback sent');
-  showFeedbackModal('Thank you for your feedback!');
+      sendFeedback("Great zoo!");
+      logEvent("Feedback sent");
+      showFeedbackModal("Thank you for your feedback!");
     };
     zooEl.appendChild(feedbackBtn);
-  // Real zoo logic and analytics
+    // Real zoo logic and analytics
     safeRun(() => {
       // Simulate zoo logic
-  // Execute zoo logic and track analytics
-  logEvent('Zoo logic executed');
-      if (Math.random() < 0.01) throw new Error('Zoo error!');
-      const nextAnimal = zooEl.querySelector('.animal:nth-child(2)');
-      if (nextAnimal) nextAnimal.scrollIntoView({ behavior: 'smooth' });
+      // Execute zoo logic and track analytics
+      logEvent("Zoo logic executed");
+      if (Math.random() < 0.01) throw new Error("Zoo error!");
+      const nextAnimal = zooEl.querySelector(".animal:nth-child(2)");
+      if (nextAnimal) nextAnimal.scrollIntoView({ behavior: "smooth" });
     });
     // Analytics
-    logEvent('Academy Zoo started');
-  logEvent('Analytics event logged');
-  // Implement AR/VR, multiplayer, educator dashboard, animal facts, habitat builder, conservation, enrichment, animal tracking, etc. as needed
+    logEvent("Academy Zoo started");
+    logEvent("Analytics event logged");
+    // Implement AR/VR, multiplayer, educator dashboard, animal facts, habitat builder, conservation, enrichment, animal tracking, etc. as needed
     // Remove placeholder, add real features as modules are completed
 
-// Feedback modal implementation
-function showFeedbackModal(message) {
-  const modal = document.createElement('div');
-  modal.style = 'position:fixed;top:50%;left:50%;transform:translate(-50%, -50%);background:#fff;border:2px solid #1976d2;border-radius:12px;padding:24px;z-index:1001;min-width:320px;';
-  modal.innerHTML = `<h2>Feedback</h2><p>${message}</p><button id='close-feedback'>Close</button>`;
-  document.body.appendChild(modal);
-  document.getElementById('close-feedback').onclick = () => modal.remove();
-}
+    // Feedback modal implementation
+    function showFeedbackModal(message) {
+      const modal = document.createElement("div");
+      modal.style =
+        "position:fixed;top:50%;left:50%;transform:translate(-50%, -50%);background:#fff;border:2px solid #1976d2;border-radius:12px;padding:24px;z-index:1001;min-width:320px;";
+      modal.innerHTML = `<h2>Feedback</h2><p>${message}</p><button id='close-feedback'>Close</button>`;
+      document.body.appendChild(modal);
+      document.getElementById("close-feedback").onclick = () => modal.remove();
+    }
     // Simulate animal movement and freedom
     setInterval(() => {
-      const animals = zooEl.querySelectorAll('.animal');
+      const animals = zooEl.querySelectorAll(".animal");
       animals.forEach((el, i) => {
-        el.style.transform = `translateY(${Math.sin(Date.now()/1000 + i)*10}px)`;
+        el.style.transform = `translateY(${Math.sin(Date.now() / 1000 + i) * 10}px)`;
       });
     }, 1000);
     // Play zoo sounds
-    const sound = zooEl.querySelector('#zoo-sounds');
-    if (sound) { sound.volume = 0.2; }
+    const sound = zooEl.querySelector("#zoo-sounds");
+    if (sound) {
+      sound.volume = 0.2;
+    }
   }
 }

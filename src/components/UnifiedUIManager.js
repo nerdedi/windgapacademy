@@ -10,26 +10,26 @@
 // Comprehensive UI manager logic
 // ...existing code...
 function showOnboarding() {
-  const modal = document.createElement('div');
-  modal.className = 'onboarding-modal';
+  const modal = document.createElement("div");
+  modal.className = "onboarding-modal";
   modal.innerHTML = `<h2>Welcome to Unified UI Manager!</h2><p>Manage and customize your user interface. Use the settings to personalize your experience.</p><button id='close-onboarding'>Close</button>`;
   document.body.appendChild(modal);
-  document.getElementById('close-onboarding').onclick = () => modal.remove();
+  document.getElementById("close-onboarding").onclick = () => modal.remove();
 }
 
 function setAccessibility() {
-  const uiEl = document.getElementById('unified-ui-manager');
+  const uiEl = document.getElementById("unified-ui-manager");
   if (uiEl) {
-    uiEl.setAttribute('role', 'region');
-    uiEl.setAttribute('aria-label', 'Unified UI Manager');
+    uiEl.setAttribute("role", "region");
+    uiEl.setAttribute("aria-label", "Unified UI Manager");
   }
 }
 
 function backupProgress(progress) {
-  localStorage.setItem('unifiedUIManagerProgress', JSON.stringify(progress));
+  localStorage.setItem("unifiedUIManagerProgress", JSON.stringify(progress));
 }
 function syncProgress() {
-  return JSON.parse(localStorage.getItem('unifiedUIManagerProgress') || '{}');
+  return JSON.parse(localStorage.getItem("unifiedUIManagerProgress") || "{}");
 }
 
 function updateLeaderboard(score) {
@@ -37,8 +37,8 @@ function updateLeaderboard(score) {
 }
 
 function sendFeedback(feedback) {
-  logEvent('Feedback sent', { feedback });
-  showFeedbackModal('Thank you for your feedback!');
+  logEvent("Feedback sent", { feedback });
+  showFeedbackModal("Thank you for your feedback!");
 }
 
 function logEvent(event, data = {}) {
@@ -46,18 +46,23 @@ function logEvent(event, data = {}) {
   if (window.analytics) {
     window.analytics.track(event, data);
   }
-  console.log('Analytics event:', event, data);
+  console.log("Analytics event:", event, data);
 }
 function showFeedbackModal(message) {
-  const modal = document.createElement('div');
-  modal.style = 'position:fixed;top:50%;left:50%;transform:translate(-50%, -50%);background:#fff;border:2px solid #1976d2;border-radius:12px;padding:24px;z-index:1001;min-width:320px;';
+  const modal = document.createElement("div");
+  modal.style =
+    "position:fixed;top:50%;left:50%;transform:translate(-50%, -50%);background:#fff;border:2px solid #1976d2;border-radius:12px;padding:24px;z-index:1001;min-width:320px;";
   modal.innerHTML = `<h2>Feedback</h2><p>${message}</p><button id='close-feedback'>Close</button>`;
   document.body.appendChild(modal);
-  document.getElementById('close-feedback').onclick = () => modal.remove();
+  document.getElementById("close-feedback").onclick = () => modal.remove();
 }
 
 function safeRun(fn) {
-  try { fn(); } catch (e) { console.error('Error:', e); }
+  try {
+    fn();
+  } catch (e) {
+    console.error("Error:", e);
+  }
 }
 
 function showSettings() {
@@ -70,9 +75,11 @@ function startUnifiedUIManager() {
   // ...UI manager logic...
 }
 // Gate unified UI initialization for dev/debug only by default.
-const __DEV_UI__ = (typeof process !== 'undefined' && process.env && process.env.NODE_ENV !== 'production') || (typeof window !== 'undefined' && window.__ENABLE_DEV_UI__ === true);
-if (typeof document !== 'undefined' && __DEV_UI__) {
-  document.addEventListener('DOMContentLoaded', startUnifiedUIManager);
+const __DEV_UI__ =
+  (typeof process !== "undefined" && process.env && process.env.NODE_ENV !== "production") ||
+  (typeof window !== "undefined" && window.__ENABLE_DEV_UI__ === true);
+if (typeof document !== "undefined" && __DEV_UI__) {
+  document.addEventListener("DOMContentLoaded", startUnifiedUIManager);
 }
 // Centralized UI manager for timer, lives, progress bar
 export class UnifiedUIManager {
@@ -84,17 +91,17 @@ export class UnifiedUIManager {
   setTimer(seconds) {
     this.timer = seconds;
     // Update timer UI
-    const el = document.getElementById('game-timer');
+    const el = document.getElementById("game-timer");
     if (el) el.textContent = `Time: ${seconds}s`;
   }
   setLives(lives) {
     this.lives = lives;
-    const el = document.getElementById('game-lives');
+    const el = document.getElementById("game-lives");
     if (el) el.textContent = `Lives: ${lives}`;
   }
   setProgress(percent) {
     this.progressBar = percent;
-    const el = document.getElementById('game-progress');
+    const el = document.getElementById("game-progress");
     if (el) el.style.width = `${percent}%`;
   }
 }

@@ -1,4 +1,4 @@
-const logger = require('../utils/logger');
+const logger = require("../utils/logger");
 
 // In-memory storage for historical data
 const dataHistory = [];
@@ -24,7 +24,7 @@ setInterval(() => {
   if (dataHistory.length > MAX_HISTORY_SIZE) {
     dataHistory.pop();
   }
-  logger.debug('Generated new metrics', { currentMetrics });
+  logger.debug("Generated new metrics", { currentMetrics });
 }, 5000);
 
 const getCurrentData = () => currentMetrics;
@@ -32,5 +32,5 @@ const getHistoricalData = () => dataHistory;
 
 module.exports = {
   getCurrentData,
-  getHistoricalData
+  getHistoricalData,
 };

@@ -26,11 +26,23 @@ export default function Component({ service }) {
   const podcastLibraries = librariesData.filter((l) => l.mediaType === "podcast");
   const bookLibraries = librariesData.filter((l) => l.mediaType === "book");
 
-  const totalPodcasts = podcastLibraries.reduce((total, pL) => parseInt(pL.stats?.totalItems, 10) + total, 0);
-  const totalBooks = bookLibraries.reduce((total, bL) => parseInt(bL.stats?.totalItems, 10) + total, 0);
+  const totalPodcasts = podcastLibraries.reduce(
+    (total, pL) => parseInt(pL.stats?.totalItems, 10) + total,
+    0,
+  );
+  const totalBooks = bookLibraries.reduce(
+    (total, bL) => parseInt(bL.stats?.totalItems, 10) + total,
+    0,
+  );
 
-  const totalPodcastsDuration = podcastLibraries.reduce((total, pL) => parseFloat(pL.stats?.totalDuration) + total, 0);
-  const totalBooksDuration = bookLibraries.reduce((total, bL) => parseFloat(bL.stats?.totalDuration) + total, 0);
+  const totalPodcastsDuration = podcastLibraries.reduce(
+    (total, pL) => parseFloat(pL.stats?.totalDuration) + total,
+    0,
+  );
+  const totalBooksDuration = bookLibraries.reduce(
+    (total, bL) => parseFloat(bL.stats?.totalDuration) + total,
+    0,
+  );
 
   return (
     <Container service={service}>

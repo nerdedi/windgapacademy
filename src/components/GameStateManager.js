@@ -10,26 +10,26 @@
 // Comprehensive game state manager logic
 
 function showOnboarding() {
-  const modal = document.createElement('div');
-  modal.className = 'onboarding-modal';
+  const modal = document.createElement("div");
+  modal.className = "onboarding-modal";
   modal.innerHTML = `<h2>Welcome to Game State Manager!</h2><p>Manage game states and progress. Use the settings to customize your experience.</p><button id='close-onboarding'>Close</button>`;
   document.body.appendChild(modal);
-  document.getElementById('close-onboarding').onclick = () => modal.remove();
+  document.getElementById("close-onboarding").onclick = () => modal.remove();
 }
 
 function setAccessibility() {
-  const gsmEl = document.getElementById('game-state-manager');
+  const gsmEl = document.getElementById("game-state-manager");
   if (gsmEl) {
-    gsmEl.setAttribute('role', 'region');
-    gsmEl.setAttribute('aria-label', 'Game State Manager');
+    gsmEl.setAttribute("role", "region");
+    gsmEl.setAttribute("aria-label", "Game State Manager");
   }
 }
 
 function backupProgress(progress) {
-  localStorage.setItem('gameStateManagerProgress', JSON.stringify(progress));
+  localStorage.setItem("gameStateManagerProgress", JSON.stringify(progress));
 }
 function syncProgress() {
-  return JSON.parse(localStorage.getItem('gameStateManagerProgress') || '{}');
+  return JSON.parse(localStorage.getItem("gameStateManagerProgress") || "{}");
 }
 
 function updateLeaderboard(score) {
@@ -37,8 +37,8 @@ function updateLeaderboard(score) {
 }
 
 function sendFeedback(feedback) {
-  logEvent('Feedback sent', { feedback });
-  showFeedbackModal('Thank you for your feedback!');
+  logEvent("Feedback sent", { feedback });
+  showFeedbackModal("Thank you for your feedback!");
 }
 
 function logEvent(event, data = {}) {
@@ -46,19 +46,24 @@ function logEvent(event, data = {}) {
   if (window.analytics) {
     window.analytics.track(event, data);
   }
-  console.log('Analytics event:', event, data);
+  console.log("Analytics event:", event, data);
 }
 
 function showFeedbackModal(message) {
-  const modal = document.createElement('div');
-  modal.style = 'position:fixed;top:50%;left:50%;transform:translate(-50%, -50%);background:#fff;border:2px solid #1976d2;border-radius:12px;padding:24px;z-index:1001;min-width:320px;';
+  const modal = document.createElement("div");
+  modal.style =
+    "position:fixed;top:50%;left:50%;transform:translate(-50%, -50%);background:#fff;border:2px solid #1976d2;border-radius:12px;padding:24px;z-index:1001;min-width:320px;";
   modal.innerHTML = `<h2>Feedback</h2><p>${message}</p><button id='close-feedback'>Close</button>`;
   document.body.appendChild(modal);
-  document.getElementById('close-feedback').onclick = () => modal.remove();
+  document.getElementById("close-feedback").onclick = () => modal.remove();
 }
 
 function safeRun(fn) {
-  try { fn(); } catch (e) { console.error('Error:', e); }
+  try {
+    fn();
+  } catch (e) {
+    console.error("Error:", e);
+  }
 }
 
 function showSettings() {
@@ -72,9 +77,11 @@ function startGameStateManager() {
 }
 
 // Only auto-run onboarding in development or when explicitly enabled.
-const __DEV_UI__ = (typeof process !== 'undefined' && process.env && process.env.NODE_ENV !== 'production') || (typeof window !== 'undefined' && window.__ENABLE_DEV_UI__ === true);
-if (typeof document !== 'undefined' && __DEV_UI__) {
-  document.addEventListener('DOMContentLoaded', startGameStateManager);
+const __DEV_UI__ =
+  (typeof process !== "undefined" && process.env && process.env.NODE_ENV !== "production") ||
+  (typeof window !== "undefined" && window.__ENABLE_DEV_UI__ === true);
+if (typeof document !== "undefined" && __DEV_UI__) {
+  document.addEventListener("DOMContentLoaded", startGameStateManager);
 }
 // Modular state machine for games (inspired by Antura)
 export class GameStateManager {

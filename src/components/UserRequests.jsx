@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 
 const UserRequests = () => {
   const [requests, setRequests] = useState([]);
@@ -7,12 +7,12 @@ const UserRequests = () => {
 
   useEffect(() => {
     fetch("/api/users")
-      .then(res => res.json())
-      .then(data => {
+      .then((res) => res.json())
+      .then((data) => {
         setRequests(data);
         setLoading(false);
       })
-      .catch(err => {
+      .catch((err) => {
         setError("Failed to load user requests");
         setLoading(false);
       });
@@ -42,15 +42,21 @@ const UserRequests = () => {
           </thead>
           <tbody>
             {requests.length === 0 ? (
-              <tr><td colSpan={3}>No pending requests</td></tr>
+              <tr>
+                <td colSpan={3}>No pending requests</td>
+              </tr>
             ) : (
               requests.map((req) => (
                 <tr key={req.id}>
                   <td className="px-2 py-1">{req.name}</td>
                   <td className="px-2 py-1">{req.role}</td>
                   <td className="px-2 py-1">
-                    <button onClick={() => handleApprove(req.id)} className="mr-2 text-green-600">Approve</button>
-                    <button onClick={() => handleReject(req.id)} className="text-red-600">Reject</button>
+                    <button onClick={() => handleApprove(req.id)} className="mr-2 text-green-600">
+                      Approve
+                    </button>
+                    <button onClick={() => handleReject(req.id)} className="text-red-600">
+                      Reject
+                    </button>
                   </td>
                 </tr>
               ))

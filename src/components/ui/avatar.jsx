@@ -9,12 +9,17 @@ export function Avatar({ className = "", children, ...props }) {
 }
 
 export function AvatarImage({ src, alt = "", className = "", ...props }) {
-  return <img src={src} alt={alt} className={`w-full h-full object-cover ${className}`} {...props} />;
+  return (
+    <img src={src} alt={alt} className={`w-full h-full object-cover ${className}`} {...props} />
+  );
 }
 
 export function AvatarFallback({ className = "", children, ...props }) {
   return (
-    <span className={`flex items-center justify-center w-full h-full bg-primary text-primary-foreground ${className}`} {...props}>
+    <span
+      className={`flex items-center justify-center w-full h-full bg-primary text-primary-foreground ${className}`}
+      {...props}
+    >
       {children}
     </span>
   );

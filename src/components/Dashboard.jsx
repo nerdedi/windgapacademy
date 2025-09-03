@@ -8,9 +8,15 @@ export function Dashboard() {
   const [materials, setMaterials] = useState([]);
 
   useEffect(() => {
-    fetch("/api/users").then(res => res.json()).then(setUsers);
-    fetch("/api/assignments").then(res => res.json()).then(setAssignments);
-    fetch("/api/materials").then(res => res.json()).then(setMaterials);
+    fetch("/api/users")
+      .then((res) => res.json())
+      .then(setUsers);
+    fetch("/api/assignments")
+      .then((res) => res.json())
+      .then(setAssignments);
+    fetch("/api/materials")
+      .then((res) => res.json())
+      .then(setMaterials);
   }, []);
 
   return (
@@ -20,24 +26,30 @@ export function Dashboard() {
         <div className="bg-white rounded-lg shadow p-6">
           <h2 className="text-xl font-semibold mb-2">Users</h2>
           <ul>
-            {users.map(u => (
-              <li key={u.id} className="py-1">{u.name} <span className="text-xs text-gray-500">({u.role})</span></li>
+            {users.map((u) => (
+              <li key={u.id} className="py-1">
+                {u.name} <span className="text-xs text-gray-500">({u.role})</span>
+              </li>
             ))}
           </ul>
         </div>
         <div className="bg-white rounded-lg shadow p-6">
           <h2 className="text-xl font-semibold mb-2">Assignments</h2>
           <ul>
-            {assignments.map(a => (
-              <li key={a.id} className="py-1">{a.title}</li>
+            {assignments.map((a) => (
+              <li key={a.id} className="py-1">
+                {a.title}
+              </li>
             ))}
           </ul>
         </div>
         <div className="bg-white rounded-lg shadow p-6">
           <h2 className="text-xl font-semibold mb-2">Study Materials</h2>
           <ul>
-            {materials.map(m => (
-              <li key={m.id} className="py-1">{m.title}</li>
+            {materials.map((m) => (
+              <li key={m.id} className="py-1">
+                {m.title}
+              </li>
             ))}
           </ul>
         </div>

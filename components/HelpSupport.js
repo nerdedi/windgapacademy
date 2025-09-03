@@ -10,26 +10,26 @@
 // Simplified help/support logic
 
 function showOnboarding() {
-  const modal = document.createElement('div');
-  modal.className = 'onboarding-modal';
+  const modal = document.createElement("div");
+  modal.className = "onboarding-modal";
   modal.innerHTML = `<h2>Welcome to Help & Support!</h2><p>Get help and find answers. Use the settings to personalize your experience.</p><button id='close-onboarding'>Close</button>`;
   document.body.appendChild(modal);
-  document.getElementById('close-onboarding').onclick = () => modal.remove();
+  document.getElementById("close-onboarding").onclick = () => modal.remove();
 }
 
 function setAccessibility() {
-  const helpEl = document.getElementById('help-support');
+  const helpEl = document.getElementById("help-support");
   if (helpEl) {
-    helpEl.setAttribute('role', 'region');
-    helpEl.setAttribute('aria-label', 'Help & Support');
+    helpEl.setAttribute("role", "region");
+    helpEl.setAttribute("aria-label", "Help & Support");
   }
 }
 
 function backupProgress(progress) {
-  localStorage.setItem('helpSupportProgress', JSON.stringify(progress));
+  localStorage.setItem("helpSupportProgress", JSON.stringify(progress));
 }
 function syncProgress() {
-  return JSON.parse(localStorage.getItem('helpSupportProgress') || '{}');
+  return JSON.parse(localStorage.getItem("helpSupportProgress") || "{}");
 }
 
 function updateLeaderboard(score) {
@@ -45,7 +45,11 @@ function logEvent(event) {
 }
 
 function safeRun(fn) {
-  try { fn(); } catch (e) { console.error('Error:', e); }
+  try {
+    fn();
+  } catch (e) {
+    console.error("Error:", e);
+  }
 }
 
 function showSettings() {
@@ -58,8 +62,8 @@ function startHelpSupport() {
   // ...simplified help/support logic...
 }
 
-if (typeof document !== 'undefined') {
-  document.addEventListener('DOMContentLoaded', startHelpSupport);
+if (typeof document !== "undefined") {
+  document.addEventListener("DOMContentLoaded", startHelpSupport);
 }
 // Help & Support Component: FAQs, contact, live chat
 export function showHelpSupport(container) {

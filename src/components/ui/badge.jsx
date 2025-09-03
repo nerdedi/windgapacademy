@@ -5,7 +5,7 @@ export function Badge({ variant = "default", className = "", children, ...props 
   let variants = {
     default: "bg-primary text-primary-foreground",
     secondary: "bg-secondary text-secondary-foreground",
-    outline: "border border-border bg-background text-foreground"
+    outline: "border border-border bg-background text-foreground",
   };
   return (
     <span className={`${base} ${variants[variant] || ""} ${className}`} {...props}>

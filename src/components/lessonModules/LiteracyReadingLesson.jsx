@@ -46,7 +46,7 @@ export default function LiteracyReadingLesson() {
   const objectives = [
     "Read and interpret short texts",
     "Recognise signs and symbols",
-    "Answer questions about a text"
+    "Answer questions about a text",
   ];
   return (
     <div className="lesson-module p-6 bg-white rounded-xl shadow-lg max-w-2xl mx-auto">
@@ -54,7 +54,9 @@ export default function LiteracyReadingLesson() {
       <div className="mb-4">
         <h3 className="font-semibold">Learning Objectives</h3>
         <ul className="list-disc ml-6">
-          {objectives.map((obj, idx) => <li key={idx}>{obj}</li>)}
+          {objectives.map((obj, idx) => (
+            <li key={idx}>{obj}</li>
+          ))}
         </ul>
       </div>
       <ReadingTextActivity />

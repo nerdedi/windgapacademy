@@ -33,6 +33,7 @@ const images = [
 ];
 
 import { useState } from "react";
+
 import AnimatedButton from "./AnimatedButton.jsx";
 
 const CharacterGallery = () => {
@@ -45,7 +46,7 @@ const CharacterGallery = () => {
   const [feedback, setFeedback] = useState("");
   // Backup/sync logic
   React.useEffect(() => {
-    const saved = localStorage.getItem('characterGalleryProgress');
+    const saved = localStorage.getItem("characterGalleryProgress");
     if (saved) {
       const { selected, customName, score } = JSON.parse(saved);
       setSelected(selected);
@@ -54,48 +55,100 @@ const CharacterGallery = () => {
     }
   }, []);
   React.useEffect(() => {
-    localStorage.setItem('characterGalleryProgress', JSON.stringify({ selected, customName, score }));
+    localStorage.setItem(
+      "characterGalleryProgress",
+      JSON.stringify({ selected, customName, score }),
+    );
   }, [selected, customName, score]);
   // Error boundary
-  const safeRun = (fn) => { try { fn(); } catch (e) { alert('Error: ' + e.message); } };
+  const safeRun = (fn) => {
+    try {
+      fn();
+    } catch (e) {
+      alert("Error: " + e.message);
+    }
+  };
   // Analytics
-  const logEvent = (event) => { /* ...analytics logic... */ };
+  const logEvent = (event) => {
+    /* ...analytics logic... */
+  };
   // Gamification
   const completeChallenge = () => {
     setScore(score + 10);
-    logEvent('Challenge completed');
-    alert('Challenge complete! Score: ' + (score + 10));
+    logEvent("Challenge completed");
+    alert("Challenge complete! Score: " + (score + 10));
   };
   // Feedback
   const sendFeedback = () => {
-    logEvent('Feedback sent');
-    showFeedbackModal('Thank you for your feedback!');
+    logEvent("Feedback sent");
+    showFeedbackModal("Thank you for your feedback!");
   };
 
   function showFeedbackModal(message) {
-    const modal = document.createElement('div');
-    modal.style = 'position:fixed;top:50%;left:50%;transform:translate(-50%, -50%);background:#fff;border:2px solid #1976d2;border-radius:12px;padding:24px;z-index:1001;min-width:320px;';
+    const modal = document.createElement("div");
+    modal.style =
+      "position:fixed;top:50%;left:50%;transform:translate(-50%, -50%);background:#fff;border:2px solid #1976d2;border-radius:12px;padding:24px;z-index:1001;min-width:320px;";
     modal.innerHTML = `<h2>Feedback</h2><p>${message}</p><button id='close-feedback'>Close</button>`;
     document.body.appendChild(modal);
-    document.getElementById('close-feedback').onclick = () => modal.remove();
+    document.getElementById("close-feedback").onclick = () => modal.remove();
   }
   return (
-    <div className="character-gallery grid grid-cols-2 md:grid-cols-4 gap-6 p-6" role="region" aria-label="Character Gallery">
+    <div
+      className="character-gallery grid grid-cols-2 md:grid-cols-4 gap-6 p-6"
+      role="region"
+      aria-label="Character Gallery"
+    >
       {showOnboarding && (
-        <div className="onboarding-modal" style={{position:'fixed',top:'10%',left:'50%',transform:'translateX(-50%)',background:'#fff',padding:'2em',borderRadius:'8px',zIndex:1000,boxShadow:'0 2px 8px #0002'}}>
+        <div
+          className="onboarding-modal"
+          style={{
+            position: "fixed",
+            top: "10%",
+            left: "50%",
+            transform: "translateX(-50%)",
+            background: "#fff",
+            padding: "2em",
+            borderRadius: "8px",
+            zIndex: 1000,
+            boxShadow: "0 2px 8px #0002",
+          }}
+        >
           <h2>Welcome to Character Gallery!</h2>
-          <p>Select and name your favorite characters. Use settings to personalize your experience.</p>
+          <p>
+            Select and name your favorite characters. Use settings to personalize your experience.
+          </p>
           <button onClick={() => setShowOnboarding(false)}>Close</button>
         </div>
       )}
       {showSettings && (
-        <div className="settings-modal" style={{position:'fixed',top:'20%',left:'50%',transform:'translateX(-50%)',background:'#fff',padding:'1.5em',borderRadius:'8px',zIndex:1000,boxShadow:'0 2px 8px #0002'}}>
+        <div
+          className="settings-modal"
+          style={{
+            position: "fixed",
+            top: "20%",
+            left: "50%",
+            transform: "translateX(-50%)",
+            background: "#fff",
+            padding: "1.5em",
+            borderRadius: "8px",
+            zIndex: 1000,
+            boxShadow: "0 2px 8px #0002",
+          }}
+        >
           <h3>Gallery Settings</h3>
-          <label><input type="checkbox" checked={score >= 10} readOnly /> Gamification Enabled</label><br/>
+          <label>
+            <input type="checkbox" checked={score >= 10} readOnly /> Gamification Enabled
+          </label>
+          <br />
           <button onClick={() => setShowSettings(false)}>Close</button>
         </div>
       )}
-      <button style={{position:'fixed',top:'1em',right:'1em',zIndex:1001}} onClick={() => setShowSettings(true)}>Settings</button>
+      <button
+        style={{ position: "fixed", top: "1em", right: "1em", zIndex: 1001 }}
+        onClick={() => setShowSettings(true)}
+      >
+        Settings
+      </button>
       {images.map((img, idx) => (
         <div key={idx} className="character-card card p-4 flex flex-col items-center">
           <img
@@ -127,7 +180,9 @@ const CharacterGallery = () => {
               <div style={{ fontSize: "0.95em", color: "#3b82f6", marginTop: "4px" }}>
                 Selected! {customName ? `Name: ${customName}` : ""}
               </div>
-              <button onClick={completeChallenge} style={{marginTop:'8px'}}>Complete Challenge</button>
+              <button onClick={completeChallenge} style={{ marginTop: "8px" }}>
+                Complete Challenge
+              </button>
             </div>
           )}
           <AnimatedButton
@@ -137,14 +192,22 @@ const CharacterGallery = () => {
           />
         </div>
       ))}
-      <div style={{marginTop:'2em'}}>
+      <div style={{ marginTop: "2em" }}>
         <h4>Gamification Score: {score}</h4>
-        <input type="text" placeholder="Send feedback..." value={feedback} onChange={e=>setFeedback(e.target.value)} style={{padding:'4px',borderRadius:'6px',border:'1px solid #ccc'}} />
-        <button onClick={sendFeedback} style={{marginLeft:'8px'}}>Send Feedback</button>
+        <input
+          type="text"
+          placeholder="Send feedback..."
+          value={feedback}
+          onChange={(e) => setFeedback(e.target.value)}
+          style={{ padding: "4px", borderRadius: "6px", border: "1px solid #ccc" }}
+        />
+        <button onClick={sendFeedback} style={{ marginLeft: "8px" }}>
+          Send Feedback
+        </button>
       </div>
-  {/* Analytics and logic features will be implemented here as modules are completed */}
+      {/* Analytics and logic features will be implemented here as modules are completed */}
     </div>
   );
-}
+};
 
 export default CharacterGallery;

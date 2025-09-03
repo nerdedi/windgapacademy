@@ -10,26 +10,26 @@
 // Comprehensive accessibility advanced logic
 
 function showOnboarding() {
-  const modal = document.createElement('div');
-  modal.className = 'onboarding-modal';
+  const modal = document.createElement("div");
+  modal.className = "onboarding-modal";
   modal.innerHTML = `<h2>Welcome to Advanced Accessibility!</h2><p>Access advanced accessibility features. Use the settings to personalize your experience.</p><button id='close-onboarding'>Close</button>`;
   document.body.appendChild(modal);
-  document.getElementById('close-onboarding').onclick = () => modal.remove();
+  document.getElementById("close-onboarding").onclick = () => modal.remove();
 }
 
 function setAccessibility() {
-  const advEl = document.getElementById('accessibility-advanced');
+  const advEl = document.getElementById("accessibility-advanced");
   if (advEl) {
-    advEl.setAttribute('role', 'region');
-    advEl.setAttribute('aria-label', 'Advanced Accessibility');
+    advEl.setAttribute("role", "region");
+    advEl.setAttribute("aria-label", "Advanced Accessibility");
   }
 }
 
 function backupProgress(progress) {
-  localStorage.setItem('accessibilityAdvancedProgress', JSON.stringify(progress));
+  localStorage.setItem("accessibilityAdvancedProgress", JSON.stringify(progress));
 }
 function syncProgress() {
-  return JSON.parse(localStorage.getItem('accessibilityAdvancedProgress') || '{}');
+  return JSON.parse(localStorage.getItem("accessibilityAdvancedProgress") || "{}");
 }
 
 function updateLeaderboard(score) {
@@ -45,7 +45,11 @@ function logEvent(event) {
 }
 
 function safeRun(fn) {
-  try { fn(); } catch (e) { console.error('Error:', e); }
+  try {
+    fn();
+  } catch (e) {
+    console.error("Error:", e);
+  }
 }
 
 function showSettings() {
@@ -58,8 +62,8 @@ function startAccessibilityAdvanced() {
   // ...accessibility advanced logic...
 }
 
-if (typeof document !== 'undefined') {
-  document.addEventListener('DOMContentLoaded', startAccessibilityAdvanced);
+if (typeof document !== "undefined") {
+  document.addEventListener("DOMContentLoaded", startAccessibilityAdvanced);
 }
 // Advanced accessibility: text-to-speech, color/font settings, keyboard shortcuts
 export function showAccessibilityAdvanced(container) {

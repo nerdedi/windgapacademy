@@ -1,11 +1,12 @@
-import React, { Suspense, useCallback } from 'react';
+import { OrbitControls, Html, useGLTF } from "@react-three/drei";
+import { Canvas } from "@react-three/fiber";
+import React, { Suspense, useCallback } from "react";
+
+import BackToTopButton from "./BackToTopButton";
 import Spinner from "./Spinner";
 import { showTooltip } from "./Tooltip";
-import BackToTopButton from "./BackToTopButton";
-import { Canvas } from '@react-three/fiber';
 // You can import Drei helpers for lights, controls, etc.
 // import { OrbitControls, Environment } from '@react-three/drei';
-import { OrbitControls, Html, useGLTF } from '@react-three/drei';
 
 // Simple 3D Building logic
 function Building({ position, color, label, onClick }) {
@@ -16,7 +17,19 @@ function Building({ position, color, label, onClick }) {
         <meshStandardMaterial color={color} />
       </mesh>
       <Html center>
-        <div style={{ pointerEvents: 'none', fontWeight: 'bold', color: '#222', background: 'rgba(255,255,255,0.7)', borderRadius: 4, padding: '2px 6px', fontSize: 14 }}>{label}</div>
+        <div
+          style={{
+            pointerEvents: "none",
+            fontWeight: "bold",
+            color: "#222",
+            background: "rgba(255,255,255,0.7)",
+            borderRadius: 4,
+            padding: "2px 6px",
+            fontSize: 14,
+          }}
+        >
+          {label}
+        </div>
       </Html>
     </group>
   );
@@ -24,16 +37,17 @@ function Building({ position, color, label, onClick }) {
 
 // Collectible item logic
 function handleCollectibleItem(item) {
-  logEvent('Collectible item acquired', { item });
+  logEvent("Collectible item acquired", { item });
   showFeedbackModal(`You collected: ${item}`);
 }
 
 function showFeedbackModal(message) {
-  const modal = document.createElement('div');
-  modal.style = 'position:fixed;top:50%;left:50%;transform:translate(-50%, -50%);background:#fff;border:2px solid #1976d2;border-radius:12px;padding:24px;z-index:1001;min-width:320px;';
+  const modal = document.createElement("div");
+  modal.style =
+    "position:fixed;top:50%;left:50%;transform:translate(-50%, -50%);background:#fff;border:2px solid #1976d2;border-radius:12px;padding:24px;z-index:1001;min-width:320px;";
   modal.innerHTML = `<h2>Feedback</h2><p>${message}</p><button id='close-feedback'>Close</button>`;
   document.body.appendChild(modal);
-  document.getElementById('close-feedback').onclick = () => modal.remove();
+  document.getElementById("close-feedback").onclick = () => modal.remove();
 }
 function Collectible({ position, visible, label }) {
   if (!visible) return null;
@@ -44,7 +58,18 @@ function Collectible({ position, visible, label }) {
         <meshStandardMaterial color="#ffd700" />
       </mesh>
       <Html center>
-        <div style={{ pointerEvents: 'none', color: '#222', background: 'rgba(255,255,255,0.7)', borderRadius: 4, padding: '2px 6px', fontSize: 12 }}>{label}</div>
+        <div
+          style={{
+            pointerEvents: "none",
+            color: "#222",
+            background: "rgba(255,255,255,0.7)",
+            borderRadius: 4,
+            padding: "2px 6px",
+            fontSize: 12,
+          }}
+        >
+          {label}
+        </div>
       </Html>
     </group>
   );
@@ -57,7 +82,10 @@ function Path({ start, end }) {
   const length = Math.sqrt(dx * dx + dz * dz);
   const angle = Math.atan2(dz, dx);
   return (
-    <mesh position={[(start[0] + end[0]) / 2, 0.05, (start[2] + end[2]) / 2]} rotation={[0, -angle, 0]}>
+    <mesh
+      position={[(start[0] + end[0]) / 2, 0.05, (start[2] + end[2]) / 2]}
+      rotation={[0, -angle, 0]}
+    >
       <cylinderGeometry args={[0.2, 0.2, length, 16]} />
       <meshStandardMaterial color="#bca16b" />
     </mesh>
@@ -89,15 +117,20 @@ function Water({ position, size }) {
 }
 
 const buildings = [
-  { label: 'Buy', position: [-6, 1, -4], color: '#4caf50', route: '/buy' },
-  { label: 'Sell', position: [6, 1, -4], color: '#f44336', route: '/sell' },
-  { label: 'Exchange', position: [0, 1, 7], color: '#2196f3', route: '/exchange' },
-  { label: 'ClubHouse', position: [0, 1, -8], color: '#ff9800', route: '/clubhouse' },
-  { label: 'Mini-Game', position: [8, 1, 6], color: '#9c27b0', route: '/minigame' },
+  { label: "Buy", position: [-6, 1, -4], color: "#4caf50", route: "/buy" },
+  { label: "Sell", position: [6, 1, -4], color: "#f44336", route: "/sell" },
+  { label: "Exchange", position: [0, 1, 7], color: "#2196f3", route: "/exchange" },
+  { label: "ClubHouse", position: [0, 1, -8], color: "#ff9800", route: "/clubhouse" },
+  { label: "Mini-Game", position: [8, 1, 6], color: "#9c27b0", route: "/minigame" },
 ];
 
 const trees = [
-  [-8, 0, 0], [8, 0, 0], [0, 0, 8], [0, 0, -8], [-5, 0, 5], [5, 0, -5],
+  [-8, 0, 0],
+  [8, 0, 0],
+  [0, 0, 8],
+  [0, 0, -8],
+  [-5, 0, 5],
+  [5, 0, -5],
 ];
 
 const waterAreas = [
@@ -113,17 +146,22 @@ const paths = [
   { start: [6, 0, -4], end: [8, 0, 6] },
 ];
 
-const collectibles = [
-  { position: [-7, 1.5, -5], label: 'Achievement', visible: true },
-];
+const collectibles = [{ position: [-7, 1.5, -5], label: "Achievement", visible: true }];
 
 const IslandScene = ({ onNavigate }) => {
-  const handleBuildingClick = useCallback((route) => {
-    if (onNavigate) onNavigate(route);
-  }, [onNavigate]);
+  const handleBuildingClick = useCallback(
+    (route) => {
+      if (onNavigate) onNavigate(route);
+    },
+    [onNavigate],
+  );
 
   return (
-    <div className="relative island-scene w-full h-[600px] bg-blue-100 rounded-xl shadow-lg" role="region" aria-label="Island Scene">
+    <div
+      className="relative island-scene w-full h-[600px] bg-blue-100 rounded-xl shadow-lg"
+      role="region"
+      aria-label="Island Scene"
+    >
       <Spinner show={false} size={32} className="absolute left-1/2 top-1/2" />
       <BackToTopButton />
       <Canvas camera={{ position: [0, 12, 22], fov: 50 }} shadows>
@@ -135,11 +173,17 @@ const IslandScene = ({ onNavigate }) => {
           <meshStandardMaterial color="#8fd19e" />
         </mesh>
         {/* Water features */}
-        {waterAreas.map((w, i) => <Water key={i} {...w} />)}
+        {waterAreas.map((w, i) => (
+          <Water key={i} {...w} />
+        ))}
         {/* Paths */}
-        {paths.map((p, i) => <Path key={i} {...p} />)}
+        {paths.map((p, i) => (
+          <Path key={i} {...p} />
+        ))}
         {/* Trees */}
-        {trees.map((pos, i) => <Tree key={i} position={pos} />)}
+        {trees.map((pos, i) => (
+          <Tree key={i} position={pos} />
+        ))}
         {/* Buildings with tooltips */}
         {buildings.map((b, i) => (
           <Tooltip key={b.label} text={`Go to ${b.label}`}>

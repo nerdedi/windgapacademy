@@ -1,13 +1,18 @@
 // CubeMapDemo.js
 // Three.js-based interactive 3D cube map and object demo for Windgap Academy
 
-import * as THREE from 'three';
+import * as THREE from "three";
 
 export class CubeMapDemo {
   constructor(container) {
     this.container = container;
     this.scene = new THREE.Scene();
-    this.camera = new THREE.PerspectiveCamera(60, container.offsetWidth / container.offsetHeight, 0.1, 1000);
+    this.camera = new THREE.PerspectiveCamera(
+      60,
+      container.offsetWidth / container.offsetHeight,
+      0.1,
+      1000,
+    );
     this.camera.position.set(0, 2, 10);
     this.renderer = new THREE.WebGLRenderer({ antialias: true });
     this.renderer.setSize(container.offsetWidth, container.offsetHeight);

@@ -1,12 +1,23 @@
 import React, { useState, useEffect } from "react";
+
+import {
+  letterMap,
+  punctuationMap1,
+  punctuationMap2,
+  longPunctuationMap,
+} from "../utils/speechrecMappings";
+
 import Spinner from "./Spinner";
 import Tooltip from "./Tooltip";
-import { letterMap, punctuationMap1, punctuationMap2, longPunctuationMap } from '../utils/speechrecMappings';
 
 // Example nutrition facts data
 const nutritionFacts = [
   { key: "Calories", value: 120, info: "Calories are a measure of energy." },
-  { key: "Total Fat", value: "2g", info: "Fat is needed for energy, but too much can be unhealthy." },
+  {
+    key: "Total Fat",
+    value: "2g",
+    info: "Fat is needed for energy, but too much can be unhealthy.",
+  },
   { key: "Sodium", value: "80mg", info: "Sodium is salt. Too much can raise blood pressure." },
   { key: "Total Carbohydrate", value: "24g", info: "Carbs give you energy. Choose whole grains!" },
   { key: "Dietary Fiber", value: "3g", info: "Fiber helps digestion and keeps you full." },
@@ -25,7 +36,7 @@ export default function NutritionLabelDemo() {
     const recognition = new SpeechRecognition();
     recognition.continuous = true;
     recognition.interimResults = false;
-    recognition.lang = 'en-US';
+    recognition.lang = "en-US";
     recognition.onresult = (event) => {
       for (let i = event.resultIndex; i < event.results.length; ++i) {
         if (event.results[i].isFinal) {
@@ -35,7 +46,9 @@ export default function NutritionLabelDemo() {
       }
     };
     recognition.onerror = () => {};
-    recognition.onend = () => { recognition.start(); };
+    recognition.onend = () => {
+      recognition.start();
+    };
     recognition.start();
     return () => recognition.stop();
   }, []);
@@ -44,16 +57,16 @@ export default function NutritionLabelDemo() {
     // Simple mapping: say "show sugar" or "show fiber"
     if (phrase.includes("sugar")) {
       setHighlight("Sugars");
-      setInfo(nutritionFacts.find(f => f.key === "Sugars").info);
+      setInfo(nutritionFacts.find((f) => f.key === "Sugars").info);
     } else if (phrase.includes("fiber")) {
       setHighlight("Dietary Fiber");
-      setInfo(nutritionFacts.find(f => f.key === "Dietary Fiber").info);
+      setInfo(nutritionFacts.find((f) => f.key === "Dietary Fiber").info);
     } else if (phrase.includes("calories")) {
       setHighlight("Calories");
-      setInfo(nutritionFacts.find(f => f.key === "Calories").info);
+      setInfo(nutritionFacts.find((f) => f.key === "Calories").info);
     } else if (phrase.includes("protein")) {
       setHighlight("Protein");
-      setInfo(nutritionFacts.find(f => f.key === "Protein").info);
+      setInfo(nutritionFacts.find((f) => f.key === "Protein").info);
     } else {
       setHighlight(null);
       setInfo("");
@@ -61,11 +74,15 @@ export default function NutritionLabelDemo() {
   }
 
   return (
-    <div className="nutrition-label-demo font-[Archivo Black] p-6 max-w-xs bg-white rounded shadow-lg border border-gray-300" role="region" aria-label="Nutrition Label Demo">
+    <div
+      className="nutrition-label-demo font-[Archivo Black] p-6 max-w-xs bg-white rounded shadow-lg border border-gray-300"
+      role="region"
+      aria-label="Nutrition Label Demo"
+    >
       <h2 className="text-xl mb-2">Nutrition Facts</h2>
       <Spinner show={false} size={24} className="mx-auto" />
       <div className="nutrition-label">
-        {nutritionFacts.map(fact => (
+        {nutritionFacts.map((fact) => (
           <Tooltip key={fact.key} text={`Show info for ${fact.key}`}>
             <button
               className="block w-full text-left px-2 py-1 rounded hover:bg-blue-100 mb-1"
@@ -78,7 +95,9 @@ export default function NutritionLabelDemo() {
         ))}
       </div>
       {info && <div className="mt-4 p-2 bg-yellow-100 rounded text-sm">{info}</div>}
-      <div className="mt-2 text-xs text-gray-500">Tip: Click a row or say "show sugar", "show fiber", etc.</div>
+      <div className="mt-2 text-xs text-gray-500">
+        Tip: Click a row or say "show sugar", "show fiber", etc.
+      </div>
     </div>
   );
 }

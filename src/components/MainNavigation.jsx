@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { Navigation } from "../components/Navigation";
-import { Dashboard } from "../components/Dashboard";
+
+import { AvatarBuilder } from "../components/AvatarBuilder";
 import { CourseLibrary } from "../components/CourseLibrary";
-import { LessonPlayer } from "../components/LessonPlayer";
+import { Dashboard } from "../components/Dashboard";
 import GameModes from "../components/GameModes";
 import { Leaderboard } from "../components/Leaderboard";
-import { AvatarBuilder } from "../components/AvatarBuilder";
+import { LessonPlayer } from "../components/LessonPlayer";
+import { Navigation } from "../components/Navigation";
 import { VirtualWorld } from "../components/VirtualWorld";
 
 const views = {
@@ -24,9 +25,7 @@ export default function MainNavigation() {
   return (
     <div className="min-h-screen bg-gray-50">
       <Navigation currentView={currentView} onViewChange={setCurrentView} />
-      <div className="container mx-auto py-8">
-        {views[currentView]}
-      </div>
+      <div className="container mx-auto py-8">{views[currentView]}</div>
     </div>
   );
 }
