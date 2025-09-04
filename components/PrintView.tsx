@@ -1,4 +1,5 @@
 import React from "react";
+
 import type { Learner, ProgressData } from "./types";
 
 export default function PrintView({ learners }: { learners: Learner[] }) {
@@ -12,7 +13,9 @@ export default function PrintView({ learners }: { learners: Learner[] }) {
               <h3>{subject}</h3>
               {Object.entries(topics as Record<string, ProgressData>).map(([topic, data]) => (
                 <p key={topic}>
-                  {topic}: {data.completed ? "✅" : "❌"}, XP: {data.xp}, Badge: {data.badge || "None"}, ACSF: {(data as any).acsfLevel}, NDIS: {(data as any).ndisSupportType}
+                  {topic}: {data.completed ? "✅" : "❌"}, XP: {data.xp}, Badge:{" "}
+                  {data.badge || "None"}, ACSF: {(data as any).acsfLevel}, NDIS:{" "}
+                  {(data as any).ndisSupportType}
                 </p>
               ))}
             </div>

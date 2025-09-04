@@ -1,10 +1,12 @@
 import React, { useState } from "react";
-import { firestore } from "../firebase";
+
+import { getFirestore, doc, setDoc } from "firebase/firestore";
 
 export default function GoalSetting({ learnerId }: { learnerId: string }) {
   const [goal, setGoal] = useState("");
   const handleSave = () => {
-    firestore.collection("goals").doc(learnerId).set({ goal, progress: 0 });
+  const db = getFirestore();
+  setDoc(doc(db, "goals", learnerId), { goal, progress: 0 });
   };
 
   return (
@@ -16,7 +18,9 @@ export default function GoalSetting({ learnerId }: { learnerId: string }) {
         placeholder="E.g. Use public transport independently"
         className="w-full p-2 border rounded"
       />
-      <button onClick={handleSave} className="btn-primary mt-2">Save Goal</button>
+      <button onClick={handleSave} className="btn-primary mt-2">
+        Save Goal
+      </button>
     </div>
   );
 }
