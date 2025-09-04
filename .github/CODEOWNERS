@@ -1,0 +1,10 @@
+# Default code owners for the repository
+# Use GitHub handles (update to your organization/team handles as needed)
+
+# Repo owner as default reviewer for everything
+* @nerdedi
+
+# Specific folders (optional examples)
+/components/ @nerdedi
+/backend/ @nerdedi
+/scripts/ @nerdedi
