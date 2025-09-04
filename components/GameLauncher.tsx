@@ -22,12 +22,7 @@ export default function GameLauncher({ gameId, goal }) {
 }
 
 // exported for testing without rendering the component
-// Extend Window interface to declare __LAUNCH_GAME__
-declare global {
-  interface Window {
-    __LAUNCH_GAME__?: { gameId: any; goal: any };
-  }
-}
+// Window interface augmentation moved to global.d.ts for type safety
 
 export function launchGame(gameId, goal) {
   // eslint-disable-next-line no-console
