@@ -47,7 +47,7 @@ export const LessonProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   const [state, setState] = useState<LessonState>(defaultState);
 
   const setLesson = useCallback((subject: string, topic: string, steps: Step[]) => {
-    setState({ subject, topic, stepIndex: 0, understood: null });
+    setState({ subject, topic, steps, stepIndex: 0, understood: null });
   }, []);
 
   const nextStep = useCallback(() => {
