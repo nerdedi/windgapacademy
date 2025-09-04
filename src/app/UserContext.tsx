@@ -1,13 +1,8 @@
-import type { Auth } from "firebase/auth";
 import { onAuthStateChanged } from "firebase/auth";
-
 import React, { createContext, useContext, useEffect, useState } from "react";
 
-// Use the runtime JS helpers to centralize firebase usage.
-// Import the runtime module as a boxed namespace to avoid implicit-any complaints
-// @ts-ignore: runtime JS module with no types
-import * as firebaseModule from "../../firebase.js";
-const typedAuth = (firebaseModule as unknown as { auth?: Auth }).auth ?? null;
+// Use a small typed wrapper around the runtime firebase.js so TS gets types
+import { auth as typedAuth } from "../lib/firebaseClient.js";
 
 import { signOutUser } from "./auth.js";
 import { getUserDoc, setUserDoc } from "./firestoreClient.js";
@@ -21,9 +16,11 @@ type User = {
 };
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
+// type-only shape for the React context
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 type UserContextType = {
   user: User | null;
-  setUser: (_user: User | null) => void;
+  setUser: React.Dispatch<React.SetStateAction<User | null>>;
   logout: () => void;
 };
 /* eslint-enable @typescript-eslint/no-unused-vars */

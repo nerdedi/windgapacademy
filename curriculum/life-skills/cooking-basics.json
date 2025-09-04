@@ -1,0 +1,12 @@
+{
+  "id": "cooking-basics",
+  "title": "Cooking Basics",
+  "acsf": ["Learning", "Reading"],
+  "ndis": ["Daily Living"],
+  "outcomes": ["Follow simple recipes", "Use basic kitchen equipment safely"],
+  "assessment": ["Prepare a simple meal under supervision", "Hygiene and safety checklist"],
+  "interactive": ["Recipe builder", "Kitchen safety quiz", "Video demo"],
+  "resources": ["simple-recipes.pdf", "kitchen-safety-poster.pdf"],
+  "educator_guidance": "Start with no-cook recipes; use visual supports and step-by-step cue cards.",
+  "goal_tracking_integration": true
+}

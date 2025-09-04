@@ -1,0 +1,12 @@
+{
+  "id": "safety-in-community",
+  "title": "Safety in the Community",
+  "acsf": ["Learning", "Oral Communication"],
+  "ndis": ["Social & Community Access"],
+  "outcomes": ["Identify safe behaviours", "Know emergency contacts and procedures"],
+  "assessment": ["Safety scenario response", "Emergency contact checklist"],
+  "interactive": ["Safety simulation", "Emergency number game"],
+  "resources": ["safety-audit-template.pdf", "community-services-list.pdf"],
+  "educator_guidance": "Practice scenarios with increasing independence; ensure personal safety plans are individualized.",
+  "goal_tracking_integration": true
+}

@@ -1,12 +1,11 @@
-import React, { useState } from "react";
-
 import { getFirestore, doc, setDoc } from "firebase/firestore";
+import React, { useState } from "react";
 
 export default function GoalSetting({ learnerId }: { learnerId: string }) {
   const [goal, setGoal] = useState("");
   const handleSave = () => {
-  const db = getFirestore();
-  setDoc(doc(db, "goals", learnerId), { goal, progress: 0 });
+    const db = getFirestore();
+    setDoc(doc(db, "goals", learnerId), { goal, progress: 0 });
   };
 
   return (

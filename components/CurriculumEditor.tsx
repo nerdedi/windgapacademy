@@ -7,8 +7,8 @@ export default function CurriculumEditor({ topic }: { topic: CurriculumTopic }) 
   const [metadata, setMetadata] = useState<CurriculumTopic>(topic);
 
   const handleSave = () => {
-  const db = getFirestore();
-  setDoc(doc(db, "curriculum", topic.topicId), metadata);
+    const db = getFirestore();
+    setDoc(doc(db, "curriculum", topic.topicId), metadata);
   };
 
   return (

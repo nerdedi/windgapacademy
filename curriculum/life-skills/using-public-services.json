@@ -1,0 +1,12 @@
+{
+  "id": "using-public-services",
+  "title": "Using Public Services",
+  "acsf": ["Oral Communication", "Reading"],
+  "ndis": ["Social & Community Access"],
+  "outcomes": ["Access library, post office and medical centre", "Complete simple service transactions"],
+  "assessment": ["Role-play service use", "Service map navigation task"],
+  "interactive": ["Service finder game", "Conversation builder"],
+  "resources": ["service-map.pdf", "service-roleplay-cards.pdf"],
+  "educator_guidance": "Coordinate visits with local services; use visuals and scripts for interactions.",
+  "goal_tracking_integration": true
+}

@@ -1,0 +1,12 @@
+{
+  "id": "time-management-work",
+  "title": "Time Management (Work)",
+  "acsf": ["Learning", "Numeracy"],
+  "ndis": ["Employment"],
+  "outcomes": ["Use rosters and schedules", "Estimate task duration at work"],
+  "assessment": ["Task scheduling exercise", "Time-on-task tracking"],
+  "interactive": ["Shift planner", "Task timer"],
+  "resources": ["shift-planner.pdf"],
+  "educator_guidance": "Model workplace routines and support transition times between tasks.",
+  "goal_tracking_integration": true
+}

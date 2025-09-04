@@ -1,0 +1,12 @@
+{
+  "id": "hygiene-personal-care",
+  "title": "Hygiene & Personal Care",
+  "acsf": ["Learning", "Oral Communication"],
+  "ndis": ["Daily Living"],
+  "outcomes": ["Perform a daily hygiene routine", "Identify common personal care products"],
+  "assessment": ["Hygiene checklist", "Role-play personal care scenarios"],
+  "interactive": ["Drag-and-drop routine builder", "Product match game"],
+  "resources": ["hygiene-checklist.pdf", "product-labels.pdf"],
+  "educator_guidance": "Use social stories for sensitive topics; provide private spaces for practice.",
+  "goal_tracking_integration": true
+}

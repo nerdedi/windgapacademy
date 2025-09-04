@@ -1,0 +1,12 @@
+{
+  "id": "time-management",
+  "title": "Time Management",
+  "acsf": ["Learning", "Numeracy"],
+  "ndis": ["Daily Living"],
+  "outcomes": ["Use a calendar and planner", "Estimate and allocate time for tasks"],
+  "assessment": ["Daily planner task", "Time estimation exercises"],
+  "interactive": ["Drag-and-drop planner", "Time quiz"],
+  "resources": ["weekly-planner.pdf", "time-estimation-activities.pdf"],
+  "educator_guidance": "Introduce routines visually; link to real-world schedules (appointments, transport).",
+  "goal_tracking_integration": true
+}

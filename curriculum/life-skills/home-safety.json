@@ -1,0 +1,12 @@
+{
+  "id": "home-safety",
+  "title": "Home Safety",
+  "acsf": ["Learning", "Reading"],
+  "ndis": ["Daily Living"],
+  "outcomes": ["Identify hazards at home", "Use household appliances safely"],
+  "assessment": ["Home safety audit", "Appliance safety checklist"],
+  "interactive": ["Hazard hunt game", "Appliance safety quiz"],
+  "resources": ["home-safety-checklist.pdf", "appliance-guides.pdf"],
+  "educator_guidance": "Personalize based on learner's living situation; practice safe appliance operation with supervision.",
+  "goal_tracking_integration": true
+}

@@ -1,6 +1,5 @@
-import React, { useState } from "react";
-
 import { getFirestore, doc, setDoc } from "firebase/firestore";
+import React, { useState } from "react";
 
 export default function SelfAssessment({ learnerId }: { learnerId: string }) {
   const [responses, setResponses] = useState<Record<string, string>>({});
@@ -12,8 +11,8 @@ export default function SelfAssessment({ learnerId }: { learnerId: string }) {
   ];
 
   const handleSubmit = () => {
-  const db = getFirestore();
-  setDoc(doc(db, "selfAssessments", learnerId), responses);
+    const db = getFirestore();
+    setDoc(doc(db, "selfAssessments", learnerId), responses);
   };
 
   return (

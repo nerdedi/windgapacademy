@@ -1,0 +1,12 @@
+{
+  "id": "workplace-safety",
+  "title": "Workplace Safety",
+  "acsf": ["Learning", "Reading"],
+  "ndis": ["Employment"],
+  "outcomes": ["Identify hazards at work", "Follow safety procedures"],
+  "assessment": ["Safety checklist", "Observed safety routine"],
+  "interactive": ["Hazard identification game", "PPE checklist"],
+  "resources": ["safety-guidelines.pdf"],
+  "educator_guidance": "Coordinate with workplace health and safety reps; adapt PPE instructions.",
+  "goal_tracking_integration": true
+}
