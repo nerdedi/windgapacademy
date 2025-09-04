@@ -1,13 +1,13 @@
-import { onAuthStateChanged } from "firebase/auth";
-import { Auth } from "firebase/auth";
 import type { Auth } from "firebase/auth";
+import { onAuthStateChanged } from "firebase/auth";
+
 import React, { createContext, useContext, useEffect, useState } from "react";
 
 // Use the runtime JS helpers to centralize firebase usage.
+// @ts-ignore -- runtime JS module; assert shape at runtime
 import { auth as importedAuth } from "../../firebase.js";
-const typedAuth: Auth = importedAuth as Auth;
+const typedAuth = (importedAuth as unknown) as Auth | null;
 
-const typedAuth: Auth = importedAuth as Auth;
 import { signOutUser } from "./auth.js";
 import { getUserDoc, setUserDoc } from "./firestoreClient.js";
 
@@ -21,7 +21,7 @@ type User = {
 
 type UserContextType = {
   user: User | null;
-  setUser: (u: User | null) => void;
+  setUser: (_user: User | null) => void;
   logout: () => void;
 };
 
@@ -40,7 +40,7 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    const fbAuth: Auth = typedAuth;
+    const fbAuth = typedAuth;
     if (!fbAuth) return;
 
     const unsub = onAuthStateChanged(fbAuth, async (firebaseUser) => {
