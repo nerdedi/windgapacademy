@@ -11,28 +11,28 @@
 
 // Example: Add onboarding modal
 function showOnboarding() {
-  const modal = document.createElement('div');
-  modal.className = 'onboarding-modal';
+  const modal = document.createElement("div");
+  modal.className = "onboarding-modal";
   modal.innerHTML = `<h2>Welcome to Literacy Game!</h2><p>Practice literacy skills interactively. Use the settings to customize your experience.</p><button id='close-onboarding'>Close</button>`;
   document.body.appendChild(modal);
-  document.getElementById('close-onboarding').onclick = () => modal.remove();
+  document.getElementById("close-onboarding").onclick = () => modal.remove();
 }
 
 // Example: Add ARIA attributes
 function setAccessibility() {
-  const gameEl = document.getElementById('literacy-game');
+  const gameEl = document.getElementById("literacy-game");
   if (gameEl) {
-    gameEl.setAttribute('role', 'region');
-    gameEl.setAttribute('aria-label', 'Literacy Game');
+    gameEl.setAttribute("role", "region");
+    gameEl.setAttribute("aria-label", "Literacy Game");
   }
 }
 
 // Example: Add backup/sync logic
 function backupProgress(progress) {
-  localStorage.setItem('literacyProgress', JSON.stringify(progress));
+  localStorage.setItem("literacyProgress", JSON.stringify(progress));
 }
 function syncProgress() {
-  return JSON.parse(localStorage.getItem('literacyProgress') || '{}');
+  return JSON.parse(localStorage.getItem("literacyProgress") || "{}");
 }
 
 // Example: Gamification
@@ -52,7 +52,11 @@ function logEvent(event) {
 
 // Example: Error boundary
 function safeRun(fn) {
-  try { fn(); } catch (e) { console.error('Error:', e); }
+  try {
+    fn();
+  } catch (e) {
+    console.error("Error:", e);
+  }
 }
 
 // Example: UI settings modal
@@ -68,8 +72,8 @@ function startGame() {
 }
 
 // Run game on DOMContentLoaded
-if (typeof document !== 'undefined') {
-  document.addEventListener('DOMContentLoaded', startGame);
+if (typeof document !== "undefined") {
+  document.addEventListener("DOMContentLoaded", startGame);
 }
 // Literacy Game Module: Platformer
 // --- i18n & Language Switching ---
@@ -81,7 +85,7 @@ const i18n = {
     faq: "FAQ: Learn about reading, writing, and comprehension.",
     backup: "Backup your progress to the cloud.",
     sync: "Sync your achievements with your educator.",
-    placeholder: "Feature coming soon!"
+    placeholder: "Feature coming soon!",
   },
   es: {
     title: "Juego de Alfabetización",
@@ -90,7 +94,7 @@ const i18n = {
     faq: "FAQ: Aprende sobre lectura, escritura y comprensión.",
     backup: "Respalda tu progreso en la nube.",
     sync: "Sincroniza tus logros con tu educador.",
-    placeholder: "¡Función próximamente!"
+    placeholder: "¡Función próximamente!",
   },
   ar: {
     title: "لعبة محو الأمية",
@@ -99,8 +103,8 @@ const i18n = {
     faq: "الأسئلة الشائعة: تعرف على القراءة والكتابة والفهم.",
     backup: "انسخ تقدمك إلى السحابة.",
     sync: "زامن إنجازاتك مع المعلم.",
-    placeholder: "الميزة قادمة قريبًا!"
-  }
+    placeholder: "الميزة قادمة قريبًا!",
+  },
 };
 let currentLang = "en";
 function setLanguage(lang) {
@@ -112,10 +116,10 @@ function setLanguage(lang) {
 
 // --- Tooltips ---
 function addTooltips() {
-  document.querySelectorAll("button, [aria-label]").forEach(el => {
+  document.querySelectorAll("button, [aria-label]").forEach((el) => {
     if (el.title || el.getAttribute("aria-label")) {
       el.setAttribute("tabindex", "0");
-      el.onfocus = el.onmouseover = function() {
+      el.onfocus = el.onmouseover = function () {
         let tip = document.createElement("div");
         tip.className = "tooltip";
         tip.textContent = el.title || el.getAttribute("aria-label");
@@ -124,13 +128,13 @@ function addTooltips() {
         tip.style.color = "#fff";
         tip.style.padding = "4px 8px";
         tip.style.borderRadius = "4px";
-        tip.style.top = (el.getBoundingClientRect().top - 30) + "px";
-        tip.style.left = (el.getBoundingClientRect().left) + "px";
+        tip.style.top = el.getBoundingClientRect().top - 30 + "px";
+        tip.style.left = el.getBoundingClientRect().left + "px";
         tip.style.zIndex = 9999;
         tip.id = "active-tooltip";
         document.body.appendChild(tip);
       };
-      el.onblur = el.onmouseout = function() {
+      el.onblur = el.onmouseout = function () {
         let tip = document.getElementById("active-tooltip");
         if (tip) tip.remove();
       };
@@ -144,14 +148,15 @@ function showOnboarding() {
   if (!modal) {
     modal = document.createElement("div");
     modal.id = "onboarding-modal";
-    modal.style = "position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.5);z-index:2000;display:flex;align-items:center;justify-content:center;";
+    modal.style =
+      "position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.5);z-index:2000;display:flex;align-items:center;justify-content:center;";
     modal.innerHTML = `<div style='background:#fff;padding:2em;border-radius:1em;max-width:400px;text-align:center;'>
       <h3>Onboarding</h3>
       <p>${i18n[currentLang].onboarding}</p>
       <button id='close-onboarding' class='btn-primary'>Close</button>
     </div>`;
     document.body.appendChild(modal);
-    document.getElementById('close-onboarding').onclick = () => modal.remove();
+    document.getElementById("close-onboarding").onclick = () => modal.remove();
   }
 }
 function showFAQ() {
@@ -159,20 +164,25 @@ function showFAQ() {
   if (!modal) {
     modal = document.createElement("div");
     modal.id = "faq-modal";
-    modal.style = "position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.5);z-index:2000;display:flex;align-items:center;justify-content:center;";
+    modal.style =
+      "position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.5);z-index:2000;display:flex;align-items:center;justify-content:center;";
     modal.innerHTML = `<div style='background:#fff;padding:2em;border-radius:1em;max-width:400px;text-align:left;'>
       <h3>FAQ</h3>
       <ul><li>${i18n[currentLang].faq}</li></ul>
       <button id='close-faq' class='btn-primary'>Close</button>
     </div>`;
     document.body.appendChild(modal);
-    document.getElementById('close-faq').onclick = () => modal.remove();
+    document.getElementById("close-faq").onclick = () => modal.remove();
   }
 }
 
 // --- Backup & Sync Placeholders ---
-function backupProgress() { alert(i18n[currentLang].backup); }
-function syncProgress() { alert(i18n[currentLang].sync); }
+function backupProgress() {
+  alert(i18n[currentLang].backup);
+}
+function syncProgress() {
+  alert(i18n[currentLang].sync);
+}
 // Daisy explains rules, Winnie cheers, Andy motivates
 // Levels increase in difficulty, feedback is motivational and independence-focused
 // Visual effects: parallax backgrounds, animated coins, smooth transitions
@@ -184,7 +194,8 @@ function showSettings() {
   if (!modal) {
     modal = document.createElement("div");
     modal.id = "settings-modal";
-    modal.style = "position:fixed;top:50%;left:50%;transform:translate(-50%, -50%);background:#fff;border:2px solid #1976d2;border-radius:12px;padding:24px;z-index:1001;min-width:320px;";
+    modal.style =
+      "position:fixed;top:50%;left:50%;transform:translate(-50%, -50%);background:#fff;border:2px solid #1976d2;border-radius:12px;padding:24px;z-index:1001;min-width:320px;";
     modal.innerHTML = `
       <h3>Game Settings</h3>
       <div>
@@ -209,8 +220,13 @@ function showSettings() {
     document.getElementById("faq-btn").onclick = showFAQ;
     document.getElementById("backup-btn").onclick = backupProgress;
     document.getElementById("sync-btn").onclick = syncProgress;
-    document.getElementById("language-select").onchange = (e) => { setLanguage(e.target.value); modal.remove(); };
-  } else { modal.style.display = "block"; }
+    document.getElementById("language-select").onchange = (e) => {
+      setLanguage(e.target.value);
+      modal.remove();
+    };
+  } else {
+    modal.style.display = "block";
+  }
   addTooltips();
 }
 window.addEventListener("DOMContentLoaded", () => {
@@ -232,7 +248,7 @@ function openParentFeedback() {
     modal.style.top = "50%";
     modal.style.left = "50%";
     modal.style.transform = "translate(-50%, -50%)";
-  modal.className = "card fade-in max-w-lg mx-auto";
+    modal.className = "card fade-in max-w-lg mx-auto";
     modal.style.zIndex = "1002";
     modal.innerHTML = `
       <h3>Parent/Guardian Feedback</h3>
@@ -261,7 +277,7 @@ function showChallengesAndLeaderboard() {
     modal.style.top = "50%";
     modal.style.left = "50%";
     modal.style.transform = "translate(-50%, -50%)";
-  modal.className = "card fade-in max-w-lg mx-auto";
+    modal.className = "card fade-in max-w-lg mx-auto";
     modal.style.zIndex = "1002";
     modal.innerHTML = `
       <h3>Challenges & Leaderboard</h3>
@@ -293,7 +309,7 @@ function enableARVRMode() {
   if (!document.getElementById("arvr-scene")) {
     const scene = document.createElement("a-scene");
     scene.id = "arvr-scene";
-    scene.innerHTML = "<a-box position=\"0 1 -3\" color=\"#4CC3D9\"></a-box>";
+    scene.innerHTML = '<a-box position="0 1 -3" color="#4CC3D9"></a-box>';
     document.body.appendChild(scene);
     alert("AR/VR mode enabled (A-Frame stub).");
   }
@@ -360,7 +376,7 @@ function enableSignLanguageAvatar() {
     overlay.style.borderRadius = "12px";
     overlay.style.zIndex = "1002";
     overlay.innerHTML =
-      "<img src=\"/assets/sign-avatar.gif\" alt=\"Sign Language Avatar\" style=\"width:100%;height:100%;object-fit:contain;\" />";
+      '<img src="/assets/sign-avatar.gif" alt="Sign Language Avatar" style="width:100%;height:100%;object-fit:contain;" />';
     document.body.appendChild(overlay);
   }
   overlay.style.display = "block";
@@ -418,13 +434,13 @@ export function showLiteracyGame(container, userData = {}) {
       <!-- Add literacy game UI here -->
     </div>
   `;
-    // Add your literacy game logic here
-    // Example usage for main button:
-    const btn = document.getElementById('literacy-btn');
-    applyButtonAnimation(btn);
-    // Example usage for heading:
-    const heading = document.getElementById('literacy-heading');
-    applyHeadingAnimation(heading);
+  // Add your literacy game logic here
+  // Example usage for main button:
+  const btn = document.getElementById("literacy-btn");
+  applyButtonAnimation(btn);
+  // Example usage for heading:
+  const heading = document.getElementById("literacy-heading");
+  applyHeadingAnimation(heading);
 }
 
 export {
@@ -434,5 +450,5 @@ export {
   enableOfflineMode,
   showThemeCustomization,
   enableSignLanguageAvatar,
-  openContentCreationTools
+  openContentCreationTools,
 };

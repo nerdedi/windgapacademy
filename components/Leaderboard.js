@@ -10,26 +10,26 @@
 // Simplified leaderboard logic
 
 function showOnboarding() {
-  const modal = document.createElement('div');
-  modal.className = 'onboarding-modal';
+  const modal = document.createElement("div");
+  modal.className = "onboarding-modal";
   modal.innerHTML = `<h2>Welcome to Leaderboard!</h2><p>Track your achievements and progress. Use the settings to personalize your experience.</p><button id='close-onboarding'>Close</button>`;
   document.body.appendChild(modal);
-  document.getElementById('close-onboarding').onclick = () => modal.remove();
+  document.getElementById("close-onboarding").onclick = () => modal.remove();
 }
 
 function setAccessibility() {
-  const lbEl = document.getElementById('leaderboard');
+  const lbEl = document.getElementById("leaderboard");
   if (lbEl) {
-    lbEl.setAttribute('role', 'region');
-    lbEl.setAttribute('aria-label', 'Leaderboard');
+    lbEl.setAttribute("role", "region");
+    lbEl.setAttribute("aria-label", "Leaderboard");
   }
 }
 
 function backupProgress(progress) {
-  localStorage.setItem('leaderboardProgress', JSON.stringify(progress));
+  localStorage.setItem("leaderboardProgress", JSON.stringify(progress));
 }
 function syncProgress() {
-  return JSON.parse(localStorage.getItem('leaderboardProgress') || '{}');
+  return JSON.parse(localStorage.getItem("leaderboardProgress") || "{}");
 }
 
 function updateLeaderboard(score) {
@@ -45,7 +45,11 @@ function logEvent(event) {
 }
 
 function safeRun(fn) {
-  try { fn(); } catch (e) { console.error('Error:', e); }
+  try {
+    fn();
+  } catch (e) {
+    console.error("Error:", e);
+  }
 }
 
 function showSettings() {
@@ -58,8 +62,8 @@ function startLeaderboard() {
   // ...simplified leaderboard logic...
 }
 
-if (typeof document !== 'undefined') {
-  document.addEventListener('DOMContentLoaded', startLeaderboard);
+if (typeof document !== "undefined") {
+  document.addEventListener("DOMContentLoaded", startLeaderboard);
 }
 // --- Advanced Feature Upgrades & TODOs ---
 // Accessibility: ARIA roles, keyboard navigation
@@ -73,26 +77,26 @@ if (typeof document !== 'undefined') {
 // Comprehensive leaderboard logic
 
 function showOnboarding() {
-  const modal = document.createElement('div');
-  modal.className = 'onboarding-modal';
+  const modal = document.createElement("div");
+  modal.className = "onboarding-modal";
   modal.innerHTML = `<h2>Welcome to Leaderboard!</h2><p>Track your achievements and compete with others. Use the settings to customize your experience.</p><button id='close-onboarding'>Close</button>`;
   document.body.appendChild(modal);
-  document.getElementById('close-onboarding').onclick = () => modal.remove();
+  document.getElementById("close-onboarding").onclick = () => modal.remove();
 }
 
 function setAccessibility() {
-  const lbEl = document.getElementById('leaderboard');
+  const lbEl = document.getElementById("leaderboard");
   if (lbEl) {
-    lbEl.setAttribute('role', 'region');
-    lbEl.setAttribute('aria-label', 'Leaderboard');
+    lbEl.setAttribute("role", "region");
+    lbEl.setAttribute("aria-label", "Leaderboard");
   }
 }
 
 function backupProgress(progress) {
-  localStorage.setItem('leaderboardProgress', JSON.stringify(progress));
+  localStorage.setItem("leaderboardProgress", JSON.stringify(progress));
 }
 function syncProgress() {
-  return JSON.parse(localStorage.getItem('leaderboardProgress') || '{}');
+  return JSON.parse(localStorage.getItem("leaderboardProgress") || "{}");
 }
 
 function updateLeaderboard(score) {
@@ -108,7 +112,11 @@ function logEvent(event) {
 }
 
 function safeRun(fn) {
-  try { fn(); } catch (e) { console.error('Error:', e); }
+  try {
+    fn();
+  } catch (e) {
+    console.error("Error:", e);
+  }
 }
 
 function showSettings() {
@@ -121,8 +129,8 @@ function startLeaderboard() {
   // ...leaderboard logic...
 }
 
-if (typeof document !== 'undefined') {
-  document.addEventListener('DOMContentLoaded', startLeaderboard);
+if (typeof document !== "undefined") {
+  document.addEventListener("DOMContentLoaded", startLeaderboard);
 }
 // Leaderboard/Achievements Component
 export function showLeaderboard(container) {
@@ -134,9 +142,12 @@ export function showLeaderboard(container) {
         <div id="leaderboard-list"></div>
       </section>
     `;
-    // Animate heading and button
-    applyHeadingAnimation(document.getElementById('leaderboard-heading'));
-    applyButtonAnimation(document.getElementById('refresh-leaderboard'));
-    // Accessibility
-    setAriaAttributes(document.getElementById('leaderboard'), { role: 'region', label: 'Leaderboard' });
+  // Animate heading and button
+  applyHeadingAnimation(document.getElementById("leaderboard-heading"));
+  applyButtonAnimation(document.getElementById("refresh-leaderboard"));
+  // Accessibility
+  setAriaAttributes(document.getElementById("leaderboard"), {
+    role: "region",
+    label: "Leaderboard",
+  });
 }

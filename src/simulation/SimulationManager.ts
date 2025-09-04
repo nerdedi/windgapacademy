@@ -1,11 +1,11 @@
 // SimulationManager: coordinates all simulation modules and manages global state
-import SupermarketSimulation from '../../components/SupermarketSimulation.jsx';
-import ClubhouseSimulation from '../../components/ClubhouseSimulation.jsx';
-import KitchenSimulation from '../../components/KitchenSimulation.jsx';
-import CalmSpaceSimulation from '../../components/CalmSpaceSimulation.jsx';
-import ZooSimulation from '../../components/ZooSimulation.jsx';
+import CalmSpaceSimulation from "../../components/CalmSpaceSimulation.jsx";
+import ClubhouseSimulation from "../../components/ClubhouseSimulation.jsx";
+import KitchenSimulation from "../../components/KitchenSimulation.jsx";
+import SupermarketSimulation from "../../components/SupermarketSimulation.jsx";
+import ZooSimulation from "../../components/ZooSimulation.jsx";
 
-export type SimulationArea = 'supermarket' | 'clubhouse' | 'kitchen' | 'calmspace' | 'zoo';
+export type SimulationArea = "supermarket" | "clubhouse" | "kitchen" | "calmspace" | "zoo";
 
 interface SimulationState {
   currentArea: SimulationArea;
@@ -30,8 +30,8 @@ class SimulationManager {
     if (!userId) return;
     try {
       await fetch(`/api/simulation/${userId}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(this.state),
       });
     } catch (e) {}
@@ -41,7 +41,7 @@ class SimulationManager {
 
   constructor() {
     this.state = {
-      currentArea: 'supermarket',
+      currentArea: "supermarket",
       progress: {
         supermarket: {},
         clubhouse: {},
@@ -79,13 +79,13 @@ class SimulationManager {
 
   _saveState() {
     try {
-      localStorage.setItem('simulationState', JSON.stringify(this.state));
+      localStorage.setItem("simulationState", JSON.stringify(this.state));
     } catch (e) {}
   }
 
   loadState() {
     try {
-      const saved = localStorage.getItem('simulationState');
+      const saved = localStorage.getItem("simulationState");
       if (saved) {
         this.state = JSON.parse(saved);
       }

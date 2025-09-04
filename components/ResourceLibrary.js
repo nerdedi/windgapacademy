@@ -10,26 +10,26 @@
 // Simplified resource library logic
 
 function showOnboarding() {
-  const modal = document.createElement('div');
-  modal.className = 'onboarding-modal';
+  const modal = document.createElement("div");
+  modal.className = "onboarding-modal";
   modal.innerHTML = `<h2>Welcome to Resource Library!</h2><p>Browse and use educational resources. Use the settings to personalize your experience.</p><button id='close-onboarding'>Close</button>`;
   document.body.appendChild(modal);
-  document.getElementById('close-onboarding').onclick = () => modal.remove();
+  document.getElementById("close-onboarding").onclick = () => modal.remove();
 }
 
 function setAccessibility() {
-  const libEl = document.getElementById('resource-library');
+  const libEl = document.getElementById("resource-library");
   if (libEl) {
-    libEl.setAttribute('role', 'region');
-    libEl.setAttribute('aria-label', 'Resource Library');
+    libEl.setAttribute("role", "region");
+    libEl.setAttribute("aria-label", "Resource Library");
   }
 }
 
 function backupProgress(progress) {
-  localStorage.setItem('resourceLibraryProgress', JSON.stringify(progress));
+  localStorage.setItem("resourceLibraryProgress", JSON.stringify(progress));
 }
 function syncProgress() {
-  return JSON.parse(localStorage.getItem('resourceLibraryProgress') || '{}');
+  return JSON.parse(localStorage.getItem("resourceLibraryProgress") || "{}");
 }
 
 function updateLeaderboard(score) {
@@ -45,7 +45,11 @@ function logEvent(event) {
 }
 
 function safeRun(fn) {
-  try { fn(); } catch (e) { console.error('Error:', e); }
+  try {
+    fn();
+  } catch (e) {
+    console.error("Error:", e);
+  }
 }
 
 function showSettings() {
@@ -58,8 +62,8 @@ function startResourceLibrary() {
   // ...simplified resource library logic...
 }
 
-if (typeof document !== 'undefined') {
-  document.addEventListener('DOMContentLoaded', startResourceLibrary);
+if (typeof document !== "undefined") {
+  document.addEventListener("DOMContentLoaded", startResourceLibrary);
 }
 // --- Advanced Feature Upgrades & TODOs ---
 // Accessibility: ARIA roles, keyboard navigation
@@ -73,26 +77,26 @@ if (typeof document !== 'undefined') {
 // Comprehensive resource library logic
 
 function showOnboarding() {
-  const modal = document.createElement('div');
-  modal.className = 'onboarding-modal';
+  const modal = document.createElement("div");
+  modal.className = "onboarding-modal";
   modal.innerHTML = `<h2>Welcome to Resource Library!</h2><p>Browse and access educational resources. Use the settings to customize your experience.</p><button id='close-onboarding'>Close</button>`;
   document.body.appendChild(modal);
-  document.getElementById('close-onboarding').onclick = () => modal.remove();
+  document.getElementById("close-onboarding").onclick = () => modal.remove();
 }
 
 function setAccessibility() {
-  const libEl = document.getElementById('resource-library');
+  const libEl = document.getElementById("resource-library");
   if (libEl) {
-    libEl.setAttribute('role', 'region');
-    libEl.setAttribute('aria-label', 'Resource Library');
+    libEl.setAttribute("role", "region");
+    libEl.setAttribute("aria-label", "Resource Library");
   }
 }
 
 function backupProgress(progress) {
-  localStorage.setItem('resourceLibraryProgress', JSON.stringify(progress));
+  localStorage.setItem("resourceLibraryProgress", JSON.stringify(progress));
 }
 function syncProgress() {
-  return JSON.parse(localStorage.getItem('resourceLibraryProgress') || '{}');
+  return JSON.parse(localStorage.getItem("resourceLibraryProgress") || "{}");
 }
 
 function updateLeaderboard(score) {
@@ -108,7 +112,11 @@ function logEvent(event) {
 }
 
 function safeRun(fn) {
-  try { fn(); } catch (e) { console.error('Error:', e); }
+  try {
+    fn();
+  } catch (e) {
+    console.error("Error:", e);
+  }
 }
 
 function showSettings() {
@@ -121,8 +129,8 @@ function startResourceLibrary() {
   // ...resource library logic...
 }
 
-if (typeof document !== 'undefined') {
-  document.addEventListener('DOMContentLoaded', startResourceLibrary);
+if (typeof document !== "undefined") {
+  document.addEventListener("DOMContentLoaded", startResourceLibrary);
 }
 // Resource library for educators and learners
 export function showResourceLibrary(container) {
@@ -135,11 +143,12 @@ export function showResourceLibrary(container) {
     </section>
   `;
   // Animate heading and button
-  const headingEl = document.getElementById('resource-heading');
+  const headingEl = document.getElementById("resource-heading");
   if (headingEl) applyHeadingAnimation(headingEl);
-  const downloadBtn = document.getElementById('download-resource');
+  const downloadBtn = document.getElementById("download-resource");
   if (downloadBtn) applyButtonAnimation(downloadBtn);
   // Accessibility
-  const librarySection = document.getElementById('resource-library');
-  if (librarySection) setAriaAttributes(librarySection, { role: 'region', label: 'Resource Library' });
+  const librarySection = document.getElementById("resource-library");
+  if (librarySection)
+    setAriaAttributes(librarySection, { role: "region", label: "Resource Library" });
 }

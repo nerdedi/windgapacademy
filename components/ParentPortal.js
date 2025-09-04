@@ -10,26 +10,26 @@
 // Simplified parent portal logic
 
 function showOnboarding() {
-  const modal = document.createElement('div');
-  modal.className = 'onboarding-modal';
+  const modal = document.createElement("div");
+  modal.className = "onboarding-modal";
   modal.innerHTML = `<h2>Welcome to Parent Portal!</h2><p>Monitor and support your learner's progress. Use the settings to personalize your experience.</p><button id='close-onboarding'>Close</button>`;
   document.body.appendChild(modal);
-  document.getElementById('close-onboarding').onclick = () => modal.remove();
+  document.getElementById("close-onboarding").onclick = () => modal.remove();
 }
 
 function setAccessibility() {
-  const portalEl = document.getElementById('parent-portal');
+  const portalEl = document.getElementById("parent-portal");
   if (portalEl) {
-    portalEl.setAttribute('role', 'region');
-    portalEl.setAttribute('aria-label', 'Parent Portal');
+    portalEl.setAttribute("role", "region");
+    portalEl.setAttribute("aria-label", "Parent Portal");
   }
 }
 
 function backupProgress(progress) {
-  localStorage.setItem('parentPortalProgress', JSON.stringify(progress));
+  localStorage.setItem("parentPortalProgress", JSON.stringify(progress));
 }
 function syncProgress() {
-  return JSON.parse(localStorage.getItem('parentPortalProgress') || '{}');
+  return JSON.parse(localStorage.getItem("parentPortalProgress") || "{}");
 }
 
 function updateLeaderboard(score) {
@@ -45,7 +45,11 @@ function logEvent(event) {
 }
 
 function safeRun(fn) {
-  try { fn(); } catch (e) { console.error('Error:', e); }
+  try {
+    fn();
+  } catch (e) {
+    console.error("Error:", e);
+  }
 }
 
 function showSettings() {
@@ -58,8 +62,8 @@ function startParentPortal() {
   // ...simplified parent portal logic...
 }
 
-if (typeof document !== 'undefined') {
-  document.addEventListener('DOMContentLoaded', startParentPortal);
+if (typeof document !== "undefined") {
+  document.addEventListener("DOMContentLoaded", startParentPortal);
 }
 // --- Advanced Feature Upgrades & TODOs ---
 // Accessibility: ARIA roles, keyboard navigation
@@ -73,26 +77,26 @@ if (typeof document !== 'undefined') {
 // Comprehensive parent portal logic
 
 function showOnboarding() {
-  const modal = document.createElement('div');
-  modal.className = 'onboarding-modal';
+  const modal = document.createElement("div");
+  modal.className = "onboarding-modal";
   modal.innerHTML = `<h2>Welcome to Parent Portal!</h2><p>Monitor and support your child's learning. Use the settings to customize your experience.</p><button id='close-onboarding'>Close</button>`;
   document.body.appendChild(modal);
-  document.getElementById('close-onboarding').onclick = () => modal.remove();
+  document.getElementById("close-onboarding").onclick = () => modal.remove();
 }
 
 function setAccessibility() {
-  const portalEl = document.getElementById('parent-portal');
+  const portalEl = document.getElementById("parent-portal");
   if (portalEl) {
-    portalEl.setAttribute('role', 'region');
-    portalEl.setAttribute('aria-label', 'Parent Portal');
+    portalEl.setAttribute("role", "region");
+    portalEl.setAttribute("aria-label", "Parent Portal");
   }
 }
 
 function backupProgress(progress) {
-  localStorage.setItem('parentPortalProgress', JSON.stringify(progress));
+  localStorage.setItem("parentPortalProgress", JSON.stringify(progress));
 }
 function syncProgress() {
-  return JSON.parse(localStorage.getItem('parentPortalProgress') || '{}');
+  return JSON.parse(localStorage.getItem("parentPortalProgress") || "{}");
 }
 
 function updateLeaderboard(score) {
@@ -108,7 +112,11 @@ function logEvent(event) {
 }
 
 function safeRun(fn) {
-  try { fn(); } catch (e) { console.error('Error:', e); }
+  try {
+    fn();
+  } catch (e) {
+    console.error("Error:", e);
+  }
 }
 
 function showSettings() {
@@ -121,8 +129,8 @@ function startParentPortal() {
   // ...parent portal logic...
 }
 
-if (typeof document !== 'undefined') {
-  document.addEventListener('DOMContentLoaded', startParentPortal);
+if (typeof document !== "undefined") {
+  document.addEventListener("DOMContentLoaded", startParentPortal);
 }
 // Parent/Educator portal for monitoring and feedback
 export function showParentPortal(container) {
@@ -135,10 +143,13 @@ export function showParentPortal(container) {
     </section>
   `;
   // Animate heading and button
-  applyHeadingAnimation(document.getElementById('parent-heading'));
-  applyButtonAnimation(document.getElementById('view-progress'));
+  applyHeadingAnimation(document.getElementById("parent-heading"));
+  applyButtonAnimation(document.getElementById("view-progress"));
   // Accessibility
-  setAriaAttributes(document.getElementById('parent-portal'), { role: 'region', label: 'Parent Portal' });
+  setAriaAttributes(document.getElementById("parent-portal"), {
+    role: "region",
+    label: "Parent Portal",
+  });
   document.getElementById("send-parent-message").onclick = function () {
     document.getElementById("parent-feedback").innerText = "Message sent to parent/educator!";
   };

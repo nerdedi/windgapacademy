@@ -10,26 +10,26 @@
 // Comprehensive academy store logic
 
 function showOnboarding() {
-  const modal = document.createElement('div');
-  modal.className = 'onboarding-modal';
+  const modal = document.createElement("div");
+  modal.className = "onboarding-modal";
   modal.innerHTML = `<h2>Welcome to Academy Store!</h2><p>Browse and purchase educational resources. Use the settings to personalize your experience.</p><button id='close-onboarding'>Close</button>`;
   document.body.appendChild(modal);
-  document.getElementById('close-onboarding').onclick = () => modal.remove();
+  document.getElementById("close-onboarding").onclick = () => modal.remove();
 }
 
 function setAccessibility() {
-  const storeEl = document.getElementById('academy-store');
+  const storeEl = document.getElementById("academy-store");
   if (storeEl) {
-    storeEl.setAttribute('role', 'region');
-    storeEl.setAttribute('aria-label', 'Academy Store');
+    storeEl.setAttribute("role", "region");
+    storeEl.setAttribute("aria-label", "Academy Store");
   }
 }
 
 function backupProgress(progress) {
-  localStorage.setItem('academyStoreProgress', JSON.stringify(progress));
+  localStorage.setItem("academyStoreProgress", JSON.stringify(progress));
 }
 function syncProgress() {
-  return JSON.parse(localStorage.getItem('academyStoreProgress') || '{}');
+  return JSON.parse(localStorage.getItem("academyStoreProgress") || "{}");
 }
 
 function updateLeaderboard(score) {
@@ -45,7 +45,11 @@ function logEvent(event) {
 }
 
 function safeRun(fn) {
-  try { fn(); } catch (e) { console.error('Error:', e); }
+  try {
+    fn();
+  } catch (e) {
+    console.error("Error:", e);
+  }
 }
 
 function showSettings() {
@@ -58,8 +62,8 @@ function startAcademyStore() {
   // ...academy store logic...
 }
 
-if (typeof document !== 'undefined') {
-  document.addEventListener('DOMContentLoaded', startAcademyStore);
+if (typeof document !== "undefined") {
+  document.addEventListener("DOMContentLoaded", startAcademyStore);
 }
 // --- Advanced Feature Upgrades & TODOs ---
 // Accessibility: ARIA roles, keyboard navigation
@@ -74,28 +78,28 @@ if (typeof document !== 'undefined') {
 
 // Example: Add onboarding modal
 function showOnboarding() {
-  const modal = document.createElement('div');
-  modal.className = 'onboarding-modal';
+  const modal = document.createElement("div");
+  modal.className = "onboarding-modal";
   modal.innerHTML = `<h2>Welcome to Academy Store!</h2><p>Browse and purchase educational resources. Use the settings to customize your experience.</p><button id='close-onboarding'>Close</button>`;
   document.body.appendChild(modal);
-  document.getElementById('close-onboarding').onclick = () => modal.remove();
+  document.getElementById("close-onboarding").onclick = () => modal.remove();
 }
 
 // Example: Add ARIA attributes
 function setAccessibility() {
-  const storeEl = document.getElementById('academy-store');
+  const storeEl = document.getElementById("academy-store");
   if (storeEl) {
-    storeEl.setAttribute('role', 'region');
-    storeEl.setAttribute('aria-label', 'Academy Store');
+    storeEl.setAttribute("role", "region");
+    storeEl.setAttribute("aria-label", "Academy Store");
   }
 }
 
 // Example: Add backup/sync logic
 function backupCart(cart) {
-  localStorage.setItem('academyStoreCart', JSON.stringify(cart));
+  localStorage.setItem("academyStoreCart", JSON.stringify(cart));
 }
 function syncCart() {
-  return JSON.parse(localStorage.getItem('academyStoreCart') || '[]');
+  return JSON.parse(localStorage.getItem("academyStoreCart") || "[]");
 }
 
 // Example: Gamification
@@ -115,7 +119,11 @@ function logEvent(event) {
 
 // Example: Error boundary
 function safeRun(fn) {
-  try { fn(); } catch (e) { console.error('Error:', e); }
+  try {
+    fn();
+  } catch (e) {
+    console.error("Error:", e);
+  }
 }
 
 // Example: UI settings modal
@@ -131,8 +139,8 @@ function startStore() {
 }
 
 // Run store on DOMContentLoaded
-if (typeof document !== 'undefined') {
-  document.addEventListener('DOMContentLoaded', startStore);
+if (typeof document !== "undefined") {
+  document.addEventListener("DOMContentLoaded", startStore);
 }
 // Academy Store Module
 // Spend tokens, buy items, track purchases
@@ -164,13 +172,12 @@ function animateEffect(effect) {
   }
 }
 
-
 function showAcademyStore(container, tokens = 0) {
   function helpButton() {
-    return "<button id=\"store-help\" aria-label=\"Help\" title=\"Help\">❓</button>";
+    return '<button id="store-help" aria-label="Help" title="Help">❓</button>';
   }
   function privacyNotice() {
-    return "<div id=\"privacy-notice\" class=\"text-sm text-gray-600 my-2\">All store actions are private and only used for educational financial literacy.</div>";
+    return '<div id="privacy-notice" class="text-sm text-gray-600 my-2">All store actions are private and only used for educational financial literacy.</div>';
   }
   container.innerHTML = `
     <section id="academy-store" class="au-section" aria-label="Academy Store">

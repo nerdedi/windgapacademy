@@ -10,26 +10,26 @@
 // Comprehensive challenges logic
 
 function showOnboarding() {
-  const modal = document.createElement('div');
-  modal.className = 'onboarding-modal';
+  const modal = document.createElement("div");
+  modal.className = "onboarding-modal";
   modal.innerHTML = `<h2>Welcome to Challenges!</h2><p>Complete challenges and track your progress. Use the settings to personalize your experience.</p><button id='close-onboarding'>Close</button>`;
   document.body.appendChild(modal);
-  document.getElementById('close-onboarding').onclick = () => modal.remove();
+  document.getElementById("close-onboarding").onclick = () => modal.remove();
 }
 
 function setAccessibility() {
-  const challengeEl = document.getElementById('challenges');
+  const challengeEl = document.getElementById("challenges");
   if (challengeEl) {
-    challengeEl.setAttribute('role', 'region');
-    challengeEl.setAttribute('aria-label', 'Challenges');
+    challengeEl.setAttribute("role", "region");
+    challengeEl.setAttribute("aria-label", "Challenges");
   }
 }
 
 function backupProgress(progress) {
-  localStorage.setItem('challengesProgress', JSON.stringify(progress));
+  localStorage.setItem("challengesProgress", JSON.stringify(progress));
 }
 function syncProgress() {
-  return JSON.parse(localStorage.getItem('challengesProgress') || '{}');
+  return JSON.parse(localStorage.getItem("challengesProgress") || "{}");
 }
 
 function updateLeaderboard(score) {
@@ -45,7 +45,11 @@ function logEvent(event) {
 }
 
 function safeRun(fn) {
-  try { fn(); } catch (e) { console.error('Error:', e); }
+  try {
+    fn();
+  } catch (e) {
+    console.error("Error:", e);
+  }
 }
 
 function showSettings() {
@@ -58,8 +62,8 @@ function startChallenges() {
   // ...challenges logic...
 }
 
-if (typeof document !== 'undefined') {
-  document.addEventListener('DOMContentLoaded', startChallenges);
+if (typeof document !== "undefined") {
+  document.addEventListener("DOMContentLoaded", startChallenges);
 }
 // --- Advanced Feature Upgrades & TODOs ---
 // Accessibility: ARIA roles, keyboard navigation
@@ -73,26 +77,26 @@ if (typeof document !== 'undefined') {
 // Comprehensive challenges logic
 
 function showOnboarding() {
-  const modal = document.createElement('div');
-  modal.className = 'onboarding-modal';
+  const modal = document.createElement("div");
+  modal.className = "onboarding-modal";
   modal.innerHTML = `<h2>Welcome to Challenges!</h2><p>Complete challenges and track your progress. Use the settings to customize your experience.</p><button id='close-onboarding'>Close</button>`;
   document.body.appendChild(modal);
-  document.getElementById('close-onboarding').onclick = () => modal.remove();
+  document.getElementById("close-onboarding").onclick = () => modal.remove();
 }
 
 function setAccessibility() {
-  const chEl = document.getElementById('challenges');
+  const chEl = document.getElementById("challenges");
   if (chEl) {
-    chEl.setAttribute('role', 'region');
-    chEl.setAttribute('aria-label', 'Challenges');
+    chEl.setAttribute("role", "region");
+    chEl.setAttribute("aria-label", "Challenges");
   }
 }
 
 function backupProgress(progress) {
-  localStorage.setItem('challengesProgress', JSON.stringify(progress));
+  localStorage.setItem("challengesProgress", JSON.stringify(progress));
 }
 function syncProgress() {
-  return JSON.parse(localStorage.getItem('challengesProgress') || '{}');
+  return JSON.parse(localStorage.getItem("challengesProgress") || "{}");
 }
 
 function updateLeaderboard(score) {
@@ -108,7 +112,11 @@ function logEvent(event) {
 }
 
 function safeRun(fn) {
-  try { fn(); } catch (e) { console.error('Error:', e); }
+  try {
+    fn();
+  } catch (e) {
+    console.error("Error:", e);
+  }
 }
 
 function showSettings() {
@@ -121,8 +129,8 @@ function startChallenges() {
   // ...challenges logic...
 }
 
-if (typeof document !== 'undefined') {
-  document.addEventListener('DOMContentLoaded', startChallenges);
+if (typeof document !== "undefined") {
+  document.addEventListener("DOMContentLoaded", startChallenges);
 }
 // Daily/weekly challenges and streak rewards
 export function showChallenges(container) {
