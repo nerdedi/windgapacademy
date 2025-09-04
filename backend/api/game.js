@@ -4,6 +4,23 @@ const authenticateToken = require("../middleware/authenticateToken");
 const fs = require("fs");
 const path = require("path");
 
+// Optional Firestore Admin persistence
+let firestore = null;
+let firestoreGameCollection = null;
+if (process.env.FIRESTORE_ADMIN_JSON && process.env.FIRESTORE_GAME_COLLECTION) {
+  try {
+    const admin = require("firebase-admin");
+    const serviceAccount = JSON.parse(process.env.FIRESTORE_ADMIN_JSON);
+    admin.initializeApp({ credential: admin.credential.cert(serviceAccount) });
+    firestore = admin.firestore();
+    firestoreGameCollection = process.env.FIRESTORE_GAME_COLLECTION;
+    console.log("[game] Firestore Admin persistence enabled for game states.");
+  } catch (err) {
+    console.error("[game] Firestore Admin init failed:", err);
+    firestore = null;
+  }
+}
+
 // File to persist user game states for demo durability
 const DATA_DIR = path.resolve(__dirname, "..", "data");
 const DATA_FILE = path.join(DATA_DIR, "game-states.json");
@@ -12,17 +29,44 @@ const DATA_FILE = path.join(DATA_DIR, "game-states.json");
 const USER_GAME_STATES = new Map();
 
 async function loadStates() {
+  if (firestore && firestoreGameCollection) {
+    try {
+      const snapshot = await firestore.collection(firestoreGameCollection).get();
+      snapshot.forEach(doc => {
+        USER_GAME_STATES.set(doc.id, doc.data());
+      });
+    } catch (err) {
+      console.error("[game] error loading states from Firestore:", err);
+    }
+    return;
+  }
+  // fallback to disk
   try {
     if (!fs.existsSync(DATA_FILE)) return;
     const raw = await fs.promises.readFile(DATA_FILE, "utf8");
     const obj = JSON.parse(raw || "{}");
-  Object.keys(obj).forEach((k) => USER_GAME_STATES.set(k, obj[k]));
+    Object.keys(obj).forEach((k) => USER_GAME_STATES.set(k, obj[k]));
   } catch (err) {
     console.error("[game] error loading states:", err);
   }
 }
 
 async function saveStates() {
+  if (firestore && firestoreGameCollection) {
+    try {
+      // Save each user state as a document
+      const batch = firestore.batch();
+      for (const [k, v] of USER_GAME_STATES.entries()) {
+        const ref = firestore.collection(firestoreGameCollection).doc(k);
+        batch.set(ref, v);
+      }
+      await batch.commit();
+    } catch (err) {
+      console.error("[game] error saving states to Firestore:", err);
+    }
+    return;
+  }
+  // fallback to disk
   try {
     if (!fs.existsSync(DATA_DIR)) {
       await fs.promises.mkdir(DATA_DIR, { recursive: true });

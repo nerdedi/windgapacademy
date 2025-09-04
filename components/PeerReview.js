@@ -10,26 +10,26 @@
 // Simplified peer review logic
 
 function showOnboarding() {
-  const modal = document.createElement('div');
-  modal.className = 'onboarding-modal';
+  const modal = document.createElement("div");
+  modal.className = "onboarding-modal";
   modal.innerHTML = `<h2>Welcome to Peer Review!</h2><p>Review and give feedback to peers. Use the settings to personalize your experience.</p><button id='close-onboarding'>Close</button>`;
   document.body.appendChild(modal);
-  document.getElementById('close-onboarding').onclick = () => modal.remove();
+  document.getElementById("close-onboarding").onclick = () => modal.remove();
 }
 
 function setAccessibility() {
-  const prEl = document.getElementById('peer-review');
+  const prEl = document.getElementById("peer-review");
   if (prEl) {
-    prEl.setAttribute('role', 'region');
-    prEl.setAttribute('aria-label', 'Peer Review');
+    prEl.setAttribute("role", "region");
+    prEl.setAttribute("aria-label", "Peer Review");
   }
 }
 
 function backupProgress(progress) {
-  localStorage.setItem('peerReviewProgress', JSON.stringify(progress));
+  localStorage.setItem("peerReviewProgress", JSON.stringify(progress));
 }
 function syncProgress() {
-  return JSON.parse(localStorage.getItem('peerReviewProgress') || '{}');
+  return JSON.parse(localStorage.getItem("peerReviewProgress") || "{}");
 }
 
 function updateLeaderboard(score) {
@@ -45,7 +45,11 @@ function logEvent(event) {
 }
 
 function safeRun(fn) {
-  try { fn(); } catch (e) { console.error('Error:', e); }
+  try {
+    fn();
+  } catch (e) {
+    console.error("Error:", e);
+  }
 }
 
 function showSettings() {
@@ -58,8 +62,8 @@ function startPeerReview() {
   // ...simplified peer review logic...
 }
 
-if (typeof document !== 'undefined') {
-  document.addEventListener('DOMContentLoaded', startPeerReview);
+if (typeof document !== "undefined") {
+  document.addEventListener("DOMContentLoaded", startPeerReview);
 }
 // --- Advanced Feature Upgrades & TODOs ---
 // Accessibility: ARIA roles, keyboard navigation
@@ -73,26 +77,26 @@ if (typeof document !== 'undefined') {
 // Comprehensive peer review logic
 
 function showOnboarding() {
-  const modal = document.createElement('div');
-  modal.className = 'onboarding-modal';
+  const modal = document.createElement("div");
+  modal.className = "onboarding-modal";
   modal.innerHTML = `<h2>Welcome to Peer Review!</h2><p>Review and provide feedback to peers. Use the settings to customize your experience.</p><button id='close-onboarding'>Close</button>`;
   document.body.appendChild(modal);
-  document.getElementById('close-onboarding').onclick = () => modal.remove();
+  document.getElementById("close-onboarding").onclick = () => modal.remove();
 }
 
 function setAccessibility() {
-  const prEl = document.getElementById('peer-review');
+  const prEl = document.getElementById("peer-review");
   if (prEl) {
-    prEl.setAttribute('role', 'region');
-    prEl.setAttribute('aria-label', 'Peer Review');
+    prEl.setAttribute("role", "region");
+    prEl.setAttribute("aria-label", "Peer Review");
   }
 }
 
 function backupProgress(progress) {
-  localStorage.setItem('peerReviewProgress', JSON.stringify(progress));
+  localStorage.setItem("peerReviewProgress", JSON.stringify(progress));
 }
 function syncProgress() {
-  return JSON.parse(localStorage.getItem('peerReviewProgress') || '{}');
+  return JSON.parse(localStorage.getItem("peerReviewProgress") || "{}");
 }
 
 function updateLeaderboard(score) {
@@ -108,7 +112,11 @@ function logEvent(event) {
 }
 
 function safeRun(fn) {
-  try { fn(); } catch (e) { console.error('Error:', e); }
+  try {
+    fn();
+  } catch (e) {
+    console.error("Error:", e);
+  }
 }
 
 function showSettings() {
@@ -121,8 +129,8 @@ function startPeerReview() {
   // ...peer review logic...
 }
 
-if (typeof document !== 'undefined') {
-  document.addEventListener('DOMContentLoaded', startPeerReview);
+if (typeof document !== "undefined") {
+  document.addEventListener("DOMContentLoaded", startPeerReview);
 }
 // Peer review and rating system
 export function showPeerReview(container) {
@@ -135,8 +143,11 @@ export function showPeerReview(container) {
     </section>
   `;
   // Animate heading and button
-  applyHeadingAnimation(document.getElementById('peer-heading'));
-  applyButtonAnimation(document.getElementById('submit-review'));
+  applyHeadingAnimation(document.getElementById("peer-heading"));
+  applyButtonAnimation(document.getElementById("submit-review"));
   // Accessibility
-  setAriaAttributes(document.getElementById('peer-review'), { role: 'region', label: 'Peer Review' });
+  setAriaAttributes(document.getElementById("peer-review"), {
+    role: "region",
+    label: "Peer Review",
+  });
 }
