@@ -10,26 +10,26 @@
 // Comprehensive achievement sharing logic
 
 function showOnboarding() {
-  const modal = document.createElement('div');
-  modal.className = 'onboarding-modal';
+  const modal = document.createElement("div");
+  modal.className = "onboarding-modal";
   modal.innerHTML = `<h2>Welcome to Achievement Sharing!</h2><p>Share your achievements and celebrate progress. Use the settings to personalize your experience.</p><button id='close-onboarding'>Close</button>`;
   document.body.appendChild(modal);
-  document.getElementById('close-onboarding').onclick = () => modal.remove();
+  document.getElementById("close-onboarding").onclick = () => modal.remove();
 }
 
 function setAccessibility() {
-  const shareEl = document.getElementById('achievement-sharing');
+  const shareEl = document.getElementById("achievement-sharing");
   if (shareEl) {
-    shareEl.setAttribute('role', 'region');
-    shareEl.setAttribute('aria-label', 'Achievement Sharing');
+    shareEl.setAttribute("role", "region");
+    shareEl.setAttribute("aria-label", "Achievement Sharing");
   }
 }
 
 function backupProgress(progress) {
-  localStorage.setItem('achievementSharingProgress', JSON.stringify(progress));
+  localStorage.setItem("achievementSharingProgress", JSON.stringify(progress));
 }
 function syncProgress() {
-  return JSON.parse(localStorage.getItem('achievementSharingProgress') || '{}');
+  return JSON.parse(localStorage.getItem("achievementSharingProgress") || "{}");
 }
 
 function updateLeaderboard(score) {
@@ -45,7 +45,11 @@ function logEvent(event) {
 }
 
 function safeRun(fn) {
-  try { fn(); } catch (e) { console.error('Error:', e); }
+  try {
+    fn();
+  } catch (e) {
+    console.error("Error:", e);
+  }
 }
 
 function showSettings() {
@@ -58,8 +62,8 @@ function startAchievementSharing() {
   // ...achievement sharing logic...
 }
 
-if (typeof document !== 'undefined') {
-  document.addEventListener('DOMContentLoaded', startAchievementSharing);
+if (typeof document !== "undefined") {
+  document.addEventListener("DOMContentLoaded", startAchievementSharing);
 }
 // --- Advanced Feature Upgrades & TODOs ---
 // Accessibility: ARIA roles, keyboard navigation
@@ -73,26 +77,26 @@ if (typeof document !== 'undefined') {
 // Comprehensive achievement sharing logic
 
 function showOnboarding() {
-  const modal = document.createElement('div');
-  modal.className = 'onboarding-modal';
+  const modal = document.createElement("div");
+  modal.className = "onboarding-modal";
   modal.innerHTML = `<h2>Welcome to Achievement Sharing!</h2><p>Share your achievements and celebrate progress. Use the settings to customize your experience.</p><button id='close-onboarding'>Close</button>`;
   document.body.appendChild(modal);
-  document.getElementById('close-onboarding').onclick = () => modal.remove();
+  document.getElementById("close-onboarding").onclick = () => modal.remove();
 }
 
 function setAccessibility() {
-  const achEl = document.getElementById('achievement-sharing');
+  const achEl = document.getElementById("achievement-sharing");
   if (achEl) {
-    achEl.setAttribute('role', 'region');
-    achEl.setAttribute('aria-label', 'Achievement Sharing');
+    achEl.setAttribute("role", "region");
+    achEl.setAttribute("aria-label", "Achievement Sharing");
   }
 }
 
 function backupProgress(progress) {
-  localStorage.setItem('achievementSharingProgress', JSON.stringify(progress));
+  localStorage.setItem("achievementSharingProgress", JSON.stringify(progress));
 }
 function syncProgress() {
-  return JSON.parse(localStorage.getItem('achievementSharingProgress') || '{}');
+  return JSON.parse(localStorage.getItem("achievementSharingProgress") || "{}");
 }
 
 function updateLeaderboard(score) {
@@ -108,7 +112,11 @@ function logEvent(event) {
 }
 
 function safeRun(fn) {
-  try { fn(); } catch (e) { console.error('Error:', e); }
+  try {
+    fn();
+  } catch (e) {
+    console.error("Error:", e);
+  }
 }
 
 function showSettings() {
@@ -121,10 +129,14 @@ function startAchievementSharing() {
   // ...achievement sharing logic...
 }
 
-if (typeof document !== 'undefined') {
-  document.addEventListener('DOMContentLoaded', startAchievementSharing);
+if (typeof document !== "undefined") {
+  document.addEventListener("DOMContentLoaded", startAchievementSharing);
 }
-import { applyButtonAnimation, applyHeadingAnimation, setAriaAttributes } from '../utils/uiUtils.js';
+import {
+  applyButtonAnimation,
+  applyHeadingAnimation,
+  setAriaAttributes,
+} from "../utils/uiUtils.js";
 // Achievement sharing (export badges/certificates)
 export function showAchievementSharing(container) {
   container.innerHTML = `
@@ -135,7 +147,7 @@ export function showAchievementSharing(container) {
       <div id='achievement-status' aria-live='polite'></div>
     </section>
   `;
-    container.innerHTML = `
+  container.innerHTML = `
       <div class="achievements-bg" style="position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:-1;background:url('/assets/backgrounds/achievements-bg.svg') center/cover no-repeat;"></div>
       <section id="achievements" class="card shadow-xl p-8 rounded-2xl mx-auto my-16 max-w-3xl relative bg-white/80 backdrop-blur-lg grid grid-cols-4 gap-6">
         <div class="col-span-3">
@@ -152,14 +164,20 @@ export function showAchievementSharing(container) {
         </div>
       </section>
     `;
-    // Animate heading and button
-    applyHeadingAnimation(document.getElementById('achievements-heading'));
-    applyButtonAnimation(document.getElementById('share-achievement'));
-    // Accessibility
-    setAriaAttributes(document.getElementById('achievements'), { role: 'region', label: 'Achievements & Badges' });
-    // Animate heading and button
-    applyHeadingAnimation(document.getElementById('achievements-heading'));
-    applyButtonAnimation(document.getElementById('share-achievement'));
-    // Accessibility
-    setAriaAttributes(document.getElementById('achievements'), { role: 'region', label: 'Achievements & Badges' });
+  // Animate heading and button
+  applyHeadingAnimation(document.getElementById("achievements-heading"));
+  applyButtonAnimation(document.getElementById("share-achievement"));
+  // Accessibility
+  setAriaAttributes(document.getElementById("achievements"), {
+    role: "region",
+    label: "Achievements & Badges",
+  });
+  // Animate heading and button
+  applyHeadingAnimation(document.getElementById("achievements-heading"));
+  applyButtonAnimation(document.getElementById("share-achievement"));
+  // Accessibility
+  setAriaAttributes(document.getElementById("achievements"), {
+    role: "region",
+    label: "Achievements & Badges",
+  });
 }

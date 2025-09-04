@@ -1,19 +1,25 @@
-import { onAuthStateChanged, signOut } from "firebase/auth";
+import { onAuthStateChanged } from "firebase/auth";
 import { Auth } from "firebase/auth";
-import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
 import React, { createContext, useContext, useEffect, useState } from "react";
 
+// Use the runtime JS helpers to centralize firebase usage.
 import { auth as importedAuth } from "../../firebase.js";
+
 const typedAuth: Auth = importedAuth as Auth;
+import { signOutUser } from "./auth.js";
+import { getUserDoc, setUserDoc } from "./firestoreClient.js";
+
+// Small Role type to document expected values in the app.
+export type Role = "educator" | "learner" | string;
 
 type User = {
   id: string;
-  role?: string;
+  role?: Role;
 };
 
 type UserContextType = {
   user: User | null;
-  setUser: (user: User | null) => void;
+  setUser: (u: User | null) => void;
   logout: () => void;
 };
 
@@ -26,6 +32,7 @@ const UserContext = createContext<UserContextType>({
 export function useUser() {
   return useContext(UserContext);
 }
+import { normalizeRole } from "./normalizeRole.js";
 
 export function UserProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
@@ -34,31 +41,21 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
     const fbAuth: Auth = typedAuth;
     if (!fbAuth) return;
 
-    const db = getFirestore();
     const unsub = onAuthStateChanged(fbAuth, async (firebaseUser) => {
       if (!firebaseUser) {
         setUser(null);
         return;
       }
       const uid = firebaseUser.uid;
-      // attempt to read role from Firestore users/{uid}
+      // attempt to read role from Firestore users/{uid} using centralized client
       try {
-        const snap = await getDoc(doc(db, "users", uid));
-        const data = snap.exists() ? snap.data() : null;
+        const data = await getUserDoc(uid);
         // normalize legacy role strings if present (trainer->educator, student->learner)
-        const normalizeRole = (r: any) => {
-          if (!r) return undefined;
-          const s = String(r).toLowerCase();
-          if (s === "student") return "learner";
-          if (s === "trainer") return "educator";
-          // allow existing educator/learner values through
-          if (s === "educator" || s === "learner") return s;
-          return s; // unknown roles returned as-is
-        };
+        // (uses top-level `normalizeRole` helper)
 
         if (!data) {
           // create a minimal user doc with default role 'learner'
-          await setDoc(doc(db, "users", uid), {
+          await setUserDoc(uid, {
             role: "learner",
             name: firebaseUser.displayName || "",
             email: firebaseUser.email || "",
@@ -79,7 +76,8 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const logout = () => {
-    if (typedAuth) signOut(typedAuth).catch(() => {});
+    // Use centralized signOut helper which logs failures safely
+    signOutUser().catch(() => {});
     setUser(null);
   };
 

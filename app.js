@@ -67,7 +67,10 @@ async function getData() {
   // (Removed duplicate declaration of loginForm)
   if (footer) footer.setAttribute("aria-label", "Footer Information");
   const app = document.getElementById("app");
-  if (app) app.setAttribute("aria-label", "Windgap Academy Main App");
+  if (app) {
+    app.setAttribute("aria-label", "Windgap Academy Main App");
+    app.setAttribute("role", "application");
+  }
   // Keyboard navigation
   // Throttled keyboard navigation for performance
   let lastTabTime = 0;
@@ -85,17 +88,23 @@ async function getData() {
   });
   // Narration hook (for future screen reader integration)
   window.narrate = function (text) {
-    if ('speechSynthesis' in window) {
-      // Lazy-load voices for performance
-      if (!window.speechSynthesis.getVoices().length) {
-        window.speechSynthesis.onvoiceschanged = function() {
+    try {
+      if (!text || typeof text !== 'string') return;
+      if ('speechSynthesis' in window) {
+        const speak = () => {
           const utter = new SpeechSynthesisUtterance(text);
           window.speechSynthesis.speak(utter);
         };
-      } else {
-        const utter = new SpeechSynthesisUtterance(text);
-        window.speechSynthesis.speak(utter);
+        const voices = window.speechSynthesis.getVoices();
+        if (!voices.length) {
+          window.speechSynthesis.onvoiceschanged = speak;
+        } else {
+          speak();
+        }
       }
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.error('Narration failed', e);
     }
   };
   // Only authenticated users see dashboard and modules
@@ -103,10 +112,14 @@ async function getData() {
   // Debug toggle logic
   const debugToggle = document.getElementById('debug-toggle');
   if (debugToggle) {
+    debugToggle.setAttribute('role', 'switch');
+    debugToggle.setAttribute('aria-checked', debugToggle.checked ? 'true' : 'false');
     debugToggle.onchange = (e) => {
-      setDebug(debugToggle.checked);
-      logDebug('Debug mode:', debugToggle.checked);
-      if (debugToggle.checked) {
+      const checked = !!debugToggle.checked;
+      debugToggle.setAttribute('aria-checked', checked ? 'true' : 'false');
+      setDebug(checked);
+      logDebug('Debug mode:', checked);
+      if (checked) {
         showDebugInfo();
       } else {
         hideDebugInfo();
@@ -116,30 +129,47 @@ async function getData() {
   // Login form logic
   const loginForm = document.getElementById('login-form')
   if (loginForm) {
-    // Password visibility toggle
+    // Password visibility toggle - safe DOM checks and keyboard accessibility
     const passwordInput = document.getElementById('login-password');
     const togglePassword = document.getElementById('toggle-password');
     if (togglePassword && passwordInput) {
-      togglePassword.onclick = () => {
-        togglePassword.classList.toggle('active');
-        passwordInput.type = passwordInput.type === 'password' ? 'text' : 'password';
-        togglePassword.textContent = passwordInput.type === 'password' ? '👁️' : '🙈';
+      togglePassword.setAttribute('role', 'button');
+      togglePassword.setAttribute('aria-pressed', 'false');
+      togglePassword.tabIndex = 0;
+      const updateToggle = (show) => {
+        togglePassword.classList.toggle('active', show);
+        togglePassword.setAttribute('aria-pressed', show ? 'true' : 'false');
+        passwordInput.type = show ? 'text' : 'password';
+        togglePassword.textContent = show ? '🙈' : '👁️';
       };
+      const toggleHandler = () => updateToggle(passwordInput.type === 'password');
+      togglePassword.addEventListener('click', toggleHandler);
+      togglePassword.addEventListener('keydown', (ev) => {
+        if (ev.key === 'Enter' || ev.key === ' ') {
+          ev.preventDefault();
+          toggleHandler();
+        }
+      });
     }
     loginForm.onsubmit = async (e) => {
       e.preventDefault();
-      const email = document.getElementById('login-email').value;
-      const password = passwordInput.value;
+      const emailEl = document.getElementById('login-email');
+      const email = emailEl ? (emailEl.value || '') : '';
+      const password = passwordInput ? (passwordInput.value || '') : '';
       const errorDiv = document.getElementById('login-error');
-      errorDiv.style.display = 'none';
-      if (!email.match(/^[^@]+@[^@]+\.[^@]+$/)) {
-        errorDiv.textContent = 'Please enter a valid email address.';
-        errorDiv.style.display = 'block';
+      if (errorDiv) errorDiv.style.display = 'none';
+      if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+        if (errorDiv) {
+          errorDiv.textContent = 'Please enter a valid email address.';
+          errorDiv.style.display = 'block';
+        }
         return;
       }
       if (password.length < 6) {
-        errorDiv.textContent = 'Password must be at least 6 characters.';
-        errorDiv.style.display = 'block';
+        if (errorDiv) {
+          errorDiv.textContent = 'Password must be at least 6 characters.';
+          errorDiv.style.display = 'block';
+        }
         return;
       }
       try {
@@ -188,7 +218,7 @@ async function getData() {
                 '<div class="carousel w-full max-w-2xl mb-6" id="featured-carousel-leaderboard"></div>' +
                 '<div class="badges flex gap-3 mb-4" id="achievement-badges"></div>' +
                 '<div class="progress-tracker w-full max-w-md mb-4" id="progress-tracker-leaderboard"></div>' +
-                '<div class="leaderboard w-full max-w-md mb-4" id="homepage-leaderboard-leaderboard"></div>' +
+                '<div class="leaderboard w-full max-w-md mb-4" id="homepage-leaderboard-main"></div>' +
                 '<div class="challenge-block w-full max-w-md mb-4" id="daily-challenge"></div>' +
                 '<div class="welcome-message text-lg text-white font-semibold mb-2" id="personal-welcome"></div>' +
                 '<div class="news-ticker bg-white/80 text-[#A32C2B] px-4 py-2 rounded-full shadow mb-4" id="news-ticker">Loading updates...</div>' +

@@ -10,26 +10,26 @@
 // Simplified video chat logic
 
 function showOnboarding() {
-  const modal = document.createElement('div');
-  modal.className = 'onboarding-modal';
+  const modal = document.createElement("div");
+  modal.className = "onboarding-modal";
   modal.innerHTML = `<h2>Welcome to Video Chat!</h2><p>Connect and communicate safely. Use the settings to personalize your experience.</p><button id='close-onboarding'>Close</button>`;
   document.body.appendChild(modal);
-  document.getElementById('close-onboarding').onclick = () => modal.remove();
+  document.getElementById("close-onboarding").onclick = () => modal.remove();
 }
 
 function setAccessibility() {
-  const vcEl = document.getElementById('video-chat');
+  const vcEl = document.getElementById("video-chat");
   if (vcEl) {
-    vcEl.setAttribute('role', 'region');
-    vcEl.setAttribute('aria-label', 'Video Chat');
+    vcEl.setAttribute("role", "region");
+    vcEl.setAttribute("aria-label", "Video Chat");
   }
 }
 
 function backupProgress(progress) {
-  localStorage.setItem('videoChatProgress', JSON.stringify(progress));
+  localStorage.setItem("videoChatProgress", JSON.stringify(progress));
 }
 function syncProgress() {
-  return JSON.parse(localStorage.getItem('videoChatProgress') || '{}');
+  return JSON.parse(localStorage.getItem("videoChatProgress") || "{}");
 }
 
 function updateLeaderboard(score) {
@@ -45,7 +45,11 @@ function logEvent(event) {
 }
 
 function safeRun(fn) {
-  try { fn(); } catch (e) { console.error('Error:', e); }
+  try {
+    fn();
+  } catch (e) {
+    console.error("Error:", e);
+  }
 }
 
 function showSettings() {
@@ -58,8 +62,8 @@ function startVideoChat() {
   // ...simplified video chat logic...
 }
 
-if (typeof document !== 'undefined') {
-  document.addEventListener('DOMContentLoaded', startVideoChat);
+if (typeof document !== "undefined") {
+  document.addEventListener("DOMContentLoaded", startVideoChat);
 }
 // --- Advanced Feature Upgrades & TODOs ---
 // Accessibility: ARIA roles, keyboard navigation
@@ -73,26 +77,26 @@ if (typeof document !== 'undefined') {
 // Comprehensive video chat logic
 
 function showOnboarding() {
-  const modal = document.createElement('div');
-  modal.className = 'onboarding-modal';
+  const modal = document.createElement("div");
+  modal.className = "onboarding-modal";
   modal.innerHTML = `<h2>Welcome to Video Chat!</h2><p>Connect and communicate with others. Use the settings to customize your experience.</p><button id='close-onboarding'>Close</button>`;
   document.body.appendChild(modal);
-  document.getElementById('close-onboarding').onclick = () => modal.remove();
+  document.getElementById("close-onboarding").onclick = () => modal.remove();
 }
 
 function setAccessibility() {
-  const chatEl = document.getElementById('video-chat');
+  const chatEl = document.getElementById("video-chat");
   if (chatEl) {
-    chatEl.setAttribute('role', 'region');
-    chatEl.setAttribute('aria-label', 'Video Chat');
+    chatEl.setAttribute("role", "region");
+    chatEl.setAttribute("aria-label", "Video Chat");
   }
 }
 
 function backupProgress(progress) {
-  localStorage.setItem('videoChatProgress', JSON.stringify(progress));
+  localStorage.setItem("videoChatProgress", JSON.stringify(progress));
 }
 function syncProgress() {
-  return JSON.parse(localStorage.getItem('videoChatProgress') || '{}');
+  return JSON.parse(localStorage.getItem("videoChatProgress") || "{}");
 }
 
 function updateLeaderboard(score) {
@@ -108,7 +112,11 @@ function logEvent(event) {
 }
 
 function safeRun(fn) {
-  try { fn(); } catch (e) { console.error('Error:', e); }
+  try {
+    fn();
+  } catch (e) {
+    console.error("Error:", e);
+  }
 }
 
 function showSettings() {
@@ -121,8 +129,8 @@ function startVideoChat() {
   // ...video chat logic...
 }
 
-if (typeof document !== 'undefined') {
-  document.addEventListener('DOMContentLoaded', startVideoChat);
+if (typeof document !== "undefined") {
+  document.addEventListener("DOMContentLoaded", startVideoChat);
 }
 // Video/audio chat integration
 export function showVideoChat(container) {
@@ -135,11 +143,11 @@ export function showVideoChat(container) {
     </section>
   `;
   // Animate heading and button
-    const headingEl = document.getElementById('video-heading');
-    if (headingEl) applyHeadingAnimation(headingEl);
-    const startBtn = document.getElementById('start-video');
-    if (startBtn) applyButtonAnimation(startBtn);
+  const headingEl = document.getElementById("video-heading");
+  if (headingEl) applyHeadingAnimation(headingEl);
+  const startBtn = document.getElementById("start-video");
+  if (startBtn) applyButtonAnimation(startBtn);
   // Accessibility
-    const chatSection = document.getElementById('video-chat');
-    if (chatSection) setAriaAttributes(chatSection, { role: 'region', label: 'Video Chat' });
+  const chatSection = document.getElementById("video-chat");
+  if (chatSection) setAriaAttributes(chatSection, { role: "region", label: "Video Chat" });
 }

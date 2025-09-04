@@ -3,9 +3,13 @@ import React, { useState, useEffect } from "react";
 import GameProvider from "../components/GameModules/GameManager";
 import { loginUser, auth } from "../firebase.js";
 
+import { validateEmail, validatePassword } from "./app/authUtils";
+import ErrorBoundary from "./app/ErrorBoundary";
 import AppRouter from "./app/Router";
 import useRoute from "./app/routing";
 import { UserProvider, useUser } from "./app/UserContext";
+import { GamificationProvider } from "./contexts/GamificationContext";
+import { LessonProvider } from "./contexts/LessonContext";
 import SimulationManager from "./simulation/SimulationManager";
 
 function MainApp() {
@@ -28,13 +32,15 @@ function MainApp() {
 
     const id = inputId.trim();
     try {
-      // If Firebase auth is available and input looks like an email, attempt Firebase login
-      // If input looks like an email, validate basic format before attempting Firebase login
+      // If input looks like an email, validate format and password before attempting Firebase login
       if (inputId.includes("@")) {
-        // simple email regex (not perfect but filters obvious mistakes)
-        const emailOk = /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(inputId);
-        if (!emailOk) {
+        if (!validateEmail(inputId)) {
           setError("Please enter a valid email address.");
+          setIsLoading(false);
+          return;
+        }
+        if (!validatePassword(password)) {
+          setError("Password must be at least 6 characters and include a letter and a number.");
           setIsLoading(false);
           return;
         }
@@ -58,6 +64,13 @@ function MainApp() {
         setUser({ id });
       }
       setShowLogin(false);
+      // Move focus to main app area for keyboard users
+      try {
+        const main = document.querySelector('main[role="main"]') || document.querySelector("main");
+        if (main && typeof main.focus === "function") main.focus();
+      } catch (e) {
+        // ignore
+      }
       // navigate to home after successful login
       try {
         navigate("/");
@@ -97,7 +110,7 @@ function MainApp() {
 
   if (showLogin) {
     return (
-      <main className="p-8 text-center">
+      <main role="main" className="p-8 text-center">
         <h2 className="text-2xl font-bold mb-4">Login</h2>
         <div className="flex flex-col items-center justify-center gap-2">
           <input
@@ -161,7 +174,13 @@ export default function AppWithProvider() {
   return (
     <UserProvider>
       <GameProvider>
-        <MainApp />
+        <LessonProvider>
+          <GamificationProvider>
+            <ErrorBoundary>
+              <MainApp />
+            </ErrorBoundary>
+          </GamificationProvider>
+        </LessonProvider>
       </GameProvider>
     </UserProvider>
   );
