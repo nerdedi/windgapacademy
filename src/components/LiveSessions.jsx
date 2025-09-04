@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 
 const LiveSessions = () => {
   const [sessions, setSessions] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     setLoading(true);
@@ -12,6 +14,8 @@ const LiveSessions = () => {
         setLoading(false);
       })
       .catch((err) => {
+        // eslint-disable-next-line no-console
+        console.error("Failed to fetch live sessions:", err);
         setError("Failed to load live sessions");
         setLoading(false);
       });

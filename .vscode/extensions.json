@@ -11,8 +11,10 @@
     "raczzalan.webgl-glsl-editor",
     "arcanis.vscode-zipfs",
     "ms-python.python",
+    "ms-python.vscode-pylance",
     "rust-lang.rust-analyzer",
     "hbenl.vscode-mocha-test-adapter",
     "bradlc.vscode-tailwindcss"
-  ]
+  ],
+  "unwantedRecommendations": []
 }

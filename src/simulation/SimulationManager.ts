@@ -23,7 +23,11 @@ class SimulationManager {
         this.state.currentArea = data.currentArea || this.state.currentArea;
         this._saveState();
       }
-    } catch (e) {}
+    } catch (e) {
+      // Log errors for visibility during development
+      // eslint-disable-next-line no-console
+      console.error("fetchProgressFromBackend error:", e);
+    }
   }
 
   async saveProgressToBackend(userId: string) {
@@ -34,7 +38,10 @@ class SimulationManager {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(this.state),
       });
-    } catch (e) {}
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.error("saveProgressToBackend error:", e);
+    }
   }
   state: SimulationState;
   modules: Record<SimulationArea, any>;
@@ -80,7 +87,10 @@ class SimulationManager {
   _saveState() {
     try {
       localStorage.setItem("simulationState", JSON.stringify(this.state));
-    } catch (e) {}
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.error("_saveState error:", e);
+    }
   }
 
   loadState() {
@@ -89,7 +99,10 @@ class SimulationManager {
       if (saved) {
         this.state = JSON.parse(saved);
       }
-    } catch (e) {}
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.error("loadState error:", e);
+    }
   }
 
   addModule(area: SimulationArea, module: any) {

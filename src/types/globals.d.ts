@@ -6,11 +6,11 @@ declare module "../lib/firebaseClient" {
   export const auth: Auth | null;
 }
 
-declare const applyHeadingAnimation: (...args: any[]) => void;
+declare const _applyHeadingAnimation: (..._args: any[]) => void;
 declare const applyButtonAnimation: (...args: any[]) => void;
 declare const setAriaAttributes: (...args: any[]) => void;
 declare const updateProgress: (...args: any[]) => void;
-declare const i18n: any;
+declare const _i18n: any;
 declare const currentLang: string;
 declare const backupProgress: (...args: any[]) => void;
 declare const syncProgress: (...args: any[]) => void;

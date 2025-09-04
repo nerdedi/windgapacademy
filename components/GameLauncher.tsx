@@ -22,6 +22,13 @@ export default function GameLauncher({ gameId, goal }) {
 }
 
 // exported for testing without rendering the component
+// Extend Window interface to declare __LAUNCH_GAME__
+declare global {
+  interface Window {
+    __LAUNCH_GAME__?: { gameId: any; goal: any };
+  }
+}
+
 export function launchGame(gameId, goal) {
   // eslint-disable-next-line no-console
   console.log("launchGame helper", gameId, goal);

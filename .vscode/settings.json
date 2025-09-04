@@ -1,11 +1,29 @@
 {
-    "python.testing.unittestArgs": [
-        "-v",
-        "-s",
-        "./nerdedi",
-        "-p",
-        "*test*.py"
-    ],
-    "python.testing.pytestEnabled": false,
-    "python.testing.unittestEnabled": true
+  "python.analysis.diagnosticMode": "openFilesOnly",
+  "python.analysis.typeCheckingMode": "basic",
+  "python.analysis.autoSearchPaths": true,
+  "python.analysis.extraPaths": ["backend", "src", "components"],
+  "python.analysis.exclude": [
+    "**/node_modules",
+    "**/__pycache__",
+    "**/build",
+    ".git",
+    "coverage",
+    "dist",
+    "out",
+    "assets/images-optimized/**",
+    "assets/images-webp/**",
+    "frontend/**/node_modules",
+    "backend/**/node_modules"
+  ],
+  "python.analysis.logLevel": "Warning",
+  "python.testing.unittestArgs": [
+    "-v",
+    "-s",
+    "./nerdedi",
+    "-p",
+    "*test*.py"
+  ],
+  "python.testing.pytestEnabled": false,
+  "python.testing.unittestEnabled": true
 }

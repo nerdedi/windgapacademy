@@ -58,6 +58,13 @@ export const LessonProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     setState((s) => ({ ...s, stepIndex: Math.max(0, s.stepIndex - 1) }));
   }, []);
 
+  const goToStep = useCallback((index: number) => {
+    setState((s) => ({
+      ...s,
+      stepIndex: Math.max(0, Math.min(index, s.steps.length - 1)),
+    }));
+  }, []);
+
   const setUnderstood = (u: boolean) => {
     setState((prev) => {
       const subjectKey = prev.subject || "unknown";

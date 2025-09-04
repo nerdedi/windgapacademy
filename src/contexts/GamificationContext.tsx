@@ -29,38 +29,55 @@ export function useGamification() {
 export const GamificationProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [state, setState] = useState<GamificationState>(defaultState);
 
-  const addXP = useCallback(
-    async (amount: number) => {
-      setState((s) => ({ ...s, xp: s.xp + amount }));
-      try {
-        const uid = (window as any).__CURRENT_USER_ID__;
-        if (uid) await setUserDoc(uid, { gamification: { xp: (state.xp || 0) + amount } });
-      } catch (e) {
-        // eslint-disable-next-line no-console
-        console.warn("Failed to persist XP", e);
-      }
-    },
-    [state.xp],
-  );
+  const addXP = useCallback(async (amount: number) => {
+    // use functional updater to avoid stale state
+    setState((s) => {
+      const newXp = s.xp + amount;
+      // persist in background
+      (async () => {
+        try {
+          const uid = (window as any).__CURRENT_USER_ID__;
+          if (uid) await setUserDoc(uid, { gamification: { xp: newXp } });
+        } catch (e) {
+          // eslint-disable-next-line no-console
+          console.warn("Failed to persist XP", e);
+        }
+      })();
+      return { ...s, xp: newXp };
+    });
+  }, []);
 
-  const awardBadge = useCallback(
-    async (badge: string) => {
-      setState((s) => ({ ...s, badges: Array.from(new Set([...s.badges, badge])) }));
-      try {
-        const uid = (window as any).__CURRENT_USER_ID__;
-        if (uid)
-          await setUserDoc(uid, { gamification: { badges: [...(state.badges || []), badge] } });
-      } catch (e) {
-        // eslint-disable-next-line no-console
-        console.warn("Failed to persist badge", e);
-      }
-    },
-    [state.badges],
-  );
+  const awardBadge = useCallback(async (badge: string) => {
+    setState((s) => {
+      const newBadges = Array.from(new Set([...s.badges, badge]));
+      (async () => {
+        try {
+          const uid = (window as any).__CURRENT_USER_ID__;
+          if (uid) await setUserDoc(uid, { gamification: { badges: newBadges } });
+        } catch (e) {
+          // eslint-disable-next-line no-console
+          console.warn("Failed to persist badge", e);
+        }
+      })();
+      return { ...s, badges: newBadges };
+    });
+  }, []);
 
   const unlockGame = useCallback((id: string) => {
     if (!id) return;
-    setState((s) => ({ ...s, unlockedGames: Array.from(new Set([...s.unlockedGames, id])) }));
+    setState((s) => {
+      const newUnlocked = Array.from(new Set([...s.unlockedGames, id]));
+      (async () => {
+        try {
+          const uid = (window as any).__CURRENT_USER_ID__;
+          if (uid) await setUserDoc(uid, { gamification: { unlockedGames: newUnlocked } });
+        } catch (e) {
+          // eslint-disable-next-line no-console
+          console.warn("Failed to persist unlocked game", e);
+        }
+      })();
+      return { ...s, unlockedGames: newUnlocked };
+    });
   }, []);
 
   const reset = useCallback(() => setState(defaultState), []);
