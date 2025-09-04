@@ -1,5 +1,5 @@
-
 import { useEffect, useState } from "react";
+
 const { getDb } = require("../src/app/firestoreClient");
 
 export function useLearnerData() {
@@ -18,7 +18,7 @@ export function useLearnerData() {
         // eslint-disable-next-line global-require
         const { collection, getDocs } = require("firebase/firestore");
         const snap = await getDocs(collection(db, "users"));
-        const data = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        const data = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
         if (mounted) setLearners(data);
       } catch (e) {
         // eslint-disable-next-line no-console
@@ -27,7 +27,9 @@ export function useLearnerData() {
       }
     }
     fetch();
-    return () => { mounted = false; };
+    return () => {
+      mounted = false;
+    };
   }, []);
 
   return learners;
