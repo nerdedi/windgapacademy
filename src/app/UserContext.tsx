@@ -1,9 +1,11 @@
 import { onAuthStateChanged } from "firebase/auth";
 import { Auth } from "firebase/auth";
+import type { Auth } from "firebase/auth";
 import React, { createContext, useContext, useEffect, useState } from "react";
 
 // Use the runtime JS helpers to centralize firebase usage.
 import { auth as importedAuth } from "../../firebase.js";
+const typedAuth: Auth = importedAuth as Auth;
 
 const typedAuth: Auth = importedAuth as Auth;
 import { signOutUser } from "./auth.js";

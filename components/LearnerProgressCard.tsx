@@ -1,10 +1,22 @@
 import React from "react";
 
-import type { ProgressData, Learner } from "./types";
-import ExportReportButton from "./ExportReportButton";
-import SupportFlag from "./SupportFlag";
-import PDFPreview from "./PDFPreview";
 import EducatorNotes from "./EducatorNotes";
+import ExportReportButton from "./ExportReportButton";
+import PDFPreview from "./PDFPreview";
+import SupportFlag from "./SupportFlag";
+import type { ProgressData } from "./types";
+
+type Goal = {
+  id: string;
+  description: string;
+  progress: number;
+};
+
+type Learner = {
+  id: string;
+  name: string;
+  goals?: Goal[];
+};
 
 export default function LearnerProgressCard({ learner }) {
   React.useEffect(() => {
@@ -23,11 +35,17 @@ export default function LearnerProgressCard({ learner }) {
             <h3 className="font-bold mt-2">{subject}</h3>
             {Object.entries(topics as Record<string, ProgressData>).map(([topic, data]) => (
               <div key={topic} className="ml-4 text-sm">
-                <p>{topic}: {data.completed ? "✅ Completed" : "❌ Incomplete"}</p>
+                <p>
+                  {topic}: {data.completed ? "✅ Completed" : "❌ Incomplete"}
+                </p>
                 <p>XP: {data.xp}</p>
                 <p>Badge: {data.badge || "None"}</p>
-                <p className="text-xs text-gray-500">ACSF Level: {(data as any).acsfLevel || "N/A"}</p>
-                <p className="text-xs text-blue-600">NDIS Support: {(data as any).ndisSupportType || "N/A"}</p>
+                <p className="text-xs text-gray-500">
+                  ACSF Level: {(data as any).acsfLevel || "N/A"}
+                </p>
+                <p className="text-xs text-blue-600">
+                  NDIS Support: {(data as any).ndisSupportType || "N/A"}
+                </p>
                 <SupportFlag needsHelp={data.needsHelp} />
               </div>
             ))}

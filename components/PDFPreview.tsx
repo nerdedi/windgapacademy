@@ -25,7 +25,10 @@ export default function PDFPreview({ learner }: { learner: Learner }) {
         <div key={subject}>
           <p className="font-semibold">{subject}</p>
           {Object.entries(topics).map(([topic, data]) => (
-            <p key={topic}>- {topic}: {data.completed ? 'Completed' : 'Incomplete'}, XP: {data.xp}, Badge: {data.badge || 'None'}</p>
+            <p key={topic}>
+              - {topic}: {data.completed ? "Completed" : "Incomplete"}, XP: {data.xp}, Badge:{" "}
+              {data.badge || "None"}
+            </p>
           ))}
         </div>
       ))}
