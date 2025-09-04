@@ -1,0 +1,20 @@
+{
+  "id": "travel-training",
+  "title": "Travel Training",
+  "acsf": ["Learning", "Oral Communication"],
+  "ndis": ["Daily Living"],
+  "outcomes": [
+    "Read timetables and schedules",
+    "Ask for help and directions",
+    "Identify appropriate routes and stops"
+  ],
+  "assessment": [
+    "Simulated journey observed by educator",
+    "Role-play interactions with transport staff",
+    "Safety checklist completion"
+  ],
+  "interactive": ["Bus route game", "Map navigation", "Audio prompts"],
+  "resources": ["timetable-printable.pdf", "map-worksheet.pdf"],
+  "educator_guidance": "Prepare local route examples; adapt support level based on learner's mobility and communication needs.",
+  "goal_tracking_integration": true
+}

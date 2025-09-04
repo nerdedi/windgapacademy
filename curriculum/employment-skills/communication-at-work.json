@@ -1,0 +1,12 @@
+{
+  "id": "communication-at-work",
+  "title": "Communication at Work",
+  "acsf": ["Oral Communication", "Learning"],
+  "ndis": ["Employment"],
+  "outcomes": ["Follow instructions", "Communicate with supervisors and peers"],
+  "assessment": ["Role-play workplace conversations", "Feedback logs"],
+  "interactive": ["Instruction-following tasks", "Message-builder"],
+  "resources": ["communication-templates-work.pdf"],
+  "educator_guidance": "Use real workplace documentation and scripts; practice assertive and polite communication.",
+  "goal_tracking_integration": true
+}

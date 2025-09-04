@@ -1,0 +1,12 @@
+{
+  "id": "communication-asking-for-help",
+  "title": "Communication & Asking for Help",
+  "acsf": ["Oral Communication", "Learning"],
+  "ndis": ["Therapeutic Supports"],
+  "outcomes": ["Express needs clearly", "Ask for help appropriately"],
+  "assessment": ["Role-play help-seeking", "Communication checklist"],
+  "interactive": ["Help-seeking scenarios", "Emoji expression game"],
+  "resources": ["communication-templates.pdf", "social-stories.pdf"],
+  "educator_guidance": "Use preferred communication modes (verbal, AAC); rehearse scripts and cues.",
+  "goal_tracking_integration": true
+}
