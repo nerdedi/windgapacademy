@@ -2,7 +2,7 @@ import React from "react";
 
 type Props = {};
 
-export default function CurriculumBuilder(_props: Props) {
+export default function CurriculumBuilder() {
   return (
     <div>
       <h2>Curriculum Builder</h2>

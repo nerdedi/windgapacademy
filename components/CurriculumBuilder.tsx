@@ -2,7 +2,7 @@ import React from "react";
 
 type Props = {};
 
-export default function CurriculumBuilder(_props: Props) {
+export default function CurriculumBuilder() {
   // Minimal interactive stubs for the sample UI logic in the request.
   return (
     <div>
