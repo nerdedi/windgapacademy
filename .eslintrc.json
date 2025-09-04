@@ -12,6 +12,31 @@
     "node": true,
     "es2022": true
   },
+  "globals": {
+    "applyHeadingAnimation": "readonly",
+    "applyButtonAnimation": "readonly",
+    "setAriaAttributes": "readonly",
+    "updateProgress": "readonly",
+    "getAchievements": "readonly",
+    "i18n": "readonly",
+    "currentLang": "readonly",
+    "resetProgress": "readonly",
+    "startOnboarding": "readonly",
+    "resetOnboarding": "readonly",
+    "showOnboarding": "readonly",
+    "backupProgress": "readonly",
+    "syncProgress": "readonly",
+    "updateLeaderboard": "readonly",
+    "sendFeedback": "readonly",
+    "logEvent": "readonly",
+    "safeRun": "readonly",
+    "showSettings": "readonly",
+    "gsap": "readonly",
+    "container": "readonly",
+    "Tooltip": "readonly",
+    "BrowserRouter": "readonly",
+    "location": "readonly"
+  },
   "rules": {
     "import/no-cycle": [
       "error",
@@ -32,6 +57,8 @@
       "error",
       { "allowElseIf": true }
     ],
+  "no-unused-vars": ["warn", { "varsIgnorePattern": "^_" }],
+  "no-redeclare": "warn",
     "prettier/prettier": "error"
   },
   "settings": {

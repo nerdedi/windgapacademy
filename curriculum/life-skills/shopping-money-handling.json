@@ -1,0 +1,12 @@
+{
+  "id": "shopping-money-handling",
+  "title": "Shopping & Money Handling",
+  "acsf": ["Numeracy", "Reading"],
+  "ndis": ["Economic Participation"],
+  "outcomes": ["Create a simple budget", "Read product labels", "Pay correctly for items"],
+  "assessment": ["Simulated shopping task", "Receipt review exercise"],
+  "interactive": ["Virtual store", "Budgeting game", "Money match"],
+  "resources": ["budget-planner.pdf", "shop-roleplay-cards.pdf"],
+  "educator_guidance": "Start with familiar stores and items; scaffold currency recognition with real coins/notes.",
+  "goal_tracking_integration": true
+}

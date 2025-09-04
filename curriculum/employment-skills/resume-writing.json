@@ -1,0 +1,12 @@
+{
+  "id": "resume-writing",
+  "title": "Resume Writing",
+  "acsf": ["Reading", "Writing"],
+  "ndis": ["Economic Participation"],
+  "outcomes": ["Write a simple resume", "List skills and experience"],
+  "assessment": ["Completed resume draft", "Peer/educator review"],
+  "interactive": ["Resume template builder", "Match skills to jobs activity"],
+  "resources": ["resume-template.docx", "cv-guidance.pdf"],
+  "educator_guidance": "Support with templates, use visual examples and role-play to identify skills.",
+  "goal_tracking_integration": true
+}

@@ -1,0 +1,12 @@
+{
+  "id": "workplace-behaviour",
+  "title": "Workplace Behaviour",
+  "acsf": ["Learning", "Oral Communication"],
+  "ndis": ["Employment"],
+  "outcomes": ["Understand workplace expectations", "Demonstrate punctuality and teamwork"],
+  "assessment": ["Observed workplace simulation", "Checklist of behaviours"],
+  "interactive": ["Scenario-based decisions", "Teamwork challenges"],
+  "resources": ["workplace-expectations.pdf"],
+  "educator_guidance": "Liaise with employers for authentic tasks; use clear rules and feedback.",
+  "goal_tracking_integration": true
+}

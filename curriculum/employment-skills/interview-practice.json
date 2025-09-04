@@ -1,0 +1,12 @@
+{
+  "id": "interview-practice",
+  "title": "Interview Practice",
+  "acsf": ["Oral Communication", "Learning"],
+  "ndis": ["Economic Participation"],
+  "outcomes": ["Answer common interview questions", "Demonstrate workplace communication"],
+  "assessment": ["Mock interview observed by educator", "Reflective checklist"],
+  "interactive": ["Interview question bank", "Role-play scenarios"],
+  "resources": ["interview-questions.pdf", "video-examples.mp4"],
+  "educator_guidance": "Grade prompts and scaffolds depending on learner's communication needs.",
+  "goal_tracking_integration": true
+}
