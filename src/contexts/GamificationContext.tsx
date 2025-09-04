@@ -59,6 +59,7 @@ export const GamificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
   );
 
   const unlockGame = useCallback((id: string) => {
+    if (!id) return;
     setState((s) => ({ ...s, unlockedGames: Array.from(new Set([...s.unlockedGames, id])) }));
   }, []);
 
