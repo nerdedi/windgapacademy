@@ -6,6 +6,7 @@ function windgapLog(msg, data) {
   } catch (e) {
     console.error('Unexpected error in main app logic:', e);
   }
+}
 // ...existing code...
 // --- Dynamic Script Inspection & Debugging ---
 async function getScriptContent(url) {
@@ -25,11 +26,12 @@ async function getScriptContent(url) {
       console.error('Fetch failed with status:', response.status);
       return null;
     }
-    return await response.text();
   } catch (e) {
     console.error(`Failed to fetch script content from ${url}:`, e);
     return null;
   }
+}
+// ...existing code...
 // ...existing code...
 async function getStackTraceUrls() {
 async function getStackTraceUrls() {
@@ -41,9 +43,9 @@ async function getStackTraceUrls() {
     .map(line => {
       const match = line.match(/(http[s]?:\/\/[^\s]+)/);
       return match ? match[1].replace(/:\d+:\d+$/, '') : null;
-    })
-    .filter(url => url !== null);
   return [...new Set(urls)]; // Get unique URLs
+}
+async function getData() {
 
 async function getData() {
   const scriptUrls = await getStackTraceUrls();
@@ -53,12 +55,13 @@ async function getData() {
     return { scriptContent: 'Could not find featureLoader.js in stack trace.', stackTraceUrls: scriptUrls };
   }
 
-  const scriptContent = await getScriptContent(featureLoaderUrl);
-
   return {
     scriptContent: scriptContent,
     featureLoaderUrl: featureLoaderUrl,
     stackTraceUrls: scriptUrls
+  };
+}
+// Firebase via CDN for browser compatibility
   };
 // Firebase via CDN for browser compatibility
 // Use ES module import for Firebase. See firebase.js for initialization.
@@ -309,11 +312,12 @@ function collectUserFeedback() {
   btn.style.zIndex = "1000";
   btn.onclick = () => {
     // ...existing code...
-  };
-  document.body.appendChild(btn);
-  // Automated feedback prompt after key actions
   window.addEventListener("routeChange", () => {
     if (Math.random() < 0.1) btn.click(); // 10% chance to prompt feedback
+  });
+}
+
+// Performance Monitoring Implementation
   });
 
 // Performance Monitoring Implementation
@@ -431,4 +435,3 @@ const featuredCarouselLeaderboard = document.getElementById('featured-carousel-l
 const progressLeaderboard = document.getElementById('progress-tracker-leaderboard');
 // Add any additional logic for these elements as needed
 // (No extra closing braces needed here)
-

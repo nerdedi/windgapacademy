@@ -8,6 +8,7 @@ export type ProgressData = {
 };
 
 export type Learner = {
+  goals: never[];
   id: string;
   name: string;
   progress: {

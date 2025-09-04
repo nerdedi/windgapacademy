@@ -1,11 +1,13 @@
 import { onAuthStateChanged } from "firebase/auth";
 import React, { createContext, useContext, useEffect, useState } from "react";
 
-// Use a small typed wrapper around the runtime firebase.js so TS gets types
+// Use a small runtime wrapper around firebase that matches other helpers
+// and avoids implicit any when TypeScript checks imports.
 import { auth as typedAuth } from "../lib/firebaseClient.js";
 
 import { signOutUser } from "./auth.js";
 import { getUserDoc, setUserDoc } from "./firestoreClient.js";
+import { normalizeRole } from "./normalizeRole.js";
 
 // Small Role type to document expected values in the app.
 export type Role = "educator" | "learner" | string;
@@ -34,7 +36,6 @@ const UserContext = createContext<UserContextType>({
 export function useUser() {
   return useContext(UserContext);
 }
-import { normalizeRole } from "./normalizeRole.js";
 
 export function UserProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
