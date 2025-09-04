@@ -1,9 +1,9 @@
-import React from "react";
+import * as React from "react";
 
-type Props = {};
+type _Props = {};
 
 export default function CurriculumBuilder() {
-  // Minimal interactive stubs for the sample UI logic in the request.
+  // Minimal interactive stub for the curriculum builder UI.
   return (
     <div>
       <h2>Curriculum Builder</h2>
@@ -18,7 +18,7 @@ export default function CurriculumBuilder() {
         </label>
       </div>
       <div>
-        <button>Auto-generate Module</button>
+        <button type="button">Auto-generate Module</button>
       </div>
     </div>
   );
