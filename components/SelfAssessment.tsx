@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { firestore } from "../firebase";
+
+import { getFirestore, doc, setDoc } from "firebase/firestore";
 
 export default function SelfAssessment({ learnerId }: { learnerId: string }) {
   const [responses, setResponses] = useState<Record<string, string>>({});
@@ -7,11 +8,12 @@ export default function SelfAssessment({ learnerId }: { learnerId: string }) {
   const questions = [
     { skill: "Reading", question: "Can you read a short passage and explain it?" },
     { skill: "Numeracy", question: "Can you count money and make change?" },
-    { skill: "Oral Communication", question: "Can you ask for help when needed?" }
+    { skill: "Oral Communication", question: "Can you ask for help when needed?" },
   ];
 
   const handleSubmit = () => {
-    firestore.collection("selfAssessments").doc(learnerId).set(responses);
+  const db = getFirestore();
+  setDoc(doc(db, "selfAssessments", learnerId), responses);
   };
 
   return (
@@ -20,7 +22,10 @@ export default function SelfAssessment({ learnerId }: { learnerId: string }) {
       {questions.map((q) => (
         <div key={q.skill} className="mb-2">
           <label>{q.question}</label>
-          <select onChange={(e) => setResponses({ ...responses, [q.skill]: e.target.value })} className="ml-2">
+          <select
+            onChange={(e) => setResponses({ ...responses, [q.skill]: e.target.value })}
+            className="ml-2"
+          >
             <option value="">Select</option>
             <option value="Yes">Yes</option>
             <option value="Sometimes">Sometimes</option>
@@ -28,7 +33,9 @@ export default function SelfAssessment({ learnerId }: { learnerId: string }) {
           </select>
         </div>
       ))}
-      <button onClick={handleSubmit} className="btn-primary mt-2">Submit</button>
+      <button onClick={handleSubmit} className="btn-primary mt-2">
+        Submit
+      </button>
     </div>
   );
 }
