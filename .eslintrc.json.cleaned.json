@@ -42,9 +42,9 @@
       "error",
       { "maxDepth": 1 }
     ],
-    "react/react-in-jsx-scope": "off",
-    "react/prop-types": "off",
-    "react/no-unknown-property": "off",
+  "react/react-in-jsx-scope": "off",
+  "react/prop-types": "off",
+  "react/no-unknown-property": "off",
     "import/order": [
       "error",
       {
@@ -57,8 +57,8 @@
       "error",
       { "allowElseIf": true }
     ],
-    "no-unused-vars": ["warn", { "varsIgnorePattern": "^_" }],
-    "no-redeclare": "warn",
+  "no-unused-vars": ["warn", { "varsIgnorePattern": "^_" }],
+  "no-redeclare": "warn",
     "prettier/prettier": "error"
   },
   "settings": {
@@ -66,7 +66,8 @@
       "node": {
         "paths": ["src", "components", "utils"]
       }
-    },
+    }
+    ,
     "react": {
       "version": "detect"
     }
@@ -77,7 +78,9 @@
     "ecmaFeatures": {
       "modules": true
     }
-  },
+  }
+
+  ,
   "overrides": [
     {
       "files": ["**/*.ts", "**/*.tsx"],

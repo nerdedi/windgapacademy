@@ -8,6 +8,7 @@ const userRoutes = require("./api/users");
 const materialRoutes = require("./api/materials");
 const assignmentRoutes = require("./api/assignments");
 const gameRoutes = require("./api/game");
+const modulesRoutes = require("./api/modules");
 const logger = require("./utils/logger");
 
 const app = express();
@@ -28,6 +29,7 @@ app.use("/api/users", userRoutes);
 app.use("/api/materials", materialRoutes);
 app.use("/api/assignments", assignmentRoutes);
 app.use("/api/game", gameRoutes);
+app.use("/api/modules", modulesRoutes);
 
 app.get("/", (req, res) => {
   res.send("Windgap Academy Backend API");
