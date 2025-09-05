@@ -49,30 +49,36 @@ export default function WindgapCampusMap({ mapData }) {
   // accidental JSX returns inside an event handler.)
 
   // Voice command handler using speech recognition mappings
-  const handleVoiceCommand = React.useCallback((phrase) => {
-    const char =
-      letterMap[phrase] ||
-      punctuationMap1[phrase] ||
-      punctuationMap2[phrase] ||
-      longPunctuationMap[phrase];
-    if (char) {
-      // Example logic: select avatar, plant vegetable, or trigger food item action
-      if (char === "a") {
-        // Plant apple or select avatar 'A'
-        dispatch({ type: GameActions.SHOW_DIALOG, dialog: "Planted apple or selected avatar A" });
-      } else if (char === "b") {
-        // Plant broccoli or select avatar 'B'
+  const handleVoiceCommand = React.useCallback(
+    (phrase) => {
+      const char =
+        letterMap[phrase] ||
+        punctuationMap1[phrase] ||
+        punctuationMap2[phrase] ||
+        longPunctuationMap[phrase];
+      if (char) {
+        // Example logic: select avatar, plant vegetable, or trigger food item action
+        if (char === "a") {
+          // Plant apple or select avatar 'A'
+          dispatch({ type: GameActions.SHOW_DIALOG, dialog: "Planted apple or selected avatar A" });
+        } else if (char === "b") {
+          // Plant broccoli or select avatar 'B'
+          dispatch({
+            type: GameActions.SHOW_DIALOG,
+            dialog: "Planted broccoli or selected avatar B",
+          });
+        } else {
+          dispatch({ type: GameActions.SHOW_DIALOG, dialog: `Triggered action for: ${char}` });
+        }
+      } else {
         dispatch({
           type: GameActions.SHOW_DIALOG,
-          dialog: "Planted broccoli or selected avatar B",
+          dialog: `No mapping found for phrase: ${phrase}`,
         });
-      } else {
-        dispatch({ type: GameActions.SHOW_DIALOG, dialog: `Triggered action for: ${char}` });
       }
-    } else {
-      dispatch({ type: GameActions.SHOW_DIALOG, dialog: `No mapping found for phrase: ${phrase}` });
-    }
-  }, [dispatch]);
+    },
+    [dispatch],
+  );
 
   // Render tiles as grid (simple Canvas, can be upgraded to SVG/WebGL)
 

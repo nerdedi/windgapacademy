@@ -18,14 +18,15 @@ Inclusive, ad-free, educator-reviewed learning platform for neurodivergent learn
 
 1. Install dependencies: `npm install`
 
-
 npx minify styles/windgap-academy.css > styles/windgap-academy.min.css && \
+
 ```bash
 npm run build:css
 ```
 
 Update your HTML and build config to reference the `.min.css` files for production.
-```
+
+````
 
 ## Security
 
@@ -67,7 +68,7 @@ To enable full JSX tests locally:
 
 ```bash
 npm install --save-dev @babel/preset-react
-```
+````
 
 2. Re-run the test suite:
 
@@ -78,14 +79,17 @@ npm test
 CI (GitHub Actions) runs `npm ci` which installs devDependencies and runs the full test suite, so opening a PR will validate the JSX tests automatically.
 
 ## Deployment
+
 - Use HTTPS
 - Set environment variables securely
 - Use `server.cjs` for Node.js hosting
 
 ## CI/CD
+
 - See `.github/workflows/deploy.yml` for automated pipeline
 
 ## Monitoring & Logging
+
 - Sentry for frontend error tracking (see `index.html`)
 - Server logs and alerts recommended
 
@@ -95,8 +99,8 @@ CI (GitHub Actions) runs `npm ci` which installs devDependencies and runs the fu
 
 For optimal performance, use the minified CSS files in production:
 
-
 // trigger redeploy
+
 ## Automated Minification
 
 // another redeploy trigger
@@ -128,21 +132,17 @@ npm run build:css
 
 Update your HTML and build config to reference the `.min.css` files for production.
 
-
 ## Accessibility
 
 - See `scripts/i18n-setup.js` for scaffolding
-
 
 ## Backup & Recovery
 
 - See `scripts/backup.sh` for template
 
-
 ## Analytics
 
 - Google Analytics integrated in `index.html`
-
 
 ## Feedback
 

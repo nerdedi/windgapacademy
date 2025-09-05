@@ -4,7 +4,14 @@
   // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
   "version": "0.2.0",
   "configurations": [
-    {"type":"node","request":"launch","name":"Run js-yaml","runtimeExecutable":"js-yaml","cwd":"${workspaceFolder}/node_modules/eslint","args":[]},
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Run js-yaml",
+      "runtimeExecutable": "js-yaml",
+      "cwd": "${workspaceFolder}/node_modules/eslint",
+      "args": []
+    },
     // Make sure you have the "Python" extension installed in VS Code for this configuration to work.
     // Removed invalid debug type 'debugpy' configuration.
     {

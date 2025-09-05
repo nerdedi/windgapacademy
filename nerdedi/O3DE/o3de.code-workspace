@@ -1,10 +1,10 @@
 {
-	"folders": [
-		{
-			"name": "o3de",
-			"uri": "vscode-remote://codespaces+sturdy-meme-p7jpxvwg965hrg44/workspaces/o3de"
-		}
-	],
-	"remoteAuthority": "codespaces+sturdy-meme-p7jpxvwg965hrg44",
-	"settings": {}
+  "folders": [
+    {
+      "name": "o3de",
+      "uri": "vscode-remote://codespaces+sturdy-meme-p7jpxvwg965hrg44/workspaces/o3de",
+    },
+  ],
+  "remoteAuthority": "codespaces+sturdy-meme-p7jpxvwg965hrg44",
+  "settings": {},
 }

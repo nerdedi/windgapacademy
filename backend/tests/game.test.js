@@ -1,5 +1,6 @@
 // Polyfill setImmediate for this test environment (some Alpine/node variants lack it)
-if (typeof setImmediate === "undefined") global.setImmediate = (fn, ...args) => setTimeout(fn, 0, ...args);
+if (typeof setImmediate === "undefined")
+  global.setImmediate = (fn, ...args) => setTimeout(fn, 0, ...args);
 
 const request = require("supertest");
 
@@ -16,7 +17,9 @@ describe("/api/game endpoints", () => {
 
   test("POST /api/game/action move updates character positions for authenticated user", async () => {
     // login as admin to obtain token
-    const loginRes = await request(app).post("/api/auth/login").send({ username: "admin", role: "admin" });
+    const loginRes = await request(app)
+      .post("/api/auth/login")
+      .send({ username: "admin", role: "admin" });
     const token = loginRes.body.token;
 
     // First save a state with a character

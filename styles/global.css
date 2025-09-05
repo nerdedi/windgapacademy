@@ -1,6 +1,6 @@
 body {
   margin: 0;
-  font-family: 'Segoe UI', 'Gotham', sans-serif;
+  font-family: "Segoe UI", "Gotham", sans-serif;
   background-color: #f5f7fa;
   color: #333;
 }
@@ -14,7 +14,7 @@ nav {
   top: 0;
   left: 0;
   padding: 20px;
-  box-shadow: 2px 0 5px rgba(0,0,0,0.05);
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
 }
 
 nav a {
@@ -52,7 +52,8 @@ main {
     box-shadow: none;
     padding: 10px;
   }
-  header, main {
+  header,
+  main {
     margin-left: 0;
     padding: 10px;
   }
