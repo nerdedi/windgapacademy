@@ -14,6 +14,16 @@ jobs:
         node-version: [18.x]
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: 'recursive'
+          fetch-depth: 0
+      - name: Install Git LFS
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y git-lfs
+          git lfs install || true
+      - name: Ensure submodules
+        run: git submodule sync --recursive && git submodule update --init --recursive
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
@@ -42,6 +52,16 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+      with:
+        submodules: 'recursive'
+        fetch-depth: 0
+    - name: Install Git LFS
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y git-lfs
+        git lfs install || true
+    - name: Ensure submodules
+      run: git submodule sync --recursive && git submodule update --init --recursive
 
     - name: Set up Node.js
       uses: actions/setup-node@v3
@@ -64,6 +84,14 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+      with:
+        submodules: 'recursive'
+        fetch-depth: 0
+    - name: Install Git LFS
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y git-lfs
+        git lfs install || true
 
     - name: Deploy to Firebase Hosting
       uses: FirebaseExtended/action-hosting-deploy@v0
