@@ -9,5 +9,17 @@
       }
     ],
     "started": true
+  },
+  "testuser": {
+    "currentGame": "math_quiz",
+    "characters": [
+      {
+        "id": "player",
+        "x": 5,
+        "y": 10
+      }
+    ],
+    "started": true,
+    "score": 100
   }
 }

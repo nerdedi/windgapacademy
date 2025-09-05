@@ -1,4 +1,5 @@
 import React from "react";
+
 const Panel = ({ title, children }) => (
   <section className="bg-white p-4 rounded shadow">
     <h3 className="font-semibold mb-2">{title}</h3>

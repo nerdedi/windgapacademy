@@ -3,7 +3,8 @@ import React, { createContext, useState } from "react";
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  // Example user object: { role: 'admin' | 'student', name: '...' }
+  // Example user object: { role: 'admin' | 'learner' | 'educator', name: '...' }
+  // Backwards compatible: also supports legacy 'student' | 'trainer' roles
   const [user, setUser] = useState(null);
 
   // Replace with real login logic

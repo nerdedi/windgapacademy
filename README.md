@@ -59,6 +59,13 @@ Update your HTML and build config to reference the `.min.css` files for producti
 
 ### Enabling JSX tests locally
 
+JSX component tests are disabled by default to avoid installation issues in restricted environments. To enable them locally:
+
+1. Install the React preset: `npm install --save-dev @babel/preset-react`
+2. Run tests: `npm test`
+
+The `babel.config.cjs` will automatically detect and load `@babel/preset-react` if available. CI environments will run the full test suite including JSX tests via `npm ci`.
+
 Some developer environments (CI) install `@babel/preset-react` to transform JSX in Jest. This repo's Babel config will only load `@babel/preset-react` when it's installed locally. If your local environment blocks package installs (for example in restricted containers), the preset will be skipped and JSX-heavy component tests will be disabled.
 
 To enable full JSX tests locally:
