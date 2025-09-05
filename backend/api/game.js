@@ -32,7 +32,7 @@ async function loadStates() {
   if (firestore && firestoreGameCollection) {
     try {
       const snapshot = await firestore.collection(firestoreGameCollection).get();
-      snapshot.forEach(doc => {
+      snapshot.forEach((doc) => {
         USER_GAME_STATES.set(doc.id, doc.data());
       });
     } catch (err) {
@@ -124,10 +124,10 @@ router.post("/save", express.json(), authenticateToken, (req, res) => {
   const uid = (req.user && (req.user.id || req.user.username)) || null;
   if (!uid) return res.status(401).json({ error: "unauthenticated" });
   if (state) {
-  USER_GAME_STATES.set(uid, state);
-  // persist to disk
-  saveStates().catch(() => {});
-  return res.json({ ok: true });
+    USER_GAME_STATES.set(uid, state);
+    // persist to disk
+    saveStates().catch(() => {});
+    return res.json({ ok: true });
   }
   res.status(400).json({ error: "no state provided" });
 });

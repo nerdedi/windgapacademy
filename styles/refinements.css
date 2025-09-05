@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap");
 /* Loading spinner styles */
 .loading-spinner {
   display: flex;
@@ -6,11 +6,11 @@
   align-items: center;
   height: 100px;
 }
- .spinner {
+.spinner {
   width: 48px;
   height: 48px;
-  border: 6px solid #5ED1D2;
-  border-top: 6px solid #A32C2B;
+  border: 6px solid #5ed1d2;
+  border-top: 6px solid #a32c2b;
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
@@ -35,10 +35,10 @@
   }
 }
 /* Tooltip styles */
- .tooltip {
+.tooltip {
   position: absolute;
-  background: #A32C2B;
-  color: #5ED1D2;
+  background: #a32c2b;
+  color: #5ed1d2;
   padding: 6px 12px;
   border-radius: 6px;
   font-size: 0.95em;

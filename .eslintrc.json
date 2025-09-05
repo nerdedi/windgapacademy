@@ -38,13 +38,10 @@
     "location": "readonly"
   },
   "rules": {
-    "import/no-cycle": [
-      "error",
-      { "maxDepth": 1 }
-    ],
-  "react/react-in-jsx-scope": "off",
-  "react/prop-types": "off",
-  "react/no-unknown-property": "off",
+    "import/no-cycle": ["error", { "maxDepth": 1 }],
+    "react/react-in-jsx-scope": "off",
+    "react/prop-types": "off",
+    "react/no-unknown-property": "off",
     "import/order": [
       "error",
       {
@@ -53,12 +50,9 @@
         "alphabetize": { "order": "asc", "caseInsensitive": true }
       }
     ],
-    "no-else-return": [
-      "error",
-      { "allowElseIf": true }
-    ],
-  "no-unused-vars": ["warn", { "varsIgnorePattern": "^_" }],
-  "no-redeclare": "warn",
+    "no-else-return": ["error", { "allowElseIf": true }],
+    "no-unused-vars": ["warn", { "varsIgnorePattern": "^_" }],
+    "no-redeclare": "warn",
     "prettier/prettier": "error"
   },
   "settings": {
@@ -66,8 +60,7 @@
       "node": {
         "paths": ["src", "components", "utils"]
       }
-    }
-    ,
+    },
     "react": {
       "version": "detect"
     }
@@ -78,9 +71,8 @@
     "ecmaFeatures": {
       "modules": true
     }
-  }
+  },
 
-  ,
   "overrides": [
     {
       "files": ["**/*.ts", "**/*.tsx"],
@@ -89,7 +81,13 @@
       "rules": {}
     },
     {
-      "files": ["**/__tests__/**", "**/*.test.*", "**/*.spec.*", "**/cypress/**", "**/playwright/**"],
+      "files": [
+        "**/__tests__/**",
+        "**/*.test.*",
+        "**/*.spec.*",
+        "**/cypress/**",
+        "**/playwright/**"
+      ],
       "env": {
         "jest": true,
         "browser": true,

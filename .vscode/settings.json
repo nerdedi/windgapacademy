@@ -17,13 +17,7 @@
     "backend/**/node_modules"
   ],
   "python.analysis.logLevel": "Warning",
-  "python.testing.unittestArgs": [
-    "-v",
-    "-s",
-    "./nerdedi",
-    "-p",
-    "*test*.py"
-  ],
+  "python.testing.unittestArgs": ["-v", "-s", "./nerdedi", "-p", "*test*.py"],
   "python.testing.pytestEnabled": false,
   "python.testing.unittestEnabled": true
 }

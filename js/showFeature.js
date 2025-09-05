@@ -5,6 +5,6 @@ export async function showFeature(feature) {
 }
 
 // Attach to window for inline HTML usage
-if (typeof window !== 'undefined') {
+if (typeof window !== "undefined") {
   window.showFeature = showFeature;
 }

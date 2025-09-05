@@ -1,4 +1,3 @@
-
 # Windgap Academy Build & Asset Optimization
 
 ## Quick Start
