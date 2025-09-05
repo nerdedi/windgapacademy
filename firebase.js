@@ -134,7 +134,7 @@ export function loginUser(email, password) {
   return signInWithEmailAndPassword(auth, email, password);
 }
 
-// Initialize new user with default role "learner" 
+// Initialize new user with default role "learner".
 export async function initializeNewUser(userId, userData = {}) {
   try {
     const db = getFirestore(app);
