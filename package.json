@@ -28,8 +28,6 @@
   "server": "nodemon app.js",
   "client": "cd client && npm start",
   "devDependencies": {
-  "husky": "^8.0.0",
-  "lint-staged": "^14.0.0",
     "@babel/preset-env": "^7.28.3",
     "@playwright/test": "^1.55.0",
     "@tailwindcss/forms": "^0.5.10",
@@ -43,6 +41,7 @@
     "cheerio": "^1.1.2",
     "concurrently": "^9.2.1",
     "cypress": "^15.0.0",
+    "dotenv": "^16.3.1",
     "eslint": "^8.56.0",
     "eslint-config-next": "^15.5.2",
     "eslint-config-prettier": "^10.1.8",
@@ -50,7 +49,9 @@
     "eslint-plugin-prettier": "^5.5.4",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^5.2.0",
+    "husky": "^9.1.7",
     "jest-environment-jsdom": "^30.0.5",
+    "lint-staged": "^14.0.1",
     "next": "^15.5.2",
     "playwright": "^1.55.0",
     "postcss": "^8.5.6",
@@ -58,7 +59,6 @@
     "tailwindcss": "^3.3.3",
     "ts-jest": "^29.4.1",
     "typescript": "^5.9.2",
-    "dotenv": "^16.3.1",
     "vite": "^7.1.3"
   },
   "lint-staged": {
