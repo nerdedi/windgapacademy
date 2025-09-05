@@ -31,7 +31,7 @@ def dir_size(path: Path, ignore_dirs: set[str]) -> int:
     return total
 
 
-def human(n: float) -> str:
+def human(n: int) -> str:
     for unit in ("B", "KB", "MB", "GB", "TB"):
         if n < 1024:
             return f"{n:.1f}{unit}"
