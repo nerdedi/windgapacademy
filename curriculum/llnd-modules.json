@@ -1,0 +1,71 @@
+{
+  "title": "LLND Curriculum - Full Module Set",
+  "modules": {
+    "Life Skills": [
+      "Travel Training",
+      "Cooking Basics",
+      "Hygiene & Personal Care",
+      "Shopping & Money Handling",
+      "Time Management",
+      "Safety in the Community",
+      "Healthy Eating",
+      "Using Public Services",
+      "Home Safety",
+      "Communication & Asking for Help"
+    ],
+    "Employment Skills": [
+      "Resume Writing",
+      "Interview Practice",
+      "Workplace Behaviour",
+      "Time Management at Work",
+      "Workplace Safety",
+      "Communication at Work"
+    ],
+    "Digital Literacy": [
+      "Using Email",
+      "Online Safety",
+      "Searching the Web",
+      "Using Apps",
+      "Filling Out Forms Online",
+      "Accessing Services Digitally"
+    ],
+    "Numeracy": [
+      "Recognising Numbers",
+      "Counting & Grouping",
+      "Time & Calendars",
+      "Money & Budgeting",
+      "Measurement & Estimation",
+      "Reading Charts & Graphs",
+      "Fractions & Decimals",
+      "Problem Solving with Numbers"
+    ],
+    "Literacy & Language": [
+      "Reading Signs & Symbols",
+      "Following Instructions",
+      "Writing Simple Sentences",
+      "Reading for Meaning",
+      "Spelling & Vocabulary",
+      "Filling Out Forms",
+      "Listening & Responding",
+      "Speaking Clearly",
+      "Asking Questions",
+      "Writing for Purpose"
+    ],
+    "Emotional Regulation": [
+      "Recognising Emotions",
+      "Naming Feelings",
+      "Coping Strategies",
+      "Mindfulness & Breathing",
+      "Seeking Support",
+      "Managing Conflict"
+    ],
+    "Social Communication": [
+      "Starting Conversations",
+      "Turn-Taking",
+      "Listening Skills",
+      "Non-Verbal Communication",
+      "Respectful Language",
+      "Group Participation"
+    ]
+  }
+}

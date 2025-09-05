@@ -1,3 +1,42 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [ main ]
+  push:
+    branches: [ main, feature/** ]
+
+jobs:
+  lint-test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: 'recursive'
+          fetch-depth: 0
+      - name: Setup Git LFS (cross-platform)
+        uses: wearedevx/setup-git-lfs@v1
+      - name: Ensure Git LFS
+        run: git lfs install || true
+      - name: Ensure submodules
+        run: git submodule sync --recursive && git submodule update --init --recursive
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+      - name: Install
+        run: npm ci
+      - name: ESLint
+        run: npx eslint components --ext .js,.jsx,.ts,.tsx
+      - name: Typecheck
+        run: npx tsc --noEmit
+      - name: Run tests
+        run: |
+          npm test --silent || npx jest --watchAll=false --runInBand
 name: CI & Deploy
 
 on:
@@ -12,6 +51,15 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+      with:
+        submodules: 'recursive'
+        fetch-depth: 0
+    - name: Setup Git LFS (cross-platform)
+      uses: wearedevx/setup-git-lfs@v1
+    - name: Ensure Git LFS
+      run: git lfs install || true
+    - name: Ensure submodules
+      run: git submodule sync --recursive && git submodule update --init --recursive
 
     - name: Set up Node.js
       uses: actions/setup-node@v3
@@ -34,6 +82,13 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+      with:
+        submodules: 'recursive'
+        fetch-depth: 0
+    - name: Setup Git LFS (cross-platform)
+      uses: wearedevx/setup-git-lfs@v1
+    - name: Ensure Git LFS
+      run: git lfs install || true
 
     - name: Deploy to Firebase Hosting
       uses: FirebaseExtended/action-hosting-deploy@v0
