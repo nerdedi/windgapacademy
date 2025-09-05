@@ -17,11 +17,10 @@ jobs:
         with:
           submodules: 'recursive'
           fetch-depth: 0
-      - name: Install Git LFS
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y git-lfs
-          git lfs install || true
+      - name: Setup Git LFS (cross-platform)
+        uses: wearedevx/setup-git-lfs@v1
+      - name: Ensure Git LFS
+        run: git lfs install || true
       - name: Ensure submodules
         run: git submodule sync --recursive && git submodule update --init --recursive
       - name: Use Node.js
@@ -55,11 +54,10 @@ jobs:
       with:
         submodules: 'recursive'
         fetch-depth: 0
-    - name: Install Git LFS
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y git-lfs
-        git lfs install || true
+    - name: Setup Git LFS (cross-platform)
+      uses: wearedevx/setup-git-lfs@v1
+    - name: Ensure Git LFS
+      run: git lfs install || true
     - name: Ensure submodules
       run: git submodule sync --recursive && git submodule update --init --recursive
 
@@ -87,11 +85,10 @@ jobs:
       with:
         submodules: 'recursive'
         fetch-depth: 0
-    - name: Install Git LFS
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y git-lfs
-        git lfs install || true
+    - name: Setup Git LFS (cross-platform)
+      uses: wearedevx/setup-git-lfs@v1
+    - name: Ensure Git LFS
+      run: git lfs install || true
 
     - name: Deploy to Firebase Hosting
       uses: FirebaseExtended/action-hosting-deploy@v0

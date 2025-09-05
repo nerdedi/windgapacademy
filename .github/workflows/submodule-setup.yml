@@ -2,16 +2,27 @@ name: Submodule Setup
 
 on:
   push:
-    branches: [main]
+    branches: [ main, feature/** ]
   pull_request:
-    branches: [main]
+    branches: [ main ]
 
 jobs:
   setup-submodules:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository with submodules
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
-          submodules: true
-      # Add additional steps here if needed
+          submodules: 'recursive'
+          fetch-depth: 0
+      - name: Setup Git LFS
+        uses: wearedevx/setup-git-lfs@v1
+      - name: Ensure Git LFS
+        run: git lfs install || true
+      - name: Show submodule SHAs
+        run: |
+          echo "Superproject: $(git rev-parse --short HEAD)"
+          git submodule status --recursive || true
+          if [ -d o3de ]; then
+            echo "o3de HEAD: $(git -C o3de rev-parse --short HEAD)"
+            echo "o3de remote heads (short):" && git -C o3de ls-remote --heads origin | cut -c1-7 | sed -n '1,10p' || true
+          fi
