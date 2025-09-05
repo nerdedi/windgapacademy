@@ -1,0 +1,69 @@
+name: Auto Admin
+
+on:
+  workflow_dispatch:
+    inputs:
+      protect_main:
+        description: 'Protect the main branch (true/false)'
+        required: false
+        default: 'true'
+      confirm_delete:
+        description: 'Confirm deletion of nerdedi/LeetCodeAnimation (yes to delete)'
+        required: false
+        default: 'no'
+
+jobs:
+  admin:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run admin script
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.ADMIN_PAT }}
+          script: |
+            const protectMain = ("${{ github.event.inputs.protect_main }}" || "true").toLowerCase() === 'true';
+            const confirmDelete = ("${{ github.event.inputs.confirm_delete }}" || "no").toLowerCase() === 'yes';
+            if (!process.env.ADMIN_PAT && !process.env.GITHUB_TOKEN) {
+              core.notice('No ADMIN_PAT or GITHUB_TOKEN available as secrets; aborting.');
+            }
+            const token = process.env.ADMIN_PAT || process.env.GITHUB_TOKEN;
+            if (!token) {
+              console.log('No token provided in secrets.ADMIN_PAT or GITHUB_TOKEN. Set a repo secret named ADMIN_PAT with a PAT that has `repo` scopes.');
+              return;
+            }
+            const octokit = github.getOctokit(token);
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+
+            if (protectMain) {
+              core.info('Updating branch protection for main...');
+              try {
+                await octokit.rest.repos.updateBranchProtection({
+                  owner,
+                  repo,
+                  branch: 'main',
+                  required_status_checks: { strict: true, contexts: ['CI'] },
+                  enforce_admins: true,
+                  required_pull_request_reviews: { required_approving_review_count: 1 },
+                  restrictions: null,
+                  allow_force_pushes: false
+                });
+                core.info('Branch protection updated (main).');
+              } catch (err) {
+                core.warning('Failed to update branch protection: ' + err.message);
+              }
+            } else {
+              core.info('protect_main was false; skipping branch protection.');
+            }
+
+            if (confirmDelete) {
+              core.warning('confirm_delete=yes detected — attempting to delete nerdedi/LeetCodeAnimation');
+              try {
+                await octokit.request('DELETE /repos/{owner}/{repo}', { owner: 'nerdedi', repo: 'LeetCodeAnimation' });
+                core.info('Repository nerdedi/LeetCodeAnimation deleted.');
+              } catch (err) {
+                core.warning('Failed to delete repo nerdedi/LeetCodeAnimation: ' + err.message);
+              }
+            } else {
+              core.info('confirm_delete not yes; skipping deletion.');
+            }
