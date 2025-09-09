@@ -284,9 +284,9 @@ function startOnboarding() {
   // TODO: Implement onboarding flow
   console.warn("startOnboarding not implemented");
 }
-function backupData() {
-  // TODO: Implement data backup
-  console.warn("backupData not implemented");
+function _backupData() {
+  // TODO: Implement data backup (prefixed as unused placeholder)
+  console.warn("_backupData not implemented");
 }
 // TODO: Ensure secure API calls and data storage
 
@@ -294,7 +294,7 @@ function backupData() {
 // TODO: Polish game UI with modern transitions and customization options
 
 // --- Analytics & Educator Tools ---
-function trackEvent(event, data) {
+function _trackEvent(event, data) {
   // Integrate with analytics service or log locally
   console.log("Analytics Event:", event, data);
 }
