@@ -85,20 +85,20 @@ function _showSettings() {
   // ...settings modal logic (placeholder)
 }
 
-function startMessaging() {
-  showOnboarding();
-  setAccessibility();
-  // ...simplified messaging logic...
-}
-
-if (typeof document !== "undefined") {
-  document.addEventListener("DOMContentLoaded", startMessaging);
-}
+// Note: avoid running on import. Call `showMessaging(container)` from app code
+// to initialize messaging UI, onboarding and accessibility. The previous
+// DOMContentLoaded side-effect was removed so this module is safe to import
+// in server-side or test environments.
 // Messaging & Chat Module
 // Chat moderation, educator review, logs, terms acceptance
 
 export function showMessaging(container, unreadCount = 0) {
   if (!container) return;
+  // initialize optional onboarding and accessibility when mounting the UI
+  safeRun(() => {
+    showOnboarding();
+    setAccessibility();
+  });
   // ephemeral prompt helper
   let promptTimer = null;
   function showTemporaryPrompt(message, timeout = 3000) {
