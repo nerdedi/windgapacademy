@@ -271,7 +271,7 @@ function enableOfflineMode() {
 function openContentCreationTools() {
   /* TODO */
 }
-function trackEvent(event, data) {
+function _trackEvent(event, data) {
   /* TODO */
 }
 function showAnalyticsDashboard() {
@@ -292,6 +292,6 @@ function showLanguageSelector() {
 function startOnboarding() {
   /* TODO */
 }
-function backupData() {
+function _backupData() {
   /* TODO */
 }

@@ -95,10 +95,10 @@ function setAccessibility() {
 }
 
 // Example: Add backup/sync logic
-function backupCart(cart) {
+function _backupCart(cart) {
   localStorage.setItem("academyStoreCart", JSON.stringify(cart));
 }
-function syncCart() {
+function _syncCart() {
   return JSON.parse(localStorage.getItem("academyStoreCart") || "[]");
 }
 
