@@ -429,7 +429,7 @@ export function showCalmSpace(container) {
   const mantraBtn = document.getElementById("mantra-btn");
   if (mantraBtn) mantraBtn.onclick = () => alert("You are calm, capable, and strong.");
   const journalBtn2 = document.getElementById("journal-btn");
-  if (journalBtn) journalBtn.onclick = () => alert("Journal entry saved!");
+  if (journalBtn2) journalBtn2.onclick = () => alert("Journal entry saved!");
   const returnDashboardBtn = document.getElementById("return-dashboard");
   if (returnDashboardBtn) returnDashboardBtn.onclick = () => window.route("dashboard");
   document.getElementById("story-life-skills").onclick = () =>

@@ -75,7 +75,9 @@ export function showDashboard(container, data = {}) {
   try {
     if (!window.__WINDGAP_LOGS__) window.__WINDGAP_LOGS__ = [];
     window.__WINDGAP_LOGS__.push({ ts: Date.now(), msg: "showDashboard:entry", data });
-  } catch (e) {}
+  } catch (e) {
+    /* noop */
+  }
   // Mark dashboard as about-to-render for test harnesses and consumers
   try {
     window.__WINDGAP_READY__ = false;
@@ -233,7 +235,9 @@ export function showDashboard(container, data = {}) {
       logoutBtn.addEventListener("click", () => {
         try {
           localStorage.removeItem("windgap_session_v1");
-        } catch (e) {}
+        } catch (e) {
+          /* noop */
+        }
         window.currentUser = null;
         // route to home/login
         if (typeof window.route === "function") window.route("home");
@@ -284,7 +288,9 @@ export function showDashboard(container, data = {}) {
   }
   try {
     window.__WINDGAP_LOGS__.push({ ts: Date.now(), msg: "showDashboard:render" });
-  } catch (e) {}
+  } catch (e) {
+    /* noop */
+  }
   render();
 }
 function animateCharacters() {

@@ -96,7 +96,7 @@ export default function NutritionLabelDemo() {
       </div>
       {info && <div className="mt-4 p-2 bg-yellow-100 rounded text-sm">{info}</div>}
       <div className="mt-2 text-xs text-gray-500">
-        Tip: Click a row or say "show sugar", "show fiber", etc.
+        Tip: Click a row or say &quot;show sugar&quot;, &quot;show fiber&quot;, etc.
       </div>
     </div>
   );

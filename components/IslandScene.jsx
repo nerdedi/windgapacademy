@@ -4,7 +4,7 @@ import React, { Suspense, useCallback } from "react";
 
 import BackToTopButton from "./BackToTopButton";
 import Spinner from "./Spinner";
-import { showTooltip } from "./Tooltip";
+import Tooltip from "./Tooltip";
 // You can import Drei helpers for lights, controls, etc.
 // import { OrbitControls, Environment } from '@react-three/drei';
 
@@ -36,7 +36,7 @@ function Building({ position, color, label, onClick }) {
 }
 
 // Collectible item logic
-function handleCollectibleItem(item) {
+function _handleCollectibleItem(item) {
   logEvent("Collectible item acquired", { item });
   showFeedbackModal(`You collected: ${item}`);
 }
@@ -185,7 +185,7 @@ const IslandScene = ({ onNavigate }) => {
           <Tree key={i} position={pos} />
         ))}
         {/* Buildings with tooltips */}
-        {buildings.map((b, i) => (
+        {buildings.map((b) => (
           <Tooltip key={b.label} text={`Go to ${b.label}`}>
             <Building
               position={b.position}
