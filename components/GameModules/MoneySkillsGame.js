@@ -165,10 +165,10 @@ export function showMoneySkillsGame(container, userData = {}) {
   }
 
   // --- Backup & Sync Placeholders ---
-  function backupProgress() {
+  function _backupProgress() {
     alert(i18n[currentLang].backup);
   }
-  function syncProgress() {
+  function _syncProgress() {
     alert(i18n[currentLang].sync);
   }
 

@@ -288,10 +288,10 @@ export function showDigitalSkillsGame(container) {
   }
 
   // --- Backup & Sync Placeholders ---
-  function backupProgress() {
+  function _backupProgress() {
     alert(i18n[currentLang].backup);
   }
-  function syncProgress() {
+  function _syncProgress() {
     alert(i18n[currentLang].sync);
   }
 
@@ -387,25 +387,25 @@ export function showDigitalSkillsGame(container) {
   }
 
   // Example: Add backup/sync logic
-  function backupProgress(progress) {
+  function _backupProgress(progress) {
     localStorage.setItem("digitalSkillsProgress", JSON.stringify(progress));
   }
-  function syncProgress() {
+  function _syncProgress() {
     return JSON.parse(localStorage.getItem("digitalSkillsProgress") || "{}");
   }
 
   // Example: Gamification
-  function updateLeaderboard(score) {
+  function _updateLeaderboard(score) {
     // ...leaderboard logic...
   }
 
   // Example: Educator/parent feedback
-  function sendFeedback(feedback) {
+  function _sendFeedback(feedback) {
     // ...send feedback to server...
   }
 
   // Example: Analytics
-  function logEvent(event) {
+  function _logEvent(event) {
     // ...analytics logic...
   }
 
@@ -419,7 +419,7 @@ export function showDigitalSkillsGame(container) {
   }
 
   // Example: UI settings modal
-  function showSettings() {
+  function _showSettings() {
     // ...settings modal logic...
   }
 

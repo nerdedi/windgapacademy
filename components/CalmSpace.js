@@ -237,22 +237,22 @@ export function showCalmSpace(container) {
     }
   }
 
-  function backupProgress(progress) {
+  function _backupProgress(progress) {
     localStorage.setItem("calmSpaceProgress", JSON.stringify(progress));
   }
-  function syncProgress() {
+  function _syncProgress() {
     return JSON.parse(localStorage.getItem("calmSpaceProgress") || "{}");
   }
 
-  function updateLeaderboard(score) {
+  function _updateLeaderboard(score) {
     // ...leaderboard logic...
   }
 
-  function sendFeedback(feedback) {
+  function _sendFeedback(feedback) {
     // ...send feedback to server...
   }
 
-  function logEvent(event) {
+  function _logEvent(event) {
     // ...analytics logic...
   }
 
@@ -264,7 +264,7 @@ export function showCalmSpace(container) {
     }
   }
 
-  function showSettings() {
+  function _showSettings() {
     // ...settings modal logic...
   }
 
@@ -304,22 +304,22 @@ export function showCalmSpace(container) {
     }
   }
 
-  function backupProgress(progress) {
+  function _backupProgress(progress) {
     localStorage.setItem("calmSpaceProgress", JSON.stringify(progress));
   }
-  function syncProgress() {
+  function _syncProgress() {
     return JSON.parse(localStorage.getItem("calmSpaceProgress") || "{}");
   }
 
-  function updateLeaderboard(score) {
+  function _updateLeaderboard(score) {
     // ...leaderboard logic...
   }
 
-  function sendFeedback(feedback) {
+  function _sendFeedback(feedback) {
     // ...send feedback to server...
   }
 
-  function logEvent(event) {
+  function _logEvent(event) {
     // ...analytics logic...
   }
 
@@ -331,7 +331,7 @@ export function showCalmSpace(container) {
     }
   }
 
-  function showSettings() {
+  function _showSettings() {
     // ...settings modal logic...
   }
 

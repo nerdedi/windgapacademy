@@ -30,25 +30,25 @@ function setAccessibility() {
 }
 
 // Example: Add backup/sync logic
-function backupProgress(progress) {
+function _backupProgress(progress) {
   localStorage.setItem("lifeSkillsProgress", JSON.stringify(progress));
 }
-function syncProgress() {
+function _syncProgress() {
   return JSON.parse(localStorage.getItem("lifeSkillsProgress") || "{}");
 }
 
 // Example: Gamification
-function updateLeaderboard(score) {
+function _updateLeaderboard(score) {
   // ...leaderboard logic...
 }
 
 // Example: Educator/parent feedback
-function sendFeedback(feedback) {
+function _sendFeedback(feedback) {
   // ...send feedback to server...
 }
 
 // Example: Analytics
-function logEvent(event) {
+function _logEvent(event) {
   // ...analytics logic...
 }
 
@@ -62,7 +62,7 @@ function safeRun(fn) {
 }
 
 // Example: UI settings modal
-function showSettings() {
+function _showSettings() {
   // ...settings modal logic...
 }
 
@@ -182,10 +182,10 @@ export function showLifeSkillsGame(container, userData = {}) {
   }
 
   // --- Backup & Sync Placeholders ---
-  function backupProgress() {
+  function _backupProgress() {
     alert(i18n[currentLang].backup);
   }
-  function syncProgress() {
+  function _syncProgress() {
     alert(i18n[currentLang].sync);
   }
 

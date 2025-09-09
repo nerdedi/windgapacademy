@@ -16,22 +16,22 @@ function showOnboarding() {
   document.getElementById("close-onboarding").onclick = () => modal.remove();
 }
 
-function backupProgress(progress) {
+function _backupProgress(progress) {
   localStorage.setItem("accessibilityProgress", JSON.stringify(progress));
 }
-function syncProgress() {
+function _syncProgress() {
   return JSON.parse(localStorage.getItem("accessibilityProgress") || "{}");
 }
 
-function updateLeaderboard(score) {
+function _updateLeaderboard(score) {
   // ...leaderboard logic...
 }
 
-function sendFeedback(feedback) {
+function _sendFeedback(feedback) {
   // ...send feedback to server...
 }
 
-function logEvent(event) {
+function _logEvent(event) {
   // ...analytics logic...
 }
 
@@ -43,7 +43,7 @@ function safeRun(fn) {
   }
 }
 
-function showSettings() {
+function _showSettings() {
   // ...settings modal logic...
 }
 

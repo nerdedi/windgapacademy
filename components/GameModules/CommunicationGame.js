@@ -82,10 +82,10 @@ export function showCommunicationGame(container, userData = {}) {
   }
 
   // --- Backup & Sync Placeholders ---
-  function backupProgress() {
+  function _backupProgress() {
     alert(i18n[currentLang].backup);
   }
-  function syncProgress() {
+  function _syncProgress() {
     alert(i18n[currentLang].sync);
   }
 
@@ -181,25 +181,25 @@ export function showCommunicationGame(container, userData = {}) {
     }
 
     // Example: Add backup/sync logic
-    function backupProgress(progress) {
+    function _backupProgress(progress) {
       localStorage.setItem("communicationProgress", JSON.stringify(progress));
     }
-    function syncProgress() {
+    function _syncProgress() {
       return JSON.parse(localStorage.getItem("communicationProgress") || "{}");
     }
 
     // Example: Gamification
-    function updateLeaderboard(score) {
+    function _updateLeaderboard(score) {
       // ...leaderboard logic...
     }
 
     // Example: Educator/parent feedback
-    function sendFeedback(feedback) {
+    function _sendFeedback(feedback) {
       // ...send feedback to server...
     }
 
     // Example: Analytics
-    function logEvent(event) {
+    function _logEvent(event) {
       // ...analytics logic...
     }
 
@@ -213,7 +213,7 @@ export function showCommunicationGame(container, userData = {}) {
     }
 
     // Example: UI settings modal
-    function showSettings() {
+    function _showSettings() {
       // ...settings modal logic...
     }
 

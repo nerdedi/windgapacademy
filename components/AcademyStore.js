@@ -25,22 +25,22 @@ function setAccessibility() {
   }
 }
 
-function backupProgress(progress) {
+function _backupProgress(progress) {
   localStorage.setItem("academyStoreProgress", JSON.stringify(progress));
 }
-function syncProgress() {
+function _syncProgress() {
   return JSON.parse(localStorage.getItem("academyStoreProgress") || "{}");
 }
 
-function updateLeaderboard(score) {
+function _updateLeaderboard(score) {
   // ...leaderboard logic...
 }
 
-function sendFeedback(feedback) {
+function _sendFeedback(feedback) {
   // ...send feedback to server...
 }
 
-function logEvent(event) {
+function _logEvent(event) {
   // ...analytics logic...
 }
 
@@ -52,7 +52,7 @@ function safeRun(fn) {
   }
 }
 
-function showSettings() {
+function _showSettings() {
   // ...settings modal logic...
 }
 
@@ -103,17 +103,17 @@ function syncCart() {
 }
 
 // Example: Gamification
-function updateLeaderboard(purchases) {
+function _updateLeaderboard(purchases) {
   // ...leaderboard logic...
 }
 
 // Example: Educator/parent feedback
-function sendFeedback(feedback) {
+function _sendFeedback(feedback) {
   // ...send feedback to server...
 }
 
 // Example: Analytics
-function logEvent(event) {
+function _logEvent(event) {
   // ...analytics logic...
 }
 
@@ -127,7 +127,7 @@ function safeRun(fn) {
 }
 
 // Example: UI settings modal
-function showSettings() {
+function _showSettings() {
   // ...settings modal logic...
 }
 
