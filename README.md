@@ -33,6 +33,23 @@ Update your HTML and build config to reference the `.min.css` files for producti
 - Sanitize all user input
 - Regularly update dependencies
 
+## Secrets & Rotation
+
+- Do NOT commit API keys or other secrets to the repository. The project now reads Firebase configuration from environment variables (see `.env.example`).
+- If a secret was accidentally committed (for example the Firebase API key previously in `src/env.js`), rotate it immediately:
+	1. Go to the Firebase Console -> Project Settings -> General -> Your apps and revoke/regenerate the exposed API key and any service account credentials.
+ 2. Update your CI/CD provider's secret store (GitHub Actions secrets, Vercel/environment variables, etc.) with the new values.
+ 3. Update any deployed instances with the new environment variables and redeploy.
+ 4. Remove the old key from any external services where it may have been used.
+ 5. Optionally, review logs for suspicious activity during the window the key was exposed.
+
+Local development:
+
+1. Copy `.env.example` to `.env` and fill in the values.
+2. Do NOT commit your `.env` file; it is ignored by `.gitignore`.
+
+If you'd like, I can (a) rotate the key for you if you grant access to the Firebase console, or (b) produce a short PR that replaces the committed key and updates instructions — tell me which.
+
 ## Accessibility
 
 - See `scripts/i18n-setup.js` for scaffolding
