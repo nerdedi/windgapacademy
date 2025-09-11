@@ -7,6 +7,11 @@
 
 [tool.ruff]
 line-length = 88
+ # Keep top-level config minimal; move lint-specific options to the
+ # recommended subsection so newer versions of ruff don't warn.
+
+[tool.ruff.lint]
+# Active error classes to check. Kept intentionally broad for CI.
 select = ["E", "F", "W", "C90"]
 
 # Per-file ignores for the O3DE automated tests. These tests rely on

@@ -1,0 +1,12 @@
+Using ruff: ../../.venv/bin/ruff
+\n=== Processing directory (1/5): AutomatedTesting/Gem/PythonTests/Atom ===
+No staged changes for AutomatedTesting/Gem/PythonTests/Atom
+\n=== Processing directory (2/5): AutomatedTesting/Gem/PythonTests/EditorPythonBindings ===
+No staged changes for AutomatedTesting/Gem/PythonTests/EditorPythonBindings
+\n=== Processing directory (3/5): AutomatedTesting/Gem/PythonTests/EditorPythonTestTools ===
+No staged changes for AutomatedTesting/Gem/PythonTests/EditorPythonTestTools
+\n=== Processing directory (4/5): AutomatedTesting/Gem/PythonTests/Multiplayer ===
+No staged changes for AutomatedTesting/Gem/PythonTests/Multiplayer
+\n=== Processing directory (5/5): AutomatedTesting/Gem/PythonTests/NvCloth ===
+No staged changes for AutomatedTesting/Gem/PythonTests/NvCloth
+Done. Log: /workspaces/windgapacademy/tmp/ruff_dir_batch.log

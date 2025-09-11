@@ -1,0 +1,7 @@
+1 /workspaces/windgapacademy/o3de/o3de/AutomatedTesting/Gem/PythonTests/Atom/TestSuite_Main_Null_Render_MaterialCanvas_01.py
+1 /workspaces/windgapacademy/o3de/o3de/AutomatedTesting/Gem/PythonTests/Atom/TestSuite_Main_Null_Render_Level_Loads.py
+1 /workspaces/windgapacademy/o3de/o3de/AutomatedTesting/Gem/Editor/Scripts/__init__.py
+1 /workspaces/windgapacademy/o3de/o3de/AutomatedTesting/Editor/Scripts/Profiler/profiler_system_example.py
+1 /workspaces/windgapacademy/o3de/o3de/AutomatedTesting/Editor/Scripts/Profiler/__init__.py
+1 /workspaces/windgapacademy/o3de/o3de/Assets/Editor/UI/updateTranslatableText.py
+1 /workspaces/windgapacademy/o3de/o3de/Assets/Editor/UI/removeTranslationFiles.py
