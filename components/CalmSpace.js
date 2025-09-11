@@ -220,63 +220,9 @@ export function showCalmSpace(container) {
   // Error boundaries
   // UI settings modal
   // Comprehensive calm space logic
-
-  function showOnboarding() {
-    const modal = document.createElement("div");
-    modal.className = "onboarding-modal";
-    modal.innerHTML = `<h2>Welcome to Calm Space!</h2><p>Relax and recharge. Use the settings to personalize your experience.</p><button id='close-onboarding'>Close</button>`;
-    document.body.appendChild(modal);
-    document.getElementById("close-onboarding").onclick = () => modal.remove();
-  }
-
-  function setAccessibility() {
-    const calmEl = document.getElementById("calm-space");
-    if (calmEl) {
-      calmEl.setAttribute("role", "region");
-      calmEl.setAttribute("aria-label", "Calm Space");
-    }
-  }
-
-  function _backupProgress(progress) {
-    localStorage.setItem("calmSpaceProgress", JSON.stringify(progress));
-  }
-  function _syncProgress() {
-    return JSON.parse(localStorage.getItem("calmSpaceProgress") || "{}");
-  }
-
-  function _updateLeaderboard(score) {
-    // ...leaderboard logic...
-  }
-
-  function _sendFeedback(feedback) {
-    // ...send feedback to server...
-  }
-
-  function _logEvent(event) {
-    // ...analytics logic...
-  }
-
-  function safeRun(fn) {
-    try {
-      fn();
-    } catch (e) {
-      console.error("Error:", e);
-    }
-  }
-
-  function _showSettings() {
-    // ...settings modal logic...
-  }
-
-  function startCalmSpace() {
-    showOnboarding();
-    setAccessibility();
-    // ...calm space logic...
-  }
-
-  if (typeof document !== "undefined") {
-    document.addEventListener("DOMContentLoaded", startCalmSpace);
-  }
+  // Helper utilities (defined once, later in the file there are the concrete
+  // implementations used by startup) — duplicate definitions removed to avoid
+  // multiple DOMContentLoaded handlers and overwritten functions.
   // --- Advanced Feature Upgrades & TODOs ---
   // Accessibility: ARIA roles, keyboard navigation
   // Onboarding/help modal
@@ -311,21 +257,21 @@ export function showCalmSpace(container) {
     return JSON.parse(localStorage.getItem("calmSpaceProgress") || "{}");
   }
 
-  function _updateLeaderboard(score) {
+  function _updateLeaderboard() {
     // ...leaderboard logic...
   }
 
-  function _sendFeedback(feedback) {
+  function _sendFeedback() {
     // ...send feedback to server...
   }
 
-  function _logEvent(event) {
+  function _logEvent() {
     // ...analytics logic...
   }
 
-  function safeRun(fn) {
+  function _safeRun(_fn) {
     try {
-      fn();
+      _fn();
     } catch (e) {
       console.error("Error:", e);
     }
