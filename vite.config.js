@@ -42,20 +42,7 @@ export default defineConfig(({ command, mode }) => {
     },
 
     optimizeDeps: {
-      include: [
-        "three",
-        "@react-three/fiber",
-        "@react-three/drei",
-        "framer-motion",
-        "react",
-        "react-dom",
-        "react-router-dom",
-      ],
-      exclude: [
-        // Exclude large dependencies that should be loaded dynamically
-        "@tensorflow/tfjs",
-        "cannon-es",
-      ],
+      include: ["framer-motion", "react", "react-dom", "react-router-dom"],
     },
 
     build: {
@@ -85,9 +72,6 @@ export default defineConfig(({ command, mode }) => {
           manualChunks: {
             // Core React libraries
             "react-vendor": ["react", "react-dom", "react-router-dom"],
-
-            // 3D and graphics libraries
-            "three-vendor": ["three", "@react-three/fiber", "@react-three/drei"],
 
             // Animation libraries
             "animation-vendor": ["framer-motion"],

@@ -1,4 +1,4 @@
-import { Html } from "@react-three/drei";
+// Removed Three.js dependency
 import React from "react";
 
 const Loader = () => {

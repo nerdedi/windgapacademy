@@ -12,10 +12,7 @@ import { UserProvider, useUser } from "./app/UserContext";
 // import { GamificationProvider } from "./contexts/GamificationContext";
 import { LessonProvider } from "./contexts/LessonContext";
 import SimulationManager from "./simulation/SimulationManager";
-import { useUI } from "./ui/UISystem";
 import LoadingScreen from "./components/LoadingScreen";
-import { SoundManager } from "./audio/SoundManager";
-import { GameMechanics } from "./core/GameMechanics";
 
 function MainApp() {
   const [showLogin, setShowLogin] = useState(false);

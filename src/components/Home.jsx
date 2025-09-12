@@ -165,9 +165,142 @@ function Home() {
                 Windgap Academy
               </motion.span>
             </motion.h1>
+
+            <motion.p
+              className="text-xl text-gray-600 mb-8 leading-relaxed"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
+            >
+              Experience the future of education with AI-powered personalization, immersive 3D
+              environments, and sophisticated learning analytics. Meet your learning companions:
+              Andy, Daisy, Natalie, and Winnie!
+            </motion.p>
+
+            <motion.div
+              className="flex flex-col sm:flex-row gap-4"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, ease: "easeOut", delay: 0.3 }}
+            >
+              <MagneticButton
+                onClick={handleGetStarted}
+                className="bg-blue-600 text-white px-8 py-4 rounded-xl font-semibold text-lg hover:bg-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl"
+              >
+                Start Learning Today
+              </MagneticButton>
+
+              <MagneticButton
+                onClick={() => handleViewDashboard("games")}
+                className="border-2 border-gray-300 text-gray-700 px-8 py-4 rounded-xl font-semibold text-lg hover:border-gray-400 transition-all duration-300"
+              >
+                Explore Games
+              </MagneticButton>
+            </motion.div>
+          </motion.div>
+
+          {/* Interactive Demo */}
+          <motion.div
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut", delay: 0.3 }}
+            className="relative"
+          >
+            <LivePreview />
           </motion.div>
         </div>
       </motion.section>
+
+      {/* Features Section */}
+      <motion.section style={{ y: featuresY }} className="py-24 px-6">
+        <div className="max-w-7xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-5xl font-bold text-gray-900 mb-6">
+              Sophisticated Learning Platform
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Experience the most advanced educational technology with AI-powered personalization,
+              immersive 3D environments, and real-time collaboration.
+            </p>
+          </motion.div>
+
+          <div className="grid lg:grid-cols-3 gap-8">
+            <InteractiveCard
+              title="AI-Powered Learning"
+              description="Personalized learning paths that adapt to your pace and style"
+              icon="🤖"
+              delay={0.1}
+            />
+            <InteractiveCard
+              title="3D Immersive Games"
+              description="Explore mathematics, science, and language in stunning 3D worlds"
+              icon="🎮"
+              delay={0.2}
+            />
+            <InteractiveCard
+              title="Real-time Analytics"
+              description="Track progress with sophisticated analytics and insights"
+              icon="📊"
+              delay={0.3}
+            />
+          </div>
+        </div>
+      </motion.section>
+
+      {/* CTA Section */}
+      <motion.section
+        className="py-24 px-6 bg-gradient-to-r from-blue-600 to-purple-600"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 1 }}
+        viewport={{ once: true }}
+      >
+        <div className="max-w-4xl mx-auto text-center">
+          <motion.h2
+            className="text-5xl font-bold text-white mb-6"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2, duration: 0.8 }}
+            viewport={{ once: true }}
+          >
+            Ready to Transform Learning?
+          </motion.h2>
+          <motion.p
+            className="text-xl text-blue-100 mb-8"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4, duration: 0.8 }}
+            viewport={{ once: true }}
+          >
+            Join thousands of learners already experiencing the future of education
+          </motion.p>
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6, duration: 0.8 }}
+            viewport={{ once: true }}
+          >
+            <MagneticButton
+              onClick={handleGetStarted}
+              className="bg-white text-blue-600 px-8 py-4 rounded-xl font-semibold text-lg hover:bg-gray-50 transition-all duration-300 shadow-lg hover:shadow-xl"
+            >
+              Start Learning Today
+            </MagneticButton>
+          </motion.div>
+        </div>
+      </motion.section>
+
+      {/* Character Animations - Andy, Daisy, Natalie, and Winnie */}
+      <CharacterAnimations isVisible={showCharacters} onCharacterClick={handleCharacterClick} />
+
+      {/* Floating Action Button */}
+      <FloatingActionButton onClick={handleViewDashboard} />
     </div>
   );
 }

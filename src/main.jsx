@@ -3,79 +3,24 @@ import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 
 import App from "./App.jsx";
-import { SoundManager } from "./audio/SoundManager";
 import { ErrorBoundary } from "./components/ErrorBoundary";
-import { ErrorHandler } from "./core/ErrorHandler";
-import { GameMechanics } from "./core/GameMechanics";
-import { UIProvider } from "./ui/UISystem";
-// Ensure legacy global helper stubs are loaded early
-import "./utils/legacyStubs";
 
-// Initialize core platform systems
+// Simple platform initialization
 const initializePlatform = async () => {
   try {
     console.log("🎓 Initializing Windgap Academy Platform...");
 
-    // Initialize error handling system
-    const errorHandler = new ErrorHandler({
-      enableLogging: true,
-      enableReporting: true,
-      enableRecovery: true,
-      maxRetries: 3,
-      retryDelay: 1000,
-    });
-
-    // Start performance monitoring
-    errorHandler.monitorPerformance();
-
-    // Initialize game mechanics system
-    const gameMechanics = new GameMechanics();
-
-    // Initialize audio system
-    const soundManager = new SoundManager();
-    await soundManager.initialize();
-
-    // Store global platform instances
+    // Store simple platform info
     window.WindgapPlatform = {
-      errorHandler,
-      gameMechanics,
-      soundManager,
       version: "2.0.0",
       buildDate: new Date().toISOString(),
       initialized: true,
-      features: {
-        ai: true,
-        physics: true,
-        audio: true,
-        graphics3d: true,
-        accessibility: true,
-        testing: true,
-      },
     };
-
-    // Dispatch platform ready event
-    window.dispatchEvent(
-      new CustomEvent("windgap:platform:ready", {
-        detail: window.WindgapPlatform,
-      }),
-    );
 
     console.log("✅ Windgap Academy Platform Initialized Successfully");
     return true;
   } catch (error) {
     console.error("❌ Failed to initialize Windgap Academy Platform:", error);
-
-    // Report initialization error
-    if (window.WindgapPlatform?.errorHandler) {
-      window.WindgapPlatform.errorHandler.handleError({
-        type: "error",
-        category: "system",
-        message: `Platform initialization failed: ${error.message}`,
-        stack: error.stack,
-        severity: "critical",
-      });
-    }
-
     return false;
   }
 };
@@ -119,15 +64,13 @@ const renderApp = async () => {
     return;
   }
 
-  // Render main application with comprehensive providers
+  // Render main application
   root.render(
     <React.StrictMode>
       <ErrorBoundary>
-        <UIProvider>
-          <BrowserRouter>
-            <App />
-          </BrowserRouter>
-        </UIProvider>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
       </ErrorBoundary>
     </React.StrictMode>,
   );

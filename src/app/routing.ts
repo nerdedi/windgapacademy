@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
  * useRoute - centralizes navigation logic and logs routing events.
  * Returns a route(path, options) function.
  */
-export function useRoute() {
+function useRoute() {
   const navigate = useNavigate();
 
   const route = useCallback(
@@ -23,3 +23,5 @@ export function useRoute() {
 
   return route;
 }
+
+export default useRoute;

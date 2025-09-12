@@ -14,14 +14,12 @@
 
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Canvas } from "@react-three/fiber";
-import { OrbitControls, Environment, Float, Text3D } from "@react-three/drei";
 import { Suspense } from "react";
 
 // Import professional components
 import EducatorDashboardUI from "../../components/ui/EducatorDashboard";
 import { ErrorBoundary } from "../components/ErrorBoundary";
-import { LoadingScreen } from "../components/LoadingScreen";
+import LoadingScreen from "../components/LoadingScreen";
 
 // Import utilities and hooks
 import { useAuth } from "../hooks/useAuth";
@@ -32,7 +30,7 @@ import { useAssessments } from "../hooks/useAssessments";
 import monitoring from "../utils/monitoring";
 
 // Import AI and sound systems
-import { AIEngine } from "../ai/AIEngine";
+// AI Engine removed for simplified build
 import { SoundManager } from "../audio/SoundManager";
 
 const EducatorDashboard = () => {
