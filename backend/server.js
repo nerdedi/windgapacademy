@@ -232,7 +232,18 @@ app.use("/api", apiRouter);
 if (isProduction) {
   const staticPath = path.join(__dirname, "../dist");
   if (fs.existsSync(staticPath)) {
-    app.use(express.static(staticPath));
+    app.use(
+      express.static(staticPath, {
+        maxAge: "1y",
+        etag: true,
+        lastModified: true,
+        setHeaders: (res, path) => {
+          if (path.endsWith(".html")) {
+            res.setHeader("Cache-Control", "no-cache");
+          }
+        },
+      }),
+    );
 
     // Serve React app for all non-API routes
     app.get("*", (req, res) => {
@@ -240,3 +251,184 @@ if (isProduction) {
     });
   }
 }
+
+// WebSocket connection handling
+io.on("connection", (socket) => {
+  logger.info(`New WebSocket connection: ${socket.id}`, {
+    socketId: socket.id,
+    userAgent: socket.handshake.headers["user-agent"],
+    ip: socket.handshake.address,
+  });
+
+  // Join user to their personal room for targeted updates
+  socket.on("join-user-room", (userId) => {
+    if (userId) {
+      socket.join(`user-${userId}`);
+      logger.info(`User ${userId} joined personal room`, { socketId: socket.id, userId });
+    }
+  });
+
+  // Handle learning progress updates
+  socket.on("progress-update", (data) => {
+    try {
+      // Broadcast progress update to educators/parents if applicable
+      socket.broadcast.to(`user-${data.userId}`).emit("progress-updated", data);
+
+      // Log progress for analytics
+      logger.info("Progress update received", {
+        socketId: socket.id,
+        userId: data.userId,
+        module: data.module,
+        progress: data.progress,
+      });
+    } catch (error) {
+      logger.error("Error handling progress update", { error: error.message, socketId: socket.id });
+    }
+  });
+
+  // Handle real-time collaboration
+  socket.on("collaboration-join", (roomId) => {
+    socket.join(`collab-${roomId}`);
+    socket.to(`collab-${roomId}`).emit("user-joined", { socketId: socket.id });
+  });
+
+  socket.on("collaboration-data", (data) => {
+    socket.to(`collab-${data.roomId}`).emit("collaboration-update", data);
+  });
+
+  // Handle game state synchronization
+  socket.on("game-state-update", (gameData) => {
+    try {
+      // Broadcast to other players in the same game session
+      socket.to(`game-${gameData.sessionId}`).emit("game-state-changed", gameData);
+    } catch (error) {
+      logger.error("Error handling game state update", {
+        error: error.message,
+        socketId: socket.id,
+      });
+    }
+  });
+
+  // Handle disconnection
+  socket.on("disconnect", (reason) => {
+    logger.info(`WebSocket disconnected: ${socket.id}`, {
+      socketId: socket.id,
+      reason,
+      duration: Date.now() - socket.handshake.time,
+    });
+  });
+
+  // Handle errors
+  socket.on("error", (error) => {
+    logger.error("WebSocket error", {
+      socketId: socket.id,
+      error: error.message,
+      stack: error.stack,
+    });
+  });
+});
+
+// Global error handling middleware
+app.use((err, req, res, next) => {
+  const errorId = Math.random().toString(36).substr(2, 9);
+
+  logger.error("Unhandled application error", {
+    errorId,
+    requestId: req.id,
+    error: err.message,
+    stack: err.stack,
+    method: req.method,
+    path: req.path,
+    userAgent: req.get("User-Agent"),
+    ip: req.ip,
+  });
+
+  // Don't expose internal errors in production
+  const message = isProduction ? "Internal server error" : err.message;
+
+  res.status(err.status || 500).json({
+    error: {
+      message,
+      errorId,
+      timestamp: new Date().toISOString(),
+      ...(isDevelopment && { stack: err.stack }),
+    },
+  });
+});
+
+// 404 handler
+app.use((req, res) => {
+  res.status(404).json({
+    error: {
+      message: "Endpoint not found",
+      path: req.path,
+      method: req.method,
+      timestamp: new Date().toISOString(),
+    },
+  });
+});
+
+// Graceful shutdown handling
+process.on("SIGTERM", () => {
+  logger.info("SIGTERM received, shutting down gracefully");
+
+  server.close(() => {
+    logger.info("Process terminated");
+    process.exit(0);
+  });
+
+  // Force close after 10 seconds
+  setTimeout(() => {
+    logger.error("Could not close connections in time, forcefully shutting down");
+    process.exit(1);
+  }, 10000);
+});
+
+process.on("SIGINT", () => {
+  logger.info("SIGINT received, shutting down gracefully");
+
+  server.close(() => {
+    logger.info("Process terminated");
+    process.exit(0);
+  });
+});
+
+// Unhandled promise rejection handling
+process.on("unhandledRejection", (reason, promise) => {
+  logger.error("Unhandled Promise Rejection", {
+    reason: reason.toString(),
+    stack: reason.stack,
+    promise,
+  });
+});
+
+// Uncaught exception handling
+process.on("uncaughtException", (error) => {
+  logger.error("Uncaught Exception", {
+    error: error.message,
+    stack: error.stack,
+  });
+
+  // Exit gracefully
+  process.exit(1);
+});
+
+// Start server
+if (require.main === module) {
+  server.listen(PORT, () => {
+    logger.info(`🎓 Windgap Academy Backend Server started`, {
+      port: PORT,
+      environment: NODE_ENV,
+      nodeVersion: process.version,
+      platform: process.platform,
+      timestamp: new Date().toISOString(),
+    });
+
+    console.log(`🚀 Server running on port ${PORT}`);
+    console.log(`📊 Health check: http://localhost:${PORT}/health`);
+    console.log(`📚 API docs: http://localhost:${PORT}/api/docs`);
+    console.log(`📈 Metrics: http://localhost:${PORT}/metrics`);
+  });
+}
+
+module.exports = { app, server, io };
