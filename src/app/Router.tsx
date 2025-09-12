@@ -45,6 +45,72 @@ export default function AppRouter() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/home" element={<HomePage />} />
+            <Route path="/signup" element={<Navigate to="/learner-dashboard" replace />} />
+            <Route path="/signin" element={<Navigate to="/learner-dashboard" replace />} />
+            <Route path="/games" element={<GamePlayground />} />
+            <Route
+              path="/help"
+              element={
+                <div className="p-8 text-center">
+                  <h1 className="text-2xl font-bold">Help Center</h1>
+                  <p>Coming soon!</p>
+                </div>
+              }
+            />
+            <Route
+              path="/contact"
+              element={
+                <div className="p-8 text-center">
+                  <h1 className="text-2xl font-bold">Contact Us</h1>
+                  <p>Coming soon!</p>
+                </div>
+              }
+            />
+            <Route
+              path="/privacy"
+              element={
+                <div className="p-8 text-center">
+                  <h1 className="text-2xl font-bold">Privacy Policy</h1>
+                  <p>Coming soon!</p>
+                </div>
+              }
+            />
+            <Route
+              path="/terms"
+              element={
+                <div className="p-8 text-center">
+                  <h1 className="text-2xl font-bold">Terms of Service</h1>
+                  <p>Coming soon!</p>
+                </div>
+              }
+            />
+            <Route
+              path="/analytics"
+              element={
+                <div className="p-8 text-center">
+                  <h1 className="text-2xl font-bold">Analytics</h1>
+                  <p>Coming soon!</p>
+                </div>
+              }
+            />
+            <Route
+              path="/characters"
+              element={
+                <div className="p-8 text-center">
+                  <h1 className="text-2xl font-bold">Meet Our Characters</h1>
+                  <p>Andy, Daisy, Natalie, and Winnie!</p>
+                </div>
+              }
+            />
+            <Route
+              path="/character/:name"
+              element={
+                <div className="p-8 text-center">
+                  <h1 className="text-2xl font-bold">Character Profile</h1>
+                  <p>Coming soon!</p>
+                </div>
+              }
+            />
 
             <Route
               path="/educator"
@@ -57,6 +123,33 @@ export default function AppRouter() {
 
             <Route
               path="/learner"
+              element={
+                <ProtectedRoute role="learner">
+                  <LearnerDashboard />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/educator-dashboard"
+              element={
+                <ProtectedRoute role="educator">
+                  <EducatorDashboard />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/learner-dashboard"
+              element={
+                <ProtectedRoute role="learner">
+                  <LearnerDashboard />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/dashboard"
               element={
                 <ProtectedRoute role="learner">
                   <LearnerDashboard />
