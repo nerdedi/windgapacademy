@@ -14,7 +14,8 @@
     "ms-python.vscode-pylance",
     "rust-lang.rust-analyzer",
     "hbenl.vscode-mocha-test-adapter",
-    "bradlc.vscode-tailwindcss"
+    "bradlc.vscode-tailwindcss",
+    "augment.vscode-augment"
   ],
   "unwantedRecommendations": []
 }
