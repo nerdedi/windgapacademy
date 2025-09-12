@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 
+import AnimatedButton from "./AnimatedButton.jsx";
 // Array of image data for dynamic rendering
 const images = [
   {
     src: "assets/images/natalie.png",
-    alt: "Natalie, Windgap Academy staff member in a pinstripe suit with gold jewelry and W badge.",
+    alt: "Natalie, Windgap Academy educator in a pinstripe suit with gold jewelry and W badge.",
   },
   {
     src: "assets/images/daisy_andy.png",
@@ -28,18 +29,15 @@ const images = [
   },
   {
     src: "assets/images/andy.png",
-    alt: "Andy, a student at Windgap Academy, wearing WAL sweater.",
+    alt: "Andy, an educator at Windgap Academy, wearing WAL sweater.",
   },
 ];
 
-import { useState } from "react";
-
-import AnimatedButton from "./AnimatedButton.jsx";
-
-const CharacterGallery = () => {
+function CharacterGallery() {
+  // Basic features
   const [selected, setSelected] = useState(null);
   const [customName, setCustomName] = useState("");
-  // Advanced features
+  // Advanced features and enhancements
   const [showOnboarding, setShowOnboarding] = useState(true);
   const [showSettings, setShowSettings] = useState(false);
   const [score, setScore] = useState(0);
@@ -69,7 +67,7 @@ const CharacterGallery = () => {
     }
   };
   // Analytics
-  const logEvent = (event) => {
+  const logEvent = (_event) => {
     /* ...analytics logic... */
   };
   // Gamification
@@ -208,6 +206,6 @@ const CharacterGallery = () => {
       {/* Analytics and logic features will be implemented here as modules are completed */}
     </div>
   );
-};
+}
 
 export default CharacterGallery;
