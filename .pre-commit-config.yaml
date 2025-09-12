@@ -10,3 +10,12 @@ repos:
     hooks:
       - id: detect-secrets
         args: ["--baseline", ".secrets.baseline"]
+
+  - repo: local
+    hooks:
+      - id: claude-attribution
+        name: Check for Claude attribution
+        description: Checks if files containing AI-generated code have proper attribution
+        entry: scripts/hooks/check_claude_attribution.py
+        language: python
+        types: [text]
