@@ -2,8 +2,8 @@
 <html lang="en-AU">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-    <title>Windgap Academy - Professional Multi-Modal Learning Platform</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Windgap Academy - Professional Learning Platform</title>
     <meta name="description" content="Windgap Academy: Professional, sophisticated multi-modal learning and gaming platform with AI-powered education, 3D environments, and immersive experiences." />
     <meta name="keywords" content="education, learning, AI, 3D games, interactive learning, STEM, accessibility, professional education platform" />
     <meta name="author" content="Windgap Academy" />
@@ -15,249 +15,42 @@
     <meta property="og:url" content="https://windgapacademy.com/" />
     <meta property="og:title" content="Windgap Academy - Professional Learning Platform" />
     <meta property="og:description" content="Experience the future of education with our AI-powered, 3D interactive learning platform." />
-    <meta property="og:image" content="assets/windgap-logo.png" />
+    <meta property="og:image" content="/assets/windgap-logo.png" />
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:url" content="https://windgapacademy.com/" />
     <meta property="twitter:title" content="Windgap Academy - Professional Learning Platform" />
     <meta property="twitter:description" content="Experience the future of education with our AI-powered, 3D interactive learning platform." />
-    <meta property="twitter:image" content="assets/windgap-logo.png" />
+    <meta property="twitter:image" content="/assets/windgap-logo.png" />
 
     <!-- Favicons -->
-    <link rel="icon" type="image/png" sizes="32x32" href="assets/logo.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="assets/logo.png" />
-    <link rel="apple-touch-icon" href="assets/logo.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/logo.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/logo.png" />
+    <link rel="apple-touch-icon" href="/assets/logo.png" />
     <link rel="manifest" href="/manifest.json" />
-  <!-- styles/output.css restored -->
-  <link rel="stylesheet" href="styles/output.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/howler"></script>
 
-    <script src="https://browser.sentry-cdn.com/7.100.0/bundle.min.js" crossorigin="anonymous"></script>
-    <script>
-      Sentry.init({ dsn: window.env && window.env.SENTRY_DSN ? window.env.SENTRY_DSN : '' });
-    </script>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-XXXXXXXXX-X"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'UA-XXXXXXXXX-X');
-    </script>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-analytics-compat.js"></script>
-    <!-- Add other compat SDKs as needed -->
+    <!-- Error Handling -->
     <script>
-      // Ensure Firebase config is available before app.js runs
-      if (window.env && window.env.FIREBASE_CONFIG && window.firebase) {
-        firebase.initializeApp(window.env.FIREBASE_CONFIG);
-      }
+      window.showFallbackScreen = function(msg) {
+        try {
+          document.body.innerHTML = '<div style="max-width:540px;margin:48px auto;padding:32px;border-radius:12px;background:#ffecec;color:#b91c1c;box-shadow:0 2px 16px #0002;">' +
+            '<h1 style="font-size:2em;margin-bottom:0.25em;">⚠️ Unable to load Windgap Academy</h1>' +
+            '<p style="font-size:1.2em;">' + (msg || 'An error occurred.') + '</p>' +
+            '</div>';
+        } catch (e) {
+          console.error('Fallback screen error:', e);
+        }
+      };
     </script>
-    <!-- Runtime shim: ensure a global fallback function exists before any bundled code executes -->
-    <script>
-      if (!window.showFallbackScreen) {
-        window.showFallbackScreen = function(msg) {
-          try {
-            document.body.innerHTML = '<div style="max-width:540px;margin:48px auto;padding:32px;border-radius:12px;background:#ffecec;color:#b91c1c;box-shadow:0 2px 16px #0002;">' +
-              '<h1 style="font-size:2em;margin-bottom:0.25em;">⚠️ Unable to load Windgap Academy</h1>' +
-              '<p style="font-size:1.2em;">' + (msg || 'An error occurred.') + '</p>' +
-              '</div>';
-          } catch (e) {
-            /* noop */
-          }
-        };
-      }
-    </script>
-  <script type="module" src="main.js"></script>
-  <script type="module" src="js/themes.js"></script>
-  <script type="module" src="js/videoPlayer.js"></script>
-  <script type="module" src="js/accessibility.js"></script>
-  <script type="module" src="js/showFeature.js"></script>
-  <script type="module" src="js/showFeature.global.js"></script>
   </head>
-  <body aria-label="Windgap Academy Entry" role="main" style="background: #5ED1D2; color: #A32C2B; min-height: 100vh;">
-    <header class="flex items-center justify-between px-8 py-4 bg-white shadow">
-      <div class="flex items-center gap-3">
-        <img src="assets/logo.png" alt="Windgap Academy Logo" class="h-14 w-auto animate-float" />
-        <span class="text-2xl font-bold text-[#A32C2B]">Windgap Academy</span>
-      </div>
-      <div class="flex items-center gap-4">
-        <img src="assets/windgap-logo.png" alt="User Avatar" class="h-10 w-10 rounded-full border-2 border-[#A32C2B]" id="user-avatar" />
-        <span class="font-semibold text-[#A32C2B]" id="welcome-user">Welcome, Guest!</span>
-        <button class="btn-secondary" aria-label="Notifications" id="notification-bell">
-          <span class="icon-bell"></span>
-          <span class="notification-count" id="notification-count">3</span>
-        </button>
-        <button class="btn-secondary" aria-label="Feedback" id="floating-feedback">?</button>
-      </div>
-    </header>
-    <nav class="sticky top-0 z-50 bg-white shadow flex items-center justify-between px-8 py-4">
-      <div class="flex items-center gap-3">
-        <!-- Keep header logo only; hero will use a smaller mark below -->
-        <img src="assets/logo.png" alt="Windgap Academy Logo" class="h-14 w-auto animate-float" />
-        <span class="text-2xl font-bold text-[#A32C2B]">Windgap Academy</span>
-      </div>
-      <div class="flex gap-6">
-        <a href="#home" data-route="home" class="btn-secondary" aria-label="Home">Home</a>
-        <a href="#signin" data-route="signin" class="btn-secondary" aria-label="Sign In">Sign In</a>
-        <a href="#accessibility" data-route="accessibility" class="btn-secondary" aria-label="Accessibility">Accessibility</a>
-        <a href="#support" data-route="support" class="btn-secondary" aria-label="Support">Support</a>
-      </div>
-    </nav>
-    <div class="hero-section relative flex flex-col items-center justify-center min-h-[60vh] bg-gradient-to-br from-[#5ED1D2] via-[#A32C2B] to-[#FBBF24] overflow-hidden">
-      <!-- Interactive Featured Modules Carousel -->
-      <div class="carousel w-full max-w-2xl mb-6 flex items-center justify-center" id="featured-carousel">
-        <button class="carousel-control" aria-label="Previous Module">&#8592;</button>
-        <div class="carousel-slide flex-1 text-center">
-          <h3 class="text-2xl font-bold text-white">Math Quest</h3>
-          <p class="text-white">Sharpen your math skills in a fun adventure!</p>
-        </div>
-        <button class="carousel-control" aria-label="Next Module">&#8594;</button>
-      </div>
-      <!-- Progress Bars for Achievements -->
-      <div class="progress-tracker w-full max-w-md mb-4 flex flex-col gap-2" id="progress-tracker">
-        <div class="flex items-center justify-between"><span>Math Quest</span><span>80%</span></div>
-        <div class="w-full bg-gray-200 rounded-full h-2"><div class="bg-[#A32C2B] h-2 rounded-full" style="width:80%"></div></div>
-        <div class="flex items-center justify-between"><span>Reading Adventure</span><span>60%</span></div>
-        <div class="w-full bg-gray-200 rounded-full h-2"><div class="bg-[#5ED1D2] h-2 rounded-full" style="width:60%"></div></div>
-      </div>
-      <!-- Leaderboard -->
-      <div class="leaderboard w-full max-w-md mb-4 bg-white/80 rounded-lg shadow p-4" id="homepage-leaderboard">
-        <h3 class="text-xl font-bold text-[#A32C2B] mb-2">Top Learners</h3>
-
-  <div class="carousel w-full max-w-2xl mb-6" id="featured-carousel">
-          <!-- Carousel for featured modules, auto-rotating -->
-        </div>
-        <div class="badges flex gap-3 mb-4" id="achievement-badges">
-          <!-- User achievement badges -->
-        </div>
-        <div class="progress-tracker w-full max-w-md mb-4" id="progress-tracker">
-          <!-- Progress tracker for modules -->
-        </div>
-        <div class="leaderboard w-full max-w-md mb-4" id="homepage-leaderboard">
-          <!-- Recent winners leaderboard -->
-        </div>
-        <div class="challenge-block w-full max-w-md mb-4" id="daily-challenge">
-          <!-- Daily/weekly challenge info -->
-        </div>
-        <div class="welcome-message text-lg text-white font-semibold mb-2" id="personal-welcome"></div>
-    <div class="news-ticker bg-white/80 text-[#A32C2B] px-4 py-2 rounded-full shadow mb-4" id="news-ticker">Loading updates...</div>
-        <div class="accessibility-toggles flex gap-3 mb-4" id="accessibility-toggles">
-          <button onclick="window.increaseFont()" class="btn-secondary">A+</button>
-          <button onclick="window.toggleDyslexiaFont()" class="btn-secondary">Dyslexia Font</button>
-          <button onclick="window.toggleEasyRead()" class="btn-secondary">Easy Read</button>
-        </div>
-        <div class="avatar-customization w-full max-w-md mb-4" id="avatar-customization">
-          <!-- Avatar builder and customization -->
-        </div>
-        <div class="social-sharing flex gap-3 mb-4" id="social-sharing">
-          <button class="btn-secondary">Share</button>
-          <button class="btn-secondary">Invite Friends</button>
-        </div>
-        <div class="notifications w-full max-w-md mb-4" id="homepage-notifications">
-          <!-- Notifications and announcements -->
-        </div>
-        <div class="feedback-support w-full max-w-md mb-4" id="feedback-support">
-          <a href="#feedback" class="btn-secondary">Feedback</a>
-          <a href="#support" class="btn-secondary">Support</a>
-        </div>
-      </div>
-    </div>
-    <section class="stats-block grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
-      <div class="flex flex-col items-center">
-        <svg class="h-10 w-10 mb-2 text-yellow-300" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a8 8 0 100 16 8 8 0 000-16zm1 12H9v-2h2v2zm0-4H9V7h2v3z"/></svg>
-        <span class="text-2xl font-bold">12,000+</span>
-        <span class="text-sm">Active Learners</span>
-      </div>
-      <div class="flex flex-col items-center">
-        <svg class="h-10 w-10 mb-2 text-blue-300" fill="currentColor" viewBox="0 0 20 20"><path d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm0 2h12v10H4V5zm2 2v2h2V7H6zm4 0v2h2V7h-2z"/></svg>
-        <span class="text-2xl font-bold">150+</span>
-        <span class="text-sm">Courses</span>
-      </div>
-      <div class="flex flex-col items-center">
-        <svg class="h-10 w-10 mb-2 text-purple-300" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a8 8 0 100 16 8 8 0 000-16zm3.707 6.293a1 1 0 00-1.414 0L10 10.586 7.707 8.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 000-1.414z"/></svg>
-        <span class="text-2xl font-bold">98%</span>
-        <span class="text-sm">Satisfaction Rate</span>
-      </div>
-    </section>
-
-    <!-- Winnie's Words Game Show Section -->
-    <section id="winnies-words" class="game-show-section flex flex-col items-center justify-center py-16 bg-gradient-to-br from-[#FBBF24] via-[#5ED1D2] to-[#A32C2B] shadow-lg rounded-2xl mx-auto my-12 max-w-3xl">
-      <div class="flex flex-col items-center mb-8">
-  <img src="assets/winnie-mascot-cloud.png" alt="Winnie the Educator Mascot" class="winnie-img h-40 w-auto mb-4 animate-cloud-bounce" />
-  <h2 class="text-4xl font-extrabold text-[#A32C2B] mb-2 drop-shadow-lg">Winnie's Words</h2>
-  <div class="winnie-speech-bubble bg-white text-[#A32C2B] px-6 py-4 rounded-2xl shadow mb-4 text-lg font-semibold animate-bounce-in" id="winnie-speech">Hi, I'm Winnie! Let's play and learn new words together!</div>
-  <p class="text-lg text-[#A32C2B] font-semibold mb-2">Hosted by Winnie, your friendly educator mascot!<br>Test your language skills in a fun game show format.</p>
-    <a class="startBtn slide-in-left">Start Game</a>
-        </div>
-        <div id="banner" class="section">
-          <h2 class="header">Guess This</h2>
-          <h3 id="score">Wins:0</h3><h3 id="score">Losses:0</h3>
-        </div>
-        <div id="phrase" class="section"><ul></ul></div>
-        <div id="qwerty" class="section">
-          <div class="keyrow">
-            <button>q</button><button>w</button><button>e</button><button>r</button><button>t</button><button>y</button><button>u</button><button>i</button><button>o</button><button>p</button>
-          </div>
-          <div class="keyrow">
-            <button>a</button><button>s</button><button>d</button><button>f</button><button>g</button><button>h</button><button>j</button><button>k</button><button>l</button>
-          </div>
-          <div class="keyrow">
-            <button>z</button><button>x</button><button>c</button><button>v</button><button>b</button><button>n</button><button>m</button>
-          </div>
-        </div>
-        <div id="scoreboard" class="section">
-          <ol>
-        <li class="tries"><img src="assets/images/liveHeart.svg" alt="Live Heart" style="width:64px;height:64px;border:2px solid #A32C2B;border-radius:50%;background:#eee;object-fit:contain;" /></li>
-              <li class="tries"><img src="assets/images/liveHeart.png" alt="Live Heart" style="width:64px;height:64px;border:2px solid #A32C2B;border-radius:50%;background:#eee;object-fit:contain;" /></li>
-              <li class="tries"><img src="assets/images/liveHeart.png" alt="Live Heart" style="width:64px;height:64px;border:2px solid #A32C2B;border-radius:50%;background:#eee;object-fit:contain;" /></li>
-              <li class="tries"><img src="assets/images/liveHeart.png" alt="Live Heart" style="width:64px;height:64px;border:2px solid #A32C2B;border-radius:50%;background:#eee;object-fit:contain;" /></li>
-              <li class="tries"><img src="assets/images/liveHeart.png" alt="Live Heart" style="width:64px;height:64px;border:2px solid #A32C2B;border-radius:50%;background:#eee;object-fit:contain;" /></li>
-          </ol>
-        </div>
-          <!-- Main Characters Graphic -->
-          <div style="margin:2em 0;text-align:center;">
-        <img src="assets/images/main-characters-windgap.png" alt="Main Characters: Andy, Daisy, Natalie, Winnie" style="max-width:100%;height:auto;border:2px solid #A32C2B;border-radius:16px;background:#f8f8f8;object-fit:contain;" />
-            <div style="color:#A32C2B;font-weight:bold;margin-top:0.5em;">Main Characters: Andy, Daisy, Natalie, Winnie (left to right)</div>
-          </div>
-      </div>
-    </section>
-    <section class="flex flex-col items-center my-12">
-      <h2 class="text-3xl font-bold mb-4">Ready to start learning?</h2>
-      <button class="cta">Get Started</button>
-    </section>
-    <footer class="w-full bg-white py-6 mt-12 shadow text-center text-[#A32C2B]">
-      <div class="flex flex-col md:flex-row items-center justify-center gap-6">
-        <a href="#privacy" class="underline">Privacy Policy</a>
-        <a href="#terms" class="underline">Terms of Service</a>
-        <a href="#contact" class="underline">Contact</a>
-      </div>
-      <div class="mt-2 text-sm">&copy; 2025 Windgap Academy. All rights reserved.</div>
-    </footer>
-    </section>
-  <script type="module" src="js/winniesWords.jsx"></script> <!-- Confirmed valid module path and MIME type for Vite static deployment. -->
-  <!-- All button and module logic is now handled in app.js for consistency and maintainability. -->
-      <div id="app"></div>
-      <nav style="margin: 2em 0; text-align: center;">
-        <button onclick="showFeature('avatar')">Avatar Creator</button>
-        <button onclick="showFeature('stairs')">Climbing Stairs Animation</button>
-        <button onclick="showFeature('island')">Max Area of Island Animation</button>
-        <button onclick="showFeature('cube')">Cube Map 3D Demo <span class="coming-soon" aria-hidden="true">(Coming Soon)</span></button>
-        <button onclick="showFeature('kitchen')">Healthy Kitchen Challenge <span class="coming-soon" aria-hidden="true">(Coming Soon)</span></button>
-        <button onclick="showFeature('foodcollector')">Food Collector Environment</button>
-        <button onclick="showFeature('zoo')">Academy Zoo Environment</button>
-        <button onclick="showFeature('fluid')">Fluid Simulation <span class="coming-soon" aria-hidden="true">(Coming Soon)</span></button>
-        <button onclick="showFeature('dashboard')">Results Dashboard</button>
-        <button onclick="showFeature('whiteboard')">Whiteboard</button>
-      </nav>
-      <main>
-        <div id="feature-container" style="width: 100%; min-height: 500px; background: #fff; border-radius: 12px; box-shadow: 0 2px 16px #0001; margin: auto; max-width: 1200px; padding: 2em;"></div>
-      </main>
-      <script type="module" src="js/featureLoader.js"></script>
-    </body>
-  </html>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
