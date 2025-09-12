@@ -11,8 +11,8 @@ PREVIEW=false
 AUTO=false
 for arg in "$@"; do
   case "$arg" in
-    --preview) PREVIEW=true ;; 
-    --auto) AUTO=true ;; 
+    --preview) PREVIEW=true ;;
+    --auto) AUTO=true ;;
     *) echo "Unknown arg: $arg"; exit 2 ;;
   esac
 done
@@ -69,7 +69,7 @@ else
   if $REMOTE_EXISTS; then
     git pull --rebase origin "$BRANCH"
   else
-    echo "Remote branch does not exist yet; will push to create it." 
+    echo "Remote branch does not exist yet; will push to create it."
   fi
 fi
 

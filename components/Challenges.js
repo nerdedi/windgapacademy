@@ -136,7 +136,7 @@ if (typeof document !== "undefined") {
 export function showChallenges(container) {
   container.innerHTML = `
     <section id="challenges" aria-label="Challenges">
-      <h2 class="text-2xl font-bold text-primary text-smooth">🎯 Daily & Weekly Challenges</h2>     
+      <h2 class="text-2xl font-bold text-primary text-smooth">🎯 Daily & Weekly Challenges</h2>
       <ul>
         <li>Complete a literacy game today <span>+10 pts</span></li>
         <li>Complete a math game today <span>+10 pts</span></li>

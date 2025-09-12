@@ -52,4 +52,4 @@ for ((i=0;i<${#paths[@]}; i+=batch_size)); do
   fi
 done
 
-echo "Done formatting and applying fixes." 
+echo "Done formatting and applying fixes."

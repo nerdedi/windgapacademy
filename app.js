@@ -355,7 +355,7 @@ function enableKeyboardNavigation() {
       const index = focusable.indexOf(document.activeElement);
       const next = focusable[(index + 1) % focusable.length];
       if (next) next.focus();
-      e.preventDefault()      
+      e.preventDefault()
     }
   });
 }

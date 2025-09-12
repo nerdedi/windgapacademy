@@ -57,4 +57,3 @@ Note on the Dockerfile change
 - That prevents transient "unable to find user vscode" failures when Codespaces briefly tries an alternate image that doesn't contain the user.
 
 Quick rebuild (recommended): use Command Palette -> "Dev Containers: Rebuild Container" or the Codespaces "Rebuild Container" action.
-

@@ -8826,7 +8826,7 @@ W291 Trailing whitespace
    --> scripts/o3de/o3de/android_support.py:280:122
     |
 279 | ANDROID_HELP_REGISTER_ANDROID_SDK_MESSAGE = f"""
-280 | Building android projects requires the android sdk manager command-line (https://developer.android.com/tools/sdkmanager). 
+280 | Building android projects requires the android sdk manager command-line (https://developer.android.com/tools/sdkmanager).
     |                                                                                                                          ^
 281 | Please follow the instructions at https://developer.android.com/studio to download the sdk manager command line tool from
 282 | either Android Studio or the command line tools only and set the path to the 'sdkmanager{SDKMANAGER_EXTENSION}' path.
@@ -8837,7 +8837,7 @@ E501 Line too long (121 > 88)
    --> scripts/o3de/o3de/android_support.py:281:89
     |
 279 | ANDROID_HELP_REGISTER_ANDROID_SDK_MESSAGE = f"""
-280 | Building android projects requires the android sdk manager command-line (https://developer.android.com/tools/sdkmanager). 
+280 | Building android projects requires the android sdk manager command-line (https://developer.android.com/tools/sdkmanager).
 281 | Please follow the instructions at https://developer.android.com/studio to download the sdk manager command line tool from
     |                                                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 282 | either Android Studio or the command line tools only and set the path to the 'sdkmanager{SDKMANAGER_EXTENSION}' path.
@@ -8846,12 +8846,12 @@ E501 Line too long (121 > 88)
 E501 Line too long (117 > 88)
    --> scripts/o3de/o3de/android_support.py:282:89
     |
-280 | Building android projects requires the android sdk manager command-line (https://developer.android.com/tools/sdkmanager). 
+280 | Building android projects requires the android sdk manager command-line (https://developer.android.com/tools/sdkmanager).
 281 | Please follow the instructions at https://developer.android.com/studio to download the sdk manager command line tool from
 282 | either Android Studio or the command line tools only and set the path to the 'sdkmanager{SDKMANAGER_EXTENSION}' path.
     |                                                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 283 |
-284 | If installing from Android Studio (recommended) then the default location of the Android SDK will be %HOME%   
+284 | If installing from Android Studio (recommended) then the default location of the Android SDK will be %HOME%
     |
 
 E501 Line too long (110 > 88)
@@ -8859,7 +8859,7 @@ E501 Line too long (110 > 88)
     |
 282 | either Android Studio or the command line tools only and set the path to the 'sdkmanager{SDKMANAGER_EXTENSION}' path.
 283 |
-284 | If installing from Android Studio (recommended) then the default location of the Android SDK will be %HOME%   
+284 | If installing from Android Studio (recommended) then the default location of the Android SDK will be %HOME%
     |                                                                                         ^^^^^^^^^^^^^^^^^^^^^^
 285 |
 286 | For example:
@@ -8870,7 +8870,7 @@ W291 Trailing whitespace
     |
 282 | either Android Studio or the command line tools only and set the path to the 'sdkmanager{SDKMANAGER_EXTENSION}' path.
 283 |
-284 | If installing from Android Studio (recommended) then the default location of the Android SDK will be %HOME%   
+284 | If installing from Android Studio (recommended) then the default location of the Android SDK will be %HOME%
     |                                                                                                            ^^^
 285 |
 286 | For example:
@@ -9736,7 +9736,7 @@ W293 Blank line contains whitespace
      |
 1251 |         tasks.findAll {{ task->task.name.contains('strip{config}DebugSymbols') }}
 1252 |     }}
-1253 |     
+1253 |
      | ^^^^
 1254 |     merge{config}Assets.dependsOn syncLYLayoutMode{config}
 1255 | """
@@ -27906,7 +27906,7 @@ W291 Trailing whitespace
    --> scripts/o3de/tests/test_manifest.py:548:47
     |
 547 |     @pytest.mark.parametrize(
-548 |         """project_gem_names, cmake_gem_names, 
+548 |         """project_gem_names, cmake_gem_names,
     |                                               ^
 549 |                                 all_gems_json_data, include_dependencies,
 550 |                                 expected_result""",
@@ -42393,7 +42393,7 @@ E501 Line too long (120 > 88)
 347 |   add-ons;addon-google_apis-google-15                                                      | 3             | Google APIs
 348 |   add-ons;addon-google_apis-google-23                                                      | 1             | Google APIs
     |                                                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-349 |   
+349 |
 350 | Available Updates:
     |
 
@@ -42402,7 +42402,7 @@ W293 Blank line contains whitespace
     |
 347 |   add-ons;addon-google_apis-google-15                                                      | 3             | Google APIs
 348 |   add-ons;addon-google_apis-google-23                                                      | 1             | Google APIs
-349 |   
+349 |
     | ^^
 350 | Available Updates:
 351 |   platforms;android-33                                                                     | 4             | Google APIs
@@ -42415,8 +42415,8 @@ E501 Line too long (120 > 88)
 350 | Available Updates:
 351 |   platforms;android-33                                                                     | 4             | Google APIs
     |                                                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-352 |     :return: 
-353 |     :rtype: 
+352 |     :return:
+353 |     :rtype:
     |
 
 W291 Trailing whitespace
@@ -42424,9 +42424,9 @@ W291 Trailing whitespace
     |
 350 | Available Updates:
 351 |   platforms;android-33                                                                     | 4             | Google APIs
-352 |     :return: 
+352 |     :return:
     |             ^
-353 |     :rtype: 
+353 |     :rtype:
 354 |     """
     |
 help: Remove trailing whitespace
@@ -42435,8 +42435,8 @@ W291 Trailing whitespace
    --> scripts/o3de/tests/test_android_support.py:353:12
     |
 351 |   platforms;android-33                                                                     | 4             | Google APIs
-352 |     :return: 
-353 |     :rtype: 
+352 |     :return:
+353 |     :rtype:
     |            ^
 354 |     """
     |
@@ -42447,7 +42447,7 @@ W293 Blank line contains whitespace
     |
 403 |     # Test Data
 404 |     installed_packages_cmd_result = """
-405 |     
+405 |
     | ^^^^
 406 | Installed packages:
 407 |   Path                               | Version      | Description                       | Location
@@ -42522,8 +42522,8 @@ E501 Line too long (120 > 88)
 416 | Available Updates:
 417 |   platforms;android-33                                                                     | 4             | Google APIs
     |                                                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-418 |     :return: 
-419 |     :rtype: 
+418 |     :return:
+419 |     :rtype:
     |
 
 W291 Trailing whitespace
@@ -42531,9 +42531,9 @@ W291 Trailing whitespace
     |
 416 | Available Updates:
 417 |   platforms;android-33                                                                     | 4             | Google APIs
-418 |     :return: 
+418 |     :return:
     |             ^
-419 |     :rtype: 
+419 |     :rtype:
 420 |     """
     |
 help: Remove trailing whitespace
@@ -42542,8 +42542,8 @@ W291 Trailing whitespace
    --> scripts/o3de/tests/test_android_support.py:419:12
     |
 417 |   platforms;android-33                                                                     | 4             | Google APIs
-418 |     :return: 
-419 |     :rtype: 
+418 |     :return:
+419 |     :rtype:
     |            ^
 420 |     """
     |
@@ -42618,8 +42618,8 @@ E501 Line too long (120 > 88)
 484 | Available Updates:
 485 |   platforms;android-33                                                                     | 4             | Google APIs
     |                                                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-486 |     :return: 
-487 |     :rtype: 
+486 |     :return:
+487 |     :rtype:
     |
 
 W291 Trailing whitespace
@@ -42627,9 +42627,9 @@ W291 Trailing whitespace
     |
 484 | Available Updates:
 485 |   platforms;android-33                                                                     | 4             | Google APIs
-486 |     :return: 
+486 |     :return:
     |             ^
-487 |     :rtype: 
+487 |     :rtype:
 488 |     """,
     |
 help: Remove trailing whitespace
@@ -42638,8 +42638,8 @@ W291 Trailing whitespace
    --> scripts/o3de/tests/test_android_support.py:487:12
     |
 485 |   platforms;android-33                                                                     | 4             | Google APIs
-486 |     :return: 
-487 |     :rtype: 
+486 |     :return:
+487 |     :rtype:
     |            ^
 488 |     """,
 489 |         "",
@@ -42716,8 +42716,8 @@ E501 Line too long (124 > 88)
 501 |     Available Updates:
 502 |       platforms;android-33                                                                     | 4             | Google APIs
     |                                                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-503 |         :return: 
-504 |         :rtype: 
+503 |         :return:
+504 |         :rtype:
     |
 
 W291 Trailing whitespace
@@ -42725,9 +42725,9 @@ W291 Trailing whitespace
     |
 501 |     Available Updates:
 502 |       platforms;android-33                                                                     | 4             | Google APIs
-503 |         :return: 
+503 |         :return:
     |                 ^
-504 |         :rtype: 
+504 |         :rtype:
 505 |         """,
     |
 help: Remove trailing whitespace
@@ -42736,8 +42736,8 @@ W291 Trailing whitespace
    --> scripts/o3de/tests/test_android_support.py:504:16
     |
 502 |       platforms;android-33                                                                     | 4             | Google APIs
-503 |         :return: 
-504 |         :rtype: 
+503 |         :return:
+504 |         :rtype:
     |                ^
 505 |         """,
 506 |     ]
@@ -42824,8 +42824,8 @@ E501 Line too long (120 > 88)
 570 | Available Updates:
 571 |   platforms;android-33                                                                     | 4             | Google APIs
     |                                                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-572 |     :return: 
-573 |     :rtype: 
+572 |     :return:
+573 |     :rtype:
     |
 
 W291 Trailing whitespace
@@ -42833,9 +42833,9 @@ W291 Trailing whitespace
     |
 570 | Available Updates:
 571 |   platforms;android-33                                                                     | 4             | Google APIs
-572 |     :return: 
+572 |     :return:
     |             ^
-573 |     :rtype: 
+573 |     :rtype:
 574 |     """
     |
 help: Remove trailing whitespace
@@ -42844,8 +42844,8 @@ W291 Trailing whitespace
    --> scripts/o3de/tests/test_android_support.py:573:12
     |
 571 |   platforms;android-33                                                                     | 4             | Google APIs
-572 |     :return: 
-573 |     :rtype: 
+572 |     :return:
+573 |     :rtype:
     |            ^
 574 |     """
     |
@@ -42897,7 +42897,7 @@ W291 Trailing whitespace
    |
 63 |     "origin": "",
 64 |     "gems": [
-65 |         "http://o3derepo.org/TestGem", 
+65 |         "http://o3derepo.org/TestGem",
    |                                       ^
 66 |         "C:/localrepo/TestLocalGem"
 67 |     ],
@@ -62445,9 +62445,9 @@ E501 Line too long (119 > 88)
     |
 118 | class TangentSpaceMethod(IntEnum):
 119 |     TSPACE = 0
-120 |     """ Generates the tangents and bitangents with their true magnitudes which can be used for relief mapping effects. 
+120 |     """ Generates the tangents and bitangents with their true magnitudes which can be used for relief mapping effects.
     |                                                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-121 |         It calculates the 'real' bitangent which may not be perpendicular to the tangent. 
+121 |         It calculates the 'real' bitangent which may not be perpendicular to the tangent.
 122 |         However, both, the tangent and bitangent are perpendicular to the vertex normal.
     |
 
@@ -62456,9 +62456,9 @@ W291 Trailing whitespace
     |
 118 | class TangentSpaceMethod(IntEnum):
 119 |     TSPACE = 0
-120 |     """ Generates the tangents and bitangents with their true magnitudes which can be used for relief mapping effects. 
+120 |     """ Generates the tangents and bitangents with their true magnitudes which can be used for relief mapping effects.
     |                                                                                                                       ^
-121 |         It calculates the 'real' bitangent which may not be perpendicular to the tangent. 
+121 |         It calculates the 'real' bitangent which may not be perpendicular to the tangent.
 122 |         However, both, the tangent and bitangent are perpendicular to the vertex normal.
     |
 help: Remove trailing whitespace
@@ -62467,8 +62467,8 @@ E501 Line too long (90 > 88)
    --> Gems/PythonAssetBuilder/Editor/Scripts/scene_api/scene_data.py:121:89
     |
 119 |     TSPACE = 0
-120 |     """ Generates the tangents and bitangents with their true magnitudes which can be used for relief mapping effects. 
-121 |         It calculates the 'real' bitangent which may not be perpendicular to the tangent. 
+120 |     """ Generates the tangents and bitangents with their true magnitudes which can be used for relief mapping effects.
+121 |         It calculates the 'real' bitangent which may not be perpendicular to the tangent.
     |                                                                                         ^^
 122 |         However, both, the tangent and bitangent are perpendicular to the vertex normal.
 123 |     """
@@ -62478,8 +62478,8 @@ W291 Trailing whitespace
    --> Gems/PythonAssetBuilder/Editor/Scripts/scene_api/scene_data.py:121:90
     |
 119 |     TSPACE = 0
-120 |     """ Generates the tangents and bitangents with their true magnitudes which can be used for relief mapping effects. 
-121 |         It calculates the 'real' bitangent which may not be perpendicular to the tangent. 
+120 |     """ Generates the tangents and bitangents with their true magnitudes which can be used for relief mapping effects.
+121 |         It calculates the 'real' bitangent which may not be perpendicular to the tangent.
     |                                                                                          ^
 122 |         However, both, the tangent and bitangent are perpendicular to the vertex normal.
 123 |     """

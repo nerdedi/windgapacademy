@@ -9,7 +9,7 @@ export function showTokenSystem(container) {
   function privacyNotice() {
     return '<div id="privacy-notice" style="font-size:0.9em;color:#555;margin:8px 0;">All token actions are private and only used for educational motivation.</div>';
   }
-  container.innerHTML = ` 
+  container.innerHTML = `
     <section id="token-system" class="au-section" aria-label="Token System">
       <div class="flex justify-between items-center">
         <h2 class="text-2xl font-bold text-primary">Token System</h2>

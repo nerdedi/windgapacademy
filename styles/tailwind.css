@@ -180,4 +180,3 @@ nav.sticky { position: sticky; top: 0; }
 
 /* Small helper: reduce animation impact on focus outlines for keyboard users */
 :focus { outline-offset: 2px; }
-
