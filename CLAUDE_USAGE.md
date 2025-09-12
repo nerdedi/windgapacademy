@@ -28,6 +28,8 @@ This repository grants explicit permission to contributors to use code generated
 7. Contact
 - If you are unsure about a generated contribution, raise it in the repository issues or contact repository maintainers.
 
+For detailed guidance on working effectively with Claude on each request, see [WORKING_WITH_CLAUDE.md](docs/WORKING_WITH_CLAUDE.md).
+
 This file may be updated by repository maintainers to refine policy or attribution requirements.
 
 Note about Claude 3.7 in GitHub Copilot for Visual Studio
@@ -52,7 +54,7 @@ This repository implements the following automated tools to help enforce Claude 
 
 To use these tools:
 - For PRs: Fill out the checklist items in the PR template when submitting your changes.
-- For pre-commit: Run `pre-commit install` to set up the hooks, or if using the repo's `.venv`: 
+- For pre-commit: Run `pre-commit install` to set up the hooks, or if using the repo's `.venv`:
   ```
   source .venv/bin/activate
   pre-commit install
