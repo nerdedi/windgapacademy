@@ -12,9 +12,13 @@
  * - Asset optimization for web deployment
  */
 
-const fs = require("fs").promises;
-const path = require("path");
-const { performance } = require("perf_hooks");
+import fs from "fs/promises";
+import path from "path";
+import { performance } from "perf_hooks";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 class AIModelBuilder {
   constructor() {

@@ -3,3 +3,4 @@ dist/
 assets/images-optimized/
 assets/images-webp/
 .env
+.vercel
