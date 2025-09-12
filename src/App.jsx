@@ -9,7 +9,7 @@ import ErrorBoundary from "./app/ErrorBoundary";
 import AppRouter from "./app/Router";
 import useRoute from "./app/routing";
 import { UserProvider, useUser } from "./app/UserContext";
-import { GamificationProvider } from "./contexts/GamificationContext";
+// import { GamificationProvider } from "./contexts/GamificationContext";
 import { LessonProvider } from "./contexts/LessonContext";
 import SimulationManager from "./simulation/SimulationManager";
 import { useUI } from "./ui/UISystem";
@@ -18,7 +18,7 @@ import { SoundManager } from "./audio/SoundManager";
 import { GameMechanics } from "./core/GameMechanics";
 
 function MainApp() {
-  const [showLogin, setShowLogin] = useState(true);
+  const [showLogin, setShowLogin] = useState(false);
   const [inputId, setInputId] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -180,11 +180,11 @@ export default function AppWithProvider() {
     <UserProvider>
       <GameProvider>
         <LessonProvider>
-          <GamificationProvider>
-            <ErrorBoundary>
-              <MainApp />
-            </ErrorBoundary>
-          </GamificationProvider>
+          {/* <GamificationProvider> */}
+          <ErrorBoundary>
+            <MainApp />
+          </ErrorBoundary>
+          {/* </GamificationProvider> */}
         </LessonProvider>
       </GameProvider>
     </UserProvider>
