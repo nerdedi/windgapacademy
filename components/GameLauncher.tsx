@@ -1,7 +1,6 @@
 import React from "react";
 
 import { launchGame as _launchGame } from "./gameHelpers";
-
 export default function GameLauncher({ gameId, goal }) {
   const onLaunch = () => {
     // dispatch to existing GameManager or open a new window/modal

@@ -94,7 +94,7 @@ const Features = () => {
                 >
                   <p className="feature-text">
                     Our platform is <span className="text-blue-500">lightweight and powerful.</span>
-                    You'll notice the difference the moment you start learning.
+                    You&apos;ll notice the difference the moment you start learning.
                   </p>
                 </motion.div>
               </div>

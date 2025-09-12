@@ -92,22 +92,22 @@ function setAccessibility() {
   }
 }
 
-function _backupProgress(progress) {
-  localStorage.setItem("resourceLibraryProgress", JSON.stringify(progress));
+function _backupProgress(_progress) {
+  localStorage.setItem("resourceLibraryProgress", JSON.stringify(_progress));
 }
 function _syncProgress() {
   return JSON.parse(localStorage.getItem("resourceLibraryProgress") || "{}");
 }
 
-function _updateLeaderboard(score) {
+function _updateLeaderboard(_score) {
   // ...leaderboard logic...
 }
 
-function _sendFeedback(feedback) {
+function _sendFeedback(_feedback) {
   // ...send feedback to server...
 }
 
-function _logEvent(event) {
+function _logEvent(_event) {
   // ...analytics logic...
 }
 

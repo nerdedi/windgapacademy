@@ -1,80 +1,7 @@
 // --- Advanced Feature Upgrades & TODOs ---
 // Accessibility: ARIA roles, keyboard navigation
 // Onboarding/help modal
-// Backup/sync logic
-// Gamification: challenges, leaderboard
-// Educator/parent feedback
-// Analytics integration
-// Error boundaries
-// UI settings modal
-// Simplified peer review logic
-
-function showOnboarding() {
-  const modal = document.createElement("div");
-  modal.className = "onboarding-modal";
-  modal.innerHTML = `<h2>Welcome to Peer Review!</h2><p>Review and give feedback to peers. Use the settings to personalize your experience.</p><button id='close-onboarding'>Close</button>`;
-  document.body.appendChild(modal);
-  document.getElementById("close-onboarding").onclick = () => modal.remove();
-}
-
-function setAccessibility() {
-  const prEl = document.getElementById("peer-review");
-  if (prEl) {
-    prEl.setAttribute("role", "region");
-    prEl.setAttribute("aria-label", "Peer Review");
-  }
-}
-
-function _backupProgress(progress) {
-  localStorage.setItem("peerReviewProgress", JSON.stringify(progress));
-}
-function _syncProgress() {
-  return JSON.parse(localStorage.getItem("peerReviewProgress") || "{}");
-}
-
-function _updateLeaderboard(score) {
-  // ...leaderboard logic...
-}
-
-function _sendFeedback(feedback) {
-  // ...send feedback to server...
-}
-
-function _logEvent(event) {
-  // ...analytics logic...
-}
-
-function safeRun(fn) {
-  try {
-    fn();
-  } catch (e) {
-    console.error("Error:", e);
-  }
-}
-
-function _showSettings() {
-  // ...settings modal logic...
-}
-
-function startPeerReview() {
-  showOnboarding();
-  setAccessibility();
-  // ...simplified peer review logic...
-}
-
-if (typeof document !== "undefined") {
-  document.addEventListener("DOMContentLoaded", startPeerReview);
-}
-// --- Advanced Feature Upgrades & TODOs ---
-// Accessibility: ARIA roles, keyboard navigation
-// Onboarding/help modal
-// Backup/sync logic
-// Gamification: challenges, leaderboard
-// Educator/parent feedback
-// Analytics integration
-// Error boundaries
-// UI settings modal
-// Comprehensive peer review logic
+// Peer review helpers and UI
 
 function showOnboarding() {
   const modal = document.createElement("div");
@@ -92,26 +19,25 @@ function setAccessibility() {
   }
 }
 
-function _backupProgress(progress) {
-  localStorage.setItem("peerReviewProgress", JSON.stringify(progress));
+function _backupProgress(_progress) {
+  localStorage.setItem("peerReviewProgress", JSON.stringify(_progress));
 }
+
 function _syncProgress() {
   return JSON.parse(localStorage.getItem("peerReviewProgress") || "{}");
 }
 
-function _updateLeaderboard(score) {
+function _updateLeaderboard() {
   // ...leaderboard logic...
 }
-
-function _sendFeedback(feedback) {
+function _sendFeedback() {
   // ...send feedback to server...
 }
 
-function _logEvent(event) {
+function _logEvent() {
   // ...analytics logic...
 }
-
-function safeRun(fn) {
+function _safeRun(fn) {
   try {
     fn();
   } catch (e) {
@@ -132,7 +58,8 @@ function startPeerReview() {
 if (typeof document !== "undefined") {
   document.addEventListener("DOMContentLoaded", startPeerReview);
 }
-// Peer review and rating system
+
+// Peer review and rating UI
 export function showPeerReview(container) {
   container.innerHTML = `
     <div class="lesson-bg" style="position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:-1;background:url('/assets/backgrounds/lesson-bg.svg') center/cover no-repeat;"></div>
@@ -143,11 +70,11 @@ export function showPeerReview(container) {
     </section>
   `;
   // Animate heading and button
-  applyHeadingAnimation(document.getElementById("peer-heading"));
-  applyButtonAnimation(document.getElementById("submit-review"));
+  const heading = document.getElementById("peer-heading");
+  if (heading) applyHeadingAnimation(heading);
+  const btn = document.getElementById("submit-review");
+  if (btn) applyButtonAnimation(btn);
   // Accessibility
-  setAriaAttributes(document.getElementById("peer-review"), {
-    role: "region",
-    label: "Peer Review",
-  });
+  const section = document.getElementById("peer-review");
+  if (section) setAriaAttributes(section, { role: "region", label: "Peer Review" });
 }

@@ -25,6 +25,7 @@ export default function EducatorDashboard() {
         subjects={["Literacy", "Numeracy", "Digital", "Emotional Regulation"]}
         learners={learners}
         onFilter={(type, value) => setFilters((prev) => ({ ...prev, [type]: value }))}
+        currentFilters={filters}
       />
       <SubjectAnalytics learners={filteredLearners} />
       <button onClick={() => window.print()} className="btn-secondary mb-4">
@@ -36,11 +37,20 @@ export default function EducatorDashboard() {
           key={learner.id}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 20 }}
           transition={{ duration: 0.3 }}
+          className="border-b pb-4 mb-4"
+          aria-label={`Progress card for ${learner.name}`}
+          role="region"
+          tabIndex={0}
         >
           <LearnerProgressCard learner={learner} />
+          <button onClick={() => window.print()} className="btn-secondary mb-4">
+            Print Dashboard
+          </button>
         </motion.div>
       ))}
+      {filteredLearners.length === 0 && <p>No learners match the selected filters.</p>}
     </div>
   );
 }

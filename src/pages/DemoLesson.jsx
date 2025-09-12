@@ -10,17 +10,22 @@ export default function DemoLesson() {
   const { setLesson } = useLesson();
   React.useEffect(() => {
     setLesson("Literacy", "Reading Fluency", [
+      { id: "s0", type: "text", content: "Introduction to Reading Fluency" },
       { id: "s1", type: "text", content: "What is reading fluency?" },
       { id: "s2", type: "image", src: "/assets/fluency.png", content: "Fluency image" },
       { id: "s3", type: "quiz", content: "Which sentence is fluent?" },
+      { id: "s4", type: "understanding-check" },
     ]);
   }, [setLesson]);
 
   return (
     <LessonModule subject="Literacy" topic="Reading Fluency">
+      <SubjectTabs subjects={["Literacy", "Math", "Science"]} active="Literacy" />
+      <LessonStep type="text" content="Introduction to Reading Fluency" />
       <LessonStep type="text" content="What is reading fluency?" />
       <LessonStep type="image" src="/assets/fluency.png" />
       <LessonStep type="quiz" content="Which sentence is fluent?" />
+      <LessonStep type="understanding-check" />
       <UnderstandingCheck />
     </LessonModule>
   );

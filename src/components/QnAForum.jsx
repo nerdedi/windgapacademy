@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const QnAForum = () => {
   const [questions, setQuestions] = useState([]);
@@ -14,7 +14,7 @@ const QnAForum = () => {
         setQuestions(data);
         setLoading(false);
       })
-      .catch((err) => {
+      .catch(() => {
         setError("Failed to load questions");
         setLoading(false);
       });
