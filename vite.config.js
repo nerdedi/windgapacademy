@@ -91,18 +91,6 @@ export default defineConfig(({ command, mode }) => {
 
             // Animation libraries
             "animation-vendor": ["framer-motion"],
-
-            // AI and ML libraries (loaded dynamically)
-            "ai-vendor": ["@tensorflow/tfjs"],
-
-            // Audio libraries
-            "audio-vendor": ["tone", "howler"],
-
-            // Physics libraries
-            "physics-vendor": ["cannon-es"],
-
-            // UI libraries
-            "ui-vendor": ["@headlessui/react", "@heroicons/react"],
           },
 
           // Optimize chunk naming for caching
