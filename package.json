@@ -17,6 +17,14 @@
     "build:models": "node scripts/build-ai-models.js",
     "optimize:assets": "node scripts/optimize-assets.js"
   },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "prettier --write"
+    ],
+    "*.{css,scss,md}": [
+      "prettier --write"
+    ]
+  },
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -46,6 +54,7 @@
     "prettier": "^3.0.3",
     "jest": "^29.7.0",
     "@playwright/test": "^1.39.0",
-    "cypress": "^13.4.0"
+    "cypress": "^13.4.0",
+    "lint-staged": "^15.2.2"
   }
 }
