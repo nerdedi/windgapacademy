@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 import GameProvider from "../components/GameModules/GameManager";
 import { loginUser, auth } from "../firebase.js";
@@ -11,6 +12,10 @@ import { UserProvider, useUser } from "./app/UserContext";
 import { GamificationProvider } from "./contexts/GamificationContext";
 import { LessonProvider } from "./contexts/LessonContext";
 import SimulationManager from "./simulation/SimulationManager";
+import { useUI } from "./ui/UISystem";
+import LoadingScreen from "./components/LoadingScreen";
+import { SoundManager } from "./audio/SoundManager";
+import { GameMechanics } from "./core/GameMechanics";
 
 function MainApp() {
   const [showLogin, setShowLogin] = useState(true);
