@@ -5,17 +5,56 @@
   "description": "Professional multi-modal learning and gaming platform",
   "scripts": {
     "build": "vite build",
+    "build:analyze": "vite build --mode analyze",
+    "build:production": "NODE_ENV=production vite build",
     "start": "node server.cjs",
+    "start:production": "NODE_ENV=production node server.cjs",
     "dev": "vite --host",
+    "dev:debug": "vite --host --debug",
     "preview": "vite preview",
-    "lint": "eslint src components pages --ext .js,.jsx,.ts,.tsx",
+    "preview:production": "vite preview --mode production",
+
+    "lint": "eslint src components pages backend --ext .js,.jsx,.ts,.tsx",
+    "lint:fix": "eslint src components pages backend --ext .js,.jsx,.ts,.tsx --fix",
+    "lint:staged": "lint-staged",
     "format": "prettier --write .",
+    "format:check": "prettier --check .",
+
     "test": "jest --runInBand --watchAll=false",
-    "test:ci": "npx jest --runInBand --color",
+    "test:watch": "jest --watch",
+    "test:ci": "npx jest --runInBand --color --coverage",
     "test:coverage": "jest --coverage",
+    "test:unit": "jest --testPathPattern=unit",
+    "test:integration": "jest --testPathPattern=integration",
+
     "e2e": "playwright test",
+    "e2e:headed": "playwright test --headed",
+    "e2e:debug": "playwright test --debug",
+    "e2e:report": "playwright show-report",
+
     "build:models": "node scripts/build-ai-models.js",
-    "optimize:assets": "node scripts/optimize-assets.js"
+    "optimize:assets": "node scripts/optimize-assets.js",
+    "optimize:images": "node scripts/optimize-images.js",
+    "analyze:bundle": "npx vite-bundle-analyzer",
+
+    "docker:build": "docker build -t windgap-academy .",
+    "docker:run": "docker run -p 3000:3000 windgap-academy",
+    "docker:dev": "docker-compose up --build",
+
+    "deploy:staging": "npm run build && npm run deploy:staging:upload",
+    "deploy:production": "npm run build:production && npm run deploy:production:upload",
+
+    "health:check": "node scripts/health-check.js",
+    "security:audit": "npm audit && npm run security:scan",
+    "security:scan": "npx audit-ci --config audit-ci.json",
+
+    "clean": "rm -rf dist node_modules/.cache",
+    "clean:all": "rm -rf dist node_modules package-lock.json && npm install",
+    "reset": "npm run clean:all && npm run build",
+
+    "postinstall": "npm run build:models",
+    "precommit": "npm run lint:staged",
+    "prepush": "npm run test:ci && npm run e2e"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [

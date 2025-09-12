@@ -10,29 +10,259 @@ import {
   Star,
   Menu,
   X,
+  User,
+  LogOut,
+  Moon,
+  Sun,
+  Volume2,
+  VolumeX,
+  Accessibility,
+  Globe,
+  Zap,
+  Target,
+  Award,
+  Calendar,
+  MessageCircle,
+  HelpCircle,
 } from "lucide-react";
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 import { Avatar, AvatarFallback } from "./ui/avatar";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
+import { SoundManager } from "../audio/SoundManager";
+import { GameMechanics } from "../core/GameMechanics";
+import { ErrorHandler } from "../core/ErrorHandler";
 
-export function Navigation({ currentView, onViewChange }) {
+export function Navigation({ currentView, onViewChange, user = null }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isSoundEnabled, setIsSoundEnabled] = useState(true);
+  const [notifications, setNotifications] = useState([]);
+  const [isNotificationPanelOpen, setIsNotificationPanelOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [isSearchFocused, setIsSearchFocused] = useState(false);
 
+  const soundManager = useRef(null);
+  const gameMechanics = useRef(null);
+  const errorHandler = useRef(null);
+
+  // Enhanced navigation items with categories and permissions
   const navigationItems = [
-    { id: "dashboard", label: "Dashboard", icon: Home },
-    { id: "courses", label: "Courses", icon: BookOpen },
-    { id: "lesson", label: "Learn", icon: Play },
-    { id: "leaderboard", label: "Leaderboard", icon: Trophy },
+    {
+      category: "Main",
+      items: [
+        {
+          id: "dashboard",
+          label: "Dashboard",
+          icon: Home,
+          description: "Overview and quick stats",
+          shortcut: "Ctrl+D",
+        },
+        {
+          id: "courses",
+          label: "Courses",
+          icon: BookOpen,
+          description: "Browse learning modules",
+          shortcut: "Ctrl+C",
+        },
+        {
+          id: "lesson",
+          label: "Learn",
+          icon: Play,
+          description: "Start learning session",
+          shortcut: "Ctrl+L",
+        },
+        {
+          id: "games",
+          label: "Games",
+          icon: Target,
+          description: "Interactive learning games",
+          shortcut: "Ctrl+G",
+        },
+      ],
+    },
+    {
+      category: "Progress",
+      items: [
+        {
+          id: "leaderboard",
+          label: "Leaderboard",
+          icon: Trophy,
+          description: "Compare with peers",
+          badge: "New",
+        },
+        {
+          id: "achievements",
+          label: "Achievements",
+          icon: Award,
+          description: "View earned badges",
+        },
+        {
+          id: "calendar",
+          label: "Schedule",
+          icon: Calendar,
+          description: "Learning calendar",
+        },
+      ],
+    },
+    {
+      category: "Community",
+      items: [
+        {
+          id: "forums",
+          label: "Forums",
+          icon: MessageCircle,
+          description: "Community discussions",
+        },
+        {
+          id: "help",
+          label: "Help",
+          icon: HelpCircle,
+          description: "Get support",
+        },
+      ],
+    },
   ];
 
+  // Enhanced user stats with real-time updates
   const userStats = {
-    name: "Alex Chen",
-    xp: 2450,
-    level: 12,
-    streak: 7,
-    notifications: 3,
+    name: user?.name || "Guest User",
+    avatar: user?.avatar || null,
+    xp: user?.xp || 0,
+    level: user?.level || 1,
+    streak: user?.streak || 0,
+    notifications: notifications.length,
+    nextLevelXP: user?.nextLevelXP || 1000,
+    progressToNextLevel: user?.xp ? (user.xp % 1000) / 10 : 0,
+    achievements: user?.achievements || [],
+    currentCourse: user?.currentCourse || null,
+  };
+
+  // Initialize systems
+  useEffect(() => {
+    try {
+      soundManager.current = window.WindgapPlatform?.soundManager || new SoundManager();
+      gameMechanics.current = window.WindgapPlatform?.gameMechanics || new GameMechanics();
+      errorHandler.current = window.WindgapPlatform?.errorHandler || new ErrorHandler();
+
+      // Load user preferences
+      loadUserPreferences();
+
+      // Set up real-time notifications
+      setupNotifications();
+
+      // Set up keyboard shortcuts
+      setupKeyboardShortcuts();
+    } catch (error) {
+      console.error("Failed to initialize navigation systems:", error);
+    }
+  }, []);
+
+  const loadUserPreferences = () => {
+    try {
+      const preferences = JSON.parse(localStorage.getItem("windgap_nav_preferences") || "{}");
+      setIsDarkMode(preferences.darkMode || false);
+      setIsSoundEnabled(preferences.soundEnabled !== false);
+    } catch (error) {
+      errorHandler.current?.handleError({
+        type: "error",
+        category: "navigation",
+        message: "Failed to load user preferences",
+        stack: error.stack,
+      });
+    }
+  };
+
+  const saveUserPreferences = (preferences) => {
+    try {
+      const current = JSON.parse(localStorage.getItem("windgap_nav_preferences") || "{}");
+      const updated = { ...current, ...preferences };
+      localStorage.setItem("windgap_nav_preferences", JSON.stringify(updated));
+    } catch (error) {
+      errorHandler.current?.handleError({
+        type: "error",
+        category: "navigation",
+        message: "Failed to save user preferences",
+        stack: error.stack,
+      });
+    }
+  };
+
+  const setupNotifications = () => {
+    // Simulate real-time notifications
+    const mockNotifications = [
+      {
+        id: 1,
+        type: "achievement",
+        title: "New Achievement!",
+        message: 'You earned the "Quick Learner" badge',
+        timestamp: new Date(Date.now() - 5 * 60 * 1000),
+        read: false,
+        icon: Award,
+      },
+      {
+        id: 2,
+        type: "reminder",
+        title: "Learning Reminder",
+        message: "Continue your Math Quest adventure",
+        timestamp: new Date(Date.now() - 30 * 60 * 1000),
+        read: false,
+        icon: Play,
+      },
+      {
+        id: 3,
+        type: "social",
+        title: "Friend Activity",
+        message: "Sarah completed Science Lab Level 3",
+        timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000),
+        read: true,
+        icon: Trophy,
+      },
+    ];
+
+    setNotifications(mockNotifications);
+  };
+
+  const setupKeyboardShortcuts = () => {
+    const handleKeyDown = (event) => {
+      if (event.ctrlKey || event.metaKey) {
+        switch (event.key.toLowerCase()) {
+          case "d":
+            event.preventDefault();
+            handleNavigation("dashboard");
+            break;
+          case "c":
+            event.preventDefault();
+            handleNavigation("courses");
+            break;
+          case "l":
+            event.preventDefault();
+            handleNavigation("lesson");
+            break;
+          case "g":
+            event.preventDefault();
+            handleNavigation("games");
+            break;
+          case "k":
+            event.preventDefault();
+            document.getElementById("search-input")?.focus();
+            break;
+        }
+      }
+
+      if (event.key === "Escape") {
+        setIsMobileMenuOpen(false);
+        setIsProfileMenuOpen(false);
+        setIsNotificationPanelOpen(false);
+        setIsSearchFocused(false);
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
   };
 
   const NavItems = () => (
