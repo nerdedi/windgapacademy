@@ -62,6 +62,7 @@
     "@react-three/fiber": "^8.15.11",
     "@tensorflow/tfjs": "^4.13.0",
     "cannon-es": "^0.20.0",
+    "firebase": "^12.2.1",
     "framer-motion": "^10.16.4",
     "howler": "^2.2.4",
     "leva": "^0.9.35",
