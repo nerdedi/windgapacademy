@@ -13,11 +13,6 @@ export default defineConfig(({ command, mode }) => {
         fastRefresh: isDev,
         // Optimize JSX for production
         jsxRuntime: "automatic",
-        babel: {
-          plugins: isProd
-            ? [["babel-plugin-transform-remove-console", { exclude: ["error", "warn"] }]]
-            : [],
-        },
       }),
     ],
 
