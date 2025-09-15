@@ -16,54 +16,63 @@ from pathlib import Path
 from typing import Iterable
 
 
+def skip_single_line_comment(s, i):
+    n = len(s)
+    while i < n and s[i] != "\n":
+        i += 1
+    return i
+
+def skip_multi_line_comment(s, i):
+    n = len(s)
+    while i < n - 1:
+        if s[i] == "*" and s[i + 1] == "/":
+            return i + 2
+        i += 1
+    return n
+
+def handle_string(s, i, out):
+    n = len(s)
+    str_quote = s[i]
+    out.append(str_quote)
+    i += 1
+    escape = False
+    while i < n:
+        ch = s[i]
+        out.append(ch)
+        if not escape and ch == str_quote:
+            i += 1
+            break
+        escape = (ch == "\\" and not escape)
+        i += 1
+    return i
+
+def handle_comment(s, i, nxt, out):
+    n = len(s)
+    ch = s[i]
+    if ch == "/" and nxt == "/":
+        i = skip_single_line_comment(s, i + 2)
+        if i < n:
+            out.append(s[i])
+            i += 1
+        return i
+    if ch == "/" and nxt == "*":
+        i = skip_multi_line_comment(s, i + 2)
+        return i
+    return None
+
 def strip_json_comments(s: str) -> str:
     out = []
     i = 0
     n = len(s)
-    in_str = False
-    str_quote = ""
-    escape = False
-    in_sl = False
-    in_ml = False
     while i < n:
         ch = s[i]
         nxt = s[i+1] if i+1 < n else ""
-        if in_sl:
-            if ch == "\n":
-                in_sl = False
-                out.append(ch)
-            # else skip
-            i += 1
-            continue
-        if in_ml:
-            if ch == "*" and nxt == "/":
-                in_ml = False
-                i += 2
-                continue
-            i += 1
-            continue
-        if in_str:
-            out.append(ch)
-            if not escape and ch == str_quote:
-                in_str = False
-                str_quote = ""
-            escape = (ch == "\\" and not escape)
-            i += 1
-            continue
-        # not in string or comment
-        if ch == "/" and nxt == "/":
-            in_sl = True
-            i += 2
-            continue
-        if ch == "/" and nxt == "*":
-            in_ml = True
-            i += 2
-            continue
         if ch == '"' or ch == "'":
-            in_str = True
-            str_quote = ch
-            out.append(ch)
-            i += 1
+            i = handle_string(s, i, out)
+            continue
+        comment_i = handle_comment(s, i, nxt, out)
+        if comment_i is not None:
+            i = comment_i
             continue
         out.append(ch)
         i += 1
