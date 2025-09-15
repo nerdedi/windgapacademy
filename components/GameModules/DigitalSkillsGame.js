@@ -3,6 +3,8 @@ import {
   applyHeadingAnimation,
   setAriaAttributes,
 } from "../../utils/uiUtils.js";
+import WebGLEffectsUtil from "../../src/utils/WebGLEffects";
+import CharacterAnimator from "../../src/utils/CharacterAnimator";
 // Digital Skills Game Module
 // Practice basic digital skills with interactive challenges
 
@@ -425,9 +427,43 @@ export function showDigitalSkillsGame(container) {
 
   // Comprehensive game logic placeholder
   function startGame() {
+    // Initialize WebGL effects
+    setupWebGLEffects();
     showOnboarding();
     setAccessibility();
     // ...game logic...
+  }
+
+  // Setup WebGL effects for the game
+  function setupWebGLEffects() {
+    // Create a container for WebGL effects
+    let effectsContainer = document.getElementById("game-effects-container");
+    if (!effectsContainer) {
+      effectsContainer = document.createElement("div");
+      effectsContainer.id = "game-effects-container";
+      effectsContainer.style.position = "absolute";
+      effectsContainer.style.top = "0";
+      effectsContainer.style.left = "0";
+      effectsContainer.style.width = "100%";
+      effectsContainer.style.height = "100%";
+      effectsContainer.style.pointerEvents = "none";
+      effectsContainer.style.zIndex = "10";
+      document.body.appendChild(effectsContainer);
+    }
+  }
+
+  // Add visual effects for achievements
+  function showAchievementEffect() {
+    // Use the WebGLEffectsUtil to create a particle effect
+    WebGLEffectsUtil.initParticleSystem("game-effects-container", {
+      particleCount: 100,
+      particleSize: 0.1,
+      particleColors: [0xffcc00, 0xff6600, 0x3399ff],
+      speed: 0.02,
+      turbulence: 0.1,
+      spread: 50,
+      animationDuration: 2,
+    });
   }
 
   // Run game on DOMContentLoaded

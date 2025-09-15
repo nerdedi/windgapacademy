@@ -3,6 +3,8 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import CharacterController from "../utils/CharacterController";
 import WebGLEffects from "../utils/WebGLEffects";
+import WebGLEffectsUtil from "../utils/WebGLEffects";
+import CharacterAnimator from "../utils/CharacterAnimator";
 
 /**
  * WindgapCharacterSystem
@@ -798,6 +800,54 @@ class WindgapCharacterSystem {
     this.controls = null;
     this.characterControllers = {};
     this.currentEnvironment = null;
+  }
+
+  /**
+   * Apply a WebGL effect to a character or the scene
+   * @param {string} characterId - ID of the character to apply the effect to (or 'scene' for scene-wide effects)
+   * @param {string} effectType - Type of effect: 'particles', 'ripple', or 'glow'
+   * @param {Object} options - Effect-specific options
+   * @returns {Object} - The created effect for later manipulation
+   */
+  applyEffect(characterId, effectType, options = {}) {
+    // Create a container for effects if it doesn't exist
+    const containerId = "windgap-effects-container";
+    if (!document.getElementById(containerId)) {
+      const container = document.createElement("div");
+      container.id = containerId;
+      container.style.position = "absolute";
+      container.style.top = "0";
+      container.style.left = "0";
+      container.style.width = "100%";
+      container.style.height = "100%";
+      container.style.pointerEvents = "none";
+      container.style.zIndex = "10";
+      this.container.appendChild(container);
+    }
+
+    let effect = null;
+
+    // For scene-wide effects
+    if (characterId === "scene") {
+      effect = WebGLEffectsUtil[
+        effectType === "particles"
+          ? "initParticleSystem"
+          : effectType === "ripple"
+            ? "createWaterRipple"
+            : "createGlowEffect"
+      ](containerId, options);
+    }
+    // For character-specific effects
+    else {
+      const controller = this.characterControllers[characterId];
+      if (controller) {
+        effect = controller.applyEffect(effectType, containerId, options);
+      } else {
+        console.warn(`Character with ID "${characterId}" not found`);
+      }
+    }
+
+    return effect;
   }
 }
 

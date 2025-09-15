@@ -21,8 +21,18 @@ patterns = [
     # bare except
     (re.compile(r"^\s*except:\s*$", re.MULTILINE), "except Exception:"),
     # type(x) == T -> isinstance(x, T)
-    (re.compile(r"type\(\s*([A-Za-z0-9_\.\[\]'\"]+)\s*\)\s*==\s*([A-Za-z0-9_\.]+)"), r"isinstance(\1, \2)"),
-    (re.compile(r"type\(\s*([A-Za-z0-9_\.\[\]'\"]+)\s*\)\s*!=\s*([A-Za-z0-9_\.]+)"), r"not isinstance(\1, \2)"),
+    (
+        re.compile(
+            r"type\(\s*([A-Za-z0-9_\.\[\]'\"]+)\s*\)\s*==\s*([A-Za-z0-9_\.]+)"
+        ),
+        r"isinstance(\1, \2)",
+    ),
+    (
+        re.compile(
+            r"type\(\s*([A-Za-z0-9_\.\[\]'\"]+)\s*\)\s*!=\s*([A-Za-z0-9_\.]+)"
+        ),
+        r"not isinstance(\1, \2)",
+    ),
 ]
 
 

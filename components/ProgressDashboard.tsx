@@ -24,7 +24,11 @@ export default function ProgressDashboard({ learners }: { learners: Learner[] })
     <div className="p-6">
       <h1 className="text-2xl font-bold">Progress Overview</h1>
       {learners && learners.length ? (
-        learners.map((l) => <LearnerCard key={l.id} learner={l} />)
+        learners.map((l) => (
+          <React.Fragment key={l.id}>
+            <LearnerCard learner={l} />
+          </React.Fragment>
+        ))
       ) : (
         <p>No learners found</p>
       )}

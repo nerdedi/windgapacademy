@@ -1,4 +1,6 @@
 import * as THREE from "three";
+import WebGLEffectsUtil from "./WebGLEffects";
+import CharacterAnimator from "./CharacterAnimator";
 
 /**
  * Character Controller for 3D characters in Windgap Academy
@@ -283,6 +285,66 @@ class CharacterController {
       console.warn(`No animation found for emotion: ${emotion}`);
       return false;
     }
+  }
+
+  /**
+   * Apply a WebGL effect to the character
+   * @param {string} effectType - The type of effect to apply: 'particles', 'ripple', or 'glow'
+   * @param {string} containerId - ID of the container element
+   * @param {Object} options - Effect-specific options
+   * @returns {Object} - The created effect object
+   */
+  applyEffect(effectType, containerId, options = {}) {
+    if (!containerId) {
+      console.error("Container ID is required to apply effects");
+      return null;
+    }
+
+    let effect = null;
+
+    switch (effectType) {
+      case "particles":
+        effect = WebGLEffectsUtil.initParticleSystem(containerId, {
+          particleCount: options.particleCount || 150,
+          particleSize: options.particleSize || 0.1,
+          particleColors: options.particleColors || [0xff9933, 0x66cc66, 0x6699ff],
+          speed: options.speed || 0.01,
+          turbulence: options.turbulence || 0.05,
+          spread: options.spread || 80,
+          animationDuration: options.animationDuration || 3,
+          ...options,
+        });
+        break;
+
+      case "ripple":
+        effect = WebGLEffectsUtil.createWaterRipple(containerId, {
+          color: options.color || 0x6699ff,
+          rippleSpeed: options.rippleSpeed || 0.02,
+          rippleWidth: options.rippleWidth || 0.8,
+          rippleCount: options.rippleCount || 3,
+          duration: options.duration || 4,
+          ...options,
+        });
+        break;
+
+      case "glow":
+        // For glow effects, if no targetElement is provided, apply to this character's element
+        const targetElement =
+          options.targetElement || this.model.userData.containerId || containerId;
+        effect = WebGLEffectsUtil.createGlowEffect(targetElement, {
+          color: options.color || "#6366f1",
+          intensity: options.intensity || 0.5,
+          pulseSpeed: options.pulseSpeed || 2,
+          duration: options.duration || 3,
+          ...options,
+        });
+        break;
+
+      default:
+        console.warn(`Unknown effect type: ${effectType}`);
+    }
+
+    return effect;
   }
 
   /**

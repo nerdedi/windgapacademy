@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
+import WebGLEffectsUtil from "../utils/WebGLEffects";
+import CharacterAnimator from "../utils/CharacterAnimator";
 
 // Sprite Animation System
 class SpriteAnimationSystem {
@@ -216,6 +218,58 @@ function AnimatedPlatformerGame() {
     lastFpsUpdate: 0,
   });
 
+  // WebGL effects handler
+  const applyWebGLEffect = useCallback((effectType, targetElement = "game-canvas") => {
+    // Ensure we have a container for effects
+    let effectsContainer = document.getElementById("game-effects-container");
+    if (!effectsContainer) {
+      effectsContainer = document.createElement("div");
+      effectsContainer.id = "game-effects-container";
+      effectsContainer.style.position = "absolute";
+      effectsContainer.style.top = "0";
+      effectsContainer.style.left = "0";
+      effectsContainer.style.width = "100%";
+      effectsContainer.style.height = "100%";
+      effectsContainer.style.pointerEvents = "none";
+      effectsContainer.style.zIndex = "10";
+      document.body.appendChild(effectsContainer);
+    }
+
+    // Apply different effects based on game events
+    switch (effectType) {
+      case "jump":
+        WebGLEffectsUtil.createWaterRipple("game-effects-container", {
+          color: 0x3399ff,
+          rippleSpeed: 0.03,
+          rippleWidth: 1.0,
+          rippleCount: 2,
+          duration: 1,
+        });
+        break;
+      case "collectItem":
+        WebGLEffectsUtil.initParticleSystem("game-effects-container", {
+          particleCount: 50,
+          particleSize: 0.05,
+          particleColors: [0xffcc00, 0xff9900, 0xffffff],
+          speed: 0.02,
+          turbulence: 0.05,
+          spread: 30,
+          animationDuration: 1,
+        });
+        break;
+      case "powerUp":
+        WebGLEffectsUtil.createGlowEffect(targetElement, {
+          color: "#ffcc00",
+          intensity: 0.6,
+          pulseSpeed: 1.5,
+          duration: 2,
+        });
+        break;
+      default:
+        break;
+    }
+  }, []);
+
   // Input handling
   const handleKeyDown = useCallback((e) => {
     setKeys((prev) => ({ ...prev, [e.code]: true }));
@@ -364,6 +418,30 @@ function AnimatedPlatformerGame() {
                 <div>• Shift + Move: Run</div>
                 <div>• Space / Up: Jump</div>
                 <div>• X / Enter: Attack</div>
+              </div>
+            </div>
+
+            <div>
+              <h3 className="text-lg font-semibold mb-3">WebGL Effects</h3>
+              <div className="space-y-2">
+                <button
+                  onClick={() => applyWebGLEffect("jump")}
+                  className="w-full py-2 bg-blue-700 hover:bg-blue-600 rounded text-sm text-center"
+                >
+                  💧 Jump Effect
+                </button>
+                <button
+                  onClick={() => applyWebGLEffect("collectItem")}
+                  className="w-full py-2 bg-yellow-700 hover:bg-yellow-600 rounded text-sm text-center"
+                >
+                  ✨ Collect Item Effect
+                </button>
+                <button
+                  onClick={() => applyWebGLEffect("powerUp", "canvas")}
+                  className="w-full py-2 bg-green-700 hover:bg-green-600 rounded text-sm text-center"
+                >
+                  🔆 Power Up Effect
+                </button>
               </div>
             </div>
 

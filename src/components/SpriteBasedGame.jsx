@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
+import WebGLEffectsUtil from "../utils/WebGLEffects";
+import CharacterAnimator from "../utils/CharacterAnimator";
 
 // Advanced Sprite Animation Manager
 class SpriteAnimationManager {
@@ -403,6 +405,67 @@ function SpriteBasedGame() {
     deltaTime: 0,
     frameCount: 0,
   });
+  const [gameState, setGameState] = useState({
+    level: 1,
+    score: 0,
+    enemiesDefeated: 0,
+    itemsCollected: 0,
+    powerUpsActive: [],
+  });
+
+  // Create WebGL effects for game events
+  const addGameEffect = useCallback((effectType, options = {}) => {
+    // Create container for WebGL effects if it doesn't exist
+    let effectsContainer = document.getElementById("game-effects-container");
+    if (!effectsContainer) {
+      effectsContainer = document.createElement("div");
+      effectsContainer.id = "game-effects-container";
+      effectsContainer.style.position = "absolute";
+      effectsContainer.style.top = "0";
+      effectsContainer.style.left = "0";
+      effectsContainer.style.width = "100%";
+      effectsContainer.style.height = "100%";
+      effectsContainer.style.pointerEvents = "none";
+      effectsContainer.style.zIndex = "10";
+      document.body.appendChild(effectsContainer);
+    }
+
+    // Apply the selected WebGL effect
+    switch (effectType) {
+      case "powerUp":
+        WebGLEffectsUtil.createGlowEffect("game-canvas", {
+          color: "#66ff66",
+          intensity: 0.6,
+          pulseSpeed: 1.5,
+          duration: 2,
+          ...options,
+        });
+        break;
+      case "damage":
+        WebGLEffectsUtil.createGlowEffect("game-canvas", {
+          color: "#ff3333",
+          intensity: 0.5,
+          pulseSpeed: 4,
+          duration: 0.5,
+          ...options,
+        });
+        break;
+      case "levelUp":
+        WebGLEffectsUtil.initParticleSystem("game-effects-container", {
+          particleCount: 200,
+          particleSize: 0.1,
+          particleColors: [0xffcc00, 0xff9900, 0x99ccff],
+          speed: 0.02,
+          turbulence: 0.1,
+          spread: 100,
+          animationDuration: 3,
+          ...options,
+        });
+        break;
+      default:
+        break;
+    }
+  }, []);
 
   // Input handling
   const handleKeyDown = useCallback((e) => {
@@ -536,6 +599,28 @@ function SpriteBasedGame() {
               <div>
                 Velocity: ({character.velocity.x.toFixed(1)}, {character.velocity.y.toFixed(1)})
               </div>
+            </div>
+
+            {/* Special Effects Controls */}
+            <div className="absolute bottom-4 right-4 bg-black/80 rounded-lg p-3 space-y-2">
+              <button
+                onClick={() => addGameEffect("powerUp")}
+                className="px-3 py-1 bg-green-700 hover:bg-green-600 rounded text-sm"
+              >
+                Power Up Effect
+              </button>
+              <button
+                onClick={() => addGameEffect("damage")}
+                className="px-3 py-1 bg-red-700 hover:bg-red-600 rounded text-sm"
+              >
+                Damage Effect
+              </button>
+              <button
+                onClick={() => addGameEffect("levelUp")}
+                className="px-3 py-1 bg-yellow-700 hover:bg-yellow-600 rounded text-sm"
+              >
+                Level Up Effect
+              </button>
             </div>
           </div>
         </div>

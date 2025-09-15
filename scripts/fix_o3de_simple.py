@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 import re
-import sys
 from pathlib import Path
 
 ROOT = Path('o3de/AutomatedTesting/Gem/PythonTests')
