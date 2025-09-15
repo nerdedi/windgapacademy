@@ -6,7 +6,7 @@ import Navbar from "../../components/Navbar.jsx";
 
 import ErrorBoundary from "../components/ErrorBoundary.jsx";
 import ProtectedRoute from "./ProtectedRoute.jsx";
-const HomePage = lazy(() => import("../components/Home.jsx"));
+const HomePage = lazy(() => import("../components/Home3D.jsx"));
 const EducatorDashboard = lazy(() => import("../pages/EducatorDashboard.jsx"));
 const LearnerDashboard = lazy(() => import("../pages/LearnerDashboard.jsx"));
 const GamePlayground = lazy(() => import("../../components/GameModules/GamePlayground.jsx"));
@@ -15,6 +15,12 @@ const ClubhouseSimulation = lazy(() => import("../../components/ClubhouseSimulat
 const KitchenSimulation = lazy(() => import("../../components/KitchenSimulation.jsx"));
 const SupermarketSimulation = lazy(() => import("../../components/SupermarketSimulation.jsx"));
 const ZooSimulation = lazy(() => import("../../components/ZooSimulation.jsx"));
+const CityBuilderSimulation = lazy(() => import("../../components/CityBuilderSimulation.jsx"));
+const LifeSimulation = lazy(() => import("../../components/LifeSimulation.jsx"));
+const Immersive3DCityBuilder = lazy(() => import("../../components/Immersive3DCityBuilder.jsx"));
+const Immersive3DLifeSim = lazy(() => import("../../components/Immersive3DLifeSim.jsx"));
+const Immersive3DZoo = lazy(() => import("../../components/Immersive3DZoo.jsx"));
+const Working3DCityBuilder = lazy(() => import("../../components/Working3DCityBuilder.jsx"));
 
 export default function AppRouter() {
   return (
@@ -165,6 +171,12 @@ export default function AppRouter() {
             <Route path="/assignments" element={<div>Assignments</div>} />
             <Route path="/materials" element={<div>Materials</div>} />
             <Route path="/" element={<Navigate to="/supermarket" />} />
+            <Route path="/working-city" element={<Working3DCityBuilder />} />
+            <Route path="/immersive-city" element={<Immersive3DCityBuilder />} />
+            <Route path="/immersive-life" element={<Immersive3DLifeSim />} />
+            <Route path="/immersive-zoo" element={<Immersive3DZoo />} />
+            <Route path="/city-builder" element={<CityBuilderSimulation />} />
+            <Route path="/life-sim" element={<LifeSimulation />} />
             <Route path="/supermarket" element={<SupermarketSimulation />} />
             <Route path="/clubhouse" element={<ClubhouseSimulation />} />
             <Route path="/kitchen" element={<KitchenSimulation />} />

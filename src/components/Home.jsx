@@ -176,7 +176,7 @@ function Home() {
               className="group relative bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 hover:from-blue-700 hover:via-purple-700 hover:to-pink-700 text-white px-12 py-5 rounded-2xl text-xl font-bold transition-all duration-500 shadow-2xl hover:shadow-blue-500/25 hover:scale-105"
             >
               <span className="relative z-10 flex items-center justify-center">
-                🎮 Play 3D Games Now
+                🌟 Experience Immersive 3D Worlds
               </span>
               <div className="absolute inset-0 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 rounded-2xl blur-xl opacity-50 group-hover:opacity-75 transition-opacity duration-500"></div>
             </button>

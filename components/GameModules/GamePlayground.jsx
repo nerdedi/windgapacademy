@@ -13,6 +13,57 @@ export default function GamePlayground() {
 
   const games = [
     {
+      id: "working-city",
+      title: "🏙️ WORKING 3D CITY BUILDER",
+      description:
+        "Build and manage a real 3D city with working mechanics, interactive buildings, and live city statistics",
+      image: "/assets/images/city-game.jpg",
+      difficulty: "Advanced",
+      players: "5,892 playing",
+      category: "3D Strategy & Management",
+      route: "/working-city",
+      features: [
+        "Real 3D Building Placement",
+        "Interactive City Management",
+        "Live Statistics",
+        "Working Game Mechanics",
+      ],
+    },
+    {
+      id: "immersive-life",
+      title: "🏠 IMMERSIVE 3D LIFE SIMULATOR",
+      description:
+        "Live in a fully 3D world with animated characters, interactive environments, realistic physics, and immersive experiences",
+      image: "/assets/images/life-game.jpg",
+      difficulty: "Intermediate",
+      players: "5,234 playing",
+      category: "3D Life Simulation",
+      route: "/immersive-life",
+      features: [
+        "3D Character Animations",
+        "Interactive 3D Environments",
+        "Realistic Physics",
+        "Immersive Experiences",
+      ],
+    },
+    {
+      id: "immersive-zoo",
+      title: "🦁 IMMERSIVE 3D ZOO EXPLORER",
+      description:
+        "Explore realistic 3D animal habitats with animated creatures, atmospheric effects, and cinematic wildlife experiences",
+      image: "/assets/images/zoo-game.jpg",
+      difficulty: "Beginner",
+      players: "3,678 playing",
+      category: "3D Nature & Science",
+      route: "/immersive-zoo",
+      features: [
+        "Realistic Animal Animations",
+        "3D Habitat Environments",
+        "Atmospheric Effects",
+        "Cinematic Wildlife Views",
+      ],
+    },
+    {
       id: "zoo",
       title: "Virtual Zoo Explorer",
       description:
