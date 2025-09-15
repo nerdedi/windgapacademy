@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Windgap Academy WebGL Effects Demo</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f0f2f5;
+      color: #333;
+      line-height: 1.6;
+    }
+    
+    header {
+      background-color: #4f46e5;
+      color: white;
+      padding: 1rem 2rem;
+      text-align: center;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    
+    main {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 2rem;
+    }
+    
+    .demo-section {
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+    
+    h1, h2 {
+      margin-bottom: 1rem;
+    }
+    
+    p {
+      margin-bottom: 1.5rem;
+    }
+    
+    .effect-container {
+      height: 300px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      position: relative;
+      overflow: hidden;
+      background-color: #f8fafc;
+    }
+    
+    .controls {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+    
+    button {
+      background-color: #4f46e5;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: background-color 0.3s;
+    }
+    
+    button:hover {
+      background-color: #4338ca;
+    }
+    
+    button:disabled {
+      background-color: #9ca3af;
+      cursor: not-allowed;
+    }
+    
+    .highlight-element {
+      display: inline-block;
+      padding: 1rem 2rem;
+      background-color: #e0e7ff;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    
+    .highlight-element:hover {
+      background-color: #c7d2fe;
+    }
+    
+    .particles-demo {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 1rem;
+    }
+    
+    .particle-settings {
+      width: 30%;
+    }
+    
+    .form-group {
+      margin-bottom: 1rem;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
+    
+    input[type="range"], 
+    input[type="number"], 
+    select {
+      width: 100%;
+      padding: 0.5rem;
+      border-radius: 4px;
+      border: 1px solid #ddd;
+    }
+    
+    .ripple-demo, 
+    .glow-demo {
+      margin-top: 2rem;
+    }
+    
+    code {
+      display: block;
+      background-color: #f1f5f9;
+      padding: 1rem;
+      border-radius: 4px;
+      margin: 1rem 0;
+      font-family: monospace;
+      overflow-x: auto;
+    }
+    
+    @media (max-width: 768px) {
+      .particles-demo {
+        flex-direction: column;
+      }
+      
+      .particle-settings {
+        width: 100%;
+        margin-bottom: 1.5rem;
+      }
+    }
+    
+    /* Particle styles */
+    .particle {
+      position: absolute;
+      width: var(--size, 0.5rem);
+      height: var(--size, 0.5rem);
+      background-color: var(--color, #6366f1);
+      border-radius: 50%;
+      opacity: 0.8;
+      animation: fade-out var(--duration, 2s) ease-out forwards;
+    }
+    
+    @keyframes fade-out {
+      from { opacity: 0.8; }
+      to { opacity: 0; transform: translateY(20px); }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Windgap Academy WebGL Effects Demo</h1>
+  </header>
+  
+  <main>
+    <section class="demo-section">
+      <h2>Particle Effects</h2>
+      <p>Demonstrate particle systems for confetti, sparkles, and other visual feedback.</p>
+      
+      <div id="particles-container" class="effect-container"></div>
+      
+      <div class="controls">
+        <button id="start-particles">Start Particle Effect</button>
+        <button id="stop-particles" disabled>Stop Effect</button>
+      </div>
+      
+      <div class="particles-demo">
+        <div class="particle-settings">
+          <h3>Customize Particles</h3>
+          
+          <div class="form-group">
+            <label for="particle-count">Particle Count</label>
+            <input type="range" id="particle-count" min="50" max="500" value="200" step="10">
+            <span id="particle-count-value">200</span>
+          </div>
+          
+          <div class="form-group">
+            <label for="particle-size">Particle Size</label>
+            <input type="range" id="particle-size" min="0.05" max="0.3" value="0.1" step="0.01">
+            <span id="particle-size-value">0.1</span>
+          </div>
+          
+          <div class="form-group">
+            <label for="particle-speed">Speed</label>
+            <input type="range" id="particle-speed" min="0.005" max="0.05" value="0.01" step="0.005">
+            <span id="particle-speed-value">0.01</span>
+          </div>
+          
+          <div class="form-group">
+            <label for="turbulence">Turbulence</label>
+            <input type="range" id="turbulence" min="0" max="0.2" value="0.05" step="0.01">
+            <span id="turbulence-value">0.05</span>
+          </div>
+          
+          <div class="form-group">
+            <label for="animation-duration">Duration (seconds)</label>
+            <input type="number" id="animation-duration" min="1" max="10" value="3" step="0.5">
+          </div>
+        </div>
+        
+        <div class="code-example">
+          <h3>Sample Code</h3>
+          <code>
+// Initialize a particle system
+const particleEffect = webGLEffects.initParticleSystem("particles-container", {
+  particleCount: 200,
+  particleSize: 0.1,
+  particleColors: [0xff9933, 0x66cc66, 0x6699ff, 0xffcc00, 0xff6666],
+  speed: 0.01,
+  turbulence: 0.05,
+  spread: 100,
+  animationDuration: 3
+});
+
+// Clean up when done
+particleEffect.cleanup();
+          </code>
+        </div>
+      </div>
+    </section>
+    
+    <section class="demo-section ripple-demo">
+      <h2>Water Ripple Effect</h2>
+      <p>Create smooth water ripple animations for interactive elements.</p>
+      
+      <div id="ripple-container" class="effect-container"></div>
+      
+      <div class="controls">
+        <button id="start-ripple">Start Ripple Effect</button>
+        <button id="stop-ripple" disabled>Stop Effect</button>
+      </div>
+      
+      <div class="particles-demo">
+        <div class="particle-settings">
+          <h3>Customize Ripple</h3>
+          
+          <div class="form-group">
+            <label for="ripple-color">Color</label>
+            <select id="ripple-color">
+              <option value="0x6699ff">Blue</option>
+              <option value="0x66cc66">Green</option>
+              <option value="0xff6666">Red</option>
+              <option value="0xffcc00">Yellow</option>
+              <option value="0xff9933">Orange</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="ripple-speed">Speed</label>
+            <input type="range" id="ripple-speed" min="0.01" max="0.1" value="0.02" step="0.01">
+            <span id="ripple-speed-value">0.02</span>
+          </div>
+          
+          <div class="form-group">
+            <label for="ripple-width">Width</label>
+            <input type="range" id="ripple-width" min="0.2" max="1" value="0.8" step="0.1">
+            <span id="ripple-width-value">0.8</span>
+          </div>
+          
+          <div class="form-group">
+            <label for="ripple-count">Ripple Count</label>
+            <input type="range" id="ripple-count" min="1" max="10" value="3" step="1">
+            <span id="ripple-count-value">3</span>
+          </div>
+          
+          <div class="form-group">
+            <label for="ripple-duration">Duration (seconds)</label>
+            <input type="number" id="ripple-duration" min="1" max="10" value="4" step="0.5">
+          </div>
+        </div>
+        
+        <div class="code-example">
+          <h3>Sample Code</h3>
+          <code>
+// Create a water ripple effect
+const rippleEffect = webGLEffects.createWaterRipple("ripple-container", {
+  color: 0x6699ff,
+  rippleSpeed: 0.02,
+  rippleWidth: 0.8,
+  rippleCount: 3,
+  duration: 4
+});
+
+// Clean up when done
+rippleEffect.cleanup();
+          </code>
+        </div>
+      </div>
+    </section>
+    
+    <section class="demo-section glow-demo">
+      <h2>Glow Highlight Effect</h2>
+      <p>Add glowing highlights to important UI elements for emphasis.</p>
+      
+      <div class="effect-container" style="display: flex; justify-content: center; align-items: center;">
+        <div id="glow-element" class="highlight-element">Click to Apply Glow Effect</div>
+      </div>
+      
+      <div class="controls">
+        <button id="start-glow">Apply Glow Effect</button>
+        <button id="stop-glow" disabled>Stop Effect</button>
+      </div>
+      
+      <div class="particles-demo">
+        <div class="particle-settings">
+          <h3>Customize Glow</h3>
+          
+          <div class="form-group">
+            <label for="glow-color">Color</label>
+            <select id="glow-color">
+              <option value="#6366f1">Indigo</option>
+              <option value="#8b5cf6">Purple</option>
+              <option value="#ec4899">Pink</option>
+              <option value="#14b8a6">Teal</option>
+              <option value="#f59e0b">Amber</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="glow-intensity">Intensity</label>
+            <input type="range" id="glow-intensity" min="0.1" max="1" value="0.5" step="0.1">
+            <span id="glow-intensity-value">0.5</span>
+          </div>
+          
+          <div class="form-group">
+            <label for="pulse-speed">Pulse Speed</label>
+            <input type="range" id="pulse-speed" min="0" max="5" value="2" step="0.5">
+            <span id="pulse-speed-value">2</span>
+          </div>
+          
+          <div class="form-group">
+            <label for="glow-duration">Duration (seconds)</label>
+            <input type="number" id="glow-duration" min="1" max="10" value="3" step="0.5">
+          </div>
+        </div>
+        
+        <div class="code-example">
+          <h3>Sample Code</h3>
+          <code>
+// Create a glow effect around an element
+const glowEffect = webGLEffects.createGlowEffect("glow-element", {
+  color: "#6366f1",
+  intensity: 0.5,
+  pulseSpeed: 2,
+  duration: 3
+});
+
+// Clean up when done
+glowEffect.cleanup();
+          </code>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Import Three.js from CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.149.0/build/three.min.js"></script>
+  
+  <!-- Import our WebGLEffects module -->
+  <script type="module">
+    import WebGLEffects from './src/utils/WebGLEffects.js';
+    
+    // Store active effects
+    let activeParticleEffect = null;
+    let activeRippleEffect = null;
+    let activeGlowEffect = null;
+    
+    // Initialize range input display values
+    document.querySelectorAll('input[type="range"]').forEach(input => {
+      document.getElementById(`${input.id}-value`).textContent = input.value;
+      
+      input.addEventListener('input', () => {
+        document.getElementById(`${input.id}-value`).textContent = input.value;
+      });
+    });
+    
+    // Particle effect controls
+    document.getElementById('start-particles').addEventListener('click', () => {
+      // Clean up any existing effect first
+      if (activeParticleEffect) {
+        activeParticleEffect.cleanup();
+        activeParticleEffect = null;
+      }
+      
+      // Get custom settings
+      const particleCount = parseInt(document.getElementById('particle-count').value);
+      const particleSize = parseFloat(document.getElementById('particle-size').value);
+      const speed = parseFloat(document.getElementById('particle-speed').value);
+      const turbulence = parseFloat(document.getElementById('turbulence').value);
+      const animationDuration = parseFloat(document.getElementById('animation-duration').value);
+      
+      // Start new effect
+      activeParticleEffect = WebGLEffects.initParticleSystem('particles-container', {
+        particleCount,
+        particleSize,
+        speed,
+        turbulence,
+        animationDuration
+      });
+      
+      // Update button states
+      document.getElementById('start-particles').disabled = true;
+      document.getElementById('stop-particles').disabled = false;
+      
+      // Re-enable start button after animation completes
+      setTimeout(() => {
+        document.getElementById('start-particles').disabled = false;
+        document.getElementById('stop-particles').disabled = true;
+      }, animationDuration * 1000);
+    });
+    
+    document.getElementById('stop-particles').addEventListener('click', () => {
+      if (activeParticleEffect) {
+        activeParticleEffect.cleanup();
+        activeParticleEffect = null;
+      }
+      
+      document.getElementById('start-particles').disabled = false;
+      document.getElementById('stop-particles').disabled = true;
+    });
+    
+    // Ripple effect controls
+    document.getElementById('start-ripple').addEventListener('click', () => {
+      // Clean up any existing effect first
+      if (activeRippleEffect) {
+        activeRippleEffect.cleanup();
+        activeRippleEffect = null;
+      }
+      
+      // Get custom settings
+      const color = parseInt(document.getElementById('ripple-color').value);
+      const rippleSpeed = parseFloat(document.getElementById('ripple-speed').value);
+      const rippleWidth = parseFloat(document.getElementById('ripple-width').value);
+      const rippleCount = parseInt(document.getElementById('ripple-count').value);
+      const duration = parseFloat(document.getElementById('ripple-duration').value);
+      
+      // Start new effect
+      activeRippleEffect = WebGLEffects.createWaterRipple('ripple-container', {
+        color,
+        rippleSpeed,
+        rippleWidth,
+        rippleCount,
+        duration
+      });
+      
+      // Update button states
+      document.getElementById('start-ripple').disabled = true;
+      document.getElementById('stop-ripple').disabled = false;
+      
+      // Re-enable start button after animation completes
+      setTimeout(() => {
+        document.getElementById('start-ripple').disabled = false;
+        document.getElementById('stop-ripple').disabled = true;
+      }, duration * 1000);
+    });
+    
+    document.getElementById('stop-ripple').addEventListener('click', () => {
+      if (activeRippleEffect) {
+        activeRippleEffect.cleanup();
+        activeRippleEffect = null;
+      }
+      
+      document.getElementById('start-ripple').disabled = false;
+      document.getElementById('stop-ripple').disabled = true;
+    });
+    
+    // Glow effect controls
+    document.getElementById('start-glow').addEventListener('click', () => {
+      // Clean up any existing effect first
+      if (activeGlowEffect) {
+        activeGlowEffect.cleanup();
+        activeGlowEffect = null;
+      }
+      
+      // Get custom settings
+      const color = document.getElementById('glow-color').value;
+      const intensity = parseFloat(document.getElementById('glow-intensity').value);
+      const pulseSpeed = parseFloat(document.getElementById('pulse-speed').value);
+      const duration = parseFloat(document.getElementById('glow-duration').value);
+      
+      // Start new effect
+      activeGlowEffect = WebGLEffects.createGlowEffect('glow-element', {
+        color,
+        intensity,
+        pulseSpeed,
+        duration
+      });
+      
+      // Update button states
+      document.getElementById('start-glow').disabled = true;
+      document.getElementById('stop-glow').disabled = false;
+      
+      // Re-enable start button after animation completes
+      setTimeout(() => {
+        document.getElementById('start-glow').disabled = false;
+        document.getElementById('stop-glow').disabled = true;
+      }, duration * 1000);
+    });
+    
+    document.getElementById('stop-glow').addEventListener('click', () => {
+      if (activeGlowEffect) {
+        activeGlowEffect.cleanup();
+        activeGlowEffect = null;
+      }
+      
+      document.getElementById('start-glow').disabled = false;
+      document.getElementById('stop-glow').disabled = true;
+    });
+    
+    // Add click event to the glow element itself
+    document.getElementById('glow-element').addEventListener('click', () => {
+      if (!activeGlowEffect && !document.getElementById('start-glow').disabled) {
+        document.getElementById('start-glow').click();
+      }
+    });
+  </script>
+</body>
+</html>

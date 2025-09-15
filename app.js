@@ -1,6 +1,10 @@
 // === WINDGAP ACADEMY - MAIN APPLICATION ===
 // Refactored and improved version with proper architecture
 
+// Import Three.js character system (only if needed in main app)
+// import { initThreeJsGlobally } from './src/threeJs/index';
+// Call initThreeJsGlobally() when needed
+
 // === CONFIGURATION ===
 const CONFIG = {
   DEBUG_MODE: false,
