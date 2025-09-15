@@ -26,5 +26,16 @@
   ],
   "python.testing.pytestEnabled": false,
   "python.testing.unittestEnabled": true,
-  "claudeCodeChat.permissions.yoloMode": true
+  "claudeCodeChat.permissions.yoloMode": true,
+  "security.workspace.trust.enabled": false,
+  "security.workspace.trust.startupPrompt": "never",
+  "security.workspace.trust.banner": "never",
+  "security.workspace.trust.emptyWindow": false,
+  "terminal.integrated.enableFileLinks": "on",
+  "files.autoSave": "afterDelay",
+  "files.autoSaveDelay": 1000,
+  "githubPullRequests.fileListLayout": "tree",
+  "editor.tabCompletion": "on",
+  "editor.suggest.preview": true,
+  "editor.inlineSuggest.enabled": true
 }
