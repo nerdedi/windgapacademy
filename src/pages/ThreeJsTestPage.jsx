@@ -13,6 +13,10 @@ import {
   initThreeJsGlobally,
 } from "../threeJs";
 
+// Import our new WebGL utilities
+import WebGLEffectsUtil from "../utils/WebGLEffects";
+import CharacterAnimator from "../utils/CharacterAnimator";
+
 /**
  * ThreeJsTestPage Component
  *
@@ -28,6 +32,13 @@ const ThreeJsTestPage = () => {
   const [messages, setMessages] = useState([]);
   const [activeCharacter, setActiveCharacter] = useState("winnie");
   const [activeAnimation, setActiveAnimation] = useState("idle");
+
+  // State for WebGL effects
+  const [activeEffects, setActiveEffects] = useState({
+    particles: null,
+    ripple: null,
+    glow: null,
+  });
 
   // Initialize Three.js globally when the component mounts
   useEffect(() => {
@@ -73,37 +84,74 @@ const ThreeJsTestPage = () => {
       document.body.appendChild(container);
     }
 
-    // Apply the selected effect
+    // Clean up previous effect of the same type
+    if (activeEffects[effectType]) {
+      activeEffects[effectType].cleanup();
+    }
+
+    // Apply the selected effect using our new WebGLEffectsUtil
+    let newEffect = null;
+
     switch (effectType) {
       case "particles":
-        WebGLEffects.initParticleSystem(containerId, {
+        // Use the new WebGLEffectsUtil instead of WebGLEffects
+        newEffect = WebGLEffectsUtil.initParticleSystem(containerId, {
           particleCount: 200,
+          particleSize: 0.1,
+          particleColors: [0xff9933, 0x66cc66, 0x6699ff],
+          speed: 0.01,
+          turbulence: 0.05,
+          spread: 100,
           animationDuration: 3,
         });
         break;
+
       case "ripple":
-        WebGLEffects.createWaterRipple(containerId);
+        // Use the new WebGLEffectsUtil instead of WebGLEffects
+        newEffect = WebGLEffectsUtil.createWaterRipple(containerId, {
+          color: 0x6699ff,
+          rippleSpeed: 0.02,
+          rippleWidth: 0.8,
+          rippleCount: 3,
+          duration: 4,
+        });
         break;
+
       case "glow":
         // Find an element to apply glow to
-        const targetElement = document.querySelector(".animation-control");
-        if (targetElement) {
-          WebGLEffects.createGlowEffect(targetElement.id || "animation-control");
-        }
+        const targetElement = document.querySelector(".character-display")?.id || "test-characters";
+
+        // Use the new WebGLEffectsUtil instead of WebGLEffects
+        newEffect = WebGLEffectsUtil.createGlowEffect(targetElement, {
+          color: "#6366f1",
+          intensity: 0.5,
+          pulseSpeed: 2,
+          duration: 3,
+        });
         break;
+
       default:
         break;
     }
 
-    handleCharacterMessage(`Added ${effectType} effect`);
+    // Update state with the new effect
+    if (newEffect) {
+      setActiveEffects((prev) => ({
+        ...prev,
+        [effectType]: newEffect,
+      }));
 
-    // Clean up effect container after 5 seconds
-    setTimeout(() => {
-      const container = document.getElementById(containerId);
-      if (container) {
-        container.innerHTML = "";
-      }
-    }, 5000);
+      // Auto-cleanup after effect duration
+      const duration = effectType === "ripple" ? 4000 : 3000;
+      setTimeout(() => {
+        setActiveEffects((prev) => ({
+          ...prev,
+          [effectType]: null,
+        }));
+      }, duration);
+    }
+
+    handleCharacterMessage(`Added ${effectType} effect with WebGLEffectsUtil`);
   };
 
   // Character options for dropdown
@@ -232,6 +280,10 @@ import {
   initThreeJsGlobally
 } from '../threeJs';
 
+// Import the new WebGL utilities
+import WebGLEffectsUtil from "../utils/WebGLEffects";
+import CharacterAnimator from "../utils/CharacterAnimator";
+
 // Initialize Three.js globally
 useEffect(() => {
   initThreeJsGlobally();
@@ -245,6 +297,19 @@ useEffect(() => {
   environment="classroom"
   onMessage={handleCharacterMessage}
 />
+
+// Add WebGL effects with our new utility
+const addParticleEffect = () => {
+  WebGLEffectsUtil.initParticleSystem('effects-container', {
+    particleCount: 200,
+    particleSize: 0.1,
+    particleColors: [0xff9933, 0x66cc66, 0x6699ff],
+    speed: 0.01,
+    turbulence: 0.05,
+    spread: 100,
+    animationDuration: 3
+  });
+};
                 `}</code>
               </pre>
             </div>

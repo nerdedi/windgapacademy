@@ -18,14 +18,15 @@ Inclusive, ad-free, educator-reviewed learning platform for neurodivergent learn
 
 1. Install dependencies: `npm install`
 
-
 npx minify styles/windgap-academy.css > styles/windgap-academy.min.css && \
+
 ```bash
 npm run build:css
 ```
 
 Update your HTML and build config to reference the `.min.css` files for production.
-```
+
+````
 
 ## Security
 
@@ -84,7 +85,7 @@ To enable full JSX tests locally:
 
 ```bash
 npm install --save-dev @babel/preset-react
-```
+````
 
 2. Re-run the test suite:
 
@@ -94,15 +95,85 @@ npm test
 
 CI (GitHub Actions) runs `npm ci` which installs devDependencies and runs the full test suite, so opening a PR will validate the JSX tests automatically.
 
+## WebGL Effects & Character Animation
+
+The Windgap Academy platform includes WebGL-based visual effects and character animation to enhance the learning experience for neurodivergent learners.
+
+### WebGL Effects
+
+The `WebGLEffects` utility (`src/utils/WebGLEffects.js`) provides several visual effects:
+
+- **Particle Systems**: Create engaging visual feedback with customizable particle effects
+- **Water Ripple Effects**: Interactive ripple animations for emphasis and visual cues
+- **Glow Highlights**: Draw attention to important UI elements with customizable glowing effects
+
+Demo: Open the [WebGL Effects Demo](webgl-effects-demo.html) to see these effects in action.
+
+Usage example:
+
+```javascript
+import WebGLEffects from "./src/utils/WebGLEffects.js";
+
+// Create a particle effect
+const particles = WebGLEffects.initParticleSystem("container-id", {
+  particleCount: 200,
+  particleSize: 0.1,
+  particleColors: [0xff9933, 0x66cc66, 0x6699ff],
+  speed: 0.01,
+  turbulence: 0.05,
+  spread: 100,
+  animationDuration: 3,
+});
+
+// Clean up when done
+particles.cleanup();
+```
+
+### Character Animation
+
+The `CharacterAnimator` utility (`src/utils/CharacterAnimator.js`) provides a system for loading and animating 3D character models:
+
+- Loads and displays GLTF/GLB 3D models
+- Handles animation playback and blending
+- Supports camera controls and scene customization
+- Provides helper methods for common operations
+
+Demo: Open the [Character Animation Demo](character-animation-demo.html) to see character animation with WebGL effects.
+
+Usage example:
+
+```javascript
+import CharacterAnimator from "./src/utils/CharacterAnimator.js";
+
+// Initialize a character
+const character = new CharacterAnimator({
+  characterPath: "/assets/characters/windgap/winnie.glb",
+  containerSelector: "#character-container",
+  autoRotate: true,
+});
+
+// Play animations
+character.playAnimation("wave", {
+  loop: THREE.LoopRepeat,
+  crossfadeDuration: 0.3,
+});
+
+// Clean up when done
+character.dispose();
+```
+
 ## Deployment
+
 - Use HTTPS
 - Set environment variables securely
 - Use `server.cjs` for Node.js hosting
 
 ## CI/CD
+
 - See `.github/workflows/deploy.yml` for automated pipeline
 
 ## Monitoring & Logging
+
 - Sentry for frontend error tracking (see `index.html`)
 - Server logs and alerts recommended
 
@@ -112,8 +183,8 @@ CI (GitHub Actions) runs `npm ci` which installs devDependencies and runs the fu
 
 For optimal performance, use the minified CSS files in production:
 
-
 // trigger redeploy
+
 ## Automated Minification
 
 // another redeploy trigger
@@ -145,21 +216,17 @@ npm run build:css
 
 Update your HTML and build config to reference the `.min.css` files for production.
 
-
 ## Accessibility
 
 - See `scripts/i18n-setup.js` for scaffolding
-
 
 ## Backup & Recovery
 
 - See `scripts/backup.sh` for template
 
-
 ## Analytics
 
 - Google Analytics integrated in `index.html`
-
 
 ## Feedback
 
