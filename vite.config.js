@@ -47,25 +47,8 @@ export default defineConfig(({ command, mode }) => {
 
     build: {
       target: "es2020",
-      minify: isProd ? "terser" : false,
+      minify: isProd ? "esbuild" : false,
       sourcemap: isDev ? "inline" : false,
-
-      terserOptions: isProd
-        ? {
-            compress: {
-              drop_console: true,
-              drop_debugger: true,
-              pure_funcs: ["console.log", "console.info"],
-              passes: 2,
-            },
-            mangle: {
-              safari10: true,
-            },
-            format: {
-              comments: false,
-            },
-          }
-        : {},
 
       rollupOptions: {
         output: {
@@ -118,7 +101,6 @@ export default defineConfig(({ command, mode }) => {
 
       hmr: {
         overlay: isDev,
-        port: 3001,
       },
 
       // Enable CORS for development

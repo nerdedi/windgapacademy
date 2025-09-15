@@ -46,7 +46,10 @@
     "clean:all": "rm -rf dist node_modules package-lock.json && npm install",
     "reset": "npm run clean:all && npm run build",
     "precommit": "npm run lint:staged",
-    "prepush": "npm run test:ci && npm run e2e"
+    "prepush": "npm run test:ci && npm run e2e",
+    "unity:setup": "node scripts/setup-unity.js",
+    "unity:test": "echo 'Open http://localhost:3000/unity-builds/test.html to test Unity integration'",
+    "unity:copy": "echo 'Copy your Unity WebGL build to public/unity-builds/windgap-academy/'"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [

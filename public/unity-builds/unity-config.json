@@ -1,0 +1,12 @@
+{
+  "dataUrl": "/unity-builds/windgap-academy/Build/windgap-academy.data",
+  "frameworkUrl": "/unity-builds/windgap-academy/Build/windgap-academy.framework.js",
+  "codeUrl": "/unity-builds/windgap-academy/Build/windgap-academy.wasm",
+  "streamingAssetsUrl": "StreamingAssets",
+  "companyName": "Windgap Academy",
+  "productName": "Windgap Academy",
+  "productVersion": "1.0.0",
+  "showBanner": false,
+  "matchWebGLToCanvasSize": true,
+  "devicePixelRatio": 1
+}

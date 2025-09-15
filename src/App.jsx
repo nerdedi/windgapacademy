@@ -10,6 +10,8 @@ import LearnerDashboard from "./components/StudentDashboard";
 import LanguagePhonicsLesson from "./components/lessonModules/LanguagePhonicsLesson";
 import LiteracyReadingLesson from "./components/lessonModules/LiteracyReadingLesson";
 import NumeracyCountingMoneyLesson from "./components/lessonModules/NumeracyCountingMoneyLesson";
+import LifeSkillsLesson from "./components/lessonModules/LifeSkillsLesson";
+import DigitalLiteracyLesson from "./components/lessonModules/DigitalLiteracyLesson";
 
 // Professional loading component
 function ProfessionalLoader() {
@@ -37,6 +39,8 @@ function App() {
           <Route path="/lesson/language-phonics" element={<LanguagePhonicsLesson />} />
           <Route path="/lesson/literacy-reading" element={<LiteracyReadingLesson />} />
           <Route path="/lesson/numeracy-money" element={<NumeracyCountingMoneyLesson />} />
+          <Route path="/lesson/life-skills" element={<LifeSkillsLesson />} />
+          <Route path="/lesson/digital-literacy" element={<DigitalLiteracyLesson />} />
 
           {/* Module routes */}
           <Route

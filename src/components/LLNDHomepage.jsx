@@ -93,18 +93,26 @@ function LLNDHomepage() {
               Build life skills, employment readiness, and independence.
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-20">
+            <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-20">
               <button
                 onClick={() => navigate("/login")}
-                className="bg-blue-600 hover:bg-blue-500 text-white px-10 py-4 rounded-full text-lg font-semibold transition-all duration-200 hover:scale-105 shadow-xl"
+                className="group bg-blue-600 hover:bg-blue-500 text-white px-8 py-4 rounded-2xl text-lg font-semibold transition-all duration-300 hover:scale-105 shadow-xl hover:shadow-2xl flex items-center gap-3 min-w-[200px] justify-center"
               >
+                <span className="text-xl">🚀</span>
                 Start Learning
+                <span className="group-hover:translate-x-1 transition-transform duration-300">
+                  →
+                </span>
               </button>
               <button
                 onClick={() => navigate("/login")}
-                className="border border-gray-300 hover:border-gray-400 text-gray-700 hover:text-black px-10 py-4 rounded-full text-lg font-medium transition-all duration-200"
+                className="group border-2 border-gray-300 hover:border-blue-500 text-gray-700 hover:text-blue-600 px-8 py-4 rounded-2xl text-lg font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg flex items-center gap-3 min-w-[200px] justify-center bg-white"
               >
+                <span className="text-xl">📚</span>
                 Learn More
+                <span className="group-hover:translate-x-1 transition-transform duration-300">
+                  →
+                </span>
               </button>
             </div>
 
@@ -146,15 +154,27 @@ function LLNDHomepage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {llndModules.map((module, index) => (
-              <div
+              <button
                 key={index}
-                className="bg-white rounded-2xl p-8 shadow-sm hover:shadow-lg transition-all duration-300 hover:scale-105 border border-gray-100"
+                onClick={() => navigate("/login")}
+                className="group bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-105 border border-gray-100 hover:border-blue-200 text-left w-full"
               >
-                <div className="text-4xl mb-4">{module.icon}</div>
-                <h3 className="text-xl font-semibold mb-3 text-black">{module.title}</h3>
-                <p className="text-gray-600 mb-4 leading-relaxed">{module.description}</p>
-                <div className="text-sm text-blue-600 font-medium">{module.count}</div>
-              </div>
+                <div className="text-5xl mb-6 group-hover:scale-110 transition-transform duration-300">
+                  {module.icon}
+                </div>
+                <h3 className="text-xl font-bold mb-4 text-black group-hover:text-blue-600 transition-colors">
+                  {module.title}
+                </h3>
+                <p className="text-gray-600 mb-6 leading-relaxed">{module.description}</p>
+                <div className="flex items-center justify-between">
+                  <div className="text-sm text-blue-600 font-semibold bg-blue-50 px-3 py-1 rounded-full">
+                    {module.count}
+                  </div>
+                  <div className="text-blue-600 group-hover:translate-x-2 transition-transform duration-300">
+                    <span className="text-lg">→</span>
+                  </div>
+                </div>
+              </button>
             ))}
           </div>
         </div>
@@ -219,18 +239,22 @@ function LLNDHomepage() {
             Join thousands of learners building essential life skills through our comprehensive LLND
             curriculum.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex flex-col sm:flex-row gap-6 justify-center">
             <button
               onClick={() => navigate("/login")}
-              className="bg-white text-black px-10 py-4 rounded-full text-lg font-semibold transition-all duration-200 hover:scale-105 shadow-xl"
+              className="group bg-white text-black px-8 py-4 rounded-2xl text-lg font-semibold transition-all duration-300 hover:scale-105 shadow-xl hover:shadow-2xl flex items-center gap-3 min-w-[220px] justify-center"
             >
+              <span className="text-xl">✨</span>
               Get Started Today
+              <span className="group-hover:translate-x-1 transition-transform duration-300">→</span>
             </button>
             <button
               onClick={() => navigate("/login")}
-              className="border border-gray-600 hover:border-gray-400 text-gray-300 hover:text-white px-10 py-4 rounded-full text-lg font-medium transition-all duration-200"
+              className="group border-2 border-gray-600 hover:border-white text-gray-300 hover:text-white px-8 py-4 rounded-2xl text-lg font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg flex items-center gap-3 min-w-[220px] justify-center"
             >
+              <span className="text-xl">📖</span>
               Learn More
+              <span className="group-hover:translate-x-1 transition-transform duration-300">→</span>
             </button>
           </div>
         </div>

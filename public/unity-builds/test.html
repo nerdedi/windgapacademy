@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Windgap Academy Unity Test</title>
+    <style>
+        body { margin: 0; padding: 20px; background: #1a1a1a; color: white; font-family: Arial, sans-serif; }
+        #unity-container { width: 100%; height: 600px; background: #333; border-radius: 10px; }
+        .info { background: #2a2a2a; padding: 15px; border-radius: 5px; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <div class="info">
+        <h1>🎮 Windgap Academy Unity Test Page</h1>
+        <p>This page will load your Unity WebGL build when you place the files in the correct location.</p>
+        <p><strong>Required files:</strong></p>
+        <ul>
+            <li>Build/windgap-academy.data</li>
+            <li>Build/windgap-academy.framework.js</li>
+            <li>Build/windgap-academy.wasm</li>
+            <li>Build/windgap-academy.loader.js</li>
+        </ul>
+    </div>
+    
+    <div id="unity-container">
+        <div style="text-align: center; padding-top: 250px;">
+            <h2>Unity Build Not Found</h2>
+            <p>Place your Unity WebGL build files in public/unity-builds/windgap-academy/</p>
+        </div>
+    </div>
+
+    <script>
+        // This will be replaced with actual Unity loader when build files are present
+        console.log('Unity test page loaded');
+        console.log('Place Unity build files in: public/unity-builds/windgap-academy/Build/');
+    </script>
+</body>
+</html>

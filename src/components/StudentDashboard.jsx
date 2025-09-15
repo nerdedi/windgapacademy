@@ -28,6 +28,7 @@ function LearnerDashboard() {
       progress: 65,
       modules: 10,
       color: "bg-blue-500",
+      lessonRoute: "/lesson/life-skills",
     },
     {
       id: "employment",
@@ -37,6 +38,7 @@ function LearnerDashboard() {
       progress: 40,
       modules: 6,
       color: "bg-green-500",
+      lessonRoute: "/lesson/employment",
     },
     {
       id: "digital-literacy",
@@ -46,6 +48,7 @@ function LearnerDashboard() {
       progress: 80,
       modules: 6,
       color: "bg-purple-500",
+      lessonRoute: "/lesson/digital-literacy",
     },
     {
       id: "numeracy",
@@ -55,6 +58,7 @@ function LearnerDashboard() {
       progress: 55,
       modules: 8,
       color: "bg-orange-500",
+      lessonRoute: "/lesson/numeracy-money",
     },
     {
       id: "literacy",
@@ -64,6 +68,7 @@ function LearnerDashboard() {
       progress: 70,
       modules: 10,
       color: "bg-red-500",
+      lessonRoute: "/lesson/literacy-reading",
     },
     {
       id: "emotional",
@@ -73,6 +78,7 @@ function LearnerDashboard() {
       progress: 30,
       modules: 6,
       color: "bg-pink-500",
+      lessonRoute: "/lesson/emotional",
     },
   ];
 
@@ -81,25 +87,33 @@ function LearnerDashboard() {
       icon: "📚",
       title: "Continue Learning",
       description: "Resume your current lesson",
-      action: () => navigate("/lesson/current"),
+      action: () => navigate("/lesson/literacy-reading"),
+      color: "bg-blue-50 hover:bg-blue-100 border-blue-200",
+      textColor: "text-blue-700",
     },
     {
       icon: "🎮",
       title: "Interactive Games",
       description: "Practice skills through games",
-      action: () => navigate("/games"),
+      action: () => navigate("/lesson/numeracy-money"),
+      color: "bg-green-50 hover:bg-green-100 border-green-200",
+      textColor: "text-green-700",
     },
     {
       icon: "📊",
       title: "View Progress",
       description: "See your learning analytics",
-      action: () => navigate("/progress"),
+      action: () => navigate("/lesson/language-phonics"),
+      color: "bg-purple-50 hover:bg-purple-100 border-purple-200",
+      textColor: "text-purple-700",
     },
     {
       icon: "🏆",
       title: "Achievements",
       description: "View your badges and certificates",
-      action: () => navigate("/achievements"),
+      action: () => navigate("/dashboard"),
+      color: "bg-orange-50 hover:bg-orange-100 border-orange-200",
+      textColor: "text-orange-700",
     },
   ];
 
@@ -156,11 +170,22 @@ function LearnerDashboard() {
               <button
                 key={index}
                 onClick={action.action}
-                className="bg-white rounded-2xl p-6 shadow-sm hover:shadow-lg transition-all duration-300 hover:scale-105 border border-gray-100 text-left"
+                className={`group ${action.color} rounded-3xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 border-2 text-left`}
               >
-                <div className="text-3xl mb-3">{action.icon}</div>
-                <h3 className="font-semibold text-black mb-2">{action.title}</h3>
-                <p className="text-sm text-gray-600">{action.description}</p>
+                <div className="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">
+                  {action.icon}
+                </div>
+                <h3 className={`font-bold ${action.textColor} mb-2 group-hover:text-opacity-80`}>
+                  {action.title}
+                </h3>
+                <p className="text-sm text-gray-600 group-hover:text-gray-700">
+                  {action.description}
+                </p>
+                <div
+                  className={`mt-3 ${action.textColor} group-hover:translate-x-2 transition-transform duration-300`}
+                >
+                  <span className="text-lg">→</span>
+                </div>
               </button>
             ))}
           </div>
@@ -171,41 +196,52 @@ function LearnerDashboard() {
           <h2 className="text-2xl font-semibold text-black mb-6">Learning Modules</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {llndModules.map((module) => (
-              <div
+              <button
                 key={module.id}
-                className="bg-white rounded-2xl p-6 shadow-sm hover:shadow-lg transition-all duration-300 hover:scale-105 border border-gray-100"
+                onClick={() => navigate(module.lessonRoute || `/module/${module.id}`)}
+                className="group bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-105 border-2 border-gray-100 hover:border-blue-200 text-left w-full"
               >
-                <div className="flex items-center justify-between mb-4">
-                  <div className="text-3xl">{module.icon}</div>
-                  <div className={`w-3 h-3 rounded-full ${module.color}`}></div>
+                <div className="flex items-center justify-between mb-6">
+                  <div className="text-4xl group-hover:scale-110 transition-transform duration-300">
+                    {module.icon}
+                  </div>
+                  <div
+                    className={`w-4 h-4 rounded-full ${module.color} group-hover:scale-110 transition-transform duration-300`}
+                  ></div>
                 </div>
 
-                <h3 className="text-xl font-semibold text-black mb-2">{module.title}</h3>
-                <p className="text-gray-600 mb-4 text-sm leading-relaxed">{module.description}</p>
+                <h3 className="text-2xl font-bold text-black mb-3 group-hover:text-blue-600 transition-colors duration-300">
+                  {module.title}
+                </h3>
+                <p className="text-gray-600 mb-6 text-base leading-relaxed group-hover:text-gray-700 transition-colors duration-300">
+                  {module.description}
+                </p>
 
-                <div className="mb-4">
-                  <div className="flex justify-between text-sm text-gray-600 mb-2">
-                    <span>Progress</span>
-                    <span>{module.progress}%</span>
+                <div className="mb-6">
+                  <div className="flex justify-between text-sm text-gray-600 mb-3">
+                    <span className="font-medium">Progress</span>
+                    <span className="font-bold">{module.progress}%</span>
                   </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2">
+                  <div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
                     <div
-                      className={`h-2 rounded-full transition-all duration-300 ${module.color}`}
+                      className={`h-3 rounded-full transition-all duration-500 ${module.color} group-hover:brightness-110`}
                       style={{ width: `${module.progress}%` }}
                     ></div>
                   </div>
                 </div>
 
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-gray-600">{module.modules} modules</span>
-                  <button
-                    onClick={() => navigate(`/module/${module.id}`)}
-                    className="bg-black text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-800 transition-colors"
-                  >
-                    Continue
-                  </button>
+                  <span className="text-sm text-gray-600 font-medium">
+                    {module.modules} modules
+                  </span>
+                  <div className="bg-blue-600 group-hover:bg-blue-700 text-white px-6 py-3 rounded-xl text-sm font-bold transition-all duration-300 group-hover:scale-105 shadow-lg flex items-center gap-2">
+                    <span>Continue</span>
+                    <span className="text-lg group-hover:translate-x-1 transition-transform duration-300">
+                      →
+                    </span>
+                  </div>
                 </div>
-              </div>
+              </button>
             ))}
           </div>
         </div>

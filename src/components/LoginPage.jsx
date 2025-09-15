@@ -26,6 +26,20 @@ function LoginPage() {
     navigate("/dashboard");
   };
 
+  const handleDemoLogin = () => {
+    // Quick demo login
+    localStorage.setItem(
+      "windgap_user",
+      JSON.stringify({
+        name: "Demo Student",
+        email: "demo@windgap.academy",
+        userType: "learner",
+        loginTime: new Date().toISOString(),
+      }),
+    );
+    navigate("/dashboard");
+  };
+
   const handleInputChange = (e) => {
     setFormData({
       ...formData,

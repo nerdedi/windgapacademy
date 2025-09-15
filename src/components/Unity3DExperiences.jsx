@@ -1,10 +1,13 @@
 import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import UnityWebGLComponent from "./UnityWebGLComponent";
 
 function Unity3DExperiences() {
   const navigate = useNavigate();
   const [selectedExperience, setSelectedExperience] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [unityLoaded, setUnityLoaded] = useState(false);
+  const [loadingProgress, setLoadingProgress] = useState(0);
   const unityContainerRef = useRef(null);
 
   const experiences = [
@@ -139,11 +142,24 @@ function Unity3DExperiences() {
   const loadUnityExperience = (experience) => {
     setIsLoading(true);
     setSelectedExperience(experience);
+    setUnityLoaded(false);
+    setLoadingProgress(0);
+  };
 
-    // Simulate Unity WebGL loading
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 3000);
+  const handleUnityLoaded = () => {
+    setIsLoading(false);
+    setUnityLoaded(true);
+    console.log("Unity experience loaded successfully");
+  };
+
+  const handleUnityProgress = (progress) => {
+    setLoadingProgress(progress);
+  };
+
+  const handleUnityError = (error) => {
+    setIsLoading(false);
+    console.error("Unity loading error:", error);
+    alert("Failed to load Unity experience. Please try again.");
   };
 
   const closeExperience = () => {
@@ -213,35 +229,16 @@ function Unity3DExperiences() {
             <div className="flex-1 p-6">
               <div
                 ref={unityContainerRef}
-                className="w-full h-full bg-gray-800 rounded-xl flex items-center justify-center relative overflow-hidden"
+                className="w-full h-full bg-gray-800 rounded-xl relative overflow-hidden"
               >
-                {isLoading ? (
-                  <div className="text-center">
-                    <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-                    <p className="text-xl font-semibold mb-2">Loading Unity Experience...</p>
-                    <p className="text-gray-400">Initializing 3D environment and assets</p>
-                  </div>
-                ) : (
-                  <div className="w-full h-full bg-gradient-to-br from-blue-900/20 to-purple-900/20 rounded-xl flex items-center justify-center">
-                    <div className="text-center">
-                      <div className="text-8xl mb-6">{selectedExperience.image}</div>
-                      <h3 className="text-3xl font-bold mb-4">{selectedExperience.title}</h3>
-                      <p className="text-xl text-gray-300 mb-6 max-w-2xl">
-                        Unity WebGL experience would load here with full 3D interactive environment
-                      </p>
-                      <div className="flex flex-wrap gap-2 justify-center">
-                        {selectedExperience.technologies.map((tech, index) => (
-                          <span
-                            key={index}
-                            className="px-3 py-1 bg-blue-600/20 text-blue-400 rounded-full text-sm"
-                          >
-                            {tech}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                )}
+                <UnityWebGLComponent
+                  buildUrl={selectedExperience.unityBuild || "/unity-builds/windgap-academy"}
+                  width="100%"
+                  height="100%"
+                  onLoaded={handleUnityLoaded}
+                  onProgress={handleUnityProgress}
+                  onError={handleUnityError}
+                />
               </div>
             </div>
           </div>
