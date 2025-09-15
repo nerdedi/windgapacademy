@@ -2,9 +2,14 @@ import React, { Suspense } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 
 // Import components
-import AppleQualityHomepage from "./components/AppleQualityHomepage";
-import PremiumGameHub from "./components/PremiumGameHub";
-import SimpleCityBuilder from "./components/SimpleCityBuilder";
+import LLNDHomepage from "./components/LLNDHomepage";
+import LoginPage from "./components/LoginPage";
+import LearnerDashboard from "./components/StudentDashboard";
+
+// Import lesson modules
+import LanguagePhonicsLesson from "./components/lessonModules/LanguagePhonicsLesson";
+import LiteracyReadingLesson from "./components/lessonModules/LiteracyReadingLesson";
+import NumeracyCountingMoneyLesson from "./components/lessonModules/NumeracyCountingMoneyLesson";
 
 // Professional loading component
 function ProfessionalLoader() {
@@ -24,14 +29,31 @@ function App() {
       <Suspense fallback={<ProfessionalLoader />}>
         <Routes>
           {/* Main Routes */}
-          <Route path="/" element={<AppleQualityHomepage />} />
-          <Route path="/home" element={<AppleQualityHomepage />} />
-          <Route path="/games" element={<PremiumGameHub />} />
-          <Route path="/city-builder" element={<SimpleCityBuilder />} />
+          <Route path="/" element={<LLNDHomepage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/dashboard" element={<LearnerDashboard />} />
 
-          {/* Redirects */}
-          <Route path="/game" element={<Navigate to="/games" replace />} />
-          <Route path="/working-city" element={<Navigate to="/city-builder" replace />} />
+          {/* LLND Lesson Modules */}
+          <Route path="/lesson/language-phonics" element={<LanguagePhonicsLesson />} />
+          <Route path="/lesson/literacy-reading" element={<LiteracyReadingLesson />} />
+          <Route path="/lesson/numeracy-money" element={<NumeracyCountingMoneyLesson />} />
+
+          {/* Module routes */}
+          <Route
+            path="/module/:moduleId"
+            element={
+              <div className="p-8 text-center">
+                <h1 className="text-2xl font-bold mb-4">Module Coming Soon</h1>
+                <p className="text-gray-600 mb-4">This LLND module is being developed.</p>
+                <button
+                  onClick={() => window.history.back()}
+                  className="bg-blue-600 text-white px-4 py-2 rounded"
+                >
+                  Go Back
+                </button>
+              </div>
+            }
+          />
 
           {/* Catch all */}
           <Route path="*" element={<Navigate to="/" replace />} />
