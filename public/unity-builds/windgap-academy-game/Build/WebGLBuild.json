@@ -1,0 +1,18 @@
+{
+  "name": "Windgap Academy WebGL",
+  "productVersion": "1.0.0",
+  "dataUrl": "WebGLBuild.data",
+  "wasmCodeUrl": "WebGLBuild.wasm",
+  "wasmFrameworkUrl": "WebGLBuild.wasm.framework.js",
+  "asmCodeUrl": "WebGLBuild.asm.js",
+  "asmMemoryUrl": "WebGLBuild.asm.mem",
+  "asmFrameworkUrl": "WebGLBuild.asm.framework.js",
+  "TOTAL_MEMORY": 268435456,
+  "graphicsAPI": ["WebGL 2.0", "WebGL 1.0"],
+  "webglContextAttributes": {"preserveDrawingBuffer": false},
+  "splashScreenStyle": "Dark",
+  "backgroundColor": "#231F20",
+  "developmentBuild": false,
+  "multithreading": false,
+  "unityVersion": "2022.3.20f1"
+}

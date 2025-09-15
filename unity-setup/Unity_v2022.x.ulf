@@ -1,0 +1,4 @@
+# Unity License File Placeholder
+# Replace this with your actual Unity license file (.ulf) or 
+# configure your Docker environment to use Unity in Personal mode
+# by setting UNITY_LICENSE_SILENT=0 in docker-compose.yml

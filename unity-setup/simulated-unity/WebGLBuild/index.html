@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Windgap Academy Unity Game</title>
+    <link rel="shortcut icon" href="TemplateData/favicon.ico">
+    <link rel="stylesheet" href="TemplateData/style.css">
+    <script src="TemplateData/UnityProgress.js"></script>
+    <script src="Build/UnityLoader.js"></script>
+    <script>
+      var unityInstance = UnityLoader.instantiate("unityContainer", "Build/WebGLBuild.json", {onProgress: UnityProgress});
+    </script>
+  </head>
+  <body>
+    <div class="webgl-content">
+      <div id="unityContainer" style="width: 960px; height: 600px"></div>
+      <div class="footer">
+        <div class="webgl-logo"></div>
+        <div class="fullscreen" onclick="unityInstance.SetFullscreen(1)"></div>
+        <div class="title">Windgap Academy</div>
+      </div>
+    </div>
+    <script>
+      // JavaScript bridge between Unity and the Windgap Academy platform
+      function sendScoreToWindgap(score) {
+        if (window.parent && window.parent.postMessage) {
+          window.parent.postMessage({
+            type: 'UNITY_SCORE',
+            data: { score: score }
+          }, '*');
+        }
+      }
+      
+      function sendCompletionToWindgap(levelId, completed) {
+        if (window.parent && window.parent.postMessage) {
+          window.parent.postMessage({
+            type: 'UNITY_LEVEL_COMPLETION',
+            data: { levelId: levelId, completed: completed }
+          }, '*');
+        }
+      }
+      
+      // Listen for messages from the parent Windgap platform
+      window.addEventListener('message', function(event) {
+        // Forward messages to Unity
+        if (event.data && event.data.type === 'WINDGAP_TO_UNITY') {
+          if (unityInstance) {
+            unityInstance.SendMessage('GameManager', 'ReceiveExternalMessage', JSON.stringify(event.data));
+          }
+        }
+      });
+    </script>
+  </body>
+</html>

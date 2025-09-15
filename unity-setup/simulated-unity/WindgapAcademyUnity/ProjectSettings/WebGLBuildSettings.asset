@@ -1,0 +1,13 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!148 &1
+WebGLBuildSettings:
+  m_ObjectHideFlags: 0
+  m_CompressionLevel: 5
+  m_GzipCompressArchive: 1
+  m_UseThreadCompression: 1
+  m_NameFilesAsHashes: 0
+  m_DataCaching: 1
+  m_MemorySize: 256
+  m_TemplateCustomTags: {}
+  m_DecompressionFallback: 0

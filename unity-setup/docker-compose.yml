@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  unity-editor:
+    image: unityci/editor:ubuntu-2022.3.20f1-webgl-1.0.1
+    container_name: windgap-unity
+    volumes:
+      - /workspaces/windgapacademy:/project
+    environment:
+      - UNITY_LICENSE_FILE=/project/unity-setup/Unity_v2022.x.ulf
+      # Using Personal mode (no license file)
+      - UNITY_LICENSE_SILENT=0
+    ports:
+      - "8080:8080"  # For Unity web server
+    entrypoint: ["bash", "-c", "while sleep 1000; do :; done"]
