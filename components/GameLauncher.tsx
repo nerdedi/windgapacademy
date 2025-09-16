@@ -1,7 +1,6 @@
-import React from "react";
+import { launchGame as _launchGame } from "./gameHelpers.js";
 
-import { launchGame as _launchGame } from "./gameHelpers";
-export default function GameLauncher({ gameId, goal }) {
+export default function GameLauncher({ gameId, goal }: { gameId: string; goal?: string }) {
   const onLaunch = () => {
     // dispatch to existing GameManager or open a new window/modal
     // eslint-disable-next-line no-console
@@ -23,7 +22,7 @@ export default function GameLauncher({ gameId, goal }) {
 // exported for testing without rendering the component
 // Window interface augmentation moved to global.d.ts for type safety
 
-export function launchGame(gameId, goal) {
+export function launchGame(gameId: string, goal?: string) {
   // eslint-disable-next-line no-console
   console.log("launchGame helper", gameId, goal);
   // set a global so existing GameManager can pick up the request

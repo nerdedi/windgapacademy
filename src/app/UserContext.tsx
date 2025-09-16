@@ -65,7 +65,7 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
           });
           setUser({ id: uid, role: "learner" });
         } else {
-          const role = normalizeRole(data.role) || "learner";
+          const role = normalizeRole((data as any).role) || "learner";
           setUser({ id: uid, role });
         }
       } catch (e) {

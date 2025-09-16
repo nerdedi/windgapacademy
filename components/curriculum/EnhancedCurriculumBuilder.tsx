@@ -2,7 +2,7 @@
 // that doesn't depend on Chakra UI and has proper TypeScript typing
 
 import React, { useState } from "react";
-import BlenderModelViewer from "../../src/components/BlenderModelViewer";
+import BlenderModelViewer from "../../src/components/BlenderModelViewer.js";
 
 // Define types for our characters and animations
 interface Animation {
@@ -70,7 +70,7 @@ const moduleTemplates: Record<string, string[]> = {
   ],
 };
 
-export default function EnhancedCurriculumBuilder(): JSX.Element {
+export default function EnhancedCurriculumBuilder() {
   const [selectedSubject, setSelectedSubject] = useState<string>("Life Skills");
   const [selectedCharacter, setSelectedCharacter] = useState<Character>(curriculumCharacters[0]);
   const [selectedAnimation, setSelectedAnimation] = useState<string>("idle");
@@ -237,7 +237,6 @@ export default function EnhancedCurriculumBuilder(): JSX.Element {
               backgroundColor="#f9fafb"
               initialAnimation={selectedAnimation}
               availableAnimations={selectedCharacter.animations}
-              showControls={true}
               autoRotate={false}
               scale={1}
             />

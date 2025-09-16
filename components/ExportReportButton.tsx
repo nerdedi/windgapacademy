@@ -1,5 +1,6 @@
+// Using jsPDF for PDF generation
+// @ts-ignore
 import jsPDF from "jspdf";
-import React from "react";
 
 type TopicData = {
   completed?: boolean;

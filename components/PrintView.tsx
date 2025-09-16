@@ -1,6 +1,4 @@
-import React from "react";
-
-import type { Learner, ProgressData } from "./types";
+import type { Learner, ProgressData } from "./types.js";
 
 export default function PrintView({ learners }: { learners: Learner[] }) {
   return (

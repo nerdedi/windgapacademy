@@ -1,6 +1,5 @@
-import * as React from "react";
-
-type _Props = {};
+// Unused type for potential future props
+// type _Props = {};
 
 export default function CurriculumBuilder() {
   // Minimal interactive stub for the curriculum builder UI.

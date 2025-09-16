@@ -1,5 +1,5 @@
 /* eslint-disable import/order */
-import React, { Suspense, lazy } from "react";
+import { Suspense, lazy } from "react";
 import { Route, Routes, Navigate, Link } from "react-router-dom";
 
 import Navbar from "../../components/Navbar.jsx";

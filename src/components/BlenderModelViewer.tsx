@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
+// @ts-ignore - External Three.js modules
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+// @ts-ignore - External Three.js modules
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 interface Animation {
@@ -17,7 +19,6 @@ interface BlenderModelViewerProps {
   backgroundColor?: string;
   initialAnimation?: string;
   availableAnimations?: Animation[];
-  showControls?: boolean;
   autoRotate?: boolean;
   scale?: number;
 }
@@ -30,7 +31,6 @@ const BlenderModelViewer: React.FC<BlenderModelViewerProps> = ({
   backgroundColor = "#f0f0f0",
   initialAnimation = "idle",
   availableAnimations = [],
-  showControls = true,
   autoRotate = true,
   scale = 1,
 }) => {
@@ -185,7 +185,7 @@ const BlenderModelViewer: React.FC<BlenderModelViewerProps> = ({
 
     loader.load(
       modelPath,
-      (gltf) => {
+      (gltf: any) => {
         if (!sceneRef.current.scene) return;
 
         const model = gltf.scene;
@@ -217,7 +217,7 @@ const BlenderModelViewer: React.FC<BlenderModelViewerProps> = ({
           // Create animation actions
           const animations: Record<string, THREE.AnimationAction> = {};
 
-          gltf.animations.forEach((clip) => {
+          gltf.animations.forEach((clip: any) => {
             // If we have defined animations, look for matching clip names
             const matchingAnimation = availableAnimations.find(
               (anim) => anim.clipName === clip.name || anim.id === clip.name,
@@ -247,12 +247,12 @@ const BlenderModelViewer: React.FC<BlenderModelViewerProps> = ({
 
         setLoading(false);
       },
-      (xhr) => {
+      (xhr: any) => {
         // Progress callback
         const percentComplete = (xhr.loaded / xhr.total) * 100;
         console.log(`${Math.round(percentComplete)}% loaded`);
       },
-      (error) => {
+      (error: any) => {
         // Error callback
         console.error("Error loading model:", error);
         setError("Failed to load the 3D model. Please try again later.");

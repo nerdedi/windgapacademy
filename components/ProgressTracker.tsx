@@ -1,6 +1,4 @@
-import React from "react";
-
-import { useGamification } from "../src/contexts/GamificationContext";
+import { useGamification } from "../src/contexts/GamificationContext.js";
 
 export default function ProgressTracker() {
   const { xp, badges, streak } = useGamification();
@@ -15,7 +13,7 @@ export default function ProgressTracker() {
       <div className="mt-2">
         <div className="font-semibold">Badges</div>
         <div className="flex gap-2 mt-1">
-          {badges.map((b) => (
+          {badges.map((b: string) => (
             <span key={b} className="badge">
               {b}
             </span>

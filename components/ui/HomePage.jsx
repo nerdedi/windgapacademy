@@ -1,12 +1,92 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom.js";
 
 const HomePage = () => {
   const navigate = useNavigate();
 
   function goLogin() {
     // Navigate to app root where the login UI is shown by App when unauthenticated
-    navigate("/");
-    // In this app, the login UI is shown when the MainApp showsLogin state is true
+    // eslint-disable-next-line no-console
+    navigate("/login", { state: { from: "home" } });
+    console.log("goLogin", navigate);
+    // In this app, the login UI is shown when the MainApp showsLogin state is trusted
+  }
+  function goSignup() {
+    // Navigate to app root where the login UI is shown by App when unauthenticated
+    // eslint-disable-next-line no-console
+    navigate("/signup", { state: { from: "home" } });
+    console.log("goSignup", navigate);
+  }
+  function goDashboard() {
+    // Navigate to app root where the login UI is shown by App when unauthenticated
+    // eslint-disable-next-line no-console
+    navigate("/dashboard", { state: { from: "home" } });
+    console.log("goDashboard", navigate);
+  }
+  function goLearnerDashboard() {
+    // Navigate to app root where the login UI is shown by App when unauthenticated
+    // eslint-disable-next-line no-console
+    navigate("/learner-dashboard", { state: { from: "home" } });
+    console.log("goLearnerDashboard", navigate);
+  }
+  function goEducatorDashboard() {
+    // Navigate to app root where the login UI is shown by App when unauthenticated
+    // eslint-disable-next-line no-console
+    navigate("/educator-dashboard", { state: { from: "home" } });
+    console.log("goEducatorDashboard", navigate);
+  }
+  function goGames() {
+    // Navigate to app root where the login UI is shown by App when unauthenticated
+    // eslint-disable-next-line no-console
+    navigate("/games", { state: { from: "home" } });
+    console.log("goGames", navigate);
+  }
+  function goHelp() {
+    // Navigate to app root where the login UI is shown by App when unauthenticated
+    // eslint-disable-next-line no-console
+    navigate("/help", { state: { from: "home" } });
+    console.log("goHelp", navigate);
+  }
+  function goContact() {
+    // Navigate to app root where the login UI is shown by App when unauthenticated
+    // eslint-disable-next-line no-console
+    navigate("/contact", { state: { from: "home" } });
+    console.log("goContact", navigate);
+  }
+  function goPrivacy() {
+    // Navigate to app root where the login UI is shown by App when unauthenticated
+    // eslint-disable-next-line no-console
+    navigate("/privacy", { state: { from: "home" } });
+    console.log("goPrivacy", navigate);
+  }
+  function goTerms() {
+    // Navigate to app root where the login UI is shown by App when unauthenticated
+    // eslint-disable-next-line no-console
+    navigate("/terms", { state: { from: "home" } });
+    console.log("goTerms", navigate);
+  }
+  function goAccessibility() {
+    // Navigate to app root where the login UI is shown by App when unauthenticated
+    // eslint-disable-next-line no-console
+    navigate("/accessibility", { state: { from: "home" } });
+    console.log("goAccessibility", navigate);
+  }
+  function goSupport() {
+    // Navigate to app root where the login UI is shown by App when unauthenticated
+    // eslint-disable-next-line no-console
+    navigate("/support", { state: { from: "home" } });
+    console.log("goSupport", navigate);
+  }
+  function goAbout() {
+    // Navigate to app root where the login UI is shown by App when unauthenticated
+    // eslint-disable-next-line no-console
+    navigate("/about", { state: { from: "home" } });
+    console.log("goAbout", navigate);
+  }
+  function goCurriculum() {
+    // Navigate to app root where the login UI is shown by App when unauthenticated
+    // eslint-disable-next-line no-console
+    navigate("/curriculum", { state: { from: "home" } });
+    console.log("goCurriculum", navigate);
   }
 
   return (

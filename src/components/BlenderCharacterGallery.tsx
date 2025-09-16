@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import BlenderModelViewer from "./BlenderModelViewer";
+import BlenderModelViewer from "./BlenderModelViewer.js";
 
 interface BlenderCharacterGalleryProps {
   characters: {
@@ -91,7 +91,6 @@ const BlenderCharacterGallery: React.FC<BlenderCharacterGalleryProps> = ({ chara
                   backgroundColor="#f8f9fa"
                   initialAnimation={currentAnimation}
                   availableAnimations={selectedCharacter.animations}
-                  showControls={true}
                   autoRotate={false}
                 />
               </div>

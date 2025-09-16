@@ -1,12 +1,10 @@
-import React from "react";
-
-type Props = {
+type SubjectTabsProps = {
   subjects: string[];
   current?: string;
   onSelect?: (s: string) => void;
 };
 
-export default function SubjectTabs({ subjects, current, onSelect }: Props) {
+export default function SubjectTabs({ subjects, current, onSelect }: SubjectTabsProps) {
   return (
     <div role="tablist" aria-label="Subjects" className="flex gap-2">
       {subjects.map((s) => (

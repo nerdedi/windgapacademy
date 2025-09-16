@@ -1,5 +1,5 @@
 import { getFirestore, doc, setDoc } from "firebase/firestore";
-import React, { useState } from "react";
+import { useState } from "react";
 
 export default function SelfAssessment({ learnerId }: { learnerId: string }) {
   const [responses, setResponses] = useState<Record<string, string>>({});

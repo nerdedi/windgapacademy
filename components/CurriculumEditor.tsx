@@ -14,7 +14,7 @@ export default function CurriculumEditor({ topic }: { topic: CurriculumTopic }) 
       .then(() => {
         setIsSaving(false);
       })
-      .catch((error) => {
+      .catch((error: Error) => {
         console.error("Error saving curriculum metadata:", error);
         setIsSaving(false);
       });
@@ -43,11 +43,16 @@ export default function CurriculumEditor({ topic }: { topic: CurriculumTopic }) 
       >
         <option value="Reading">Reading</option>
         <option value="Writing">Writing</option>
-        <option value="Oral Communication">Oral Communication</option>
+        <option value="Verbal Communication">Verbal Communication</option>
         <option value="Numeracy">Numeracy</option>
         <option value="Learning">Learning</option>
       </select>
       <button onClick={handleSave}>Save</button>
+      <button onClick={() => window.history.back()}>Cancel</button>
+      <button onClick={() => window.location.reload()}>Refresh</button>
+      <button onClick={() => window.open("https://www.google.com", "_blank")}>Open Google</button>
+      <button onClick={() => window.open("https://www.google.com", "_blank")}>Open Google</button>
+      <button onClick={() => window.open("https://www.google.com", "_blank")}>Open Google</button>
     </div>
   );
 }

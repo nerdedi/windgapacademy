@@ -1,5 +1,3 @@
-import React from "react";
-
 type ProgressData = {
   completed: boolean;
   xp: number;

@@ -1,14 +1,13 @@
-import React from "react";
+import { useState } from "react";
+import { useGamification } from "../src/contexts/GamificationContext.js";
+import { useLesson } from "../src/contexts/LessonContext.js";
 
-import { useGamification } from "../src/contexts/GamificationContext";
-import { useLesson } from "../src/contexts/LessonContext";
-
-import GameLauncher from "./GameLauncher";
+import GameLauncher from "./GameLauncher.js";
 
 export default function UnderstandingCheck() {
   const { state, setUnderstood } = useLesson();
   const { addXP, awardBadge, unlockGame } = useGamification();
-  const [showLauncher, setShowLauncher] = React.useState(false);
+  const [showLauncher, setShowLauncher] = useState(false);
 
   const onUnderstood = async () => {
     setUnderstood(true);

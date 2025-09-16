@@ -8,7 +8,7 @@ export type ProgressData = {
 };
 
 export type Learner = {
-  goals: import("./curriculumTypes").Goal[];
+  goals: import("./curriculumTypes.js").Goal[];
   id: string;
   name: string;
   progress: {

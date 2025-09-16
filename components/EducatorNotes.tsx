@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-
-import { firestore } from "../firebase";
+import { useState } from "react";
+import { getFirestore, doc, setDoc } from "firebase/firestore";
 
 export default function EducatorNotes({ learnerId }: { learnerId: string }) {
   const [note, setNote] = useState("");
   const handleSave = () => {
-    firestore.collection("notes").doc(learnerId).set({ note });
+    const db = getFirestore();
+    setDoc(doc(db, "notes", learnerId), { note });
   };
 
   return (

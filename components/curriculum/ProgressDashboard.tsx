@@ -1,5 +1,3 @@
-import React from "react";
-
 type Goal = { title: string; progress: number };
 
 export function LearnerCard({ name, goals = [] }: { name: string; goals?: Goal[] }) {

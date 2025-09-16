@@ -1,24 +1,12 @@
 import React from "react";
 
-import EducatorNotes from "./EducatorNotes";
-import ExportReportButton from "./ExportReportButton";
-import PDFPreview from "./PDFPreview";
-import SupportFlag from "./SupportFlag";
-import type { ProgressData } from "./types";
+import EducatorNotes from "./EducatorNotes.js";
+import ExportReportButton from "./ExportReportButton.js";
+import PDFPreview from "./PDFPreview.js";
+import SupportFlag from "./SupportFlag.js";
+import { ProgressData, Learner } from "./types.js";
 
-type Goal = {
-  id: string;
-  description: string;
-  progress: number;
-};
-
-type Learner = {
-  id: string;
-  name: string;
-  goals?: Goal[];
-};
-
-export default function LearnerProgressCard({ learner }) {
+export default function LearnerProgressCard({ learner }: { learner: Learner }) {
   React.useEffect(() => {
     if (!learner) return;
     const summary = `${learner.name}. Progress in ${Object.keys(learner.progress).join(", ")}.`;
@@ -46,7 +34,7 @@ export default function LearnerProgressCard({ learner }) {
                 <p className="text-xs text-blue-600">
                   NDIS Support: {(data as any).ndisSupportType || "N/A"}
                 </p>
-                <SupportFlag needsHelp={data.needsHelp} />
+                <SupportFlag needsHelp={!!data.needsHelp} />
               </div>
             ))}
           </div>
