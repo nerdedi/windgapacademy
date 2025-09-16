@@ -1,0 +1,20 @@
+---
+# Markdownlint Configuration
+# This configuration file controls the behavior of the markdownlint linter.
+
+default: true
+MD013:
+  # Line length
+  line_length: 120
+  code_blocks: false
+  tables: false
+MD033:
+  # Inline HTML
+  allowed_elements:
+    - "br"
+    - "img"
+    - "a"
+    - "div"
+    - "span"
+    - "token"
+MD041: false  # First line in file should be a top level heading

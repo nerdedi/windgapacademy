@@ -8,7 +8,7 @@ export type ProgressData = {
 };
 
 export type Learner = {
-  goals: never[];
+  goals: import("./curriculumTypes").Goal[];
   id: string;
   name: string;
   progress: {

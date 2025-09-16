@@ -1,5 +1,4 @@
 import React from "react";
-
 import type { Goal } from "./curriculumTypes";
 import type { Learner } from "./types";
 
@@ -7,10 +6,10 @@ function LearnerCard({ learner }: { learner: Learner }) {
   return (
     <div className="bg-gray-100 p-4 rounded mb-4">
       <h2>{learner.name}</h2>
-      {(learner.goals ?? []).map((goal: Goal, i: number) => (
+      {((learner.goals as Goal[]) ?? []).map((goal: Goal, i: number) => (
         <div key={i}>
           <p>{goal.title}</p>
-          <progress value={goal.progress} max="100" className="w-full h-4" />
+          <progress value={goal.progress} max={100} className="w-full h-4" />
           <p>{goal.progress}% complete</p>
           {goal.progress < 50 && <p className="text-red-600">⚠️ Area of Difficulty</p>}
         </div>
@@ -25,9 +24,9 @@ export default function ProgressDashboard({ learners }: { learners: Learner[] })
       <h1 className="text-2xl font-bold">Progress Overview</h1>
       {learners && learners.length ? (
         learners.map((l) => (
-          <React.Fragment key={l.id}>
+          <div key={l.id}>
             <LearnerCard learner={l} />
-          </React.Fragment>
+          </div>
         ))
       ) : (
         <p>No learners found</p>
