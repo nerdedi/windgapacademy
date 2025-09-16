@@ -17,106 +17,161 @@ The Unity integration provides interactive 3D character animations and storyline
   - `ReactBridgeManager.cs` - Main Unity script for communication with React
   - `CharacterManager.cs` - Script for managing characters in Unity
   - `AnimationManager.cs` - Script for handling animations in Unity
+  - `ReactBridgeManager.cs` - Main Unity script for communication with React
+  - `CharacterManager.cs` - Script for managing characters in Unity
+  - `AnimationManager.cs` - Script for handling animations in Unity
   - `StorylineManager.cs` - Script for handling interactive stories in Unity
 - `storylines/` - JSON data for interactive stories
 - `deploy-unity-animations.sh` - Script for deploying Unity WebGL builds
 
-1. **UnityPlayer.jsx** - React component for embedding Unity WebGL builds
-2. **UnityPlayer.css** - Styling for the Unity player component
-3. **UnityGamePage.jsx** - Example page showing how to use the Unity player
-4. **deploy-unity-build.sh** - Script for deploying Unity builds to the web app
-
-## Integration Architecture
-
-The integration uses the following approach:
-
-1. Unity games are built to WebGL format
-2. The WebGL builds are hosted within the Windgap Academy web platform
-3. Communication between Unity and the web platform is achieved through:
-   - JavaScript messaging between Unity and the React application
-   - API calls to backend services for data persistence
-
 ## Usage
 
-### Embedding a Unity Game
-
-Use the UnityPlayer component in your React code:
+### Using the Unity Player
 
 ```jsx
-import UnityPlayer from "../path/to/UnityPlayer";
+import EnhancedUnityPlayer from "../unity-integration/EnhancedUnityPlayer";
 
-const MyGamePage = () => {
+const MyComponent = () => {
+  const handleUnityLoaded = () => {
+    console.log("Unity loaded successfully");
+  };
+
+  const handleUnityMessage = (actionType, data) => {
+    console.log(`Received message from Unity: ${actionType}`, data);
+  };
+
+  return (
+    <EnhancedUnityPlayer
+      buildUrl="/unity-builds/windgap-academy-animations"
+      width={800}
+      height={450}
+      onUnityLoaded={handleUnityLoaded}
+      onUnityMessage={handleUnityMessage}
+      initialState={{
+        character: "Winnie",
+        startAnimation: "Idle",
+      }}
+    />
+  );
+};
+```
+
+### Using the Character Animation Player
+
+```jsx
+import CharacterAnimationPlayer from "../components/CharacterAnimationPlayer";
+
+const MyComponent = () => {
+  const handleAnimationComplete = (animationName, character) => {
+    console.log(`Animation completed: ${animationName} for ${character}`);
+  };
+
+  return (
+    <CharacterAnimationPlayer
+      characterName="Winnie"
+      width={800}
+      height={450}
+      storylineId="welcome-to-windgap"
+      onAnimationComplete={handleAnimationComplete}
+    />
+  );
+};
+```
+
+### Using the Animation Library
+
+```jsx
+import AnimationLibrary, { AnimationButton } from "../unity-integration/AnimationLibrary";
+
+const MyComponent = () => {
+  const playTalkAnimation = () => {
+    AnimationLibrary.talk("Winnie");
+  };
+
   return (
     <div>
-      <h1>My Educational Game</h1>
-      <UnityPlayer
-        buildUrl="/unity-builds/my-game"
-        width={960}
-        height={600}
-        onScoreUpdate={(score) => console.log("Score:", score)}
-        onLevelComplete={(levelId, completed) => console.log("Level completed:", levelId)}
-      />
+      <button onClick={playTalkAnimation}>Play Talk Animation</button>
+      <AnimationButton character="Winnie" animationType="celebrate" label="Celebrate!" />
     </div>
   );
 };
 ```
 
-### Communication with Unity
+## Deployment
 
-#### From React to Unity
+To deploy a new Unity WebGL build:
 
-Send messages to Unity game objects:
+1. Build the Unity project with WebGL target
+2. Run the deployment script:
 
-```jsx
-// Get a reference to the Unity instance
-const handleUnityLoaded = (unityInstance) => {
-  // Store the Unity instance
-  this.unityInstance = unityInstance;
+```bash
+./unity-integration/deploy-unity-animations.sh
+```
 
-  // Send data to Unity
-  unityInstance.SendMessage("GameManager", "SetDifficulty", "hard");
-};
+## Communication Protocol
 
-// Use the reference later
-const setPlayerName = (name) => {
-  if (this.unityInstance) {
-    this.unityInstance.SendMessage("GameManager", "SetPlayerName", name);
-  }
+### React to Unity
+
+Messages are sent from React to Unity using the `SendMessage` method:
+
+```javascript
+unityInstance.SendMessage(
+  "ReactBridgeManager",
+  "ReceiveFromReact",
+  JSON.stringify({
+    actionType: "START_ANIMATION",
+    characterName: "Winnie",
+    animationName: "Talk",
+  }),
+);
+```
+
+### Unity to React
+
+Messages are sent from Unity to React using the global `unityToReact` object:
+
+```javascript
+window.unityToReact = {
+  onAnimationComplete: (data) => {
+    const result = JSON.parse(data);
+    // Handle animation completion
+  },
+
+  onStoryNode: (data) => {
+    const node = JSON.parse(data);
+    // Handle story node change
+  },
 };
 ```
 
-#### From Unity to React
+## Adding New Storylines
 
-In your Unity C# script:
+To add a new storyline:
 
-```csharp
-using UnityEngine;
-using System.Runtime.InteropServices;
+1.  Create a new JSON story definition in `storylines/`
+2.  Import it in `StorylineManager.js`
+3.  Use the `CharacterAnimationPlayer` component with the new storyline ID
 
-public class JavaScriptBridge : MonoBehaviour
-{
-    // Define JavaScript function
-    [DllImport("__Internal")]
-    private static extern void SendMessageToReact(string messageType, string messageData);
+        // Example: Send score to React
+        public void ReportScore(int score)
+        {
+            // Only works in WebGL builds
+            #if UNITY_WEBGL && !UNITY_EDITOR
+            SendMessageToReact("UNITY_SCORE", "{\"score\":" + score + "}");
+            #endif
+        }
 
-    // Example: Send score to React
-    public void ReportScore(int score)
-    {
-        // Only works in WebGL builds
-        #if UNITY_WEBGL && !UNITY_EDITOR
-        SendMessageToReact("UNITY_SCORE", "{\"score\":" + score + "}");
-        #endif
+        // Example: Report level completion
+        public void ReportLevelCompletion(int levelId)
+        {
+            #if UNITY_WEBGL && !UNITY_EDITOR
+            SendMessageToReact("UNITY_LEVEL_COMPLETION", "{\"levelId\":" + levelId + ",\"completed\":true}");
+            #endif
+        }
+
     }
 
-    // Example: Report level completion
-    public void ReportLevelCompletion(int levelId)
-    {
-        #if UNITY_WEBGL && !UNITY_EDITOR
-        SendMessageToReact("UNITY_LEVEL_COMPLETION", "{\"levelId\":" + levelId + ",\"completed\":true}");
-        #endif
-    }
-}
-```
+````
 
 ## Deployment
 
@@ -127,7 +182,7 @@ To deploy a new Unity WebGL build:
 
 ```bash
 ./deploy-unity-build.sh
-```
+````
 
 This will copy the build to the correct location in the web app and set up the necessary configurations.
 

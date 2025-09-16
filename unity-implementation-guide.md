@@ -18,6 +18,8 @@
 3. Install Required Packages
    ✅ Universal RP
    ✅ Cinemachine (camera control)
+   ✅ Input System (for character controls)
+   ✅ Animation Rigging (character animation)
    ✅ Timeline (cutscenes)
    ✅ Addressables (asset management)
    ✅ Newtonsoft JSON (data serialization)

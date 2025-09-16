@@ -2,13 +2,18 @@
 // This file is responsible for loading and managing the storyline data for Unity animations
 
 import characterStorylines from "./storylines/character-storylines.json";
+import hiddenPortalStoryline from "./storylines/hidden-portal-storyline.json";
 
 /**
  * Class for managing Unity animation storylines
  */
 class StorylineManager {
   constructor() {
-    this.stories = characterStorylines.stories || [];
+    // Combine all storylines
+    this.stories = [
+      ...(characterStorylines.stories || []),
+      ...(hiddenPortalStoryline.stories || []),
+    ];
     this.currentStory = null;
     this.currentNode = null;
   }

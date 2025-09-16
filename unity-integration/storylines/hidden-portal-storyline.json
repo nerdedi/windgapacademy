@@ -1,0 +1,203 @@
+{
+  "stories": [
+    {
+      "id": "hidden-portal-discovery",
+      "title": "The Hidden Portal at Central Station",
+      "startNodeId": "portal-1",
+      "nodes": [
+        {
+          "id": "portal-1",
+          "characterName": "Winnie",
+          "dialogText": "Welcome, traveler! I'm Winnie, and I'm here to tell you about the discovery of Windgap Academy.",
+          "animationName": "Talk",
+          "isChoicePoint": false,
+          "nextNodeIds": ["portal-2"]
+        },
+        {
+          "id": "portal-2",
+          "characterName": "Winnie",
+          "dialogText": "It all began at Central Station. Most people rush through without noticing anything unusual, but some special individuals sense something different.",
+          "animationName": "Talk",
+          "isChoicePoint": false,
+          "nextNodeIds": ["portal-3"]
+        },
+        {
+          "id": "portal-3",
+          "characterName": "Winnie",
+          "dialogText": "Have you ever felt like there's something magical hiding in plain sight at Central Station?",
+          "animationName": "Think",
+          "isChoicePoint": true,
+          "nextNodeIds": ["portal-4", "portal-5"]
+        },
+        {
+          "id": "portal-4",
+          "characterName": "Winnie",
+          "dialogText": "I knew it! You're one of the special ones who can sense the magic around you.",
+          "animationName": "Celebrate",
+          "isChoicePoint": false,
+          "nextNodeIds": ["portal-6"]
+        },
+        {
+          "id": "portal-5",
+          "characterName": "Winnie",
+          "dialogText": "That's okay! Sometimes magic takes time to reveal itself. But now that you're here, I can show you what others miss.",
+          "animationName": "Talk",
+          "isChoicePoint": false,
+          "nextNodeIds": ["portal-6"]
+        },
+        {
+          "id": "portal-6",
+          "characterName": "Winnie",
+          "dialogText": "Between platforms 9 and 10 at Central Station, there's a special brick wall. It looks ordinary to most people.",
+          "animationName": "Talk",
+          "isChoicePoint": false,
+          "nextNodeIds": ["portal-7"]
+        },
+        {
+          "id": "portal-7",
+          "characterName": "Winnie",
+          "dialogText": "But if you look at just the right angle, when the morning light hits it perfectly, you might see a shimmer - like ripples on water.",
+          "animationName": "Talk",
+          "isChoicePoint": false,
+          "nextNodeIds": ["portal-8"]
+        },
+        {
+          "id": "portal-8",
+          "characterName": "Winnie",
+          "dialogText": "Would you like to try stepping through the wall?",
+          "animationName": "Talk",
+          "isChoicePoint": true,
+          "nextNodeIds": ["portal-9", "portal-10"]
+        },
+        {
+          "id": "portal-9",
+          "characterName": "Winnie",
+          "dialogText": "Excellent choice! As you approach the wall, you feel a gentle warmth. Then, instead of hitting solid brick, you step through into a swirl of light!",
+          "animationName": "Celebrate",
+          "isChoicePoint": false,
+          "nextNodeIds": ["portal-11"]
+        },
+        {
+          "id": "portal-10",
+          "characterName": "Winnie",
+          "dialogText": "I understand your hesitation. It does sound strange! But sometimes we need to take a leap of faith to discover something wonderful.",
+          "animationName": "Think",
+          "isChoicePoint": false,
+          "nextNodeIds": ["portal-alternate-1"]
+        },
+        {
+          "id": "portal-alternate-1",
+          "characterName": "Andy",
+          "dialogText": "Hi there! I'm Andy. Winnie told me you might need some convincing. I was skeptical too when I first heard about the portal.",
+          "animationName": "Talk",
+          "isChoicePoint": false,
+          "nextNodeIds": ["portal-alternate-2"]
+        },
+        {
+          "id": "portal-alternate-2",
+          "characterName": "Andy",
+          "dialogText": "But I'm a scientist at heart, and I've studied this phenomenon. The portal operates on principles we're only beginning to understand.",
+          "animationName": "Think",
+          "isChoicePoint": false,
+          "nextNodeIds": ["portal-alternate-3"]
+        },
+        {
+          "id": "portal-alternate-3",
+          "characterName": "Andy",
+          "dialogText": "Would you like to see some of my research on the portal? It might help you understand how it works.",
+          "animationName": "Talk",
+          "isChoicePoint": true,
+          "nextNodeIds": ["portal-alternate-4", "portal-11"]
+        },
+        {
+          "id": "portal-alternate-4",
+          "characterName": "Andy",
+          "dialogText": "Fascinating, isn't it? The portal exists in a space between spaces. Now that you understand the science, are you ready to step through?",
+          "animationName": "Talk",
+          "isChoicePoint": false,
+          "nextNodeIds": ["portal-11"]
+        },
+        {
+          "id": "portal-11",
+          "characterName": "Daisy",
+          "dialogText": "Welcome to Windgap Academy! I'm Daisy. The journey through the portal can be disorienting the first time, but you made it!",
+          "animationName": "Talk",
+          "isChoicePoint": false,
+          "nextNodeIds": ["portal-12"]
+        },
+        {
+          "id": "portal-12",
+          "characterName": "Daisy",
+          "dialogText": "Our academy exists in a special place - a pocket dimension connected to your world through the portal at Central Station.",
+          "animationName": "Talk",
+          "isChoicePoint": false,
+          "nextNodeIds": ["portal-13"]
+        },
+        {
+          "id": "portal-13",
+          "characterName": "Daisy",
+          "dialogText": "Time works differently here. You can spend days learning with us, but when you return, barely a minute will have passed in your world.",
+          "animationName": "Talk",
+          "isChoicePoint": false,
+          "nextNodeIds": ["portal-14"]
+        },
+        {
+          "id": "portal-14",
+          "characterName": "Natalie",
+          "dialogText": "Hello! I'm Natalie. We've been expecting you! Each of us at Windgap Academy specializes in different subjects to help you unlock your full potential.",
+          "animationName": "Talk",
+          "isChoicePoint": false,
+          "nextNodeIds": ["portal-15"]
+        },
+        {
+          "id": "portal-15",
+          "characterName": "Natalie",
+          "dialogText": "The academy was founded centuries ago by travelers who discovered this pocket dimension and recognized its potential for learning and growth.",
+          "animationName": "Talk",
+          "isChoicePoint": false,
+          "nextNodeIds": ["portal-16"]
+        },
+        {
+          "id": "portal-16",
+          "characterName": "Winnie",
+          "dialogText": "And now you're part of our special community! The portal at Central Station appears to those who have the potential to learn and grow with us.",
+          "animationName": "Talk",
+          "isChoicePoint": false,
+          "nextNodeIds": ["portal-17"]
+        },
+        {
+          "id": "portal-17",
+          "characterName": "Winnie",
+          "dialogText": "What would you like to explore first at Windgap Academy?",
+          "animationName": "Talk",
+          "isChoicePoint": true,
+          "nextNodeIds": ["portal-end-1", "portal-end-2", "portal-end-3"]
+        },
+        {
+          "id": "portal-end-1",
+          "characterName": "Andy",
+          "dialogText": "Excellent choice! The technology wing is my domain. We'll explore coding, robotics, and digital creation together. Your journey begins now!",
+          "animationName": "Celebrate",
+          "isChoicePoint": false,
+          "nextNodeIds": []
+        },
+        {
+          "id": "portal-end-2",
+          "characterName": "Daisy",
+          "dialogText": "I'm so excited you chose the natural sciences! We'll explore our magical gardens, conduct experiments, and discover the wonders of our environment together!",
+          "animationName": "Jump",
+          "isChoicePoint": false,
+          "nextNodeIds": []
+        },
+        {
+          "id": "portal-end-3",
+          "characterName": "Natalie",
+          "dialogText": "The arts are my specialty! We'll explore music, visual arts, and creative expression. Your creative journey at Windgap Academy starts right now!",
+          "animationName": "Celebrate",
+          "isChoicePoint": false,
+          "nextNodeIds": []
+        }
+      ]
+    }
+  ]
+}
