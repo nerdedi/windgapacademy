@@ -5,10 +5,11 @@
  * - Magnetic hover effects that follow cursor
  * - Smooth spring animations
  * - Advanced cursor interactions
- * - Professional micro-interactions
+ * - Professional <micro-interactions></micro-interactions>
  */
 
 import React, { useRef, useEffect, useState } from "react";
+import { MicroInteractions } from "./MicroInteractions";
 import { motion, useSpring, useMotionValue } from "framer-motion";
 
 export const MagneticButton = ({

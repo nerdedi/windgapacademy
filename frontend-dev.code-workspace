@@ -1,0 +1,23 @@
+{
+  "folders": [
+    {
+      "path": "src"
+    },
+    {
+      "path": "components"
+    },
+    {
+      "path": "backend"
+    }
+  ],
+  "settings": {
+    "files.exclude": {
+      "**/node_modules": true,
+      "**/.git": true,
+      "**/.DS_Store": true,
+      "**/coverage": true,
+      "**/dist": true,
+      "**/build": true
+    }
+  }
+}

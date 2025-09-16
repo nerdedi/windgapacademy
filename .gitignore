@@ -4,3 +4,8 @@ assets/images-optimized/
 assets/images-webp/
 .env
 .vercel
+
+# VS Code workspace files (except those meant to be shared)
+custom-workspace.code-workspace
+*-personal.code-workspace
+backend-dev.code-workspace

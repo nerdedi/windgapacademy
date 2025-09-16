@@ -1,12 +1,25 @@
-# Unity Integration with Windgap Academy
+# Unity Integration for Windgap Academy
 
-This directory contains the necessary files and components to integrate Unity WebGL builds with the Windgap Academy platform.
+This directory contains all the necessary files and components for integrating Unity WebGL builds with the React frontend of Windgap Academy.
 
 ## Overview
 
-Unity integration allows for interactive 3D educational games and simulations to be embedded directly within the Windgap Academy platform. These Unity-based experiences enhance learning through gamification and interactive visual aids.
+The Unity integration provides interactive 3D character animations and storylines that enhance the learning experience. The integration uses a bidirectional communication bridge between React and Unity to enable seamless interaction.
 
-## Components
+## Directory Structure
+
+- `EnhancedUnityPlayer.jsx` - React component for embedding Unity WebGL builds
+- `EnhancedUnityPlayer.css` - Styles for the Unity player component
+- `UnityBridge.js` - Helper functions for communication between Unity and React
+- `StorylineManager.js` - JavaScript class for managing storylines
+- `AnimationLibrary.jsx` - Library of character animations for easy reuse
+- `unity-scripts/` - C# scripts for Unity projects
+  - `ReactBridgeManager.cs` - Main Unity script for communication with React
+  - `CharacterManager.cs` - Script for managing characters in Unity
+  - `AnimationManager.cs` - Script for handling animations in Unity
+  - `StorylineManager.cs` - Script for handling interactive stories in Unity
+- `storylines/` - JSON data for interactive stories
+- `deploy-unity-animations.sh` - Script for deploying Unity WebGL builds
 
 1. **UnityPlayer.jsx** - React component for embedding Unity WebGL builds
 2. **UnityPlayer.css** - Styling for the Unity player component

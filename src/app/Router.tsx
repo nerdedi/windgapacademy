@@ -21,6 +21,7 @@ const Immersive3DCityBuilder = lazy(() => import("../../components/Immersive3DCi
 const Immersive3DLifeSim = lazy(() => import("../../components/Immersive3DLifeSim.jsx"));
 const Immersive3DZoo = lazy(() => import("../../components/Immersive3DZoo.jsx"));
 const Working3DCityBuilder = lazy(() => import("../../components/Working3DCityBuilder.jsx"));
+const UnityGamePlayer = lazy(() => import("../../pages/UnityGamePlayer.jsx"));
 
 export default function AppRouter() {
   return (
@@ -45,6 +46,9 @@ export default function AppRouter() {
         <Link to="/zoo" className="font-bold">
           Zoo
         </Link>
+        <Link to="/unity-game" className="font-bold">
+          Unity Game
+        </Link>
       </nav>
       <ErrorBoundary>
         <Suspense fallback={<div className="p-8 text-center">Loading...</div>}>
@@ -54,6 +58,7 @@ export default function AppRouter() {
             <Route path="/signup" element={<Navigate to="/learner-dashboard" replace />} />
             <Route path="/signin" element={<Navigate to="/learner-dashboard" replace />} />
             <Route path="/games" element={<GamePlayground />} />
+            <Route path="/unity-game" element={<UnityGamePlayer />} />
             <Route
               path="/help"
               element={

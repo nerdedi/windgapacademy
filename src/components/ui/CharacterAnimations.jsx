@@ -6,17 +6,42 @@
  * - Interactive character behaviors
  * - Smooth transitions and micro-interactions
  * - Character-specific personalities
+ * - Adaptive animations based on content and user interactions
+ * - Accessible design with motion preferences support
  *
  * @ts-nocheck - This is a JSX file with some TypeScript validation issues
  */
 
-import React, { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import React, { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence, useAnimation } from "framer-motion";
+import { prefersReducedMotion } from "../../utils/accessibility.js";
+import MicroInteractions from "./MicroInteractions.jsx";
 
-export const CharacterAnimations = ({ isVisible = true, onCharacterClick }) => {
-  const [activeCharacter, setActiveCharacter] = useState(null);
+export const CharacterAnimations = ({
+  isVisible = true,
+  onCharacterClick,
+  initialCharacter = null,
+  triggerAnimation = null,
+  showDialog = false,
+  dialogText = "",
+  onAnimationComplete = () => {},
+  size = "medium",
+  position = "center",
+}) => {
+  const [activeCharacter, setActiveCharacter] = useState(initialCharacter);
   const [animationPhase, setAnimationPhase] = useState("idle");
+  const [bubbleVisible, setBubbleVisible] = useState(false);
+  const animationTimeoutRef = useRef(null);
+  const controls = useAnimation();
 
+  // Size presets
+  const sizePresets = {
+    small: { width: 80, height: 80 },
+    medium: { width: 120, height: 120 },
+    large: { width: 160, height: 160 },
+  };
+
+  // Character definitions with personality traits and animations
   const characters = [
     {
       id: "andy",
@@ -27,6 +52,10 @@ export const CharacterAnimations = ({ isVisible = true, onCharacterClick }) => {
       description: "The enthusiastic math explorer",
       greeting: "Hi! I'm Andy! Let's solve some amazing math puzzles together! 🔢",
       animation: "bounce",
+      idleAnimations: ["sway", "blink", "breathe"],
+      interactionAnimations: ["jump", "spin", "wave"],
+      celebrationAnimations: ["backflip", "dance", "cheer"],
+      expressions: ["happy", "thinking", "excited", "curious"],
     },
     {
       id: "daisy",
@@ -37,6 +66,10 @@ export const CharacterAnimations = ({ isVisible = true, onCharacterClick }) => {
       description: "The artistic storyteller",
       greeting: "Hello! I'm Daisy! Want to create beautiful stories and art? 🎨",
       animation: "float",
+      idleAnimations: ["float", "blink", "breathe"],
+      interactionAnimations: ["dance", "twirl", "giggle"],
+      celebrationAnimations: ["cartwheel", "paint", "cheer"],
+      expressions: ["creative", "dreamy", "happy", "inspired"],
     },
     {
       id: "natalie",
@@ -47,6 +80,10 @@ export const CharacterAnimations = ({ isVisible = true, onCharacterClick }) => {
       description: "The science investigator",
       greeting: "Hey there! I'm Natalie! Let's discover the wonders of science! 🧪",
       animation: "pulse",
+      idleAnimations: ["pulse", "look", "think"],
+      interactionAnimations: ["magnify", "analyze", "discover"],
+      celebrationAnimations: ["eureka", "experiment", "congratulate"],
+      expressions: ["curious", "thinking", "excited", "inspired"],
     },
     {
       id: "winnie",
@@ -57,37 +94,86 @@ export const CharacterAnimations = ({ isVisible = true, onCharacterClick }) => {
       description: "The helpful cloud guide",
       greeting: "Welcome! I'm Winnie! I'm here to guide you on your learning journey! ☁️",
       animation: "drift",
+      idleAnimations: ["drift", "glow", "float"],
+      interactionAnimations: ["approach", "highlight", "guide"],
+      celebrationAnimations: ["rainbow", "raindance", "sparkle"],
+      expressions: ["wise", "happy", "encouraging", "proud"],
     },
   ];
 
   useEffect(() => {
-    // Cycle through different animation phases
-    const interval = setInterval(() => {
-      setAnimationPhase((prev) => {
-        const phases = ["idle", "wave", "excited", "thinking"];
-        const currentIndex = phases.indexOf(prev);
-        return phases[(currentIndex + 1) % phases.length];
-      });
-    }, 4000);
+    // Initialize with the specified character if provided
+    if (initialCharacter && !activeCharacter) {
+      const character = characters.find((c) => c.id === initialCharacter);
+      if (character) {
+        setActiveCharacter(character);
+      }
+    }
 
-    return () => clearInterval(interval);
-  }, []);
+    // Handle triggered animations
+    if (triggerAnimation && activeCharacter) {
+      playAnimation(triggerAnimation);
+    }
 
-  const getCharacterPosition = (position) => {
+    // Handle dialog visibility
+    setBubbleVisible(showDialog);
+
+    // Clean up any animation timeouts
+    return () => {
+      if (animationTimeoutRef.current) {
+        clearTimeout(animationTimeoutRef.current);
+      }
+    };
+  }, [initialCharacter, triggerAnimation, showDialog, activeCharacter]);
+
+  // Random idle animations to keep characters engaging
+  useEffect(() => {
+    if (!prefersReducedMotion && activeCharacter && animationPhase === "idle") {
+      const randomIdleAnimation = () => {
+        const idleAnimations = activeCharacter.idleAnimations || ["breathe", "sway", "blink"];
+        const randomIndex = Math.floor(Math.random() * idleAnimations.length);
+        playAnimation(idleAnimations[randomIndex]);
+
+        // Schedule next idle animation
+        const nextAnimationDelay = 3000 + Math.random() * 5000; // 3-8 seconds
+        animationTimeoutRef.current = setTimeout(randomIdleAnimation, nextAnimationDelay);
+      };
+
+      // Start idle animations
+      randomIdleAnimation();
+    }
+
+    return () => {
+      if (animationTimeoutRef.current) {
+        clearTimeout(animationTimeoutRef.current);
+      }
+    };
+  }, [activeCharacter, animationPhase]);
+
+  const getCharacterPosition = (characterPosition) => {
+    // Adjust based on both the character's natural position and the prop position
     const positions = {
       left: "left-[10%]",
       "center-left": "left-[30%]",
+      center: "left-1/2 -translate-x-1/2",
       "center-right": "right-[30%]",
       right: "right-[10%]",
     };
-    return positions[position] || "left-[10%]";
+
+    // Override with prop position if specified
+    if (position !== "center") {
+      return positions[position] || positions.center;
+    }
+
+    return positions[characterPosition] || positions.center;
   };
 
   const getAnimationVariants = (character) => {
+    // Base animation variants that apply to all characters
     const baseVariants = {
       idle: {
-        y: [0, -10, 0],
-        rotate: [0, 2, -2, 0],
+        y: [0, -5, 0],
+        rotate: [0, 1, -1, 0],
         scale: 1,
         transition: {
           duration: 3,
@@ -95,8 +181,9 @@ export const CharacterAnimations = ({ isVisible = true, onCharacterClick }) => {
           ease: "easeInOut",
         },
       },
+      // Interactive animations
       wave: {
-        rotate: [0, 15, -15, 15, 0],
+        rotate: [0, 15, -5, 15, 0],
         y: [0, -5, 0],
         transition: {
           duration: 1.5,
@@ -108,63 +195,151 @@ export const CharacterAnimations = ({ isVisible = true, onCharacterClick }) => {
         scale: [1, 1.1, 1, 1.05, 1],
         rotate: [0, 5, -5, 0],
         transition: {
-          duration: 2,
+          duration: 1.5,
           ease: "easeInOut",
         },
       },
       thinking: {
-        rotate: [0, -10, 10, 0],
+        rotate: [0, -10, 0],
         y: [0, -5, 0],
         transition: {
+          duration: 2,
+          ease: "easeInOut",
+        },
+      },
+      // Idle animations
+      breathe: {
+        scale: [1, 1.03, 1],
+        transition: {
           duration: 2.5,
+          repeat: 3,
+          ease: "easeInOut",
+        },
+      },
+      sway: {
+        rotate: [0, 2, -2, 0],
+        transition: {
+          duration: 2,
+          repeat: 2,
+          ease: "easeInOut",
+        },
+      },
+      blink: {
+        opacity: [1, 0.9, 1, 0.9, 1],
+        transition: {
+          duration: 1,
+          times: [0, 0.2, 0.3, 0.5, 0.6],
+          repeat: 2,
+        },
+      },
+      // Interactive animations
+      jump: {
+        y: [0, -30, 0],
+        transition: {
+          duration: 0.8,
+          ease: "circOut",
+        },
+      },
+      spin: {
+        rotate: [0, 360],
+        transition: {
+          duration: 1,
+          ease: "circInOut",
+        },
+      },
+      dance: {
+        y: [0, -10, 0, -10, 0],
+        x: [0, 10, -10, 10, 0],
+        rotate: [0, 10, -10, 10, 0],
+        transition: {
+          duration: 1.5,
+          ease: "easeInOut",
+        },
+      },
+      // Celebration animations
+      celebrate: {
+        scale: [1, 1.2, 1],
+        y: [0, -20, 0],
+        rotate: [0, 10, -10, 10, 0],
+        transition: {
+          duration: 1.5,
+          ease: "easeOut",
+        },
+      },
+      rainbow: {
+        scale: [1, 1.1, 1],
+        filter: ["brightness(1)", "brightness(1.5)", "brightness(1)"],
+        transition: {
+          duration: 2,
           ease: "easeInOut",
         },
       },
     };
 
     // Character-specific animation modifications
-    switch (character.animation) {
-      case "bounce":
-        return {
-          ...baseVariants,
-          idle: {
-            ...baseVariants.idle,
-            y: [0, -15, 0],
-            transition: { ...baseVariants.idle.transition, duration: 2 },
-          },
-        };
-      case "float":
-        return {
-          ...baseVariants,
-          idle: {
-            ...baseVariants.idle,
-            y: [0, -8, 0],
-            x: [0, 5, 0],
-            transition: { ...baseVariants.idle.transition, duration: 4 },
-          },
-        };
-      case "pulse":
-        return {
-          ...baseVariants,
-          idle: {
-            ...baseVariants.idle,
-            scale: [1, 1.05, 1],
-            transition: { ...baseVariants.idle.transition, duration: 2.5 },
-          },
-        };
-      case "drift":
-        return {
-          ...baseVariants,
-          idle: {
-            ...baseVariants.idle,
-            x: [0, 10, -10, 0],
-            y: [0, -5, 0],
-            transition: { ...baseVariants.idle.transition, duration: 5 },
-          },
-        };
-      default:
-        return baseVariants;
-    }
+    const personalityAnimations = {
+      energetic: {
+        idle: {
+          ...baseVariants.idle,
+          y: [0, -15, 0],
+          rotate: [0, 3, -3, 0],
+          transition: { ...baseVariants.idle.transition, duration: 2 },
+        },
+        jump: {
+          ...baseVariants.jump,
+          y: [0, -40, 0],
+          scale: [1, 1.1, 1],
+        },
+      },
+      creative: {
+        idle: {
+          ...baseVariants.idle,
+          y: [0, -8, 0],
+          x: [0, 5, 0],
+          rotate: [0, 2, -2, 0],
+          transition: { ...baseVariants.idle.transition, duration: 4 },
+        },
+        dance: {
+          ...baseVariants.dance,
+          rotate: [0, 15, -15, 15, 0],
+          scale: [1, 1.1, 0.95, 1.1, 1],
+        },
+      },
+      curious: {
+        idle: {
+          ...baseVariants.idle,
+          scale: [1, 1.03, 1],
+          rotate: [0, 1, -1, 0],
+          transition: { ...baseVariants.idle.transition, duration: 2.5 },
+        },
+        thinking: {
+          ...baseVariants.thinking,
+          rotate: [0, -15, 0],
+          y: [0, -8, 0],
+        },
+      },
+      wise: {
+        idle: {
+          ...baseVariants.idle,
+          x: [0, 5, -5, 0],
+          y: [0, -3, 0],
+          transition: { ...baseVariants.idle.transition, duration: 5 },
+        },
+        rainbow: {
+          ...baseVariants.rainbow,
+          scale: [1, 1.15, 1],
+          filter: ["brightness(1)", "brightness(1.8)", "brightness(1)"],
+        },
+      },
+    };
+
+    // Combine base variants with personality-specific variants
+    const combinedVariants = {
+      ...baseVariants,
+      ...(personalityAnimations[character.personality] || {}),
+    };
+
+    return combinedVariants;
   };
 
   const handleCharacterClick = (character) => {

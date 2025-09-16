@@ -3,19 +3,81 @@
   "python.analysis.typeCheckingMode": "basic",
   "python.analysis.autoSearchPaths": true,
   "python.analysis.extraPaths": ["backend", "src", "components"],
+  "python.analysis.indexing": false,
+  "python.analysis.packageIndexDepths": [
+    {
+      "name": "",
+      "depth": 1
+    }
+  ],
+  "python.analysis.diagnosticSeverityOverrides": {
+    "reportGeneralTypeIssues": "warning"
+  },
+  "python.analysis.autoImportCompletions": false,
+  "python.analysis.completeFunctionParens": false,
+  "python.analysis.inlayHints.functionReturnTypes": false,
+  "python.analysis.inlayHints.variableTypes": false,
+  "python.languageServer": "Pylance",
+  "python.analysis.memory.keepLibraryAst": false,
+  "python.analysis.gotoDefinitionInStringLiteral": false,
+  "python.analysis.enableSupportForNestedVirtualEnvironments": false,
+  "python.analysis.stubPath": "",
   "python.analysis.exclude": [
-    "**/node_modules",
-    "**/__pycache__",
-    "**/build",
-    ".git",
-    "coverage",
-    "dist",
-    "out",
+    "**/node_modules/**",
+    "**/__pycache__/**",
+    "**/build/**",
+    ".git/**",
+    "coverage/**",
+    "dist/**",
+    "out/**",
     "assets/images-optimized/**",
     "assets/images-webp/**",
-    "frontend/**/node_modules",
-    "backend/**/node_modules"
+    "frontend/**/node_modules/**",
+    "backend/**/node_modules/**",
+    "o3de/**",
+    "unity-integration/**",
+    "unity-setup/**",
+    "test-results/**",
+    "cypress/**",
+    "playwright/**",
+    "**/*.min.js",
+    "**/*.min.css",
+    "**/vendor/**",
+    "**/site-packages/**",
+    "**/.venv/**",
+    "**/env/**",
+    "**/.env/**"
   ],
+  "python.analysis.include": [
+    "src/**/*.py",
+    "backend/**/*.py",
+    "components/**/*.py"
+  ],
+  "files.exclude": {
+    "**/node_modules": true,
+    "**/.git": true,
+    "**/.DS_Store": true,
+    "**/coverage": true,
+    "**/dist": true,
+    "**/build": true,
+    "**/.next": true,
+    "o3de": true,
+    "unity-setup": true,
+    "assets/images-optimized": true,
+    "assets/images-webp": true,
+    "test-results": true
+  },
+  "files.watcherExclude": {
+    "**/.git/objects/**": true,
+    "**/.git/subtree-cache/**": true,
+    "**/node_modules/**": true,
+    "**/o3de/**": true,
+    "**/unity-integration/**": true,
+    "**/unity-setup/**": true,
+    "**/assets/images-optimized/**": true,
+    "**/assets/images-webp/**": true,
+    "**/test-results/**": true
+  },
   "python.analysis.logLevel": "Warning",
   "python.testing.unittestArgs": [
     "-v",
@@ -37,5 +99,23 @@
   "githubPullRequests.fileListLayout": "tree",
   "editor.tabCompletion": "on",
   "editor.suggest.preview": true,
-  "editor.inlineSuggest.enabled": true
+  "editor.inlineSuggest.enabled": true,
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/bower_components": true,
+    "**/dist": true,
+    "**/coverage": true,
+    "**/tmp": true,
+    "o3de/**": true,
+    "unity-setup/**": true,
+    "unity-integration/**": true,
+    "assets/images-optimized/**": true,
+    "assets/images-webp/**": true,
+    "**/.git": true
+  },
+  "search.searchOnType": false,
+  "search.searchOnTypeDebouncePeriod": 800,
+  "workbench.editor.closeOnFileDelete": true,
+  "editor.formatOnSaveMode": "modificationsIfAvailable",
+  "extensions.ignoreRecommendations": true
 }

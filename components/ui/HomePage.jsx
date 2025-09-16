@@ -8,7 +8,9 @@ const HomePage = () => {
     // eslint-disable-next-line no-console
     navigate("/login", { state: { from: "home" } });
     console.log("goLogin", navigate);
-    // In this app, the login UI is shown when the MainApp showsLogin state is trusted
+    // In this app, the login UI is shown when the MainApp showsLogin state is trusted  true
+    // and the user is unauthenticated.
+    // The actual login process is handled by the AuthProvider and its login function.
   }
   function goSignup() {
     // Navigate to app root where the login UI is shown by App when unauthenticated
@@ -95,7 +97,7 @@ const HomePage = () => {
         <h1 className="text-4xl font-bold text-[#0B6E8F]">Windgap Academy</h1>
         <p className="text-lg text-gray-700 mt-2">
           Empowering educators and learners to plan, track and report on meaningful outcomes aligned
-          with NDIS goals.
+          with learning goals and NDIS goals.
         </p>
       </header>
 

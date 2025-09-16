@@ -1,0 +1,59 @@
+{
+  "folders": [
+    {
+      "name": "Core",
+      "path": "."
+    }
+  ],
+  "settings": {
+    "files.exclude": {
+      "**/node_modules": true,
+      "**/.git": true,
+      "**/.DS_Store": true,
+      "**/coverage": true,
+      "**/dist": true,
+      "**/build": true,
+      "**/.next": true,
+      "o3de/**": true,
+      "unity-setup/**": true,
+      "unity-integration/**": true,
+      "assets/images-optimized/**": true,
+      "assets/images-webp/**": true,
+      "test-results/**": true,
+      "cypress/**": true,
+      "playwright/**": true,
+      "docs/**": true,
+      "tmp/**": true,
+      "**/*.min.js": true,
+      "**/*.min.css": true,
+      "public/lib/**": true,
+      "leetcodeanimation-mirror.git/**": true
+    },
+    "search.exclude": {
+      "**/node_modules": true,
+      "**/bower_components": true,
+      "**/dist": true,
+      "**/coverage": true,
+      "o3de/**": true,
+      "unity-setup/**": true,
+      "unity-integration/**": true,
+      "assets/**": true,
+      "**/*.min.js": true,
+      "**/*.min.css": true
+    },
+    "files.watcherExclude": {
+      "**/.git/objects/**": true,
+      "**/.git/subtree-cache/**": true,
+      "**/node_modules/**": true,
+      "**/o3de/**": true,
+      "**/unity-integration/**": true,
+      "**/unity-setup/**": true,
+      "**/assets/**": true,
+      "**/test-results/**": true
+    },
+    "workbench.editor.limit.enabled": true,
+    "workbench.editor.limit.value": 8,
+    "editor.formatOnSaveMode": "modificationsIfAvailable",
+    "workbench.editor.closeOnFileDelete": true
+  }
+}

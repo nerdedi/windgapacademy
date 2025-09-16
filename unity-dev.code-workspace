@@ -1,0 +1,69 @@
+{
+  "folders": [
+    {
+      "name": "Unity Integration",
+      "path": "unity-integration"
+    },
+    {
+      "name": "Unity Setup",
+      "path": "unity-setup"
+    },
+    {
+      "name": "Unity Scripts",
+      "path": "unity-scripts"
+    },
+    {
+      "name": "Frontend Integration",
+      "path": "src/components/unity"
+    }
+  ],
+  "settings": {
+    "files.exclude": {
+      "**/.DS_Store": true,
+      "**/.git": true,
+      "**/.hg": true,
+      "**/.svn": true,
+      "**/CVS": true,
+      "**/Thumbs.db": true,
+      "**/*.meta": true,
+      "**/*.cs.meta": false,
+      "**/Library": true,
+      "**/Logs": true,
+      "**/obj": true,
+      "**/Packages": true,
+      "**/ProjectSettings": true,
+      "**/Temp": true,
+      "**/*.csproj": true,
+      "**/*.sln": true,
+      "**/node_modules": true
+    },
+    "search.exclude": {
+      "**/Library": true,
+      "**/Logs": true,
+      "**/obj": true,
+      "**/Packages": true,
+      "**/Temp": true,
+      "**/node_modules": true,
+      "**/*.asset": true
+    },
+    "files.watcherExclude": {
+      "**/Library/**": true,
+      "**/Logs/**": true,
+      "**/obj/**": true,
+      "**/Packages/**": true,
+      "**/Temp/**": true,
+      "**/Assets/AssetStoreTools/**": true
+    },
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll": "explicit"
+    },
+    "omnisharp.useModernNet": true,
+    "omnisharp.enableRoslynAnalyzers": true,
+    "csharp.referencesCodeLens.enabled": false,
+    "csharp.semanticHighlighting.enabled": true,
+    "workbench.editor.limit.enabled": true,
+    "workbench.editor.limit.value": 10,
+    "workbench.editor.highlightModifiedTabs": true
+  }
+}

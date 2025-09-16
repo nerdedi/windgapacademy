@@ -1,0 +1,202 @@
+{
+  "stories": [
+    {
+      "id": "welcome-to-windgap",
+      "title": "Welcome to Windgap Academy",
+      "startNodeId": "welcome-1",
+      "nodes": [
+        {
+          "id": "welcome-1",
+          "characterName": "Winnie",
+          "dialogText": "Hello and welcome to Windgap Academy! I'm Winnie, and I'll be your guide through this learning journey.",
+          "animationName": "Talk",
+          "isChoicePoint": false,
+          "nextNodeIds": ["welcome-2"]
+        },
+        {
+          "id": "welcome-2",
+          "characterName": "Winnie",
+          "dialogText": "At Windgap, we believe that learning should be engaging, interactive, and fun!",
+          "animationName": "Celebrate",
+          "isChoicePoint": false,
+          "nextNodeIds": ["welcome-3"]
+        },
+        {
+          "id": "welcome-3",
+          "characterName": "Winnie",
+          "dialogText": "Would you like to meet the other characters who will help you on your learning journey?",
+          "animationName": "Talk",
+          "isChoicePoint": true,
+          "nextNodeIds": ["welcome-4", "welcome-5"]
+        },
+        {
+          "id": "welcome-4",
+          "characterName": "Winnie",
+          "dialogText": "Great! Let's introduce you to the team.",
+          "animationName": "Celebrate",
+          "isChoicePoint": false,
+          "nextNodeIds": ["intro-andy-1"]
+        },
+        {
+          "id": "welcome-5",
+          "characterName": "Winnie",
+          "dialogText": "No problem! Take your time to explore, and you can meet them later.",
+          "animationName": "Talk",
+          "isChoicePoint": false,
+          "nextNodeIds": ["welcome-end"]
+        },
+        {
+          "id": "intro-andy-1",
+          "characterName": "Andy",
+          "dialogText": "Hi there! I'm Andy. I'm a technology enthusiast and I'll be guiding you through all the computer skills and problem-solving activities.",
+          "animationName": "Talk",
+          "isChoicePoint": false,
+          "nextNodeIds": ["intro-andy-2"]
+        },
+        {
+          "id": "intro-andy-2",
+          "characterName": "Andy",
+          "dialogText": "Whether it's coding, logical thinking, or understanding how things work, I'm here to help you every step of the way!",
+          "animationName": "Think",
+          "isChoicePoint": false,
+          "nextNodeIds": ["intro-daisy-1"]
+        },
+        {
+          "id": "intro-daisy-1",
+          "characterName": "Daisy",
+          "dialogText": "Hello! I'm Daisy, and I absolutely love nature and science! I'll be your guide for all the environmental and scientific explorations.",
+          "animationName": "Talk",
+          "isChoicePoint": false,
+          "nextNodeIds": ["intro-daisy-2"]
+        },
+        {
+          "id": "intro-daisy-2",
+          "characterName": "Daisy",
+          "dialogText": "Together, we'll discover the wonders of our world through experiments, observations, and hands-on activities!",
+          "animationName": "Jump",
+          "isChoicePoint": false,
+          "nextNodeIds": ["intro-natalie-1"]
+        },
+        {
+          "id": "intro-natalie-1",
+          "characterName": "Natalie",
+          "dialogText": "Hi! I'm Natalie. I'm passionate about art, music, and creative expression. I'll guide you through activities that help build your confidence and communication skills.",
+          "animationName": "Talk",
+          "isChoicePoint": false,
+          "nextNodeIds": ["intro-natalie-2"]
+        },
+        {
+          "id": "intro-natalie-2",
+          "characterName": "Natalie",
+          "dialogText": "With me, you'll explore your creative side and learn how to express yourself in many different ways!",
+          "animationName": "Celebrate",
+          "isChoicePoint": false,
+          "nextNodeIds": ["welcome-end"]
+        },
+        {
+          "id": "welcome-end",
+          "characterName": "Winnie",
+          "dialogText": "Now you know our team! We're all excited to embark on this learning adventure with you. Feel free to explore the academy and start your journey whenever you're ready!",
+          "animationName": "Celebrate",
+          "isChoicePoint": false,
+          "nextNodeIds": []
+        }
+      ]
+    },
+    {
+      "id": "first-day-at-school",
+      "title": "First Day at School",
+      "startNodeId": "first-day-1",
+      "nodes": [
+        {
+          "id": "first-day-1",
+          "characterName": "Winnie",
+          "dialogText": "Today is your first day at Windgap Academy! Are you excited?",
+          "animationName": "Talk",
+          "isChoicePoint": true,
+          "nextNodeIds": ["first-day-2", "first-day-3"]
+        },
+        {
+          "id": "first-day-2",
+          "characterName": "Winnie",
+          "dialogText": "That's the spirit! Let's make this day memorable!",
+          "animationName": "Celebrate",
+          "isChoicePoint": false,
+          "nextNodeIds": ["first-day-4"]
+        },
+        {
+          "id": "first-day-3",
+          "characterName": "Winnie",
+          "dialogText": "It's okay to be a little nervous. New experiences can be intimidating, but I promise it will be fun!",
+          "animationName": "Talk",
+          "isChoicePoint": false,
+          "nextNodeIds": ["first-day-4"]
+        },
+        {
+          "id": "first-day-4",
+          "characterName": "Winnie",
+          "dialogText": "Let me show you around the campus. First, we have the main classroom where most of our learning activities take place.",
+          "animationName": "Walk",
+          "isChoicePoint": false,
+          "nextNodeIds": ["first-day-5"]
+        },
+        {
+          "id": "first-day-5",
+          "characterName": "Winnie",
+          "dialogText": "Next, we have the library where you can explore books and digital resources.",
+          "animationName": "Walk",
+          "isChoicePoint": false,
+          "nextNodeIds": ["first-day-6"]
+        },
+        {
+          "id": "first-day-6",
+          "characterName": "Winnie",
+          "dialogText": "And finally, we have the outdoor learning area where Daisy often conducts her nature studies.",
+          "animationName": "Walk",
+          "isChoicePoint": false,
+          "nextNodeIds": ["first-day-7"]
+        },
+        {
+          "id": "first-day-7",
+          "characterName": "Winnie",
+          "dialogText": "Where would you like to go first?",
+          "animationName": "Talk",
+          "isChoicePoint": true,
+          "nextNodeIds": ["first-day-classroom", "first-day-library", "first-day-outdoor"]
+        },
+        {
+          "id": "first-day-classroom",
+          "characterName": "Andy",
+          "dialogText": "Welcome to the classroom! Here, we'll work on various subjects using interactive technology and hands-on activities.",
+          "animationName": "Talk",
+          "isChoicePoint": false,
+          "nextNodeIds": ["first-day-end"]
+        },
+        {
+          "id": "first-day-library",
+          "characterName": "Natalie",
+          "dialogText": "Welcome to our library! Here, you'll find books, digital resources, and quiet spaces for creativity and reflection.",
+          "animationName": "Talk",
+          "isChoicePoint": false,
+          "nextNodeIds": ["first-day-end"]
+        },
+        {
+          "id": "first-day-outdoor",
+          "characterName": "Daisy",
+          "dialogText": "Welcome to the outdoor learning area! Here, we explore nature, conduct experiments, and learn about our environment through direct experience.",
+          "animationName": "Talk",
+          "isChoicePoint": false,
+          "nextNodeIds": ["first-day-end"]
+        },
+        {
+          "id": "first-day-end",
+          "characterName": "Winnie",
+          "dialogText": "I hope you enjoyed your tour! Now you're ready to start your learning journey at Windgap Academy. Tomorrow, we'll begin with our first lesson. Rest well and come back with energy!",
+          "animationName": "Celebrate",
+          "isChoicePoint": false,
+          "nextNodeIds": []
+        }
+      ]
+    }
+  ]
+}
