@@ -1,13 +1,13 @@
 import { motion } from "framer-motion";
-import React, { useState } from "react";
+import { useState } from "react";
 
-import { useLearnerData } from "../hooks/useLearnerData";
+import { useLearnerData } from "../hooks/useLearnerData.js";
 
-import DashboardFilters from "./DashboardFilters";
-import LearnerProgressCard from "./LearnerProgressCard";
-import PrintView from "./PrintView";
-import SubjectAnalytics from "./SubjectAnalytics";
-import type { Learner } from "./types";
+import DashboardFilters from "./DashboardFilters.js";
+import LearnerProgressCard from "./LearnerProgressCard.js";
+import PrintView from "./PrintView.js";
+import SubjectAnalytics from "./SubjectAnalytics.js";
+import type { Learner } from "./types.js";
 
 export default function EducatorDashboard() {
   const learners: Learner[] = useLearnerData();
@@ -24,7 +24,9 @@ export default function EducatorDashboard() {
       <DashboardFilters
         subjects={["Literacy", "Numeracy", "Digital", "Emotional Regulation"]}
         learners={learners}
-        onFilter={(type, value) => setFilters((prev) => ({ ...prev, [type]: value }))}
+        onFilter={(type: "subject" | "learner", value: string) =>
+          setFilters((prev) => ({ ...prev, [type]: value }))
+        }
         currentFilters={filters}
       />
       <SubjectAnalytics learners={filteredLearners} />

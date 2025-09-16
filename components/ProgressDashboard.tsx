@@ -1,6 +1,5 @@
-import React from "react";
-import type { Goal } from "./curriculumTypes";
-import type { Learner } from "./types";
+import type { Goal } from "./curriculumTypes.js";
+import type { Learner } from "./types.js";
 
 function LearnerCard({ learner }: { learner: Learner }) {
   return (

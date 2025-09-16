@@ -14,8 +14,7 @@ jobs:
         with:
           submodules: 'recursive'
           fetch-depth: 0
-      - name: Setup Git LFS
-        uses: wearedevx/setup-git-lfs@v1
+          lfs: true
       - name: Ensure Git LFS
         run: git lfs install || true
       - name: Show submodule SHAs

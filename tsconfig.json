@@ -13,8 +13,8 @@
     "allowJs": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true
+    "moduleResolution": "NodeNext",
+    "noEmit": true
   },
   "include": ["src/**/*", "components/**/*"],
   "exclude": ["node_modules", "dist"]

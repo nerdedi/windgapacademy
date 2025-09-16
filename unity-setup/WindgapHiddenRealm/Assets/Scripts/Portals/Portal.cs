@@ -6,6 +6,8 @@ namespace WindgapAcademy.Portals
 {
     /// <summary>
     /// Represents a portal for transitioning between realms
+    /// with configurable accessibility options
+    /// with basic accessibility options
     /// </summary>
     public class Portal : MonoBehaviour
     {
@@ -66,17 +68,23 @@ namespace WindgapAcademy.Portals
             portalLight.range = useLargeInteractionZone ? 5f : 2.5f;
             portalLight.type = LightType.Point;
             GameObject particleObj = new GameObject("PortalParticles");
-            particleObj.transform.SetParent(transform);
-            particleObj.transform.localPosition = Vector3.zero;
-            portalParticles = particleObj.AddComponent<ParticleSystem>();
-            var main = portalParticles.main;
-            main.startLifetime = 1.5f;
-            main.startSize = 0.2f;
-            main.startColor = portalColor;
-            main.loop = true;
-            var emission = portalParticles.emission;
-            emission.rateOverTime = useHighContrast ? 20 : 10;
-            portalParticles.Play();
+            if (!useVisualPulse)
+            {
+            }
+            else
+            {
+                particleObj.transform.SetParent(transform);
+                particleObj.transform.localPosition = Vector3.zero;
+                portalParticles = particleObj.AddComponent<ParticleSystem>();
+                var main = portalParticles.main;
+                main.startLifetime = 1.5f;
+                main.startSize = 0.2f;
+                main.startColor = portalColor;
+                main.loop = true;
+                var emission = portalParticles.emission;
+                emission.rateOverTime = useHighContrast ? 20 : 10;
+                portalParticles.Play();
+            }
         }
         private void SetupAudioComponents()
         {

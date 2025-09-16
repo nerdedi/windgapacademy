@@ -1,7 +1,7 @@
 import { getFirestore, doc, setDoc } from "firebase/firestore";
-import React, { useState } from "react";
+import { useState } from "react";
 
-import type { CurriculumTopic } from "./curriculumTypes";
+import type { CurriculumTopic } from "./curriculumTypes.js";
 
 export default function CurriculumEditor({ topic }: { topic: CurriculumTopic }) {
   const [metadata, setMetadata] = useState<CurriculumTopic>(topic);
