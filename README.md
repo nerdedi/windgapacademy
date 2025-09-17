@@ -4,6 +4,14 @@
 
 Inclusive, ad-free, educator-reviewed learning platform for neurodivergent learners aged 16+. Meets Australian NDIS standards and prioritizes accessibility, privacy, and educational best practices.
 
+## Documentation
+
+- 3D LMS Library Recommendations: `docs/3d-lms-library-recommendations.md`
+- Integration Guide: `docs/integration-guide.md`
+- Implementation Examples: `docs/implementation-examples.js`
+- Architecture Wireframes (R3F component): `docs/architecture-wireframes.jsx`
+- Docs Overview: `docs/README.md`
+
 ## Development Best Practices
 
 - Modularize code by feature (see `src/app/`)
