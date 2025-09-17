@@ -8,6 +8,8 @@ import UnityAnimationBridge from "../../src/components/UnityAnimationBridge";
 // @ts-ignore - Chakra UI React components
 import {
   Button,
+  IconButton,
+  CloseButton,
   Select,
   FormControl,
   FormLabel,
