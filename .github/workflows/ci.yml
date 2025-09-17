@@ -29,6 +29,9 @@ jobs:
           cache: 'npm'
       - name: Install
         run: npm ci
+        env:
+          CYPRESS_INSTALL_BINARY: 0
+          PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
       - name: ESLint
         run: npx eslint components --ext .js,.jsx,.ts,.tsx
       - name: Typecheck
@@ -60,6 +63,9 @@ jobs:
           cache: 'npm'
       - name: Install
         run: npm ci
+        env:
+          CYPRESS_INSTALL_BINARY: 0
+          PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
       - name: Build
         run: npm run build:production
       - name: Deploy to Firebase
