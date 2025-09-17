@@ -2,10 +2,6 @@
 // Example implementation for the CurriculumBuilder component
 // This shows how to integrate Blender character models with the curriculum builder
 
-import { useState } from "react";
-import BlenderModelViewer from "../../src/components/BlenderModelViewer.js";
-import UnityAnimationBridge from "../../src/components/UnityAnimationBridge";
-// @ts-ignore - Chakra UI React components
 import {
   Button,
   IconButton,
@@ -25,6 +21,11 @@ import {
   Divider,
   HStack,
 } from "@chakra-ui/react";
+import { useState } from "react";
+
+import BlenderModelViewer from "../../src/components/BlenderModelViewer.js";
+import UnityAnimationBridge from "../../src/components/UnityAnimationBridge";
+// @ts-ignore - Chakra UI React components
 
 // Character definitions for curriculum
 const curriculumCharacters = [
@@ -87,7 +88,12 @@ export default function CurriculumBuilder() {
   const [isGenerating, setIsGenerating] = useState(false);
 
   // Get animation control functions from the bridge
-  const { playAnimation, playEmote, lookAt, isConnected } = UnityAnimationBridge({
+  const {
+    playAnimation,
+    playEmote,
+    lookAt: _lookAt,
+    isConnected,
+  } = UnityAnimationBridge({
     characterId: selectedCharacter.id,
   });
 
