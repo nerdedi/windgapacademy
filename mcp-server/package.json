@@ -1,0 +1,26 @@
+{
+  "name": "windgap-academy-mcp-server",
+  "version": "1.0.0",
+  "description": "MCP (Model Context Protocol) server for Windgap Academy",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node --watch index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "mcp",
+    "windgap-academy",
+    "education",
+    "learning-management"
+  ],
+  "author": "Windgap Academy",
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^0.1.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.0.0"
+  }
+}

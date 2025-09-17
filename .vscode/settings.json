@@ -25,5 +25,37 @@
     "*test*.py"
   ],
   "python.testing.pytestEnabled": false,
-  "python.testing.unittestEnabled": true
+  "python.testing.unittestEnabled": true,
+  "bashIde.shellcheckPath": "shellcheck",
+  "shellcheck.enable": true,
+  "shellcheck.executablePath": "shellcheck",
+  "shellcheck.run": "onType",
+  "shellcheck.exclude": [
+    "SC1090",
+    "SC1091",
+    "SC2034",
+    "SC2046",
+    "SC2086",
+    "SC2116",
+    "SC2128",
+    "SC2154",
+    "SC2164",
+    "SC2207",
+    "SC2230"
+  ],
+  "shellcheck.customArgs": [
+    "--external-sources",
+    "--check-sourced"
+  ],
+  "shellformat.flag": "-i 2 -ci",
+  "files.associations": {
+    "*.sh": "shellscript",
+    "*.bash": "shellscript",
+    ".env*": "properties"
+  },
+  "typescript.preferences.includePackageJsonAutoImports": "auto",
+  "typescript.suggest.autoImports": true,
+  "javascript.suggest.autoImports": true,
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "javascript.updateImportsOnFileMove.enabled": "always"
 }
