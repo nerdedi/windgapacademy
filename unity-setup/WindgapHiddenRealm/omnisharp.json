@@ -1,0 +1,30 @@
+{
+  "RoslynExtensionsOptions": {
+    "enableAnalyzersSupport": true
+  },
+  "FormattingOptions": {
+    "enableEditorConfigSupport": true,
+    "OrganizeImports": true
+  },
+  "RoslynDiagnosticsOptions": {
+    "enableAnalyzers": true,
+    "enableAnalyzersSupport": true
+  },
+  "msbuild": {
+    "MSBuildExtensionsPath": "",
+    "EnablePackageAutoRestore": true,
+    "MSBuildSDKsPath": ""
+  },
+  "fileOptions": {
+    "systemExcludeSearchPatterns": [
+      "**/node_modules/**/*",
+      "**/bin/**/*",
+      "**/obj/**/*",
+      "**/node_modules/*",
+      "**/bin/*",
+      "**/obj/*",
+      "**/.git/**/*"
+    ],
+    "excludeSearchPatterns": []
+  }
+}

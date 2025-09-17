@@ -18,6 +18,7 @@ import {
   VolumeX,
   Accessibility,
   Globe,
+  Film,
   Zap,
   Target,
   Award,
@@ -27,6 +28,7 @@ import {
 } from "lucide-react";
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
 import { Avatar, AvatarFallback } from "./ui/avatar";
 import { Badge } from "./ui/badge";
@@ -36,6 +38,7 @@ import { GameMechanics } from "../core/GameMechanics";
 import { ErrorHandler } from "../core/ErrorHandler";
 
 export function Navigation({ currentView, onViewChange, user = null }) {
+  const navigate = useNavigate();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -81,6 +84,14 @@ export function Navigation({ currentView, onViewChange, user = null }) {
           icon: Target,
           description: "Interactive learning games",
           shortcut: "Ctrl+G",
+        },
+        {
+          id: "animation-demo",
+          label: "Animation Demo",
+          icon: Film,
+          description: "Character Animation System Demo",
+          badge: "New",
+          path: "/animation-demo"
         },
       ],
     },
@@ -267,24 +278,42 @@ export function Navigation({ currentView, onViewChange, user = null }) {
 
   const NavItems = () => (
     <>
-      {navigationItems.map((item) => {
-        const Icon = item.icon;
-        const isActive = currentView === item.id;
-        return (
-          <Button
-            key={item.id}
-            variant={isActive ? "default" : "ghost"}
-            className={`justify-start ${isActive ? "" : "text-muted-foreground hover:text-foreground"}`}
-            onClick={() => {
-              onViewChange(item.id);
+      {navigationItems.map((category) => (
+        <div key={category.category} className="mb-4">
+          <h3 className="text-xs font-semibold text-muted-foreground pl-3 mb-2">{category.category}</h3>
+          {category.items.map((item) => {
+            const Icon = item.icon;
+            const isActive = currentView === item.id;
+            
+            // If the item has a direct path, use it for navigation
+            const handleItemClick = () => {
+              if (item.path) {
+                navigate(item.path);
+              } else {
+                onViewChange(item.id);
+              }
               setIsMobileMenuOpen(false);
-            }}
-          >
-            <Icon className="h-5 w-5 mr-3" />
-            {item.label}
-          </Button>
-        );
-      })}
+            };
+            
+            return (
+              <Button
+                key={item.id}
+                variant={isActive ? "default" : "ghost"}
+                className={`justify-start ${isActive ? "" : "text-muted-foreground hover:text-foreground"} mb-1`}
+                onClick={handleItemClick}
+              >
+                <Icon className="h-5 w-5 mr-3" />
+                {item.label}
+                {item.badge && (
+                  <span className="ml-2 bg-blue-500 text-white text-xs px-2 py-0.5 rounded-full">
+                    {item.badge}
+                  </span>
+                )}
+              </Button>
+            );
+          })}
+        </div>
+      ))}
     </>
   );
 

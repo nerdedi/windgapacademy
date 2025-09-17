@@ -1,0 +1,27 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Unity Editor",
+            "type": "node",
+            "request": "attach",
+            "processId": "${command:UnityEditor.Process}",
+            "presentation": {
+                "hidden": false,
+                "group": "",
+                "order": 1
+            }
+        },
+        {
+            "name": "Unity Editor (Wait for Attachment)",
+            "type": "node",
+            "request": "attach",
+            "processId": "${command:UnityEditor.Process}",
+            "presentation": {
+                "hidden": false,
+                "group": "",
+                "order": 2
+            }
+        }
+    ]
+}

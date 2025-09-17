@@ -13,6 +13,9 @@ import NumeracyCountingMoneyLesson from "./components/lessonModules/NumeracyCoun
 import LifeSkillsLesson from "./components/lessonModules/LifeSkillsLesson";
 import DigitalLiteracyLesson from "./components/lessonModules/DigitalLiteracyLesson";
 
+// Import the animation demo page
+import AnimationSystemDemo from "./pages/AnimationSystemDemo";
+
 // Professional loading component
 function ProfessionalLoader() {
   return (
@@ -41,6 +44,9 @@ function App() {
           <Route path="/lesson/numeracy-money" element={<NumeracyCountingMoneyLesson />} />
           <Route path="/lesson/life-skills" element={<LifeSkillsLesson />} />
           <Route path="/lesson/digital-literacy" element={<DigitalLiteracyLesson />} />
+          
+          {/* Animation Demo */}
+          <Route path="/animation-demo" element={<AnimationSystemDemo />} />
 
           {/* Module routes */}
           <Route
