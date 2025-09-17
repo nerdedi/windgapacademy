@@ -98,6 +98,7 @@
   "files.autoSaveDelay": 1000,
   "githubPullRequests.fileListLayout": "tree",
   "editor.tabCompletion": "on",
+  "yaml-with-script.shellcheck.enable": false,
   "editor.suggest.preview": true,
   "editor.inlineSuggest.enabled": true,
   "search.exclude": {
