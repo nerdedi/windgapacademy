@@ -1,0 +1,151 @@
+/* Accessibility Styles for Windgap Academy */
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap");
+@import url("https://fonts.cdnfonts.com/css/opendyslexic");
+
+:root {
+  /* Default font family */
+  --font-family-default:
+    "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+
+  /* Base variables that can be modified by the accessibility context */
+  --font-size-base: 1rem;
+  --line-height-base: 1.5;
+  --font-family-base: var(--font-family-default);
+
+  /* Default colors */
+  --color-text: #333333;
+  --color-background: #ffffff;
+  --color-primary: #2997ff;
+  --color-secondary: #6b7280;
+  --color-accent: #3b82f6;
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --color-error: #ef4444;
+  --color-info: #3b82f6;
+}
+
+body {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-base);
+  color: var(--color-text);
+  background-color: var(--color-background);
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+}
+
+/* High contrast mode */
+body.high-contrast {
+  --color-text: #ffffff;
+  --color-background: #000000;
+  --color-primary: #4dabff;
+  --color-secondary: #cccccc;
+
+  /* Increase contrast for content */
+  color: var(--color-text);
+  background-color: var(--color-background);
+}
+
+body.high-contrast .bg-white,
+body.high-contrast .bg-gray-50,
+body.high-contrast .bg-gray-100 {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+body.high-contrast button:not(.bg-blue-600):not(.bg-green-600) {
+  background-color: #333333 !important;
+  color: #ffffff !important;
+  border: 1px solid #666666 !important;
+}
+
+body.high-contrast input,
+body.high-contrast select,
+body.high-contrast textarea {
+  background-color: #333333 !important;
+  color: #ffffff !important;
+  border: 2px solid #666666 !important;
+}
+
+body.high-contrast img {
+  filter: brightness(1.2) contrast(1.2);
+}
+
+/* Dyslexia-friendly mode */
+body.dyslexia-friendly {
+  --font-family-base: "OpenDyslexic", sans-serif;
+  --line-height-base: 1.8;
+
+  /* Adjust letter spacing */
+  letter-spacing: 0.05em;
+  word-spacing: 0.1em;
+}
+
+body.dyslexia-friendly p,
+body.dyslexia-friendly li {
+  max-width: 80ch; /* Limit line length for readability */
+}
+
+body.dyslexia-friendly .bg-white,
+body.dyslexia-friendly .bg-gray-50,
+body.dyslexia-friendly .bg-gray-100 {
+  background-color: #f8f5e4 !important; /* Light cream background */
+}
+
+/* Reduced motion */
+body.reduce-motion * {
+  animation-duration: 0.001s !important;
+  transition-duration: 0.001s !important;
+}
+
+/* Reduced brightness */
+body.reduce-brightness {
+  filter: brightness(0.85);
+}
+
+body.reduce-brightness img,
+body.reduce-brightness video {
+  filter: brightness(0.9);
+}
+
+/* Tailwind Accessibility Utilities */
+
+/* Focus states */
+.focus-visible:focus {
+  outline: 3px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Skip links */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: var(--color-primary);
+  color: white;
+  padding: 8px;
+  z-index: 100;
+}
+
+.skip-link:focus {
+  top: 0;
+}
+
+/* ARIA utility classes */
+[aria-hidden="true"] {
+  display: none;
+}
+
+/* Screen reader only */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}

@@ -1,15 +1,23 @@
 import React, { Suspense, lazy } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 
-// Import auth provider
+// Import providers
 import { AuthProvider } from "./context/AuthContext";
+import { AccessibilityProvider } from "./context/AccessibilityContext";
 import ProtectedRoute from "./components/ProtectedRoute";
+
+// Import accessibility components
+import AccessibilitySettings from "./components/AccessibilitySettings";
+
+// Import styles
+import "./styles/accessibility.css";
 
 // Import curriculum builder with save state
 import CurriculumBuilderWithSaveState from "../components/curriculum/CurriculumBuilderWithSaveState";
 
 // Import lesson modules
 import DigitalLiteracyLesson from "./components/lessonModules/DigitalLiteracyLesson";
+import DigitalLiteracyLessonEnhanced from "./components/lessonModules/DigitalLiteracyLessonEnhanced";
 import LanguagePhonicsLesson from "./components/lessonModules/LanguagePhonicsLesson";
 import LifeSkillsLesson from "./components/lessonModules/LifeSkillsLesson";
 import LiteracyReadingLesson from "./components/lessonModules/LiteracyReadingLesson";
@@ -50,120 +58,132 @@ function ProfessionalLoader() {
 
 function App() {
   return (
-    <AuthProvider>
-      <AnalyticsProvider>
-        <div className="App">
-          <Suspense fallback={<ProfessionalLoader />}>
-            <Routes>
-              {/* Public Routes */}
-              <Route path="/" element={<LLNDHomepage />} />
-              <Route path="/login" element={<LoginPage />} />
-              <Route path="/reset-password" element={<ResetPasswordPage />} />
-              <Route path="/verify-email" element={<VerifyEmailPage />} />
-              <Route path="/unauthorized" element={<UnauthorizedPage />} />
+    <AccessibilityProvider>
+      <AuthProvider>
+        <AnalyticsProvider>
+          <div className="App">
+            <Suspense fallback={<ProfessionalLoader />}>
+              <AccessibilitySettings />
+              <Routes>
+                {/* Public Routes */}
+                <Route path="/" element={<LLNDHomepage />} />
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/reset-password" element={<ResetPasswordPage />} />
+                <Route path="/verify-email" element={<VerifyEmailPage />} />
+                <Route path="/unauthorized" element={<UnauthorizedPage />} />
 
-              {/* Protected Routes */}
-              <Route
-                path="/dashboard"
-                element={
-                  <ProtectedRoute>
-                    <LearnerDashboard />
-                  </ProtectedRoute>
-                }
-              />
+                {/* Protected Routes */}
+                <Route
+                  path="/dashboard"
+                  element={
+                    <ProtectedRoute>
+                      <LearnerDashboard />
+                    </ProtectedRoute>
+                  }
+                />
 
-              <Route
-                path="/setup-mfa"
-                element={
-                  <ProtectedRoute>
-                    <SetupMFAPage />
-                  </ProtectedRoute>
-                }
-              />
+                <Route
+                  path="/setup-mfa"
+                  element={
+                    <ProtectedRoute>
+                      <SetupMFAPage />
+                    </ProtectedRoute>
+                  }
+                />
 
-              {/* Protected Routes with Role Requirements */}
-              <Route
-                path="/curriculum-builder"
-                element={
-                  <ProtectedRoute requiredRoles={["educator", "admin"]}>
-                    <CurriculumBuilderWithSaveState />
-                  </ProtectedRoute>
-                }
-              />
+                {/* Protected Routes with Role Requirements */}
+                <Route
+                  path="/curriculum-builder"
+                  element={
+                    <ProtectedRoute requiredRoles={["educator", "admin"]}>
+                      <CurriculumBuilderWithSaveState />
+                    </ProtectedRoute>
+                  }
+                />
 
-              {/* LLND Lesson Modules */}
-              <Route
-                path="/lesson/language-phonics"
-                element={
-                  <ProtectedRoute>
-                    <LanguagePhonicsLesson />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/lesson/literacy-reading"
-                element={
-                  <ProtectedRoute>
-                    <LiteracyReadingLesson />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/lesson/numeracy-money"
-                element={
-                  <ProtectedRoute>
-                    <NumeracyCountingMoneyLesson />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/lesson/life-skills"
-                element={
-                  <ProtectedRoute>
-                    <LifeSkillsLesson />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/lesson/digital-literacy"
-                element={
-                  <ProtectedRoute>
-                    <DigitalLiteracyLesson />
-                  </ProtectedRoute>
-                }
-              />
+                {/* LLND Lesson Modules */}
+                <Route
+                  path="/lesson/language-phonics"
+                  element={
+                    <ProtectedRoute>
+                      <LanguagePhonicsLesson />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/lesson/literacy-reading"
+                  element={
+                    <ProtectedRoute>
+                      <LiteracyReadingLesson />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/lesson/numeracy-money"
+                  element={
+                    <ProtectedRoute>
+                      <NumeracyCountingMoneyLesson />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/lesson/life-skills"
+                  element={
+                    <ProtectedRoute>
+                      <LifeSkillsLesson />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/lesson/digital-literacy"
+                  element={
+                    <ProtectedRoute>
+                      <DigitalLiteracyLesson />
+                    </ProtectedRoute>
+                  }
+                />
 
-              {/* Demo pages */}
-              <Route path="/animation-demo" element={<AnimationSystemDemo />} />
-              <Route path="/adaptive-demo" element={<AdaptiveDemoPage />} />
+                {/* Enhanced lesson with neurodiversity accommodations */}
+                <Route
+                  path="/lesson/digital-literacy-enhanced"
+                  element={
+                    <ProtectedRoute>
+                      <DigitalLiteracyLessonEnhanced />
+                    </ProtectedRoute>
+                  }
+                />
 
-              {/* Module routes */}
-              <Route
-                path="/module/:moduleId"
-                element={
-                  <ProtectedRoute>
-                    <div className="p-8 text-center">
-                      <h1 className="text-2xl font-bold mb-4">Module Coming Soon</h1>
-                      <p className="text-gray-600 mb-4">This LLND module is being developed.</p>
-                      <button
-                        onClick={() => window.history.back()}
-                        className="bg-blue-600 text-white px-4 py-2 rounded"
-                      >
-                        Go Back
-                      </button>
-                    </div>
-                  </ProtectedRoute>
-                }
-              />
+                {/* Demo pages */}
+                <Route path="/animation-demo" element={<AnimationSystemDemo />} />
+                <Route path="/adaptive-demo" element={<AdaptiveDemoPage />} />
 
-              {/* Catch all */}
-              <Route path="*" element={<Navigate to="/" replace />} />
-            </Routes>
-          </Suspense>
-        </div>
-      </AnalyticsProvider>
-    </AuthProvider>
+                {/* Module routes */}
+                <Route
+                  path="/module/:moduleId"
+                  element={
+                    <ProtectedRoute>
+                      <div className="p-8 text-center">
+                        <h1 className="text-2xl font-bold mb-4">Module Coming Soon</h1>
+                        <p className="text-gray-600 mb-4">This LLND module is being developed.</p>
+                        <button
+                          onClick={() => window.history.back()}
+                          className="bg-blue-600 text-white px-4 py-2 rounded"
+                        >
+                          Go Back
+                        </button>
+                      </div>
+                    </ProtectedRoute>
+                  }
+                />
+
+                {/* Catch all */}
+                <Route path="*" element={<Navigate to="/" replace />} />
+              </Routes>
+            </Suspense>
+          </div>
+        </AnalyticsProvider>
+      </AuthProvider>
+    </AccessibilityProvider>
   );
 }
-
 export default App;
