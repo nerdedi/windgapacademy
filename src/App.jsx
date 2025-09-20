@@ -1,5 +1,9 @@
-import React, { Suspense } from "react";
+import React, { Suspense, lazy } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
+
+// Import auth provider
+import { AuthProvider } from "./context/AuthContext";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 // Import curriculum builder with save state
 import CurriculumBuilderWithSaveState from "../components/curriculum/CurriculumBuilderWithSaveState";
@@ -15,6 +19,12 @@ import NumeracyCountingMoneyLesson from "./components/lessonModules/NumeracyCoun
 import LLNDHomepage from "./components/LLNDHomepage";
 import LearnerDashboard from "./components/StudentDashboard";
 import LoginPage from "./components/LoginPage";
+
+// Lazy-loaded authentication pages
+const VerifyEmailPage = lazy(() => import("./components/VerifyEmailPage"));
+const SetupMFAPage = lazy(() => import("./components/SetupMFAPage"));
+const ResetPasswordPage = lazy(() => import("./components/ResetPasswordPage"));
+const UnauthorizedPage = lazy(() => import("./components/UnauthorizedPage"));
 
 // Import demo pages
 import AnimationSystemDemo from "./pages/AnimationSystemDemo";
@@ -40,52 +50,119 @@ function ProfessionalLoader() {
 
 function App() {
   return (
-    <AnalyticsProvider>
-      <div className="App">
-        <Suspense fallback={<ProfessionalLoader />}>
-          <Routes>
-            {/* Main Routes */}
-            <Route path="/" element={<LLNDHomepage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/dashboard" element={<LearnerDashboard />} />
+    <AuthProvider>
+      <AnalyticsProvider>
+        <div className="App">
+          <Suspense fallback={<ProfessionalLoader />}>
+            <Routes>
+              {/* Public Routes */}
+              <Route path="/" element={<LLNDHomepage />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/reset-password" element={<ResetPasswordPage />} />
+              <Route path="/verify-email" element={<VerifyEmailPage />} />
+              <Route path="/unauthorized" element={<UnauthorizedPage />} />
 
-            {/* LLND Lesson Modules */}
-            <Route path="/lesson/language-phonics" element={<LanguagePhonicsLesson />} />
-            <Route path="/lesson/literacy-reading" element={<LiteracyReadingLesson />} />
-            <Route path="/lesson/numeracy-money" element={<NumeracyCountingMoneyLesson />} />
-            <Route path="/lesson/life-skills" element={<LifeSkillsLesson />} />
-            <Route path="/lesson/digital-literacy" element={<DigitalLiteracyLesson />} />
+              {/* Protected Routes */}
+              <Route
+                path="/dashboard"
+                element={
+                  <ProtectedRoute>
+                    <LearnerDashboard />
+                  </ProtectedRoute>
+                }
+              />
 
-            {/* Curriculum Builder */}
-            <Route path="/curriculum-builder" element={<CurriculumBuilderWithSaveState />} />
+              <Route
+                path="/setup-mfa"
+                element={
+                  <ProtectedRoute>
+                    <SetupMFAPage />
+                  </ProtectedRoute>
+                }
+              />
 
-            {/* Demo pages */}
-            <Route path="/animation-demo" element={<AnimationSystemDemo />} />
-            <Route path="/adaptive-demo" element={<AdaptiveDemoPage />} />
+              {/* Protected Routes with Role Requirements */}
+              <Route
+                path="/curriculum-builder"
+                element={
+                  <ProtectedRoute requiredRoles={["educator", "admin"]}>
+                    <CurriculumBuilderWithSaveState />
+                  </ProtectedRoute>
+                }
+              />
 
-            {/* Module routes */}
-            <Route
-              path="/module/:moduleId"
-              element={
-                <div className="p-8 text-center">
-                  <h1 className="text-2xl font-bold mb-4">Module Coming Soon</h1>
-                  <p className="text-gray-600 mb-4">This LLND module is being developed.</p>
-                  <button
-                    onClick={() => window.history.back()}
-                    className="bg-blue-600 text-white px-4 py-2 rounded"
-                  >
-                    Go Back
-                  </button>
-                </div>
-              }
-            />
+              {/* LLND Lesson Modules */}
+              <Route
+                path="/lesson/language-phonics"
+                element={
+                  <ProtectedRoute>
+                    <LanguagePhonicsLesson />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/lesson/literacy-reading"
+                element={
+                  <ProtectedRoute>
+                    <LiteracyReadingLesson />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/lesson/numeracy-money"
+                element={
+                  <ProtectedRoute>
+                    <NumeracyCountingMoneyLesson />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/lesson/life-skills"
+                element={
+                  <ProtectedRoute>
+                    <LifeSkillsLesson />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/lesson/digital-literacy"
+                element={
+                  <ProtectedRoute>
+                    <DigitalLiteracyLesson />
+                  </ProtectedRoute>
+                }
+              />
 
-            {/* Catch all */}
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Routes>
-        </Suspense>
-      </div>
-    </AnalyticsProvider>
+              {/* Demo pages */}
+              <Route path="/animation-demo" element={<AnimationSystemDemo />} />
+              <Route path="/adaptive-demo" element={<AdaptiveDemoPage />} />
+
+              {/* Module routes */}
+              <Route
+                path="/module/:moduleId"
+                element={
+                  <ProtectedRoute>
+                    <div className="p-8 text-center">
+                      <h1 className="text-2xl font-bold mb-4">Module Coming Soon</h1>
+                      <p className="text-gray-600 mb-4">This LLND module is being developed.</p>
+                      <button
+                        onClick={() => window.history.back()}
+                        className="bg-blue-600 text-white px-4 py-2 rounded"
+                      >
+                        Go Back
+                      </button>
+                    </div>
+                  </ProtectedRoute>
+                }
+              />
+
+              {/* Catch all */}
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
+          </Suspense>
+        </div>
+      </AnalyticsProvider>
+    </AuthProvider>
   );
 }
 
