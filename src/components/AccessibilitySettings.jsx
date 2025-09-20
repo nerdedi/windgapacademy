@@ -1,6 +1,16 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { useAccessibility } from "../context/AccessibilityContext";
-import { FaCog, FaFont, FaEye, FaVolumeUp, FaTasks, FaBell, FaComment } from "react-icons/fa";
+import {
+  FaCog,
+  FaFont,
+  FaEye,
+  FaVolumeUp,
+  FaTasks,
+  FaBell,
+  FaComment,
+  FaBrain,
+} from "react-icons/fa";
 
 // Tab content components
 const VisualSettings = ({ settings, updateSetting }) => (
@@ -387,6 +397,12 @@ function AccessibilitySettings() {
                 ))}
 
                 <div className="mt-auto pt-4 border-t border-gray-300 mt-4">
+                  <Link
+                    to="/neurodivergent-learning"
+                    className="w-full p-3 bg-blue-100 hover:bg-blue-200 rounded-lg text-blue-700 flex items-center justify-center mb-3"
+                  >
+                    <FaBrain className="mr-2" /> Neurodivergent Learning Settings
+                  </Link>
                   <button
                     onClick={resetSettings}
                     className="w-full p-3 bg-gray-200 hover:bg-gray-300 rounded-lg text-gray-700"

@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Executive Function Tools Demo</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    /* Basic styling for the demo */
+    .task-breakdown {
+      margin: 1.5rem 0;
+      border: 1px solid #e5e7eb;
+      border-radius: 0.5rem;
+      overflow: hidden;
+    }
+    .task-breakdown-header {
+      background-color: #f9fafb;
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid #e5e7eb;
+      font-weight: 500;
+    }
+    .task-breakdown-item {
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    .task-breakdown-item:last-child {
+      border-bottom: none;
+    }
+    .task-breakdown-item.completed {
+      background-color: rgba(16, 185, 129, 0.1);
+    }
+    .time-estimate {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.875rem;
+      color: #4b5563;
+      margin-bottom: 1rem;
+    }
+    .pomodoro-timer {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      border: 1px solid #e5e7eb;
+      border-radius: 0.5rem;
+      background-color: white;
+    }
+    .timer-display {
+      font-size: 3rem;
+      font-weight: bold;
+      font-variant-numeric: tabular-nums;
+      margin-bottom: 1rem;
+    }
+    .timer-controls {
+      display: flex;
+      gap: 1rem;
+    }
+    .timer-button {
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
+      font-weight: 500;
+      cursor: pointer;
+    }
+    .timer-button.start {
+      background-color: #10b981;
+      color: white;
+    }
+    .timer-button.pause {
+      background-color: #f59e0b;
+      color: white;
+    }
+    .timer-button.reset {
+      background-color: #ef4444;
+      color: white;
+    }
+  </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+  <header class="bg-white border-b border-gray-200 p-4 shadow-sm">
+    <div class="container mx-auto">
+      <h1 class="text-xl font-bold text-gray-800">Executive Function Support Tools</h1>
+      <p class="text-gray-600">Simple demonstrations of tools for neurodivergent learners</p>
+    </div>
+  </header>
+  
+  <main class="container mx-auto p-4 md:p-6">
+    <!-- Introduction -->
+    <section class="mb-8 bg-white p-6 rounded-lg shadow-sm">
+      <h2 class="text-2xl font-bold text-gray-800 mb-4">Executive Function Support</h2>
+      <p class="text-gray-600 mb-4">
+        These tools are designed to help with common executive function challenges such as:
+      </p>
+      <ul class="list-disc pl-6 mb-4 text-gray-600 space-y-1">
+        <li>Breaking down complex tasks into manageable steps</li>
+        <li>Managing time and maintaining focus</li>
+        <li>Organizing schedules and planning ahead</li>
+        <li>Overcoming task initiation difficulties</li>
+        <li>Supporting working memory</li>
+      </ul>
+    </section>
+    
+    <!-- Task Breakdown Demo -->
+    <section class="mb-8 bg-white p-6 rounded-lg shadow-sm">
+      <h3 class="text-xl font-semibold text-gray-800 mb-4">Task Breakdown Demo</h3>
+      
+      <div class="task-breakdown">
+        <div class="task-breakdown-header">
+          <h4>Complete Research Assignment</h4>
+        </div>
+        
+        <div class="p-4">
+          <!-- Progress bar -->
+          <div class="mb-4">
+            <div class="flex justify-between text-sm text-gray-600 mb-1">
+              <span>2 of 7 steps completed</span>
+              <span>29%</span>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-2">
+              <div class="bg-blue-600 h-2 rounded-full" style="width: 29%"></div>
+            </div>
+          </div>
+          
+          <!-- Steps list -->
+          <ul class="space-y-2">
+            <li class="task-breakdown-item completed border rounded-md flex items-start">
+              <div class="flex-shrink-0 mr-3 mt-0.5">
+                <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+              </div>
+              <div class="flex-grow">
+                <p class="text-gray-500 line-through">Read assignment instructions carefully</p>
+                <span class="text-xs text-gray-500 flex items-center mt-1">
+                  <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"></path>
+                  </svg>
+                  5 min
+                </span>
+              </div>
+            </li>
+            <li class="task-breakdown-item completed border rounded-md flex items-start">
+              <div class="flex-shrink-0 mr-3 mt-0.5">
+                <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+              </div>
+              <div class="flex-grow">
+                <p class="text-gray-500 line-through">Research topic and gather sources</p>
+                <span class="text-xs text-gray-500 flex items-center mt-1">
+                  <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"></path>
+                  </svg>
+                  20 min
+                </span>
+              </div>
+            </li>
+            <li class="task-breakdown-item border rounded-md flex items-start">
+              <div class="flex-shrink-0 mr-3 mt-0.5">
+                <svg class="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v5.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 12.586V7z" clip-rule="evenodd"></path>
+                </svg>
+              </div>
+              <div class="flex-grow">
+                <p class="text-gray-800">Create outline with main points</p>
+                <span class="text-xs text-gray-500 flex items-center mt-1">
+                  <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"></path>
+                  </svg>
+                  15 min
+                </span>
+              </div>
+            </li>
+            <!-- More steps would go here -->
+          </ul>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Pomodoro Timer Demo -->
+    <section class="mb-8 bg-white p-6 rounded-lg shadow-sm">
+      <h3 class="text-xl font-semibold text-gray-800 mb-4">Focus Timer Demo</h3>
+      
+      <div class="pomodoro-timer">
+        <div class="text-sm text-gray-600 mb-2">Focus Time</div>
+        <div class="timer-display">25:00</div>
+        <div class="text-sm text-gray-600 mb-4">Stay focused on your task</div>
+        
+        <div class="timer-controls">
+          <button class="timer-button start">Start</button>
+          <button class="timer-button reset">Reset</button>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Resources -->
+    <section class="bg-white p-6 rounded-lg shadow-sm">
+      <h3 class="text-xl font-semibold text-gray-800 mb-4">Additional Resources</h3>
+      <p class="text-gray-600 mb-4">
+        Looking for more support with executive function skills? Explore these resources:
+      </p>
+      <ul class="space-y-3">
+        <li class="flex items-start">
+          <span class="text-purple-600 mr-2">•</span>
+          <div>
+            <h4 class="font-medium text-gray-800">Executive Function Workshop</h4>
+            <p class="text-sm text-gray-600">Learn strategies for improving organization, time management, and task completion.</p>
+          </div>
+        </li>
+        <li class="flex items-start">
+          <span class="text-purple-600 mr-2">•</span>
+          <div>
+            <h4 class="font-medium text-gray-800">One-on-One Coaching</h4>
+            <p class="text-sm text-gray-600">Schedule a session with a learning specialist to develop personalized strategies.</p>
+          </div>
+        </li>
+        <li class="flex items-start">
+          <span class="text-purple-600 mr-2">•</span>
+          <div>
+            <h4 class="font-medium text-gray-800">Digital Tools Library</h4>
+            <p class="text-sm text-gray-600">Explore apps and tools specifically designed to support executive function.</p>
+          </div>
+        </li>
+      </ul>
+    </section>
+  </main>
+  
+  <script>
+    // Simple timer implementation
+    document.addEventListener('DOMContentLoaded', function() {
+      const timerDisplay = document.querySelector('.timer-display');
+      const startButton = document.querySelector('.timer-button.start');
+      const resetButton = document.querySelector('.timer-button.reset');
+      
+      let timer;
+      let minutes = 25;
+      let seconds = 0;
+      let isRunning = false;
+      
+      function updateDisplay() {
+        timerDisplay.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+      }
+      
+      function startTimer() {
+        if (isRunning) {
+          clearInterval(timer);
+          startButton.textContent = 'Start';
+          startButton.classList.remove('pause');
+          startButton.classList.add('start');
+        } else {
+          timer = setInterval(function() {
+            if (seconds === 0) {
+              if (minutes === 0) {
+                clearInterval(timer);
+                alert('Time is up!');
+                isRunning = false;
+                startButton.textContent = 'Start';
+                startButton.classList.remove('pause');
+                startButton.classList.add('start');
+                return;
+              }
+              minutes--;
+              seconds = 59;
+            } else {
+              seconds--;
+            }
+            updateDisplay();
+          }, 1000);
+          
+          startButton.textContent = 'Pause';
+          startButton.classList.remove('start');
+          startButton.classList.add('pause');
+        }
+        
+        isRunning = !isRunning;
+      }
+      
+      function resetTimer() {
+        clearInterval(timer);
+        minutes = 25;
+        seconds = 0;
+        isRunning = false;
+        updateDisplay();
+        startButton.textContent = 'Start';
+        startButton.classList.remove('pause');
+        startButton.classList.add('start');
+      }
+      
+      startButton.addEventListener('click', startTimer);
+      resetButton.addEventListener('click', resetTimer);
+    });
+  </script>
+</body>
+</html>

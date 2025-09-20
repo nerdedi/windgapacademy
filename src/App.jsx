@@ -4,6 +4,8 @@ import { Routes, Route, Navigate } from "react-router-dom";
 // Import providers
 import { AuthProvider } from "./context/AuthContext";
 import { AccessibilityProvider } from "./context/AccessibilityContext";
+import { LearningPreferencesProvider } from "./context/LearningPreferencesContext";
+import { AnalyticsProvider } from "./analytics";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 // Import accessibility components
@@ -11,6 +13,8 @@ import AccessibilitySettings from "./components/AccessibilitySettings";
 
 // Import styles
 import "./styles/accessibility.css";
+import "./styles/adaptive.css";
+import "./styles/neurodivergent.css";
 
 // Import curriculum builder with save state
 import CurriculumBuilderWithSaveState from "../components/curriculum/CurriculumBuilderWithSaveState";
@@ -37,12 +41,8 @@ const UnauthorizedPage = lazy(() => import("./components/UnauthorizedPage"));
 // Import demo pages
 import AnimationSystemDemo from "./pages/AnimationSystemDemo";
 import AdaptiveDemoPage from "./pages/AdaptiveDemoPage";
-
-// Import provider wrappers
-import { AnalyticsProvider } from "./analytics";
-
-// Import styles
-import "./styles/adaptive.css";
+import ExecutiveFunctionDemo from "./pages/ExecutiveFunctionDemo";
+import NeurodivergentLearningPage from "./pages/NeurodivergentLearningPage";
 
 // Professional loading component
 function ProfessionalLoader() {
@@ -60,128 +60,132 @@ function App() {
   return (
     <AccessibilityProvider>
       <AuthProvider>
-        <AnalyticsProvider>
-          <div className="App">
-            <Suspense fallback={<ProfessionalLoader />}>
-              <AccessibilitySettings />
-              <Routes>
-                {/* Public Routes */}
-                <Route path="/" element={<LLNDHomepage />} />
-                <Route path="/login" element={<LoginPage />} />
-                <Route path="/reset-password" element={<ResetPasswordPage />} />
-                <Route path="/verify-email" element={<VerifyEmailPage />} />
-                <Route path="/unauthorized" element={<UnauthorizedPage />} />
+        <LearningPreferencesProvider>
+          <AnalyticsProvider>
+            <div className="App">
+              <Suspense fallback={<ProfessionalLoader />}>
+                <AccessibilitySettings />
+                <Routes>
+                  {/* Public Routes */}
+                  <Route path="/" element={<LLNDHomepage />} />
+                  <Route path="/login" element={<LoginPage />} />
+                  <Route path="/reset-password" element={<ResetPasswordPage />} />
+                  <Route path="/verify-email" element={<VerifyEmailPage />} />
+                  <Route path="/unauthorized" element={<UnauthorizedPage />} />
 
-                {/* Protected Routes */}
-                <Route
-                  path="/dashboard"
-                  element={
-                    <ProtectedRoute>
-                      <LearnerDashboard />
-                    </ProtectedRoute>
-                  }
-                />
+                  {/* Protected Routes */}
+                  <Route
+                    path="/dashboard"
+                    element={
+                      <ProtectedRoute>
+                        <LearnerDashboard />
+                      </ProtectedRoute>
+                    }
+                  />
 
-                <Route
-                  path="/setup-mfa"
-                  element={
-                    <ProtectedRoute>
-                      <SetupMFAPage />
-                    </ProtectedRoute>
-                  }
-                />
+                  <Route
+                    path="/setup-mfa"
+                    element={
+                      <ProtectedRoute>
+                        <SetupMFAPage />
+                      </ProtectedRoute>
+                    }
+                  />
 
-                {/* Protected Routes with Role Requirements */}
-                <Route
-                  path="/curriculum-builder"
-                  element={
-                    <ProtectedRoute requiredRoles={["educator", "admin"]}>
-                      <CurriculumBuilderWithSaveState />
-                    </ProtectedRoute>
-                  }
-                />
+                  {/* Protected Routes with Role Requirements */}
+                  <Route
+                    path="/curriculum-builder"
+                    element={
+                      <ProtectedRoute requiredRoles={["educator", "admin"]}>
+                        <CurriculumBuilderWithSaveState />
+                      </ProtectedRoute>
+                    }
+                  />
 
-                {/* LLND Lesson Modules */}
-                <Route
-                  path="/lesson/language-phonics"
-                  element={
-                    <ProtectedRoute>
-                      <LanguagePhonicsLesson />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/lesson/literacy-reading"
-                  element={
-                    <ProtectedRoute>
-                      <LiteracyReadingLesson />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/lesson/numeracy-money"
-                  element={
-                    <ProtectedRoute>
-                      <NumeracyCountingMoneyLesson />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/lesson/life-skills"
-                  element={
-                    <ProtectedRoute>
-                      <LifeSkillsLesson />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/lesson/digital-literacy"
-                  element={
-                    <ProtectedRoute>
-                      <DigitalLiteracyLesson />
-                    </ProtectedRoute>
-                  }
-                />
+                  {/* LLND Lesson Modules */}
+                  <Route
+                    path="/lesson/language-phonics"
+                    element={
+                      <ProtectedRoute>
+                        <LanguagePhonicsLesson />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/lesson/literacy-reading"
+                    element={
+                      <ProtectedRoute>
+                        <LiteracyReadingLesson />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/lesson/numeracy-money"
+                    element={
+                      <ProtectedRoute>
+                        <NumeracyCountingMoneyLesson />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/lesson/life-skills"
+                    element={
+                      <ProtectedRoute>
+                        <LifeSkillsLesson />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/lesson/digital-literacy"
+                    element={
+                      <ProtectedRoute>
+                        <DigitalLiteracyLesson />
+                      </ProtectedRoute>
+                    }
+                  />
 
-                {/* Enhanced lesson with neurodiversity accommodations */}
-                <Route
-                  path="/lesson/digital-literacy-enhanced"
-                  element={
-                    <ProtectedRoute>
-                      <DigitalLiteracyLessonEnhanced />
-                    </ProtectedRoute>
-                  }
-                />
+                  {/* Enhanced lesson with neurodiversity accommodations */}
+                  <Route
+                    path="/lesson/digital-literacy-enhanced"
+                    element={
+                      <ProtectedRoute>
+                        <DigitalLiteracyLessonEnhanced />
+                      </ProtectedRoute>
+                    }
+                  />
 
-                {/* Demo pages */}
-                <Route path="/animation-demo" element={<AnimationSystemDemo />} />
-                <Route path="/adaptive-demo" element={<AdaptiveDemoPage />} />
+                  {/* Demo pages */}
+                  <Route path="/animation-demo" element={<AnimationSystemDemo />} />
+                  <Route path="/adaptive-demo" element={<AdaptiveDemoPage />} />
+                  <Route path="/executive-function-demo" element={<ExecutiveFunctionDemo />} />
+                  <Route path="/neurodivergent-learning" element={<NeurodivergentLearningPage />} />
 
-                {/* Module routes */}
-                <Route
-                  path="/module/:moduleId"
-                  element={
-                    <ProtectedRoute>
-                      <div className="p-8 text-center">
-                        <h1 className="text-2xl font-bold mb-4">Module Coming Soon</h1>
-                        <p className="text-gray-600 mb-4">This LLND module is being developed.</p>
-                        <button
-                          onClick={() => window.history.back()}
-                          className="bg-blue-600 text-white px-4 py-2 rounded"
-                        >
-                          Go Back
-                        </button>
-                      </div>
-                    </ProtectedRoute>
-                  }
-                />
+                  {/* Module routes */}
+                  <Route
+                    path="/module/:moduleId"
+                    element={
+                      <ProtectedRoute>
+                        <div className="p-8 text-center">
+                          <h1 className="text-2xl font-bold mb-4">Module Coming Soon</h1>
+                          <p className="text-gray-600 mb-4">This LLND module is being developed.</p>
+                          <button
+                            onClick={() => window.history.back()}
+                            className="bg-blue-600 text-white px-4 py-2 rounded"
+                          >
+                            Go Back
+                          </button>
+                        </div>
+                      </ProtectedRoute>
+                    }
+                  />
 
-                {/* Catch all */}
-                <Route path="*" element={<Navigate to="/" replace />} />
-              </Routes>
-            </Suspense>
-          </div>
-        </AnalyticsProvider>
+                  {/* Catch all */}
+                  <Route path="*" element={<Navigate to="/" replace />} />
+                </Routes>
+              </Suspense>
+            </div>
+          </AnalyticsProvider>
+        </LearningPreferencesProvider>
       </AuthProvider>
     </AccessibilityProvider>
   );
