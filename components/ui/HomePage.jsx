@@ -4,89 +4,58 @@ const HomePage = () => {
   const navigate = useNavigate();
 
   function goLogin() {
-    // Navigate to app root where the login UI is shown by App when unauthenticated
-    // eslint-disable-next-line no-console
     navigate("/login", { state: { from: "home" } });
     console.log("goLogin", navigate);
-    // In this app, the login UI is shown when the MainApp showsLogin state is trusted  true
-    // and the user is unauthenticated.
-    // The actual login process is handled by the AuthProvider and its login function.
   }
   function goSignup() {
-    // Navigate to app root where the login UI is shown by App when unauthenticated
-    // eslint-disable-next-line no-console
     navigate("/signup", { state: { from: "home" } });
     console.log("goSignup", navigate);
   }
   function goDashboard() {
-    // Navigate to app root where the login UI is shown by App when unauthenticated
-    // eslint-disable-next-line no-console
     navigate("/dashboard", { state: { from: "home" } });
     console.log("goDashboard", navigate);
   }
   function goLearnerDashboard() {
-    // Navigate to app root where the login UI is shown by App when unauthenticated
-    // eslint-disable-next-line no-console
     navigate("/learner-dashboard", { state: { from: "home" } });
     console.log("goLearnerDashboard", navigate);
   }
   function goEducatorDashboard() {
-    // Navigate to app root where the login UI is shown by App when unauthenticated
-    // eslint-disable-next-line no-console
     navigate("/educator-dashboard", { state: { from: "home" } });
     console.log("goEducatorDashboard", navigate);
   }
   function goGames() {
-    // Navigate to app root where the login UI is shown by App when unauthenticated
-    // eslint-disable-next-line no-console
     navigate("/games", { state: { from: "home" } });
     console.log("goGames", navigate);
   }
   function goHelp() {
-    // Navigate to app root where the login UI is shown by App when unauthenticated
-    // eslint-disable-next-line no-console
     navigate("/help", { state: { from: "home" } });
     console.log("goHelp", navigate);
   }
   function goContact() {
-    // Navigate to app root where the login UI is shown by App when unauthenticated
-    // eslint-disable-next-line no-console
     navigate("/contact", { state: { from: "home" } });
     console.log("goContact", navigate);
   }
   function goPrivacy() {
-    // Navigate to app root where the login UI is shown by App when unauthenticated
-    // eslint-disable-next-line no-console
     navigate("/privacy", { state: { from: "home" } });
     console.log("goPrivacy", navigate);
   }
   function goTerms() {
-    // Navigate to app root where the login UI is shown by App when unauthenticated
-    // eslint-disable-next-line no-console
     navigate("/terms", { state: { from: "home" } });
     console.log("goTerms", navigate);
   }
   function goAccessibility() {
-    // Navigate to app root where the login UI is shown by App when unauthenticated
-    // eslint-disable-next-line no-console
     navigate("/accessibility", { state: { from: "home" } });
     console.log("goAccessibility", navigate);
   }
   function goSupport() {
-    // Navigate to app root where the login UI is shown by App when unauthenticated
-    // eslint-disable-next-line no-console
     navigate("/support", { state: { from: "home" } });
     console.log("goSupport", navigate);
   }
   function goAbout() {
-    // Navigate to app root where the login UI is shown by App when unauthenticated
-    // eslint-disable-next-line no-console
     navigate("/about", { state: { from: "home" } });
     console.log("goAbout", navigate);
   }
   function goCurriculum() {
-    // Navigate to app root where the login UI is shown by App when unauthenticated
-    // eslint-disable-next-line no-console
     navigate("/curriculum", { state: { from: "home" } });
     console.log("goCurriculum", navigate);
   }
@@ -105,7 +74,7 @@ const HomePage = () => {
         <h2 className="text-2xl font-semibold mb-3">What we offer</h2>
         <p className="text-gray-600">
           A secure, accessible learning platform for educators and learners. Create NDIS-aligned
-          goals, monitor progress, and prepare compliant reports.
+          goals, monitor progress, and prepare compliant reports. All in one place.
         </p>
 
         <div className="features grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
@@ -125,7 +94,8 @@ const HomePage = () => {
             <div className="text-3xl mb-2">💡</div>
             <h3 className="font-semibold">Funding Insights</h3>
             <p className="text-sm text-gray-600">
-              Plan and justify future funding needs with evidence.
+              Analyze funding patterns and identify opportunities for growth. Plan and justify
+              future funding needs with evidence.
             </p>
           </div>
         </div>
@@ -137,11 +107,57 @@ const HomePage = () => {
           >
             Log in to your account
           </button>
+          <button
+            onClick={goSignup}
+            className="ml-4 px-6 py-3 bg-green-600 text-white rounded font-semibold"
+          >
+            Sign up
+          </button>
         </div>
       </section>
 
       <footer className="text-center text-sm text-gray-500 mt-12">
-        <p>Designed for educators, trusted by families. Privacy and accessibility at the core.</p>
+        <p>Designed for all types of learners. Privacy and accessibility at the core.</p>
+        <div className="mt-4 space-x-4">
+          <button onClick={goDashboard} className="text-blue-600 hover:underline">
+            Dashboard
+          </button>
+          <button onClick={goLearnerDashboard} className="text-blue-600 hover:underline">
+            Learner Dashboard
+          </button>
+          <button onClick={goEducatorDashboard} className="text-blue-600 hover:underline">
+            Educator Dashboard
+          </button>
+          <button onClick={goGames} className="text-blue-600 hover:underline">
+            Games
+          </button>
+          <button onClick={goCurriculum} className="text-blue-600 hover:underline">
+            Curriculum
+          </button>
+        </div>
+        <div className="mt-2 space-x-4">
+          <button onClick={goHelp} className="text-blue-600 hover:underline">
+            Help
+          </button>
+          <button onClick={goContact} className="text-blue-600 hover:underline">
+            Contact
+          </button>
+          <button onClick={goPrivacy} className="text-blue-600 hover:underline">
+            Privacy
+          </button>
+          <button onClick={goTerms} className="text-blue-600 hover:underline">
+            Terms
+          </button>
+          <button onClick={goAccessibility} className="text-blue-600 hover:underline">
+            Accessibility
+          </button>
+          <button onClick={goSupport} className="text-blue-600 hover:underline">
+            Support
+          </button>
+          <button onClick={goAbout} className="text-blue-600 hover:underline">
+            About
+          </button>
+        </div>
       </footer>
     </main>
   );

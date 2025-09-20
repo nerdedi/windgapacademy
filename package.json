@@ -60,6 +60,9 @@
     ]
   },
   "dependencies": {
+    "@chakra-ui/react": "^3.27.0",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
     "@headlessui/react": "^1.7.17",
     "@heroicons/react": "^2.0.18",
     "@react-three/cannon": "^6.6.0",
@@ -67,8 +70,9 @@
     "@react-three/fiber": "^9.3.0",
     "@react-three/postprocessing": "^3.0.4",
     "firebase": "^12.2.1",
-    "framer-motion": "^12.23.12",
+    "framer-motion": "^12.23.13",
     "howler": "^2.2.4",
+    "lucide-react": "^0.544.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-error-boundary": "^6.0.0",

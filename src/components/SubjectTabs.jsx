@@ -4,6 +4,8 @@ import { getCharacterForSubject } from "./Characters";
 import LanguagePhonicsLesson from "./lessonModules/LanguagePhonicsLesson";
 import LiteracyReadingLesson from "./lessonModules/LiteracyReadingLesson";
 import NumeracyCountingMoneyLesson from "./lessonModules/NumeracyCountingMoneyLesson";
+import DigitalLiteracyLesson from "./lessonModules/DigitalLiteracyLesson";
+import LifeSkillsLesson from "./lessonModules/LifeSkillsLesson";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "./ui/tabs";
 
 const subjects = [
@@ -19,13 +21,13 @@ const subjects = [
     id: "digital",
     label: "Digital Literacy",
     color: "green-500",
-    component: <div>Digital Literacy Module Coming Soon</div>,
+    component: <DigitalLiteracyLesson />,
   },
   {
     id: "independence",
     label: "Skills for Independence",
     color: "pink-500",
-    component: <div>Independence Module Coming Soon</div>,
+    component: <LifeSkillsLesson />,
   },
 ];
 

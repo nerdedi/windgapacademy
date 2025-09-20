@@ -1,17 +1,20 @@
 import React, { Suspense } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 
-// Import components
-import LLNDHomepage from "./components/LLNDHomepage";
-import LoginPage from "./components/LoginPage";
-import LearnerDashboard from "./components/StudentDashboard";
+// Import curriculum builder with save state
+import CurriculumBuilderWithSaveState from "../components/curriculum/CurriculumBuilderWithSaveState";
 
 // Import lesson modules
+import DigitalLiteracyLesson from "./components/lessonModules/DigitalLiteracyLesson";
 import LanguagePhonicsLesson from "./components/lessonModules/LanguagePhonicsLesson";
+import LifeSkillsLesson from "./components/lessonModules/LifeSkillsLesson";
 import LiteracyReadingLesson from "./components/lessonModules/LiteracyReadingLesson";
 import NumeracyCountingMoneyLesson from "./components/lessonModules/NumeracyCountingMoneyLesson";
-import LifeSkillsLesson from "./components/lessonModules/LifeSkillsLesson";
-import DigitalLiteracyLesson from "./components/lessonModules/DigitalLiteracyLesson";
+
+// Import components
+import LLNDHomepage from "./components/LLNDHomepage";
+import LearnerDashboard from "./components/StudentDashboard";
+import LoginPage from "./components/LoginPage";
 
 // Import the animation demo page
 import AnimationSystemDemo from "./pages/AnimationSystemDemo";
@@ -44,7 +47,10 @@ function App() {
           <Route path="/lesson/numeracy-money" element={<NumeracyCountingMoneyLesson />} />
           <Route path="/lesson/life-skills" element={<LifeSkillsLesson />} />
           <Route path="/lesson/digital-literacy" element={<DigitalLiteracyLesson />} />
-          
+
+          {/* Curriculum Builder */}
+          <Route path="/curriculum-builder" element={<CurriculumBuilderWithSaveState />} />
+
           {/* Animation Demo */}
           <Route path="/animation-demo" element={<AnimationSystemDemo />} />
 

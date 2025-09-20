@@ -5,7 +5,15 @@ const express = require("express");
 const app = express();
 const PORT = process.env.PORT || 9003;
 
-// Serve static files from the root and subfolders
+// Add Content Security Policy middleware
+app.use((req, res, next) => {
+  // Set CSP header with appropriate directives
+  res.setHeader(
+    "Content-Security-Policy",
+    "default-src 'self'; connect-src 'self' http://127.0.0.1:5443 ws: wss:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob:; media-src 'self'; object-src 'none'; frame-src 'self';",
+  );
+  next();
+});
 
 // Serve favicon.ico from assets/logo.png if missing
 const faviconPath = path.join(__dirname, "favicon.ico");

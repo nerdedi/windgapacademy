@@ -91,7 +91,15 @@ export function Navigation({ currentView, onViewChange, user = null }) {
           icon: Film,
           description: "Character Animation System Demo",
           badge: "New",
-          path: "/animation-demo"
+          path: "/animation-demo",
+        },
+        {
+          id: "curriculum-builder",
+          label: "Curriculum Builder",
+          icon: BookOpen,
+          description: "Create and save curriculum modules",
+          badge: "New",
+          path: "/curriculum-builder",
         },
       ],
     },
@@ -280,11 +288,13 @@ export function Navigation({ currentView, onViewChange, user = null }) {
     <>
       {navigationItems.map((category) => (
         <div key={category.category} className="mb-4">
-          <h3 className="text-xs font-semibold text-muted-foreground pl-3 mb-2">{category.category}</h3>
+          <h3 className="text-xs font-semibold text-muted-foreground pl-3 mb-2">
+            {category.category}
+          </h3>
           {category.items.map((item) => {
             const Icon = item.icon;
             const isActive = currentView === item.id;
-            
+
             // If the item has a direct path, use it for navigation
             const handleItemClick = () => {
               if (item.path) {
@@ -294,7 +304,7 @@ export function Navigation({ currentView, onViewChange, user = null }) {
               }
               setIsMobileMenuOpen(false);
             };
-            
+
             return (
               <Button
                 key={item.id}
