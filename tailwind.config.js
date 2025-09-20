@@ -6,7 +6,14 @@
  * - Professional typography scale
  * - Advanced animations and transitions
  * - Responsive design utilities
- * - Accessibility-focused utilities
+ * - Ac        float: {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-10px)" },
+        },
+        glow: {
+          "0%": { boxShadow: "0 0 10px rgba(94, 209, 210, 0.4)" },
+          "100%": { boxShadow: "0 0 20px rgba(94, 209, 210, 0.8)" },
+        },ity-focused utilities
  * - Custom component classes
  * - Dark mode support
  * - Performance optimizations
@@ -70,6 +77,15 @@ module.exports = {
           900: "#78350f",
           950: "#451a03",
         },
+        // iPhone-inspired colors
+        blue: "#2997FF",
+        gray: {
+          DEFAULT: "#86868b",
+          100: "#94928d", 
+          200: "#afafaf",
+          300: "#42424570",
+        },
+        zinc: "#101010",
         // Semantic Colors
         success: {
           50: "#f0fdf4",
@@ -322,6 +338,35 @@ module.exports = {
           backgroundColor: "rgba(0, 0, 0, 0.1)",
           backdropFilter: "blur(10px)",
           border: "1px solid rgba(255, 255, 255, 0.1)",
+        },
+        ".modern-glass": {
+          backgroundColor: "rgba(255, 255, 255, 0.05)",
+          backdropFilter: "blur(16px)",
+          border: "1px solid rgba(255, 255, 255, 0.1)",
+          boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
+        },
+        ".modern-glass-dark": {
+          backgroundColor: "rgba(16, 16, 16, 0.6)",
+          backdropFilter: "blur(16px)",
+          border: "1px solid rgba(255, 255, 255, 0.05)",
+          boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2)",
+        },
+        ".text-gradient": {
+          background: "linear-gradient(to right, #2997FF, #5ED1D2)",
+          "-webkit-background-clip": "text",
+          "-webkit-text-fill-color": "transparent",
+        },
+        ".bg-gradient-blue": {
+          background: "linear-gradient(to right, #2997FF, #5ED1D2)",
+        },
+        ".bg-noise": {
+          backgroundImage: "url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv" + 
+            "MjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj" + 
+            "48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0i" + 
+            "ZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZm" + 
+            "lsdGVyPjxwYXRoIGQ9Ik0wIDBoMzAwdjMwMEgweiIgZmlsdGVyPSJ1cmwoI2EpIiBvcGFjaXR5PSIuMDUi" + 
+            "Lz48L3N2Zz4=')",
+          backgroundRepeat: "repeat",
         },
       };
 

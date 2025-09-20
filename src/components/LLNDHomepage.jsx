@@ -265,6 +265,26 @@ function LLNDHomepage() {
         <div className="max-w-6xl mx-auto text-center">
           <div className="text-2xl font-semibold text-black mb-4">Windgap Academy</div>
           <p className="text-gray-600 mb-6">Learning and Life Navigation Development Platform</p>
+          
+          {/* Demo links */}
+          <div className="mb-8 py-4 px-6 bg-blue-50 rounded-lg inline-block">
+            <h3 className="text-blue-800 font-semibold mb-2">Demo Pages</h3>
+            <div className="flex space-x-4">
+              <button
+                onClick={() => navigate("/animation-demo")}
+                className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
+              >
+                Animation Demo
+              </button>
+              <button
+                onClick={() => navigate("/adaptive-demo")}
+                className="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700 transition-colors"
+              >
+                Adaptive UI Demo
+              </button>
+            </div>
+          </div>
+          
           <div className="flex justify-center space-x-8 text-sm text-gray-500">
             <button
               onClick={() => navigate("/login")}

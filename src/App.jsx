@@ -16,8 +16,15 @@ import LLNDHomepage from "./components/LLNDHomepage";
 import LearnerDashboard from "./components/StudentDashboard";
 import LoginPage from "./components/LoginPage";
 
-// Import the animation demo page
+// Import demo pages
 import AnimationSystemDemo from "./pages/AnimationSystemDemo";
+import AdaptiveDemoPage from "./pages/AdaptiveDemoPage";
+
+// Import provider wrappers
+import { AnalyticsProvider } from "./analytics";
+
+// Import styles
+import "./styles/adaptive.css";
 
 // Professional loading component
 function ProfessionalLoader() {
@@ -33,49 +40,52 @@ function ProfessionalLoader() {
 
 function App() {
   return (
-    <div className="App">
-      <Suspense fallback={<ProfessionalLoader />}>
-        <Routes>
-          {/* Main Routes */}
-          <Route path="/" element={<LLNDHomepage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/dashboard" element={<LearnerDashboard />} />
+    <AnalyticsProvider>
+      <div className="App">
+        <Suspense fallback={<ProfessionalLoader />}>
+          <Routes>
+            {/* Main Routes */}
+            <Route path="/" element={<LLNDHomepage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/dashboard" element={<LearnerDashboard />} />
 
-          {/* LLND Lesson Modules */}
-          <Route path="/lesson/language-phonics" element={<LanguagePhonicsLesson />} />
-          <Route path="/lesson/literacy-reading" element={<LiteracyReadingLesson />} />
-          <Route path="/lesson/numeracy-money" element={<NumeracyCountingMoneyLesson />} />
-          <Route path="/lesson/life-skills" element={<LifeSkillsLesson />} />
-          <Route path="/lesson/digital-literacy" element={<DigitalLiteracyLesson />} />
+            {/* LLND Lesson Modules */}
+            <Route path="/lesson/language-phonics" element={<LanguagePhonicsLesson />} />
+            <Route path="/lesson/literacy-reading" element={<LiteracyReadingLesson />} />
+            <Route path="/lesson/numeracy-money" element={<NumeracyCountingMoneyLesson />} />
+            <Route path="/lesson/life-skills" element={<LifeSkillsLesson />} />
+            <Route path="/lesson/digital-literacy" element={<DigitalLiteracyLesson />} />
 
-          {/* Curriculum Builder */}
-          <Route path="/curriculum-builder" element={<CurriculumBuilderWithSaveState />} />
+            {/* Curriculum Builder */}
+            <Route path="/curriculum-builder" element={<CurriculumBuilderWithSaveState />} />
 
-          {/* Animation Demo */}
-          <Route path="/animation-demo" element={<AnimationSystemDemo />} />
+            {/* Demo pages */}
+            <Route path="/animation-demo" element={<AnimationSystemDemo />} />
+            <Route path="/adaptive-demo" element={<AdaptiveDemoPage />} />
 
-          {/* Module routes */}
-          <Route
-            path="/module/:moduleId"
-            element={
-              <div className="p-8 text-center">
-                <h1 className="text-2xl font-bold mb-4">Module Coming Soon</h1>
-                <p className="text-gray-600 mb-4">This LLND module is being developed.</p>
-                <button
-                  onClick={() => window.history.back()}
-                  className="bg-blue-600 text-white px-4 py-2 rounded"
-                >
-                  Go Back
-                </button>
-              </div>
-            }
-          />
+            {/* Module routes */}
+            <Route
+              path="/module/:moduleId"
+              element={
+                <div className="p-8 text-center">
+                  <h1 className="text-2xl font-bold mb-4">Module Coming Soon</h1>
+                  <p className="text-gray-600 mb-4">This LLND module is being developed.</p>
+                  <button
+                    onClick={() => window.history.back()}
+                    className="bg-blue-600 text-white px-4 py-2 rounded"
+                  >
+                    Go Back
+                  </button>
+                </div>
+              }
+            />
 
-          {/* Catch all */}
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </Suspense>
-    </div>
+            {/* Catch all */}
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </Suspense>
+      </div>
+    </AnalyticsProvider>
   );
 }
 

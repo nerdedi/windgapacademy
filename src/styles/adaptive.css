@@ -1,0 +1,369 @@
+/* 
+ * Adaptive UI System Styles
+ * Portions of this file were generated with the assistance of GitHub Copilot
+ */
+
+/* CSS Variables for Adaptive UI */
+:root {
+  /* Theme Variables */
+  --color-light-bg: #ffffff;
+  --color-light-text: #222222;
+  --color-dark-bg: #222222;
+  --color-dark-text: #ffffff;
+  
+  /* Spacing Variables */
+  --spacing-tight: 0.5rem;
+  --spacing-normal: 1rem;
+  --spacing-loose: 1.5rem;
+  
+  /* Animation Variables */
+  --transition-fast: 0.15s;
+  --transition-normal: 0.3s;
+  --transition-slow: 0.5s;
+  
+  /* Adaptive Variables - These change based on user preferences */
+  --adaptive-bg-primary: var(--color-light-bg);
+  --adaptive-text-primary: var(--color-light-text);
+  --adaptive-spacing: var(--spacing-normal);
+  --adaptive-transition-speed: var(--transition-normal);
+  --adaptive-animation-play-state: running;
+  --adaptive-ui-density: 1;
+  
+  /* Focus Mode Variables */
+  --focus-highlight: rgba(0, 123, 255, 0.5);
+}
+
+/* Theme Classes */
+.light-theme {
+  --adaptive-bg-primary: var(--color-light-bg);
+  --adaptive-text-primary: var(--color-light-text);
+  background-color: var(--adaptive-bg-primary);
+  color: var(--adaptive-text-primary);
+}
+
+.dark-theme {
+  --adaptive-bg-primary: var(--color-dark-bg);
+  --adaptive-text-primary: var(--color-dark-text);
+  background-color: var(--adaptive-bg-primary);
+  color: var(--adaptive-text-primary);
+}
+
+/* Motion Reduction */
+.reduced-motion * {
+  transition-duration: 0s !important;
+  animation-duration: 0s !important;
+  animation-play-state: paused !important;
+}
+
+/* UI Complexity Classes */
+[data-ui-complexity="simple"] {
+  --adaptive-spacing: var(--spacing-loose);
+}
+
+[data-ui-complexity="dense"] {
+  --adaptive-spacing: var(--spacing-tight);
+}
+
+/* Adaptive Card Component */
+.adaptive-card {
+  display: flex;
+  flex-direction: column;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background-color: var(--adaptive-bg-primary);
+  color: var(--adaptive-text-primary);
+  transition: transform var(--adaptive-transition-speed), 
+              box-shadow var(--adaptive-transition-speed);
+  margin: var(--adaptive-spacing);
+  padding: var(--adaptive-spacing);
+}
+
+.adaptive-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.reduced-motion .adaptive-card:hover {
+  transform: none;
+}
+
+/* Card Sizes */
+.adaptive-card--small {
+  max-width: 300px;
+}
+
+.adaptive-card--medium {
+  max-width: 400px;
+}
+
+.adaptive-card--large {
+  max-width: 500px;
+}
+
+/* Card Header */
+.adaptive-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--adaptive-spacing);
+}
+
+.adaptive-card__title {
+  margin: 0;
+  font-size: calc(1.2rem * var(--adaptive-ui-density));
+}
+
+.adaptive-card__help-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: rgba(0, 123, 255, 0.1);
+  color: #0066cc;
+  font-weight: bold;
+  cursor: help;
+}
+
+/* Card Media */
+.adaptive-card__media {
+  margin-bottom: var(--adaptive-spacing);
+  max-height: 200px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.adaptive-card__image {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.adaptive-card__video,
+.adaptive-card__audio {
+  width: 100%;
+}
+
+/* Card Content */
+.adaptive-card__content {
+  flex: 1;
+  margin-bottom: var(--adaptive-spacing);
+}
+
+.adaptive-card__text {
+  line-height: 1.5;
+  font-size: calc(1rem * var(--adaptive-ui-density));
+}
+
+.adaptive-card__text--visual-emphasis {
+  font-size: calc(1.1rem * var(--adaptive-ui-density));
+  line-height: 1.6;
+}
+
+.adaptive-card__interactive {
+  margin-top: var(--adaptive-spacing);
+  padding: var(--adaptive-spacing);
+  background-color: rgba(0, 0, 0, 0.03);
+  border-radius: 4px;
+}
+
+/* Card Actions */
+.adaptive-card__actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.adaptive-card__expand-button,
+.adaptive-card__advanced-action {
+  background-color: transparent;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background-color var(--adaptive-transition-speed);
+}
+
+.adaptive-card__expand-button:hover,
+.adaptive-card__advanced-action:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.dark-theme .adaptive-card__expand-button:hover,
+.dark-theme .adaptive-card__advanced-action:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Focus Mode Adaptations */
+.adaptive-card-focus-mode {
+  box-shadow: 0 0 0 2px var(--focus-highlight);
+}
+
+/* Learning Style Adaptations */
+.adaptive-card-visual {
+  --adaptive-ui-density: 0.9;
+}
+
+.adaptive-card-auditory {
+  --adaptive-ui-density: 1.1;
+}
+
+.adaptive-card-kinesthetic {
+  --adaptive-ui-density: 1.0;
+}
+
+.adaptive-card-reading {
+  --adaptive-ui-density: 1.1;
+}
+
+/* Demo Page Styles */
+.adaptive-demo-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  background-color: var(--adaptive-bg-primary);
+  color: var(--adaptive-text-primary);
+}
+
+.adaptive-demo-page__header {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.adaptive-demo-page__controls {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  justify-content: center;
+}
+
+.adaptive-demo-page__footer {
+  margin-top: 3rem;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #777;
+}
+
+/* Demo Content Styles */
+.adaptive-ui-demo {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 2rem;
+}
+
+.adaptive-ui-demo__controls {
+  background-color: rgba(0, 0, 0, 0.03);
+  padding: var(--adaptive-spacing);
+  border-radius: 8px;
+}
+
+.dark-theme .adaptive-ui-demo__controls {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.control-group {
+  margin-bottom: 1.5rem;
+}
+
+.control-group h3 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+}
+
+.radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.control-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.current-adaptations {
+  font-size: 0.9rem;
+}
+
+.current-adaptations p {
+  margin: 0.25rem 0;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+/* Interactive Elements for Demo */
+.interactive-element {
+  padding: 0.5rem;
+}
+
+.color-palette {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.color-sample {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+
+.slider-container {
+  margin-top: 0.5rem;
+}
+
+.play-button {
+  background-color: #5555ff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+
+.volume-control {
+  margin-top: 0.5rem;
+}
+
+.drag-drop-demo {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.draggable {
+  background-color: #f5f5f5;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  cursor: grab;
+}
+
+.drop-zone {
+  flex: 1;
+  border: 2px dashed #ccc;
+  padding: 1rem;
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+/* Responsive Adaptations */
+@media (max-width: 768px) {
+  .adaptive-ui-demo {
+    grid-template-columns: 1fr;
+  }
+  
+  .card-grid {
+    grid-template-columns: 1fr;
+  }
+}
