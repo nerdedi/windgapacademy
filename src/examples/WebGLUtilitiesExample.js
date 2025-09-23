@@ -4,8 +4,10 @@
  */
 
 // Import the WebGL utilities
-import WebGLEffects from "./src/utils/WebGLEffects.js";
+import * as THREE from "three";
+
 import CharacterAnimator from "./src/utils/CharacterAnimator.js";
+import WebGLEffects from "./src/utils/WebGLEffects.js";
 
 // Function to demonstrate WebGL effects
 function demonstrateWebGLEffects() {

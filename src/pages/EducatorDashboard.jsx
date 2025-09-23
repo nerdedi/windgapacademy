@@ -12,34 +12,36 @@
  * - Performance analytics and trends
  */
 
-import React, { useState, useEffect, useCallback, useMemo } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Suspense } from "react";
+import { Environment, Float, OrbitControls, Text as Text3D } from "@react-three/drei";
+import { Canvas } from "@react-three/fiber";
+import { AnimatePresence, motion } from "framer-motion";
+import { Suspense, useCallback, useEffect, useMemo, useState } from "react";
 
 // Import professional components
 import EducatorDashboardUI from "../../components/ui/EducatorDashboard";
+import { SoundManager } from "../audio/SoundManager";
 import { ErrorBoundary } from "../components/ErrorBoundary";
 import LoadingScreen from "../components/LoadingScreen";
 
 // Import utilities and hooks
-import { useAuth } from "../hooks/useAuth";
 import { useAnalytics } from "../hooks/useAnalytics";
-import { useNotifications } from "../hooks/useNotifications";
-import { useClassManagement } from "../hooks/useClassManagement";
 import { useAssessments } from "../hooks/useAssessments";
+import { useAuth } from "../hooks/useAuth";
+import { useClassManagement } from "../hooks/useClassManagement";
+import { useNotifications } from "../hooks/useNotifications";
+import { AIEngine } from "../utils/AIEngine";
 import monitoring from "../utils/monitoring";
 
 // Import AI and sound systems
 // AI Engine removed for simplified build
-import { SoundManager } from "../audio/SoundManager";
 
 const EducatorDashboard = () => {
   // State management
   const [isLoading, setIsLoading] = useState(true);
   const [dashboardMode, setDashboardMode] = useState("overview"); // overview, classes, assessments, analytics, content, communication
   const [selectedClass, setSelectedClass] = useState(null);
-  const [selectedStudent, setSelectedStudent] = useState(null);
-  const [showReports, setShowReports] = useState(false);
+  const [_selectedStudent, setSelectedStudent] = useState(null);
+  const [_showReports, _setShowReports] = useState(false);
   const [activeAssessment, setActiveAssessment] = useState(null);
 
   // Custom hooks
@@ -94,7 +96,19 @@ const EducatorDashboard = () => {
     if (isAuthenticated && user?.role === "educator") {
       initializeDashboard();
     }
-  }, [isAuthenticated, user?.id, user?.role, dashboardMode, trackEvent]);
+  }, [
+    isAuthenticated,
+    user?.id,
+    user?.role,
+    dashboardMode,
+    trackEvent,
+    aiEngine,
+    loadAnalytics,
+    loadAssessments,
+    loadClasses,
+    loadStudentProgress,
+    soundManager,
+  ]);
 
   // Load classes
   const loadClasses = useCallback(async () => {
@@ -268,7 +282,7 @@ const EducatorDashboard = () => {
     students,
     assessments,
     selectedClass,
-    selectedStudent,
+    // selectedStudent is not needed here
     activeAssessment,
     handleClassSelect,
     handleStudentSelect,
@@ -529,7 +543,13 @@ const EducatorOverview = ({
   </div>
 );
 
-const ClassManagement = ({ selectedClass, students, onStudentSelect, onClassUpdate, aiEngine }) => (
+const ClassManagement = ({
+  _selectedClass,
+  _students,
+  _onStudentSelect,
+  _onClassUpdate,
+  _aiEngine,
+}) => (
   <div className="space-y-6">
     <h2 className="text-2xl font-bold text-gray-900">Class Management</h2>
     {/* Class management content */}

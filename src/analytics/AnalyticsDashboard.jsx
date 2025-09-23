@@ -1,19 +1,22 @@
 // Portions of this file were generated with the assistance of GitHub Copilot
 
+import { collection, query, where, getDocs, orderBy, limit } from "firebase/firestore";
 import React, { useState, useEffect } from "react";
+
+import { firestore } from "../../firebase";
+
 import { useAnalytics } from "./AnalyticsContext";
 import AnalyticsVisualizer from "./AnalyticsVisualizer";
-import { firestore } from "../../firebase";
-import { collection, query, where, getDocs, orderBy, limit } from "firebase/firestore";
 
 /**
  * AnalyticsDashboard - Admin dashboard for monitoring analytics
- * 
+ *
  * This component provides administrators with a comprehensive view of
  * user analytics, platform usage patterns, and learning trends.
  */
 const AnalyticsDashboard = () => {
-  const { insights, recommendations, isLoading, refreshInsightsAndRecommendations } = useAnalytics();
+  const { insights, recommendations, isLoading, refreshInsightsAndRecommendations } =
+    useAnalytics();
   const [aggregateData, setAggregateData] = useState(null);
   const [userProfiles, setUserProfiles] = useState([]);
   const [activeTab, setActiveTab] = useState("overview");
@@ -24,12 +27,12 @@ const AnalyticsDashboard = () => {
   useEffect(() => {
     const loadAggregateData = async () => {
       setIsLoadingAggregate(true);
-      
+
       try {
         // Determine time range
         const now = new Date();
         let startTime;
-        
+
         switch (timeRange) {
           case "day":
             startTime = new Date(now.setDate(now.getDate() - 1));
@@ -46,29 +49,29 @@ const AnalyticsDashboard = () => {
           default:
             startTime = new Date(now.setDate(now.getDate() - 7));
         }
-        
+
         // Query Firestore for aggregate analytics
         const aggregateRef = collection(firestore, "aggregateAnalytics");
         const q = query(
           aggregateRef,
           where("timestamp", ">=", startTime.getTime()),
-          orderBy("timestamp", "desc")
+          orderBy("timestamp", "desc"),
         );
-        
+
         const querySnapshot = await getDocs(q);
         const aggregateEvents = [];
-        
+
         querySnapshot.forEach((doc) => {
           aggregateEvents.push({
             id: doc.id,
-            ...doc.data()
+            ...doc.data(),
           });
         });
-        
+
         // Process aggregate data
         const processed = processAggregateData(aggregateEvents);
         setAggregateData(processed);
-        
+
         // Load user profiles
         await loadUserProfiles();
       } catch (error) {
@@ -77,39 +80,39 @@ const AnalyticsDashboard = () => {
         setIsLoadingAggregate(false);
       }
     };
-    
+
     loadAggregateData();
   }, [timeRange]);
-  
+
   // Load user profiles with analytics data
   const loadUserProfiles = async () => {
     try {
       const userAnalyticsRef = collection(firestore, "userAnalytics");
       const q = query(userAnalyticsRef, limit(50)); // Limit to 50 users
-      
+
       const querySnapshot = await getDocs(q);
       const profiles = [];
-      
+
       querySnapshot.forEach((doc) => {
         profiles.push({
           userId: doc.id,
-          ...doc.data()
+          ...doc.data(),
         });
       });
-      
+
       setUserProfiles(profiles);
     } catch (error) {
       console.error("Error loading user profiles:", error);
     }
   };
-  
+
   // Process aggregate data for visualization
   const processAggregateData = (events) => {
     if (!events || events.length === 0) return null;
-    
+
     // Sort events by timestamp
     const sortedEvents = [...events].sort((a, b) => a.timestamp - b.timestamp);
-    
+
     // Calculate daily event counts
     const dailyCounts = {};
     const eventTypeData = {};
@@ -117,17 +120,17 @@ const AnalyticsDashboard = () => {
     let totalSessions = new Set();
     let totalEvents = 0;
     let avgEngagement = 0;
-    
+
     sortedEvents.forEach((event) => {
       // Add to total counts
       totalUsers.add(event.userId);
       totalSessions.add(event.sessionId);
       totalEvents += event.totalEvents || 0;
       avgEngagement += event.avgEngagement || 0;
-      
+
       // Process by date
       const date = new Date(event.timestamp).toISOString().split("T")[0];
-      
+
       if (!dailyCounts[date]) {
         dailyCounts[date] = {
           date,
@@ -135,19 +138,19 @@ const AnalyticsDashboard = () => {
           sessions: new Set(),
           events: 0,
           engagement: 0,
-          engagementCount: 0
+          engagementCount: 0,
         };
       }
-      
+
       dailyCounts[date].users.add(event.userId);
       dailyCounts[date].sessions.add(event.sessionId);
       dailyCounts[date].events += event.totalEvents || 0;
-      
+
       if (event.avgEngagement) {
         dailyCounts[date].engagement += event.avgEngagement;
         dailyCounts[date].engagementCount += 1;
       }
-      
+
       // Process by event type
       if (event.eventCounts) {
         Object.entries(event.eventCounts).forEach(([type, count]) => {
@@ -158,21 +161,21 @@ const AnalyticsDashboard = () => {
         });
       }
     });
-    
+
     // Convert daily counts to array and calculate averages
     const dailyData = Object.values(dailyCounts).map((day) => ({
       date: day.date,
       userCount: day.users.size,
       sessionCount: day.sessions.size,
       eventCount: day.events,
-      avgEngagement: day.engagementCount > 0 ? day.engagement / day.engagementCount : 0
+      avgEngagement: day.engagementCount > 0 ? day.engagement / day.engagementCount : 0,
     }));
-    
+
     // Sort event types by count
     const eventTypes = Object.entries(eventTypeData)
       .sort((a, b) => b[1] - a[1])
       .map(([type, count]) => ({ type, count }));
-    
+
     return {
       dailyData,
       eventTypes,
@@ -180,11 +183,11 @@ const AnalyticsDashboard = () => {
         users: totalUsers.size,
         sessions: totalSessions.size,
         events: totalEvents,
-        avgEngagement: events.length > 0 ? avgEngagement / events.length : 0
-      }
+        avgEngagement: events.length > 0 ? avgEngagement / events.length : 0,
+      },
     };
   };
-  
+
   // Render loading state
   if ((isLoading && activeTab === "personal") || (isLoadingAggregate && activeTab !== "personal")) {
     return (
@@ -195,38 +198,38 @@ const AnalyticsDashboard = () => {
       </div>
     );
   }
-  
+
   return (
     <div className="analytics-dashboard p-6 bg-white rounded-lg shadow-md">
       <h2 className="text-2xl font-bold text-gray-800 mb-6">Analytics Dashboard</h2>
-      
+
       {/* Tabs */}
       <div className="flex mb-6 border-b">
-        <button 
+        <button
           className={`px-4 py-2 font-medium ${activeTab === "overview" ? "text-blue-600 border-b-2 border-blue-600" : "text-gray-500"}`}
           onClick={() => setActiveTab("overview")}
         >
           Platform Overview
         </button>
-        <button 
+        <button
           className={`px-4 py-2 font-medium ${activeTab === "users" ? "text-blue-600 border-b-2 border-blue-600" : "text-gray-500"}`}
           onClick={() => setActiveTab("users")}
         >
           User Analytics
         </button>
-        <button 
+        <button
           className={`px-4 py-2 font-medium ${activeTab === "personal" ? "text-blue-600 border-b-2 border-blue-600" : "text-gray-500"}`}
           onClick={() => setActiveTab("personal")}
         >
           Personal Insights
         </button>
       </div>
-      
+
       {/* Time range selector (not for personal tab) */}
       {activeTab !== "personal" && (
         <div className="flex mb-6">
           <span className="mr-3 text-gray-600">Time Range:</span>
-          <select 
+          <select
             value={timeRange}
             onChange={(e) => setTimeRange(e.target.value)}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2"
@@ -238,7 +241,7 @@ const AnalyticsDashboard = () => {
           </select>
         </div>
       )}
-      
+
       {/* Overview Tab */}
       {activeTab === "overview" && aggregateData && (
         <div className="overview-tab">
@@ -250,18 +253,24 @@ const AnalyticsDashboard = () => {
             </div>
             <div className="p-4 bg-green-50 rounded-lg">
               <div className="text-sm text-green-500">Total Sessions</div>
-              <div className="text-3xl font-bold text-green-700">{aggregateData.totals.sessions}</div>
+              <div className="text-3xl font-bold text-green-700">
+                {aggregateData.totals.sessions}
+              </div>
             </div>
             <div className="p-4 bg-purple-50 rounded-lg">
               <div className="text-sm text-purple-500">Total Events</div>
-              <div className="text-3xl font-bold text-purple-700">{aggregateData.totals.events}</div>
+              <div className="text-3xl font-bold text-purple-700">
+                {aggregateData.totals.events}
+              </div>
             </div>
             <div className="p-4 bg-amber-50 rounded-lg">
               <div className="text-sm text-amber-500">Avg Engagement</div>
-              <div className="text-3xl font-bold text-amber-700">{aggregateData.totals.avgEngagement.toFixed(2)}</div>
+              <div className="text-3xl font-bold text-amber-700">
+                {aggregateData.totals.avgEngagement.toFixed(2)}
+              </div>
             </div>
           </div>
-          
+
           {/* Daily Activity Chart */}
           <div className="mb-8">
             <h3 className="text-lg font-semibold mb-2">Daily Platform Activity</h3>
@@ -275,7 +284,7 @@ const AnalyticsDashboard = () => {
               )}
             </div>
           </div>
-          
+
           {/* Event Type Distribution */}
           <div className="mb-8">
             <h3 className="text-lg font-semibold mb-2">Event Type Distribution</h3>
@@ -289,7 +298,10 @@ const AnalyticsDashboard = () => {
                     <h4 className="font-medium text-gray-700 mb-2">Most Common Events</h4>
                     <ul className="space-y-2">
                       {aggregateData.eventTypes.slice(0, 5).map((event, idx) => (
-                        <li key={`event-${idx}`} className="flex justify-between p-2 bg-gray-50 rounded">
+                        <li
+                          key={`event-${idx}`}
+                          className="flex justify-between p-2 bg-gray-50 rounded"
+                        >
                           <span className="text-gray-800">{event.type}</span>
                           <span className="font-medium text-blue-600">{event.count}</span>
                         </li>
@@ -304,7 +316,7 @@ const AnalyticsDashboard = () => {
           </div>
         </div>
       )}
-      
+
       {/* Users Tab */}
       {activeTab === "users" && (
         <div className="users-tab">
@@ -316,14 +328,14 @@ const AnalyticsDashboard = () => {
                 <h4 className="font-medium text-gray-700 mb-2">Topic Interest Distribution</h4>
                 <TopicDistributionChart userProfiles={userProfiles} />
               </div>
-              
+
               <div className="mb-4">
                 <h4 className="font-medium text-gray-700 mb-2">Learning Style Distribution</h4>
                 <LearningStyleChart userProfiles={userProfiles} />
               </div>
             </div>
           </div>
-          
+
           {/* User Table */}
           <div className="mb-8">
             <h3 className="text-lg font-semibold mb-2">User Analytics</h3>
@@ -332,16 +344,28 @@ const AnalyticsDashboard = () => {
                 <table className="min-w-full divide-y divide-gray-200">
                   <thead className="bg-gray-50">
                     <tr>
-                      <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      >
                         User ID
                       </th>
-                      <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      >
                         Engagement Score
                       </th>
-                      <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      >
                         Topics
                       </th>
-                      <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      >
                         Last Updated
                       </th>
                     </tr>
@@ -372,20 +396,20 @@ const AnalyticsDashboard = () => {
           </div>
         </div>
       )}
-      
+
       {/* Personal Tab */}
       {activeTab === "personal" && (
         <div className="personal-tab">
           <div className="flex justify-between mb-4">
             <h3 className="text-lg font-semibold">Your Learning Analytics</h3>
-            <button 
+            <button
               onClick={refreshInsightsAndRecommendations}
               className="px-3 py-1 bg-blue-100 text-blue-700 rounded-md hover:bg-blue-200 transition-colors"
             >
               Refresh
             </button>
           </div>
-          
+
           <AnalyticsVisualizer className="mt-4" />
         </div>
       )}
@@ -404,10 +428,12 @@ const DailyActivityChart = ({ data }) => {
           <div className="text-sm text-blue-500">Users</div>
           <div className="h-40 flex items-end">
             {data.map((day, i) => (
-              <div 
+              <div
                 key={`user-${i}`}
-                className="w-full bg-blue-400 mx-1 rounded-t-sm" 
-                style={{ height: `${(day.userCount / Math.max(...data.map(d => d.userCount))) * 100}%` }}
+                className="w-full bg-blue-400 mx-1 rounded-t-sm"
+                style={{
+                  height: `${(day.userCount / Math.max(...data.map((d) => d.userCount))) * 100}%`,
+                }}
                 title={`${day.date}: ${day.userCount} users`}
               ></div>
             ))}
@@ -415,20 +441,25 @@ const DailyActivityChart = ({ data }) => {
           <div className="text-xs text-gray-500 mt-2 overflow-hidden">
             {data.map((day, i) => (
               <div key={`date-${i}`} className="w-full text-center truncate">
-                {new Date(day.date).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}
+                {new Date(day.date).toLocaleDateString(undefined, {
+                  month: "short",
+                  day: "numeric",
+                })}
               </div>
             ))}
           </div>
         </div>
-        
+
         <div className="p-4 bg-green-50 rounded-lg">
           <div className="text-sm text-green-500">Sessions</div>
           <div className="h-40 flex items-end">
             {data.map((day, i) => (
-              <div 
+              <div
                 key={`session-${i}`}
-                className="w-full bg-green-400 mx-1 rounded-t-sm" 
-                style={{ height: `${(day.sessionCount / Math.max(...data.map(d => d.sessionCount))) * 100}%` }}
+                className="w-full bg-green-400 mx-1 rounded-t-sm"
+                style={{
+                  height: `${(day.sessionCount / Math.max(...data.map((d) => d.sessionCount))) * 100}%`,
+                }}
                 title={`${day.date}: ${day.sessionCount} sessions`}
               ></div>
             ))}
@@ -436,20 +467,25 @@ const DailyActivityChart = ({ data }) => {
           <div className="text-xs text-gray-500 mt-2 overflow-hidden">
             {data.map((day, i) => (
               <div key={`date-${i}`} className="w-full text-center truncate">
-                {new Date(day.date).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}
+                {new Date(day.date).toLocaleDateString(undefined, {
+                  month: "short",
+                  day: "numeric",
+                })}
               </div>
             ))}
           </div>
         </div>
-        
+
         <div className="p-4 bg-amber-50 rounded-lg">
           <div className="text-sm text-amber-500">Engagement</div>
           <div className="h-40 flex items-end">
             {data.map((day, i) => (
-              <div 
+              <div
                 key={`engagement-${i}`}
-                className="w-full bg-amber-400 mx-1 rounded-t-sm" 
-                style={{ height: `${(day.avgEngagement / Math.max(...data.map(d => d.avgEngagement))) * 100}%` }}
+                className="w-full bg-amber-400 mx-1 rounded-t-sm"
+                style={{
+                  height: `${(day.avgEngagement / Math.max(...data.map((d) => d.avgEngagement))) * 100}%`,
+                }}
                 title={`${day.date}: ${day.avgEngagement.toFixed(2)} avg engagement`}
               ></div>
             ))}
@@ -457,7 +493,10 @@ const DailyActivityChart = ({ data }) => {
           <div className="text-xs text-gray-500 mt-2 overflow-hidden">
             {data.map((day, i) => (
               <div key={`date-${i}`} className="w-full text-center truncate">
-                {new Date(day.date).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}
+                {new Date(day.date).toLocaleDateString(undefined, {
+                  month: "short",
+                  day: "numeric",
+                })}
               </div>
             ))}
           </div>
@@ -472,12 +511,18 @@ const EventTypeChart = ({ data }) => {
   // In a real implementation, this would use d3.js or a charting library
   // Simplified placeholder for demonstration
   const colors = [
-    'bg-blue-500', 'bg-green-500', 'bg-purple-500', 'bg-amber-500',
-    'bg-indigo-500', 'bg-pink-500', 'bg-teal-500', 'bg-red-500'
+    "bg-blue-500",
+    "bg-green-500",
+    "bg-purple-500",
+    "bg-amber-500",
+    "bg-indigo-500",
+    "bg-pink-500",
+    "bg-teal-500",
+    "bg-red-500",
   ];
-  
+
   const total = data.reduce((sum, item) => sum + item.count, 0);
-  
+
   return (
     <div className="flex h-full items-center">
       <div className="w-40 h-40 relative rounded-full overflow-hidden">
@@ -485,15 +530,15 @@ const EventTypeChart = ({ data }) => {
         {data.map((item, idx) => {
           const percentage = (item.count / total) * 100;
           return (
-            <div 
+            <div
               key={`pie-${idx}`}
               className={`absolute ${colors[idx % colors.length]}`}
               style={{
-                width: '100%',
-                height: '100%',
+                width: "100%",
+                height: "100%",
                 // This is a very simplified pie chart - real implementation would use SVG
                 // or a charting library
-                clipPath: `polygon(50% 50%, 50% 0%, ${50 + 50 * Math.cos(idx * 0.1)}% ${50 - 50 * Math.sin(idx * 0.1)}%)`
+                clipPath: `polygon(50% 50%, 50% 0%, ${50 + 50 * Math.cos(idx * 0.1)}% ${50 - 50 * Math.sin(idx * 0.1)}%)`,
               }}
               title={`${item.type}: ${percentage.toFixed(1)}%`}
             ></div>
@@ -518,10 +563,10 @@ const EventTypeChart = ({ data }) => {
 const TopicDistributionChart = ({ userProfiles }) => {
   // Process user profiles to get topic distribution
   const topicDistribution = {};
-  
-  userProfiles.forEach(user => {
+
+  userProfiles.forEach((user) => {
     if (user.learningPatterns) {
-      Object.keys(user.learningPatterns).forEach(topic => {
+      Object.keys(user.learningPatterns).forEach((topic) => {
         if (!topicDistribution[topic]) {
           topicDistribution[topic] = 0;
         }
@@ -529,13 +574,13 @@ const TopicDistributionChart = ({ userProfiles }) => {
       });
     }
   });
-  
+
   // Sort by popularity
   const sortedTopics = Object.entries(topicDistribution)
     .sort((a, b) => b[1] - a[1])
     .slice(0, 8) // Limit to top 8
     .map(([topic, count]) => ({ topic, count }));
-  
+
   // In a real implementation, this would use d3.js or a charting library
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -547,8 +592,8 @@ const TopicDistributionChart = ({ userProfiles }) => {
               <span>{item.count} users</span>
             </div>
             <div className="w-full bg-gray-200 rounded-full h-2">
-              <div 
-                className="bg-blue-600 h-2 rounded-full" 
+              <div
+                className="bg-blue-600 h-2 rounded-full"
                 style={{ width: `${(item.count / userProfiles.length) * 100}%` }}
               ></div>
             </div>
@@ -559,7 +604,7 @@ const TopicDistributionChart = ({ userProfiles }) => {
         <div className="text-sm text-gray-600 mb-2">
           <p>Most popular topics across all users</p>
         </div>
-        
+
         {sortedTopics.length === 0 && (
           <div className="text-center p-4 text-gray-500">No topic data available</div>
         )}
@@ -572,8 +617,8 @@ const TopicDistributionChart = ({ userProfiles }) => {
 const LearningStyleChart = ({ userProfiles }) => {
   // Count learning styles
   const styleCount = {};
-  
-  userProfiles.forEach(user => {
+
+  userProfiles.forEach((user) => {
     if (user.learningStyle) {
       if (!styleCount[user.learningStyle]) {
         styleCount[user.learningStyle] = 0;
@@ -581,18 +626,17 @@ const LearningStyleChart = ({ userProfiles }) => {
       styleCount[user.learningStyle]++;
     }
   });
-  
+
   // Convert to array
-  const styles = Object.entries(styleCount)
-    .map(([style, count]) => ({ style, count }));
-  
+  const styles = Object.entries(styleCount).map(([style, count]) => ({ style, count }));
+
   // Add default styles if none found
   if (styles.length === 0) {
-    ["visual", "auditory", "kinesthetic", "balanced"].forEach(style => {
+    ["visual", "auditory", "kinesthetic", "balanced"].forEach((style) => {
       styles.push({ style, count: 0 });
     });
   }
-  
+
   const colors = {
     visual: "bg-blue-500",
     auditory: "bg-green-500",
@@ -600,9 +644,9 @@ const LearningStyleChart = ({ userProfiles }) => {
     balanced: "bg-amber-500",
     social: "bg-indigo-500",
     "night-owl": "bg-pink-500",
-    "early-bird": "bg-teal-500"
+    "early-bird": "bg-teal-500",
   };
-  
+
   // In a real implementation, this would use d3.js or a charting library
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -620,14 +664,15 @@ const LearningStyleChart = ({ userProfiles }) => {
       <div className="p-2 flex items-center justify-center">
         <div className="relative w-40 h-40">
           {styles.map((item, idx) => {
-            const percentage = userProfiles.length > 0 ? (item.count / userProfiles.length) * 100 : 0;
+            const percentage =
+              userProfiles.length > 0 ? (item.count / userProfiles.length) * 100 : 0;
             const angle = (idx / styles.length) * 360;
             return (
-              <div 
+              <div
                 key={`style-pie-${idx}`}
                 className={`absolute inset-0 ${colors[item.style] || "bg-gray-500"}`}
                 style={{
-                  clipPath: `polygon(50% 50%, ${50 + 40 * Math.cos(angle * Math.PI / 180)}% ${50 - 40 * Math.sin(angle * Math.PI / 180)}%, ${50 + 40 * Math.cos((angle + 360 / styles.length) * Math.PI / 180)}% ${50 - 40 * Math.sin((angle + 360 / styles.length) * Math.PI / 180)}%)`
+                  clipPath: `polygon(50% 50%, ${50 + 40 * Math.cos((angle * Math.PI) / 180)}% ${50 - 40 * Math.sin((angle * Math.PI) / 180)}%, ${50 + 40 * Math.cos(((angle + 360 / styles.length) * Math.PI) / 180)}% ${50 - 40 * Math.sin(((angle + 360 / styles.length) * Math.PI) / 180)}%)`,
                 }}
               ></div>
             );

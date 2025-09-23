@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import NeuroLessonContainer from "../NeuroLessonContainer";
-import { useAccessibility } from "../../context/AccessibilityContext";
 import { FaLaptop, FaEnvelope, FaSearch, FaShieldAlt, FaCheckCircle } from "react-icons/fa";
+
+import { useAccessibility } from "../../context/AccessibilityContext";
+import NeuroLessonContainer from "../NeuroLessonContainer";
 
 function EmailActivity({ usePictorial = true }) {
   const { settings } = useAccessibility();
@@ -376,7 +377,8 @@ function PasswordActivity() {
             <div className="p-3 bg-red-50 rounded-lg">
               <p className="font-medium text-red-800">Avoid using personal information</p>
               <p className="text-sm text-red-600">
-                Don't use your name, birthday, or other personal details that others might know.
+                Don&apos;t use your name, birthday, or other personal details that others might
+                know.
               </p>
             </div>
           </div>

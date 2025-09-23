@@ -1,9 +1,10 @@
-import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
+import { gsap } from "gsap";
 import React, { useState, useEffect, useRef } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
 import { FaGoogle, FaFacebook, FaApple, FaExclamationCircle } from "react-icons/fa";
+import { useNavigate, useLocation } from "react-router-dom";
+
+import { useAuth } from "../context/AuthContext";
 
 import ModernBackground from "./ModernBackground";
 import { ModernCard, ModernCardHeader, ModernCardBody, ModernCardFooter } from "./ModernCard";

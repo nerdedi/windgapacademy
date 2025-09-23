@@ -8,9 +8,10 @@
  * - Professional <micro-interactions></micro-interactions>
  */
 
-import React, { useRef, useEffect, useState } from "react";
-import { MicroInteractions } from "./MicroInteractions";
 import { motion, useSpring, useMotionValue } from "framer-motion";
+import React, { useRef, useEffect, useState } from "react";
+
+import { MicroInteractions } from "./MicroInteractions";
 
 export const MagneticButton = ({
   children,

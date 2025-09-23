@@ -1,4 +1,3 @@
-import React from "react";
 import React, { useEffect, useState } from "react";
 
 const AnalyticsOverview = () => {
@@ -7,17 +6,27 @@ const AnalyticsOverview = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Example: fetch analytics from API
-    fetch("/api/analytics")
-      .then((res) => res.json())
-      .then((data) => {
+    // Define an async function inside useEffect
+    const fetchAnalytics = async () => {
+      try {
+        const response = await fetch("/api/analytics");
+
+        if (!response.ok) {
+          throw new Error(`Server responded with status: ${response.status}`);
+        }
+
+        const data = await response.json();
         setStats(data);
-        setLoading(false);
-      })
-      .catch((err) => {
+      } catch (err) {
+        console.error("Error fetching analytics:", err);
         setError("Failed to load analytics");
+      } finally {
         setLoading(false);
-      });
+      }
+    };
+
+    // Call the async function
+    fetchAnalytics();
   }, []);
 
   return (
@@ -28,8 +37,8 @@ const AnalyticsOverview = () => {
         !error &&
         stats.map((stat) => (
           <div key={stat.label} className="p-4 bg-gray-100 rounded shadow">
-            <div className="text-lg font-bold">{stat.value}</div>
-            <div className="text-sm text-gray-600">{stat.label}</div>
+            <div className="text-lg font-semibold">{stat.value}</div>
+            <div className="text-sm text-gray-500">{stat.label}</div>
           </div>
         ))}
     </div>

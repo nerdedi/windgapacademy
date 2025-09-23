@@ -1,6 +1,6 @@
-import React, { useState, useRef, Suspense } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls, Text, Box, Environment, Sky } from "@react-three/drei";
+import { Canvas, useFrame } from "@react-three/fiber";
+import React, { useState, useRef, Suspense } from "react";
 import { useNavigate } from "react-router-dom";
 
 // Simple 3D Building Component

@@ -9,13 +9,13 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 
 // Character system utilities
+import LearningEnvironment from "../components/LearningEnvironment";
+import VirtualCharacters from "../components/VirtualCharacters";
+import WindgapCharacterSystem from "../components/WindgapCharacterSystem";
 import CharacterController from "../utils/CharacterController";
 import WebGLEffects from "../utils/WebGLEffects";
 
 // React components
-import WindgapCharacterSystem from "../components/WindgapCharacterSystem";
-import VirtualCharacters from "../components/VirtualCharacters";
-import LearningEnvironment from "../components/LearningEnvironment";
 
 // Import styles
 import "../styles/animations.css";

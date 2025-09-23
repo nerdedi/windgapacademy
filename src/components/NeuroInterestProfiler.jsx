@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { useLearningPreferences } from "../context/LearningPreferencesContext";
+import React, { useState, useEffect } from "react";
 import { FaPlus, FaTimes, FaStar, FaRegStar, FaArrowRight, FaCheck } from "react-icons/fa";
+
+import { useLearningPreferences } from "../context/LearningPreferencesContext";
 
 /**
  * NeuroInterestProfiler Component

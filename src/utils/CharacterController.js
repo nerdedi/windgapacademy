@@ -1,6 +1,6 @@
 import * as THREE from "three";
+
 import WebGLEffectsUtil from "./WebGLEffects";
-import CharacterAnimator from "./CharacterAnimator";
 
 /**
  * Character Controller for 3D characters in Windgap Academy
@@ -281,10 +281,9 @@ class CharacterController {
       }
 
       return true;
-    } else {
-      console.warn(`No animation found for emotion: ${emotion}`);
-      return false;
     }
+    console.warn(`No animation found for emotion: ${emotion}`);
+    return false;
   }
 
   /**
@@ -327,7 +326,7 @@ class CharacterController {
         });
         break;
 
-      case "glow":
+      case "glow": {
         // For glow effects, if no targetElement is provided, apply to this character's element
         const targetElement =
           options.targetElement || this.model.userData.containerId || containerId;
@@ -339,6 +338,7 @@ class CharacterController {
           ...options,
         });
         break;
+      }
 
       default:
         console.warn(`Unknown effect type: ${effectType}`);

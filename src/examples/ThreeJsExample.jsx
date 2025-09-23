@@ -1,5 +1,6 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
+
 import LearningEnvironment from "./components/LearningEnvironment";
 import VirtualCharacters from "./components/VirtualCharacters";
 import "./styles/animations.css";

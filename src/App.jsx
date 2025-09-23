@@ -1,5 +1,6 @@
 import { Suspense, lazy } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
+import AutomationDemo from "./pages/AutomationDemo";
 
 import CurriculumBuilderWithSaveState from "../components/curriculum/CurriculumBuilderWithSaveState";
 
@@ -60,6 +61,9 @@ function App() {
                   <Route path="/reset-password" element={<ResetPasswordPage />} />
                   <Route path="/verify-email" element={<VerifyEmailPage />} />
                   <Route path="/unauthorized" element={<UnauthorizedPage />} />
+
+                  {/* Demo Routes */}
+                  <Route path="/demos/automation" element={<AutomationDemo />} />
 
                   {/* Protected Routes */}
                   <Route

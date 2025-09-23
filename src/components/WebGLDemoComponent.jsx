@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useRef } from "react";
 import * as THREE from "three";
-import WebGLEffects from "../utils/WebGLEffects";
+
 import CharacterAnimator from "../utils/CharacterAnimator";
+import WebGLEffects from "../utils/WebGLEffects";
 
 /**
  * Example React component that demonstrates WebGL effects and character animation

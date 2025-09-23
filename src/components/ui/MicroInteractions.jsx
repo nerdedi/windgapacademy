@@ -11,8 +11,8 @@
  * - Consistent animation language across the platform
  */
 
-import React, { useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence, useAnimation } from "framer-motion";
+import React, { useEffect, useRef, useCallback } from "react";
 
 // Animation presets for consistent experiences
 export const animationPresets = {

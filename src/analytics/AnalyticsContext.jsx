@@ -1,15 +1,16 @@
 // Portions of this file were generated with the assistance of GitHub Copilot
 
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import analyticsService from './AnalyticsService';
-import LearningModel from './LearningModel';
+import React, { createContext, useContext, useState, useEffect } from "react";
+
+import analyticsService from "./AnalyticsService";
+import LearningModel from "./LearningModel";
 
 // Create the context
 const AnalyticsContext = createContext();
 
 /**
  * Analytics Provider - Context provider for analytics functionality
- * 
+ *
  * This component provides analytics functions and data to the entire application,
  * including tracking, insights, and personalization features.
  */
@@ -20,7 +21,7 @@ export const AnalyticsProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [learningModel, setLearningModel] = useState(null);
   const [isPrivacyEnabled, setIsPrivacyEnabled] = useState(
-    localStorage.getItem('analyticsPrivacy') === 'enabled'
+    localStorage.getItem("analyticsPrivacy") === "enabled",
   );
 
   // Initialize analytics service and learning model
@@ -39,7 +40,7 @@ export const AnalyticsProvider = ({ children }) => {
         await analyticsService.initialize({
           disabled: isPrivacyEnabled,
           bufferSize: 5,
-          bufferTimeout: 10000
+          bufferTimeout: 10000,
         });
 
         // Initialize the learning model
@@ -57,7 +58,7 @@ export const AnalyticsProvider = ({ children }) => {
         // Set up event listeners for tracking page views
         setupPageViewTracking();
       } catch (error) {
-        console.error('Error initializing analytics:', error);
+        console.error("Error initializing analytics:", error);
         setIsLoading(false);
       }
     };
@@ -83,11 +84,11 @@ export const AnalyticsProvider = ({ children }) => {
     };
 
     // Listen for route changes
-    window.addEventListener('popstate', handleRouteChange);
+    window.addEventListener("popstate", handleRouteChange);
 
     // Clean up listener
     return () => {
-      window.removeEventListener('popstate', handleRouteChange);
+      window.removeEventListener("popstate", handleRouteChange);
     };
   };
 
@@ -95,10 +96,10 @@ export const AnalyticsProvider = ({ children }) => {
   const trackPageView = () => {
     if (!isInitialized || isPrivacyEnabled) return;
 
-    analyticsService.trackEvent('page_view', {
+    analyticsService.trackEvent("page_view", {
       path: window.location.pathname,
       title: document.title,
-      referrer: document.referrer
+      referrer: document.referrer,
     });
   };
 
@@ -115,7 +116,7 @@ export const AnalyticsProvider = ({ children }) => {
     const eventName = `lesson_${action}`;
     analyticsService.trackEvent(eventName, {
       ...lessonData,
-      timestamp: Date.now()
+      timestamp: Date.now(),
     });
   };
 
@@ -126,7 +127,7 @@ export const AnalyticsProvider = ({ children }) => {
     const eventName = `quiz_${action}`;
     analyticsService.trackEvent(eventName, {
       ...quizData,
-      timestamp: Date.now()
+      timestamp: Date.now(),
     });
   };
 
@@ -137,7 +138,7 @@ export const AnalyticsProvider = ({ children }) => {
     const eventName = `exercise_${action}`;
     analyticsService.trackEvent(eventName, {
       ...exerciseData,
-      timestamp: Date.now()
+      timestamp: Date.now(),
     });
   };
 
@@ -148,7 +149,7 @@ export const AnalyticsProvider = ({ children }) => {
     const eventName = `media_${action}`;
     analyticsService.trackEvent(eventName, {
       ...mediaData,
-      timestamp: Date.now()
+      timestamp: Date.now(),
     });
   };
 
@@ -158,7 +159,7 @@ export const AnalyticsProvider = ({ children }) => {
 
     analyticsService.trackEvent(interactionType, {
       ...interactionData,
-      timestamp: Date.now()
+      timestamp: Date.now(),
     });
   };
 
@@ -181,20 +182,20 @@ export const AnalyticsProvider = ({ children }) => {
       if (learningModel) {
         const enhancedInsights = learningModel.processUserData(
           analyticsService.events,
-          analyticsService.learningPatterns
+          analyticsService.learningPatterns,
         );
 
         // Merge model insights with standard insights
-        setInsights(prevInsights => ({
+        setInsights((prevInsights) => ({
           ...prevInsights,
           learningStyle: enhancedInsights.learningStyle,
           mlEnhanced: true,
           enhancedStrengths: enhancedInsights.strengths,
-          enhancedWeaknesses: enhancedInsights.weaknesses
+          enhancedWeaknesses: enhancedInsights.weaknesses,
         }));
       }
     } catch (error) {
-      console.error('Error refreshing insights:', error);
+      console.error("Error refreshing insights:", error);
     } finally {
       setIsLoading(false);
     }
@@ -207,11 +208,11 @@ export const AnalyticsProvider = ({ children }) => {
 
     if (newPrivacyState) {
       analyticsService.disable();
-      localStorage.setItem('analyticsPrivacy', 'enabled');
+      localStorage.setItem("analyticsPrivacy", "enabled");
     } else {
       analyticsService.enable();
-      localStorage.setItem('analyticsPrivacy', 'disabled');
-      
+      localStorage.setItem("analyticsPrivacy", "disabled");
+
       // Re-initialize if needed
       if (isInitialized) {
         refreshInsightsAndRecommendations();
@@ -231,38 +232,40 @@ export const AnalyticsProvider = ({ children }) => {
       const preferredTypes = Object.entries(insights.preferredContentTypes || {})
         .sort((a, b) => b[1] - a[1])
         .map(([type]) => type);
-      
+
       // If no preferences, return original content
       if (preferredTypes.length === 0) {
         return availableContent;
       }
-      
+
       // Check if topic is a strength or weakness
       const isStrength = insights.strengths.includes(topic);
       const isWeakness = insights.weaknesses.includes(topic);
-      
+
       // Sort content based on preferences and topic status
       return [...availableContent].sort((a, b) => {
         // Calculate preference score for item A
-        let scoreA = preferredTypes.includes(a.type) ? 
-          preferredTypes.indexOf(a.type) * -1 + preferredTypes.length : 0;
-          
+        let scoreA = preferredTypes.includes(a.type)
+          ? preferredTypes.indexOf(a.type) * -1 + preferredTypes.length
+          : 0;
+
         // Adjust score based on topic status and content difficulty
-        if (isWeakness && a.difficulty === 'beginner') scoreA += 3;
-        if (isStrength && a.difficulty === 'advanced') scoreA += 3;
-        
+        if (isWeakness && a.difficulty === "beginner") scoreA += 3;
+        if (isStrength && a.difficulty === "advanced") scoreA += 3;
+
         // Calculate preference score for item B
-        let scoreB = preferredTypes.includes(b.type) ? 
-          preferredTypes.indexOf(b.type) * -1 + preferredTypes.length : 0;
-          
+        let scoreB = preferredTypes.includes(b.type)
+          ? preferredTypes.indexOf(b.type) * -1 + preferredTypes.length
+          : 0;
+
         // Adjust score based on topic status and content difficulty
-        if (isWeakness && b.difficulty === 'beginner') scoreB += 3;
-        if (isStrength && b.difficulty === 'advanced') scoreB += 3;
-        
+        if (isWeakness && b.difficulty === "beginner") scoreB += 3;
+        if (isStrength && b.difficulty === "advanced") scoreB += 3;
+
         return scoreB - scoreA;
       });
     } catch (error) {
-      console.error('Error personalizing content:', error);
+      console.error("Error personalizing content:", error);
       return availableContent;
     }
   };
@@ -271,56 +274,58 @@ export const AnalyticsProvider = ({ children }) => {
   const generatePersonalizedPath = (topics, contentTypes) => {
     if (!isInitialized || isPrivacyEnabled || !recommendations) {
       // Return default path when analytics is disabled or no recommendations
-      return topics.map(topic => ({
+      return topics.map((topic) => ({
         topic,
         contentType: contentTypes[0],
-        reason: 'Default path'
+        reason: "Default path",
       }));
     }
 
     try {
       // Use existing recommendations if available
-      if (recommendations.recommendedLearningPath && 
-          recommendations.recommendedLearningPath.length > 0) {
+      if (
+        recommendations.recommendedLearningPath &&
+        recommendations.recommendedLearningPath.length > 0
+      ) {
         return recommendations.recommendedLearningPath;
       }
-      
+
       // Otherwise, create a simple path with preferred content types
       const preferredTypes = recommendations.effectiveContentTypes || [contentTypes[0]];
-      
+
       // Prioritize weak topics first, then new topics, then strong topics
       const weakTopics = recommendations.topicsToReinforce || [];
       const existingTopics = new Set([...weakTopics, ...topics]);
-      const strongTopics = topics.filter(topic => !weakTopics.includes(topic));
-      
+      const strongTopics = topics.filter((topic) => !weakTopics.includes(topic));
+
       // Build the path
       const path = [];
-      
+
       // Add weak topics first
       weakTopics.forEach((topic, index) => {
         path.push({
           topic,
           contentType: preferredTypes[index % preferredTypes.length],
-          reason: 'Topic needs reinforcement'
+          reason: "Topic needs reinforcement",
         });
       });
-      
+
       // Add strong topics next
       strongTopics.forEach((topic, index) => {
         path.push({
           topic,
           contentType: preferredTypes[(index + weakTopics.length) % preferredTypes.length],
-          reason: 'Topic to build upon'
+          reason: "Topic to build upon",
         });
       });
-      
+
       return path;
     } catch (error) {
-      console.error('Error generating personalized path:', error);
-      return topics.map(topic => ({
+      console.error("Error generating personalized path:", error);
+      return topics.map((topic) => ({
         topic,
         contentType: contentTypes[0],
-        reason: 'Default path (error recovery)'
+        reason: "Default path (error recovery)",
       }));
     }
   };
@@ -341,21 +346,17 @@ export const AnalyticsProvider = ({ children }) => {
     refreshInsightsAndRecommendations,
     togglePrivacyMode,
     getPersonalizedContent,
-    generatePersonalizedPath
+    generatePersonalizedPath,
   };
 
-  return (
-    <AnalyticsContext.Provider value={contextValue}>
-      {children}
-    </AnalyticsContext.Provider>
-  );
+  return <AnalyticsContext.Provider value={contextValue}>{children}</AnalyticsContext.Provider>;
 };
 
 // Custom hook for using analytics
 export const useAnalytics = () => {
   const context = useContext(AnalyticsContext);
   if (!context) {
-    throw new Error('useAnalytics must be used within an AnalyticsProvider');
+    throw new Error("useAnalytics must be used within an AnalyticsProvider");
   }
   return context;
 };

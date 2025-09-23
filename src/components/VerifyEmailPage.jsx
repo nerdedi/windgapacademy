@@ -1,8 +1,9 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
 import { sendEmailVerification } from "firebase/auth";
+import React, { useState } from "react";
 import { FaEnvelope, FaCheckCircle, FaExclamationCircle } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+
+import { useAuth } from "../context/AuthContext";
 
 function VerifyEmailPage() {
   const navigate = useNavigate();

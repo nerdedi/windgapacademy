@@ -1,5 +1,5 @@
-import { useState } from "react";
 import { getFirestore, doc, setDoc } from "firebase/firestore";
+import { useState } from "react";
 
 export default function EducatorNotes({ learnerId }: { learnerId: string }) {
   const [note, setNote] = useState("");

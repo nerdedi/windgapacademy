@@ -1,5 +1,3 @@
-import React, { useState } from "react";
-import CharacterAnimationPlayer from "../components/CharacterAnimationPlayer.jsx";
 import {
   Box,
   Container,
@@ -13,6 +11,9 @@ import {
   Grid,
   Divider,
 } from "@mui/material";
+import React, { useState } from "react";
+
+import CharacterAnimationPlayer from "../components/CharacterAnimationPlayer.jsx";
 
 const FirstDayStory = () => {
   const [activeTab, setActiveTab] = useState(0);

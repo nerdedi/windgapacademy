@@ -1,6 +1,6 @@
 import React from "react";
-import { useNavigate, useLocation } from "react-router-dom";
 import { FaLock, FaExclamationTriangle } from "react-icons/fa";
+import { useNavigate, useLocation } from "react-router-dom";
 
 function UnauthorizedPage() {
   const navigate = useNavigate();

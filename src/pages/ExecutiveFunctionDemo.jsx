@@ -1,5 +1,7 @@
-import React, { useState } from "react";
 import { motion } from "framer-motion";
+import React, { useState } from "react";
+import { FaArrowLeft, FaBrain, FaCog, FaQuestionCircle } from "react-icons/fa";
+
 import ExecutiveFunctionTools, {
   TaskBreakdown,
   PomodoroTimer,
@@ -9,7 +11,6 @@ import ExecutiveFunctionTools, {
 } from "../components/ExecutiveFunctionTools";
 import { useAccessibility } from "../context/AccessibilityContext";
 import { useLearningPreferences } from "../context/LearningPreferencesContext";
-import { FaArrowLeft, FaBrain, FaCog, FaQuestionCircle } from "react-icons/fa";
 
 /**
  * ExecutiveFunctionDemo

@@ -1,5 +1,4 @@
-import React, { useState, useRef, useEffect, Suspense } from "react";
-import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import { Physics, useBox, usePlane } from "@react-three/cannon";
 import {
   OrbitControls,
   Environment,
@@ -12,9 +11,10 @@ import {
   Cloud,
   Stars,
 } from "@react-three/drei";
-import { Physics, useBox, usePlane } from "@react-three/cannon";
-import * as THREE from "three";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import React, { useState, useRef, useEffect, Suspense } from "react";
 import { useNavigate } from "react-router-dom";
+import * as THREE from "three";
 
 // 3D Building Component with realistic models
 function Building({ position, type, onClick, isSelected }) {

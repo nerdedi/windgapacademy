@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { useAccessibility } from "../context/AccessibilityContext";
 import {
   FaCog,
   FaFont,
@@ -11,6 +9,9 @@ import {
   FaComment,
   FaBrain,
 } from "react-icons/fa";
+import { Link } from "react-router-dom";
+
+import { useAccessibility } from "../context/AccessibilityContext";
 
 // Tab content components
 const VisualSettings = ({ settings, updateSetting }) => (

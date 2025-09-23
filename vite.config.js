@@ -1,8 +1,9 @@
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
 import { resolve } from "path";
 
-export default defineConfig(({ command, mode }) => {
+import react from "@vitejs/plugin-react";
+import { defineConfig } from "vite";
+
+export default defineConfig(({ mode }) => {
   const isDev = mode === "development";
   const isProd = mode === "production";
 
@@ -13,6 +14,8 @@ export default defineConfig(({ command, mode }) => {
         fastRefresh: isDev,
         // Optimize JSX for production
         jsxRuntime: "automatic",
+        // Enable JSX in .js files
+        include: "**/*.{jsx,tsx,js,ts}",
       }),
     ],
 
@@ -32,6 +35,7 @@ export default defineConfig(({ command, mode }) => {
         "@input": resolve(__dirname, "src/input"),
         "@testing": resolve(__dirname, "src/testing"),
       },
+      extensions: [".js", ".jsx", ".ts", ".tsx", ".json"],
     },
 
     define: {
@@ -43,34 +47,36 @@ export default defineConfig(({ command, mode }) => {
 
     optimizeDeps: {
       include: ["framer-motion", "react", "react-dom", "react-router-dom"],
+      esbuildOptions: {
+        loader: {
+          ".js": "jsx",
+        },
+      },
     },
 
     build: {
       target: "es2020",
       minify: isProd ? "esbuild" : false,
       sourcemap: isDev ? "inline" : false,
+      chunkSizeWarningLimit: 1000,
+      cssCodeSplit: true,
+      assetsInlineLimit: 4096,
 
       rollupOptions: {
         output: {
           manualChunks: {
-            // Core React libraries
             "react-vendor": ["react", "react-dom", "react-router-dom"],
-
-            // Animation libraries
             "animation-vendor": ["framer-motion"],
           },
-
-          // Optimize chunk naming for caching
           chunkFileNames: (chunkInfo) => {
             const facadeModuleId = chunkInfo.facadeModuleId
               ? chunkInfo.facadeModuleId.split("/").pop().replace(".js", "")
               : "chunk";
             return `js/${facadeModuleId}-[hash].js`;
           },
-
           assetFileNames: (assetInfo) => {
             const info = assetInfo.name.split(".");
-            const ext = info[info.length - 1];
+            const _ext = info[info.length - 1];
             if (/\.(mp3|wav|ogg|m4a)$/i.test(assetInfo.name)) {
               return `audio/[name]-[hash][extname]`;
             }
@@ -84,29 +90,16 @@ export default defineConfig(({ command, mode }) => {
           },
         },
       },
-
-      chunkSizeWarningLimit: 1000,
-
-      // Enable CSS code splitting
-      cssCodeSplit: true,
-
-      // Optimize asset handling
-      assetsInlineLimit: 4096,
     },
 
     server: {
       host: true,
       port: 3000,
       strictPort: false,
-
       hmr: {
         overlay: isDev,
       },
-
-      // Enable CORS for development
       cors: true,
-
-      // Proxy configuration for API calls
       proxy: {
         "/api": {
           target: "http://localhost:5000",
@@ -122,7 +115,6 @@ export default defineConfig(({ command, mode }) => {
       strictPort: false,
     },
 
-    // CSS configuration
     css: {
       devSourcemap: isDev,
       preprocessorOptions: {
@@ -130,14 +122,6 @@ export default defineConfig(({ command, mode }) => {
           additionalData: `@import "@/styles/variables.scss";`,
         },
       },
-    },
-
-    // Environment variables
-    envPrefix: ["VITE_", "WINDGAP_"],
-
-    // Worker configuration for Web Workers
-    worker: {
-      format: "es",
     },
   };
 });

@@ -117,6 +117,33 @@ export const useCurriculumStore = create(
     // Module generation
     setGenerationStatus: (status) => set({ generationStatus: status }),
 
+    // Integration with automation system
+    sendToAutomationSystem: (moduleIds) => {
+      const { generatedModules } = get();
+
+      // Find the selected modules
+      const modulesToAutomate = moduleIds
+        ? generatedModules.filter((module) => moduleIds.includes(module.id))
+        : generatedModules;
+
+      // Import the automation system store to avoid circular dependencies
+      import("./automationStore")
+        .then(({ useAutomationStore }) => {
+          const automationStore = useAutomationStore.getState();
+
+          // Add modules to automation queue
+          automationStore.addToModuleQueue(modulesToAutomate);
+
+          // Start the learning path if not already running
+          if (!automationStore.learningPathActive) {
+            automationStore.startLearningPath();
+          }
+        })
+        .catch((error) => {
+          console.error("Failed to integrate with automation system:", error);
+        });
+    },
+
     addGeneratedModule: (module) => {
       const { generatedModules } = get();
       set({

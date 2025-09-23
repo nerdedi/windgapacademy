@@ -12,26 +12,28 @@
  * - Multi-modal learning support
  */
 
-import React, { useState, useEffect, useCallback, useMemo } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Suspense } from "react";
+import { Environment, Float, OrbitControls, Text as Text3D } from "@react-three/drei";
+import { Canvas } from "@react-three/fiber";
+import { AnimatePresence, motion } from "framer-motion";
+import { Suspense, useCallback, useEffect, useMemo, useState } from "react";
 
 // Import professional components
 import LearnerDashboardUI from "../../components/ui/LearnerDashboard";
+import { SoundManager } from "../audio/SoundManager";
 import { ErrorBoundary } from "../components/ErrorBoundary";
 import LoadingScreen from "../components/LoadingScreen";
 
 // Import utilities and hooks
-import { useAuth } from "../hooks/useAuth";
 import { useAnalytics } from "../hooks/useAnalytics";
-import { useNotifications } from "../hooks/useNotifications";
-import { useLearningProgress } from "../hooks/useLearningProgress";
+import { useAuth } from "../hooks/useAuth";
 import { useGameState } from "../hooks/useGameState";
+import { useLearningProgress } from "../hooks/useLearningProgress";
+import { useNotifications } from "../hooks/useNotifications";
+import { AIEngine } from "../utils/AIEngine";
 import monitoring from "../utils/monitoring";
 
 // Import AI and sound systems
 // AI Engine removed for simplified build
-import { SoundManager } from "../audio/SoundManager";
 
 const LearnerDashboard = () => {
   // State management
@@ -94,7 +96,18 @@ const LearnerDashboard = () => {
     if (isAuthenticated) {
       initializeDashboard();
     }
-  }, [isAuthenticated, user?.id, dashboardMode, trackEvent]);
+  }, [
+    isAuthenticated,
+    user?.id,
+    dashboardMode,
+    trackEvent,
+    aiEngine,
+    loadAchievements,
+    loadNotifications,
+    loadPersonalizedContent,
+    loadUserProgress,
+    soundManager,
+  ]);
 
   // Load user progress
   const loadUserProgress = useCallback(async () => {
@@ -424,12 +437,12 @@ const DashboardOverview = ({
 );
 
 const LearningEnvironment = ({
-  selectedModule,
-  environment,
-  onEnvironmentChange,
-  onProgressUpdate,
-  aiEngine,
-  soundManager,
+  _selectedModule,
+  _environment,
+  _onEnvironmentChange,
+  _onProgressUpdate,
+  _aiEngine,
+  _soundManager,
 }) => (
   <div className="space-y-6">
     <h2 className="text-2xl font-bold text-gray-900">Learning Environment</h2>
@@ -437,7 +450,7 @@ const LearningEnvironment = ({
   </div>
 );
 
-const GamesSection = ({ gameStates, onGameStateUpdate, onAchievementUnlock, soundManager }) => (
+const GamesSection = ({ _gameStates, _onGameStateUpdate, _onAchievementUnlock, _soundManager }) => (
   <div className="space-y-6">
     <h2 className="text-2xl font-bold text-gray-900">Educational Games</h2>
     {/* Games content */}
@@ -469,7 +482,7 @@ const AchievementNotification = ({ onClose }) => (
       <div className="text-2xl">🏆</div>
       <div>
         <h3 className="font-semibold text-gray-900">Achievement Unlocked!</h3>
-        <p className="text-sm text-gray-600">You've earned a new badge</p>
+        <p className="text-sm text-gray-600">You&apos;ve earned a new badge</p>
       </div>
       <button onClick={onClose} className="text-gray-400 hover:text-gray-600">
         ×

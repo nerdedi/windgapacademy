@@ -3,6 +3,8 @@
  */
 
 // Method 1: Import everything from the index file
+import WindgapCharacterSystem from "../components/WindgapCharacterSystem";
+import CharacterControllerOnly from "../threeJs/CharacterController";
 import ThreeJsSystem from "../threeJs/index";
 
 // Method 2: Import specific components
@@ -11,10 +13,8 @@ import { VirtualCharacters, LearningEnvironment, initThreeJsGlobally } from "../
 // Method 3: Import components directly from their source files
 import CharacterController from "../utils/CharacterController";
 import WebGLEffects from "../utils/WebGLEffects";
-import WindgapCharacterSystem from "../components/WindgapCharacterSystem";
 
 // Method 4: Import just the character controller from its convenience file
-import CharacterControllerOnly from "../threeJs/CharacterController";
 
 // Initialize Three.js globally if needed
 // initThreeJsGlobally();

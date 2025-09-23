@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
 import { FaLock, FaEnvelope, FaCheckCircle, FaExclamationCircle } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+
+import { useAuth } from "../context/AuthContext";
 
 function ResetPasswordPage() {
   const navigate = useNavigate();

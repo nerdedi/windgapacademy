@@ -1,21 +1,15 @@
-import React, { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 import "../styles/ThreeJsTestPage.css";
 
 // Method 4: Import from convenience files
+import { VirtualCharacters, initThreeJsGlobally } from "../threeJs";
 import CharacterController from "../threeJs/CharacterController";
 
 // Also import VirtualCharacters and other components from the main index
-import {
-  VirtualCharacters,
-  LearningEnvironment,
-  WebGLEffects,
-  initThreeJsGlobally,
-} from "../threeJs";
 
 // Import our new WebGL utilities
 import WebGLEffectsUtil from "../utils/WebGLEffects";
-import CharacterAnimator from "../utils/CharacterAnimator";
 
 /**
  * ThreeJsTestPage Component
@@ -117,7 +111,7 @@ const ThreeJsTestPage = () => {
         });
         break;
 
-      case "glow":
+      case "glow": {
         // Find an element to apply glow to
         const targetElement = document.querySelector(".character-display")?.id || "test-characters";
 
@@ -129,6 +123,7 @@ const ThreeJsTestPage = () => {
           duration: 3,
         });
         break;
+      }
 
       default:
         break;
@@ -273,8 +268,8 @@ const ThreeJsTestPage = () => {
 import CharacterController from '../threeJs/CharacterController';
 
 // Also import components from the main index
-import { 
-  VirtualCharacters, 
+import {
+  VirtualCharacters,
   LearningEnvironment,
   WebGLEffects,
   initThreeJsGlobally

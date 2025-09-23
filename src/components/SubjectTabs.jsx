@@ -1,11 +1,11 @@
 import React from "react";
 
 import { getCharacterForSubject } from "./Characters";
+import DigitalLiteracyLesson from "./lessonModules/DigitalLiteracyLesson";
 import LanguagePhonicsLesson from "./lessonModules/LanguagePhonicsLesson";
+import LifeSkillsLesson from "./lessonModules/LifeSkillsLesson";
 import LiteracyReadingLesson from "./lessonModules/LiteracyReadingLesson";
 import NumeracyCountingMoneyLesson from "./lessonModules/NumeracyCountingMoneyLesson";
-import DigitalLiteracyLesson from "./lessonModules/DigitalLiteracyLesson";
-import LifeSkillsLesson from "./lessonModules/LifeSkillsLesson";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "./ui/tabs";
 
 const subjects = [

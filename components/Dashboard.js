@@ -13,10 +13,11 @@
  */
 
 import { motion, AnimatePresence } from "framer-motion";
+
+import { AIEngine } from "../src/ai/AIEngine";
+import { SoundManager } from "../src/audio/SoundManager";
 import { ErrorHandler } from "../src/core/ErrorHandler";
 import { GameMechanics } from "../src/core/GameMechanics";
-import { SoundManager } from "../src/audio/SoundManager";
-import { AIEngine } from "../src/ai/AIEngine";
 
 class ProfessionalDashboard {
   constructor() {

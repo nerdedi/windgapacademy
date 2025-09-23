@@ -10,8 +10,9 @@
  * - Optimized for performance
  */
 
-import React from "react";
 import { motion } from "framer-motion";
+import React from "react";
+
 import { prefersReducedMotion } from "../utils/accessibility.js";
 
 // Animation variants for different page transition styles

@@ -299,9 +299,8 @@ export class SoundManager {
       return this.musicGain;
     } else if (soundName.includes("character") || soundName.includes("voice")) {
       return this.voiceGain;
-    } else {
-      return this.sfxGain;
     }
+    return this.sfxGain;
   }
 
   async playMusic(trackName: string, fadeTime: number = 2000): Promise<void> {

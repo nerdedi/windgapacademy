@@ -1,24 +1,19 @@
 // Portions of this file were generated with the assistance of GitHub Copilot
 
 // Export all analytics modules
-export { default as AnalyticsService } from './AnalyticsService';
-export { default as LearningModel } from './LearningModel';
-export { default as AnalyticsVisualizer } from './AnalyticsVisualizer';
-export { default as AnalyticsDashboard } from './AnalyticsDashboard';
-export { default as useComponentAnalytics } from './useComponentAnalytics';
-export { 
-  AnalyticsProvider, 
-  useAnalytics,
-  default as AnalyticsContext 
-} from './AnalyticsContext';
+export { default as AnalyticsService } from "./AnalyticsService";
+export { default as LearningModel } from "./LearningModel";
+export { default as AnalyticsVisualizer } from "./AnalyticsVisualizer";
+export { default as AnalyticsDashboard } from "./AnalyticsDashboard";
+export { default as useComponentAnalytics } from "./useComponentAnalytics";
+export { AnalyticsProvider, useAnalytics, default as AnalyticsContext } from "./AnalyticsContext";
 
-// Create a basic documentation comment
 /**
  * Analytics Module
- * 
+ *
  * A sophisticated analytics system that uses machine learning to track user engagement
  * and provide insights for curriculum improvement.
- * 
+ *
  * Key components:
  * - AnalyticsService: Core service for tracking and analyzing user events
  * - LearningModel: ML model for processing analytics data
@@ -27,80 +22,34 @@ export {
  * - useComponentAnalytics: Hook for easy integration of analytics into components
  * - AnalyticsProvider: Context provider for analytics functionality
  * - useAnalytics: Hook for accessing analytics functions and data
- * 
+ *
  * Usage:
- * 
- * 1. Wrap your app with the AnalyticsProvider:
- *    ```jsx
+ *
+ * 1. Wrap your app with the AnalyticsProvider (see below):
+ *    Example:
  *    import { AnalyticsProvider } from './analytics';
- *    
- *    const App = () => (
- *      <AnalyticsProvider>
- *        {/* Your app components */}
- *      </AnalyticsProvider>
- *    );
- *    ```
- * 
+ *    // In your app root, wrap your components with AnalyticsProvider.
+ *    // See documentation for JSX usage.
+ *
  * 2. Use the analytics hook in your components:
- *    ```jsx
+ *    Example:
  *    import { useAnalytics } from './analytics';
- *    
- *    const MyComponent = () => {
- *      const { trackEvent } = useAnalytics();
- *      
- *      const handleClick = () => {
- *        trackEvent('button_click', { buttonId: 'submit' });
- *      };
- *      
- *      return <button onClick={handleClick}>Submit</button>;
- *    };
- *    ```
- * 
+ *    const { trackEvent } = useAnalytics();
+ *    // Call trackEvent('button_click', { buttonId: 'submit' }) on button click.
+ *
  * 3. Use the component analytics hook for automatic tracking:
- *    ```jsx
+ *    Example:
  *    import { useComponentAnalytics } from './analytics';
- *    
- *    const MyComponent = () => {
- *      const { 
- *        componentRef, 
- *        getClickHandler 
- *      } = useComponentAnalytics('MyComponent');
- *      
- *      return (
- *        <div ref={componentRef}>
- *          <button onClick={getClickHandler('submit', () => console.log('Clicked'))}>
- *            Submit
- *          </button>
- *        </div>
- *      );
- *    };
- *    ```
- * 
+ *    const { componentRef, getClickHandler } = useComponentAnalytics('MyComponent');
+ *    // Attach componentRef to your element and use getClickHandler for event tracking.
+ *
  * 4. Display analytics visualizations:
- *    ```jsx
+ *    Example:
  *    import { AnalyticsVisualizer } from './analytics';
- *    
- *    const ProfilePage = () => {
- *      return (
- *        <div>
- *          <h1>Your Learning Profile</h1>
- *          <AnalyticsVisualizer />
- *        </div>
- *      );
- *    };
- *    ```
- * 
+ *    // Render <AnalyticsVisualizer /> in your component (see documentation).
+ *
  * 5. Admin dashboard:
- *    ```jsx
+ *    Example:
  *    import { AnalyticsDashboard } from './analytics';
- *    
- *    const AdminPage = () => {
- *      return (
- *        <div>
- *          <h1>Admin Dashboard</h1>
- *          <AnalyticsDashboard />
- *        </div>
- *      );
- *    };
- *    ```
+ *    // Render <AnalyticsDashboard /> in your admin page (see documentation).
  */

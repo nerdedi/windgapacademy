@@ -265,7 +265,7 @@ function LLNDHomepage() {
         <div className="max-w-6xl mx-auto text-center">
           <div className="text-2xl font-semibold text-black mb-4">Windgap Academy</div>
           <p className="text-gray-600 mb-6">Learning and Life Navigation Development Platform</p>
-          
+
           {/* Demo links */}
           <div className="mb-8 py-4 px-6 bg-blue-50 rounded-lg inline-block">
             <h3 className="text-blue-800 font-semibold mb-2">Demo Pages</h3>
@@ -284,7 +284,7 @@ function LLNDHomepage() {
               </button>
             </div>
           </div>
-          
+
           <div className="flex justify-center space-x-8 text-sm text-gray-500">
             <button
               onClick={() => navigate("/login")}

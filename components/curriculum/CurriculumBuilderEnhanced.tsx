@@ -1,5 +1,13 @@
 // Enhanced CurriculumBuilder with all improvements integrated
-import React, { useState, useEffect, useCallback, useMemo } from "react";
+import {
+  CheckIcon,
+  WarningIcon,
+  InfoIcon,
+  SettingsIcon,
+  StarIcon,
+  TimeIcon,
+  ViewIcon,
+} from "@chakra-ui/icons";
 import {
   Button,
   IconButton,
@@ -36,18 +44,11 @@ import {
   Skeleton,
   SkeletonText,
 } from "@chakra-ui/react";
-import {
-  CheckIcon,
-  WarningIcon,
-  InfoIcon,
-  SettingsIcon,
-  StarIcon,
-  TimeIcon,
-  ViewIcon,
-} from "@chakra-ui/icons";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 
 import BlenderModelViewer from "../../src/components/BlenderModelViewer.js";
 import UnityAnimationBridge from "../../src/components/UnityAnimationBridgeEnhanced";
+import { curriculumAI } from "../../src/services/curriculumAI";
 import {
   useCurriculumStore,
   useCharacterState,
@@ -55,7 +56,6 @@ import {
   useModuleState,
   useProgressState,
 } from "../../src/stores/curriculumStore";
-import { curriculumAI } from "../../src/services/curriculumAI";
 
 // Enhanced character definitions with accessibility and learning analytics
 const curriculumCharacters = [

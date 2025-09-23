@@ -1,10 +1,10 @@
+import CharacterAnimator from "../../src/utils/CharacterAnimator";
+import WebGLEffectsUtil from "../../src/utils/WebGLEffects";
 import {
   applyButtonAnimation,
   applyHeadingAnimation,
   setAriaAttributes,
 } from "../../utils/uiUtils.js";
-import WebGLEffectsUtil from "../../src/utils/WebGLEffects";
-import CharacterAnimator from "../../src/utils/CharacterAnimator";
 // Digital Skills Game Module
 // Practice basic digital skills with interactive challenges
 

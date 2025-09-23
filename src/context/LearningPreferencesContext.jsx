@@ -1,5 +1,6 @@
 import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
 import React, { createContext, useState, useContext, useEffect, useCallback } from "react";
+
 import { useAuth } from "./AuthContext";
 
 // Default learning preferences

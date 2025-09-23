@@ -20,9 +20,8 @@ export function hasRole(user, role, requireAll = false) {
   if (Array.isArray(role)) {
     if (requireAll) {
       return role.every((r) => user.roles.includes(r));
-    } else {
-      return role.some((r) => user.roles.includes(r));
     }
+    return role.some((r) => user.roles.includes(r));
   }
 
   return user.roles.includes(role);
@@ -44,9 +43,8 @@ export function hasPermission(user, permission, requireAll = false) {
   if (Array.isArray(permission)) {
     if (requireAll) {
       return permission.every((p) => user.permissions.includes(p));
-    } else {
-      return permission.some((p) => user.permissions.includes(p));
     }
+    return permission.some((p) => user.permissions.includes(p));
   }
 
   return user.permissions.includes(permission);

@@ -8,8 +8,8 @@
  * - Professional design and animations
  */
 
-import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 export const CommandPalette = ({ isOpen, onClose }) => {

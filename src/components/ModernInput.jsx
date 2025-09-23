@@ -1,9 +1,9 @@
-import React, { useState, useRef, useEffect } from "react";
 import { gsap } from "gsap";
+import React, { useState, useRef, useEffect } from "react";
 
 /**
  * ModernInput - A sophisticated animated input component
- * 
+ *
  * Features:
  * - Animated label with floating effect
  * - Focus and hover states with subtle animations
@@ -28,31 +28,31 @@ const ModernInput = ({
   const inputRef = useRef(null);
   const labelRef = useRef(null);
   const borderRef = useRef(null);
-  
+
   // Handle input focus animation
   const handleFocus = () => {
     setIsFocused(true);
-    
+
     // Animate label and border with GSAP
     gsap.to(labelRef.current, {
       y: -25,
       scale: 0.85,
       color: darkMode ? "#2997FF" : "#2997FF",
       duration: 0.3,
-      ease: "power2.out"
+      ease: "power2.out",
     });
-    
+
     gsap.to(borderRef.current, {
       scaleX: 1,
       duration: 0.4,
-      ease: "power2.out"
+      ease: "power2.out",
     });
   };
-  
+
   // Handle input blur animation
   const handleBlur = () => {
     setIsFocused(false);
-    
+
     // Only animate back if there's no value
     if (!value) {
       gsap.to(labelRef.current, {
@@ -60,17 +60,17 @@ const ModernInput = ({
         scale: 1,
         color: darkMode ? "rgba(255,255,255,0.6)" : "rgba(0,0,0,0.6)",
         duration: 0.3,
-        ease: "power2.out"
+        ease: "power2.out",
       });
     }
-    
+
     gsap.to(borderRef.current, {
       scaleX: 0,
       duration: 0.4,
-      ease: "power2.out"
+      ease: "power2.out",
     });
   };
-  
+
   // Set initial label position based on value
   useEffect(() => {
     if (value) {
@@ -81,30 +81,22 @@ const ModernInput = ({
       });
     }
   }, [value, darkMode]);
-  
+
   // Base style classes based on dark mode and error state
-  const containerClasses = darkMode 
-    ? "bg-zinc-900/30 border border-zinc-800/50" 
+  const containerClasses = darkMode
+    ? "bg-zinc-900/30 border border-zinc-800/50"
     : "bg-white/80 border border-gray-300";
-    
-  const labelClasses = darkMode 
-    ? "text-gray-400" 
-    : "text-gray-600";
-    
-  const inputClasses = darkMode 
-    ? "bg-transparent text-white" 
-    : "bg-transparent text-black";
-  
+
+  const labelClasses = darkMode ? "text-gray-400" : "text-gray-600";
+
+  const inputClasses = darkMode ? "bg-transparent text-white" : "bg-transparent text-black";
+
   // Error classes
-  const errorClasses = error 
-    ? darkMode 
-      ? "border-red-500/50" 
-      : "border-red-500" 
-    : "";
-  
+  const errorClasses = error ? (darkMode ? "border-red-500/50" : "border-red-500") : "";
+
   return (
     <div className={`relative ${className}`}>
-      <div 
+      <div
         className={`
           relative rounded-lg ${containerClasses} ${errorClasses}
           transition-colors duration-200
@@ -129,7 +121,7 @@ const ModernInput = ({
             required={required}
             {...props}
           />
-          
+
           <label
             ref={labelRef}
             htmlFor={id}
@@ -142,21 +134,17 @@ const ModernInput = ({
           >
             {label} {required && <span className="text-red-500">*</span>}
           </label>
-          
+
           {/* Animated focus border */}
-          <div 
+          <div
             ref={borderRef}
             className="absolute bottom-0 left-0 h-0.5 w-full bg-blue-500 scale-x-0 origin-left"
           />
         </div>
       </div>
-      
+
       {/* Error message */}
-      {error && (
-        <p className="mt-1 text-sm text-red-500 animate-fadeIn">
-          {error}
-        </p>
-      )}
+      {error && <p className="mt-1 text-sm text-red-500 animate-fadeIn">{error}</p>}
     </div>
   );
 };

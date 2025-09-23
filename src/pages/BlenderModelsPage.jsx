@@ -1,5 +1,6 @@
-import React, { useState } from "react";
 import { motion } from "framer-motion";
+import { useState } from "react";
+
 import BlenderModelViewer from "../components/BlenderModelViewer";
 import "../styles/BlenderModelsPage.css";
 
@@ -109,7 +110,7 @@ const BlenderModelsPage = () => {
       >
         <h1>Blender Models Integration</h1>
         <p>
-          Demonstrating the integration of Blender-created models with Windgap Academy's WebGL
+          Demonstrating the integration of Blender-created models with Windgap Academy&apos;s WebGL
           utilities
         </p>
       </motion.div>
@@ -263,14 +264,14 @@ modelLoader.loadModel('${selectedModelData.path}', {
 .then(model => {
   // Add model to scene
   scene.add(model.scene);
-  
+
   // Play an animation if available
   ${
     selectedModelData.animations && selectedModelData.animations.length > 0
       ? `modelLoader.playAnimation('${selectedModelData.id}', '${selectedModelData.animations[0].id}');`
       : "// No animations to play"
   }
-  
+
   // Apply effects
   modelLoader.applyEffect('${selectedModelData.id}', 'glow', {
     color: '#6366f1',

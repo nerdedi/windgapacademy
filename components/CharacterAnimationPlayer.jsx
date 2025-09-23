@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useCallback } from "react";
 import { Box, Button, Typography, Grid, Paper } from "@mui/material";
+import React, { useState, useEffect, useCallback } from "react";
+
 import EnhancedUnityPlayer from "../unity-integration/EnhancedUnityPlayer";
 import StorylineManager from "../unity-integration/StorylineManager";
 import "./CharacterAnimationPlayer.css";

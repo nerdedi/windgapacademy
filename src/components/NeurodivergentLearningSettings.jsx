@@ -1,7 +1,5 @@
-import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { useAccessibility } from "../context/AccessibilityContext";
-import { useLearningPreferences } from "../context/LearningPreferencesContext";
+import React, { useState } from "react";
 import {
   FaBrain,
   FaClock,
@@ -16,6 +14,9 @@ import {
   FaRedo,
   FaQuestion,
 } from "react-icons/fa";
+
+import { useAccessibility } from "../context/AccessibilityContext";
+import { useLearningPreferences } from "../context/LearningPreferencesContext";
 
 /**
  * NeurodivergentLearningSettings Component

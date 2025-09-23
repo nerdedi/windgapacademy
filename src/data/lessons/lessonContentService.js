@@ -1,9 +1,9 @@
-import { lifeSkillsLessons } from "./categories/lifeSkills";
-import { employmentSkillsLessons } from "./categories/employmentSkills";
 import { digitalLiteracyLessons } from "./categories/digitalLiteracy";
-import { numeracyLessons } from "./categories/numeracy";
-import { literacyLanguageLessons } from "./categories/literacyLanguage";
 import { emotionalRegulationLessons } from "./categories/emotionalRegulation";
+import { employmentSkillsLessons } from "./categories/employmentSkills";
+import { lifeSkillsLessons } from "./categories/lifeSkills";
+import { literacyLanguageLessons } from "./categories/literacyLanguage";
+import { numeracyLessons } from "./categories/numeracy";
 import { socialCommunicationLessons } from "./categories/socialCommunication";
 
 /**

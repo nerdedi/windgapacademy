@@ -30,10 +30,9 @@ const createParticleEffect = (containerId, options = {}) => {
     // Use webglEffects directly without instantiation
     if (typeof WebGLEffects.initParticleSystem === "function") {
       return WebGLEffects.initParticleSystem(containerId, options);
-    } else {
-      console.error("WebGLEffects.initParticleSystem is not a function");
-      return null;
     }
+    console.error("WebGLEffects.initParticleSystem is not a function");
+    return null;
   } catch (error) {
     console.error("Error creating particle effect:", error);
     return null;
@@ -44,10 +43,9 @@ const createRippleEffect = (containerId, options = {}) => {
   try {
     if (typeof WebGLEffects.createWaterRipple === "function") {
       return WebGLEffects.createWaterRipple(containerId, options);
-    } else {
-      console.error("WebGLEffects.createWaterRipple is not a function");
-      return null;
     }
+    console.error("WebGLEffects.createWaterRipple is not a function");
+    return null;
   } catch (error) {
     console.error("Error creating ripple effect:", error);
     return null;

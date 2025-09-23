@@ -1,5 +1,3 @@
-import React, { useState } from "react";
-import CharacterAnimationPlayer from "../components/CharacterAnimationPlayer.jsx";
 import {
   Box,
   Container,
@@ -16,6 +14,9 @@ import {
   Paper,
   Grid,
 } from "@mui/material";
+import React, { useState } from "react";
+
+import CharacterAnimationPlayer from "../components/CharacterAnimationPlayer.jsx";
 
 const CharacterAnimationsPage = () => {
   const [selectedCharacter, setSelectedCharacter] = useState("Winnie");

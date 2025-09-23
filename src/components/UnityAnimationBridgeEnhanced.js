@@ -1,6 +1,7 @@
-import React, { useEffect, useState, useCallback, useRef } from "react";
-import { sendToUnity, registerUnityMessageHandler } from "../unity-integration/UnityBridge";
+import { useCallback, useEffect, useRef, useState } from "react";
+
 import { useAnimationState } from "../stores/curriculumStore";
+import { registerUnityMessageHandler, sendToUnity } from "../unity-integration/UnityBridge";
 
 /**
  * Enhanced Unity Animation Bridge component for controlling character animations from React

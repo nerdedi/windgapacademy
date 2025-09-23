@@ -1,8 +1,14 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useCurriculumStore } from "../../src/stores/curriculumStore";
 import Modal from "../ui/Modal";
 
 // Enhanced curriculum builder component with save state functionality
 const CurriculumBuilder = () => {
+  const navigate = useNavigate();
+  // Use the curriculum store for sending to automation
+  const { sendToAutomationSystem } = useCurriculumStore();
+
   // Core curriculum state
   const [selectedSubject, setSelectedSubject] = useState("Mathematics");
   const [moduleTitle, setModuleTitle] = useState("");
@@ -128,6 +134,26 @@ const CurriculumBuilder = () => {
     alert("Module generated successfully!");
   };
 
+  // Send to automation system
+  const handleSendToAutomation = () => {
+    // Create a module object
+    const moduleToSend = {
+      id: Date.now().toString(),
+      title: moduleTitle,
+      description: moduleDescription,
+      subject: selectedSubject,
+      learningObjectives: learningObjectives,
+      assessmentStrategy: assessmentStrategy,
+      estimatedDuration: 10, // Default to 10 seconds for demo
+    };
+
+    // Send to automation system
+    sendToAutomationSystem([moduleToSend.id]);
+
+    // Navigate to automation demo page
+    setTimeout(() => navigate("/demos/automation"), 500);
+  };
+
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white shadow-lg rounded-lg">
       <h1 className="text-3xl font-bold text-center mb-8 text-gray-800">Curriculum Builder</h1>
@@ -209,13 +235,22 @@ const CurriculumBuilder = () => {
           />
         </div>
 
-        <div className="flex justify-center">
+        <div className="flex justify-center gap-4">
           <button
             onClick={generateModule}
             className="px-6 py-3 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors shadow-md"
           >
             Generate Module
           </button>
+
+          {moduleTitle && (
+            <button
+              onClick={handleSendToAutomation}
+              className="px-6 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors shadow-md"
+            >
+              Send to Automation System
+            </button>
+          )}
         </div>
 
         {moduleTitle && (
@@ -295,7 +330,8 @@ const CurriculumBuilder = () => {
       <Modal isOpen={showDeleteConfirmation} onClose={() => setShowDeleteConfirmation(false)}>
         <h2 className="text-xl font-bold mb-4">Confirm Deletion</h2>
         <p className="mb-4">
-          Are you sure you want to delete "{stateToDelete?.name}"? This action cannot be undone.
+          Are you sure you want to delete &quot;{stateToDelete?.name}&quot;? This action cannot be
+          undone.
         </p>
         <div className="flex justify-end gap-2">
           <button

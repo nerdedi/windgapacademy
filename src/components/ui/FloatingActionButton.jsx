@@ -8,8 +8,8 @@
  * - Professional micro-interactions
  */
 
-import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import React, { useState, useEffect } from "react";
 
 export const FloatingActionButton = ({ onClick }) => {
   const [isExpanded, setIsExpanded] = useState(false);

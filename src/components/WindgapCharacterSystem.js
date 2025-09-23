@@ -1,10 +1,9 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+
 import CharacterController from "../utils/CharacterController";
-import WebGLEffects from "../utils/WebGLEffects";
-import WebGLEffectsUtil from "../utils/WebGLEffects";
-import CharacterAnimator from "../utils/CharacterAnimator";
+import { default as WebGLEffects, default as WebGLEffectsUtil } from "../utils/WebGLEffects";
 
 /**
  * WindgapCharacterSystem
@@ -404,7 +403,7 @@ class WindgapCharacterSystem {
         // Load characters after environment is ready
         this._loadCharacters();
       },
-      (xhr) => {
+      () => {
         // Loading progress is handled by the loadingManager
       },
       (error) => {
@@ -467,7 +466,7 @@ class WindgapCharacterSystem {
         // Send notification to React
         this._sendToReact(`${characterId} character loaded`);
       },
-      (xhr) => {
+      () => {
         // Loading progress is handled by the loadingManager
       },
       (error) => {

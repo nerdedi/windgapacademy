@@ -1,7 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { useAccessibility } from "../context/AccessibilityContext";
+import React, { useState, useEffect } from "react";
 import {
   FaArrowLeft,
   FaList,
@@ -10,6 +8,9 @@ import {
   FaRegClock,
   FaCheckSquare,
 } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+
+import { useAccessibility } from "../context/AccessibilityContext";
 
 /**
  * NeuroLessonContainer - A wrapper component for lesson modules that adds neurodiversity accommodations

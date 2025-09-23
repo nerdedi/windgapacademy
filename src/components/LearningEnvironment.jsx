@@ -1,8 +1,10 @@
-import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Maximize2, Minimize2, ChevronLeft, ChevronRight } from "lucide-react";
-import VirtualCharacters from "./VirtualCharacters";
+import React, { useState, useRef, useEffect } from "react";
+
 import WebGLEffects from "../utils/WebGLEffects";
+
+import VirtualCharacters from "./VirtualCharacters";
 
 /**
  * LearningEnvironment Component

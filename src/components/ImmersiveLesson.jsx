@@ -1,4 +1,3 @@
-import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ChevronRight,
@@ -9,8 +8,11 @@ import {
   Award,
   MessageCircle,
 } from "lucide-react";
-import HybridScene from "./HybridScene";
+import React, { useState, useEffect, useRef } from "react";
+
 import { useGamification } from "../contexts/GamificationContext";
+
+import HybridScene from "./HybridScene";
 
 const ImmersiveLesson = ({
   lessonId,

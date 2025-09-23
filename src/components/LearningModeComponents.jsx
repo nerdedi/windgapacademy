@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
+import React, { useState, useEffect, useRef } from "react";
 import { FaVolumeUp, FaPlay, FaPause, FaChevronLeft, FaChevronRight } from "react-icons/fa";
+
 import { useAccessibility } from "../context/AccessibilityContext";
 import { useLearningPreferences } from "../context/LearningPreferencesContext";
 
@@ -368,9 +369,8 @@ export const KinestheticLearningContent = ({ content, activities = [] }) => {
     setCompletedActivities((prev) => {
       if (prev.includes(index)) {
         return prev.filter((i) => i !== index);
-      } else {
-        return [...prev, index];
       }
+      return [...prev, index];
     });
   };
 

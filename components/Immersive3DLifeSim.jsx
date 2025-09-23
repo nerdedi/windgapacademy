@@ -1,5 +1,4 @@
-import React, { useState, useRef, useEffect, Suspense } from "react";
-import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import { Physics, useBox, useSphere } from "@react-three/cannon";
 import {
   OrbitControls,
   Environment,
@@ -13,9 +12,10 @@ import {
   Sky,
   ContactShadows,
 } from "@react-three/drei";
-import { Physics, useBox, useSphere } from "@react-three/cannon";
-import * as THREE from "three";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import React, { useState, useRef, useEffect, Suspense } from "react";
 import { useNavigate } from "react-router-dom";
+import * as THREE from "three";
 
 // 3D Character Component with animations
 function Character({ position, activity, mood, name }) {

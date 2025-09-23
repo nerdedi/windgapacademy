@@ -1,6 +1,4 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
 import {
   FaUser,
   FaSignOutAlt,
@@ -9,6 +7,9 @@ import {
   FaChevronDown,
   FaLock,
 } from "react-icons/fa";
+import { Link, useNavigate } from "react-router-dom";
+
+import { useAuth } from "../context/AuthContext";
 
 /**
  * DashboardHeader component with authentication integration

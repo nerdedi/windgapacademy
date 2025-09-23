@@ -4,11 +4,13 @@ export function getDb() {
   return null;
 }
 
+// eslint-disable-next-line no-unused-vars
 export async function getUserDoc(uid) {
   console.warn("getUserDoc not available - using mock");
   return null;
 }
 
+// eslint-disable-next-line no-unused-vars
 export async function setUserDoc(uid, data) {
   console.warn("setUserDoc not available - using mock");
   return Promise.resolve();

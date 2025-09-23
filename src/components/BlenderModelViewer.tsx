@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 // @ts-ignore - External Three.js modules
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 // @ts-ignore - External Three.js modules
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 interface Animation {
   id: string;

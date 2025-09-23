@@ -8,8 +8,8 @@
  * - Character integration ready
  */
 
-import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import React, { useState, useEffect } from "react";
 
 export const LivePreview = () => {
   const [activeDemo, setActiveDemo] = useState(0);

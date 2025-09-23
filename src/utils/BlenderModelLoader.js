@@ -3,6 +3,7 @@
 
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+
 import CharacterAnimator from "./CharacterAnimator";
 import WebGLEffectsUtil from "./WebGLEffects";
 
@@ -255,7 +256,7 @@ class BlenderModelLoader {
           ...effectOptions,
         });
 
-      case "particles":
+      case "particles": {
         // Create a container for the particles
         const containerId = `${modelName}-particles`;
         let container = document.getElementById(containerId);
@@ -281,6 +282,7 @@ class BlenderModelLoader {
           animationDuration: 3,
           ...effectOptions,
         });
+      }
 
       default:
         console.warn(`Effect type "${effectType}" not supported`);

@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
-import { FaMobile, FaCheck, FaExclamationCircle, FaArrowLeft } from "react-icons/fa";
 import { RecaptchaVerifier } from "firebase/auth";
+import React, { useState, useEffect } from "react";
+import { FaMobile, FaCheck, FaExclamationCircle, FaArrowLeft } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+
+import { useAuth } from "../context/AuthContext";
 
 function SetupMFAPage() {
   const navigate = useNavigate();

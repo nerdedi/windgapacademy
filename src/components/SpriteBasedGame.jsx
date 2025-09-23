@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import WebGLEffectsUtil from "../utils/WebGLEffects";
+
 import CharacterAnimator from "../utils/CharacterAnimator";
+import WebGLEffectsUtil from "../utils/WebGLEffects";
 
 // Advanced Sprite Animation Manager
 class SpriteAnimationManager {

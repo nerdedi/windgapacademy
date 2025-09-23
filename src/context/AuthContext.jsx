@@ -1,4 +1,3 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
 import {
   getAuth,
   onAuthStateChanged,
@@ -18,6 +17,8 @@ import {
   PhoneMultiFactorGenerator,
 } from "firebase/auth";
 import { doc, getDoc, setDoc, updateDoc, getFirestore } from "firebase/firestore";
+import React, { createContext, useContext, useState, useEffect } from "react";
+
 import { app } from "../../firebase";
 
 // Create context
@@ -48,21 +49,20 @@ export const AuthProvider = ({ children }) => {
       const userDoc = await getDoc(doc(db, "users", uid));
       if (userDoc.exists()) {
         return userDoc.data();
-      } else {
-        // Create user document if it doesn't exist
-        const newUserData = {
-          uid,
-          email: auth.currentUser.email,
-          displayName: auth.currentUser.displayName || "",
-          photoURL: auth.currentUser.photoURL || "",
-          roles: ["user"], // Default role
-          permissions: ["read:own_profile"],
-          createdAt: new Date().toISOString(),
-          lastLogin: new Date().toISOString(),
-        };
-        await setDoc(doc(db, "users", uid), newUserData);
-        return newUserData;
       }
+      // Create user document if it doesn't exist
+      const newUserData = {
+        uid,
+        email: auth.currentUser.email,
+        displayName: auth.currentUser.displayName || "",
+        photoURL: auth.currentUser.photoURL || "",
+        roles: ["user"], // Default role
+        permissions: ["read:own_profile"],
+        createdAt: new Date().toISOString(),
+        lastLogin: new Date().toISOString(),
+      };
+      await setDoc(doc(db, "users", uid), newUserData);
+      return newUserData;
     } catch (err) {
       console.error("Error fetching user data:", err);
       setError("Failed to fetch user data");

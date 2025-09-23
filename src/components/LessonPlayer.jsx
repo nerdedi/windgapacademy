@@ -8,7 +8,6 @@ import {
   Trophy,
   Target,
 } from "lucide-react";
-
 import React, { useState, useEffect } from "react";
 
 // Import the lesson content service

@@ -2,6 +2,7 @@
 // that doesn't depend on Chakra UI and has proper TypeScript typing
 
 import React, { useState } from "react";
+
 import BlenderModelViewer from "../../src/components/BlenderModelViewer.js";
 
 // Define types for our characters and animations

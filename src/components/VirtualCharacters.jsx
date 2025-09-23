@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
+
 import WindgapCharacterSystem from "./WindgapCharacterSystem";
+
 import "../styles/animations.css";
 import WebGLEffectsUtil from "../utils/WebGLEffects";
 import CharacterAnimator from "../utils/CharacterAnimator";

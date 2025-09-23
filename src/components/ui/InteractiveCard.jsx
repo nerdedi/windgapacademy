@@ -8,8 +8,8 @@
  * - Magnetic cursor interactions
  */
 
-import React, { useState, useRef } from "react";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import React, { useState, useRef } from "react";
 
 export const InteractiveCard = ({
   title,

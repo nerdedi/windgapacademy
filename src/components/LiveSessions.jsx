@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 const LiveSessions = () => {
   const [sessions, setSessions] = useState([]);
@@ -6,19 +6,28 @@ const LiveSessions = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    setLoading(true);
-    fetch("/api/sessions")
-      .then((res) => res.json())
-      .then((data) => {
+    // Define an async function inside useEffect
+    const fetchSessions = async () => {
+      setLoading(true);
+      try {
+        const response = await fetch("/api/sessions");
+
+        if (!response.ok) {
+          throw new Error(`Server responded with status: ${response.status}`);
+        }
+
+        const data = await response.json();
         setSessions(data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        // eslint-disable-next-line no-console
+      } catch (err) {
         console.error("Failed to fetch live sessions:", err);
         setError("Failed to load live sessions");
+      } finally {
         setLoading(false);
-      });
+      }
+    };
+
+    // Call the async function
+    fetchSessions();
   }, []);
 
   return (
