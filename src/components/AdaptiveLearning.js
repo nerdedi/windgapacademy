@@ -25,20 +25,19 @@ function setAccessibility() {
   }
 }
 
-function backupProgress(progress) {
+function _backupProgress(progress) {
   localStorage.setItem("adaptiveLearningProgress", JSON.stringify(progress));
 }
-function syncProgress() {
+function _syncProgress() {
   return JSON.parse(localStorage.getItem("adaptiveLearningProgress") || "{}");
 }
 
-function updateLeaderboard(score) {
+function _updateLeaderboard(_score) {
   // ...leaderboard logic...
 }
 
-function sendFeedback(feedback) {
+function _sendFeedback(feedback) {
   logEvent("Feedback sent", { feedback });
-  showFeedbackModal("Thank you for your feedback!");
 }
 
 function logEvent(event, data = {}) {
@@ -48,7 +47,7 @@ function logEvent(event, data = {}) {
   }
   console.log("Analytics event:", event, data);
 }
-function showFeedbackModal(message) {
+function _showFeedbackModal(message) {
   const modal = document.createElement("div");
   modal.style =
     "position:fixed;top:50%;left:50%;transform:translate(-50%, -50%);background:#fff;border:2px solid #1976d2;border-radius:12px;padding:24px;z-index:1001;min-width:320px;";
@@ -57,7 +56,7 @@ function showFeedbackModal(message) {
   document.getElementById("close-feedback").onclick = () => modal.remove();
 }
 
-function safeRun(fn) {
+function _safeRun(fn) {
   try {
     fn();
   } catch (e) {
@@ -65,7 +64,7 @@ function safeRun(fn) {
   }
 }
 
-function showSettings() {
+function _showSettings() {
   // ...settings modal logic...
 }
 

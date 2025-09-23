@@ -181,7 +181,7 @@ export const useCurriculumStore = create(
     },
 
     getStudentInsights: (studentId) => {
-      const { studentProgress, completedModules } = get();
+      const { completedModules } = get();
       const studentModules = completedModules.filter((m) => m.studentId === studentId);
 
       return {
@@ -222,7 +222,8 @@ export const useCurriculumStore = create(
 
       // Analyze completion rates and scores by subject
       const subjectStats = {};
-      Object.entries(progress).forEach(([moduleId, data]) => {
+      Object.entries(progress).forEach((entry) => {
+        const data = entry[1];
         if (data.subject) {
           if (!subjectStats[data.subject]) {
             subjectStats[data.subject] = { completions: 0, totalScore: 0, count: 0 };

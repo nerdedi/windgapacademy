@@ -1,48 +1,36 @@
-import React, { Suspense, lazy } from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Suspense, lazy } from "react";
+import { Navigate, Route, Routes } from "react-router-dom";
 
-// Import providers
-import { AuthProvider } from "./context/AuthContext";
-import { AccessibilityProvider } from "./context/AccessibilityContext";
-import { LearningPreferencesProvider } from "./context/LearningPreferencesContext";
-import { AnalyticsProvider } from "./analytics";
-import ProtectedRoute from "./components/ProtectedRoute";
-
-// Import accessibility components
-import AccessibilitySettings from "./components/AccessibilitySettings";
-
-// Import styles
-import "./styles/accessibility.css";
-import "./styles/adaptive.css";
-import "./styles/neurodivergent.css";
-
-// Import curriculum builder with save state
 import CurriculumBuilderWithSaveState from "../components/curriculum/CurriculumBuilderWithSaveState";
 
-// Import lesson modules
+import { AnalyticsProvider } from "./analytics";
+import AccessibilitySettings from "./components/AccessibilitySettings";
 import DigitalLiteracyLesson from "./components/lessonModules/DigitalLiteracyLesson";
 import DigitalLiteracyLessonEnhanced from "./components/lessonModules/DigitalLiteracyLessonEnhanced";
 import LanguagePhonicsLesson from "./components/lessonModules/LanguagePhonicsLesson";
 import LifeSkillsLesson from "./components/lessonModules/LifeSkillsLesson";
 import LiteracyReadingLesson from "./components/lessonModules/LiteracyReadingLesson";
 import NumeracyCountingMoneyLesson from "./components/lessonModules/NumeracyCountingMoneyLesson";
-
-// Import components
 import LLNDHomepage from "./components/LLNDHomepage";
-import LearnerDashboard from "./components/StudentDashboard";
 import LoginPage from "./components/LoginPage";
+import ProtectedRoute from "./components/ProtectedRoute";
+import LearnerDashboard from "./components/StudentDashboard";
+import { AccessibilityProvider } from "./context/AccessibilityContext";
+import { AuthProvider } from "./context/AuthContext";
+import { LearningPreferencesProvider } from "./context/LearningPreferencesContext";
+import AdaptiveDemoPage from "./pages/AdaptiveDemoPage";
+import AnimationSystemDemo from "./pages/AnimationSystemDemo";
+import ExecutiveFunctionDemo from "./pages/ExecutiveFunctionDemo";
+import NeurodivergentLearningPage from "./pages/NeurodivergentLearningPage";
+import "./styles/accessibility.css";
+import "./styles/adaptive.css";
+import "./styles/neurodivergent.css";
 
 // Lazy-loaded authentication pages
 const VerifyEmailPage = lazy(() => import("./components/VerifyEmailPage"));
 const SetupMFAPage = lazy(() => import("./components/SetupMFAPage"));
 const ResetPasswordPage = lazy(() => import("./components/ResetPasswordPage"));
 const UnauthorizedPage = lazy(() => import("./components/UnauthorizedPage"));
-
-// Import demo pages
-import AnimationSystemDemo from "./pages/AnimationSystemDemo";
-import AdaptiveDemoPage from "./pages/AdaptiveDemoPage";
-import ExecutiveFunctionDemo from "./pages/ExecutiveFunctionDemo";
-import NeurodivergentLearningPage from "./pages/NeurodivergentLearningPage";
 
 // Professional loading component
 function ProfessionalLoader() {
@@ -190,4 +178,5 @@ function App() {
     </AccessibilityProvider>
   );
 }
+
 export default App;
