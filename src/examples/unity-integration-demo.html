@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Unity Integration Demo - Windgap Academy</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+  <style>
+    .unity-player-container {
+      position: relative;
+      width: 100%;
+      background-color: #000;
+      aspect-ratio: 16/9;
+    }
+
+    .fullscreen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw !important;
+      height: 100vh !important;
+      z-index: 9999;
+    }
+
+    .progress-bar {
+      height: 8px;
+      background-color: #e2e8f0;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background-color: #2563eb;
+      border-radius: 4px;
+      transition: width 0.3s ease;
+    }
+
+    .loading-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background-color: rgba(15, 23, 42, 0.9);
+      z-index: 5;
+    }
+
+    .spinner {
+      border: 4px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top: 4px solid white;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .achievement-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px;
+      background-color: #f8fafc;
+      border-radius: 8px;
+      margin-bottom: 8px;
+    }
+
+    .achievement-icon {
+      font-size: 1.5rem;
+      line-height: 1;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 min-h-screen">
+  <header class="bg-white shadow">
+    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+      <h1 class="text-3xl font-bold text-gray-900">Unity Integration Demo</h1>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+    <div class="px-4 py-6 sm:px-0">
+      <div class="bg-white rounded-lg shadow overflow-hidden">
+        <!-- Unity Experience Header -->
+        <div class="bg-white p-4 border-b flex justify-between items-center">
+          <div>
+            <h2 class="text-xl font-semibold text-gray-900">Physics Playground</h2>
+            <p class="text-sm text-gray-500">Learn physics concepts through interactive experiments</p>
+          </div>
+
+          <button id="fullscreen-toggle" class="p-2 rounded-md hover:bg-gray-100">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Unity Experience Content -->
+        <div class="flex flex-col md:flex-row">
+          <!-- Unity Player -->
+          <div class="unity-player-container md:w-3/4" id="unity-container">
+            <!-- Unity iframe would be inserted here by JavaScript -->
+
+            <!-- Loading Overlay -->
+            <div id="loading-overlay" class="loading-overlay">
+              <div class="spinner mb-4"></div>
+              <p class="text-white text-lg">Loading Unity Experience...</p>
+              <p class="text-white text-sm mt-2"><span id="loading-progress">0</span>% Complete</p>
+            </div>
+          </div>
+
+          <!-- Sidebar -->
+          <div class="bg-white p-4 border-l md:w-1/4">
+            <div class="mb-6">
+              <h3 class="text-lg font-medium text-gray-900 mb-2">Your Progress</h3>
+              <div class="progress-bar mb-1">
+                <div id="progress-fill" class="progress-fill" style="width: 0%"></div>
+              </div>
+              <p class="text-sm text-right text-gray-500"><span id="progress-text">0</span>% Complete</p>
+
+              <div id="completion-badge" class="hidden mt-4 p-2 bg-green-50 text-green-700 rounded-md flex items-center">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+                <span>Experience Completed!</span>
+              </div>
+            </div>
+
+            <div class="mb-6">
+              <h3 class="text-lg font-medium text-gray-900 mb-2">Achievements</h3>
+              <div id="achievements-list">
+                <p class="text-sm text-gray-500">Complete activities to earn achievements</p>
+              </div>
+            </div>
+
+            <div>
+              <h3 class="text-lg font-medium text-gray-900 mb-2">Controls</h3>
+              <div class="grid grid-cols-2 gap-2">
+                <button id="pause-btn" class="px-3 py-2 bg-gray-100 rounded hover:bg-gray-200 text-sm">Pause</button>
+                <button id="resume-btn" class="px-3 py-2 bg-gray-100 rounded hover:bg-gray-200 text-sm">Resume</button>
+                <button id="restart-btn" class="px-3 py-2 bg-gray-100 rounded hover:bg-gray-200 text-sm">Restart</button>
+                <button id="mute-btn" class="px-3 py-2 bg-gray-100 rounded hover:bg-gray-200 text-sm">Toggle Sound</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Unity configuration
+      const unityConfig = {
+        buildUrl: '/unity-integration/builds/physics-playground/',
+        loaderUrl: '/unity-integration/builds/physics-playground/WebGL.loader.js',
+        dataUrl: '/unity-integration/builds/physics-playground/WebGL.data',
+        frameworkUrl: '/unity-integration/builds/physics-playground/WebGL.framework.js',
+        codeUrl: '/unity-integration/builds/physics-playground/WebGL.wasm'
+      };
+
+      // Unity container element
+      const container = document.getElementById('unity-container');
+
+      // Loading and progress elements
+      const loadingOverlay = document.getElementById('loading-overlay');
+      const loadingProgress = document.getElementById('loading-progress');
+      const progressFill = document.getElementById('progress-fill');
+      const progressText = document.getElementById('progress-text');
+      const completionBadge = document.getElementById('completion-badge');
+      const achievementsList = document.getElementById('achievements-list');
+
+      // Control buttons
+      const fullscreenToggle = document.getElementById('fullscreen-toggle');
+      const pauseBtn = document.getElementById('pause-btn');
+      const resumeBtn = document.getElementById('resume-btn');
+      const restartBtn = document.getElementById('restart-btn');
+      const muteBtn = document.getElementById('mute-btn');
+
+      // Unity instance
+      let unityInstance = null;
+
+      // Mock user data (in a real app, this would come from authentication)
+      const userData = {
+        userId: 'demo-user-123',
+        displayName: 'Demo User',
+        isAuthenticated: true
+      };
+
+      // Track achievements
+      const achievements = [];
+
+      // Create Unity loader script
+      function createUnityLoader() {
+        return new Promise((resolve, reject) => {
+          const script = document.createElement('script');
+          script.src = unityConfig.loaderUrl;
+          script.onload = () => resolve();
+          script.onerror = (err) => reject(new Error('Failed to load Unity loader script'));
+          document.body.appendChild(script);
+        });
+      }
+
+      // Create Unity instance
+      async function createUnityInstance() {
+        try {
+          // Create canvas
+          const canvas = document.createElement('canvas');
+          canvas.id = 'unity-canvas';
+          canvas.style.width = '100%';
+          canvas.style.height = '100%';
+          container.appendChild(canvas);
+
+          // Load Unity
+          await createUnityLoader();
+
+          // Create instance
+          unityInstance = await window.createUnityInstance(canvas, {
+            dataUrl: unityConfig.dataUrl,
+            frameworkUrl: unityConfig.frameworkUrl,
+            codeUrl: unityConfig.codeUrl,
+            streamingAssetsUrl: 'StreamingAssets',
+            companyName: 'Windgap Academy',
+            productName: 'Physics Playground',
+            productVersion: '1.0',
+          }, (progress) => {
+            loadingProgress.textContent = Math.round(progress * 100);
+          });
+
+          // Hide loading overlay
+          loadingOverlay.style.display = 'none';
+
+          // Send user data to Unity
+          sendMessageToUnity('AuthManager', 'SetUserData', JSON.stringify(userData));
+
+          // Initialize experience
+          sendMessageToUnity('LessonManager', 'LoadLesson', JSON.stringify({
+            lessonId: 'physics-101',
+            experienceId: 'physics-playground'
+          }));
+
+          // Set up message listener
+          window.addEventListener('message', handleUnityMessage);
+
+          return unityInstance;
+        } catch (error) {
+          console.error('Unity WebGL error:', error);
+          loadingOverlay.innerHTML = `
+            <div class="bg-red-100 text-red-700 p-4 rounded-md">
+              <h3 class="font-medium">Error Loading Experience</h3>
+              <p>${error.message || 'Unknown error'}</p>
+              <button class="mt-2 px-3 py-1 bg-red-600 text-white rounded" onclick="window.location.reload()">
+                Retry
+              </button>
+            </div>
+          `;
+          throw error;
+        }
+      }
+
+      // Send message to Unity
+      function sendMessageToUnity(gameObject, method, message) {
+        if (!unityInstance) return;
+        unityInstance.SendMessage(gameObject, method, message);
+      }
+
+      // Handle messages from Unity
+      function handleUnityMessage(event) {
+        // Check if the message is from Unity
+        if (!event.data || !event.data.type) return;
+
+        const { type, data } = event.data;
+
+        switch (type) {
+          case 'ProgressUpdate':
+            updateProgress(data.progress);
+            break;
+
+          case 'ExperienceCompleted':
+            markCompleted();
+            break;
+
+          case 'AchievementUnlocked':
+            addAchievement(data);
+            break;
+
+          default:
+            console.log('Unhandled Unity message:', type, data);
+            break;
+        }
+      }
+
+      // Update progress display
+      function updateProgress(progress) {
+        const percentage = Math.round(progress * 100);
+        progressFill.style.width = `${percentage}%`;
+        progressText.textContent = percentage;
+
+        if (percentage >= 100) {
+          markCompleted();
+        }
+
+        // Save progress (in a real app, this would save to a database)
+        localStorage.setItem('unity-demo-progress', progress);
+      }
+
+      // Mark experience as completed
+      function markCompleted() {
+        completionBadge.classList.remove('hidden');
+        progressFill.style.width = '100%';
+        progressText.textContent = '100';
+
+        // Save completion (in a real app, this would save to a database)
+        localStorage.setItem('unity-demo-completed', 'true');
+      }
+
+      // Add achievement
+      function addAchievement(achievementData) {
+        // Check if already exists
+        if (achievements.some(a => a.id === achievementData.id)) {
+          return;
+        }
+
+        // Add to local array
+        achievements.push(achievementData);
+
+        // Update UI
+        updateAchievementsList();
+
+        // Save achievements (in a real app, this would save to a database)
+        localStorage.setItem('unity-demo-achievements', JSON.stringify(achievements));
+      }
+
+      // Update achievements list in UI
+      function updateAchievementsList() {
+        if (achievements.length === 0) {
+          achievementsList.innerHTML = '<p class="text-sm text-gray-500">Complete activities to earn achievements</p>';
+          return;
+        }
+
+        achievementsList.innerHTML = '';
+        achievements.forEach(achievement => {
+          const item = document.createElement('div');
+          item.className = 'achievement-item';
+          item.innerHTML = `
+            <div class="achievement-icon">🏆</div>
+            <div>
+              <h4 class="text-sm font-medium">${achievement.title}</h4>
+              <p class="text-xs text-gray-500">${achievement.description}</p>
+            </div>
+          `;
+          achievementsList.appendChild(item);
+        });
+      }
+
+      // Toggle fullscreen
+      function toggleFullscreen() {
+        container.classList.toggle('fullscreen');
+      }
+
+      // Load previous progress (in a real app, this would come from a database)
+      function loadPreviousProgress() {
+        const progress = localStorage.getItem('unity-demo-progress');
+        const completed = localStorage.getItem('unity-demo-completed') === 'true';
+        const savedAchievements = localStorage.getItem('unity-demo-achievements');
+
+        if (progress) {
+          updateProgress(parseFloat(progress));
+        }
+
+        if (completed) {
+          markCompleted();
+        }
+
+        if (savedAchievements) {
+          try {
+            const parsed = JSON.parse(savedAchievements);
+            parsed.forEach(a => achievements.push(a));
+            updateAchievementsList();
+          } catch (error) {
+            console.error('Failed to parse saved achievements:', error);
+          }
+        }
+      }
+
+      // Set up event listeners
+      fullscreenToggle.addEventListener('click', toggleFullscreen);
+      pauseBtn.addEventListener('click', () => sendMessageToUnity('GameManager', 'Pause', true));
+      resumeBtn.addEventListener('click', () => sendMessageToUnity('GameManager', 'Resume', true));
+      restartBtn.addEventListener('click', () => sendMessageToUnity('GameManager', 'Restart', true));
+      muteBtn.addEventListener('click', () => sendMessageToUnity('SettingsManager', 'ToggleSound', true));
+
+      // Initialize
+      async function init() {
+        loadPreviousProgress();
+        await createUnityInstance();
+      }
+
+      // Start initialization
+      init().catch(error => {
+        console.error('Initialization failed:', error);
+      });
+    });
+  </script>
+</body>
+</html>

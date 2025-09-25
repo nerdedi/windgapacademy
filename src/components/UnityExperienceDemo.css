@@ -1,0 +1,329 @@
+/**
+ * UnityExperienceDemo.css
+ * Styles for the Unity experience demo component
+ */
+
+.unity-experience-demo {
+  display: flex;
+  flex-direction: column;
+  background-color: #f8fafc;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  margin: 0 auto;
+  max-width: 1200px;
+}
+
+.unity-experience-demo.fullscreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw !important;
+  height: 100vh !important;
+  z-index: 9999;
+  border-radius: 0;
+  background-color: #000;
+}
+
+/* Header */
+.unity-experience-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  background-color: #fff;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.unity-experience-info h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0 0 4px;
+  color: #1e293b;
+}
+
+.unity-experience-description {
+  font-size: 0.875rem;
+  color: #64748b;
+  margin: 0;
+}
+
+.unity-experience-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.unity-action-button {
+  background-color: #f1f5f9;
+  border: none;
+  border-radius: 8px;
+  padding: 8px;
+  cursor: pointer;
+  color: #64748b;
+  transition:
+    background-color 0.2s,
+    color 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.unity-action-button:hover {
+  background-color: #e2e8f0;
+  color: #334155;
+}
+
+/* Content */
+.unity-experience-content {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 0;
+  height: 100%;
+}
+
+.fullscreen .unity-experience-content {
+  grid-template-columns: 1fr;
+  height: calc(100vh - 60px); /* Header height */
+}
+
+.unity-player-wrapper {
+  position: relative;
+  background-color: #000;
+  overflow: hidden;
+  height: 600px;
+}
+
+.fullscreen .unity-player-wrapper {
+  height: 100%;
+}
+
+/* Loading overlay */
+.unity-loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(15, 23, 42, 0.9);
+  z-index: 5;
+  color: white;
+}
+
+.unity-loading-overlay p {
+  margin-top: 16px;
+  font-size: 1rem;
+  color: #f1f5f9;
+}
+
+/* Error overlay */
+.unity-error-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(15, 23, 42, 0.9);
+  z-index: 5;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.unity-retry-button {
+  margin-top: 16px;
+  padding: 8px 16px;
+  border-radius: 6px;
+  background-color: #2563eb;
+  border: none;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.unity-retry-button:hover {
+  background-color: #1d4ed8;
+}
+
+/* Sidebar */
+.unity-experience-sidebar {
+  background-color: #fff;
+  border-left: 1px solid #e2e8f0;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  overflow-y: auto;
+}
+
+.fullscreen .unity-experience-sidebar {
+  display: none;
+}
+
+/* Progress section */
+.unity-progress-section h3,
+.unity-achievements-section h3,
+.unity-activity-section h3,
+.unity-controls-section h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0 0 12px;
+  color: #1e293b;
+}
+
+.unity-progress-bar {
+  height: 8px;
+  background-color: #e2e8f0;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 4px;
+}
+
+.unity-progress-fill {
+  height: 100%;
+  background-color: #2563eb;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.unity-progress-label {
+  font-size: 0.75rem;
+  color: #64748b;
+  text-align: right;
+}
+
+.unity-completion-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  padding: 8px 12px;
+  background-color: #ecfdf5;
+  border-radius: 6px;
+  color: #10b981;
+}
+
+.unity-completion-badge svg {
+  color: #10b981;
+}
+
+/* Achievements section */
+.unity-achievements-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.unity-achievement-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px;
+  background-color: #f8fafc;
+  border-radius: 8px;
+}
+
+.unity-achievement-icon {
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.unity-achievement-info h4 {
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin: 0 0 4px;
+  color: #1e293b;
+}
+
+.unity-achievement-info p {
+  font-size: 0.75rem;
+  color: #64748b;
+  margin: 0;
+}
+
+/* Activity section */
+.unity-activity-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  background-color: #f8fafc;
+  border-radius: 6px;
+}
+
+.unity-activity-type {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #334155;
+}
+
+.unity-activity-time {
+  font-size: 0.75rem;
+  color: #64748b;
+}
+
+/* Controls section */
+.unity-controls-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.unity-control-button {
+  padding: 8px 12px;
+  border-radius: 6px;
+  background-color: #f1f5f9;
+  border: none;
+  color: #475569;
+  cursor: pointer;
+  font-size: 0.875rem;
+  transition:
+    background-color 0.2s,
+    color 0.2s;
+}
+
+.unity-control-button:hover {
+  background-color: #e2e8f0;
+  color: #334155;
+}
+
+/* Mobile responsive */
+@media (max-width: 1024px) {
+  .unity-experience-content {
+    grid-template-columns: 1fr;
+  }
+
+  .unity-experience-sidebar {
+    border-left: none;
+    border-top: 1px solid #e2e8f0;
+  }
+}
+
+@media (max-width: 640px) {
+  .unity-experience-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .unity-experience-actions {
+    align-self: flex-end;
+  }
+
+  .unity-player-wrapper {
+    height: 400px;
+  }
+
+  .unity-controls-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
