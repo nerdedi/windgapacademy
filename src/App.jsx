@@ -1,11 +1,13 @@
 import { Suspense, lazy } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
-import AutomationDemo from "./pages/AutomationDemo";
-
-import CurriculumBuilderWithSaveState from "../components/curriculum/CurriculumBuilderWithSaveState";
 
 import { AnalyticsProvider } from "./analytics";
+import { AccessibilityProvider } from "./context/AccessibilityContext";
+import { AuthProvider } from "./context/AuthContext.js";
+import { LearningPreferencesProvider } from "./context/LearningPreferencesContext";
+
 import AccessibilitySettings from "./components/AccessibilitySettings";
+import CurriculumBuilderWithSaveState from "./components/curriculum/CurriculumBuilderWithSaveState.jsx";
 import DigitalLiteracyLesson from "./components/lessonModules/DigitalLiteracyLesson";
 import DigitalLiteracyLessonEnhanced from "./components/lessonModules/DigitalLiteracyLessonEnhanced";
 import LanguagePhonicsLesson from "./components/lessonModules/LanguagePhonicsLesson";
@@ -16,13 +18,13 @@ import LLNDHomepage from "./components/LLNDHomepage";
 import LoginPage from "./components/LoginPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import LearnerDashboard from "./components/StudentDashboard";
-import { AccessibilityProvider } from "./context/AccessibilityContext";
-import { AuthProvider } from "./context/AuthContext";
-import { LearningPreferencesProvider } from "./context/LearningPreferencesContext";
+
 import AdaptiveDemoPage from "./pages/AdaptiveDemoPage";
 import AnimationSystemDemo from "./pages/AnimationSystemDemo";
+import AutomationDemo from "./pages/AutomationDemo.jsx";
 import ExecutiveFunctionDemo from "./pages/ExecutiveFunctionDemo";
 import NeurodivergentLearningPage from "./pages/NeurodivergentLearningPage";
+
 import "./styles/accessibility.css";
 import "./styles/adaptive.css";
 import "./styles/neurodivergent.css";
