@@ -80,6 +80,7 @@ The platform includes several specialized components for Unity integration:
 - `UnityExperienceDemo`: Complete Unity experience with progress tracking
 - `OptimizedUnityPlayer`: Performance-optimized Unity WebGL player
 - `ProgressTracker`: Dashboard for tracking user progress
+- `UnityIntegrationExample`: Comprehensive example component demonstrating all integration features
 
 ### Utilities
 

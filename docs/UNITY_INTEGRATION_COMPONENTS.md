@@ -180,7 +180,9 @@ void SendProgressToReact(float progress) {
 
 5. **Progress Persistence**: User progress is stored in Firebase Firestore for persistence across sessions.
 
-## Example Page
+## Example Pages
+
+### UnityLearningDashboard
 
 The `UnityLearningDashboard` page demonstrates a complete implementation of the Unity integration components in a learning platform context. It showcases:
 
@@ -188,6 +190,43 @@ The `UnityLearningDashboard` page demonstrates a complete implementation of the 
 - Progress tracking dashboard
 - Interactive Unity experience player
 - User authentication integration
+
+### UnityIntegrationExample
+
+The new `UnityIntegrationExample` component serves as a comprehensive reference implementation for Unity WebGL integration. It showcases all key features of the integration system:
+
+- Loading states with progress visualization
+- Two-way communication between React and Unity
+- Performance monitoring with metrics dashboard
+- Error handling with graceful fallbacks
+- Device detection and optimizations
+- Responsive design patterns
+- Authentication integration
+- Tabbed interface for different aspects of the integration
+
+**Usage:**
+
+```jsx
+import UnityIntegrationExample from "../components/examples/UnityIntegrationExample";
+
+// Inside your component
+<UnityIntegrationExample
+  buildUrl="/unity/WebGLBuild/Build.json"
+  width="100%"
+  height="500px"
+  showPerformanceMetrics={true}
+  showControls={true}
+  customCommands={[
+    {
+      gameObject: "GameManager",
+      method: "SetDifficulty",
+      data: "medium",
+    },
+  ]}
+/>;
+```
+
+You can see the component in action on the `UnityExamplePage` which provides detailed documentation about the implementation.
 
 ## Future Enhancements
 
