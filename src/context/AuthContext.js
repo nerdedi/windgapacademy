@@ -1,21 +1,22 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import {
   auth,
-  _createUserWithEmailAndPassword as createUserWithEmailAndPassword,
+  createUserWithEmailAndPassword,
   doc,
-  _FacebookAuthProvider as FacebookAuthProvider,
-  _signOut as firebaseSignOut,
+  FacebookAuthProvider,
+  signOut as firebaseSignOut,
   firestore,
   getDoc,
-  _GoogleAuthProvider as GoogleAuthProvider,
-  _sendEmailVerification as sendEmailVerification,
+  GoogleAuthProvider,
+  onAuthStateChanged,
+  sendEmailVerification,
   serverTimestamp,
   setDoc,
-  _signInWithEmailAndPassword as signInWithEmailAndPassword,
-  _signInWithPopup as signInWithPopup,
+  signInWithEmailAndPassword,
+  signInWithPopup,
   updateDoc,
-  _updateProfile as updateProfile,
-} from "../../firebase";
+  updateProfile,
+} from "firebase";
 
 // Import auth error handlers
 import { logAuthError, parseFirebaseError, validatePassword } from "../utils/authErrorHandler";
@@ -66,7 +67,7 @@ export const AuthProvider = ({ children }) => {
 
   // Listen for auth state changes
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(async (user) => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
       try {
         if (user) {
           // User is signed in - fetch additional data from Firestore

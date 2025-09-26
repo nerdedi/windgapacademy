@@ -2,6 +2,9 @@
 const config = {
   verbose: true,
   bail: false,
+  clearMocks: true,
+  restoreMocks: true,
+  resetMocks: true,
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   setupFiles: ['<rootDir>/jest.polyfills.js'],
   testMatch: [
@@ -22,6 +25,7 @@ const config = {
     '^@/(.*)$': '<rootDir>/src/$1',
     '^@components/(.*)$': '<rootDir>/src/components/$1',
     '^@utils/(.*)$': '<rootDir>/src/utils/$1',
+    '^firebase$': '<rootDir>/__mocks__/firebase.js',
     '^firebase/app$': '<rootDir>/__mocks__/firebase.js',
     '^firebase/auth$': '<rootDir>/__mocks__/firebase.js',
     '^firebase/firestore$': '<rootDir>/__mocks__/firebase.js',

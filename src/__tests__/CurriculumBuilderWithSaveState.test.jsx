@@ -26,7 +26,7 @@ Object.defineProperty(window, "localStorage", {
 });
 
 // Mock the Modal component
-jest.mock("../components/ui/Modal", () => {
+jest.mock("../ui/Modal", () => {
   return ({ isOpen, onClose, children }) => {
     if (!isOpen) return null;
     return (

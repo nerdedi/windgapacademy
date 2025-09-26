@@ -9,31 +9,36 @@ import React from "react";
  * - Dark and light mode variants
  * - Customizable border radius and padding
  */
-const ModernCard = ({
-  children,
-  className = "",
-  darkMode = true,
-  withHover = true,
-  withGlow = false,
-  padding = "p-6",
-  rounded = "rounded-2xl",
-}) => {
-  // Determine base style classes based on dark mode
-  const baseClasses = darkMode
-    ? "modern-glass-dark border border-zinc-800/30"
-    : "modern-glass border border-white/30";
+const ModernCard = React.forwardRef(
+  (
+    {
+      children,
+      className = "",
+      darkMode = true,
+      withHover = true,
+      withGlow = false,
+      padding = "p-6",
+      rounded = "rounded-2xl",
+    },
+    ref,
+  ) => {
+    // Determine base style classes based on dark mode
+    const baseClasses = darkMode
+      ? "modern-glass-dark border border-zinc-800/30"
+      : "modern-glass border border-white/30";
 
-  // Add hover animation classes if enabled
-  const hoverClasses = withHover
-    ? "transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
-    : "";
+    // Add hover animation classes if enabled
+    const hoverClasses = withHover
+      ? "transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
+      : "";
 
-  // Add glow animation if enabled
-  const glowClasses = withGlow ? "animate-glow" : "";
+    // Add glow animation if enabled
+    const glowClasses = withGlow ? "animate-glow" : "";
 
-  return (
-    <div
-      className={`
+    return (
+      <div
+        ref={ref}
+        className={`
         ${baseClasses}
         ${padding}
         ${rounded}
@@ -41,11 +46,14 @@ const ModernCard = ({
         ${glowClasses}
         ${className}
       `}
-    >
-      {children}
-    </div>
-  );
-};
+      >
+        {children}
+      </div>
+    );
+  },
+);
+
+ModernCard.displayName = "ModernCard";
 
 /**
  * ModernCardHeader - Styled header section for ModernCard

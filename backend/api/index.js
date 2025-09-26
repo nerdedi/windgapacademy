@@ -64,10 +64,6 @@ const apiLimiter = rateLimit({
   },
   standardHeaders: true,
   legacyHeaders: false,
-  keyGenerator: (req) => {
-    // Use API key if available, otherwise IP
-    return req.headers["x-api-key"] || req.ip;
-  },
 });
 
 router.use(apiLimiter);
@@ -268,24 +264,12 @@ router.use((err, req, res, next) => {
 });
 
 // 404 Handler for API routes
-router.use("*", (req, res) => {
+router.use((req, res) => {
   res.status(404).json({
     error: {
       message: "API endpoint not found",
       path: req.originalUrl,
       method: req.method,
-      timestamp: new Date().toISOString(),
-      availableEndpoints: [
-        "/api/health",
-        "/api/info",
-        "/api/docs",
-        "/api/auth",
-        "/api/users",
-        "/api/assignments",
-        "/api/materials",
-        "/api/modules",
-        "/api/game",
-      ],
     },
   });
 });

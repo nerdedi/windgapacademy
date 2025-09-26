@@ -11,6 +11,7 @@ import {
   getAuth,
   GoogleAuthProvider,
   multiFactor,
+  onAuthStateChanged,
   PhoneAuthProvider,
   PhoneMultiFactorGenerator,
   reauthenticateWithCredential,
@@ -65,23 +66,26 @@ export {
   where,
 };
 
-// Exporting Auth services with underscore prefix to avoid ESLint unused warnings
-export const _signInWithEmailAndPassword = signInWithEmailAndPassword;
-export const _createUserWithEmailAndPassword = createUserWithEmailAndPassword;
-export const _signOut = signOut;
-export const _sendPasswordResetEmail = sendPasswordResetEmail;
-export const _updateProfile = updateProfile;
-export const _updateEmail = updateEmail;
-export const _updatePassword = updatePassword;
-export const _reauthenticateWithCredential = reauthenticateWithCredential;
-export const _EmailAuthProvider = EmailAuthProvider;
-export const _sendEmailVerification = sendEmailVerification;
-export const _signInWithPopup = signInWithPopup;
-export const _GoogleAuthProvider = GoogleAuthProvider;
-export const _FacebookAuthProvider = FacebookAuthProvider;
-export const _PhoneAuthProvider = PhoneAuthProvider;
-export const _multiFactor = multiFactor;
-export const _PhoneMultiFactorGenerator = PhoneMultiFactorGenerator;
+// Export auth functions with consistent naming - use proper function name
+export {
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged,
+  sendPasswordResetEmail,
+  updateProfile,
+  updateEmail,
+  updatePassword,
+  reauthenticateWithCredential,
+  EmailAuthProvider,
+  sendEmailVerification,
+  signInWithPopup,
+  GoogleAuthProvider,
+  FacebookAuthProvider,
+  PhoneAuthProvider,
+  multiFactor,
+  PhoneMultiFactorGenerator,
+};
 
 // Utility functions
 export function validateUserData(data) {

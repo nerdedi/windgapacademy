@@ -1,4 +1,5 @@
 // Firebase mocks for Jest testing
+/* global jest */
 
 const mockAuth = {
   onAuthStateChanged: jest.fn((callback) => {
@@ -52,9 +53,10 @@ export const initializeApp = jest.fn(() => ({}));
 
 // Firebase Auth Mocks
 export const getAuth = jest.fn(() => mockAuth);
-export const signInWithEmailAndPassword = jest.fn();
-export const createUserWithEmailAndPassword = jest.fn();
-export const signOut = jest.fn();
+export const onAuthStateChanged = mockAuth.onAuthStateChanged;
+export const signInWithEmailAndPassword = mockAuth.signInWithEmailAndPassword;
+export const createUserWithEmailAndPassword = mockAuth.createUserWithEmailAndPassword;
+export const signOut = mockAuth.signOut;
 export const sendPasswordResetEmail = jest.fn();
 export const updateProfile = jest.fn();
 export const updateEmail = jest.fn();
