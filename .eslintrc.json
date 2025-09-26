@@ -1,77 +1,174 @@
-{
-  "extends": [
-    "eslint:recommended",
-    "plugin:react/recommended",
-    "prettier",
-    "plugin:react-hooks/recommended"
-  ],
-  "plugins": ["prettier", "import", "react", "@typescript-eslint"],
-  "parser": "@typescript-eslint/parser",
-  "env": {
-    "browser": true,
-    "node": true,
-    "es2022": true
-  },
-  "globals": {
-    "applyHeadingAnimation": "readonly",
-    "applyButtonAnimation": "readonly",
-    "setAriaAttributes": "readonly",
-    "updateProgress": "readonly",
-    "getAchievements": "readonly",
-    "i18n": "readonly",
-    "currentLang": "readonly",
-    "resetProgress": "readonly",
-    "startOnboarding": "readonly",
-    "resetOnboarding": "readonly",
-    "showOnboarding": "readonly",
-    "backupProgress": "readonly",
-    "syncProgress": "readonly",
-    "updateLeaderboard": "readonly",
-    "sendFeedback": "readonly",
-    "logEvent": "readonly",
-    "safeRun": "readonly",
-    "showSettings": "readonly",
-    "gsap": "readonly",
-    "container": "readonly",
-    "Tooltip": "readonly",
-    "BrowserRouter": "readonly",
-    "location": "readonly"
-  },
-  "rules": {
-    "import/no-cycle": [
-      "error",
-      { "maxDepth": 1 }
-    ],
-    "react/react-in-jsx-scope": "off",
-    "react/prop-types": "off",
-    "react/no-unknown-property": "off",
-    "import/order": [
-      "error",
-      {
-        "newlines-between": "always",
-        "groups": ["builtin", "external", "internal", "parent", "sibling", "index"],
-        "alphabetize": { "order": "asc", "caseInsensitive": true }
-      }
-    ],
-    "no-else-return": [
-      "error",
-      { "allowElseIf": true }
-    ],
-    "no-unused-vars": ["warn", { "varsIgnorePattern": "^_" }],
-    "no-redeclare": "warn",
-    "prettier/prettier": "error"
-  },
-  "settings": {
-    "import/resolver": {
-      "node": {
-        "paths": ["src", "components", "utils"]
-      }
-    },
-    "react": {
-      "version": "detect"
-    }
-  },
-  "parserOptions": {
+{{
+
+  "extends": [  "extends": [
+
+    "eslint:recommended",    "eslint:recommended",
+
+    "plugin:react/recommended",    "plugin:react/recommended",
+
+    "plugin:react-hooks/recommended",    "plugin:react-hooks/recommended",
+
+    "prettier"    "prettier"
+
+  ],  ],
+
+  "plugins": ["prettier", "import", "react", "@typescript-eslint"],  "plugins": ["prettier", "import", "react", "@typescript-eslint"],
+
+  "parser": "@typescript-eslint/parser",  "parser": "@typescript-eslint/parser",
+
+  "parserOptions": {  "parserOptions": {
+
+    "ecmaVersion": 2022,    "ecmaVersion": 2022,
+
+    "sourceType": "module",    "sourceType": "module",
+
+    "ecmaFeatures": {    "ecmaFeatures": {
+
+      "jsx": true      "jsx": true
+
+    }    }
+
+  },  },
+
+  "env": {  "env": {
+
+    "browser": true,    "browser": true,
+
+    "node": true,    "node": true,
+
+    "es2022": true    "es2022": true
+
+  },  },
+
+  "settings": {  "settings": {
+
+    "react": {    "react": {
+
+      "version": "detect"      "version": "detect"
+
+    },    }
+
+    "import/resolver": {  },
+
+      "node": {  "globals": {
+
+        "paths": ["src", "components", "utils"]    "applyHeadingAnimation": "readonly",
+
+      }    "applyButtonAnimation": "readonly",
+
+    }    "setAriaAttributes": "readonly",
+
+  },    "updateProgress": "readonly",
+
+  "globals": {    "getAchievements": "readonly",
+
+    "applyHeadingAnimation": "readonly",    "i18n": "readonly",
+
+    "applyButtonAnimation": "readonly",    "currentLang": "readonly",
+
+    "setAriaAttributes": "readonly",    "resetProgress": "readonly",
+
+    "updateProgress": "readonly",    "startOnboarding": "readonly",
+
+    "getAchievements": "readonly",    "resetOnboarding": "readonly",
+
+    "i18n": "readonly",    "showOnboarding": "readonly",
+
+    "currentLang": "readonly",    "backupProgress": "readonly",
+
+    "resetProgress": "readonly",    "syncProgress": "readonly",
+
+    "startOnboarding": "readonly",    "updateLeaderboard": "readonly",
+
+    "resetOnboarding": "readonly",    "sendFeedback": "readonly",
+
+    "showOnboarding": "readonly",    "logEvent": "readonly",
+
+    "backupProgress": "readonly",    "safeRun": "readonly",
+
+    "syncProgress": "readonly",    "showSettings": "readonly",
+
+    "updateLeaderboard": "readonly",    "gsap": "readonly",
+
+    "sendFeedback": "readonly",    "container": "readonly",
+
+    "logEvent": "readonly",    "Tooltip": "readonly",
+
+    "safeRun": "readonly",    "BrowserRouter": "readonly",
+
+    "showSettings": "readonly",    "location": "readonly"
+
+    "gsap": "readonly",  },
+
+    "container": "readonly",  "rules": {
+
+    "Tooltip": "readonly",    "import/no-cycle": [
+
+    "BrowserRouter": "readonly",      "error",
+
+    "location": "readonly"      { "maxDepth": 1 }
+
+  },    ],
+
+  "rules": {    "react/react-in-jsx-scope": "off",
+
+    "import/no-cycle": ["error", { "maxDepth": 1 }],    "react/prop-types": "off",
+
+    "react/react-in-jsx-scope": "off",    "react/no-unknown-property": "off",
+
+    "react/prop-types": "off",    "import/order": [
+
+    "react/no-unknown-property": "off",      "error",
+
+    "import/order": [      {
+
+      "error",        "newlines-between": "always",
+
+      {        "groups": ["builtin", "external", "internal", "parent", "sibling", "index"],
+
+        "newlines-between": "always",        "alphabetize": { "order": "asc", "caseInsensitive": true }
+
+        "groups": ["builtin", "external", "internal", "parent", "sibling", "index"],      }
+
+        "alphabetize": { "order": "asc", "caseInsensitive": true }    ],
+
+      }    "no-else-return": [
+
+    ],      "error",
+
+    "no-else-return": ["error", { "allowElseIf": true }],      { "allowElseIf": true }
+
+    "no-unused-vars": ["warn", { "varsIgnorePattern": "^_" }],    ],
+
+    "no-redeclare": "warn",    "no-unused-vars": ["warn", { "varsIgnorePattern": "^_" }],
+
+    "prettier/prettier": "error"    "no-redeclare": "warn",
+
+  },    "prettier/prettier": "error"
+
+  "overrides": [  },
+
+    {  "settings": {
+
+      "files": ["**/*.ts", "**/*.tsx"],    "import/resolver": {
+
+      "parser": "@typescript-eslint/parser",      "node": {
+
+      "plugins": ["@typescript-eslint"],        "paths": ["src", "components", "utils"]
+
+      "extends": ["plugin:@typescript-eslint/recommended"],      }
+
+      "rules": {    },
+
+        "@typescript-eslint/no-unused-vars": ["warn", { "varsIgnorePattern": "^_" }]    "react": {
+
+      }      "version": "detect"
+
+    }    }
+
+  ]  },
+
+}  "parserOptions": {
     "ecmaVersion": 2022,
     "sourceType": "module",
     "ecmaFeatures": {

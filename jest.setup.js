@@ -1,5 +1,26 @@
 require("@testing-library/jest-dom");
 
+// Mock window.matchMedia
+global.matchMedia =
+  global.matchMedia ||
+  function (query) {
+    return {
+      matches: false,
+      media: query,
+      onchange: null,
+      addListener: function () {}, // deprecated
+      removeListener: function () {}, // deprecated
+      addEventListener: function () {},
+      removeEventListener: function () {},
+      dispatchEvent: function () {},
+    };
+  };
+
+// Mock window.alert and other browser APIs
+global.alert = jest.fn();
+global.confirm = jest.fn(() => true);
+global.prompt = jest.fn(() => "test");
+
 // Polyfill TextEncoder for Node.js tests (some deps rely on it)
 if (typeof global.TextEncoder === "undefined") {
   global.TextEncoder = require("util").TextEncoder;
@@ -11,6 +32,108 @@ if (typeof window !== "undefined" && typeof window.alert !== "function") {
     // no-op to keep tests from throwing when components call alert
     // eslint-disable-next-line no-console
     console.info("window.alert called during test:", msg);
+  };
+}
+
+// Mock window.matchMedia for tests
+if (typeof window !== "undefined" && typeof window.matchMedia !== "function") {
+  window.matchMedia = (query) => ({
+    matches: false,
+    media: query,
+    onchange: null,
+    addListener: () => {},
+    removeListener: () => {},
+    addEventListener: () => {},
+    removeEventListener: () => {},
+    dispatchEvent: () => {},
+  });
+}
+
+// Mock Canvas API for tests
+if (typeof window !== "undefined") {
+  // Mock HTMLCanvasElement.getContext
+  HTMLCanvasElement.prototype.getContext = (contextId) => {
+    if (contextId === "2d") {
+      return {
+        fillStyle: "",
+        strokeStyle: "",
+        lineWidth: 1,
+        font: "10px sans-serif",
+        textAlign: "start",
+        textBaseline: "alphabetic",
+        direction: "ltr",
+        fillText: () => {},
+        strokeText: () => {},
+        measureText: () => ({ width: 0 }),
+        fillRect: () => {},
+        strokeRect: () => {},
+        clearRect: () => {},
+        beginPath: () => {},
+        closePath: () => {},
+        moveTo: () => {},
+        lineTo: () => {},
+        arc: () => {},
+        quadraticCurveTo: () => {},
+        bezierCurveTo: () => {},
+        fill: () => {},
+        stroke: () => {},
+        clip: () => {},
+        save: () => {},
+        restore: () => {},
+        scale: () => {},
+        rotate: () => {},
+        translate: () => {},
+        transform: () => {},
+        setTransform: () => {},
+        resetTransform: () => {},
+        globalAlpha: 1,
+        globalCompositeOperation: "source-over",
+        imageSmoothingEnabled: true,
+        imageSmoothingQuality: "low",
+        createLinearGradient: () => ({
+          addColorStop: () => {},
+        }),
+        createRadialGradient: () => ({
+          addColorStop: () => {},
+        }),
+        createPattern: () => null,
+        drawImage: () => {},
+        getImageData: () => ({ data: [], width: 0, height: 0 }),
+        putImageData: () => {},
+        createImageData: () => ({ data: [], width: 0, height: 0 }),
+      };
+    }
+    if (contextId === "webgl" || contextId === "webgl2") {
+      return {
+        // WebGL context mock
+        canvas: null,
+        clearColor: () => {},
+        clear: () => {},
+        viewport: () => {},
+        useProgram: () => {},
+        createShader: () => ({}),
+        createProgram: () => ({}),
+        attachShader: () => {},
+        linkProgram: () => {},
+        getProgramParameter: () => true,
+        getShaderParameter: () => true,
+        shaderSource: () => {},
+        compileShader: () => {},
+        createBuffer: () => ({}),
+        bindBuffer: () => {},
+        bufferData: () => {},
+        enableVertexAttribArray: () => {},
+        vertexAttribPointer: () => {},
+        drawArrays: () => {},
+        drawElements: () => {},
+        enable: () => {},
+        disable: () => {},
+        blendFunc: () => {},
+        depthFunc: () => {},
+        cullFace: () => {},
+      };
+    }
+    return null;
   };
 }
 
@@ -50,3 +173,5 @@ if (typeof window !== "undefined") {
   window.showOnboarding = window.showOnboarding || noop;
   window.showSettings = window.showSettings || noop;
 }
+
+// Firebase will be mocked via __mocks__ directory

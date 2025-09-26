@@ -3,11 +3,6 @@ import {
   applyHeadingAnimation,
   setAriaAttributes,
 } from "../utils/uiUtils.js";
-import {
-  applyButtonAnimation,
-  applyHeadingAnimation,
-  setAriaAttributes,
-} from "../utils/uiUtils.js";
 // Loading spinner component
 export function showLoadingSpinner(container) {
   container.innerHTML =

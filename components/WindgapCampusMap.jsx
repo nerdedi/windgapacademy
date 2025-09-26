@@ -15,7 +15,7 @@ export default function WindgapCampusMap({ mapData }) {
   const { state: _state, dispatch } = useWindgapGame();
 
   // Speech recognition setup
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+
   React.useEffect(() => {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (!SpeechRecognition) {

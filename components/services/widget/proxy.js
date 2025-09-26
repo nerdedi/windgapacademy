@@ -15,7 +15,6 @@ export default function audiobookshelfProxyHandler(req, res, next) {
 
   // Minimal logging for debug
   if (process.env.NODE_ENV !== "production") {
-    // eslint-disable-next-line no-console
     console.debug("[audiobookshelfProxyHandler]", req.method, req.originalUrl || req.url);
   }
 

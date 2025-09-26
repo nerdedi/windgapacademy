@@ -63,10 +63,9 @@ export const getExperienceById = async (experienceId) => {
         id: experienceSnapshot.id,
         ...experienceSnapshot.data(),
       };
-    } else {
-      console.warn(`Experience with ID ${experienceId} not found`);
-      return null;
     }
+    console.warn(`Experience with ID ${experienceId} not found`);
+    return null;
   } catch (error) {
     console.error(`Error getting experience ${experienceId}:`, error);
     throw error;

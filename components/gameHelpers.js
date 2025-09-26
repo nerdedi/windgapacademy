@@ -1,6 +1,5 @@
 // Small helper to launch games without requiring React or JSX.
 export function launchGame(gameId, goal) {
-  // eslint-disable-next-line no-console
   console.log("gameHelpers.launchGame", gameId, goal);
   // map well-known goal labels to a description, but keep the original
   // goal as the user-visible gameName when provided.

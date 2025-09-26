@@ -12,8 +12,6 @@
  * - 3D visualization and interactive elements
  */
 
-import { motion, AnimatePresence } from "framer-motion";
-
 import { AIEngine } from "../src/ai/AIEngine";
 import { SoundManager } from "../src/audio/SoundManager";
 import { ErrorHandler } from "../src/core/ErrorHandler";
@@ -335,6 +333,27 @@ function _showSettings() {
   // ...settings modal logic...
 }
 
+function setAccessibility() {
+  // Implement accessibility features
+  const elements = document.querySelectorAll("[data-accessibility]");
+  elements.forEach((element) => {
+    const features = element.dataset.accessibility.split(",");
+    features.forEach((feature) => {
+      switch (feature.trim()) {
+        case "screen-reader":
+          element.setAttribute("aria-describedby", "screen-reader-description");
+          break;
+        case "high-contrast":
+          element.classList.add("high-contrast");
+          break;
+        case "keyboard-nav":
+          element.tabIndex = 0;
+          break;
+      }
+    });
+  });
+}
+
 function startDashboard() {
   showOnboarding();
   setAccessibility();
@@ -344,11 +363,6 @@ function startDashboard() {
 if (typeof document !== "undefined") {
   document.addEventListener("DOMContentLoaded", startDashboard);
 }
-import {
-  applyHeadingAnimation,
-  applyButtonAnimation,
-  setAriaAttributes,
-} from "../utils/uiUtils.js";
 
 export function showDashboard(container, data = {}) {
   try {

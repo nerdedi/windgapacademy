@@ -1,24 +1,53 @@
 /** @type {import('jest').Config} */
 const config = {
   verbose: true,
-  bail: 1,
-  setupFilesAfterEnv: ['./jest.setup.js'],
-  // setupFiles are executed before the test framework is installed and are good for
-  // early polyfills that must be available before any module loads.
-  setupFiles: ['./jest.polyfills.js'],
+  bail: false,
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
+  setupFiles: ['<rootDir>/jest.polyfills.js'],
   testMatch: [
-    '**/__tests__/**/*.js',
-    '**/?(*.)+(spec|test).[jt]s?(x)'
+    '<rootDir>/**/__tests__/**/*.js',
+    '<rootDir>/**/?(*.)+(spec|test).[jt]s?(x)'
   ],
   testEnvironment: 'jsdom',
-  // Ignore Playwright tests and vite config test files (including o3de subfolder)
+  testRunner: 'jest-circus/runner',
   testPathIgnorePatterns: [
     '<rootDir>/playwright/',
-    '<rootDir>/o3de/playwright/',
-  '<rootDir>/vite.config.test.js',
-  '<rootDir>/o3de/vite.config.test.js',
-    '<rootDir>/node_modules/'
+    '<rootDir>/o3de/',
+    '<rootDir>/vite.config.test.js',
+    '<rootDir>/node_modules/',
+    '<rootDir>/dist/',
+    '<rootDir>/coverage/'
   ],
+  moduleNameMapper: {
+    '^@/(.*)$': '<rootDir>/src/$1',
+    '^@components/(.*)$': '<rootDir>/src/components/$1',
+    '^@utils/(.*)$': '<rootDir>/src/utils/$1',
+    '^firebase/app$': '<rootDir>/__mocks__/firebase.js',
+    '^firebase/auth$': '<rootDir>/__mocks__/firebase.js',
+    '^firebase/firestore$': '<rootDir>/__mocks__/firebase.js',
+    '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
+    '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$': 'jest-transform-stub'
+  },
+  transform: {
+    '^.+\\.(js|jsx|ts|tsx)$': ['babel-jest', {
+      presets: [
+        ['@babel/preset-env', { targets: { node: 'current' } }],
+        ['@babel/preset-react', { runtime: 'automatic' }]
+      ]
+    }]
+  },
+  transformIgnorePatterns: [
+    'node_modules/(?!(three|@react-three|framer-motion)/)'
+  ],
+  collectCoverageFrom: [
+    'src/**/*.{js,jsx}',
+    'components/**/*.{js,jsx}',
+    '!src/**/*.test.{js,jsx}',
+    '!src/index.js',
+    '!**/node_modules/**'
+  ],
+  coverageReporters: ['text', 'lcov', 'html'],
+  coverageDirectory: 'coverage'
 };
 
 module.exports = config;

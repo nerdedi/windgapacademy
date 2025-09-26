@@ -60,9 +60,8 @@ class WindgapLogger {
 
     if (this.config.format === "json") {
       return JSON.stringify(logEntry);
-    } else {
-      return `[${level.toUpperCase()}] ${timestamp} ${message} ${Object.keys(meta).length ? JSON.stringify(meta) : ""}`;
     }
+    return `[${level.toUpperCase()}] ${timestamp} ${message} ${Object.keys(meta).length ? JSON.stringify(meta) : ""}`;
   }
 
   writeToConsole(level, formattedMessage) {

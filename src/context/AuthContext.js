@@ -1,6 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import {
-  _AppleAuthProvider as AppleAuthProvider,
   auth,
   _createUserWithEmailAndPassword as createUserWithEmailAndPassword,
   doc,
@@ -286,17 +285,9 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // Sign in with Apple
+  // Sign in with Apple (disabled - not available in current Firebase version)
   const signInWithApple = async () => {
-    try {
-      setError(null);
-      const provider = new AppleAuthProvider();
-      await signInWithPopup(auth, provider);
-    } catch (err) {
-      console.error("Apple sign in error:", err);
-      setError(err.message);
-      throw err;
-    }
+    throw new Error("Apple sign-in is currently not available");
   };
 
   // Update user profile

@@ -540,7 +540,7 @@ export function showLifeSkillsGame(container, userData = {}) {
           contentCreationModal.style.zIndex = "1002";
 
           // Move function declaration to function body root
-          // eslint-disable-next-line no-inner-declarations
+
           function updateScenariosList() {
             let scenarios = JSON.parse(localStorage.getItem("lifeGameCustomScenarios") || "[]");
             contentCreationModal.querySelector("#custom-scenarios-list").innerHTML =
@@ -734,7 +734,7 @@ export function showLifeSkillsGame(container, userData = {}) {
         contentCreationModal.style.borderRadius = "12px";
         contentCreationModal.style.padding = "24px";
         contentCreationModal.style.zIndex = "1002";
-        // eslint-disable-next-line no-inner-declarations
+
         function updateScenariosList() {
           let scenarios = JSON.parse(localStorage.getItem("lifeGameCustomScenarios") || "[]");
           contentCreationModal.querySelector("#custom-scenarios-list").innerHTML =

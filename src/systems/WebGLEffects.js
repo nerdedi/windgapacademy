@@ -603,7 +603,9 @@ export const useGlowEffect = (options = {}) => {
 };
 
 // Weather effects
-export class WeatherEffects {
+// Portions of this file were generated with the assistance of Anthropic Claude (https://www.anthropic.com/)
+// Removed duplicate export (class is exported in the aggregate export statement at the bottom)
+class WeatherEffects {
   constructor(scene, options = {}) {
     this.scene = scene;
     this.options = {

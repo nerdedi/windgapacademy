@@ -5,37 +5,36 @@
 */
 import { initializeApp } from "firebase/app";
 import {
-  getAuth,
-  signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
-  signOut,
+  EmailAuthProvider,
+  FacebookAuthProvider,
+  getAuth,
+  GoogleAuthProvider,
+  multiFactor,
+  PhoneAuthProvider,
+  PhoneMultiFactorGenerator,
+  reauthenticateWithCredential,
+  sendEmailVerification,
   sendPasswordResetEmail,
-  updateProfile,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  signOut,
   updateEmail,
   updatePassword,
-  reauthenticateWithCredential,
-  EmailAuthProvider,
-  sendEmailVerification,
-  signInWithPopup,
-  GoogleAuthProvider,
-  FacebookAuthProvider,
-  AppleAuthProvider,
-  PhoneAuthProvider,
-  multiFactor,
-  PhoneMultiFactorGenerator,
+  updateProfile,
 } from "firebase/auth";
 import {
-  getFirestore,
+  addDoc,
+  collection,
   doc,
   getDoc,
+  getDocs,
+  getFirestore,
+  query,
+  serverTimestamp,
   setDoc,
   updateDoc,
-  collection,
-  addDoc,
-  query,
   where,
-  getDocs,
-  serverTimestamp,
 } from "firebase/firestore";
 
 // Initialize Firebase
@@ -54,16 +53,16 @@ export const firestore = getFirestore(app);
 
 // Exporting Firestore functions
 export {
-  getDoc,
+  addDoc,
+  collection,
   doc,
+  getDoc,
+  getDocs,
+  query,
+  serverTimestamp,
   setDoc,
   updateDoc,
-  collection,
-  addDoc,
-  query,
   where,
-  getDocs,
-  serverTimestamp,
 };
 
 // Exporting Auth services with underscore prefix to avoid ESLint unused warnings
@@ -80,7 +79,6 @@ export const _sendEmailVerification = sendEmailVerification;
 export const _signInWithPopup = signInWithPopup;
 export const _GoogleAuthProvider = GoogleAuthProvider;
 export const _FacebookAuthProvider = FacebookAuthProvider;
-export const _AppleAuthProvider = AppleAuthProvider;
 export const _PhoneAuthProvider = PhoneAuthProvider;
 export const _multiFactor = multiFactor;
 export const _PhoneMultiFactorGenerator = PhoneMultiFactorGenerator;

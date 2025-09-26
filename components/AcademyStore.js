@@ -76,23 +76,7 @@ if (typeof document !== "undefined") {
 // UI settings modal
 // Comprehensive store logic
 
-// Example: Add onboarding modal
-function showOnboarding() {
-  const modal = document.createElement("div");
-  modal.className = "onboarding-modal";
-  modal.innerHTML = `<h2>Welcome to Academy Store!</h2><p>Browse and purchase educational resources. Use the settings to customize your experience.</p><button id='close-onboarding'>Close</button>`;
-  document.body.appendChild(modal);
-  document.getElementById("close-onboarding").onclick = () => modal.remove();
-}
-
-// Example: Add ARIA attributes
-function setAccessibility() {
-  const storeEl = document.getElementById("academy-store");
-  if (storeEl) {
-    storeEl.setAttribute("role", "region");
-    storeEl.setAttribute("aria-label", "Academy Store");
-  }
-}
+// ARIA attributes already implemented above
 
 // Example: Add backup/sync logic
 function _backupCart(cart) {

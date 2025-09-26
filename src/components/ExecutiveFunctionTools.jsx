@@ -195,3 +195,23 @@ export const TaskBreakdown = ({
     </motion.div>
   );
 };
+
+// Named exports for individual components
+export const PomodoroTimer = () => {
+  return <div>Pomodoro Timer - Coming Soon</div>;
+};
+
+export const VisualSchedule = () => {
+  return <div>Visual Schedule - Coming Soon</div>;
+};
+
+export const StartingStrategies = () => {
+  return <div>Starting Strategies - Coming Soon</div>;
+};
+
+export const WorkingMemorySupport = () => {
+  return <div>Working Memory Support - Coming Soon</div>;
+};
+
+// Default export
+export default TaskBreakdown;

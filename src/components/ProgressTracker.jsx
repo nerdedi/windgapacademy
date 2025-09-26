@@ -172,11 +172,10 @@ const ProgressTracker = () => {
   const formatTimeSpent = (timeInMinutes) => {
     if (timeInMinutes < 60) {
       return `${timeInMinutes} min`;
-    } else {
-      const hours = Math.floor(timeInMinutes / 60);
-      const minutes = timeInMinutes % 60;
-      return `${hours}h ${minutes}m`;
     }
+    const hours = Math.floor(timeInMinutes / 60);
+    const minutes = timeInMinutes % 60;
+    return `${hours}h ${minutes}m`;
   };
 
   // Handle experience selection for detailed view
