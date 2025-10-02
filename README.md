@@ -103,6 +103,9 @@ npm run build
 # Run tests
 npm test
 npm run e2e
+
+# Run security audit
+npm run security:audit
 ```
 
 ### Unity Development
@@ -137,6 +140,27 @@ npm run deploy
 # Deploy to Vercel
 npm run deploy:vercel
 ```
+
+## Security
+
+Windgap Academy takes security seriously. We have implemented several tools and practices to maintain the security of our codebase:
+
+### Security Tools
+
+- **Automated Security Audits**: Run comprehensive security checks with our scripts:
+
+  ```bash
+  # For all projects
+  ./scripts/comprehensive-security-audit.sh
+
+  # For FreeSpeech module only
+  ./scripts/update-freespeech-security.sh
+  ```
+
+- **Dependabot Integration**: Automated dependency updates with security patches
+- **Regular Security Scans**: `npm run security:audit` for vulnerability checks
+
+For more information, see our [Security Management Guide](docs/SECURITY_MANAGEMENT.md) and [Security Updates](SECURITY_UPDATES.md) documentation.
 
 ## Contributing
 
