@@ -97,6 +97,7 @@ export type Tile = {
 	image: string;
 	navigation: string;
 	displayText: string;
+	hasCustomVoice?: boolean;
 
 	createdAt: Date;
 	updatedAt: Date;

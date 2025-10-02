@@ -38,7 +38,8 @@
 			}
 		} else {
 			if ($LocalSettings.speakOnTap) {
-				speakText(tile.text);
+				// Pass the tile ID to check for custom voice recordings
+				speakText(tile.text, tile.id);
 			}
 			if ($LocalSettings.sentenceBuilder && !tile.navigation) {
 				$Sentence = [...$Sentence, tile];
@@ -74,6 +75,16 @@
 			<p class={`w-full truncate ${!tile.image ? 'text-[2vw]' : 'py-2'}`}>
 				{tile.displayText || tile.text}
 			</p>
+		{/if}
+
+		<!-- Custom voice indicator -->
+		{#if tile.hasCustomVoice}
+			<div class="absolute bottom-1 right-1 h-4 w-4 rounded-full bg-blue-500 p-0.5 shadow-md">
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="white" class="h-3 w-3">
+					<path d="M7 4a3 3 0 016 0v6a3 3 0 11-6 0V4z" />
+					<path d="M5.5 9.643a.5.5 0 01-.5.5H3a.5.5 0 010-1h2a.5.5 0 01.5.5zM17 9.643a.5.5 0 01-.5.5h-2a.5.5 0 010-1h2a.5.5 0 01.5.5zM5 12.5a.5.5 0 01.5-.5h9a.5.5 0 010 1h-9a.5.5 0 01-.5-.5z" />
+				</svg>
+			</div>
 		{/if}
 	</button>
 	{#if tile.navigation}

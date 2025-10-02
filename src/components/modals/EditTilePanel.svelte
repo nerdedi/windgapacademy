@@ -4,6 +4,7 @@
 	import { invalidateAll } from '$app/navigation';
 	import type { Tile, TilePage } from '$ts/common/types';
 	import api from '$ts/client/api';
+	import TileVoiceModal from './TileVoiceModal.svelte';
 
 	export let tiles: Tile[];
 	export let pages: TilePage[];
@@ -13,6 +14,7 @@
 
 	let fileinput: HTMLInputElement;
 	let showingDisplayTextOption = false;
+	let showVoiceModal = false;
 
 	const tileColors = {
 		white: {
@@ -83,7 +85,8 @@
 			$TileBeingEdited.image !== originalTile.image ||
 			$TileBeingEdited.backgroundColor !== originalTile.backgroundColor ||
 			$TileBeingEdited.borderColor !== originalTile.borderColor ||
-			$TileBeingEdited.navigation !== originalTile.navigation
+			$TileBeingEdited.navigation !== originalTile.navigation ||
+			$TileBeingEdited.hasCustomVoice !== originalTile.hasCustomVoice
 		);
 	})();
 </script>
@@ -168,6 +171,19 @@
 		{/each}
 	</div>
 
+	<p class="my-2 mt-6">Custom Voice:</p>
+	<div>
+		<button
+			on:click={() => {
+				showVoiceModal = true;
+			}}
+			class="flex items-center gap-2 rounded-md border border-zinc-700 bg-zinc-800 p-1 px-3 text-sm"
+		>
+			<i class="bi bi-mic-fill"></i>
+			{$TileBeingEdited.hasCustomVoice ? 'Edit Voice Recording' : 'Add Voice Recording'}
+		</button>
+	</div>
+
 	<p class="my-2 mt-6">Navigation:</p>
 	<div>
 		<select
@@ -225,6 +241,25 @@
 		Delete Tile
 	</button>
 {/if}
+
+<TileVoiceModal
+	show={showVoiceModal}
+	on:close={() => showVoiceModal = false}
+	on:saved={() => {
+		// Update the tile's custom voice status
+		if ($TileBeingEdited) {
+			$TileBeingEdited.hasCustomVoice = true;
+			$UnsavedChanges = true;
+		}
+	}}
+	on:deleted={() => {
+		// Update the tile's custom voice status
+		if ($TileBeingEdited) {
+			$TileBeingEdited.hasCustomVoice = false;
+			$UnsavedChanges = true;
+		}
+	}}
+/>
 
 <style lang="postcss">
 	input {

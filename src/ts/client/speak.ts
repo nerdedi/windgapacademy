@@ -8,8 +8,17 @@ import {
 import { get } from 'svelte/store';
 import api from './api';
 
-export async function speakText(text: string) {
+export async function speakText(text: string, tileId?: string) {
 	VoiceEngineStatus.set('synthesizing');
+
+	// Check for custom voice recording first
+	if (tileId) {
+		const customVoice = localStorage.getItem(`voice-recording-${tileId}`);
+		if (customVoice) {
+			playCustomVoiceRecording(customVoice);
+			return;
+		}
+	}
 
 	if (!get(EnableThirdPartyVoiceProviders) || !get(ElevenLabsVoiceId)) return speakSynth(text);
 
@@ -30,6 +39,26 @@ export async function speakText(text: string) {
 
 	sound.on('loaderror', () => {
 		speakSynth(text);
+	});
+}
+
+function playCustomVoiceRecording(audioUrl: string) {
+	const sound = new Howl({
+		src: [audioUrl],
+		format: ['webm', 'mp3']
+	});
+
+	VoiceEngineStatus.set('speaking');
+
+	sound.play();
+
+	sound.on('end', () => {
+		VoiceEngineStatus.set('ready');
+	});
+
+	sound.on('loaderror', (error) => {
+		console.error('Error playing custom voice recording:', error);
+		VoiceEngineStatus.set('failed');
 	});
 }
 

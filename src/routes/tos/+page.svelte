@@ -1,6 +1,6 @@
 <div class="mx-auto flex w-[90%] max-w-[1400px] flex-col gap-2 py-[100px]">
 	<div data-custom-class="body">
-		<div align="center" style="text-align: left;">
+		<div class="text-center" style="text-align: left;">
 			<div class="MsoNormal" data-custom-class="title" style="line-height: 1.5;">
 				<bdt class="block-component"><span style="font-size: 19px;"></span></bdt><span
 					style="font-size: 19px;"><strong>TERMS OF USE</strong><bdt class="else-block"></bdt></span
@@ -17,13 +17,13 @@
 				<strong><span data-custom-class="heading_1">AGREEMENT TO OUR LEGAL TERMS</span></strong>
 			</div>
 		</div>
-		<div align="center" style="text-align: left;">
+		<div class="text-center" style="text-align: left;">
 			<div class="MsoNormal" id="agreement" style="line-height: 1.5;">
-				<a name="_6aa3gkhykvst"></a>
+				<a id="_6aa3gkhykvst"></a>
 			</div>
 		</div>
-		<div align="center" style="line-height: 1;"><br /></div>
-		<div align="center" style="text-align: left;">
+		<div class="text-center" style="line-height: 1;"><br /></div>
+		<div class="text-center" style="text-align: left;">
 			<div class="MsoNormal" data-custom-class="body_text" style="line-height: 1.5;">
 				<span
 					style="font-size:11.0pt;line-height:115%;font-family:Arial;
@@ -54,8 +54,8 @@ mso-themetint:166;"><bdt class="question"><bdt class="block-component">.</bdt></
 				>
 			</div>
 		</div>
-		<div align="center" style="line-height: 1;"><br /></div>
-		<div align="center" style="text-align: left;">
+		<div class="text-center" style="line-height: 1;"><br /></div>
+		<div class="text-center" style="text-align: left;">
 			<div class="MsoNormal" data-custom-class="body_text" style="line-height: 1.5;">
 				<span
 					style="font-size:11.0pt;line-height:115%;font-family:Arial;
@@ -124,8 +124,8 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
 				>
 			</div>
 		</div>
-		<div align="center" style="line-height: 1;"><br /></div>
-		<div align="center" style="text-align: left;">
+		<div class="text-center" style="line-height: 1;"><br /></div>
+		<div class="text-center" style="text-align: left;">
 			<div class="MsoNormal" data-custom-class="body_text" style="line-height: 1.5;">
 				<bdt class="block-container if" data-type="if" id="a2595956-7028-dbe5-123e-d3d3a93ed076"
 					><bdt data-type="conditional-block"
@@ -412,9 +412,9 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
 				>
 			</div>
 		</div>
-		<div align="center" style="text-align: left;">
+		<div class="text-center" style="text-align: left;">
 			<div class="MsoNormal" data-custom-class="heading_1" style="line-height: 1.5;">
-				<a name="_b6y29mp52qvx"></a>
+				<a id="_b6y29mp52qvx"></a>
 			</div>
 			<div class="MsoNormal" style="line-height: 1.5;"><br /></div>
 			<div class="MsoNormal" style="line-height: 1.5;"><br /></div>
@@ -435,11 +435,11 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
 			</div>
 			<div class="MsoNormal" style="line-height: 1.5;"><br /></div>
 		</div>
-		<div align="center" data-custom-class="heading_1" style="text-align: left; line-height: 1.5;">
+		<div class="text-center" data-custom-class="heading_1" style="text-align: left; line-height: 1.5;">
 			<strong><span id="ip" style="font-size: 19px;">2. INTELLECTUAL PROPERTY RIGHTS</span></strong>
 		</div>
-		<div align="center" style="line-height: 1.5;"><br /></div>
-		<div align="center" style="text-align: left;">
+		<div class="text-center" style="line-height: 1.5;"><br /></div>
+		<div class="text-center" style="text-align: left;">
 			<div class="MsoNormal" data-custom-class="heading_2" style="line-height: 1.5;">
 				<strong>Our intellectual property</strong>
 			</div>
@@ -544,8 +544,8 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
 				>
 			</div>
 		</div>
-		<div align="center" style="line-height: 1.5;"><br /></div>
-		<div align="center" style="text-align: left;">
+		<div class="text-center" style="line-height: 1.5;"><br /></div>
+		<div class="text-center" style="text-align: left;">
 			<div class="MsoNormal" data-custom-class="body_text" style="line-height: 1.5;">
 				<span
 					style="font-size:11.0pt;line-height:115%;font-family:Arial;
@@ -654,9 +654,9 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
 			</div>
 			<div class="MsoNormal" style="line-height: 1.5;"><br /></div>
 		</div>
-		<div align="center" style="text-align: left;">
+		<div class="text-center" style="text-align: left;">
 			<div class="MsoNormal" data-custom-class="heading_1" id="userreps" style="line-height: 1.5;">
-				<a name="_5hg7kgyv9l8z"></a><strong
+				<a id="_5hg7kgyv9l8z"></a><strong
 					><span style="line-height: 115%; font-family: Arial; font-size: 19px;"
 						><strong
 							><span style="line-height: 115%; font-family: Arial; font-size: 19px;"
@@ -675,8 +675,8 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
 				>
 			</div>
 		</div>
-		<div align="center" style="line-height: 1.5;"><br /></div>
-		<div align="center" style="text-align: left;">
+		<div class="text-center" style="line-height: 1.5;"><br /></div>
+		<div class="text-center" style="text-align: left;">
 			<div class="MsoNormal" data-custom-class="body_text" style="line-height: 1.5;">
 				<span
 					style="font-size:11.0pt;line-height:115%;font-family:Arial;
@@ -731,8 +731,8 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
 				>
 			</div>
 		</div>
-		<div align="center" style="line-height: 1.5;"><br /></div>
-		<div align="center" style="text-align: left;">
+		<div class="text-center" style="line-height: 1.5;"><br /></div>
+		<div class="text-center" style="text-align: left;">
 			<div class="MsoNormal" style="text-align: justify; line-height: 115%;">
 				<div class="MsoNormal" style="line-height: 17.25px;">
 					<div

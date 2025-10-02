@@ -1,0 +1,33 @@
+{
+  "name": "FreeSpeech AAC",
+  "short_name": "FreeSpeech",
+  "description": "Free and open-source assistive communication app",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f4f4f5",
+  "theme_color": "#2563eb",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/favicon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["accessibility", "communication", "medical"],
+  "lang": "en-US",
+  "scope": "/",
+  "prefer_related_applications": false
+}
