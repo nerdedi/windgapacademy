@@ -20,6 +20,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import LearnerDashboard from "./components/StudentDashboard";
 
 import AdaptiveDemoPage from "./pages/AdaptiveDemoPage";
+import AIAssistantPage from "./pages/AIAssistantPage";
 import AnimationSystemDemo from "./pages/AnimationSystemDemo";
 import AutomationDemo from "./pages/AutomationDemo.jsx";
 import ExecutiveFunctionDemo from "./pages/ExecutiveFunctionDemo";
@@ -153,6 +154,7 @@ function App() {
                   <Route path="/adaptive-demo" element={<AdaptiveDemoPage />} />
                   <Route path="/executive-function-demo" element={<ExecutiveFunctionDemo />} />
                   <Route path="/neurodivergent-learning" element={<NeurodivergentLearningPage />} />
+                  <Route path="/ai-assistant" element={<AIAssistantPage />} />
 
                   {/* Module routes */}
                   <Route

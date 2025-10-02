@@ -7,6 +7,7 @@ A modern educational platform featuring interactive Unity WebGL experiences, pro
 - **Interactive Unity WebGL Experiences**: Seamlessly integrated educational content built with Unity
 - **Progress Tracking**: Comprehensive system for tracking student progress and achievements
 - **User Authentication**: Secure Firebase authentication with role-based access control
+- **AI Assistant Integration**: AI-powered assistance for complex sentence construction, grammar correction, and symbol interpretation
 - **Performance Optimizations**: Specialized WebGL optimization for better performance across devices
 - **Responsive Design**: Fully responsive UI with Tailwind CSS and Framer Motion animations
 
@@ -34,15 +35,21 @@ A modern educational platform featuring interactive Unity WebGL experiences, pro
    npm install
    ```
 
-3. Create a `.env` file in the root directory with your Firebase configuration:
+3. Create a `.env` file in the root directory with your Firebase and OpenAI configuration:
 
    ```
+   # Firebase Configuration
    VITE_FIREBASE_API_KEY=your-api-key
    VITE_FIREBASE_AUTH_DOMAIN=your-auth-domain
    VITE_FIREBASE_PROJECT_ID=your-project-id
    VITE_FIREBASE_STORAGE_BUCKET=your-storage-bucket
    VITE_FIREBASE_MESSAGING_SENDER_ID=your-messaging-sender-id
    VITE_FIREBASE_APP_ID=your-app-id
+
+   # OpenAI Configuration (for AI Assistant)
+   OPENAI_API_KEY=your-openai-api-key
+   OPENAI_MODEL=gpt-4
+   OPENAI_BASE_URL=https://api.openai.com/v1
    ```
 
 4. Start the development server:
@@ -81,6 +88,7 @@ The platform includes several specialized components for Unity integration:
 - `OptimizedUnityPlayer`: Performance-optimized Unity WebGL player
 - `ProgressTracker`: Dashboard for tracking user progress
 - `UnityIntegrationExample`: Comprehensive example component demonstrating all integration features
+- `AIAssistant`: AI-powered assistant for AAC (Augmentative and Alternative Communication) features
 
 ### Utilities
 
