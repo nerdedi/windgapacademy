@@ -34,21 +34,21 @@ git checkout -b $BRANCH_NAME
 audit_project() {
   local project_dir=$1
   local project_name=$2
-  
+
   echo -e "${BLUE}=== Auditing $project_name ===${NC}"
   cd "$project_dir"
-  
+
   # Run npm audit to get vulnerabilities
   echo "Running npm audit for $project_name..."
   npm audit > "audit-results-$(date +%Y%m%d).txt" || true
-  
+
   # Save current dependencies for comparison
   cp package.json package.json.backup
-  
+
   # Try to fix vulnerabilities without breaking changes
   echo "Attempting to fix vulnerabilities without breaking changes..."
   npm audit fix || true
-  
+
   # Check if any fixes were applied
   if diff -q package.json package.json.backup > /dev/null; then
     echo -e "${YELLOW}No automatic fixes were applied for $project_name${NC}"
@@ -60,14 +60,14 @@ audit_project() {
       npm run test || true
     fi
   fi
-  
+
   # Restore backup if needed
   # rm package.json.backup
-  
+
   # Run npm audit again to see remaining vulnerabilities
   echo "Checking for remaining vulnerabilities..."
   npm audit > "remaining-vulnerabilities-$(date +%Y%m%d).txt" || true
-  
+
   echo -e "${GREEN}Audit complete for $project_name${NC}"
   echo ""
 }
