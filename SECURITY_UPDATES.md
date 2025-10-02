@@ -21,6 +21,7 @@ GitHub Dependabot has identified security vulnerabilities in the FreeSpeech AAC 
 These vulnerabilities require major version updates to several core dependencies, which may cause breaking changes. A careful, staged approach is recommended:
 
 1. **Upgrade esbuild independently**:
+
    ```bash
    cd freespeech
    npm install esbuild@latest --save-dev
@@ -42,15 +43,30 @@ These vulnerabilities require major version updates to several core dependencies
 
 ### Implementation Plan
 
-1. Create a dedicated feature branch: `security-updates`
-2. Make targeted dependency updates
-3. Run comprehensive tests
-4. Resolve any compatibility issues
-5. Merge only after successful testing
+1. Run the provided security update script:
+
+   ```bash
+   ./scripts/update-freespeech-security.sh
+   ```
+
+   This script will:
+   - Create a backup branch before making changes
+   - Create a dedicated feature branch: `security-updates`
+   - Make targeted dependency updates
+   - Run a security audit
+
+2. Test the application thoroughly after running the script
+3. Resolve any compatibility issues
+4. Merge only after successful testing
+
+## Automated Fix Script
+
+A script has been created at `scripts/update-freespeech-security.sh` that will attempt to fix these vulnerabilities automatically. The script includes safeguards like creating backup branches and performs incremental updates to minimize breaking changes.
 
 ## Other Notes
 
 Since these vulnerabilities are in a submodule, consider:
+
 1. Forking the FreeSpeech repo
 2. Making security fixes in the fork
 3. Updating the submodule reference to point to the fixed fork
