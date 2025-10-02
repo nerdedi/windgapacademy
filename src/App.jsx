@@ -3,8 +3,8 @@ import { Navigate, Route, Routes } from "react-router-dom";
 
 import { AnalyticsProvider } from "./analytics";
 import { AccessibilityProvider } from "./context/AccessibilityContext";
-import { AuthProvider } from "./context/AuthContext.js";
 import { LearningPreferencesProvider } from "./context/LearningPreferencesContext";
+import { AuthProvider } from "./contexts/AuthContext";
 
 import AccessibilitySettings from "./components/AccessibilitySettings";
 import CurriculumBuilderWithSaveState from "./components/curriculum/CurriculumBuilderWithSaveState.jsx";

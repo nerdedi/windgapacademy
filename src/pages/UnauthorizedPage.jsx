@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../contexts/AuthContext";
 
 const UnauthorizedPage = () => {
-  const { currentUser } = useAuth();
+  const { user } = useAuth();
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center p-4">
@@ -32,16 +32,15 @@ const UnauthorizedPage = () => {
           </p>
 
           <div className="space-y-4">
-            {currentUser ? (
+            {user ? (
               <>
                 <p className="text-sm text-gray-500">
-                  Your current role:{" "}
-                  <span className="font-semibold">{currentUser.userType || "User"}</span>
+                  Your current role: <span className="font-semibold">{user.role || "Student"}</span>
                 </p>
                 <div className="flex justify-center">
                   <Link
                     to={
-                      currentUser.userType === "educator"
+                      user.role === "educator" || user.role === "admin"
                         ? "/educator-dashboard"
                         : "/learner-dashboard"
                     }

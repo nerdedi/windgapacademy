@@ -6,7 +6,7 @@ This document outlines the recommended integrations for Windgap Academy, along w
 
 | Integration                              | Priority    | Complexity | Timeline  | Status      |
 | ---------------------------------------- | ----------- | ---------- | --------- | ----------- |
-| Authentication & Identity (OAuth)        | 1 - Highest | Medium     | 4-5 weeks | Planned     |
+| Authentication & Identity (OAuth)        | 1 - Highest | Medium     | 4-5 weeks | In Progress |
 | Learning Analytics (xAPI/LRS)            | 2 - High    | High       | 4-5 weeks | Planned     |
 | Educational Content (Khan Academy, etc.) | 3 - High    | Medium     | 3-4 weeks | In Progress |
 | Accessibility Tools                      | 4 - High    | Medium     | 3-4 weeks | Not Started |
@@ -20,9 +20,17 @@ This document outlines the recommended integrations for Windgap Academy, along w
 
 ### 1. Authentication & Identity (OAuth)
 
-**Full implementation plan:** [OAUTH_IMPLEMENTATION_PLAN.md](./OAUTH_IMPLEMENTATION_PLAN.md)
+**Full implementation plan:** [oauth-authentication-system.md](./oauth-authentication-system.md)
 
 **Description:** Integrate multiple OAuth providers (Google, Microsoft, Apple) to enhance user authentication options and simplify the login process.
+
+**Implementation Status:**
+
+- ✅ Apple Sign-In: Core implementation complete with component, auth flow, and backend handling
+- 🔄 Google Sign-In: Basic structure created, configuration needed
+- ⏳ Microsoft Sign-In: Planned for next sprint
+- ✅ Email/Password Authentication: Integrated with Firebase Auth
+- ✅ Protected Routes: Implemented with role-based access control
 
 **Key Benefits:**
 

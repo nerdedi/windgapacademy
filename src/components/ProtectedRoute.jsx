@@ -1,7 +1,7 @@
 import React from "react";
 import { Navigate, useLocation } from "react-router-dom";
 
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../contexts/AuthContext";
 
 /**
  * ProtectedRoute component - Protects routes based on authentication and role requirements
@@ -9,19 +9,10 @@ import { useAuth } from "../context/AuthContext";
  * @param {Object} props Component props
  * @param {React.ReactNode} props.children Child components to render if conditions are met
  * @param {string[]} [props.requiredRoles] Optional array of roles that are allowed to access this route
- * @param {string[]} [props.requiredPermissions] Optional array of permissions that are allowed to access this route
- * @param {boolean} [props.requireVerified=false] Whether to require email verification
- * @param {boolean} [props.requireMFA=false] Whether to require multi-factor authentication
  * @returns {React.ReactNode} The protected route
  */
-const ProtectedRoute = ({
-  children,
-  requiredRoles = [],
-  requiredPermissions = [],
-  requireVerified = false,
-  requireMFA = false,
-}) => {
-  const { currentUser, loading, hasRole, hasPermission } = useAuth();
+const ProtectedRoute = ({ children, requiredRoles = [] }) => {
+  const { user, loading } = useAuth();
   const location = useLocation();
 
   // Show loading state
@@ -37,35 +28,22 @@ const ProtectedRoute = ({
   }
 
   // Redirect to login if not authenticated
-  if (!currentUser) {
-    return <Navigate to="/login" state={{ from: location }} replace />;
+  if (!user) {
+    return <Navigate to="/login" state={{ from: location.pathname }} replace />;
   }
 
   // Check email verification if required
-  if (requireVerified && !currentUser.emailVerified) {
-    return <Navigate to="/verify-email" state={{ from: location }} replace />;
-  }
-
-  // Check MFA if required
-  if (requireMFA && !currentUser.mfaEnabled) {
-    return <Navigate to="/setup-mfa" state={{ from: location }} replace />;
+  if (user && !user.emailVerified && location.pathname !== "/verify-email") {
+    return <Navigate to="/verify-email" state={{ from: location.pathname }} replace />;
   }
 
   // Check roles if specified
   if (requiredRoles.length > 0) {
-    const hasRequiredRole = requiredRoles.some((role) => hasRole(role));
-    if (!hasRequiredRole) {
-      return <Navigate to="/unauthorized" state={{ from: location }} replace />;
-    }
-  }
+    const userRole = user.role || "student"; // Default to student if no role is specified
+    const hasRequiredRole = requiredRoles.includes(userRole);
 
-  // Check permissions if specified
-  if (requiredPermissions.length > 0) {
-    const hasRequiredPermission = requiredPermissions.some((permission) =>
-      hasPermission(permission),
-    );
-    if (!hasRequiredPermission) {
-      return <Navigate to="/unauthorized" state={{ from: location }} replace />;
+    if (!hasRequiredRole) {
+      return <Navigate to="/unauthorized" state={{ from: location.pathname }} replace />;
     }
   }
 
