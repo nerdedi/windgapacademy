@@ -44,3 +44,12 @@ updates:
     directory: "/.devcontainer"
     schedule:
       interval: "weekly"
+
+  # FreeSpeech npm project
+  - package-ecosystem: "npm"
+    directory: "/freespeech"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "chore(deps)"
