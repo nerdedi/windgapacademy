@@ -1,0 +1,199 @@
+name: Build, Test & Deploy Windgap Academy
+
+on:
+  # run workflow on push events on any branch
+  # skip with "[ci skip]", "[no ci]" in commit message
+  push:
+    branches: [main, development]
+
+  # allow manual workflow runs
+  workflow_dispatch:
+
+  # run daily at 5:50 AM UTC for health checks
+  schedule:
+    - cron: "50 5 * * *"
+
+jobs:
+  # Test job for React application
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+
+    permissions:
+      checks: write
+
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: [18.x, 20.x]
+
+    steps:
+      # Checkout code
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Setup Node.js
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+
+      # Install dependencies
+      - name: Install dependencies
+        run: npm ci
+
+      # Run linting
+      - name: Run ESLint
+        run: npm run lint
+
+      # Run tests
+      - name: Run Jest tests
+        run: npm test -- --coverage --watchAll=false
+
+      # Upload test results
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results-node-${{ matrix.node-version }}
+          path: |
+            coverage/
+            test-results/
+          if-no-files-found: warn
+
+  # Build job for React application
+  build:
+    name: Build for ${{ matrix.platform }}
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: web
+            build-command: npm run build
+            output-path: dist
+          - platform: electron
+            build-command: npm run build:electron
+            output-path: dist-electron
+
+    steps:
+      # Free disk space (useful for large builds)
+      - name: Free Disk Space (Ubuntu)
+        uses: jlumbroso/free-disk-space@main
+        with:
+          docker-images: false
+          swap-storage: false
+          large-packages: false
+
+      # Checkout
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Setup Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20.x"
+          cache: "npm"
+
+      # Install dependencies
+      - name: Install dependencies
+        run: npm ci
+
+      # Build application
+      - name: Build ${{ matrix.platform }}
+        run: ${{ matrix.build-command }}
+        env:
+          NODE_ENV: production
+
+      # Upload build artifacts
+      - name: Upload build for ${{ matrix.platform }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-${{ matrix.platform }}
+          path: ${{ matrix.output-path }}
+          if-no-files-found: error
+
+  # Deploy to hosting platforms
+  deploy:
+    name: Deploy to Production
+
+    # Only deploy if:
+    # - On main branch
+    # - Not a scheduled run
+    # - Tests and builds succeeded
+    if: |
+      github.ref_name == 'main' &&
+      github.event_name != 'schedule' &&
+      needs.build.result == 'success' &&
+      needs.test.result == 'success'
+
+    # Prevent concurrent deployments
+    concurrency:
+      group: active-deployment
+      cancel-in-progress: false
+
+    runs-on: ubuntu-latest
+    needs: [test, build]
+
+    steps:
+      # Download build artifacts
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-web
+          path: ./dist
+
+      # Deploy to Firebase Hosting
+      - name: Deploy to Firebase
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_WINDGAP_ACADEMY }}
+          channelId: live
+          projectId: windgap-academy
+
+      # Deploy to Vercel (alternative)
+      - name: Deploy to Vercel
+        if: false # Enable this if you prefer Vercel
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          vercel-args: "--prod"
+
+      # Deploy to Netlify (alternative)
+      - name: Deploy to Netlify
+        if: false # Enable this if you prefer Netlify
+        uses: nwtgck/actions-netlify@v3.0
+        with:
+          publish-dir: "./dist"
+          production-branch: main
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          deploy-message: "Deploy from GitHub Actions"
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+
+  # Security scanning
+  security:
+    name: Security Scan
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run npm audit
+        run: npm audit --audit-level moderate
+
+      - name: Run CodeQL Analysis
+        uses: github/codeql-action/init@v3
+        with:
+          languages: javascript
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3

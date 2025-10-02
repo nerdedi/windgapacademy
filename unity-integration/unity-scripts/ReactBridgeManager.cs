@@ -2,23 +2,82 @@ using UnityEngine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using Newtonsoft.Json;
 
-/// <summary>
-/// ReactBridgeManager handles communication between Unity and React
-/// This script should be attached to a GameObject in your Unity scene
-/// </summary>
-[AddComponentMenu("Windgap/ReactBridgeManager")]
-public class ReactBridgeManager : MonoBehaviour
+namespace WindgapAcademy.Unity
 {
-    // References to other managers
-    [SerializeField] private CharacterManager characterManager;
-    [SerializeField] private StorylineManager storylineManager;
-    [SerializeField] private AnimationManager animationManager;
-    
-    // Singleton instance
-    private static ReactBridgeManager _instance;
-    public static ReactBridgeManager Instance { get { return _instance; } }
-    
+    /// <summary>
+    /// Enhanced ReactBridgeManager handles communication between Unity and React
+    /// This script should be attached to a GameObject in your Unity scene
+    /// Optimized for educational platform integration with advanced features
+    /// </summary>
+    [AddComponentMenu("Windgap/ReactBridgeManager")]
+    public class ReactBridgeManager : MonoBehaviour
+    {
+        [Header("Bridge Configuration")]
+        [SerializeField] private bool enableLogging = true;
+        [SerializeField] private bool enablePerformanceTracking = true;
+        [SerializeField] private float performanceUpdateInterval = 5.0f;
+
+        // References to other managers
+        [SerializeField] private CharacterManager characterManager;
+        [SerializeField] private StorylineManager storylineManager;
+        [SerializeField] private AnimationManager animationManager;
+
+        // Singleton instance
+        private static ReactBridgeManager _instance;
+        public static ReactBridgeManager Instance { get { return _instance; } }
+
+        // Performance tracking
+        private int messagesSent = 0;
+        private int messagesReceived = 0;
+        private float startTime;
+        private Dictionary<string, float> performanceMetrics = new Dictionary<string, float>();
+
+        // Message queue for reliability
+        private Queue<BridgeMessage> messageQueue = new Queue<BridgeMessage>();
+        private const int MAX_QUEUE_SIZE = 100;
+
+        [System.Serializable]
+        public class BridgeMessage
+        {
+            public string messageId;
+            public string eventType;
+            public object data;
+            public long timestamp;
+            public int retryCount;
+        }
+
+        [System.Serializable]
+        public class StudentData
+        {
+            public string studentId;
+            public string name;
+            public int level;
+            public Dictionary<string, object> customData;
+        }
+
+        [System.Serializable]
+        public class LessonData
+        {
+            public string lessonId;
+            public string title;
+            public string subject;
+            public int difficulty;
+            public StudentData student;
+        }
+
+        [System.Serializable]
+        public class ProgressData
+        {
+            public string lessonId;
+            public float completion;
+            public int score;
+            public long timeSpent;
+            public bool completed;
+        }
+
     // Initialize on Awake
     private void Awake()
     {
@@ -32,18 +91,18 @@ public class ReactBridgeManager : MonoBehaviour
             _instance = this;
             DontDestroyOnLoad(this.gameObject);
         }
-        
+
         // Find references if not set in inspector
         if (characterManager == null)
             characterManager = FindObjectOfType<CharacterManager>();
-            
+
         if (storylineManager == null)
             storylineManager = FindObjectOfType<StorylineManager>();
-            
+
         if (animationManager == null)
             animationManager = FindObjectOfType<AnimationManager>();
     }
-    
+
     /// <summary>
     /// Receive message from React
     /// </summary>
@@ -54,34 +113,34 @@ public class ReactBridgeManager : MonoBehaviour
         {
             // Parse the JSON message
             ReactMessage message = JsonUtility.FromJson<ReactMessage>(jsonMessage);
-            
+
             // Process the message based on action type
             switch (message.actionType)
             {
                 case "INITIALIZE":
                     HandleInitialize(message);
                     break;
-                    
+
                 case "START_ANIMATION":
                     HandleStartAnimation(message);
                     break;
-                    
+
                 case "SET_CHARACTER":
                     HandleSetCharacter(message);
                     break;
-                    
+
                 case "START_STORY":
                     HandleStartStory(message);
                     break;
-                    
+
                 case "START_GAME":
                     HandleStartGame(message);
                     break;
-                    
+
                 case "SET_GAME_STATE":
                     HandleSetGameState(message);
                     break;
-                    
+
                 default:
                     Debug.LogWarning($"Unknown action type: {message.actionType}");
                     break;
@@ -92,7 +151,7 @@ public class ReactBridgeManager : MonoBehaviour
             Debug.LogError($"Error processing message from React: {e.Message}");
         }
     }
-    
+
     /// <summary>
     /// Send message to React
     /// </summary>
@@ -102,11 +161,11 @@ public class ReactBridgeManager : MonoBehaviour
     {
         // Convert data to JSON
         string jsonData = JsonUtility.ToJson(data);
-        
+
         // Call the JavaScript function
         SendMessageToReact(actionType, jsonData);
     }
-    
+
     /// <summary>
     /// Send message to React (JavaScript function)
     /// </summary>
@@ -122,15 +181,15 @@ public class ReactBridgeManager : MonoBehaviour
         Debug.Log($"[UNITY] Sending to React: {actionType} - {jsonData}");
         #endif
     }
-    
+
     #if UNITY_WEBGL && !UNITY_EDITOR
     // Import JavaScript function from Unity's browser interface
     [System.Runtime.InteropServices.DllImport("__Internal")]
     private static extern void SendToReactJS(string actionType, string jsonData);
     #endif
-    
+
     #region Message Handlers
-    
+
     private void HandleInitialize(ReactMessage message)
     {
         // Extract initial state
@@ -144,7 +203,7 @@ public class ReactBridgeManager : MonoBehaviour
                     characterManager.SetActiveCharacter(message.state.character);
                 }
             }
-            
+
             // Start initial animation if specified
             if (!string.IsNullOrEmpty(message.state.startAnimation))
             {
@@ -155,11 +214,11 @@ public class ReactBridgeManager : MonoBehaviour
                 }
             }
         }
-        
+
         // Send confirmation back to React
         SendToReact("INITIALIZED", new { success = true });
     }
-    
+
     private void HandleStartAnimation(ReactMessage message)
     {
         if (animationManager != null)
@@ -167,18 +226,18 @@ public class ReactBridgeManager : MonoBehaviour
             animationManager.PlayAnimation(message.characterName, message.animationName);
         }
     }
-    
+
     private void HandleSetCharacter(ReactMessage message)
     {
         if (characterManager != null)
         {
             characterManager.SetActiveCharacter(message.characterName);
-            
+
             // Notify React that character has changed
             SendToReact("CHARACTER_CHANGED", new { character = message.characterName });
         }
     }
-    
+
     private void HandleStartStory(ReactMessage message)
     {
         if (storylineManager != null)
@@ -187,23 +246,23 @@ public class ReactBridgeManager : MonoBehaviour
             storylineManager.StartStory(storyId);
         }
     }
-    
+
     private void HandleStartGame(ReactMessage message)
     {
         // Implementation for starting games
         Debug.Log($"Starting game: {message.gameType}");
     }
-    
+
     private void HandleSetGameState(ReactMessage message)
     {
         // Implementation for setting game state
         Debug.Log("Setting game state");
     }
-    
+
     #endregion
-    
+
     #region Data Classes
-    
+
     [Serializable]
     public class ReactMessage
     {
@@ -214,13 +273,13 @@ public class ReactBridgeManager : MonoBehaviour
         public string gameType;
         public InitialState state;
     }
-    
+
     [Serializable]
     public class InitialState
     {
         public string character;
         public string startAnimation;
     }
-    
+
     #endregion
 }

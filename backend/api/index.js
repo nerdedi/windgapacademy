@@ -17,7 +17,7 @@ const rateLimit = require("express-rate-limit");
 const helmet = require("helmet");
 const cors = require("cors");
 const compression = require("compression");
-const { body, validationResult } = require("express-validator");
+const { validationResult } = require("express-validator");
 
 const logger = require("../utils/logger");
 const authMiddleware = require("../middleware/auth");

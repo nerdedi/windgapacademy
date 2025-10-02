@@ -62,57 +62,12 @@ function startAcademyStore() {
   // ...academy store logic...
 }
 
-if (typeof document !== "undefined") {
-  document.addEventListener("DOMContentLoaded", startAcademyStore);
-}
-// --- Advanced Feature Upgrades & TODOs ---
-// Accessibility: ARIA roles, keyboard navigation
-// Onboarding/help modal
-// Backup/sync logic
-// Gamification: challenges, leaderboard
-// Educator/parent feedback
-// Analytics integration
-// Error boundaries
-// UI settings modal
-// Comprehensive store logic
-
-// ARIA attributes already implemented above
-
 // Example: Add backup/sync logic
 function _backupCart(cart) {
   localStorage.setItem("academyStoreCart", JSON.stringify(cart));
 }
 function _syncCart() {
   return JSON.parse(localStorage.getItem("academyStoreCart") || "[]");
-}
-
-// Example: Gamification
-function _updateLeaderboard(purchases) {
-  // ...leaderboard logic...
-}
-
-// Example: Educator/parent feedback
-function _sendFeedback(feedback) {
-  // ...send feedback to server...
-}
-
-// Example: Analytics
-function _logEvent(event) {
-  // ...analytics logic...
-}
-
-// Example: Error boundary
-function safeRun(fn) {
-  try {
-    fn();
-  } catch (e) {
-    console.error("Error:", e);
-  }
-}
-
-// Example: UI settings modal
-function _showSettings() {
-  // ...settings modal logic...
 }
 
 // Comprehensive store logic placeholder

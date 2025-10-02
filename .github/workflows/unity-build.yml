@@ -1,0 +1,342 @@
+name: Unity WebGL Build and Deploy
+
+on:
+  push:
+    branches: [main, development, feature/unity-integration]
+    paths:
+      - "unity-project/**"
+      - "unity-integration/**"
+      - ".github/workflows/unity-build.yml"
+  pull_request:
+    branches: [main, development]
+    paths:
+      - "unity-project/**"
+      - "unity-integration/**"
+  workflow_dispatch:
+    inputs:
+      build_target:
+        description: "Build target (WebGL/StandaloneWindows64)"
+        required: false
+        default: "WebGL"
+      deploy_environment:
+        description: "Deployment environment"
+        required: false
+        default: "staging"
+
+env:
+  UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+  UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+  UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+  UNITY_VERSION: "2023.2.20f1"
+
+jobs:
+  # Test Unity project before building
+  unity-tests:
+    name: Unity Tests
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Cache Unity Library
+        uses: actions/cache@v3
+        with:
+          path: unity-project/Library
+          key: Library-unity-${{ env.UNITY_VERSION }}-${{ hashFiles('unity-project/ProjectSettings/**') }}
+          restore-keys: |
+            Library-unity-${{ env.UNITY_VERSION }}-
+            Library-unity-
+
+      - name: Run Unity Tests
+        uses: game-ci/unity-test-runner@v4
+        with:
+          projectPath: unity-project
+          unityVersion: ${{ env.UNITY_VERSION }}
+          testMode: EditMode
+          customParameters: -stackTraceLogType Full
+
+      - name: Upload Test Results
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: unity-test-results
+          path: artifacts
+
+  # Build Unity WebGL
+  unity-build:
+    name: Build Unity WebGL
+    runs-on: ubuntu-latest
+    needs: [unity-tests]
+    if: always() && (needs.unity-tests.result == 'success' || needs.unity-tests.result == 'skipped')
+    outputs:
+      build-version: ${{ steps.build-info.outputs.version }}
+      build-path: ${{ steps.build-info.outputs.path }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+          fetch-depth: 0
+
+      - name: Cache Unity Library
+        uses: actions/cache@v3
+        with:
+          path: unity-project/Library
+          key: Library-unity-${{ env.UNITY_VERSION }}-${{ hashFiles('unity-project/ProjectSettings/**') }}
+          restore-keys: |
+            Library-unity-${{ env.UNITY_VERSION }}-
+            Library-unity-
+
+      - name: Setup Node.js for build tools
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+          cache: "npm"
+
+      - name: Install build dependencies
+        run: |
+          npm install -g @unity/cli-tools
+          sudo apt-get update
+          sudo apt-get install -y brotli
+
+      - name: Generate build info
+        id: build-info
+        run: |
+          BUILD_VERSION="$(date +%Y%m%d%H%M%S)-$(git rev-parse --short HEAD)"
+          BUILD_PATH="Builds/WebGL/windgap-academy-$BUILD_VERSION"
+          echo "version=$BUILD_VERSION" >> $GITHUB_OUTPUT
+          echo "path=$BUILD_PATH" >> $GITHUB_OUTPUT
+          echo "📦 Build version: $BUILD_VERSION"
+          echo "🎯 Build path: $BUILD_PATH"
+
+      - name: Build Unity WebGL
+        uses: game-ci/unity-builder@v4
+        with:
+          projectPath: unity-project
+          unityVersion: ${{ env.UNITY_VERSION }}
+          targetPlatform: WebGL
+          buildName: windgap-academy-${{ steps.build-info.outputs.version }}
+          buildsPath: Builds
+          customParameters: |
+            -stackTraceLogType Full
+            -executeMethod BuildScript.BuildWebGLOptimized
+            -buildVersion ${{ steps.build-info.outputs.version }}
+            -compressionFormat Brotli
+            -memorySize 512
+            -debugSymbols false
+
+      - name: Optimize WebGL Build
+        run: |
+          BUILD_PATH="${{ steps.build-info.outputs.path }}"
+          echo "🔧 Optimizing WebGL build at $BUILD_PATH"
+
+          # Compress additional files with Brotli
+          find "$BUILD_PATH" -name "*.js" -exec brotli -k {} \;
+          find "$BUILD_PATH" -name "*.wasm" -exec brotli -k {} \;
+
+          # Generate build manifest
+          cat > "$BUILD_PATH/build-manifest.json" << EOF
+          {
+            "buildTime": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
+            "version": "${{ steps.build-info.outputs.version }}",
+            "compressionFormat": "Brotli",
+            "memorySize": 512,
+            "platform": "WebGL",
+            "optimized": true,
+            "gitCommit": "$(git rev-parse HEAD)",
+            "gitBranch": "$(git rev-parse --abbrev-ref HEAD)"
+          }
+          EOF
+
+          # Calculate build size
+          BUILD_SIZE=$(du -sh "$BUILD_PATH" | cut -f1)
+          echo "📊 Build size: $BUILD_SIZE"
+          echo "build-size=$BUILD_SIZE" >> $GITHUB_ENV
+
+      - name: Upload Unity Build Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: unity-webgl-build-${{ steps.build-info.outputs.version }}
+          path: ${{ steps.build-info.outputs.path }}
+          retention-days: 30
+
+      - name: Create Build Summary
+        run: |
+          cat >> $GITHUB_STEP_SUMMARY << EOF
+          ## 🎮 Unity WebGL Build Completed
+
+          | Property | Value |
+          |----------|-------|
+          | **Version** | ${{ steps.build-info.outputs.version }} |
+          | **Size** | ${{ env.build-size }} |
+          | **Compression** | Brotli |
+          | **Memory** | 512MB |
+          | **Platform** | WebGL |
+          | **Commit** | $(git rev-parse --short HEAD) |
+          | **Branch** | $(git rev-parse --abbrev-ref HEAD) |
+
+          ### 📁 Build Artifacts
+          - Unity WebGL build available as workflow artifact
+          - Build manifest generated with optimization details
+          - Ready for deployment to React application
+
+          ### 🔗 Integration Instructions
+          1. Download the build artifact
+          2. Extract to \`public/unity/\` directory in React app
+          3. Update \`EnhancedUnityPlayer\` component with new build version
+          4. Use \`UnityReactBridge\` for communication
+          EOF
+
+  # Deploy to staging environment
+  deploy-staging:
+    name: Deploy to Staging
+    runs-on: ubuntu-latest
+    needs: [unity-build]
+    if: github.ref == 'refs/heads/development' && github.event_name == 'push'
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download Unity Build
+        uses: actions/download-artifact@v3
+        with:
+          name: unity-webgl-build-${{ needs.unity-build.outputs.build-version }}
+          path: unity-build
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Deploy Unity Build to React App
+        run: |
+          # Copy Unity build to React public directory
+          mkdir -p public/unity
+          cp -r unity-build/* public/unity/
+
+          # Update build configuration
+          cat > src/config/unity-build.json << EOF
+          {
+            "version": "${{ needs.unity-build.outputs.build-version }}",
+            "environment": "staging",
+            "buildPath": "/unity/",
+            "lastUpdated": "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          }
+          EOF
+
+      - name: Build React Application
+        run: |
+          npm run build
+          echo "🚀 React app built with Unity integration"
+
+      - name: Deploy to Vercel (Staging)
+        uses: vercel/action@v1
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          vercel-args: "--env UNITY_BUILD_VERSION=${{ needs.unity-build.outputs.build-version }}"
+
+  # Deploy to production
+  deploy-production:
+  deploy-production:
+    name: Deploy to Production
+    runs-on: ubuntu-latest
+    needs: [unity-build]
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download Unity Build
+        uses: actions/download-artifact@v3
+        with:
+          name: unity-webgl-build-${{ needs.unity-build.outputs.build-version }}
+          path: unity-build
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Deploy Unity Build to React App
+        run: |
+          # Copy Unity build to React public directory
+          mkdir -p public/unity
+          cp -r unity-build/* public/unity/
+
+          # Update build configuration for production
+          cat > src/config/unity-build.json << EOF
+          {
+            "version": "${{ needs.unity-build.outputs.build-version }}",
+            "environment": "production",
+            "buildPath": "/unity/",
+            "lastUpdated": "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          }
+          EOF
+
+      - name: Build React Application (Production)
+        run: |
+          NODE_ENV=production npm run build
+          echo "🚀 Production React app built with Unity integration"
+
+      - name: Deploy to Vercel (Production)
+        uses: vercel/action@v1
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          vercel-args: "--prod --env UNITY_BUILD_VERSION=${{ needs.unity-build.outputs.build-version }}"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: |
+            unity-build/**/*
+          name: Unity WebGL Build ${{ needs.unity-build.outputs.build-version }}
+          body: |
+            ## Unity WebGL Build ${{ needs.unity-build.outputs.build-version }}
+
+            **Features:**
+            - Optimized WebGL build with Brotli compression
+            - Enhanced React-Unity communication bridge
+            - Performance monitoring and error handling
+            - Educational platform integration
+
+            **Technical Details:**
+            - Unity Version: ${{ env.UNITY_VERSION }}
+            - Memory Size: 512MB
+            - Compression: Brotli
+            - Platform: WebGL
+            - Git Commit: $(git rev-parse HEAD)
+
+            **Integration:**
+            This build is ready for integration with the Windgap Academy React application using the enhanced `UnityReactBridge` and `EnhancedUnityPlayer` components.
+
+  # Cleanup old artifacts
+  cleanup:
+    name: Cleanup Old Artifacts
+    runs-on: ubuntu-latest
+    if: always()
+    needs: [deploy-staging, deploy-production]
+    steps:
+      - name: Delete old artifacts
+        uses: geekyeggo/delete-artifact@v2
+        with:
+          name: unity-webgl-build-*
+          useGlob: true
+          failOnError: false
+          token: ${{ secrets.GITHUB_TOKEN }}
+          # Keep only the last 5 builds
+          skipRecent: 5

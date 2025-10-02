@@ -18,6 +18,7 @@ router.get("/user-stats", async (req, res) => {
     res.status(500).json({
       success: false,
       message: "Failed to fetch user statistics",
+      error: error.message,
     });
   }
 });
@@ -34,12 +35,13 @@ router.get("/course-stats", async (req, res) => {
           { id: 2, name: "Digital Skills", enrollments: 280 },
           { id: 3, name: "Career Development", enrollments: 245 },
         ],
-      },
+      }
     });
   } catch (error) {
     res.status(500).json({
       success: false,
       message: "Failed to fetch course statistics",
+      error: error.message,
     });
   }
 });

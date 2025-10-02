@@ -30,7 +30,7 @@ if (typeof global.TextEncoder === "undefined") {
 if (typeof window !== "undefined" && typeof window.alert !== "function") {
   window.alert = (msg) => {
     // no-op to keep tests from throwing when components call alert
-    // eslint-disable-next-line no-console
+
     console.info("window.alert called during test:", msg);
   };
 }
@@ -148,7 +148,7 @@ const noopSafeRun = (fn) => {
   try {
     return typeof fn === "function" ? fn() : undefined;
   } catch (e) {
-    // eslint-disable-next-line no-console
+    
     console.error(e);
   }
 };
