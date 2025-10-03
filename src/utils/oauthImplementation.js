@@ -45,7 +45,10 @@
  */
 
 import { initializeAppleAuth } from "@utils/appleAuth";
-// Import other auth initializations as they become available
+import { initializeGoogleAuth } from "@utils/googleAuth";
+// Microsoft auth is initialized through class instantiation when imported
+// We import it for side effects only
+import "@utils/microsoftAuth";
 
 /**
  * Initialize all OAuth providers
@@ -55,9 +58,12 @@ export const initializeOAuth = () => {
   // Initialize Apple Sign In
   initializeAppleAuth();
 
-  // Initialize other providers as needed
-  // initializeGoogleAuth();
-  // initializeMicrosoftAuth();
+  // Initialize Google Sign In
+  initializeGoogleAuth();
+
+  // Microsoft auth is automatically initialized through the class instance
+  // The microsoftAuth import ensures the class is instantiated
+  console.log("OAuth providers initialized:", Object.keys(oauthProviders).join(", "));
 };
 
 /**

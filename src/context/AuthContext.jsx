@@ -1,25 +1,25 @@
 import {
-  getAuth,
-  onAuthStateChanged,
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
-  signOut,
-  sendPasswordResetEmail,
-  signInWithPopup,
-  GoogleAuthProvider,
-  FacebookAuthProvider,
   AppleAuthProvider,
-  TwitterProvider,
-  sendEmailVerification,
-  updateProfile,
+  createUserWithEmailAndPassword,
+  FacebookAuthProvider,
+  getAuth,
+  GoogleAuthProvider,
   multiFactor,
+  onAuthStateChanged,
   PhoneAuthProvider,
   PhoneMultiFactorGenerator,
+  sendEmailVerification,
+  sendPasswordResetEmail,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  signOut,
+  updateProfile,
 } from "firebase/auth";
-import { doc, getDoc, setDoc, updateDoc, getFirestore } from "firebase/firestore";
-import React, { createContext, useContext, useState, useEffect } from "react";
+import { doc, getDoc, getFirestore, setDoc, updateDoc } from "firebase/firestore";
+import { createContext, useContext, useEffect, useState } from "react";
 
 import { app } from "../../firebase";
+import microsoftAuth from "../utils/microsoftAuth";
 
 // Create context
 const AuthContext = createContext();
@@ -348,6 +348,18 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  // Sign in with Microsoft
+  const signInWithMicrosoft = async () => {
+    setError(null);
+    try {
+      const user = await microsoftAuth.signIn();
+      return user;
+    } catch (err) {
+      setError(err.message);
+      throw err;
+    }
+  };
+
   const value = {
     currentUser,
     userRoles,
@@ -361,6 +373,7 @@ export const AuthProvider = ({ children }) => {
     signInWithGoogle,
     signInWithFacebook,
     signInWithApple,
+    signInWithMicrosoft,
     enrollMFA,
     completeMFAEnrollment,
     hasRole,

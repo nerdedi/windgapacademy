@@ -1,6 +1,9 @@
 import { onAuthStateChanged } from "firebase/auth";
 import { createContext, useContext, useEffect, useState } from "react";
 import { auth } from "../firebase";
+import { signInWithApple } from "../utils/appleAuth";
+import { signInWithGoogle } from "../utils/googleAuth";
+import { microsoftAuth } from "../utils/microsoftAuth";
 import { initializeOAuth } from "../utils/oauthImplementation";
 
 // Create the auth context
@@ -103,6 +106,57 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  /**
+   * Sign in with Google
+   * @returns {Promise<Object>} User data
+   */
+  const signInWithGoogleAuth = async () => {
+    try {
+      const authData = await signInWithGoogle();
+
+      // User will be set by Firebase auth state change listener
+      return authData;
+    } catch (error) {
+      console.error("Google sign-in error:", error);
+      setError(error.message);
+      throw error;
+    }
+  };
+
+  /**
+   * Sign in with Apple
+   * @returns {Promise<Object>} User data
+   */
+  const signInWithAppleAuth = async () => {
+    try {
+      const authData = await signInWithApple();
+
+      // User will be set by Firebase auth state change listener
+      return authData;
+    } catch (error) {
+      console.error("Apple sign-in error:", error);
+      setError(error.message);
+      throw error;
+    }
+  };
+
+  /**
+   * Sign in with Microsoft
+   * @returns {Promise<Object>} User data
+   */
+  const signInWithMicrosoftAuth = async () => {
+    try {
+      const user = await microsoftAuth.signIn();
+
+      // User will be set by Firebase auth state change listener
+      return user;
+    } catch (error) {
+      console.error("Microsoft sign-in error:", error);
+      setError(error.message);
+      throw error;
+    }
+  };
+
   // Context value
   const value = {
     user,
@@ -112,6 +166,9 @@ export const AuthProvider = ({ children }) => {
     signOut,
     updateProfile,
     isAuthenticated: !!user,
+    signInWithGoogle: signInWithGoogleAuth,
+    signInWithApple: signInWithAppleAuth,
+    signInWithMicrosoft: signInWithMicrosoftAuth,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
