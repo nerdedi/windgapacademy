@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useRef } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import AIAssistantService from "../services/AIAssistantService";
-import { motion, AnimatePresence } from "framer-motion";
 
 /**
  * AIAssistant Component

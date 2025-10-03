@@ -8,7 +8,7 @@
  */
 
 import { getApp } from "firebase/app";
-import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
+import { doc, getDoc, getFirestore, setDoc } from "firebase/firestore";
 
 class AIAssistantService {
   constructor() {
@@ -180,7 +180,7 @@ class AIAssistantService {
     const messages = [
       {
         role: "system",
-        content: `You are an assistant for people using an AAC (Augmentative and Alternative Communication) system. 
+        content: `You are an assistant for people using an AAC (Augmentative and Alternative Communication) system.
         Your task is to help construct meaningful, natural-sounding sentences from symbols or simple words.
         - Create sentences with ${complexity} complexity
         - Target age group: ${ageGroup}
@@ -233,8 +233,8 @@ class AIAssistantService {
     const messages = [
       {
         role: "system",
-        content: `You are a helpful grammar assistant for AAC users. 
-        Correct grammar mistakes while preserving the original meaning. 
+        content: `You are a helpful grammar assistant for AAC users.
+        Correct grammar mistakes while preserving the original meaning.
         Provide a brief, simple explanation of corrections.`,
       },
       ...context,
@@ -282,8 +282,8 @@ class AIAssistantService {
     const messages = [
       {
         role: "system",
-        content: `You are an expert AAC interpreter. Your role is to interpret 
-        the intended meaning from a sequence of communication symbols or simplified words. 
+        content: `You are an expert AAC interpreter. Your role is to interpret
+        the intended meaning from a sequence of communication symbols or simplified words.
         Provide the most likely interpretation as natural language.`,
       },
       ...context,

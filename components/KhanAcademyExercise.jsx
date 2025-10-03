@@ -1,5 +1,3 @@
-import React from "react";
-
 /**
  * Khan Academy Exercise Embed Component
  * Embeds Khan Academy exercises directly into Windgap Academy

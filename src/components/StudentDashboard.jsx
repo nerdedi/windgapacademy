@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function LearnerDashboard() {
@@ -58,7 +58,7 @@ function LearnerDashboard() {
       progress: 55,
       modules: 8,
       color: "bg-orange-500",
-      lessonRoute: "/lesson/numeracy-money",
+      lessonRoute: "/exercises/math",
     },
     {
       id: "literacy",
@@ -92,10 +92,10 @@ function LearnerDashboard() {
       textColor: "text-blue-700",
     },
     {
-      icon: "🎮",
-      title: "Interactive Games",
-      description: "Practice skills through games",
-      action: () => navigate("/lesson/numeracy-money"),
+      icon: "🧮",
+      title: "Math Exercises",
+      description: "Interactive math practice",
+      action: () => navigate("/exercises/math"),
       color: "bg-green-50 hover:bg-green-100 border-green-200",
       textColor: "text-green-700",
     },

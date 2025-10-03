@@ -2,9 +2,9 @@
  * @jest-environment jsdom
  */
 
-import AIAssistantService from "../../src/services/AIAssistantService";
-import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
 import { getApp } from "firebase/app";
+import { doc, getDoc, getFirestore, setDoc } from "firebase/firestore";
+import AIAssistantService from "../../src/services/AIAssistantService";
 
 // Mock Firebase
 jest.mock("firebase/app", () => ({

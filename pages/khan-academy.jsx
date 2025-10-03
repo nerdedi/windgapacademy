@@ -1,18 +1,18 @@
-import React, { useState } from "react";
 import {
   Box,
   Container,
   Heading,
-  Tabs,
-  TabList,
-  TabPanels,
-  Tab,
-  TabPanel,
-  Text,
   Link,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
+  Text,
 } from "@chakra-ui/react";
-import KhanAcademyResources from "../components/KhanAcademyResources";
+import { useState } from "react";
 import KhanAcademyExercise from "../components/KhanAcademyExercise";
+import KhanAcademyResources from "../components/KhanAcademyResources";
 
 /**
  * Khan Academy Integration Page

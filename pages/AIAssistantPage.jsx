@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from "react";
 import {
-  Container,
   Box,
-  Heading,
-  Text,
   Button,
+  Container,
+  Heading,
   SimpleGrid,
+  Text,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
 import { motion } from "framer-motion";
+import { useState } from "react";
 import AIAssistant from "../components/AIAssistant";
 import useAIAssistant from "../hooks/useAIAssistant";
 

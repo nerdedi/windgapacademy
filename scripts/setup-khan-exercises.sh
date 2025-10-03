@@ -70,7 +70,7 @@ app.get('/health', (req, res) => {
 app.get('/list', (req, res) => {
   const fs = require('fs');
   const exercisesDir = path.join(__dirname, '..', 'khan-exercises', 'exercises');
-  
+
   try {
     const files = fs.readdirSync(exercisesDir)
       .filter(file => file.endsWith('.html'))
@@ -79,7 +79,7 @@ app.get('/list', (req, res) => {
         name: file.replace('.html', '').replace(/_/g, ' '),
         path: `/exercises/${file}`
       }));
-      
+
     res.json({ exercises: files });
   } catch (err) {
     res.status(500).json({ error: 'Could not list exercises', details: err.message });
@@ -126,7 +126,7 @@ into the Windgap Academy platform.
 
 3. **View a Specific Exercise**:
    Visit http://localhost:3001/exercises/[exercise-name].html
-   
+
    For example: http://localhost:3001/exercises/adding_decimals.html
 
 ## Integration Components

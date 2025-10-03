@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Card, CardHeader, CardBody, Heading, Box, Select, Button, Text } from "@chakra-ui/react";
+import { Box, Button, Card, CardBody, CardHeader, Heading, Select, Text } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
 
 /**
  * KhanAcademyResources component
