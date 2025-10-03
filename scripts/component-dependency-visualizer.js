@@ -235,12 +235,12 @@ async function generateVisualization() {
   </head>
   <body>
     <h1>Windgap Academy Component Dependency Graph</h1>
-    
+
     <div class="info-panel">
       <p>This visualization shows dependencies between components in the Windgap Academy codebase.</p>
       <p>Arrows indicate import relationships. Hover over nodes to see file paths.</p>
       <p>Components are color-coded by directory.</p>
-      
+
       <div class="legend">
         <div class="legend-item">
           <div class="color-box" style="background-color: #97C2FC;"></div>
@@ -264,23 +264,23 @@ async function generateVisualization() {
         </div>
       </div>
     </div>
-    
+
     <div class="controls">
       <button id="zoom-fit">Fit View</button>
       <button id="toggle-physics">Toggle Physics</button>
     </div>
-    
+
     <div id="mynetwork"></div>
-    
+
     <script type="text/javascript">
       // Create a network
       const container = document.getElementById('mynetwork');
-      
+
       const data = {
         nodes: new vis.DataSet(${JSON.stringify(nodes)}),
         edges: new vis.DataSet(${JSON.stringify(edges)})
       };
-      
+
       const options = {
         nodes: {
           shape: 'dot',
@@ -316,20 +316,20 @@ async function generateVisualization() {
           }
         }
       };
-      
+
       const network = new vis.Network(container, data, options);
-      
+
       // Event handlers
       document.getElementById('zoom-fit').addEventListener('click', function() {
         network.fit();
       });
-      
+
       let physicsEnabled = true;
       document.getElementById('toggle-physics').addEventListener('click', function() {
         physicsEnabled = !physicsEnabled;
         network.setOptions({ physics: { enabled: physicsEnabled } });
       });
-      
+
       // Display info when network stabilizes
       network.on("stabilizationIterationsDone", function () {
         console.log("Stabilization done");

@@ -1,0 +1,1072 @@
+./components/AICaptioning.js
+./components/AIRecommendations.js
+./components/AcademyStore.js
+./components/AcademyZoo.js
+./components/Accessibility.js
+./components/AccessibilityAdvanced.js
+./components/AchievementSharing.js
+./components/AdaptiveLearning.js
+./components/Analytics.js
+./components/AnimationPlayer.jsx
+./components/AriaUtils.js
+./components/Assignments.js
+./components/AuditLog.js
+./components/AuthProvider.jsx
+./components/AvatarBuilder.js
+./components/AvatarBuilder.test.js
+./components/AvatarCreator.js
+./components/BabylonScene.jsx
+./components/BackToTopButton.jsx
+./components/Badges.js
+./components/Calendar.js
+./components/CalmSpace.js
+./components/CalmSpaceGallery.js
+./components/CalmSpaceSimulation.jsx
+./components/Carousel.jsx
+./components/Challenges.js
+./components/CharacterAnimationPlayer.jsx
+./components/ChatModeration.js
+./components/CityBuilderSimulation.jsx
+./components/CityPackModels/ATM.jsx
+./components/CityPackModels/Adjustable Desk.jsx
+./components/CityPackModels/Adventurer.jsx
+./components/CityPackModels/Air Fryer.jsx
+./components/CityPackModels/Air Vent.jsx
+./components/CityPackModels/Air conditioner.jsx
+./components/CityPackModels/Alpaca.jsx
+./components/CityPackModels/Americanfootball Ball.jsx
+./components/CityPackModels/Analog clock.jsx
+./components/CityPackModels/Angle Brush.jsx
+./components/CityPackModels/Animated Woman-nIItLV9nxS.jsx
+./components/CityPackModels/Animated Woman-qJ2gsTUBHL.jsx
+./components/CityPackModels/Animated Woman.jsx
+./components/CityPackModels/Apple Half.jsx
+./components/CityPackModels/Apple.jsx
+./components/CityPackModels/Arch.jsx
+./components/CityPackModels/Avocado Half.jsx
+./components/CityPackModels/Bachelor Dresser.jsx
+./components/CityPackModels/Backpack.jsx
+./components/CityPackModels/Bacon.jsx
+./components/CityPackModels/Bag Flat.jsx
+./components/CityPackModels/Bag.jsx
+./components/CityPackModels/Bamboo.jsx
+./components/CityPackModels/Banana.jsx
+./components/CityPackModels/Banksia.jsx
+./components/CityPackModels/Bar Stool.jsx
+./components/CityPackModels/Barbell.jsx
+./components/CityPackModels/Barn.jsx
+./components/CityPackModels/Barrel.jsx
+./components/CityPackModels/Barstool.jsx
+./components/CityPackModels/Baseball Bat.jsx
+./components/CityPackModels/Baseball cap.jsx
+./components/CityPackModels/Basket Ball.jsx
+./components/CityPackModels/Bass Speakers.jsx
+./components/CityPackModels/Bass.jsx
+./components/CityPackModels/Bathroom Sink.jsx
+./components/CityPackModels/Bathroom Toilet Paper.jsx
+./components/CityPackModels/Bedside Lamp.jsx
+./components/CityPackModels/Beet.jsx
+./components/CityPackModels/Bench.jsx
+./components/CityPackModels/Bicycle.jsx
+./components/CityPackModels/Big Building.jsx
+./components/CityPackModels/Bilby.jsx
+./components/CityPackModels/Billboard.jsx
+./components/CityPackModels/Binder.jsx
+./components/CityPackModels/Bins.jsx
+./components/CityPackModels/Bird House.jsx
+./components/CityPackModels/Blank Picture Frame.jsx
+./components/CityPackModels/Blender.jsx
+./components/CityPackModels/Bonsai.jsx
+./components/CityPackModels/Book Stack.jsx
+./components/CityPackModels/Bottle Ketchup.jsx
+./components/CityPackModels/Bottle Musterd.jsx
+./components/CityPackModels/Bottle.jsx
+./components/CityPackModels/Bowl Broth.jsx
+./components/CityPackModels/Bowl Cereal.jsx
+./components/CityPackModels/Bowl Soup.jsx
+./components/CityPackModels/Bowl.jsx
+./components/CityPackModels/Box.jsx
+./components/CityPackModels/Boxing Gloves.jsx
+./components/CityPackModels/Bread.jsx
+./components/CityPackModels/Bridge.jsx
+./components/CityPackModels/Briefcase.jsx
+./components/CityPackModels/Broccoli.jsx
+./components/CityPackModels/Broom.jsx
+./components/CityPackModels/Brown Building.jsx
+./components/CityPackModels/Building Green.jsx
+./components/CityPackModels/Building Red Corner.jsx
+./components/CityPackModels/Building Red.jsx
+./components/CityPackModels/Bull.jsx
+./components/CityPackModels/Bunk Bed.jsx
+./components/CityPackModels/Burger Cheese.jsx
+./components/CityPackModels/Burger.jsx
+./components/CityPackModels/Bus Stop.jsx
+./components/CityPackModels/Bus stop sign.jsx
+./components/CityPackModels/Bus.jsx
+./components/CityPackModels/Bush with Flowers.jsx
+./components/CityPackModels/Bush.jsx
+./components/CityPackModels/CCTV Camera.jsx
+./components/CityPackModels/Cabbage.jsx
+./components/CityPackModels/Cabin Shed.jsx
+./components/CityPackModels/Cabinet Bed Drawer Tabl.jsx
+./components/CityPackModels/Cabinet.jsx
+./components/CityPackModels/Cake Birthday.jsx
+./components/CityPackModels/Cake Slicer.jsx
+./components/CityPackModels/Cake.jsx
+./components/CityPackModels/Calendar-8GqQAqxi3qk.jsx
+./components/CityPackModels/Calendar.jsx
+./components/CityPackModels/Can Fridge.jsx
+./components/CityPackModels/Can Open.jsx
+./components/CityPackModels/Can Small.jsx
+./components/CityPackModels/Can.jsx
+./components/CityPackModels/Candy Bar Wrapper.jsx
+./components/CityPackModels/Capsicum.jsx
+./components/CityPackModels/Car-unqqkULtRU.jsx
+./components/CityPackModels/Car.jsx
+./components/CityPackModels/Cardboard Box.jsx
+./components/CityPackModels/Cardboard Boxes-pMdXdrUHvX.jsx
+./components/CityPackModels/Cardboard Boxes.jsx
+./components/CityPackModels/Carrot.jsx
+./components/CityPackModels/Carton Small.jsx
+./components/CityPackModels/Carton.jsx
+./components/CityPackModels/Cash register.jsx
+./components/CityPackModels/Castle.jsx
+./components/CityPackModels/Cat.jsx
+./components/CityPackModels/Cauliflower.jsx
+./components/CityPackModels/Ceiling Fan.jsx
+./components/CityPackModels/Ceiling Lamp-76VCPcN5C8.jsx
+./components/CityPackModels/Ceiling Lamp-OTJPOdps4p.jsx
+./components/CityPackModels/Ceiling Lamp-Tz2NayqjsK.jsx
+./components/CityPackModels/Ceiling Lamp-zq1Fus3I15.jsx
+./components/CityPackModels/Ceiling Lamp.jsx
+./components/CityPackModels/Ceiling Light.jsx
+./components/CityPackModels/Chair-1MFMOaz3zqe.jsx
+./components/CityPackModels/Chair.jsx
+./components/CityPackModels/Cheese Cut.jsx
+./components/CityPackModels/Cheese Slicer.jsx
+./components/CityPackModels/Cherries.jsx
+./components/CityPackModels/Chiminea.jsx
+./components/CityPackModels/Chinese.jsx
+./components/CityPackModels/Chocolate Wrapper.jsx
+./components/CityPackModels/Chocolate.jsx
+./components/CityPackModels/Chopstick Fancy.jsx
+./components/CityPackModels/Church.jsx
+./components/CityPackModels/Clover-u5SOgBFiut.jsx
+./components/CityPackModels/Clover.jsx
+./components/CityPackModels/Club Arm Chair.jsx
+./components/CityPackModels/Coat Rack.jsx
+./components/CityPackModels/Cocktail.jsx
+./components/CityPackModels/Coconut Half.jsx
+./components/CityPackModels/Coffee Cup.jsx
+./components/CityPackModels/Coffee Machine.jsx
+./components/CityPackModels/Coffee Pot.jsx
+./components/CityPackModels/Coffee Table.jsx
+./components/CityPackModels/Coffee bean.jsx
+./components/CityPackModels/Coffee sign.jsx
+./components/CityPackModels/Colored Pencil.jsx
+./components/CityPackModels/Colosseum.jsx
+./components/CityPackModels/Computer Desk.jsx
+./components/CityPackModels/Computer Screen.jsx
+./components/CityPackModels/Computer mouse.jsx
+./components/CityPackModels/Computer.jsx
+./components/CityPackModels/Cone.jsx
+./components/CityPackModels/Cookie Chocolate.jsx
+./components/CityPackModels/Cookie.jsx
+./components/CityPackModels/Cooking Fork.jsx
+./components/CityPackModels/Cooking Knife Chopping.jsx
+./components/CityPackModels/Cooking Knife.jsx
+./components/CityPackModels/Cooking Spatula.jsx
+./components/CityPackModels/Cooking Spoon.jsx
+./components/CityPackModels/Corn Dog.jsx
+./components/CityPackModels/Corn.jsx
+./components/CityPackModels/Cottage.jsx
+./components/CityPackModels/Couch Medium.jsx
+./components/CityPackModels/Couch Small-ZOPP3KzNIk.jsx
+./components/CityPackModels/Couch Small.jsx
+./components/CityPackModels/Couch | Wide.jsx
+./components/CityPackModels/Cow.jsx
+./components/CityPackModels/Croissant.jsx
+./components/CityPackModels/Crushed Soda Can.jsx
+./components/CityPackModels/Cube Cabinet.jsx
+./components/CityPackModels/Cup Tea-M2sVC8jbmi.jsx
+./components/CityPackModels/Cup Tea.jsx
+./components/CityPackModels/Cup of tea.jsx
+./components/CityPackModels/Cup.jsx
+./components/CityPackModels/Cupcake.jsx
+./components/CityPackModels/Curtains Double.jsx
+./components/CityPackModels/Cushions.jsx
+./components/CityPackModels/Cutting Board.jsx
+./components/CityPackModels/Dartboard.jsx
+./components/CityPackModels/Darts.jsx
+./components/CityPackModels/Dead Tree-CD4edbPSGm.jsx
+./components/CityPackModels/Dead Tree-Mcd2zYqyww.jsx
+./components/CityPackModels/Dead Tree-MlmK5488ou.jsx
+./components/CityPackModels/Dead Tree-n8FhMgMldD.jsx
+./components/CityPackModels/Dead Tree.jsx
+./components/CityPackModels/Debris Papers.jsx
+./components/CityPackModels/Deer.jsx
+./components/CityPackModels/Desk Lamp.jsx
+./components/CityPackModels/Desk Toy.jsx
+./components/CityPackModels/Desk-7ban171PzCS.jsx
+./components/CityPackModels/Desk-EtJlOllzbf.jsx
+./components/CityPackModels/Desk-ISpMh81QGq.jsx
+./components/CityPackModels/Desk-V86Go2rlnq.jsx
+./components/CityPackModels/Desk.jsx
+./components/CityPackModels/Dish Washer.jsx
+./components/CityPackModels/Dishwasher.jsx
+./components/CityPackModels/Donkey.jsx
+./components/CityPackModels/Donut Chocolate.jsx
+./components/CityPackModels/Donut Sprinkles.jsx
+./components/CityPackModels/Donut.jsx
+./components/CityPackModels/Doorway Front.jsx
+./components/CityPackModels/Doorway.jsx
+./components/CityPackModels/Double Bed.jsx
+./components/CityPackModels/Double Door Base Cabinet.jsx
+./components/CityPackModels/Double Door Tall Cabinet.jsx
+./components/CityPackModels/Double Door Upper Cabin.jsx
+./components/CityPackModels/Drawers Base Cabinet.jsx
+./components/CityPackModels/Drawers Double Door Bas.jsx
+./components/CityPackModels/Drum Set.jsx
+./components/CityPackModels/Drum stick.jsx
+./components/CityPackModels/Dual Monitors on sit-stand arm.jsx
+./components/CityPackModels/Dumbell.jsx
+./components/CityPackModels/Dumpster.jsx
+./components/CityPackModels/Dunnart.jsx
+./components/CityPackModels/Egg Cooked.jsx
+./components/CityPackModels/Egg Cup.jsx
+./components/CityPackModels/Egg.jsx
+./components/CityPackModels/Eggplant.jsx
+./components/CityPackModels/Electric Guitar Effects Pedal.jsx
+./components/CityPackModels/Electric Oven.jsx
+./components/CityPackModels/Electric guitar.jsx
+./components/CityPackModels/Electrical outlet.jsx
+./components/CityPackModels/Eraser.jsx
+./components/CityPackModels/Espresso Pot.jsx
+./components/CityPackModels/Executive Chair.jsx
+./components/CityPackModels/Executive Desk.jsx
+./components/CityPackModels/Fan Brush.jsx
+./components/CityPackModels/Fan.jsx
+./components/CityPackModels/Fancy Donuts.jsx
+./components/CityPackModels/Fence End.jsx
+./components/CityPackModels/Fence Piece.jsx
+./components/CityPackModels/Fence.jsx
+./components/CityPackModels/Fern.jsx
+./components/CityPackModels/Ferris Wheel.jsx
+./components/CityPackModels/Filbert Brush.jsx
+./components/CityPackModels/File Cabinet.jsx
+./components/CityPackModels/Fire Exit Sign-0ywPpb36cyK.jsx
+./components/CityPackModels/Fire Exit Sign.jsx
+./components/CityPackModels/Fire Exit.jsx
+./components/CityPackModels/Fire Extinguisher.jsx
+./components/CityPackModels/Fire Place.jsx
+./components/CityPackModels/Fire hydrant.jsx
+./components/CityPackModels/Fireplace.jsx
+./components/CityPackModels/Fish Bones.jsx
+./components/CityPackModels/Fish.jsx
+./components/CityPackModels/Floating Shelf.jsx
+./components/CityPackModels/Floor Hole.jsx
+./components/CityPackModels/Floor Lamp.jsx
+./components/CityPackModels/Floor Monitor.jsx
+./components/CityPackModels/Flower Bed-dM9hXXth1I.jsx
+./components/CityPackModels/Flower Bed-eUCvK3Oq9z.jsx
+./components/CityPackModels/Flower Bed-kxvm53IIIU.jsx
+./components/CityPackModels/Flower Bed-wibWtE6p8L.jsx
+./components/CityPackModels/Flower Bed.jsx
+./components/CityPackModels/Flower Group-LqTljN6Wg2.jsx
+./components/CityPackModels/Flower Group.jsx
+./components/CityPackModels/Flower Petal-LqvxG9OBOU.jsx
+./components/CityPackModels/Flower Petal-eVE0j49ux9.jsx
+./components/CityPackModels/Flower Petal-niuBUEJdvM.jsx
+./components/CityPackModels/Flower Petal-tzG4JcqYWs.jsx
+./components/CityPackModels/Flower Petal.jsx
+./components/CityPackModels/Flower Pot-F8zLx6wGG8.jsx
+./components/CityPackModels/Flower Pot-FNqGPLKY0V.jsx
+./components/CityPackModels/Flower Pot-Kgt363WkKd.jsx
+./components/CityPackModels/Flower Pot-k1FsCQTgWu.jsx
+./components/CityPackModels/Flower Pot-oUUQhKrSUL.jsx
+./components/CityPackModels/Flower Pot-u0CrZnpykb.jsx
+./components/CityPackModels/Flower Pot.jsx
+./components/CityPackModels/Flower Single-GvfHo0roi3.jsx
+./components/CityPackModels/Flower Single.jsx
+./components/CityPackModels/Flowers.jsx
+./components/CityPackModels/Flute.jsx
+./components/CityPackModels/Football.jsx
+./components/CityPackModels/Fork.jsx
+./components/CityPackModels/Fortress.jsx
+./components/CityPackModels/Fox.jsx
+./components/CityPackModels/Frappe.jsx
+./components/CityPackModels/Fridge-fpJR5V04e0.jsx
+./components/CityPackModels/Fridge-z8Q30rFW6E.jsx
+./components/CityPackModels/Fridge.jsx
+./components/CityPackModels/Fries.jsx
+./components/CityPackModels/Fruit Bowl.jsx
+./components/CityPackModels/Fry Pan.jsx
+./components/CityPackModels/Frying Pan.jsx
+./components/CityPackModels/Garden Lamp.jsx
+./components/CityPackModels/Gas Stove.jsx
+./components/CityPackModels/Gazebo.jsx
+./components/CityPackModels/Gb Blank.jsx
+./components/CityPackModels/Ginger Bread Cutter.jsx
+./components/CityPackModels/Ginger Bread.jsx
+./components/CityPackModels/Glass Cup.jsx
+./components/CityPackModels/Glass Wine.jsx
+./components/CityPackModels/Glue.jsx
+./components/CityPackModels/Grapes.jsx
+./components/CityPackModels/Grass Wispy-Msr9zx66VU.jsx
+./components/CityPackModels/Grass Wispy.jsx
+./components/CityPackModels/Grass.jsx
+./components/CityPackModels/Greenhouse.jsx
+./components/CityPackModels/Grill.jsx
+./components/CityPackModels/Guitar Amp.jsx
+./components/CityPackModels/Guitar.jsx
+./components/CityPackModels/Gymmat.jsx
+./components/CityPackModels/Hanging Flower Pot.jsx
+./components/CityPackModels/Headphones.jsx
+./components/CityPackModels/Heart Chocolates.jsx
+./components/CityPackModels/Honey.jsx
+./components/CityPackModels/Horse.jsx
+./components/CityPackModels/Hot Dog.jsx
+./components/CityPackModels/Houseplant-IBLX2Jz90O.jsx
+./components/CityPackModels/Houseplant-VtJh4Irl4w.jsx
+./components/CityPackModels/Houseplant-bfLOqIV5uP.jsx
+./components/CityPackModels/Houseplant-e9oRt-Ct6js.jsx
+./components/CityPackModels/Houseplant.jsx
+./components/CityPackModels/Husky.jsx
+./components/CityPackModels/Ice Cream.jsx
+./components/CityPackModels/Japanese Sedge.jsx
+./components/CityPackModels/Keyboard-fOy2zvPJAj-.jsx
+./components/CityPackModels/Keyboard.jsx
+./components/CityPackModels/Kitchen Cabinet Corner.jsx
+./components/CityPackModels/Kitchen Microwave.jsx
+./components/CityPackModels/Kitchen Scale.jsx
+./components/CityPackModels/Kitchen Sink Faucet.jsx
+./components/CityPackModels/Kitchen Stool.jsx
+./components/CityPackModels/Knife Block.jsx
+./components/CityPackModels/Knife.jsx
+./components/CityPackModels/L Shaped Desk.jsx
+./components/CityPackModels/Ladder.jsx
+./components/CityPackModels/Lamp.jsx
+./components/CityPackModels/Laptop bag.jsx
+./components/CityPackModels/Large Book Shelf.jsx
+./components/CityPackModels/Large Wardrobe.jsx
+./components/CityPackModels/Leek.jsx
+./components/CityPackModels/Lemon Half.jsx
+./components/CityPackModels/Lemon.jsx
+./components/CityPackModels/Light Cube.jsx
+./components/CityPackModels/Light Desk.jsx
+./components/CityPackModels/Light Floor.jsx
+./components/CityPackModels/Light Icosahedron.jsx
+./components/CityPackModels/Light Switch.jsx
+./components/CityPackModels/Lingerie Dresser.jsx
+./components/CityPackModels/Loaf Baguette.jsx
+./components/CityPackModels/Loaf Round.jsx
+./components/CityPackModels/Loaf.jsx
+./components/CityPackModels/Lollypop.jsx
+./components/CityPackModels/Long-Necked Turtle.jsx
+./components/CityPackModels/Lotion Bottle Small.jsx
+./components/CityPackModels/MS Gundam RX-78-2 with weapons.jsx
+./components/CityPackModels/Magazine.jsx
+./components/CityPackModels/Mailbox.jsx
+./components/CityPackModels/Man.jsx
+./components/CityPackModels/Manhole Cover.jsx
+./components/CityPackModels/Meat Patty.jsx
+./components/CityPackModels/Meat Raw.jsx
+./components/CityPackModels/Meat Ribs.jsx
+./components/CityPackModels/Meat Sausage.jsx
+./components/CityPackModels/Meat Tenderizer.jsx
+./components/CityPackModels/Medium Book Shelf.jsx
+./components/CityPackModels/Medium Wardrobe.jsx
+./components/CityPackModels/Message board.jsx
+./components/CityPackModels/Microphone.jsx
+./components/CityPackModels/Milkjar.jsx
+./components/CityPackModels/Mincemeat Pie.jsx
+./components/CityPackModels/Minimalist Modern Chair.jsx
+./components/CityPackModels/Mirror.jsx
+./components/CityPackModels/Modern Kitchen Table.jsx
+./components/CityPackModels/Monitor.jsx
+./components/CityPackModels/Motorcycle.jsx
+./components/CityPackModels/Mouse.jsx
+./components/CityPackModels/Mousepad.jsx
+./components/CityPackModels/Muffin.jsx
+./components/CityPackModels/Mug With Office Tool.jsx
+./components/CityPackModels/Mug.jsx
+./components/CityPackModels/Mugs.jsx
+./components/CityPackModels/Mushroom Half.jsx
+./components/CityPackModels/Mushroom Laetiporus.jsx
+./components/CityPackModels/Mushroom.jsx
+./components/CityPackModels/Mussel Open.jsx
+./components/CityPackModels/Night Stand.jsx
+./components/CityPackModels/Notebook.jsx
+./components/CityPackModels/Numbat.jsx
+./components/CityPackModels/Office Chair.jsx
+./components/CityPackModels/Office Phone.jsx
+./components/CityPackModels/Onion Half.jsx
+./components/CityPackModels/Onion.jsx
+./components/CityPackModels/Open Backpack.jsx
+./components/CityPackModels/Open Base Cabinet.jsx
+./components/CityPackModels/Orange.jsx
+./components/CityPackModels/Ottoman Coffe Table.jsx
+./components/CityPackModels/Oven Solo.jsx
+./components/CityPackModels/Painting Canvas.jsx
+./components/CityPackModels/Pan Stew.jsx
+./components/CityPackModels/Pan.jsx
+./components/CityPackModels/Pancakes.jsx
+./components/CityPackModels/Parasol.jsx
+./components/CityPackModels/Peanut Butter.jsx
+./components/CityPackModels/Pear Half.jsx
+./components/CityPackModels/Pear.jsx
+./components/CityPackModels/Pebble Round-KYtJ6JNXh2.jsx
+./components/CityPackModels/Pebble Round-icVsN3lmVy.jsx
+./components/CityPackModels/Pebble Round-kAMfq1uJUY.jsx
+./components/CityPackModels/Pebble Round-nMf8LHOsbM.jsx
+./components/CityPackModels/Pebble Round.jsx
+./components/CityPackModels/Pebble Square-2YtLzwgsWp.jsx
+./components/CityPackModels/Pebble Square-6juX57sLHe.jsx
+./components/CityPackModels/Pebble Square-Mm4RMgwNO8.jsx
+./components/CityPackModels/Pebble Square-l5XiYQj1oD.jsx
+./components/CityPackModels/Pebble Square-s71L3q1nXN.jsx
+./components/CityPackModels/Pebble Square.jsx
+./components/CityPackModels/Pencil.jsx
+./components/CityPackModels/Pens.jsx
+./components/CityPackModels/Pepper Mill.jsx
+./components/CityPackModels/Pepper.jsx
+./components/CityPackModels/Phone-1L9oJAw6nY2.jsx
+./components/CityPackModels/Phone.jsx
+./components/CityPackModels/Pickup Truck.jsx
+./components/CityPackModels/Pie.jsx
+./components/CityPackModels/Pillar.jsx
+./components/CityPackModels/Pimelea Suaveolens.jsx
+./components/CityPackModels/Pine-699sFuLCN2.jsx
+./components/CityPackModels/Pine-79gmlLnweB.jsx
+./components/CityPackModels/Pine-Zt62gceKXZ.jsx
+./components/CityPackModels/Pine-rfnxJv0Rqa.jsx
+./components/CityPackModels/Pine.jsx
+./components/CityPackModels/Pineapple.jsx
+./components/CityPackModels/Pizza Box.jsx
+./components/CityPackModels/Pizza Corner.jsx
+./components/CityPackModels/Pizza Cutter.jsx
+./components/CityPackModels/Pizza.jsx
+./components/CityPackModels/Plant - White Pot.jsx
+./components/CityPackModels/Plant Big-MbhbP7JrTI.jsx
+./components/CityPackModels/Plant Big.jsx
+./components/CityPackModels/Plant-xH5gNlQxAZ.jsx
+./components/CityPackModels/Plant.jsx
+./components/CityPackModels/Planter & Bushes.jsx
+./components/CityPackModels/Plastic Cup.jsx
+./components/CityPackModels/Plate.jsx
+./components/CityPackModels/Polaroids.jsx
+./components/CityPackModels/Police Car.jsx
+./components/CityPackModels/Pool Table.jsx
+./components/CityPackModels/Popsicle Chocolate.jsx
+./components/CityPackModels/Popsicle.jsx
+./components/CityPackModels/Pot Stew.jsx
+./components/CityPackModels/Pot.jsx
+./components/CityPackModels/Potted Plant.jsx
+./components/CityPackModels/Power Box.jsx
+./components/CityPackModels/Printer.jsx
+./components/CityPackModels/Protein Powder.jsx
+./components/CityPackModels/Pudding.jsx
+./components/CityPackModels/Pumpkin Basic.jsx
+./components/CityPackModels/Pumpkin.jsx
+./components/CityPackModels/Punching Bag.jsx
+./components/CityPackModels/RB Blank.jsx
+./components/CityPackModels/Radish.jsx
+./components/CityPackModels/Rice Ball.jsx
+./components/CityPackModels/Road Bits.jsx
+./components/CityPackModels/Rock Medium-JQxF95498B.jsx
+./components/CityPackModels/Rock Medium-s1OJ3bBzqc.jsx
+./components/CityPackModels/Rock Medium.jsx
+./components/CityPackModels/Rock Path Round Small-GMttpOEFKT.jsx
+./components/CityPackModels/Rock Path Round Small-yHEdadj5I0.jsx
+./components/CityPackModels/Rock Path Round Small.jsx
+./components/CityPackModels/Rock Path Round Thin.jsx
+./components/CityPackModels/Rock Path Round Wide.jsx
+./components/CityPackModels/Rock Path Square Smal-cI9XBpVijV.jsx
+./components/CityPackModels/Rock Path Square Smal-w4TKZMjjcw.jsx
+./components/CityPackModels/Rock Path Square Smal.jsx
+./components/CityPackModels/Rock Path Square Thin.jsx
+./components/CityPackModels/Rock Path Square Wide.jsx
+./components/CityPackModels/Rock band poster.jsx
+./components/CityPackModels/Rock-UkxWNmiFFj.jsx
+./components/CityPackModels/Rock-exqqSHbNeN.jsx
+./components/CityPackModels/Rock-fM90QFMNtS.jsx
+./components/CityPackModels/Rock-p5J3xclZRY.jsx
+./components/CityPackModels/Rock.jsx
+./components/CityPackModels/Rolling Pin.jsx
+./components/CityPackModels/Roof Exit.jsx
+./components/CityPackModels/Round Brush.jsx
+./components/CityPackModels/Round Rug.jsx
+./components/CityPackModels/Rounded Coffee Table.jsx
+./components/CityPackModels/Rubik's cube.jsx
+./components/CityPackModels/Rug Round.jsx
+./components/CityPackModels/Rug.jsx
+./components/CityPackModels/SUV.jsx
+./components/CityPackModels/Salad.jsx
+./components/CityPackModels/Sandwich.jsx
+./components/CityPackModels/Sauce Pan.jsx
+./components/CityPackModels/Sausage.jsx
+./components/CityPackModels/Scissors.jsx
+./components/CityPackModels/Shaker Salt.jsx
+./components/CityPackModels/Shelf Small.jsx
+./components/CityPackModels/Shelf.jsx
+./components/CityPackModels/Shiba Inu.jsx
+./components/CityPackModels/Side table.jsx
+./components/CityPackModels/Single Bed.jsx
+./components/CityPackModels/Single Door Base Cabinet-DKfKjxQyWX.jsx
+./components/CityPackModels/Single Door Base Cabinet.jsx
+./components/CityPackModels/Single Door Tall Cabine.jsx
+./components/CityPackModels/Single Door Upper Cabinet.jsx
+./components/CityPackModels/Sink Kitchen Cabinet.jsx
+./components/CityPackModels/Skateboard.jsx
+./components/CityPackModels/Skewer Vegetables.jsx
+./components/CityPackModels/Sleepbed.jsx
+./components/CityPackModels/Small Bookshelf.jsx
+./components/CityPackModels/Small Stack of Paper.jsx
+./components/CityPackModels/Small Wardrobe.jsx
+./components/CityPackModels/Soda Can Crushed.jsx
+./components/CityPackModels/Soda Can.jsx
+./components/CityPackModels/Soda Glass.jsx
+./components/CityPackModels/Soda.jsx
+./components/CityPackModels/Soy.jsx
+./components/CityPackModels/Speaker-7EmeFe3O7GQ.jsx
+./components/CityPackModels/Speaker.jsx
+./components/CityPackModels/Speakers.jsx
+./components/CityPackModels/Spoon.jsx
+./components/CityPackModels/Sports Car-Gzj704DXdr.jsx
+./components/CityPackModels/Sports Car.jsx
+./components/CityPackModels/Stag.jsx
+./components/CityPackModels/Standing Desk.jsx
+./components/CityPackModels/Stapler.jsx
+./components/CityPackModels/Statue-0Mkdl3SJDT.jsx
+./components/CityPackModels/Statue-JXmywADgSk.jsx
+./components/CityPackModels/Statue-NZo0rzQExF.jsx
+./components/CityPackModels/Statue-OoxOKtoXsO.jsx
+./components/CityPackModels/Statue-VerAznL5lK.jsx
+./components/CityPackModels/Statue-YMO2Qq75Nh.jsx
+./components/CityPackModels/Statue-gieXYyUTYr.jsx
+./components/CityPackModels/Statue.jsx
+./components/CityPackModels/Steamer.jsx
+./components/CityPackModels/Steel Sink Kitchen Cabinet.jsx
+./components/CityPackModels/Stereo Electric Guitar Effects.jsx
+./components/CityPackModels/Sticky Notes.jsx
+./components/CityPackModels/Stop sign.jsx
+./components/CityPackModels/Storage Crate.jsx
+./components/CityPackModels/Strawberry.jsx
+./components/CityPackModels/Styrofoam Dinner.jsx
+./components/CityPackModels/Styrofoam.jsx
+./components/CityPackModels/Sub.jsx
+./components/CityPackModels/Sundae.jsx
+./components/CityPackModels/Sushi Egg.jsx
+./components/CityPackModels/Sushi Salmon.jsx
+./components/CityPackModels/TIME HOTEL 3.16.jsx
+./components/CityPackModels/TIME HOTEL 3.18.jsx
+./components/CityPackModels/TIME HOTEL 4.06.jsx
+./components/CityPackModels/Table Lamp.jsx
+./components/CityPackModels/Table Large Circular.jsx
+./components/CityPackModels/Table Tennis Paddle.jsx
+./components/CityPackModels/Table tennis table.jsx
+./components/CityPackModels/Table-MuBw2WmVTU.jsx
+./components/CityPackModels/Table-wAaFESADdd.jsx
+./components/CityPackModels/Table.jsx
+./components/CityPackModels/Taco.jsx
+./components/CityPackModels/Tall Grass.jsx
+./components/CityPackModels/Tea Cup.jsx
+./components/CityPackModels/Three Seater Couch.jsx
+./components/CityPackModels/Tissue Box.jsx
+./components/CityPackModels/Toaster.jsx
+./components/CityPackModels/Toilet Paper stack.jsx
+./components/CityPackModels/Toilet.jsx
+./components/CityPackModels/Tomato Slice.jsx
+./components/CityPackModels/Tomato.jsx
+./components/CityPackModels/Top hat.jsx
+./components/CityPackModels/Towel Rack.jsx
+./components/CityPackModels/Traffic Light.jsx
+./components/CityPackModels/Trash Bin.jsx
+./components/CityPackModels/Trash Can.jsx
+./components/CityPackModels/Trashcan Small.jsx
+./components/CityPackModels/Trashcan.jsx
+./components/CityPackModels/Tree-QVOop92WmG.jsx
+./components/CityPackModels/Tree-aVOxaHRPWe.jsx
+./components/CityPackModels/Tree-qZtx0AHhcy.jsx
+./components/CityPackModels/Tree-t9KbsfYdXz.jsx
+./components/CityPackModels/Tree.jsx
+./components/CityPackModels/Triple Sink.jsx
+./components/CityPackModels/Trophy.jsx
+./components/CityPackModels/Turkey.jsx
+./components/CityPackModels/Tv.jsx
+./components/CityPackModels/Two Seater Couch.jsx
+./components/CityPackModels/Utensil Fork.jsx
+./components/CityPackModels/Utensil Knife.jsx
+./components/CityPackModels/Utensil Spoon.jsx
+./components/CityPackModels/Van.jsx
+./components/CityPackModels/Various Stacks of Paper.jsx
+./components/CityPackModels/Vending Machine.jsx
+./components/CityPackModels/Volleyball Ball.jsx
+./components/CityPackModels/Waffle.jsx
+./components/CityPackModels/Wall Art 02.jsx
+./components/CityPackModels/Wall Art 03.jsx
+./components/CityPackModels/Wall Art 05.jsx
+./components/CityPackModels/Wall Art 06-1U5roiXQZAM.jsx
+./components/CityPackModels/Wall Art 06.jsx
+./components/CityPackModels/Wall Shelf.jsx
+./components/CityPackModels/Wash Brush.jsx
+./components/CityPackModels/Washing Line.jsx
+./components/CityPackModels/Water Cooler.jsx
+./components/CityPackModels/Water Fountain.jsx
+./components/CityPackModels/Water bottle.jsx
+./components/CityPackModels/Watermelon.jsx
+./components/CityPackModels/Webcam.jsx
+./components/CityPackModels/Whipped Cream.jsx
+./components/CityPackModels/Whisk.jsx
+./components/CityPackModels/White Horse.jsx
+./components/CityPackModels/Whiteboard.jsx
+./components/CityPackModels/Whole Ham.jsx
+./components/CityPackModels/Wide Dresser.jsx
+./components/CityPackModels/Window Blinds.jsx
+./components/CityPackModels/Wine Red.jsx
+./components/CityPackModels/Wolf.jsx
+./components/CityPackModels/Wood Kitchen Chair.jsx
+./components/CityPackModels/Wood Kitchen Table.jsx
+./components/CityPackModels/Wooden Arm Chair.jsx
+./components/CityPackModels/Wooden Chair.jsx
+./components/CityPackModels/Wooden Kitchen Sink.jsx
+./components/CityPackModels/Wool Carpet.jsx
+./components/CityPackModels/Yellow Post-it.jsx
+./components/CityPackModels/clipboard.jsx
+./components/CityPackModels/door.jsx
+./components/CityPackModels/trah bag grey.jsx
+./components/ClimbingStairsAnimation.js
+./components/ClubHouse.js
+./components/ClubhouseSimulation.jsx
+./components/Collaboration.js
+./components/ComputerSkillsGame.js
+./components/CubeMapDemo.js
+./components/CurriculumEditor.tsx
+./components/Dashboard.js
+./components/DashboardFilters.tsx
+./components/DashboardWidgets.js
+./components/DataExportImport.js
+./components/DomainTabs.js
+./components/DropdownMenu.jsx
+./components/EducatorDashboard.js
+./components/EducatorDashboard.jsx
+./components/EducatorDashboard.tsx
+./components/EducatorNotes.tsx
+./components/EnvironmentBase.js
+./components/ErrorMessage.js
+./components/ErrorRecovery.js
+./components/ExportReportButton.tsx
+./components/ExternalResources.js
+./components/FeedbackForm.js
+./components/FoodCollectorEnv.js
+./components/Forums.js
+./components/GameLauncher.tsx
+./components/GameModules/CommunicationGame.js
+./components/GameModules/DigitalSkillsGame.js
+./components/GameModules/EmployabilityGame.js
+./components/GameModules/GameManager.jsx
+./components/GameModules/GamePlayground.jsx
+./components/GameModules/LifeSkillsGame.js
+./components/GameModules/LiteracyGame.js
+./components/GameModules/MoneySkillsGame.js
+./components/GameModules/NumeracyGame.js
+./components/GameModules/__tests__/GamePlayground.test.jsx
+./components/GameUnlockManager.ts
+./components/GoalSetting.tsx
+./components/GoalTracker.jsx
+./components/GroupProjects.js
+./components/HealthyKitchenChallenge.js
+./components/Heatmaps.js
+./components/HelpIcon.js
+./components/HelpSupport.js
+./components/Immersive3DCityBuilder.jsx
+./components/Immersive3DLifeSim.jsx
+./components/Immersive3DZoo.jsx
+./components/InputValidation.js
+./components/IntegrationAPI.js
+./components/IslandScene.jsx
+./components/KhanAcademyExercise.jsx
+./components/KhanAcademyResources.jsx
+./components/KitchenSimulation.jsx
+./components/KitchenSimulationOld.jsx
+./components/Layout.jsx
+./components/Leaderboard.js
+./components/LearnerGoalTracker.jsx
+./components/LearnerProgressCard.tsx
+./components/LessonModule.tsx
+./components/LessonStep.tsx
+./components/LifeSimulation.jsx
+./components/LoadingSpinner.js
+./components/Localization.js
+./components/Login.jsx
+./components/LottieAnimation.jsx
+./components/MaxAreaOfIslandAnimation.js
+./components/Messaging.js
+./components/MessagingComponent.js
+./components/MicrosoftSignInButton.jsx
+./components/MiniGames.js
+./components/ModuleBuilder.jsx
+./components/MoodTracking.js
+./components/Navbar.jsx
+./components/Notification.jsx
+./components/Notifications.js
+./components/NutritionLabelDemo.jsx
+./components/NutritionLabelDemo_new.jsx
+./components/OAuthSignIn.jsx
+./components/OfflineCache.js
+./components/Onboarding.js
+./components/PDFPreview.tsx
+./components/PWA.js
+./components/ParentPortal.js
+./components/PeerReview.js
+./components/PlanetModel.jsx
+./components/PredictiveAnalytics.js
+./components/PrintView.tsx
+./components/PrivacyDashboard.js
+./components/Profile.js
+./components/ProgressDashboard.tsx
+./components/ProgressTracker.tsx
+./components/ResourceLibrary.js
+./components/ResultsDashboard.js
+./components/RoleGate.jsx
+./components/SeasonalEvents.js
+./components/SelfAssessment.tsx
+./components/SignLanguageAvatar.js
+./components/SmartScheduling.js
+./components/Spinner.jsx
+./components/StickyNavbar.jsx
+./components/SubjectAnalytics.tsx
+./components/SubjectTabs.tsx
+./components/SupermarketSimulation.jsx
+./components/SupportFlag.tsx
+./components/TokenSystem.js
+./components/Tooltip.jsx
+./components/TransitionAnimation.js
+./components/TwoFactorAuth.js
+./components/UIManager.js
+./components/UnderstandingCheck.tsx
+./components/UserContent.js
+./components/VideoChat.js
+./components/VirtualCurrency.js
+./components/VirtualWorld.js
+./components/WellbeingAI.js
+./components/WidgetApiProxy.js
+./components/WindgapCampusMap.jsx
+./components/WindgapMarketplace.jsx
+./components/Working3DCityBuilder.jsx
+./components/ZooSimulation.jsx
+./components/__tests__/AvatarBuilder.test.js
+./components/__tests__/Dashboard.test.js
+./components/__tests__/DigitalSkillsGame.test.js
+./components/__tests__/MoneySkillsGame.test.js
+./components/__tests__/example.test.js
+./components/curriculum/CurriculumBuilder.jsx
+./components/curriculum/CurriculumBuilder.tsx
+./components/curriculum/CurriculumBuilderEnhanced.tsx
+./components/curriculum/CurriculumBuilderWithBlender.tsx
+./components/curriculum/CurriculumBuilderWithSaveState.jsx
+./components/curriculum/EnhancedCurriculumBuilder.tsx
+./components/curriculum/GoalTrackerWrapper.tsx
+./components/curriculum/ProgressDashboard.tsx
+./components/curriculumTypes.ts
+./components/gameHelpers.js
+./components/services/widget/audiobookshelfWidget.js
+./components/services/widget/audiobookshelfWidgetComponent.js
+./components/services/widget/autobrrWidget.js
+./components/services/widget/autobrrWidgetComponent.js
+./components/services/widget/gamedigWidget.js
+./components/services/widget/gamedigWidgetComponent.js
+./components/services/widget/proxy.js
+./components/types.ts
+./components/ui/Card.jsx
+./components/ui/EducatorDashboard.jsx
+./components/ui/HomePage.jsx
+./components/ui/LearnerDashboard.jsx
+./components/ui/Modal.jsx
+./components/ui/StudentDashboard.jsx
+./components/ui/TrainerDashboard.jsx
+./src/App.jsx
+./src/__tests__/CurriculumBuilderWithSaveState.test.jsx
+./src/__tests__/curriculumStore.test.js
+./src/__tests__/lessonFlow.test.js
+./src/adaptive/AdaptiveCard.jsx
+./src/adaptive/AdaptiveUIContext.jsx
+./src/adaptive/AdaptiveUISystem.jsx
+./src/adaptive/index.js
+./src/adaptive/useComponentAdaptive.js
+./src/ai/AIEngine.js
+./src/analytics/AnalyticsContext.jsx
+./src/analytics/AnalyticsDashboard.jsx
+./src/analytics/AnalyticsService.js
+./src/analytics/AnalyticsVisualizer.jsx
+./src/analytics/LearningModel.js
+./src/analytics/index.js
+./src/analytics/useComponentAnalytics.js
+./src/app/ErrorBoundary.jsx
+./src/app/ProtectedRoute.jsx
+./src/app/Router.tsx
+./src/app/UserContext.tsx
+./src/app/__tests__/normalizeRole.test.js
+./src/app/auth.js
+./src/app/authUtils.js
+./src/app/errorHandling.ts
+./src/app/firestoreClient.js
+./src/app/normalizeRole.js
+./src/app/routing.ts
+./src/app/ui.ts
+./src/audio/SoundManager.js
+./src/audio/SoundManager.ts
+./src/bridges/UnityBridge.js
+./src/components/AIAssistant.jsx
+./src/components/AccessibilitySettings.jsx
+./src/components/AdaptiveLearning.js
+./src/components/AdaptiveMathExercise.jsx
+./src/components/AdminDashboard.jsx
+./src/components/AnalyticsLogger.js
+./src/components/AnalyticsOverview.jsx
+./src/components/AnimatedButton.jsx
+./src/components/AnimatedPlatformerGame.jsx
+./src/components/AppleQualityHomepage.jsx
+./src/components/AssetManager.js
+./src/components/AssignmentSubmission.jsx
+./src/components/AssignmentsManager.jsx
+./src/components/AuthGuard.jsx
+./src/components/AvatarBuilder.jsx
+./src/components/AvatarSystem.js
+./src/components/BlenderCharacterClassroom.jsx
+./src/components/BlenderCharacterGallery.tsx
+./src/components/BlenderModelViewer.jsx
+./src/components/BlenderModelViewer.tsx
+./src/components/CharacterAnimationController.jsx
+./src/components/CharacterGallery.jsx
+./src/components/Characters.js
+./src/components/ConnectFour.jsx
+./src/components/CourseCatalog.jsx
+./src/components/CourseLibrary.jsx
+./src/components/Dashboard.jsx
+./src/components/DashboardHeader.jsx
+./src/components/DashboardRouter.jsx
+./src/components/EnhancedCharacterAnimationController.jsx
+./src/components/ErrorBoundary.jsx
+./src/components/ExecutiveFunctionTools.jsx
+./src/components/ExerciseComponents.tsx
+./src/components/Features.js
+./src/components/GameArcade.jsx
+./src/components/GameModes.jsx
+./src/components/GameStateManager.js
+./src/components/GraphComponents.tsx
+./src/components/Hero.js
+./src/components/Home.jsx
+./src/components/Home3D.jsx
+./src/components/HybridScene.jsx
+./src/components/ImmersiveLesson.jsx
+./src/components/LLNDHomepage.jsx
+./src/components/Leaderboard.jsx
+./src/components/LearningEnvironment.jsx
+./src/components/LearningModeComponents.jsx
+./src/components/LessonPlayer.jsx
+./src/components/LibraryResources.jsx
+./src/components/LiveSessions.jsx
+./src/components/Loader.js
+./src/components/LoadingScreen.jsx
+./src/components/Login.jsx
+./src/components/LoginPage.jsx
+./src/components/MainNavigation.jsx
+./src/components/MathComponents.tsx
+./src/components/MathExerciseWrapper.jsx
+./src/components/MicroInteractions.jsx
+./src/components/ModernBackground.jsx
+./src/components/ModernCard.jsx
+./src/components/ModernComponentsDemo.jsx
+./src/components/ModernInput.jsx
+./src/components/Navbar.jsx
+./src/components/Navigation.jsx
+./src/components/NeuroInterestProfiler.jsx
+./src/components/NeuroLessonContainer.jsx
+./src/components/NeurodivergentLearningSettings.jsx
+./src/components/OptimizedUnityPlayer.jsx
+./src/components/PerformanceDashboard.jsx
+./src/components/PerformanceDashboard/PerformanceDashboard.jsx
+./src/components/PerformanceDashboard/index.jsx
+./src/components/PremiumGameHub.jsx
+./src/components/ProgressReport.jsx
+./src/components/ProgressTracker.jsx
+./src/components/ProgressionManager.js
+./src/components/ProtectedRoute.jsx
+./src/components/ProtectedRoutes.jsx
+./src/components/QnAForum.jsx
+./src/components/QuestBasedLearning.jsx
+./src/components/ResetPasswordPage.jsx
+./src/components/SetupMFAPage.jsx
+./src/components/SimpleCityBuilder.jsx
+./src/components/SocialLoginButtons.jsx
+./src/components/SophisticatedCityBuilder.jsx
+./src/components/SpriteBasedGame.jsx
+./src/components/StudentDashboard.jsx
+./src/components/StudyMaterials.jsx
+./src/components/SubjectTabs.jsx
+./src/components/Tooltip.js
+./src/components/UnauthorizedPage.jsx
+./src/components/UnifiedUIManager.js
+./src/components/Unity3DExperiences.jsx
+./src/components/UnityAnimationBridge.js
+./src/components/UnityAnimationBridgeEnhanced.js
+./src/components/UnityEducationalExperience.jsx
+./src/components/UnityExperienceDemo.jsx
+./src/components/UnityWebGLComponent.jsx
+./src/components/UserProfile.jsx
+./src/components/UserRequests.jsx
+./src/components/VerifyEmailPage.jsx
+./src/components/VirtualCharacters.jsx
+./src/components/VirtualWorld.jsx
+./src/components/WebGLDemoComponent.jsx
+./src/components/WindgapAcademyHomepage.jsx
+./src/components/WindgapCharacterSystem.js
+./src/components/auth/AppleSignInButton.jsx
+./src/components/auth/GoogleSignInButton.jsx
+./src/components/auth/MicrosoftSignInButton.jsx
+./src/components/auth/OAuthSignIn.jsx
+./src/components/auth/ProtectedRoute.jsx
+./src/components/auth/UserProfile.jsx
+./src/components/curriculum/CurriculumBuilderWithSaveState.jsx
+./src/components/demos/LearningPathAutomationDemo.jsx
+./src/components/examples/UnityIntegrationExample.jsx
+./src/components/exercises/AdditionWithinFive.jsx
+./src/components/exercises/BasicMultiplication.jsx
+./src/components/exercises/Exercise.jsx
+./src/components/exercises/SubtractionWithinTen.jsx
+./src/components/exercises/index.js
+./src/components/lessonModules/DigitalLiteracyLesson.jsx
+./src/components/lessonModules/DigitalLiteracyLessonEnhanced.jsx
+./src/components/lessonModules/LanguagePhonicsLesson.jsx
+./src/components/lessonModules/LifeSkillsLesson.jsx
+./src/components/lessonModules/LiteracyReadingLesson.jsx
+./src/components/lessonModules/NumeracyCountingMoneyLesson.jsx
+./src/components/ui/CharacterAnimations.jsx
+./src/components/ui/CommandPalette.jsx
+./src/components/ui/ErrorAlert.jsx
+./src/components/ui/FloatingActionButton.jsx
+./src/components/ui/InteractiveCard.jsx
+./src/components/ui/LivePreview.jsx
+./src/components/ui/LoadingSpinner.jsx
+./src/components/ui/MagneticButton.jsx
+./src/components/ui/MicroInteractions.jsx
+./src/components/ui/PageTransition.jsx
+./src/components/ui/avatar.jsx
+./src/components/ui/badge.jsx
+./src/components/ui/button.jsx
+./src/components/ui/card.jsx
+./src/components/ui/progress.jsx
+./src/components/ui/tabs.jsx
+./src/context/AccessibilityContext.jsx
+./src/context/AuthContext.js
+./src/context/AuthContext.jsx
+./src/context/LearningPreferencesContext.jsx
+./src/contexts/AuthContext.jsx
+./src/contexts/GamificationContext.js
+./src/contexts/GamificationContext.tsx
+./src/contexts/LessonContext.tsx
+./src/core/ErrorHandler.js
+./src/core/GameMechanics.js
+./src/data/curriculum/employment/modules.ts
+./src/data/curriculumCharacters.js
+./src/data/lessons/categories/digitalLiteracy.js
+./src/data/lessons/categories/emotionalRegulation.js
+./src/data/lessons/categories/employmentSkills.js
+./src/data/lessons/categories/lifeSkills.js
+./src/data/lessons/categories/literacyLanguage.js
+./src/data/lessons/categories/numeracy.js
+./src/data/lessons/categories/socialCommunication.js
+./src/data/lessons/lessonContentService.js
+./src/data/lessons/lessonModel.js
+./src/env.js
+./src/examples/AdaptiveQuestBasedMathGame.jsx
+./src/examples/ExampleThreeJsUsage.jsx
+./src/examples/ExerciseExamples.tsx
+./src/examples/GraphExamples.tsx
+./src/examples/ThreeJsExample.jsx
+./src/examples/WebGLUtilitiesExample.js
+./src/exercises/FractionMastery.jsx
+./src/global.d.ts
+./src/hooks/useAIAssistant.js
+./src/hooks/useAnalytics.js
+./src/hooks/useAssessments.js
+./src/hooks/useAuth.js
+./src/hooks/useAuthForm.js
+./src/hooks/useClassManagement.js
+./src/hooks/useGameState.js
+./src/hooks/useLearningAutomation.js
+./src/hooks/useLearningProgress.js
+./src/hooks/useNotifications.js
+./src/lib/firebaseClient.js
+./src/lib/firebaseClient.ts
+./src/main.jsx
+./src/pages/AdaptiveDemoPage.jsx
+./src/pages/AdaptiveMathLearningPage.jsx
+./src/pages/AdaptiveUIDemo.jsx
+./src/pages/AnimationSystemDemo.jsx
+./src/pages/AuthPage.jsx
+./src/pages/AutomationDemo.jsx
+./src/pages/BlenderModelsPage.jsx
+./src/pages/CharacterAnimationDemo.jsx
+./src/pages/DemoLesson.jsx
+./src/pages/EducatorDashboard.jsx
+./src/pages/ExecutiveFunctionDemo.jsx
+./src/pages/HomePage.jsx
+./src/pages/LearnerDashboard.jsx
+./src/pages/LearningModule.jsx
+./src/pages/MathExercisesPage.jsx
+./src/pages/NeurodivergentLearningPage.jsx
+./src/pages/OAuthLoginPage.jsx
+./src/pages/StudentDashboard.jsx
+./src/pages/ThreeJsTestPage.jsx
+./src/pages/TrainerDashboard.jsx
+./src/pages/UnauthorizedPage.jsx
+./src/pages/UnityExamplePage.jsx
+./src/pages/UnityLearningDashboard.jsx
+./src/schema/userSchema.js
+./src/services/AIAssistantService.js
+./src/services/CurriculumAI.js
+./src/services/ExperiencesService.js
+./src/services/curriculumAI.js
+./src/simulation/SimulationManager.ts
+./src/stores/automationStore.js
+./src/stores/curriculumStore.js
+./src/stores/index.js
+./src/systems/AnimationSystem.js
+./src/systems/WebGLEffects.js
+./src/test/UnityExperienceDemo.test.jsx
+./src/testing/TestFramework.ts
+./src/tests/LoginPage.test.jsx
+./src/threeJs/CharacterController.js
+./src/threeJs/index.js
+./src/types/declarations.d.ts
+./src/types/globals.d.ts
+./src/ui/Modal.jsx
+./src/unity-integration/UnityBridge.js
+./src/utils/AIEngine.js
+./src/utils/BlenderCharacterLoader.js
+./src/utils/BlenderModelLoader.js
+./src/utils/CharacterAnimator.js
+./src/utils/CharacterAnimator.min.js
+./src/utils/CharacterController.js
+./src/utils/PerfMetrics.js
+./src/utils/ProgressService.js
+./src/utils/WebGLEffects.js
+./src/utils/WebGLEffects.min.js
+./src/utils/WebGLOptimizer.js
+./src/utils/accessibility.js
+./src/utils/appleAuth.js
+./src/utils/authErrorHandler.js
+./src/utils/curriculumLoader.ts
+./src/utils/expressionParser.ts
+./src/utils/googleAuth.js
+./src/utils/legacyStubs.js
+./src/utils/mathUtils.ts
+./src/utils/microsoftAuth.js
+./src/utils/monitoring.js
+./src/utils/oauthImplementation.js
+./src/utils/performance.js
+./src/utils/rbac.js
+./src/utils/unity-mock.js
+./src/utils/userSchema.js

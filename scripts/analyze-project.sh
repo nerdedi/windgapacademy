@@ -48,7 +48,7 @@ if [ -s ./tmp/analysis/duplicate_component_names.txt ]; then
   echo "Found components with the same name in different directories:"
   cat ./tmp/analysis/duplicate_component_names.txt
   echo ""
-  
+
   # Show the locations of these duplicate named components
   while IFS= read -r component; do
     echo "Locations of $component:"
@@ -64,7 +64,7 @@ echo "✓ Duplicate structure analysis saved to ./tmp/analysis/duplicate_compone
 if command -v npx &> /dev/null; then
   print_header "ANALYZING IMPORT COMPLEXITY"
   echo "Checking for circular dependencies (this may take a while)..."
-  
+
   if npx madge --circular ./src > ./tmp/analysis/circular_deps.txt 2>/dev/null; then
     if [ -s ./tmp/analysis/circular_deps.txt ]; then
       echo "Found circular dependencies:"

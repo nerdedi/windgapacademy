@@ -59,25 +59,25 @@ const readdir = promisify(fs.readdir);
 
 async function findLongFunctions(dir, extensions, minLines) {
   const longFunctions = [];
-  
+
   async function processFile(filePath) {
     if (!extensions.includes(path.extname(filePath))) return;
-    
+
     try {
       const content = await readFile(filePath, 'utf8');
       const lines = content.split('\\n');
-      
+
       let functionStartLine = -1;
       let openBraces = 0;
       let functionName = '';
-      
+
       for (let i = 0; i < lines.length; i++) {
         const line = lines[i];
-        
+
         // Very basic function detection - would need a proper parser for accuracy
-        if ((line.includes('function') || line.includes('=>')) && 
-            functionStartLine === -1 && 
-            !line.includes('import') && 
+        if ((line.includes('function') || line.includes('=>')) &&
+            functionStartLine === -1 &&
+            !line.includes('import') &&
             line.includes('{')) {
           functionStartLine = i;
           // Extract function name with a simple regex
@@ -86,11 +86,11 @@ async function findLongFunctions(dir, extensions, minLines) {
           openBraces = 1;
           continue;
         }
-        
+
         if (functionStartLine !== -1) {
           openBraces += (line.match(/{/g) || []).length;
           openBraces -= (line.match(/}/g) || []).length;
-          
+
           if (openBraces === 0) {
             const functionLength = i - functionStartLine + 1;
             if (functionLength >= minLines) {
@@ -111,19 +111,19 @@ async function findLongFunctions(dir, extensions, minLines) {
       console.error(`Error processing ${filePath}:`, err);
     }
   }
-  
+
   async function traverse(currentDir) {
     const entries = await readdir(currentDir, { withFileTypes: true });
-    
+
     for (const entry of entries) {
       const fullPath = path.join(currentDir, entry.name);
-      
+
       // Skip node_modules and other common directories to exclude
-      if (entry.name === 'node_modules' || entry.name === '.git' || 
+      if (entry.name === 'node_modules' || entry.name === '.git' ||
           entry.name === 'build' || entry.name === 'dist') {
         continue;
       }
-      
+
       if (entry.isDirectory()) {
         await traverse(fullPath);
       } else {
@@ -131,7 +131,7 @@ async function findLongFunctions(dir, extensions, minLines) {
       }
     }
   }
-  
+
   await traverse(dir);
   return longFunctions;
 }
@@ -140,10 +140,10 @@ async function main() {
   try {
     const longFunctions = await findLongFunctions('./src', ['.js', '.jsx', '.ts', '.tsx'], 50);
     longFunctions.sort((a, b) => b.length - a.length);
-    
+
     const reportPath = './tmp/code-analysis/long_functions.json';
     await writeFile(reportPath, JSON.stringify(longFunctions, null, 2));
-    
+
     // Print the top 10 longest functions
     console.log(\`Found \${longFunctions.length} functions with more than 50 lines.\`);
     console.log('\\nTop 10 longest functions:');
@@ -177,7 +177,7 @@ cat "$REPORT_DIR/filenames.txt" | sort | uniq -d > "$REPORT_DIR/duplicate_filena
 if [ -s "$REPORT_DIR/duplicate_filenames.txt" ]; then
   echo "Found files with identical names in different directories:"
   cat "$REPORT_DIR/duplicate_filenames.txt"
-  
+
   # Show full paths for duplicate files
   echo ""
   echo "Full paths to these files:"
