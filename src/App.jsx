@@ -1,4 +1,4 @@
-import { Suspense, lazy } from "react";
+import React, { Suspense, lazy } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 
 import { AnalyticsProvider } from "./analytics";
@@ -20,10 +20,12 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import LearnerDashboard from "./components/StudentDashboard";
 
 import AdaptiveDemoPage from "./pages/AdaptiveDemoPage";
+import AdaptiveMathLearningPage from "./pages/AdaptiveMathLearningPage";
 import AIAssistantPage from "./pages/AIAssistantPage";
 import AnimationSystemDemo from "./pages/AnimationSystemDemo";
 import AutomationDemo from "./pages/AutomationDemo.jsx";
 import ExecutiveFunctionDemo from "./pages/ExecutiveFunctionDemo";
+import MathExercisesPage from "./pages/MathExercisesPage";
 import NeurodivergentLearningPage from "./pages/NeurodivergentLearningPage";
 
 import "./styles/accessibility.css";
@@ -155,6 +157,23 @@ function App() {
                   <Route path="/executive-function-demo" element={<ExecutiveFunctionDemo />} />
                   <Route path="/neurodivergent-learning" element={<NeurodivergentLearningPage />} />
                   <Route path="/ai-assistant" element={<AIAssistantPage />} />
+                  <Route path="/exercises/math" element={<MathExercisesPage />} />
+
+                  {/* Adaptive Math Learning Routes */}
+                  <Route path="/math/adaptive-quest" element={<AdaptiveMathLearningPage />} />
+                  <Route
+                    path="/math/adaptive-quest/:conceptId"
+                    element={<AdaptiveMathLearningPage />}
+                  />
+                  <Route
+                    path="/math/fraction-mastery"
+                    element={
+                      <Suspense fallback={<ProfessionalLoader />}>
+                        {/* We're lazy-loading this component since it's just an example */}
+                        {React.createElement(lazy(() => import("./exercises/FractionMastery")))}
+                      </Suspense>
+                    }
+                  />
 
                   {/* Module routes */}
                   <Route

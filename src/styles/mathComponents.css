@@ -1,0 +1,213 @@
+/**
+ * Tailwind CSS styles for math components
+ * This file contains Tailwind utility classes for our math components
+ */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  /* Graph Components */
+  .graph-container {
+    @apply relative bg-white rounded-lg shadow-md overflow-hidden;
+  }
+
+  .graph-container svg {
+    @apply block w-full;
+  }
+
+  .interactive-point {
+    @apply cursor-pointer transition-all duration-300 hover:scale-110;
+  }
+
+  .number-line-container {
+    @apply relative bg-white rounded-lg shadow-sm overflow-hidden my-4;
+  }
+
+  /* Exercise Components */
+  .windgap-exercise {
+    @apply bg-white rounded-xl shadow-lg p-6 my-4;
+  }
+
+  .windgap-exercise-title {
+    @apply text-xl font-bold text-gray-800 mb-4;
+  }
+
+  .windgap-text-input {
+    @apply block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500;
+  }
+
+  .windgap-math-input {
+    @apply block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500;
+  }
+
+  .windgap-math-input.invalid {
+    @apply border-red-500 focus:ring-red-500 focus:border-red-500;
+  }
+
+  .windgap-math-preview {
+    @apply bg-gray-50 p-2 rounded-md border border-gray-200;
+  }
+
+  .windgap-multiple-choice {
+    @apply space-y-3;
+  }
+
+  .windgap-choice-item {
+    @apply flex items-start p-4 border border-gray-300 rounded-lg cursor-pointer transition-all duration-200 hover:bg-blue-50 hover:border-blue-400;
+  }
+
+  .windgap-choice-item.selected {
+    @apply bg-blue-100 border-blue-500;
+  }
+
+  .windgap-choice-item.correct {
+    @apply bg-green-100 border-green-500;
+  }
+
+  .windgap-choice-item.incorrect {
+    @apply bg-red-100 border-red-500;
+  }
+
+  .windgap-choice-marker {
+    @apply flex items-center justify-center w-8 h-8 bg-gray-200 rounded-full mr-3 font-bold;
+  }
+
+  .windgap-choice-item.selected .windgap-choice-marker {
+    @apply bg-blue-500 text-white;
+  }
+
+  .windgap-choice-item.correct .windgap-choice-marker {
+    @apply bg-green-500 text-white;
+  }
+
+  .windgap-choice-item.incorrect .windgap-choice-marker {
+    @apply bg-red-500 text-white;
+  }
+
+  .windgap-fraction-input {
+    @apply flex flex-col items-center;
+  }
+
+  .windgap-fraction-numerator,
+  .windgap-fraction-denominator {
+    @apply w-24 px-3 py-2 border border-gray-300 rounded-md shadow-sm text-center focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500;
+  }
+
+  .windgap-fraction-line {
+    @apply w-24 h-0.5 bg-gray-800 my-1;
+  }
+
+  .windgap-hint-button {
+    @apply flex items-center px-4 py-2 bg-blue-100 text-blue-800 rounded-md hover:bg-blue-200 transition-all duration-200;
+  }
+
+  .windgap-hint-content {
+    @apply mt-2 p-4 bg-blue-50 rounded-md;
+  }
+
+  .windgap-timer-clock {
+    @apply font-mono text-lg font-bold;
+  }
+
+  .windgap-timer-progress {
+    @apply w-full bg-gray-200 rounded-full h-2.5 overflow-hidden;
+  }
+
+  /* Game-inspired components */
+  .windgap-game-card {
+    @apply bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl border-2 border-transparent hover:border-blue-400;
+  }
+
+  .windgap-game-header {
+    @apply bg-gradient-to-r from-blue-500 to-purple-500 p-4 text-white;
+  }
+
+  .windgap-game-body {
+    @apply p-6;
+  }
+
+  .windgap-game-footer {
+    @apply bg-gray-50 p-4 border-t border-gray-200;
+  }
+
+  .windgap-badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  }
+
+  .windgap-badge-success {
+    @apply bg-green-100 text-green-800;
+  }
+
+  .windgap-badge-warning {
+    @apply bg-yellow-100 text-yellow-800;
+  }
+
+  .windgap-badge-info {
+    @apply bg-blue-100 text-blue-800;
+  }
+
+  .windgap-progress-bar {
+    @apply w-full bg-gray-200 rounded-full h-2.5 overflow-hidden;
+  }
+
+  .windgap-progress-bar-value {
+    @apply h-2.5 rounded-full transition-all duration-300 ease-out;
+  }
+
+  .windgap-star {
+    @apply text-2xl text-yellow-400;
+  }
+
+  .windgap-star-empty {
+    @apply text-2xl text-gray-300;
+  }
+}
+
+/* Animation classes */
+@keyframes pulse-subtle {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes pop {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  70% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.animate-pulse-subtle {
+  animation: pulse-subtle 2s infinite;
+}
+
+.animate-pop {
+  animation: pop 0.5s forwards;
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
