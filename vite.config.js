@@ -107,6 +107,10 @@ export default defineConfig(({ mode }) => {
           secure: false,
         },
       },
+      fs: {
+        strict: true,
+        allow: [resolve(__dirname)],
+      },
     },
 
     preview: {
