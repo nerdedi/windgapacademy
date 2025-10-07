@@ -11,7 +11,7 @@ import MathExerciseWrapper from "./MathExerciseWrapper";
 
 // Import Firebase services for storing user progress
 import { arrayUnion, doc, getDoc, updateDoc } from "firebase/firestore";
-import { getFirestore } from "../firebase";
+import { getFirestore } from "../../firebase";
 
 // Concept mastery thresholds
 const MASTERY_LEVELS = {

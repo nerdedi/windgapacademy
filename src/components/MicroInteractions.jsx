@@ -12,15 +12,8 @@
  * - Accessibility-aware animations with reduced motion support
  */
 
-import {
-  motion,
-  useAnimation,
-  AnimatePresence,
-  useMotionValue,
-  useTransform,
-  useSpring,
-} from "framer-motion";
-import React, { createContext, useContext, useState, useCallback, useRef, useEffect } from "react";
+import { AnimatePresence, motion, useAnimation, useMotionValue, useSpring } from "framer-motion";
+import { createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { useMedia } from "react-use";
 
@@ -889,6 +882,9 @@ export const PageTransition = ({ children, preset = "pageTransition", ...props }
     </motion.div>
   );
 };
+
+// Export MicroInteraction component individually
+export const MicroInteraction = Animated;
 
 // Export all components and hooks
 export default {

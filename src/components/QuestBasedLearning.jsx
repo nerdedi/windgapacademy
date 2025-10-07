@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 
 // Import Firebase services
 import { doc, getDoc, updateDoc } from "firebase/firestore";
-import { getFirestore } from "../firebase";
+import { getFirestore } from "../../firebase";
 
 // Quest status enum
 const QUEST_STATUS = {

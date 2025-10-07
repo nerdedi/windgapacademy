@@ -1,22 +1,18 @@
+import { doc, getDoc, serverTimestamp, setDoc, updateDoc } from "firebase/firestore";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import {
   auth,
   createUserWithEmailAndPassword,
-  doc,
   FacebookAuthProvider,
   signOut as firebaseSignOut,
   firestore,
-  getDoc,
   GoogleAuthProvider,
   onAuthStateChanged,
   sendEmailVerification,
-  serverTimestamp,
-  setDoc,
   signInWithEmailAndPassword,
   signInWithPopup,
-  updateDoc,
   updateProfile,
-} from "firebase";
+} from "../../firebase";
 
 // Import auth error handlers
 import { logAuthError, parseFirebaseError, validatePassword } from "../utils/authErrorHandler";

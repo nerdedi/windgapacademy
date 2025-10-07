@@ -49,6 +49,7 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
+export { app }; // Export the app instance
 export const auth = getAuth(app);
 export const firestore = getFirestore(app);
 
@@ -59,6 +60,7 @@ export {
   doc,
   getDoc,
   getDocs,
+  getFirestore,
   query,
   serverTimestamp,
   setDoc,
@@ -68,23 +70,23 @@ export {
 
 // Export auth functions with consistent naming - use proper function name
 export {
-  signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
-  signOut,
+  EmailAuthProvider,
+  FacebookAuthProvider,
+  GoogleAuthProvider,
+  multiFactor,
   onAuthStateChanged,
+  PhoneAuthProvider,
+  PhoneMultiFactorGenerator,
+  reauthenticateWithCredential,
+  sendEmailVerification,
   sendPasswordResetEmail,
-  updateProfile,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  signOut,
   updateEmail,
   updatePassword,
-  reauthenticateWithCredential,
-  EmailAuthProvider,
-  sendEmailVerification,
-  signInWithPopup,
-  GoogleAuthProvider,
-  FacebookAuthProvider,
-  PhoneAuthProvider,
-  multiFactor,
-  PhoneMultiFactorGenerator,
+  updateProfile,
 };
 
 // Utility functions

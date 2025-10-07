@@ -11,7 +11,7 @@ import AdaptiveMathExercise from "../components/AdaptiveMathExercise";
 import QuestBasedLearning from "../components/QuestBasedLearning";
 
 // Import Firebase services
-import { auth } from "../firebase";
+import { auth } from "../../firebase";
 
 /**
  * Generate exercises based on concept and difficulty

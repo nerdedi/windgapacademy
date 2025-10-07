@@ -8,45 +8,45 @@ echo
 
 echo "=== Disabling unused Unity and development extensions ==="
 # Disable Unity-related extensions
-code --disable-extension amlovey.shaderlabvscodefree
-code --disable-extension blennster.unity-code-snippets-improved
-code --disable-extension coldthunder11.unity-quick-docs
-code --disable-extension fabriciohod.unity-dev-pack
-code --disable-extension jorgeserrano.vscode-csharp-snippets
-code --disable-extension kleber-swf.unity-code-snippets
-code --disable-extension litefeel.shaderlabformatter
-code --disable-extension newyellow.unity-shader-formatter
-code --disable-extension pradeeppurigoswami.unity-code
-code --disable-extension ptd.vscode-unitymeta
-code --disable-extension shinganeuler.vscode-unity-debug
-code --disable-extension slevesque.shader
-code --disable-extension tobiah.unity-tools
-code --disable-extension unity.unity-debug
-code --disable-extension visualstudiotoolsforunity.vstuc
-code --disable-extension walkme.games-dev-extension-pack
-code --disable-extension yclepticstudios.unity-snippets
-code --disable-extension jacqueslucke.blender-development
+code --disable-extension amlovey.shaderlabvscodefree --remote cli
+code --disable-extension blennster.unity-code-snippets-improved --remote cli
+code --disable-extension coldthunder11.unity-quick-docs --remote cli
+code --disable-extension fabriciohod.unity-dev-pack --remote cli
+code --disable-extension jorgeserrano.vscode-csharp-snippets --remote cli
+code --disable-extension kleber-swf.unity-code-snippets --remote cli
+code --disable-extension litefeel.shaderlabformatter --remote cli
+code --disable-extension newyellow.unity-shader-formatter --remote cli
+code --disable-extension pradeeppurigoswami.unity-code --remote cli
+code --disable-extension ptd.vscode-unitymeta --remote cli
+code --disable-extension shinganeuler.vscode-unity-debug --remote cli
+code --disable-extension slevesque.shader --remote cli
+code --disable-extension tobiah.unity-tools --remote cli
+code --disable-extension unity.unity-debug --remote cli
+code --disable-extension visualstudiotoolsforunity.vstuc --remote cli
+code --disable-extension walkme.games-dev-extension-pack --remote cli
+code --disable-extension yclepticstudios.unity-snippets --remote cli
+code --disable-extension jacqueslucke.blender-development --remote cli
 
 # Disable unused language servers and extensions
-code --disable-extension ms-dotnettools.csdevkit
-code --disable-extension ms-dotnettools.csharp
-code --disable-extension ms-dotnettools.vscode-dotnet-runtime
-code --disable-extension ms-vscode.cpptools-extension-pack
-code --disable-extension ms-vscode.cpptools-themes
-code --disable-extension ms-vscode.cpptools
-code --disable-extension ms-vscode.makefile-tools
-code --disable-extension ms-vscode.powershell
-code --disable-extension redhat.java
-code --disable-extension vscjava.vscode-gradle
-code --disable-extension vscjava.vscode-java-debug
-code --disable-extension vscjava.vscode-java-dependency
-code --disable-extension vscjava.vscode-java-pack
-code --disable-extension vscjava.vscode-java-test
-code --disable-extension vscjava.vscode-maven
-code --disable-extension rust-lang.rust-analyzer
-code --disable-extension bmewburn.vscode-intelephense-client
-code --disable-extension xdebug.php-debug
-code --disable-extension wholroyd.jinja
+code --disable-extension ms-dotnettools.csdevkit --remote cli
+code --disable-extension ms-dotnettools.csharp --remote cli
+code --disable-extension ms-dotnettools.vscode-dotnet-runtime --remote cli
+code --disable-extension ms-vscode.cpptools-extension-pack --remote cli
+code --disable-extension ms-vscode.cpptools-themes --remote cli
+code --disable-extension ms-vscode.cpptools --remote cli
+code --disable-extension ms-vscode.makefile-tools --remote cli
+code --disable-extension ms-vscode.powershell --remote cli
+code --disable-extension redhat.java --remote cli
+code --disable-extension vscjava.vscode-gradle --remote cli
+code --disable-extension vscjava.vscode-java-debug --remote cli
+code --disable-extension vscjava.vscode-java-dependency --remote cli
+code --disable-extension vscjava.vscode-java-pack --remote cli
+code --disable-extension vscjava.vscode-java-test --remote cli
+code --disable-extension vscjava.vscode-maven --remote cli
+code --disable-extension rust-lang.rust-analyzer --remote cli
+code --disable-extension bmewburn.vscode-intelephense-client --remote cli
+code --disable-extension xdebug.php-debug --remote cli
+code --disable-extension wholroyd.jinja --remote cli
 
 echo
 

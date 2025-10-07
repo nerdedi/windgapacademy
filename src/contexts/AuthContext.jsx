@@ -1,6 +1,5 @@
-import { onAuthStateChanged } from "firebase/auth";
 import { createContext, useContext, useEffect, useState } from "react";
-import { auth } from "../firebase";
+import { auth, onAuthStateChanged } from "../../firebase";
 import { signInWithApple } from "../utils/appleAuth";
 import { signInWithGoogle } from "../utils/googleAuth";
 import { microsoftAuth } from "../utils/microsoftAuth";
