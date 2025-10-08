@@ -32,15 +32,7 @@ const DIFFICULTY_LEVELS = {
 };
 
 // Knowledge areas for math
-const KNOWLEDGE_AREAS = {
-  NUMBER_SENSE: "number_sense",
-  ARITHMETIC: "arithmetic",
-  FRACTIONS: "fractions",
-  ALGEBRA: "algebra",
-  GEOMETRY: "geometry",
-  STATISTICS: "statistics",
-  PROBLEM_SOLVING: "problem_solving",
-};
+// Removed unused KNOWLEDGE_AREAS constant to fix compile error.
 
 /**
  * Adaptive Math Exercise component with personalized learning path
@@ -82,6 +74,75 @@ export const AdaptiveMathExercise = ({
 
   // On mount, load user profile and generate first exercise
   useEffect(() => {
+    const loadUserProfile = async () => {
+      try {
+        const docSnap = await getDoc(userProgressRef.current);
+
+        if (docSnap.exists()) {
+          setUserProfile(docSnap.data());
+
+          // Check if we have history for this concept
+          const conceptData = docSnap.data().concepts?.[conceptId];
+          if (conceptData) {
+            setMasteryLevel(conceptData.masteryLevel || 0);
+            setWeakAreas(conceptData.weakAreas || []);
+            setStrengths(conceptData.strengths || []);
+
+            // Adjust initial difficulty based on past performance
+            if (conceptData.recommendedDifficulty) {
+              setCurrentDifficulty(conceptData.recommendedDifficulty);
+            }
+
+            // Set exercise type based on mastery
+            if (conceptData.masteryLevel < 0.3) {
+              setExerciseType("remedial");
+            } else if (conceptData.masteryLevel > 0.85) {
+              setExerciseType("challenge");
+            }
+          }
+        } else {
+          // Create new user profile
+          const newProfile = {
+            userId,
+            concepts: {},
+            overallMastery: 0,
+            weakAreas: [],
+            strengths: [],
+          };
+          setUserProfile(newProfile);
+        }
+      } catch (error) {
+        console.error("Error loading user profile:", error);
+      }
+    };
+
+    const generateExercise = () => {
+      if (!exerciseGenerator) return;
+
+      try {
+        // Call the exercise generator with parameters
+        const generatedExercise = exerciseGenerator({
+          difficulty: currentDifficulty,
+          exerciseType,
+          weakAreas,
+          knowledgeArea,
+          previousPerformance: performanceHistory,
+          userProfile,
+        });
+
+        setCurrentExercise(generatedExercise);
+      } catch (error) {
+        console.error("Error generating exercise:", error);
+        // Fallback to a default exercise
+        setCurrentExercise({
+          question: "Something went wrong with exercise generation. Please try again.",
+          answer: null,
+          options: [],
+          type: "error",
+        });
+      }
+    };
+
     if (userId && saveProgress) {
       userProgressRef.current = doc(db, "user_progress", userId);
       loadUserProfile();
@@ -95,52 +156,21 @@ export const AdaptiveMathExercise = ({
     }
 
     generateExercise();
-  }, [userId, conceptId]);
+  }, [
+    userId,
+    conceptId,
+    db,
+    saveProgress,
+    exerciseGenerator,
+    currentDifficulty,
+    exerciseType,
+    weakAreas,
+    knowledgeArea,
+    performanceHistory,
+    userProfile,
+  ]);
 
-  /**
-   * Load user profile from Firestore
-   */
-  const loadUserProfile = async () => {
-    try {
-      const docSnap = await getDoc(userProgressRef.current);
-
-      if (docSnap.exists()) {
-        setUserProfile(docSnap.data());
-
-        // Check if we have history for this concept
-        const conceptData = docSnap.data().concepts?.[conceptId];
-        if (conceptData) {
-          setMasteryLevel(conceptData.masteryLevel || 0);
-          setWeakAreas(conceptData.weakAreas || []);
-          setStrengths(conceptData.strengths || []);
-
-          // Adjust initial difficulty based on past performance
-          if (conceptData.recommendedDifficulty) {
-            setCurrentDifficulty(conceptData.recommendedDifficulty);
-          }
-
-          // Set exercise type based on mastery
-          if (conceptData.masteryLevel < 0.3) {
-            setExerciseType("remedial");
-          } else if (conceptData.masteryLevel > 0.85) {
-            setExerciseType("challenge");
-          }
-        }
-      } else {
-        // Create new user profile
-        const newProfile = {
-          userId,
-          concepts: {},
-          overallMastery: 0,
-          weakAreas: [],
-          strengths: [],
-        };
-        setUserProfile(newProfile);
-      }
-    } catch (error) {
-      console.error("Error loading user profile:", error);
-    }
-  };
+  // Removed duplicate generateExercise function declaration to fix redeclaration error.
 
   /**
    * Generate a new exercise based on current state
@@ -446,7 +476,7 @@ export const AdaptiveMathExercise = ({
         masteryLevel: finalMastery,
         masteryLabel: getMasteryLevelLabel(finalMastery),
         history,
-        recommendedNextSteps: generateNextSteps(finalMastery, updatedWeakAreas),
+        recommendedNextSteps: generateNextSteps(finalMastery),
         passed: finalMastery >= targetMastery,
         weakAreas: updatedWeakAreas,
         strengths: updatedStrengths,
@@ -492,7 +522,7 @@ export const AdaptiveMathExercise = ({
   /**
    * Generate recommended next steps based on performance
    */
-  const generateNextSteps = (mastery, weakAreas) => {
+  const generateNextSteps = (mastery) => {
     if (mastery >= 0.9) {
       return [
         "Move on to more advanced concepts",
@@ -511,13 +541,12 @@ export const AdaptiveMathExercise = ({
         "Review the fundamental rules",
         "Try a different approach to this concept",
       ];
-    } else {
-      return [
-        "Focus on building foundational skills first",
-        "Watch tutorial videos on this concept",
-        "Practice with simpler problems before advancing",
-      ];
     }
+    return [
+      "Focus on building foundational skills first",
+      "Watch tutorial videos on this concept",
+      "Practice with simpler problems before advancing",
+    ];
   };
 
   // If we don't have an exercise yet, show loading
@@ -585,7 +614,7 @@ export const AdaptiveMathExercise = ({
         <div className="mb-6">
           <h3 className="font-bold text-gray-700 mb-2">Recommended Next Steps</h3>
           <ul className="space-y-2">
-            {generateNextSteps(masteryLevel, weakAreas).map((step, index) => (
+            {generateNextSteps(masteryLevel).map((step, index) => (
               <li key={index} className="flex items-start">
                 <span className="mr-2 text-blue-500">•</span>
                 <span>{step}</span>

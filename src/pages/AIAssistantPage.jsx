@@ -35,7 +35,7 @@ const AIAssistantPage = () => {
     try {
       const aiResponse = await getAIResponse(inputText);
       setResponse(aiResponse);
-    } catch (error) {
+    } catch {
       toast({
         title: "Error",
         description: "Failed to get AI response. Please try again.",

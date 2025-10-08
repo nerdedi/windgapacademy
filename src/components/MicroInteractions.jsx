@@ -13,7 +13,15 @@
  */
 
 import { AnimatePresence, motion, useAnimation, useMotionValue, useSpring } from "framer-motion";
-import { createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+  useMemo,
+} from "react";
 import { useInView } from "react-intersection-observer";
 import { useMedia } from "react-use";
 
@@ -351,10 +359,7 @@ export const MicroInteractionsProvider = ({ children, initialTheme = "default" }
   );
 
   // Create and manage animation sequences
-  const createSequence = useCallback((sequenceId) => {
-    // Create a unique id if not provided
-    const id = sequenceId || `sequence-${Date.now()}-${Math.floor(Math.random() * 10000)}`;
-
+  const createSequence = useCallback(() => {
     // Create a new sequence controller
     const controls = {
       animations: [],
@@ -481,14 +486,14 @@ export const Animated = ({
     threshold,
   });
 
-  // Get animation properties from preset
-  const animationProps = preset ? getPreset(preset) : {};
-
-  // Merge with custom animation properties
-  const mergedAnimation = {
-    ...animationProps,
-    ...customAnimation,
-  };
+  // Merge with custom animation properties, memoized for stable reference
+  const mergedAnimation = useMemo(() => {
+    const animationProps = preset ? getPreset(preset) : {};
+    return {
+      ...animationProps,
+      ...customAnimation,
+    };
+  }, [preset, getPreset, customAnimation]);
 
   // Trigger animation when component comes into view
   useEffect(() => {

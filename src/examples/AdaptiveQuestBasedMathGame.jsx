@@ -17,7 +17,7 @@ import { auth } from "../../firebase";
  * Generate exercises based on concept and difficulty
  * In a real app, this would be more sophisticated
  */
-const generateMathExercise = ({ difficulty, exerciseType, weakAreas, knowledgeArea }) => {
+const generateMathExercise = ({ difficulty, knowledgeArea }) => {
   // Generate appropriate exercise based on inputs
   switch (knowledgeArea) {
     case "addition":
@@ -319,7 +319,7 @@ const generateFractionExercise = (difficulty) => {
   let question, answer, hint;
 
   switch (difficulty) {
-    case "very_easy":
+    case "very_easy": {
       // Simple fraction identification
       const denominator = Math.floor(Math.random() * 5) + 2;
       const numerator = Math.floor(Math.random() * denominator) + 1;
@@ -327,7 +327,8 @@ const generateFractionExercise = (difficulty) => {
       answer = `${numerator}/${denominator}`;
       hint = "Count the total number of parts and how many are shaded.";
       break;
-    case "easy":
+    }
+    case "easy": {
       // Simple fraction addition with same denominator
       const denom = Math.floor(Math.random() * 8) + 2;
       const num1 = Math.floor(Math.random() * (denom - 1)) + 1;
@@ -336,7 +337,8 @@ const generateFractionExercise = (difficulty) => {
       answer = `${num1 + num2}/${denom}`;
       hint = "When adding fractions with the same denominator, just add the numerators.";
       break;
-    case "medium":
+    }
+    case "medium": {
       // Comparing fractions
       const denom1 = Math.floor(Math.random() * 6) + 2;
       const denom2 = Math.floor(Math.random() * 6) + 2;
@@ -348,7 +350,8 @@ const generateFractionExercise = (difficulty) => {
       answer = frac1 > frac2 ? `${num_1}/${denom1}` : `${num_2}/${denom2}`;
       hint = "Find a common denominator or convert to decimal to compare.";
       break;
-    case "hard":
+    }
+    case "hard": {
       // Mixed number addition
       const whole1 = Math.floor(Math.random() * 5) + 1;
       const whole2 = Math.floor(Math.random() * 3) + 1;
@@ -365,7 +368,8 @@ const generateFractionExercise = (difficulty) => {
       answer = resultNum === 0 ? `${resultWhole}` : `${resultWhole} ${resultNum}/${den}`;
       hint = "Convert mixed numbers to improper fractions, then add and simplify.";
       break;
-    case "very_hard":
+    }
+    case "very_hard": {
       // Fraction multiplication
       const d1 = Math.floor(Math.random() * 10) + 2;
       const d2 = Math.floor(Math.random() * 10) + 2;
@@ -388,10 +392,12 @@ const generateFractionExercise = (difficulty) => {
       answer = `${resultNumerator}/${resultDenominator}`;
       hint = "Multiply the numerators together and the denominators together, then simplify.";
       break;
-    default:
+    }
+    default: {
       question = "What is 1/4 + 1/4?";
       answer = "1/2";
       hint = "Add the numerators when the denominators are the same.";
+    }
   }
 
   return {
@@ -423,15 +429,18 @@ const generateFractionExercise = (difficulty) => {
  */
 const AdaptiveQuestBasedMathGame = () => {
   const [userId, setUserId] = useState(null);
-  const [worldId, setWorldId] = useState("math_kingdom");
+  // Using _setWorldId naming to indicate it's intentionally unused
+  const [worldId, _setWorldId] = useState("math_kingdom");
   const [activeQuestId, setActiveQuestId] = useState(null);
-  const [exerciseGenerator, setExerciseGenerator] = useState(() => generateMathExercise);
+  // Using _setExerciseGenerator naming to indicate it's intentionally unused
+  const [exerciseGenerator, _setExerciseGenerator] = useState(() => generateMathExercise);
   const [showingAdaptiveExercise, setShowingAdaptiveExercise] = useState(false);
   const [currentConcept, setCurrentConcept] = useState(null);
   const [currentQuestData, setCurrentQuestData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  const navigate = useNavigate();
+  // Using _navigate naming to indicate it's intentionally unused
+  const _navigate = useNavigate();
   const { conceptId } = useParams();
 
   // On mount, check auth and concept
