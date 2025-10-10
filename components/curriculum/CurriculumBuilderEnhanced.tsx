@@ -5,13 +5,15 @@
  * accessibility features, and AI-powered curriculum generation.
  *
  * Portions of this file were generated with the assistance of Anthropic Claude (https://www.anthropic.com/)
- *
- * TODO: Fix Chakra UI imports by installing proper packages:
- * npm install @chakra-ui/react @chakra-ui/icons @emotion/react @emotion/styled framer-motion
  */
 
 // React imports
 import React, { useCallback, useEffect, useMemo, useState } from "react";
+
+// Chakra UI imports - using separate imports for better compatibility
+import * as ChakraIcons from "@chakra-ui/icons";
+import * as Chakra from "@chakra-ui/react";
+import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 
 // TypeScript interfaces for our mocked dependencies
 // Commented out as it's not currently used but kept for future reference
@@ -62,18 +64,6 @@ interface GeneratedModule {
     createdAt: string;
   };
 }
-
-// Mock implementations of required modules for standalone functionality
-// These will be replaced with actual imports when dependencies are available
-
-// Mock BlenderModelViewer component - this is commented out as it's unused
-// but kept in comments for future implementation reference
-/*
-const BlenderModelViewer = (props: BlenderModelViewerProps): React.ReactElement | null => {
-  console.log("BlenderModelViewer would render with:", props);
-  return null; // This is just a placeholder
-};
-*/
 
 // Mock UnityAnimationBridge implementation
 const UnityAnimationBridge = (config: AnimationConfig): AnimationBridge => {
@@ -342,160 +332,74 @@ const moduleTemplates: ModuleTemplates = {
   ],
 };
 
+// Define a custom theme with Windgap Academy styling
+const theme = extendTheme({
+  colors: {
+    brand: {
+      50: "#E6F5FF",
+      100: "#CCE5FF",
+      200: "#99CCFF",
+      300: "#66B2FF",
+      400: "#3399FF",
+      500: "#007FFF", // Primary brand color
+      600: "#0066CC",
+      700: "#004D99",
+      800: "#003366",
+      900: "#001A33",
+    },
+    accent: {
+      50: "#F0FFF4",
+      100: "#C6F6D5",
+      200: "#9AE6B4",
+      300: "#68D391",
+      400: "#48BB78",
+      500: "#38A169", // Secondary accent color
+      600: "#2F855A",
+      700: "#276749",
+      800: "#1C4532",
+      900: "#133525",
+    },
+  },
+  fonts: {
+    heading: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+    body: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+  },
+  components: {
+    Button: {
+      baseStyle: {
+        fontWeight: "500",
+        borderRadius: "md",
+      },
+      variants: {
+        primary: {
+          bg: "brand.500",
+          color: "white",
+          _hover: {
+            bg: "brand.600",
+          },
+          _active: {
+            bg: "brand.700",
+          },
+        },
+        secondary: {
+          bg: "gray.200",
+          color: "gray.700",
+          _hover: {
+            bg: "gray.300",
+          },
+          _active: {
+            bg: "gray.400",
+          },
+        },
+      },
+    },
+  },
+});
+
 /**
  * Main enhanced curriculum builder component
  * Creates and manages curriculum modules with AI assistance and 3D character visualization
- *
- * TODO: Update Chakra UI components after installing the required packages
  */
-/**
- * Inline styles to ensure component works without external CSS dependencies
- * These will be replaced with proper Tailwind classes or Chakra UI components later
- */
-const styles: { [key: string]: React.CSSProperties } = {
-  curriculumBuilder: {
-    maxWidth: "1200px",
-    margin: "0 auto",
-    padding: "20px",
-    fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-  },
-  heading: {
-    fontSize: "2rem",
-    marginBottom: "1.5rem",
-    color: "#2D3748",
-    borderBottom: "2px solid #E2E8F0",
-    paddingBottom: "0.5rem",
-  },
-  section: {
-    marginBottom: "2rem",
-    padding: "1.5rem",
-    backgroundColor: "#F7FAFC",
-    borderRadius: "8px",
-    boxShadow: "0 2px 4px rgba(0,0,0,0.05)",
-  },
-  sectionHeading: {
-    fontSize: "1.25rem",
-    marginBottom: "1rem",
-    color: "#4A5568",
-  },
-  formGroup: {
-    marginBottom: "1rem",
-  },
-  label: {
-    display: "block",
-    marginBottom: "0.5rem",
-    fontWeight: "500",
-    color: "#4A5568",
-  },
-  input: {
-    width: "100%",
-    padding: "0.5rem",
-    border: "1px solid #CBD5E0",
-    borderRadius: "4px",
-  },
-  select: {
-    width: "100%",
-    padding: "0.5rem",
-    border: "1px solid #CBD5E0",
-    borderRadius: "4px",
-    backgroundColor: "#fff",
-  },
-  textarea: {
-    width: "100%",
-    padding: "0.5rem",
-    border: "1px solid #CBD5E0",
-    borderRadius: "4px",
-    minHeight: "100px",
-  },
-  characterGrid: {
-    display: "grid",
-    gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
-    gap: "1rem",
-  },
-  characterCard: {
-    padding: "1rem",
-    border: "1px solid #CBD5E0",
-    borderRadius: "8px",
-    cursor: "pointer",
-    transition: "all 0.2s ease",
-  },
-  selectedCard: {
-    borderColor: "#4299E1",
-    boxShadow: "0 0 0 2px #BEE3F8",
-  },
-  traitBadge: {
-    display: "inline-block",
-    padding: "0.25rem 0.5rem",
-    backgroundColor: "#EBF8FF",
-    color: "#2B6CB0",
-    borderRadius: "9999px",
-    fontSize: "0.75rem",
-    marginRight: "0.5rem",
-    marginTop: "0.5rem",
-  },
-  accessibilityBadge: {
-    display: "inline-block",
-    padding: "0.25rem 0.5rem",
-    backgroundColor: "#E9D8FD",
-    color: "#6B46C1",
-    borderRadius: "9999px",
-    fontSize: "0.75rem",
-    marginRight: "0.5rem",
-    marginTop: "0.5rem",
-  },
-  actions: {
-    display: "flex",
-    gap: "1rem",
-    marginTop: "2rem",
-  },
-  primaryButton: {
-    padding: "0.75rem 1.5rem",
-    backgroundColor: "#4299E1",
-    color: "white",
-    border: "none",
-    borderRadius: "4px",
-    cursor: "pointer",
-    fontWeight: "500",
-  },
-  secondaryButton: {
-    padding: "0.75rem 1.5rem",
-    backgroundColor: "#CBD5E0",
-    color: "#2D3748",
-    border: "none",
-    borderRadius: "4px",
-    cursor: "pointer",
-    fontWeight: "500",
-  },
-  disabledButton: {
-    opacity: 0.7,
-    cursor: "not-allowed",
-  },
-  generatedContent: {
-    backgroundColor: "#fff",
-    padding: "1rem",
-    border: "1px solid #E2E8F0",
-    borderRadius: "4px",
-    marginTop: "1rem",
-  },
-  characterPreview: {
-    marginTop: "2rem",
-  },
-  modelContainer: {
-    height: "400px",
-    border: "1px solid #CBD5E0",
-    borderRadius: "4px",
-    backgroundColor: "#F7FAFC",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  modelPlaceholder: {
-    textAlign: "center",
-    color: "#718096",
-    fontSize: "1.25rem",
-  },
-};
-
 export default function CurriculumBuilderEnhanced(): React.ReactElement {
   // Local state with proper TypeScript typing
   const [selectedSubject, setSelectedSubject] = useState<string>("Life Skills");
@@ -514,16 +418,25 @@ export default function CurriculumBuilderEnhanced(): React.ReactElement {
   const { isAnimating } = useAnimationState(); // Only using isAnimating from this hook for now
   const { generationStatus, currentModule, setGenerationStatus, addGeneratedModule } =
     useModuleState();
-  // const { updateStudentProgress } = useProgressState(); // Uncomment when needed
 
-  // Simple toast notification function (replacement for Chakra UI's useToast)
+  // Use Chakra UI's toast
+  const toast = Chakra.useToast();
+
+  // Toast notification function
   const showToast = useCallback(
     (message: string, type: "success" | "error" | "info" = "info"): void => {
       console.log(`[${type.toUpperCase()}] ${message}`);
-      // TODO: Replace with proper toast UI when Chakra UI is available
-      alert(`${type.toUpperCase()}: ${message}`);
+
+      toast({
+        title: type.charAt(0).toUpperCase() + type.slice(1),
+        description: message,
+        status: type,
+        duration: 5000,
+        isClosable: true,
+        position: "top-right",
+      });
     },
-    [],
+    [toast],
   );
 
   // Initialize with first character
@@ -629,6 +542,7 @@ export default function CurriculumBuilderEnhanced(): React.ReactElement {
         // Auto-save if enabled
         if (autoSave) {
           // TODO: Implement auto-save functionality
+          showToast("Module auto-saved", "info");
         }
       }
     } catch (error: unknown) {
@@ -673,230 +587,260 @@ export default function CurriculumBuilderEnhanced(): React.ReactElement {
     showToast("Preview started! Watch the 3D character explain the module.", "info");
   }, [currentModule, selectedCharacter, animationBridge, showToast]);
 
-  // Simplified render with inline styles to avoid Chakra UI errors
+  // Render with Chakra UI components
   return (
-    <div style={styles.curriculumBuilder}>
-      <h1 style={styles.heading}>Enhanced Curriculum Builder</h1>
+    <ChakraProvider theme={theme}>
+      <Chakra.Container maxW="1200px" p={6}>
+        <Chakra.Heading mb={6} pb={2} borderBottomWidth="2px" fontSize="2xl">
+          Enhanced Curriculum Builder
+        </Chakra.Heading>
 
-      {/* Subject Selection */}
-      <div style={styles.section}>
-        <h2 style={styles.sectionHeading}>1. Select Subject</h2>
-        <select
-          style={styles.select}
-          value={selectedSubject}
-          onChange={(e) => handleSubjectChange(e.target.value)}
-        >
-          {Object.keys(moduleTemplates).map((subject) => (
-            <option key={subject} value={subject}>
-              {subject}
-            </option>
-          ))}
-        </select>
-      </div>
-
-      {/* Template Selection */}
-      <div style={styles.section}>
-        <h2 style={styles.sectionHeading}>2. Choose Template or Create Custom</h2>
-        {availableTemplates.length > 0 && (
-          <select
-            style={styles.select}
-            value={selectedTemplate?.title || ""}
-            onChange={(e) => handleTemplateSelect(e.target.value)}
+        {/* Subject Selection */}
+        <Chakra.Box bg="white" p={6} borderRadius="md" boxShadow="sm" mb={6}>
+          <Chakra.Heading as="h2" size="md" mb={4}>
+            1. Select Subject
+          </Chakra.Heading>
+          <Chakra.Select
+            value={selectedSubject}
+            onChange={(e) => handleSubjectChange(e.target.value)}
+            mb={2}
           >
-            <option value="">-- Select Template --</option>
-            {availableTemplates.map((template: ModuleTemplate) => (
-              <option key={template.title} value={template.title}>
-                {template.title} ({template.difficulty}, {template.duration} min)
+            {Object.keys(moduleTemplates).map((subject) => (
+              <option key={subject} value={subject}>
+                {subject}
               </option>
             ))}
-          </select>
-        )}
-      </div>
+          </Chakra.Select>
+        </Chakra.Box>
 
-      {/* Module Details */}
-      <div style={styles.section}>
-        <h2 style={styles.sectionHeading}>3. Module Details</h2>
-
-        <div style={styles.formGroup}>
-          <label style={styles.label}>Title:</label>
-          <input
-            style={styles.input}
-            type="text"
-            value={moduleTitle}
-            onChange={(e) => setModuleTitle(e.target.value)}
-            placeholder="Enter module title"
-          />
-        </div>
-
-        <div style={styles.formGroup}>
-          <label style={styles.label}>Learning Objectives:</label>
-          <textarea
-            style={styles.textarea}
-            value={customObjectives}
-            onChange={(e) => setCustomObjectives(e.target.value)}
-            placeholder="Enter learning objectives (one per line)"
-          />
-        </div>
-
-        <div style={styles.formGroup}>
-          <label style={styles.label}>Duration (minutes):</label>
-          <input
-            style={styles.input}
-            type="number"
-            value={duration}
-            onChange={(e) => setDuration(Number(e.target.value))}
-            min={5}
-            max={120}
-          />
-        </div>
-
-        <div style={styles.formGroup}>
-          <label style={styles.label}>Difficulty:</label>
-          <select
-            style={styles.select}
-            value={difficulty}
-            onChange={(e) => setDifficulty(e.target.value)}
-          >
-            <option value="beginner">Beginner</option>
-            <option value="intermediate">Intermediate</option>
-            <option value="advanced">Advanced</option>
-          </select>
-        </div>
-
-        <div style={styles.formGroup}>
-          <label style={{ ...styles.label, display: "flex", alignItems: "center" }}>
-            <input
-              type="checkbox"
-              checked={enableAccessibility}
-              onChange={(e) => setEnableAccessibility(e.target.checked)}
-              style={{ marginRight: "8px" }}
-            />
-            Enable Accessibility Features
-          </label>
-        </div>
-
-        <div style={styles.formGroup}>
-          <label style={{ ...styles.label, display: "flex", alignItems: "center" }}>
-            <input
-              type="checkbox"
-              checked={autoSave}
-              onChange={(e) => setAutoSave(e.target.checked)}
-              style={{ marginRight: "8px" }}
-            />
-            Auto-save Generated Modules
-          </label>
-        </div>
-      </div>
-
-      {/* Character Selection */}
-      <div style={styles.section}>
-        <h2 style={styles.sectionHeading}>4. Select Character</h2>
-        <div style={styles.characterGrid}>
-          {curriculumCharacters.map((character) => (
-            <div
-              key={character.id}
-              style={{
-                ...styles.characterCard,
-                ...(selectedCharacter?.id === character.id ? styles.selectedCard : {}),
-              }}
-              onClick={() => handleCharacterSelect(character.id)}
+        {/* Template Selection */}
+        <Chakra.Box bg="white" p={6} borderRadius="md" boxShadow="sm" mb={6}>
+          <Chakra.Heading as="h2" size="md" mb={4}>
+            2. Choose Template or Create Custom
+          </Chakra.Heading>
+          {availableTemplates.length > 0 && (
+            <Chakra.Select
+              value={selectedTemplate?.title || ""}
+              onChange={(e) => handleTemplateSelect(e.target.value)}
+              mb={2}
             >
-              <h3 style={{ fontSize: "1.1rem", marginBottom: "0.5rem" }}>{character.name}</h3>
-              <p style={{ color: "#4A5568", marginBottom: "0.75rem" }}>{character.description}</p>
-              <div>
-                {character.traits.map((trait) => (
-                  <span key={trait} style={styles.traitBadge}>
-                    {trait}
-                  </span>
-                ))}
-              </div>
-              {character.accessibilityFeatures && (
-                <div style={{ marginTop: "0.75rem" }}>
-                  {character.accessibilityFeatures.map((feature) => (
-                    <span key={feature} style={styles.accessibilityBadge}>
-                      {feature}
-                    </span>
-                  ))}
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
-      </div>
+              <option value="">-- Select Template --</option>
+              {availableTemplates.map((template: ModuleTemplate) => (
+                <option key={template.title} value={template.title}>
+                  {template.title} ({template.difficulty}, {template.duration} min)
+                </option>
+              ))}
+            </Chakra.Select>
+          )}
+        </Chakra.Box>
 
-      {/* Actions */}
-      <div style={styles.actions}>
-        <button
-          onClick={handleGenerateModule}
-          disabled={generationStatus === "generating"}
-          style={{
-            ...styles.primaryButton,
-            ...(generationStatus === "generating" ? styles.disabledButton : {}),
-          }}
-        >
-          {generationStatus === "generating" ? "Generating..." : "Generate Module"}
-        </button>
+        {/* Module Details */}
+        <Chakra.Box bg="white" p={6} borderRadius="md" boxShadow="sm" mb={6}>
+          <Chakra.Heading as="h2" size="md" mb={4}>
+            3. Module Details
+          </Chakra.Heading>
 
-        <button
-          onClick={handlePreviewModule}
-          disabled={!currentModule || isAnimating}
-          style={{
-            ...styles.secondaryButton,
-            ...(!currentModule || isAnimating ? styles.disabledButton : {}),
-          }}
-        >
-          {isAnimating ? "Animating..." : "Preview with Character"}
-        </button>
+          <Chakra.FormControl mb={4}>
+            <Chakra.FormLabel>Title</Chakra.FormLabel>
+            <Chakra.Input
+              value={moduleTitle}
+              onChange={(e) => setModuleTitle(e.target.value)}
+              placeholder="Enter module title"
+            />
+          </Chakra.FormControl>
 
-        <button
-          onClick={() => setShowCharacterPreview(!showCharacterPreview)}
-          style={styles.secondaryButton}
-        >
-          {showCharacterPreview ? "Hide Character Model" : "Show Character Model"}
-        </button>
-      </div>
+          <Chakra.FormControl mb={4}>
+            <Chakra.FormLabel>Learning Objectives</Chakra.FormLabel>
+            <Chakra.Textarea
+              value={customObjectives}
+              onChange={(e) => setCustomObjectives(e.target.value)}
+              placeholder="Enter learning objectives (one per line)"
+              rows={5}
+            />
+          </Chakra.FormControl>
 
-      {/* Generated Content */}
-      {moduleContent && (
-        <div style={styles.section}>
-          <h2 style={styles.sectionHeading}>Generated Curriculum Module</h2>
-          <div style={styles.generatedContent}>
-            <pre style={{ whiteSpace: "pre-wrap", fontSize: "0.9rem" }}>{moduleContent}</pre>
-          </div>
-        </div>
-      )}
+          <Chakra.FormControl mb={4}>
+            <Chakra.FormLabel>Duration (minutes)</Chakra.FormLabel>
+            <Chakra.NumberInput
+              value={duration}
+              onChange={(valueString) => setDuration(Number(valueString))}
+              min={5}
+              max={120}
+            >
+              <Chakra.NumberInputField />
+              <Chakra.NumberInputStepper>
+                <Chakra.NumberIncrementStepper />
+                <Chakra.NumberDecrementStepper />
+              </Chakra.NumberInputStepper>
+            </Chakra.NumberInput>
+          </Chakra.FormControl>
 
-      {/* 3D Character Preview */}
-      {showCharacterPreview && selectedCharacter && (
-        <div style={styles.characterPreview}>
-          <h2 style={styles.sectionHeading}>Character Preview</h2>
-          <div style={styles.modelContainer}>
-            {/* Using placeholder for 3D renderer until issues fixed */}
-            <div style={styles.modelPlaceholder}>
-              {`3D Model: ${selectedCharacter.model}`}
-              <p style={{ marginTop: "12px", fontSize: "0.9rem" }}>
-                (3D model viewer will be integrated when Blender/Unity components are ready)
-              </p>
-            </div>
-          </div>
-        </div>
-      )}
+          <Chakra.FormControl mb={4}>
+            <Chakra.FormLabel>Difficulty</Chakra.FormLabel>
+            <Chakra.Select value={difficulty} onChange={(e) => setDifficulty(e.target.value)}>
+              <option value="beginner">Beginner</option>
+              <option value="intermediate">Intermediate</option>
+              <option value="advanced">Advanced</option>
+            </Chakra.Select>
+          </Chakra.FormControl>
 
-      {/* Additional settings section */}
-      <div style={styles.section}>
-        <h2 style={styles.sectionHeading}>5. Additional Settings</h2>
-        <p style={{ marginBottom: "1rem", color: "#4A5568" }}>
-          These settings will be implemented in the next version. The current implementation
-          provides a basic framework that can be extended with more features.
-        </p>
-        <ul style={{ listStyleType: "disc", paddingLeft: "1.5rem", color: "#4A5568" }}>
-          <li>Voice narration for accessibility</li>
-          <li>Export to different formats (PDF, DOCX, HTML)</li>
-          <li>Collaboration features</li>
-          <li>Student progress tracking</li>
-          <li>Interactive exercises integration</li>
-        </ul>
-      </div>
-    </div>
+          <Chakra.Stack spacing={4}>
+            <Chakra.Checkbox
+              isChecked={enableAccessibility}
+              onChange={(e) => setEnableAccessibility(e.target.checked)}
+            >
+              Enable Accessibility Features
+            </Chakra.Checkbox>
+
+            <Chakra.Checkbox isChecked={autoSave} onChange={(e) => setAutoSave(e.target.checked)}>
+              Auto-save Generated Modules
+            </Chakra.Checkbox>
+          </Chakra.Stack>
+        </Chakra.Box>
+
+        {/* Character Selection */}
+        <Chakra.Box bg="white" p={6} borderRadius="md" boxShadow="sm" mb={6}>
+          <Chakra.Heading as="h2" size="md" mb={4}>
+            4. Select Character
+          </Chakra.Heading>
+          <Chakra.Grid templateColumns="repeat(auto-fill, minmax(280px, 1fr))" gap={4}>
+            {curriculumCharacters.map((character) => (
+              <Chakra.Card
+                key={character.id}
+                borderWidth={2}
+                borderColor={selectedCharacter?.id === character.id ? "brand.500" : "gray.200"}
+                boxShadow={selectedCharacter?.id === character.id ? "md" : "sm"}
+                onClick={() => handleCharacterSelect(character.id)}
+                cursor="pointer"
+                _hover={{ boxShadow: "md" }}
+              >
+                <Chakra.CardHeader pb={0}>
+                  <Chakra.Heading size="md">{character.name}</Chakra.Heading>
+                </Chakra.CardHeader>
+                <Chakra.CardBody>
+                  <Chakra.Text color="gray.600" mb={3}>
+                    {character.description}
+                  </Chakra.Text>
+
+                  <Chakra.Wrap spacing={2} mb={2}>
+                    {character.traits.map((trait) => (
+                      <Chakra.WrapItem key={trait}>
+                        <Chakra.Badge colorScheme="blue" rounded="full" px={2}>
+                          {trait}
+                        </Chakra.Badge>
+                      </Chakra.WrapItem>
+                    ))}
+                  </Chakra.Wrap>
+
+                  {character.accessibilityFeatures && (
+                    <Chakra.Wrap spacing={2}>
+                      {character.accessibilityFeatures.map((feature) => (
+                        <Chakra.WrapItem key={feature}>
+                          <Chakra.Badge colorScheme="purple" rounded="full" px={2}>
+                            {feature}
+                          </Chakra.Badge>
+                        </Chakra.WrapItem>
+                      ))}
+                    </Chakra.Wrap>
+                  )}
+                </Chakra.CardBody>
+              </Chakra.Card>
+            ))}
+          </Chakra.Grid>
+        </Chakra.Box>
+
+        {/* Actions */}
+        <Chakra.Flex gap={4} mb={6}>
+          <Chakra.Button
+            colorScheme="blue"
+            onClick={handleGenerateModule}
+            isDisabled={generationStatus === "generating"}
+            leftIcon={<ChakraIcons.InfoIcon />}
+            isLoading={generationStatus === "generating"}
+            loadingText="Generating..."
+          >
+            Generate Module
+          </Chakra.Button>
+
+          <Chakra.Button
+            colorScheme="teal"
+            onClick={handlePreviewModule}
+            isDisabled={!currentModule || isAnimating}
+            leftIcon={<ChakraIcons.TimeIcon />}
+            isLoading={isAnimating}
+            loadingText="Animating..."
+          >
+            Preview with Character
+          </Chakra.Button>
+
+          <Chakra.Button
+            colorScheme="gray"
+            onClick={() => setShowCharacterPreview(!showCharacterPreview)}
+            leftIcon={<ChakraIcons.ViewIcon />}
+          >
+            {showCharacterPreview ? "Hide Character Model" : "Show Character Model"}
+          </Chakra.Button>
+        </Chakra.Flex>
+
+        {/* Generated Content */}
+        {moduleContent && (
+          <Chakra.Box bg="white" p={6} borderRadius="md" boxShadow="sm" mb={6}>
+            <Chakra.Heading as="h2" size="md" mb={4}>
+              Generated Curriculum Module
+            </Chakra.Heading>
+            <Chakra.Box borderWidth={1} borderRadius="md" p={4} bg="gray.50">
+              <Chakra.Text whiteSpace="pre-wrap" fontSize="sm" fontFamily="monospace">
+                {moduleContent}
+              </Chakra.Text>
+            </Chakra.Box>
+          </Chakra.Box>
+        )}
+
+        {/* 3D Character Preview */}
+        {showCharacterPreview && selectedCharacter && (
+          <Chakra.Box bg="white" p={6} borderRadius="md" boxShadow="sm" mb={6}>
+            <Chakra.Heading as="h2" size="md" mb={4}>
+              Character Preview
+            </Chakra.Heading>
+            <Chakra.Box
+              height="400px"
+              borderWidth={1}
+              borderRadius="md"
+              bg="gray.50"
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+            >
+              <Chakra.VStack>
+                <Chakra.Text color="gray.500" fontSize="xl">
+                  3D Model: {selectedCharacter.model}
+                </Chakra.Text>
+                <Chakra.Text color="gray.400" fontSize="md" mt={2}>
+                  (3D model viewer will be integrated when Blender/Unity components are ready)
+                </Chakra.Text>
+              </Chakra.VStack>
+            </Chakra.Box>
+          </Chakra.Box>
+        )}
+
+        {/* Additional settings section */}
+        <Chakra.Box bg="white" p={6} borderRadius="md" boxShadow="sm">
+          <Chakra.Heading as="h2" size="md" mb={4}>
+            5. Additional Settings
+          </Chakra.Heading>
+          <Chakra.Text color="gray.600" mb={4}>
+            These settings will be implemented in the next version. The current implementation
+            provides a basic framework that can be extended with more features.
+          </Chakra.Text>
+          <Chakra.List spacing={2} styleType="disc" pl={6} color="gray.600">
+            <Chakra.ListItem>Voice narration for accessibility</Chakra.ListItem>
+            <Chakra.ListItem>Export to different formats (PDF, DOCX, HTML)</Chakra.ListItem>
+            <Chakra.ListItem>Collaboration features</Chakra.ListItem>
+            <Chakra.ListItem>Student progress tracking</Chakra.ListItem>
+            <Chakra.ListItem>Interactive exercises integration</Chakra.ListItem>
+          </Chakra.List>
+        </Chakra.Box>
+      </Chakra.Container>
+    </ChakraProvider>
   );
 }

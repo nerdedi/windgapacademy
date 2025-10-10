@@ -36,22 +36,22 @@ function _syncProgress() {
 }
 
 // Example: Gamification
-function _updateLeaderboard(score) {
+function _updateLeaderboard() {
   // ...leaderboard logic...
 }
 
 // Example: Educator/parent feedback
-function _sendFeedback(feedback) {
+function _sendFeedback() {
   // ...send feedback to server...
 }
 
 // Example: Analytics
-function _logEvent(event) {
+function _logEvent() {
   // ...analytics logic...
 }
 
 // Example: Error boundary
-function safeRun(fn) {
+function _safeRun(fn) {
   try {
     fn();
   } catch (e) {
@@ -80,7 +80,7 @@ if (typeof document !== "undefined") {
 // Feedback on mistakes encourages perseverance
 // All visuals are Australian currency
 
-export function showNumeracyGame(container, userData = {}) {
+export function showNumeracyGame(container) {
   // --- i18n & Language Switching ---
   const i18n = {
     en: {
@@ -112,7 +112,7 @@ export function showNumeracyGame(container, userData = {}) {
     },
   };
   let currentLang = "en";
-  function setLanguage(lang) {
+  function _setLanguage(lang) {
     currentLang = lang;
     document.documentElement.lang = lang;
     document.body.dir = ["ar"].includes(lang) ? "rtl" : "ltr";
@@ -220,8 +220,12 @@ export function showNumeracyGame(container, userData = {}) {
         </div>
         <hr>
         <div>
+          <button id="achievements-btn">Achievements</button>
+          <button id="feedback-btn">Feedback</button>
+          <button id="analytics-btn">Analytics</button>
           <button id="onboarding-btn">Onboarding</button>
           <button id="faq-btn">FAQ</button>
+          <button id="theme-btn">Theme Customization</button>
           <button id="backup-btn">Backup Progress</button>
           <button id="sync-btn">Sync Progress</button>
           <button id="close-settings">Close</button>
@@ -231,10 +235,14 @@ export function showNumeracyGame(container, userData = {}) {
       document.getElementById("close-settings").onclick = () => modal.remove();
       document.getElementById("onboarding-btn").onclick = showOnboarding;
       document.getElementById("faq-btn").onclick = showFAQ;
-      document.getElementById("backup-btn").onclick = backupProgress;
-      document.getElementById("sync-btn").onclick = syncProgress;
+      document.getElementById("backup-btn").onclick = _backupProgress;
+      document.getElementById("sync-btn").onclick = _syncProgress;
+      document.getElementById("feedback-btn").onclick = _openParentFeedback;
+      document.getElementById("achievements-btn").onclick = _showChallengesAndLeaderboard;
+      document.getElementById("theme-btn").onclick = _showThemeCustomization;
+      document.getElementById("analytics-btn").onclick = _showAnalyticsDashboard;
       document.getElementById("language-select").onchange = (e) => {
-        setLanguage(e.target.value);
+        _setLanguage(e.target.value);
         modal.remove();
       };
     } else {
@@ -250,46 +258,46 @@ export function showNumeracyGame(container, userData = {}) {
 }
 
 // --- Feature Implementations ---
-function openParentFeedback() {
+function _openParentFeedback() {
   /* TODO */
 }
-function showThemeCustomization() {
+function _showThemeCustomization() {
   /* TODO */
 }
-function showChallengesAndLeaderboard() {
+function _showChallengesAndLeaderboard() {
   /* TODO */
 }
-function enableSignLanguageAvatar() {
+function _enableSignLanguageAvatar() {
   /* TODO */
 }
-function enableARVRMode() {
+function _enableARVRMode() {
   /* TODO */
 }
-function enableOfflineMode() {
+function _enableOfflineMode() {
   /* TODO */
 }
-function openContentCreationTools() {
+function _openContentCreationTools() {
   /* TODO */
 }
-function _trackEvent(event, data) {
+function _trackEvent() {
   /* TODO */
 }
-function showAnalyticsDashboard() {
+function _showAnalyticsDashboard() {
   /* TODO */
 }
-function showEducatorDashboard() {
+function _showEducatorDashboard() {
   /* TODO */
 }
-function showCommunityFeatures() {
+function _showCommunityFeatures() {
   /* TODO */
 }
-function setLanguage(lang) {
+function _setLanguage() {
   /* TODO */
 }
-function showLanguageSelector() {
+function _showLanguageSelector() {
   /* TODO */
 }
-function startOnboarding() {
+function _startOnboarding() {
   /* TODO */
 }
 function _backupData() {
