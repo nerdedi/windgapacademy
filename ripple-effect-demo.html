@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Windgap Academy - WebGL Ripple Effects Demo</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f0f2f5;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    header {
+      background-color: #4f46e5;
+      color: white;
+      padding: 1rem 2rem;
+      text-align: center;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    main {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 2rem;
+    }
+
+    .demo-section {
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    h1, h2, h3 {
+      margin-bottom: 1rem;
+    }
+
+    p {
+      margin-bottom: 1.5rem;
+    }
+
+    .code-block {
+      background-color: #f1f5f9;
+      padding: 1rem;
+      border-radius: 4px;
+      margin-bottom: 1.5rem;
+      overflow-x: auto;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 14px;
+    }
+
+    .demo-container {
+      position: relative;
+      height: 300px;
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 2rem;
+      background-color: #f8fafc;
+      transition: all 0.3s ease;
+    }
+
+    .interactive-ripple {
+      position: relative;
+      background-color: rgba(79, 70, 229, 0.1);
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    .controls {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    button {
+      background-color: #4f46e5;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #4338ca;
+    }
+
+    .interactive-element {
+      padding: 1rem 2rem;
+      background-color: #4f46e5;
+      color: white;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      display: inline-block;
+      margin: 1rem;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .interactive-element:hover {
+      background-color: #4338ca;
+    }
+
+    .color-option {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      cursor: pointer;
+      margin-right: 8px;
+      display: inline-block;
+      border: 2px solid white;
+      transition: transform 0.2s ease;
+    }
+
+    .color-option:hover {
+      transform: scale(1.1);
+    }
+
+    .color-option.active {
+      transform: scale(1.15);
+      box-shadow: 0 0 0 2px #4f46e5;
+    }
+
+    .slider-control {
+      display: flex;
+      flex-direction: column;
+      width: 200px;
+      margin-bottom: 1rem;
+    }
+
+    .slider-label {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.5rem;
+    }
+
+    .slider-label span {
+      font-size: 0.8rem;
+      color: #666;
+    }
+
+    input[type="range"] {
+      width: 100%;
+    }
+
+    .canvas-ripple {
+      display: block;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    .floating-ui {
+      position: absolute;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+    }
+
+    .floating-card {
+      background-color: white;
+      padding: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      width: 120px;
+      height: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .floating-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      margin-top: 2rem;
+      color: #666;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 768px) {
+      main {
+        padding: 0 1rem;
+      }
+
+      .controls {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .demo-container {
+        height: 200px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>WebGL Ripple Effects Demo</h1>
+    <p>Interactive WebGL ripple animations for Windgap Academy UI</p>
+  </header>
+
+  <main>
+    <section class="demo-section">
+      <h2>Interactive Background Ripple Effect</h2>
+      <p>Click or touch anywhere in this container to create ripple effects. The ripples automatically fade out as they expand.</p>
+
+      <div id="demo-1" class="demo-container">
+        <div id="interactive-ripple" class="interactive-ripple">
+          <canvas id="ripple-canvas" class="canvas-ripple"></canvas>
+
+          <div class="floating-ui" style="top: 50%; left: 50%; transform: translate(-50%, -50%);">
+            <div class="floating-card">Math</div>
+            <div class="floating-card">Science</div>
+            <div class="floating-card">Reading</div>
+            <div class="floating-card">Writing</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="controls">
+        <div>
+          <h3>Ripple Colors</h3>
+          <div id="color-options">
+            <span class="color-option active" style="background-color: #4f46e5;" data-color="rgba(79, 70, 229, 0.3)"></span>
+            <span class="color-option" style="background-color: #10b981;" data-color="rgba(16, 185, 129, 0.3)"></span>
+            <span class="color-option" style="background-color: #ef4444;" data-color="rgba(239, 68, 68, 0.3)"></span>
+            <span class="color-option" style="background-color: #f59e0b;" data-color="rgba(245, 158, 11, 0.3)"></span>
+            <span class="color-option" style="background-color: #6366f1;" data-color="rgba(99, 102, 241, 0.3)"></span>
+          </div>
+        </div>
+
+        <div>
+          <div class="slider-control">
+            <div class="slider-label">
+              <label for="ripple-speed">Speed</label>
+              <span id="speed-value">2</span>
+            </div>
+            <input type="range" id="ripple-speed" min="0.5" max="5" step="0.1" value="2">
+          </div>
+
+          <div class="slider-control">
+            <div class="slider-label">
+              <label for="ripple-opacity">Opacity</label>
+              <span id="opacity-value">0.6</span>
+            </div>
+            <input type="range" id="ripple-opacity" min="0.1" max="1" step="0.05" value="0.6">
+          </div>
+
+          <div class="slider-control">
+            <div class="slider-label">
+              <label for="auto-interval">Auto Interval (ms)</label>
+              <span id="interval-value">3000</span>
+            </div>
+            <input type="range" id="auto-interval" min="0" max="10000" step="500" value="3000">
+          </div>
+        </div>
+
+        <button id="trigger-ripple">Trigger Random Ripple</button>
+        <button id="toggle-auto">Disable Auto Ripples</button>
+      </div>
+
+      <div class="code-block">
+        <pre><code>// Create an interactive ripple background
+const rippleEffect = createInteractiveRippleBackground('#my-container', {
+  rippleColors: ['rgba(79, 70, 229, 0.3)', 'rgba(79, 70, 229, 0.2)'],
+  maxRipples: 10,
+  autoRippleInterval: 3000,
+  interactive: true,
+  backgroundBlur: 10
+});
+
+// Trigger a ripple programmatically
+rippleEffect.addRipple(x, y, color);</code></pre>
+      </div>
+    </section>
+
+    <section class="demo-section">
+      <h2>Button Ripple Effect</h2>
+      <p>Click on these buttons to see the ripple effect in action. Different colors and speeds are demonstrated.</p>
+
+      <div class="interactive-element" id="button-1">
+        Click Me!
+      </div>
+
+      <div class="interactive-element" id="button-2" style="background-color: #10b981;">
+        Green Button
+      </div>
+
+      <div class="interactive-element" id="button-3" style="background-color: #ef4444;">
+        Red Button
+      </div>
+
+      <div class="code-block">
+        <pre><code>// Create a ripple effect for a button
+const buttonRipple = createCanvasRippleEffect(canvas, {
+  color: '#ffffff',
+  rippleOpacity: 0.6,
+  rippleSpeed: 2,
+  maxRadius: 100,
+  lineWidth: 2,
+  fadeSpeed: 0.96
+});
+
+// Add a ripple when the button is clicked
+button.addEventListener('click', (e) => {
+  const rect = button.getBoundingClientRect();
+  const x = e.clientX - rect.left;
+  const y = e.clientY - rect.top;
+  buttonRipple.addRipple(x, y);
+});</code></pre>
+      </div>
+    </section>
+
+    <section class="demo-section">
+      <h2>Implementation Guide</h2>
+      <p>Follow these steps to integrate ripple effects into your Windgap Academy UI components:</p>
+
+      <ol>
+        <li>Import the required utilities:
+          <div class="code-block">
+            <pre><code>import { createRippleEffect, createCanvasRippleEffect, createInteractiveRippleBackground } from '../utils/RippleEffectUtils';</code></pre>
+          </div>
+        </li>
+
+        <li>For React components, use the RippleEffect wrapper:
+          <div class="code-block">
+            <pre><code>import RippleEffect from '../components/RippleEffect';
+
+// In your component:
+&lt;RippleEffect color="#4f46e5" duration={800} rippleOpacity={0.3}&gt;
+  &lt;button&gt;Click me&lt;/button&gt;
+&lt;/RippleEffect&gt;</code></pre>
+          </div>
+        </li>
+
+        <li>For vanilla JS implementation, create an interactive background:
+          <div class="code-block">
+            <pre><code>const container = document.querySelector('#my-container');
+const rippleEffect = createInteractiveRippleBackground(container, {
+  rippleColors: ['rgba(79, 70, 229, 0.3)'],
+  autoRippleInterval: 3000
+});</code></pre>
+          </div>
+        </li>
+      </ol>
+    </section>
+  </main>
+
+  <footer>
+    <p>© Windgap Academy - WebGL Effects Demo</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/three@0.156.1/build/three.min.js"></script>
+  <script>
+    // Simulation of RippleEffectUtils.js for the demo
+    function createCanvasRippleEffect(canvas, options = {}) {
+      const defaultOptions = {
+        color: '#ffffff',
+        rippleOpacity: 0.6,
+        rippleSpeed: 3,
+        maxRadius: 100,
+        lineWidth: 2,
+        fadeSpeed: 0.96,
+      };
+
+      const config = { ...defaultOptions, ...options };
+      const ctx = canvas.getContext('2d');
+      const ripples = [];
+      let animationFrameId = null;
+
+      function addRipple(x, y, color = config.color) {
+        ripples.push({
+          x,
+          y,
+          radius: 0,
+          opacity: config.rippleOpacity,
+          color,
+          lineWidth: config.lineWidth,
+        });
+
+        if (!animationFrameId) {
+          animate();
+        }
+      }
+
+      function animate() {
+        animationFrameId = requestAnimationFrame(animate);
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        for (let i = 0; i < ripples.length; i++) {
+          const ripple = ripples[i];
+
+          ctx.beginPath();
+          ctx.arc(ripple.x, ripple.y, ripple.radius, 0, Math.PI * 2);
+          ctx.strokeStyle = ripple.color;
+          ctx.lineWidth = ripple.lineWidth;
+          ctx.globalAlpha = ripple.opacity;
+          ctx.stroke();
+
+          ripple.radius += config.rippleSpeed;
+          ripple.opacity *= config.fadeSpeed;
+
+          if (ripple.opacity < 0.01 || ripple.radius > config.maxRadius) {
+            ripples.splice(i, 1);
+            i--;
+          }
+        }
+
+        if (ripples.length === 0) {
+          cancelAnimationFrame(animationFrameId);
+          animationFrameId = null;
+        }
+      }
+
+      function handleResize() {
+        canvas.width = canvas.parentElement?.clientWidth || window.innerWidth;
+        canvas.height = canvas.parentElement?.clientHeight || window.innerHeight;
+      }
+
+      window.addEventListener('resize', handleResize);
+      handleResize();
+
+      return {
+        addRipple,
+
+        updateOptions(newOptions) {
+          Object.assign(config, newOptions);
+        },
+
+        clear() {
+          ripples.length = 0;
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+          if (animationFrameId) {
+            cancelAnimationFrame(animationFrameId);
+            animationFrameId = null;
+          }
+        },
+
+        destroy() {
+          if (animationFrameId) {
+            cancelAnimationFrame(animationFrameId);
+          }
+          window.removeEventListener('resize', handleResize);
+          ripples.length = 0;
+        }
+      };
+    }
+
+    function createInteractiveRippleBackground(containerSelector, options = {}) {
+      const container = typeof containerSelector === 'string'
+        ? document.querySelector(containerSelector)
+        : containerSelector;
+
+      if (!container) {
+        console.error("Container not found for interactive ripple background");
+        return null;
+      }
+
+      const defaultOptions = {
+        rippleColors: ['rgba(79, 70, 229, 0.3)', 'rgba(79, 70, 229, 0.2)'],
+        maxRipples: 10,
+        autoRippleInterval: 3000,
+        interactive: true,
+        backgroundBlur: 10,
+      };
+
+      const config = { ...defaultOptions, ...options };
+
+      const canvas = document.querySelector('#ripple-canvas');
+
+      const rippleEffect = createCanvasRippleEffect(canvas, {
+        color: config.rippleColors[0],
+        maxRadius: Math.max(container.clientWidth, container.clientHeight) / 2,
+        rippleSpeed: 2,
+      });
+
+      let autoRippleTimer = null;
+
+      function startAutoRipples() {
+        if (config.autoRippleInterval <= 0) return;
+
+        autoRippleTimer = setInterval(() => {
+          const x = Math.random() * canvas.width;
+          const y = Math.random() * canvas.height;
+          const colorIndex = Math.floor(Math.random() * config.rippleColors.length);
+
+          rippleEffect.addRipple(x, y, config.rippleColors[colorIndex]);
+        }, config.autoRippleInterval);
+      }
+
+      if (config.interactive) {
+        const handleInteraction = (event) => {
+          const rect = canvas.getBoundingClientRect();
+
+          let x, y;
+          if (event.type === 'touchstart' || event.type === 'touchmove') {
+            const touch = event.touches[0];
+            x = touch.clientX - rect.left;
+            y = touch.clientY - rect.top;
+          } else {
+            x = event.clientX - rect.left;
+            y = event.clientY - rect.top;
+          }
+
+          const colorIndex = Math.floor(Math.random() * config.rippleColors.length);
+          rippleEffect.addRipple(x, y, config.rippleColors[colorIndex]);
+        };
+
+        container.addEventListener('mousedown', handleInteraction);
+        container.addEventListener('touchstart', handleInteraction);
+      }
+
+      startAutoRipples();
+
+      return {
+        addRipple(x, y, color) {
+          rippleEffect.addRipple(x, y, color || config.rippleColors[0]);
+        },
+
+        updateOptions(newOptions) {
+          Object.assign(config, newOptions);
+          rippleEffect.updateOptions({
+            color: config.rippleColors[0],
+            maxRadius: Math.max(container.clientWidth, container.clientHeight) / 2,
+            rippleSpeed: config.rippleSpeed,
+            rippleOpacity: config.rippleOpacity,
+          });
+
+          if (autoRippleTimer) {
+            clearInterval(autoRippleTimer);
+            if (config.autoRippleInterval > 0) {
+              startAutoRipples();
+            }
+          }
+        },
+
+        destroy() {
+          if (autoRippleTimer) {
+            clearInterval(autoRippleTimer);
+          }
+          rippleEffect.destroy();
+        }
+      };
+    }
+
+    // Initialize the demo when the DOM is loaded
+    document.addEventListener('DOMContentLoaded', () => {
+      // Demo 1: Interactive background ripple
+      const rippleEffect = createInteractiveRippleBackground('#interactive-ripple', {
+        rippleColors: ['rgba(79, 70, 229, 0.3)', 'rgba(79, 70, 229, 0.2)'],
+        autoRippleInterval: 3000,
+      });
+
+      // Handle UI controls
+      const triggerRippleBtn = document.getElementById('trigger-ripple');
+      const toggleAutoBtn = document.getElementById('toggle-auto');
+      const rippleSpeedSlider = document.getElementById('ripple-speed');
+      const rippleOpacitySlider = document.getElementById('ripple-opacity');
+      const autoIntervalSlider = document.getElementById('auto-interval');
+      const colorOptions = document.querySelectorAll('.color-option');
+      const speedValue = document.getElementById('speed-value');
+      const opacityValue = document.getElementById('opacity-value');
+      const intervalValue = document.getElementById('interval-value');
+
+      let currentColor = 'rgba(79, 70, 229, 0.3)';
+      let autoRipplesEnabled = true;
+      let currentInterval = 3000;
+
+      // Trigger random ripple
+      triggerRippleBtn.addEventListener('click', () => {
+        const container = document.getElementById('interactive-ripple');
+        const rect = container.getBoundingClientRect();
+        const x = Math.random() * rect.width;
+        const y = Math.random() * rect.height;
+        rippleEffect.addRipple(x, y, currentColor);
+      });
+
+      // Toggle auto ripples
+      toggleAutoBtn.addEventListener('click', () => {
+        if (autoRipplesEnabled) {
+          rippleEffect.updateOptions({ autoRippleInterval: 0 });
+          toggleAutoBtn.textContent = 'Enable Auto Ripples';
+          autoRipplesEnabled = false;
+        } else {
+          rippleEffect.updateOptions({ autoRippleInterval: currentInterval });
+          toggleAutoBtn.textContent = 'Disable Auto Ripples';
+          autoRipplesEnabled = true;
+        }
+      });
+
+      // Update ripple speed
+      rippleSpeedSlider.addEventListener('input', () => {
+        const speed = parseFloat(rippleSpeedSlider.value);
+        speedValue.textContent = speed.toFixed(1);
+        rippleEffect.updateOptions({ rippleSpeed: speed });
+      });
+
+      // Update ripple opacity
+      rippleOpacitySlider.addEventListener('input', () => {
+        const opacity = parseFloat(rippleOpacitySlider.value);
+        opacityValue.textContent = opacity.toFixed(2);
+        rippleEffect.updateOptions({ rippleOpacity: opacity });
+      });
+
+      // Update auto interval
+      autoIntervalSlider.addEventListener('input', () => {
+        const interval = parseInt(autoIntervalSlider.value);
+        intervalValue.textContent = interval;
+        currentInterval = interval;
+
+        if (autoRipplesEnabled) {
+          rippleEffect.updateOptions({ autoRippleInterval: interval });
+        }
+      });
+
+      // Handle color selection
+      colorOptions.forEach(option => {
+        option.addEventListener('click', () => {
+          // Remove active class from all options
+          colorOptions.forEach(o => o.classList.remove('active'));
+          // Add active class to selected option
+          option.classList.add('active');
+
+          // Update ripple color
+          const color = option.getAttribute('data-color');
+          currentColor = color;
+          rippleEffect.updateOptions({ rippleColors: [color] });
+        });
+      });
+
+      // Demo 2: Button ripple effects
+      const setupButtonRipple = (buttonId) => {
+        const button = document.getElementById(buttonId);
+        const style = getComputedStyle(button);
+        const bgColor = style.backgroundColor;
+
+        // Extract RGB values for ripple color calculation
+        const rgbMatch = bgColor.match(/rgb\((\d+),\s*(\d+),\s*(\d+)\)/);
+        let rippleColor = '#ffffff';
+
+        if (rgbMatch) {
+          const [_, r, g, b] = rgbMatch;
+          // If background is dark, use white ripples, otherwise use semi-transparent black
+          const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+          rippleColor = luminance > 0.5 ? 'rgba(0,0,0,0.3)' : 'rgba(255,255,255,0.5)';
+        }
+
+        button.addEventListener('click', (e) => {
+          const rect = button.getBoundingClientRect();
+
+          // Create ripple element
+          const ripple = document.createElement('span');
+          ripple.className = 'button-ripple';
+
+          const size = Math.max(rect.width, rect.height) * 2;
+
+          ripple.style.width = ripple.style.height = `${size}px`;
+          ripple.style.left = `${e.clientX - rect.left - size / 2}px`;
+          ripple.style.top = `${e.clientY - rect.top - size / 2}px`;
+          ripple.style.backgroundColor = rippleColor;
+          ripple.style.position = 'absolute';
+          ripple.style.borderRadius = '50%';
+          ripple.style.transform = 'scale(0)';
+          ripple.style.animation = 'ripple-animation 600ms linear';
+          ripple.style.opacity = '0.5';
+          ripple.style.pointerEvents = 'none';
+
+          if (getComputedStyle(button).position === 'static') {
+            button.style.position = 'relative';
+          }
+
+          button.appendChild(ripple);
+
+          setTimeout(() => {
+            ripple.remove();
+          }, 600);
+        });
+      };
+
+      setupButtonRipple('button-1');
+      setupButtonRipple('button-2');
+      setupButtonRipple('button-3');
+
+      // Make floating cards trigger ripples
+      const floatingCards = document.querySelectorAll('.floating-card');
+      floatingCards.forEach(card => {
+        card.addEventListener('click', (e) => {
+          const container = document.getElementById('interactive-ripple');
+          const rect = container.getBoundingClientRect();
+          const cardRect = card.getBoundingClientRect();
+
+          const x = cardRect.left - rect.left + cardRect.width / 2;
+          const y = cardRect.top - rect.top + cardRect.height / 2;
+
+          rippleEffect.addRipple(x, y, currentColor);
+        });
+      });
+
+      // Add global ripple animation styles
+      const style = document.createElement('style');
+      style.textContent = `
+        @keyframes ripple-animation {
+          to {
+            transform: scale(1);
+            opacity: 0;
+          }
+        }
+      `;
+      document.head.appendChild(style);
+    });
+  </script>
+</body>
+</html>
