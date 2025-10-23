@@ -1,6 +1,14 @@
 // Firebase mocks for Jest testing
 /* global jest */
 
+const mockAuthUser = {
+  uid: "test-uid",
+  email: "test@example.com",
+  displayName: "Test User",
+  photoURL: "https://example.com/photo.jpg",
+  emailVerified: true,
+};
+
 const mockAuth = {
   onAuthStateChanged: jest.fn((callback) => {
     // Call callback with null user to simulate logged out state
@@ -10,46 +18,122 @@ const mockAuth = {
   }),
   signInWithEmailAndPassword: jest.fn(() =>
     Promise.resolve({
-      user: { uid: "test-uid", email: "test@example.com" },
+      user: mockAuthUser,
+    }),
+  ),
+  signInWithPopup: jest.fn(() =>
+    Promise.resolve({
+      user: mockAuthUser,
+    }),
+  ),
+  signInWithRedirect: jest.fn(() => Promise.resolve()),
+  getRedirectResult: jest.fn(() =>
+    Promise.resolve({
+      user: mockAuthUser,
     }),
   ),
   createUserWithEmailAndPassword: jest.fn(() =>
     Promise.resolve({
-      user: { uid: "test-uid", email: "test@example.com" },
+      user: mockAuthUser,
     }),
   ),
+  sendPasswordResetEmail: jest.fn(() => Promise.resolve()),
+  updateProfile: jest.fn(() => Promise.resolve()),
   signOut: jest.fn(() => Promise.resolve()),
   currentUser: null,
 };
 
+const mockDocData = {
+  id: "test-doc-id",
+  name: "Test Document",
+  content: "Test content",
+  createdAt: new Date(),
+  updatedAt: new Date(),
+};
+
 const mockDoc = {
-  exists: () => false,
-  data: () => ({}),
+  id: "test-doc-id",
+  exists: jest.fn(() => true),
+  data: jest.fn(() => mockDocData),
+  get: jest.fn((field) => mockDocData[field]),
+  ref: {
+    path: "collections/test-doc-id",
+    parent: {
+      path: "collections",
+    },
+  },
+};
+
+const mockDocs = [mockDoc];
+
+const mockQuerySnapshot = {
+  docs: mockDocs,
+  empty: false,
+  size: 1,
+  forEach: jest.fn((callback) => mockDocs.forEach(callback)),
+  map: jest.fn((callback) => mockDocs.map(callback)),
+};
+
+const mockCollectionRef = {
+  path: "collections",
+  doc: jest.fn(() => mockDocRef),
+  where: jest.fn(() => mockCollectionRef),
+  orderBy: jest.fn(() => mockCollectionRef),
+  limit: jest.fn(() => mockCollectionRef),
+  get: jest.fn(() => Promise.resolve(mockQuerySnapshot)),
+};
+
+const mockDocRef = {
+  id: "test-doc-id",
+  path: "collections/test-doc-id",
+  collection: jest.fn(() => mockCollectionRef),
+  get: jest.fn(() => Promise.resolve(mockDoc)),
+  set: jest.fn(() => Promise.resolve()),
+  update: jest.fn(() => Promise.resolve()),
+  delete: jest.fn(() => Promise.resolve()),
+  onSnapshot: jest.fn((callback) => {
+    callback(mockDoc);
+    return jest.fn(); // Unsubscribe function
+  }),
 };
 
 const mockFirestore = {
-  doc: jest.fn(),
+  doc: jest.fn(() => mockDocRef),
   getDoc: jest.fn(() => Promise.resolve(mockDoc)),
   setDoc: jest.fn(() => Promise.resolve()),
   updateDoc: jest.fn(() => Promise.resolve()),
   deleteDoc: jest.fn(() => Promise.resolve()),
-  collection: jest.fn(),
-  query: jest.fn(),
-  where: jest.fn(),
-  orderBy: jest.fn(),
-  limit: jest.fn(),
-  getDocs: jest.fn(() =>
-    Promise.resolve({
-      docs: [],
-      forEach: jest.fn(),
-    }),
-  ),
-  onSnapshot: jest.fn(),
+  collection: jest.fn(() => mockCollectionRef),
+  collectionGroup: jest.fn(() => mockCollectionRef),
+  query: jest.fn(() => mockCollectionRef),
+  where: jest.fn(() => mockCollectionRef),
+  orderBy: jest.fn(() => mockCollectionRef),
+  limit: jest.fn(() => mockCollectionRef),
+  getDocs: jest.fn(() => Promise.resolve(mockQuerySnapshot)),
+  onSnapshot: jest.fn((ref, callback) => {
+    callback(mockQuerySnapshot);
+    return jest.fn(); // Unsubscribe function
+  }),
+  runTransaction: jest.fn((callback) => Promise.resolve(callback(mockFirestore))),
+  batch: jest.fn(() => ({
+    set: jest.fn(() => Promise.resolve()),
+    update: jest.fn(() => Promise.resolve()),
+    delete: jest.fn(() => Promise.resolve()),
+    commit: jest.fn(() => Promise.resolve()),
+  })),
   serverTimestamp: jest.fn(() => new Date()),
+  Timestamp: {
+    now: jest.fn(() => ({ toDate: () => new Date() })),
+    fromDate: jest.fn((date) => ({ toDate: () => date })),
+    fromMillis: jest.fn((ms) => ({ toDate: () => new Date(ms) })),
+  },
 };
 
 // Firebase App Mock
-export const initializeApp = jest.fn(() => ({}));
+const mockApp = {};
+export const initializeApp = jest.fn(() => mockApp);
+export const getApp = jest.fn(() => mockApp);
+export const deleteApp = jest.fn(() => Promise.resolve());
 
 // Firebase Auth Mocks
 export const getAuth = jest.fn(() => mockAuth);
@@ -57,39 +141,77 @@ export const onAuthStateChanged = mockAuth.onAuthStateChanged;
 export const signInWithEmailAndPassword = mockAuth.signInWithEmailAndPassword;
 export const createUserWithEmailAndPassword = mockAuth.createUserWithEmailAndPassword;
 export const signOut = mockAuth.signOut;
-export const sendPasswordResetEmail = jest.fn();
-export const updateProfile = jest.fn();
-export const updateEmail = jest.fn();
-export const updatePassword = jest.fn();
-export const reauthenticateWithCredential = jest.fn();
+export const sendPasswordResetEmail = jest.fn(() => Promise.resolve());
+export const updateProfile = jest.fn(() => Promise.resolve());
+export const updateEmail = jest.fn(() => Promise.resolve());
+export const updatePassword = jest.fn(() => Promise.resolve());
+export const reauthenticateWithCredential = jest.fn(() => Promise.resolve());
 export const EmailAuthProvider = {
-  credential: jest.fn(),
+  credential: jest.fn(() => ({ type: "email", email: "test@example.com", password: "password" })),
 };
-export const sendEmailVerification = jest.fn();
-export const signInWithPopup = jest.fn();
-export const GoogleAuthProvider = jest.fn();
-export const FacebookAuthProvider = jest.fn();
-export const PhoneAuthProvider = jest.fn();
-export const multiFactor = jest.fn();
-export const PhoneMultiFactorGenerator = jest.fn();
+export const sendEmailVerification = jest.fn(() => Promise.resolve());
+export const signInWithPopup = mockAuth.signInWithPopup;
+export const signInWithRedirect = mockAuth.signInWithRedirect;
+export const getRedirectResult = mockAuth.getRedirectResult;
+export const GoogleAuthProvider = jest.fn(() => ({ providerId: "google.com" }));
+GoogleAuthProvider.credential = jest.fn(() => ({ providerId: "google.com" }));
+export const FacebookAuthProvider = jest.fn(() => ({ providerId: "facebook.com" }));
+FacebookAuthProvider.credential = jest.fn(() => ({ providerId: "facebook.com" }));
+export const PhoneAuthProvider = jest.fn(() => ({ providerId: "phone" }));
+export const multiFactor = jest.fn(() => ({
+  getSession: jest.fn(() => Promise.resolve({})),
+  enroll: jest.fn(() => Promise.resolve({})),
+  unenroll: jest.fn(() => Promise.resolve({})),
+}));
+export const PhoneMultiFactorGenerator = {
+  assertion: jest.fn(() => ({})),
+};
 
 // Firebase Firestore Mocks
 export const getFirestore = jest.fn(() => mockFirestore);
-export const doc = jest.fn();
-export const getDoc = jest.fn(() => Promise.resolve(mockDoc));
-export const setDoc = jest.fn(() => Promise.resolve());
-export const updateDoc = jest.fn(() => Promise.resolve());
-export const deleteDoc = jest.fn(() => Promise.resolve());
-export const collection = jest.fn();
-export const query = jest.fn();
-export const where = jest.fn();
-export const orderBy = jest.fn();
-export const limit = jest.fn();
-export const getDocs = jest.fn(() =>
-  Promise.resolve({
-    docs: [],
-    forEach: jest.fn(),
-  }),
-);
-export const onSnapshot = jest.fn();
-export const serverTimestamp = jest.fn(() => new Date());
+export const doc = mockFirestore.doc;
+export const getDoc = mockFirestore.getDoc;
+export const setDoc = mockFirestore.setDoc;
+export const updateDoc = mockFirestore.updateDoc;
+export const deleteDoc = mockFirestore.deleteDoc;
+export const collection = mockFirestore.collection;
+export const collectionGroup = mockFirestore.collectionGroup;
+export const query = mockFirestore.query;
+export const where = mockFirestore.where;
+export const orderBy = mockFirestore.orderBy;
+export const limit = mockFirestore.limit;
+export const getDocs = mockFirestore.getDocs;
+export const onSnapshot = mockFirestore.onSnapshot;
+export const runTransaction = mockFirestore.runTransaction;
+export const writeBatch = jest.fn(() => mockFirestore.batch());
+export const serverTimestamp = mockFirestore.serverTimestamp;
+export const Timestamp = mockFirestore.Timestamp;
+
+// Export the firebase object for default imports
+const firebase = {
+  // Firebase App
+  app: mockApp,
+  initializeApp,
+  getApp,
+  deleteApp,
+
+  // Auth
+  auth: mockAuth,
+  getAuth,
+
+  // Firestore
+  firestore: mockFirestore,
+  getFirestore,
+
+  // Export for module/default compatibility
+  default: {
+    initializeApp,
+    getApp,
+    getAuth,
+    getFirestore,
+  },
+};
+
+// Export default for module imports
+module.exports = firebase;
+module.exports.default = firebase;

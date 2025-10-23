@@ -2,21 +2,14 @@
  * @jest-environment jsdom
  */
 
-import { getApp } from "firebase/app";
-import { doc, getDoc, getFirestore, setDoc } from "firebase/firestore";
+import * as firebase from "firebase/app";
+import * as firestore from "firebase/firestore";
 import AIAssistantService from "../../src/services/AIAssistantService";
 
-// Mock Firebase
-jest.mock("firebase/app", () => ({
-  getApp: jest.fn(),
-}));
+const { getApp } = firebase;
+const { getFirestore, doc, getDoc, setDoc } = firestore;
 
-jest.mock("firebase/firestore", () => ({
-  getFirestore: jest.fn(),
-  doc: jest.fn(),
-  setDoc: jest.fn(),
-  getDoc: jest.fn(),
-}));
+// Mock Firebase - Jest will automatically use mocks from __mocks__
 
 // Mock fetch for OpenAI API calls
 global.fetch = jest.fn();
@@ -40,10 +33,11 @@ describe("AIAssistantService", () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
-    getApp.mockReturnValue({});
-    getFirestore.mockReturnValue(mockFirestore);
-    getDoc.mockResolvedValue(mockUserDoc);
-    setDoc.mockResolvedValue();
+    // Direct assignment instead of mockReturnValue
+    firebase.getApp = jest.fn().mockReturnValue({});
+    firestore.getFirestore = jest.fn().mockReturnValue(mockFirestore);
+    firestore.getDoc = jest.fn().mockResolvedValue(mockUserDoc);
+    firestore.setDoc = jest.fn().mockResolvedValue({});
 
     // Reset service state
     AIAssistantService.initialized = false;

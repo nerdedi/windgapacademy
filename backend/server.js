@@ -14,22 +14,32 @@
  * - Professional deployment configuration
  */
 
+// Load environment variables from .env.local for development first
+// to ensure all config is available to imported modules
+const path = require("path");
+try {
+  require("dotenv").config({ path: path.join(__dirname, "..", ".env.local") });
+  console.log("Environment variables loaded from .env.local");
+} catch {
+  // ignore if dotenv is not installed or file missing
+  console.log("Note: .env.local not loaded, using existing environment variables");
+}
+
 const express = require("express");
 const cors = require("cors");
 const helmet = require("helmet");
 const compression = require("compression");
 const rateLimit = require("express-rate-limit");
 const morgan = require("morgan");
-const winston = require("winston");
 const { createServer } = require("http");
 const { Server } = require("socket.io");
-const path = require("path");
 const fs = require("fs");
 
 // Import custom middleware and routes
-const apiRouter = require("./api");
 const logger = require("./utils/logger");
-const authMiddleware = require("./middleware/auth");
+const apiRouter = require("./api");
+// Auth middleware is used in API routes configured within apiRouter
+// const authMiddleware = require("./middleware/auth");
 
 // Environment configuration
 const NODE_ENV = process.env.NODE_ENV || "development";
@@ -329,6 +339,7 @@ io.on("connection", (socket) => {
 });
 
 // Global error handling middleware
+// eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {
   const errorId = Math.random().toString(36).substr(2, 9);
 
