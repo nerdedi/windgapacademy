@@ -1,10 +1,10 @@
-import Navigation from "../components/Navigation";
+import NavigationModern from "../components/NavigationModern";
 
 const AboutPage = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white">
       {/* Navigation */}
-      <Navigation />
+      <NavigationModern />
 
       {/* Hero Section */}
       <div className="pt-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto mb-16">

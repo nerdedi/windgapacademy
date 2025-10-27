@@ -374,74 +374,73 @@ export const createStore = ({
   version = 1,
   persistOptions = {},
 }) => {
-  // Build middleware stack
-  let middleware = (config) => config;
+  // Build middleware stack - compose from innermost to outermost
+  let storeConfig = config;
 
   // Add immer middleware for immutable updates with mutable syntax
-  middleware = (config) => immer(middleware(config));
+  storeConfig = immer(storeConfig);
 
   // Add validation middleware
   if (Object.keys(validators).length > 0) {
-    middleware = (config) => createValidationMiddleware(validators)(middleware(config));
+    storeConfig = createValidationMiddleware(validators)(storeConfig);
   }
 
   // Add analytics tracking
-  middleware = (config) => createAnalyticsMiddleware(name)(middleware(config));
+  storeConfig = createAnalyticsMiddleware(name)(storeConfig);
 
   // Add history middleware for time-travel debugging
   if (enableHistory) {
-    middleware = (config) => historyMiddleware(middleware(config));
+    storeConfig = historyMiddleware(storeConfig);
   }
 
   // Add cross-tab synchronization
   if (enableSync) {
-    middleware = (config) => createSyncMiddleware(name)(middleware(config));
+    storeConfig = createSyncMiddleware(name)(storeConfig);
   }
 
   // Add state migrations
   if (version > 1 && Object.keys(migrations).length > 0) {
-    middleware = (config) => createMigrationMiddleware(version, migrations)(middleware(config));
+    storeConfig = createMigrationMiddleware(version, migrations)(storeConfig);
   }
 
   // Add devtools for debugging
   if (enableDevTools) {
-    middleware = (config) => devtools(middleware(config), { name });
+    storeConfig = devtools(storeConfig, { name });
   }
 
   // Add persistence
   if (enablePersist) {
-    middleware = (config) =>
-      persist(middleware(config), {
-        name: `windgap-${name}-store`,
-        partialize: (state) => {
-          // By default, don't persist UI state and derived state
-          const blacklist = persistOptions.blacklist || ["errors", "isLoading"];
-          const whitelist = persistOptions.whitelist;
+    storeConfig = persist(storeConfig, {
+      name: `windgap-${name}-store`,
+      partialize: (state) => {
+        // By default, don't persist UI state and derived state
+        const blacklist = persistOptions.blacklist || ["errors", "isLoading"];
+        const whitelist = persistOptions.whitelist;
 
-          if (whitelist) {
-            // Only include whitelisted keys
-            const result = {};
-            whitelist.forEach((key) => {
-              if (key in state) {
-                result[key] = state[key];
-              }
-            });
-            return result;
-          }
-          // Exclude blacklisted keys
-          const result = { ...state };
-          blacklist.forEach((key) => {
-            delete result[key];
+        if (whitelist) {
+          // Only include whitelisted keys
+          const result = {};
+          whitelist.forEach((key) => {
+            if (key in state) {
+              result[key] = state[key];
+            }
           });
           return result;
-        },
-        ...persistOptions,
-      });
+        }
+        // Exclude blacklisted keys
+        const result = { ...state };
+        blacklist.forEach((key) => {
+          delete result[key];
+        });
+        return result;
+      },
+      ...persistOptions,
+    });
   }
 
   // Create base store with middleware
   const useStore = create(
-    middleware((set, get) => {
+    storeConfig((set, get) => {
       // Create store API
       const storeAPI = {
         // Initial state with version

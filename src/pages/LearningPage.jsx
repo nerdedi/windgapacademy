@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import Navigation from "../components/Navigation";
+import NavigationModern from "../components/NavigationModern";
 
 const LearningPage = () => {
   // List of all learning modules with their details
@@ -57,7 +57,7 @@ const LearningPage = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white">
       {/* Navigation */}
-      <Navigation />
+      <NavigationModern />
 
       {/* Main Content */}
       <div className="pt-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
