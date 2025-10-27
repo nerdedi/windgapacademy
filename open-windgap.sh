@@ -44,14 +44,12 @@ fi
 echo "Opening Windgap Academy in the browser..."
 "$BROWSER" "$FRONTEND_URL"
 
-echo "Opening ripple demo in the browser..."
-"$BROWSER" "$FRONTEND_URL/ripple-effect-demo.html"
-
 echo "Done! Windgap Academy is ready to use."
 echo ""
 echo "Main app: $FRONTEND_URL"
-echo "Ripple demo: $FRONTEND_URL/ripple-effect-demo.html"
-echo "WebGL effects demo: $FRONTEND_URL/webgl-effects-demo.html"
-echo "Character animation demo: $FRONTEND_URL/character-animation-demo.html"
+echo "Example SPA routes:"
+echo "- Animation demo: $FRONTEND_URL/animation-demo"
+echo "- Fluid simulation: $FRONTEND_URL/tools/fluid-simulation"
+echo "- Whiteboard: $FRONTEND_URL/tools/whiteboard"
 
 exit 0

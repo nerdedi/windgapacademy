@@ -33,12 +33,11 @@ Once everything is running, you can open the application in your browser:
 
 Explore these demo pages to see the key features of Windgap Academy:
 
-1. **Ripple Effect Demo**: http://localhost:4000/ripple-effect-demo.html
-2. **WebGL Effects Demo**: http://localhost:4000/webgl-effects-demo.html
-3. **Character Animation Demo**: http://localhost:4000/character-animation-demo.html
-4. **Three.js Example**: http://localhost:4000/three-js-example.html
-5. **Fluid Simulation**: http://localhost:4000/fluid-simulation.html
-6. **WebGL Demos**: http://localhost:4000/webgl-demos.html
+The app is a single-page React application. Demo features have been integrated as SPA routes/components. Example routes:
+
+- Animation demo: http://localhost:4000/animation-demo
+- Fluid simulation: http://localhost:4000/tools/fluid-simulation
+- Whiteboard: http://localhost:4000/tools/whiteboard
 
 ## Documentation
 

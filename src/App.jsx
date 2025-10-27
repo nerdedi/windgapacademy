@@ -8,6 +8,7 @@ import { AuthProvider } from "./contexts/AuthContext";
 
 import AccessibilitySettings from "./components/AccessibilitySettings";
 import CurriculumBuilderWithSaveState from "./components/curriculum/CurriculumBuilderWithSaveState.jsx";
+import HomeModern from "./components/HomeModern";
 import DigitalLiteracyLesson from "./components/lessonModules/DigitalLiteracyLesson";
 import DigitalLiteracyLessonEnhanced from "./components/lessonModules/DigitalLiteracyLessonEnhanced";
 import LanguagePhonicsLesson from "./components/lessonModules/LanguagePhonicsLesson";
@@ -19,14 +20,22 @@ import LoginPage from "./components/LoginPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import LearnerDashboard from "./components/StudentDashboard";
 
+import AboutPage from "./pages/AboutPage";
 import AdaptiveDemoPage from "./pages/AdaptiveDemoPage";
 import AdaptiveMathLearningPage from "./pages/AdaptiveMathLearningPage";
 import AIAssistantPage from "./pages/AIAssistantPage";
 import AnimationSystemDemo from "./pages/AnimationSystemDemo";
 import AutomationDemo from "./pages/AutomationDemo.jsx";
 import ExecutiveFunctionDemo from "./pages/ExecutiveFunctionDemo";
+import LearningPage from "./pages/LearningPage";
 import MathExercisesPage from "./pages/MathExercisesPage";
 import NeurodivergentLearningPage from "./pages/NeurodivergentLearningPage";
+import CharacterAnimationPage from "./pages/Tools/CharacterAnimation";
+import FluidSimulationPage from "./pages/Tools/FluidSimulation";
+import RippleEffectPage from "./pages/Tools/RippleEffect";
+import WebGLEffectsPage from "./pages/Tools/WebGLEffects";
+import WhiteboardPage from "./pages/Tools/Whiteboard";
+import ToolsPage from "./pages/ToolsPage";
 
 import "./styles/accessibility.css";
 import "./styles/adaptive.css";
@@ -61,7 +70,8 @@ function App() {
                 <AccessibilitySettings />
                 <Routes>
                   {/* Public Routes */}
-                  <Route path="/" element={<LLNDHomepage />} />
+                  <Route path="/" element={<HomeModern />} />
+                  <Route path="/llnd" element={<LLNDHomepage />} />
                   <Route path="/login" element={<LoginPage />} />
                   <Route path="/reset-password" element={<ResetPasswordPage />} />
                   <Route path="/verify-email" element={<VerifyEmailPage />} />
@@ -69,6 +79,9 @@ function App() {
 
                   {/* Demo Routes */}
                   <Route path="/demos/automation" element={<AutomationDemo />} />
+                  <Route path="/tools" element={<ToolsPage />} />
+                  <Route path="/learning" element={<LearningPage />} />
+                  <Route path="/about" element={<AboutPage />} />
 
                   {/* Protected Routes */}
                   <Route
@@ -174,6 +187,13 @@ function App() {
                       </Suspense>
                     }
                   />
+
+                  {/* Tools migrated from static demo pages into SPA */}
+                  <Route path="/tools/fluid-simulation" element={<FluidSimulationPage />} />
+                  <Route path="/tools/whiteboard" element={<WhiteboardPage />} />
+                  <Route path="/tools/ripple-effect" element={<RippleEffectPage />} />
+                  <Route path="/tools/webgl-effects" element={<WebGLEffectsPage />} />
+                  <Route path="/tools/character-animation" element={<CharacterAnimationPage />} />
 
                   {/* Module routes */}
                   <Route

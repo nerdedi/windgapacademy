@@ -58,8 +58,15 @@ window.showFeature = async function (feature) {
     }
     // Tools
     case "fluid":
-      app.innerHTML =
-        '<iframe src="/fluid-simulation.html" style="width:100%;height:600px;border:none;border-radius:12px;"></iframe>';
+      // Use SPA route instead of a standalone static HTML page
+      // Navigate to the React route that hosts the fluid simulation component
+      window.history.pushState({}, "", "/tools/fluid-simulation");
+      // Let React router handle rendering; provide fallback if not mounted
+      if (window.dispatchEvent) {
+        window.dispatchEvent(
+          new CustomEvent("spa:navigate", { detail: { path: "/tools/fluid-simulation" } }),
+        );
+      }
       break;
     case "dashboard": {
       const mod = await import("../components/ResultsDashboard.js");
@@ -67,8 +74,40 @@ window.showFeature = async function (feature) {
       break;
     }
     case "whiteboard":
-      app.innerHTML =
-        '<iframe src="/whiteboard.html" style="width:100%;height:700px;border:none;border-radius:12px;"></iframe>';
+      // Use SPA route instead of a standalone static HTML page
+      window.history.pushState({}, "", "/tools/whiteboard");
+      if (window.dispatchEvent) {
+        window.dispatchEvent(
+          new CustomEvent("spa:navigate", { detail: { path: "/tools/whiteboard" } }),
+        );
+      }
+      break;
+    case "ripple":
+      // Redirect to ripple effect SPA route
+      window.history.pushState({}, "", "/tools/ripple-effect");
+      if (window.dispatchEvent) {
+        window.dispatchEvent(
+          new CustomEvent("spa:navigate", { detail: { path: "/tools/ripple-effect" } }),
+        );
+      }
+      break;
+    case "webgl":
+      // Redirect to WebGL effects SPA route
+      window.history.pushState({}, "", "/tools/webgl-effects");
+      if (window.dispatchEvent) {
+        window.dispatchEvent(
+          new CustomEvent("spa:navigate", { detail: { path: "/tools/webgl-effects" } }),
+        );
+      }
+      break;
+    case "character":
+      // Redirect to character animation SPA route
+      window.history.pushState({}, "", "/tools/character-animation");
+      if (window.dispatchEvent) {
+        window.dispatchEvent(
+          new CustomEvent("spa:navigate", { detail: { path: "/tools/character-animation" } }),
+        );
+      }
       break;
   }
 };

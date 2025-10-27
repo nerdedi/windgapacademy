@@ -18,7 +18,7 @@ This document summarizes the implementation and current status of the Windgap Ac
 
 1. **Frontend Server**:
    - Vite development server on port 4000
-   - Serving React application and static demo files
+   - Serving a single-page React application where demos are implemented as routes/components (no need for separate static demo HTML files)
    - Hot module replacement enabled
 
 2. **Backend Server**:
@@ -35,20 +35,17 @@ This document summarizes the implementation and current status of the Windgap Ac
   - `NODE_ENV=development`
   - Placeholder values for Firebase configuration
 
-### Demo Pages
+### Demo Routes (SPA)
 
-The following demo pages are functional:
+Demo features are integrated into the React SPA as page routes/components. Example routes:
 
-| Demo                | URL                                                 | Status  |
-| ------------------- | --------------------------------------------------- | ------- |
-| Ripple Effect       | http://localhost:4000/ripple-effect-demo.html       | Working |
-| WebGL Effects       | http://localhost:4000/webgl-effects-demo.html       | Working |
-| Character Animation | http://localhost:4000/character-animation-demo.html | Working |
-| Fluid Simulation    | http://localhost:4000/fluid-simulation.html         | Working |
-| Method4 Demo        | http://localhost:4000/method4-demo.html             | Working |
-| Three.js Example    | http://localhost:4000/three-js-example.html         | Working |
-| WebGL Demos         | http://localhost:4000/webgl-demos.html              | Working |
-| Whiteboard          | http://localhost:4000/whiteboard.html               | Working |
+| Demo / Feature      | SPA Route                                    | Status  |
+| ------------------- | -------------------------------------------- | ------- |
+| Ripple Effect       | http://localhost:4000/animation-demo         | Working |
+| WebGL Effects       | http://localhost:4000/animation-demo         | Working |
+| Character Animation | http://localhost:4000/animation-demo         | Working |
+| Fluid Simulation    | http://localhost:4000/tools/fluid-simulation | Working |
+| Whiteboard          | http://localhost:4000/tools/whiteboard       | Working |
 
 ### Helper Scripts Created
 

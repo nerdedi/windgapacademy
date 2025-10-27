@@ -79,7 +79,7 @@ A collection of high-performance WebGL-based ripple animations and effects for e
 
 Check out the ripple effect demos:
 
-- `ripple-effect-demo.html`: Standalone demo showcasing various ripple animations
+- Use the integrated SPA route or the Animation demo instead of a standalone HTML file. Example route: `/animation-demo` which contains ripple and WebGL effect showcases.
 - `src/components/RippleDemo.jsx`: React component demo with interactive controls
 
 ## Usage Guide

@@ -1,15 +1,27 @@
-import { Box, Button, Container, Grid, Heading, Text, useToast, VStack } from "@chakra-ui/react";
+import { Box, Button, Container, Grid, Heading, Text, VStack } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import { useState } from "react";
 
 // This is a simplified version of the AIAssistantPage component
 // Create this file in src/pages/AIAssistantPage.jsx
 
+// Simple toast implementation since useToast is not available
+const useCustomToast = () => {
+  // eslint-disable-next-line no-unused-vars
+  const showToast = ({ title, description, status, duration = 3000 }) => {
+    console.log(`Toast: ${title} - ${description} (${status})`);
+    // In a real implementation, you would show a toast notification
+    alert(`${title}: ${description}`);
+  };
+
+  return showToast;
+};
+
 const AIAssistantPage = () => {
   const [inputText, setInputText] = useState("");
   const [response, setResponse] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const toast = useToast();
+  const toast = useCustomToast();
 
   // Simulated AI response function - in a real app, this would call your AI API
   const getAIResponse = async (text) => {

@@ -79,9 +79,13 @@ The backend will be available at: http://localhost:5000
 ### Frontend
 
 - Main Application: http://localhost:4000
-- Ripple Effect Demo: http://localhost:4000/ripple-effect-demo.html
-- WebGL Effects Demo: http://localhost:4000/webgl-effects-demo.html
-- Character Animation Demo: http://localhost:4000/character-animation-demo.html
+- Main Application (SPA): http://localhost:4000
+
+Demo features are provided as React routes/components rather than standalone HTML pages. Example SPA routes:
+
+- Animation demo: http://localhost:4000/animation-demo
+- Fluid simulation: http://localhost:4000/tools/fluid-simulation
+- Whiteboard: http://localhost:4000/tools/whiteboard
 
 ### Backend
 
