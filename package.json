@@ -157,7 +157,7 @@
     "tailwindcss": "^4.1.13",
     "terser": "^5.44.0",
     "typescript": "^5.2.2",
-    "vercel": "^48.6.0",
+    "vercel": "^48.6.6",
     "vite": "^7.1.7"
   }
 }
