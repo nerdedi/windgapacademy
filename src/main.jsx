@@ -10,7 +10,7 @@ import { AuthProvider } from "./contexts/AuthContext";
 // Import global styles
 import "./index.css";
 import "../styles/tailwind.css";
-import "./styles/themes.css";
+import "../styles/themes.css";
 
 const container = document.getElementById("root");
 const root = createRoot(container);
