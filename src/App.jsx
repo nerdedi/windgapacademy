@@ -1,5 +1,6 @@
 import React, { Suspense, lazy } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
+import { Analytics } from "@vercel/analytics/react";
 
 import { AnalyticsProvider } from "./analytics";
 import { AccessibilityProvider } from "./context/AccessibilityContext";
@@ -66,6 +67,7 @@ function App() {
         <LearningPreferencesProvider>
           <AnalyticsProvider>
             <div className="App">
+              <Analytics />
               <Suspense fallback={<ProfessionalLoader />}>
                 <AccessibilitySettings />
                 <Routes>

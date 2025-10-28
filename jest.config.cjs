@@ -24,6 +24,7 @@ const config = {
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
     '^@components/(.*)$': '<rootDir>/src/components/$1',
+    '^@contexts/(.*)$': '<rootDir>/src/contexts/$1',
     '^@utils/(.*)$': '<rootDir>/src/utils/$1',
     '^firebase$': '<rootDir>/__mocks__/firebase.js',
     '^firebase/app$': '<rootDir>/__mocks__/firebase.js',
