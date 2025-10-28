@@ -1,11 +1,6 @@
-import { Analytics } from "@vercel/analytics/react";
 import React, { Suspense, lazy } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
-
-import { AnalyticsProvider } from "./analytics";
-import { AccessibilityProvider } from "./context/AccessibilityContext";
-import { LearningPreferencesProvider } from "./context/LearningPreferencesContext";
-import { AuthProvider } from "./contexts/AuthContext";
+import { Analytics } from "@vercel/analytics/react";
 
 import AccessibilitySettings from "./components/AccessibilitySettings";
 import CurriculumBuilderWithSaveState from "./components/curriculum/CurriculumBuilderWithSaveState.jsx";
@@ -62,169 +57,158 @@ function ProfessionalLoader() {
 
 function App() {
   return (
-    <AuthProvider>
-      <AccessibilityProvider>
-        <LearningPreferencesProvider>
-          <AnalyticsProvider>
-            <div className="App">
-              <Analytics />
+    <div className="App">
+      <Analytics />
+      <Suspense fallback={<ProfessionalLoader />}>
+        <AccessibilitySettings />
+        <Routes>
+          {/* Public Routes */}
+          <Route path="/" element={<HomeModern />} />
+          <Route path="/llnd" element={<LLNDHomepage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/reset-password" element={<ResetPasswordPage />} />
+          <Route path="/verify-email" element={<VerifyEmailPage />} />
+          <Route path="/unauthorized" element={<UnauthorizedPage />} />
+
+          {/* Demo Routes */}
+          <Route path="/demos/automation" element={<AutomationDemo />} />
+          <Route path="/tools" element={<ToolsPage />} />
+          <Route path="/learning" element={<LearningPage />} />
+          <Route path="/about" element={<AboutPage />} />
+
+          {/* Protected Routes */}
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <LearnerDashboard />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/setup-mfa"
+            element={
+              <ProtectedRoute>
+                <SetupMFAPage />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Protected Routes with Role Requirements */}
+          <Route
+            path="/curriculum-builder"
+            element={
+              <ProtectedRoute requiredRoles={["educator", "admin"]}>
+                <CurriculumBuilderWithSaveState />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* LLND Lesson Modules */}
+          <Route
+            path="/lesson/language-phonics"
+            element={
+              <ProtectedRoute>
+                <LanguagePhonicsLesson />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/lesson/literacy-reading"
+            element={
+              <ProtectedRoute>
+                <LiteracyReadingLesson />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/lesson/numeracy-money"
+            element={
+              <ProtectedRoute>
+                <NumeracyCountingMoneyLesson />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/lesson/life-skills"
+            element={
+              <ProtectedRoute>
+                <LifeSkillsLesson />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/lesson/digital-literacy"
+            element={
+              <ProtectedRoute>
+                <DigitalLiteracyLesson />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Enhanced lesson with neurodiversity accommodations */}
+          <Route
+            path="/lesson/digital-literacy-enhanced"
+            element={
+              <ProtectedRoute>
+                <DigitalLiteracyLessonEnhanced />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Demo pages */}
+          <Route path="/animation-demo" element={<AnimationSystemDemo />} />
+          <Route path="/adaptive-demo" element={<AdaptiveDemoPage />} />
+          <Route path="/executive-function-demo" element={<ExecutiveFunctionDemo />} />
+          <Route path="/neurodivergent-learning" element={<NeurodivergentLearningPage />} />
+          <Route path="/ai-assistant" element={<AIAssistantPage />} />
+          <Route path="/exercises/math" element={<MathExercisesPage />} />
+
+          {/* Adaptive Math Learning Routes */}
+          <Route path="/math/adaptive-quest" element={<AdaptiveMathLearningPage />} />
+          <Route path="/math/adaptive-quest/:conceptId" element={<AdaptiveMathLearningPage />} />
+          <Route
+            path="/math/fraction-mastery"
+            element={
               <Suspense fallback={<ProfessionalLoader />}>
-                <AccessibilitySettings />
-                <Routes>
-                  {/* Public Routes */}
-                  <Route path="/" element={<HomeModern />} />
-                  <Route path="/llnd" element={<LLNDHomepage />} />
-                  <Route path="/login" element={<LoginPage />} />
-                  <Route path="/reset-password" element={<ResetPasswordPage />} />
-                  <Route path="/verify-email" element={<VerifyEmailPage />} />
-                  <Route path="/unauthorized" element={<UnauthorizedPage />} />
-
-                  {/* Demo Routes */}
-                  <Route path="/demos/automation" element={<AutomationDemo />} />
-                  <Route path="/tools" element={<ToolsPage />} />
-                  <Route path="/learning" element={<LearningPage />} />
-                  <Route path="/about" element={<AboutPage />} />
-
-                  {/* Protected Routes */}
-                  <Route
-                    path="/dashboard"
-                    element={
-                      <ProtectedRoute>
-                        <LearnerDashboard />
-                      </ProtectedRoute>
-                    }
-                  />
-
-                  <Route
-                    path="/setup-mfa"
-                    element={
-                      <ProtectedRoute>
-                        <SetupMFAPage />
-                      </ProtectedRoute>
-                    }
-                  />
-
-                  {/* Protected Routes with Role Requirements */}
-                  <Route
-                    path="/curriculum-builder"
-                    element={
-                      <ProtectedRoute requiredRoles={["educator", "admin"]}>
-                        <CurriculumBuilderWithSaveState />
-                      </ProtectedRoute>
-                    }
-                  />
-
-                  {/* LLND Lesson Modules */}
-                  <Route
-                    path="/lesson/language-phonics"
-                    element={
-                      <ProtectedRoute>
-                        <LanguagePhonicsLesson />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="/lesson/literacy-reading"
-                    element={
-                      <ProtectedRoute>
-                        <LiteracyReadingLesson />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="/lesson/numeracy-money"
-                    element={
-                      <ProtectedRoute>
-                        <NumeracyCountingMoneyLesson />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="/lesson/life-skills"
-                    element={
-                      <ProtectedRoute>
-                        <LifeSkillsLesson />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="/lesson/digital-literacy"
-                    element={
-                      <ProtectedRoute>
-                        <DigitalLiteracyLesson />
-                      </ProtectedRoute>
-                    }
-                  />
-
-                  {/* Enhanced lesson with neurodiversity accommodations */}
-                  <Route
-                    path="/lesson/digital-literacy-enhanced"
-                    element={
-                      <ProtectedRoute>
-                        <DigitalLiteracyLessonEnhanced />
-                      </ProtectedRoute>
-                    }
-                  />
-
-                  {/* Demo pages */}
-                  <Route path="/animation-demo" element={<AnimationSystemDemo />} />
-                  <Route path="/adaptive-demo" element={<AdaptiveDemoPage />} />
-                  <Route path="/executive-function-demo" element={<ExecutiveFunctionDemo />} />
-                  <Route path="/neurodivergent-learning" element={<NeurodivergentLearningPage />} />
-                  <Route path="/ai-assistant" element={<AIAssistantPage />} />
-                  <Route path="/exercises/math" element={<MathExercisesPage />} />
-
-                  {/* Adaptive Math Learning Routes */}
-                  <Route path="/math/adaptive-quest" element={<AdaptiveMathLearningPage />} />
-                  <Route
-                    path="/math/adaptive-quest/:conceptId"
-                    element={<AdaptiveMathLearningPage />}
-                  />
-                  <Route
-                    path="/math/fraction-mastery"
-                    element={
-                      <Suspense fallback={<ProfessionalLoader />}>
-                        {/* We're lazy-loading this component since it's just an example */}
-                        {React.createElement(lazy(() => import("./exercises/FractionMastery")))}
-                      </Suspense>
-                    }
-                  />
-
-                  {/* Tools migrated from static demo pages into SPA */}
-                  <Route path="/tools/fluid-simulation" element={<FluidSimulationPage />} />
-                  <Route path="/tools/whiteboard" element={<WhiteboardPage />} />
-                  <Route path="/tools/ripple-effect" element={<RippleEffectPage />} />
-                  <Route path="/tools/webgl-effects" element={<WebGLEffectsPage />} />
-                  <Route path="/tools/character-animation" element={<CharacterAnimationPage />} />
-
-                  {/* Module routes */}
-                  <Route
-                    path="/module/:moduleId"
-                    element={
-                      <ProtectedRoute>
-                        <div className="p-8 text-center">
-                          <h1 className="text-2xl font-bold mb-4">Module Coming Soon</h1>
-                          <p className="text-gray-600 mb-4">This LLND module is being developed.</p>
-                          <button
-                            onClick={() => window.history.back()}
-                            className="bg-blue-600 text-white px-4 py-2 rounded"
-                          >
-                            Go Back
-                          </button>
-                        </div>
-                      </ProtectedRoute>
-                    }
-                  />
-
-                  {/* Catch all */}
-                  <Route path="*" element={<Navigate to="/" replace />} />
-                </Routes>
+                {/* We're lazy-loading this component since it's just an example */}
+                {React.createElement(lazy(() => import("./exercises/FractionMastery")))}
               </Suspense>
-            </div>
-          </AnalyticsProvider>
-        </LearningPreferencesProvider>
-      </AccessibilityProvider>
-    </AuthProvider>
+            }
+          />
+
+          {/* Tools migrated from static demo pages into SPA */}
+          <Route path="/tools/fluid-simulation" element={<FluidSimulationPage />} />
+          <Route path="/tools/whiteboard" element={<WhiteboardPage />} />
+          <Route path="/tools/ripple-effect" element={<RippleEffectPage />} />
+          <Route path="/tools/webgl-effects" element={<WebGLEffectsPage />} />
+          <Route path="/tools/character-animation" element={<CharacterAnimationPage />} />
+
+          {/* Module routes */}
+          <Route
+            path="/module/:moduleId"
+            element={
+              <ProtectedRoute>
+                <div className="p-8 text-center">
+                  <h1 className="text-2xl font-bold mb-4">Module Coming Soon</h1>
+                  <p className="text-gray-600 mb-4">This LLND module is being developed.</p>
+                  <button
+                    onClick={() => window.history.back()}
+                    className="bg-blue-600 text-white px-4 py-2 rounded"
+                  >
+                    Go Back
+                  </button>
+                </div>
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Catch all */}
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </Suspense>
+    </div>
   );
 }
 

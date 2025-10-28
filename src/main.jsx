@@ -18,15 +18,15 @@ const root = createRoot(container);
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <AccessibilityProvider>
-        <AuthProvider>
+      <AuthProvider>
+        <AccessibilityProvider>
           <LearningPreferencesProvider>
             <AnalyticsProvider>
               <App />
             </AnalyticsProvider>
           </LearningPreferencesProvider>
-        </AuthProvider>
-      </AccessibilityProvider>
+        </AccessibilityProvider>
+      </AuthProvider>
     </BrowserRouter>
   </React.StrictMode>,
 );
