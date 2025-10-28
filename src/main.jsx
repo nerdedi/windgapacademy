@@ -1,18 +1,32 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
+import App from "./App";
+import { AnalyticsProvider } from "./analytics";
+import { AccessibilityProvider } from "./context/AccessibilityContext";
+import { LearningPreferencesProvider } from "./context/LearningPreferencesContext";
+import { AuthProvider } from "./contexts/AuthContext";
 
-import App from "./App.jsx";
+// Import global styles
 import "./index.css";
+import "./styles/tailwind.css";
+import "./styles/themes.css";
 
-// Simple app rendering
 const container = document.getElementById("root");
 const root = createRoot(container);
 
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <App />
+      <AccessibilityProvider>
+        <AuthProvider>
+          <LearningPreferencesProvider>
+            <AnalyticsProvider>
+              <App />
+            </AnalyticsProvider>
+          </LearningPreferencesProvider>
+        </AuthProvider>
+      </AccessibilityProvider>
     </BrowserRouter>
   </React.StrictMode>,
 );
