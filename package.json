@@ -36,6 +36,8 @@
     "test:coverage": "jest --coverage",
     "test:unit": "jest --testPathPattern=unit",
     "test:integration": "jest --testPathPattern=integration",
+    "deploy": "vercel --prod",
+    "deploy:preview": "vercel",
     "e2e": "playwright test",
     "e2e:headed": "playwright test --headed",
     "e2e:debug": "playwright test --debug",
@@ -154,6 +156,7 @@
     "tailwindcss": "^4.1.13",
     "terser": "^5.44.0",
     "typescript": "^5.2.2",
+    "vercel": "^48.6.0",
     "vite": "^7.1.7"
   }
 }
