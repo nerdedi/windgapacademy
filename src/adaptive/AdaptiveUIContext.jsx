@@ -1,9 +1,9 @@
 // Portions of this file were generated with the assistance of GitHub Copilot
 
-import PropTypes from "prop-types";
-import React, { createContext, useContext, useEffect, useState, useCallback, useMemo } from "react";
+import { createContext, useCallback, useContext, useEffect, useState } from "react";
 
 import { useAnalytics } from "../analytics";
+import { useStore } from "../stores";
 
 // Create the context
 const AdaptiveUIContext = createContext();

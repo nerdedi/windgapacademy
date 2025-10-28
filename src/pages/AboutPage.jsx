@@ -13,7 +13,7 @@ const AboutPage = () => {
             About Windgap Academy
           </h1>
           <p className="text-lg text-gray-300 max-w-3xl mx-auto">
-            We're revolutionizing education with advanced technology and innovative learning
+            We&apos;re revolutionizing education with advanced technology and innovative learning
             approaches.
           </p>
         </div>
