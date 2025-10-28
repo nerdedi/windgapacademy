@@ -1,6 +1,6 @@
+import { Analytics } from "@vercel/analytics/react";
 import React, { Suspense, lazy } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
-import { Analytics } from "@vercel/analytics/react";
 
 import { AnalyticsProvider } from "./analytics";
 import { AccessibilityProvider } from "./context/AccessibilityContext";
@@ -62,8 +62,8 @@ function ProfessionalLoader() {
 
 function App() {
   return (
-    <AccessibilityProvider>
-      <AuthProvider>
+    <AuthProvider>
+      <AccessibilityProvider>
         <LearningPreferencesProvider>
           <AnalyticsProvider>
             <div className="App">
@@ -223,8 +223,8 @@ function App() {
             </div>
           </AnalyticsProvider>
         </LearningPreferencesProvider>
-      </AuthProvider>
-    </AccessibilityProvider>
+      </AccessibilityProvider>
+    </AuthProvider>
   );
 }
 
