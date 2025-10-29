@@ -3,7 +3,7 @@ import React from "react";
 import { BrowserRouter } from "react-router-dom";
 
 import LoginPage from "../components/LoginPage";
-import { AuthProvider } from "../context/AuthContext";
+import { AuthProvider } from "../contexts/AuthContext";
 
 // Mock the AuthContext directly to bypass Firebase import issues
 jest.mock("../context/AuthContext", () => ({

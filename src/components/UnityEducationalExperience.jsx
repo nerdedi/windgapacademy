@@ -1,7 +1,7 @@
 import { doc, getDoc } from "firebase/firestore";
 import { useCallback, useEffect, useRef, useState } from "react";
 
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../contexts/AuthContext";
 import { firestore } from "../firebase";
 
 import EnhancedUnityPlayer from "../unity-integration/EnhancedUnityPlayer";

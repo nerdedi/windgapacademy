@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../contexts/AuthContext";
 import perfMetrics from "../utils/PerfMetrics";
 import WebGLOptimizer from "../utils/WebGLOptimizer";
 

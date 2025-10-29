@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import { useEffect, useRef, useState } from "react";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../contexts/AuthContext";
 import { getProgressData, saveProgressData } from "../utils/ProgressService";
 import OptimizedUnityPlayer from "./OptimizedUnityPlayer";
 import ErrorAlert from "./ui/ErrorAlert";

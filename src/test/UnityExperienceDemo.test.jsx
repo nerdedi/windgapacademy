@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import UnityExperienceDemo from "../components/UnityExperienceDemo";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../contexts/AuthContext";
 import { getProgressData, saveProgressData } from "../utils/ProgressService";
 
 // Mock the dependencies

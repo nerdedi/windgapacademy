@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 
-import { AuthContext } from "../context/AuthContext";
+import { AuthContext } from "../contexts/AuthContext";
 
 import AdminDashboard from "./AdminDashboard";
 import StudentDashboard from "./StudentDashboard";

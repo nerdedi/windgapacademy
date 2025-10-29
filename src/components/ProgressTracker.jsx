@@ -2,7 +2,7 @@ import { format } from "date-fns";
 import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { firestore } from "../../firebase";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../contexts/AuthContext";
 import "./ProgressTracker.css";
 import ErrorAlert from "./ui/ErrorAlert";
 import LoadingSpinner from "./ui/LoadingSpinner";

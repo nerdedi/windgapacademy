@@ -40,12 +40,14 @@ import {
 
 // Initialize Firebase
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || "AIzaSyD7TYzqBLnhFl4TfVQCtF7V4LoGy7AYJR0",
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || "windgap-academy-dev.firebaseapp.com",
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || "windgap-academy-dev",
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || "windgap-academy-dev.appspot.com",
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || "859241450848",
-  appId: import.meta.env.VITE_FIREBASE_APP_ID || "1:859241450848:web:9a5e8b9b3f3c3c3c3c3c3c",
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || "AIzaSyC9vm4XXrKPByzwVtaDmvaWL2IsZ5my8xw",
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || "windgap-academy-e2c48.firebaseapp.com",
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || "windgap-academy-e2c48",
+  storageBucket:
+    import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || "windgap-academy-e2c48.firebasestorage.app",
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || "444841255811",
+  appId: import.meta.env.VITE_FIREBASE_APP_ID || "1:444841255811:web:24f12f01c19e51d4f7ccb6",
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID || "G-VJFSNPCK60",
 };
 
 const app = initializeApp(firebaseConfig);

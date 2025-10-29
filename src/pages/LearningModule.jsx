@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import ErrorAlert from "../components/ui/ErrorAlert";
 import LoadingSpinner from "../components/ui/LoadingSpinner";
 import UnityExperienceDemo from "../components/UnityExperienceDemo";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../contexts/AuthContext";
 import { getExperienceById } from "../services/ExperiencesService";
 import { getProgressData } from "../utils/ProgressService";
 

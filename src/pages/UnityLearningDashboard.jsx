@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import ProgressTracker from "../components/ProgressTracker";
 import LoadingSpinner from "../components/ui/LoadingSpinner";
 import UnityExperienceDemo from "../components/UnityExperienceDemo";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../contexts/AuthContext";
 import { getProgressData } from "../utils/ProgressService";
 
 /**

@@ -3,7 +3,7 @@ import { collection, doc, getDoc, getDocs, query, where } from "firebase/firesto
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { firestore } from "../../firebase";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../contexts/AuthContext";
 import "./ProgressReport.css";
 import ErrorAlert from "./ui/ErrorAlert";
 import LoadingSpinner from "./ui/LoadingSpinner";

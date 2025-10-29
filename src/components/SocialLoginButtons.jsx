@@ -7,7 +7,7 @@
 
 import React from "react";
 
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../contexts/AuthContext";
 
 const SocialLoginButtons = ({ className = "", onSuccess = () => {}, onError = () => {} }) => {
   const { loginWithGoogle, loginWithFacebook, loginWithApple } = useAuth();
