@@ -47,7 +47,7 @@ const firebaseConfig = {
     import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || "windgap-academy-e2c48.firebasestorage.app",
   messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || "444841255811",
   appId: import.meta.env.VITE_FIREBASE_APP_ID || "1:444841255811:web:24f12f01c19e51d4f7ccb6",
-  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID || "G-VJFSNPCK60",
+  // measurementId removed - using Vercel Analytics instead to avoid CORS issues
 };
 
 const app = initializeApp(firebaseConfig);

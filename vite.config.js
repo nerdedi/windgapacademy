@@ -46,11 +46,21 @@ export default defineConfig(({ mode }) => {
     },
 
     optimizeDeps: {
-      include: ["framer-motion", "react", "react-dom", "react-router-dom"],
+      include: [
+        "react",
+        "react-dom",
+        "react-router-dom",
+        "framer-motion",
+        "firebase/app",
+        "firebase/auth",
+        "firebase/firestore",
+      ],
+      exclude: ["three", "@react-three/fiber", "@react-three/drei"],
       esbuildOptions: {
         loader: {
           ".js": "jsx",
         },
+        target: "es2020",
       },
     },
 
@@ -58,15 +68,55 @@ export default defineConfig(({ mode }) => {
       target: "es2020",
       minify: isProd ? "esbuild" : false,
       sourcemap: isDev ? "inline" : false,
-      chunkSizeWarningLimit: 1000,
+      chunkSizeWarningLimit: 500,
       cssCodeSplit: true,
       assetsInlineLimit: 4096,
 
       rollupOptions: {
         output: {
-          manualChunks: {
-            "react-vendor": ["react", "react-dom", "react-router-dom"],
-            "animation-vendor": ["framer-motion"],
+          manualChunks: (id) => {
+            // Core React libraries
+            if (id.includes("node_modules/react") || id.includes("node_modules/react-dom")) {
+              return "react-vendor";
+            }
+            // React Router
+            if (id.includes("node_modules/react-router")) {
+              return "router-vendor";
+            }
+            // Animation libraries
+            if (id.includes("node_modules/framer-motion")) {
+              return "animation-vendor";
+            }
+            // Three.js and 3D libraries
+            if (id.includes("node_modules/three") || id.includes("node_modules/@react-three")) {
+              return "three-vendor";
+            }
+            // Firebase
+            if (id.includes("node_modules/firebase") || id.includes("node_modules/@firebase")) {
+              return "firebase-vendor";
+            }
+            // UI libraries
+            if (id.includes("node_modules/@headlessui") || id.includes("node_modules/@heroicons")) {
+              return "ui-vendor";
+            }
+            // Stores (keep together for better performance)
+            if (id.includes("/src/stores/")) {
+              return "stores";
+            }
+            // Components by category
+            if (id.includes("/src/components/lessonModules/")) {
+              return "lesson-modules";
+            }
+            if (id.includes("/src/components/curriculum/")) {
+              return "curriculum";
+            }
+            if (id.includes("/src/pages/Tools/")) {
+              return "tools-pages";
+            }
+            // Analytics and adaptive features
+            if (id.includes("/src/analytics/") || id.includes("/src/adaptive/")) {
+              return "adaptive-features";
+            }
           },
           chunkFileNames: (chunkInfo) => {
             const facadeModuleId = chunkInfo.facadeModuleId

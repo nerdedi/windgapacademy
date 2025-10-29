@@ -1,47 +1,68 @@
-import React, { Suspense, lazy } from "react";
-import { Navigate, Route, Routes } from "react-router-dom";
 import { Analytics } from "@vercel/analytics/react";
-
-import AccessibilitySettings from "./components/AccessibilitySettings";
-import CurriculumBuilderWithSaveState from "./components/curriculum/CurriculumBuilderWithSaveState.jsx";
-import HomeModern from "./components/HomeModern";
-import DigitalLiteracyLesson from "./components/lessonModules/DigitalLiteracyLesson";
-import DigitalLiteracyLessonEnhanced from "./components/lessonModules/DigitalLiteracyLessonEnhanced";
-import LanguagePhonicsLesson from "./components/lessonModules/LanguagePhonicsLesson";
-import LifeSkillsLesson from "./components/lessonModules/LifeSkillsLesson";
-import LiteracyReadingLesson from "./components/lessonModules/LiteracyReadingLesson";
-import NumeracyCountingMoneyLesson from "./components/lessonModules/NumeracyCountingMoneyLesson";
-import LLNDHomepage from "./components/LLNDHomepage";
-import LoginPage from "./components/LoginPage";
-import ProtectedRoute from "./components/ProtectedRoute";
-import LearnerDashboard from "./components/StudentDashboard";
-
-import AboutPage from "./pages/AboutPage";
-import AdaptiveDemoPage from "./pages/AdaptiveDemoPage";
-import AdaptiveMathLearningPage from "./pages/AdaptiveMathLearningPage";
-import AIAssistantPage from "./pages/AIAssistantPage";
-import AnimationSystemDemo from "./pages/AnimationSystemDemo";
-import AutomationDemo from "./pages/AutomationDemo.jsx";
-import ExecutiveFunctionDemo from "./pages/ExecutiveFunctionDemo";
-import LearningPage from "./pages/LearningPage";
-import MathExercisesPage from "./pages/MathExercisesPage";
-import NeurodivergentLearningPage from "./pages/NeurodivergentLearningPage";
-import CharacterAnimationPage from "./pages/Tools/CharacterAnimation";
-import FluidSimulationPage from "./pages/Tools/FluidSimulation";
-import RippleEffectPage from "./pages/Tools/RippleEffect";
-import WebGLEffectsPage from "./pages/Tools/WebGLEffects";
-import WhiteboardPage from "./pages/Tools/Whiteboard";
-import ToolsPage from "./pages/ToolsPage";
+import { Suspense, lazy } from "react";
+import { Navigate, Route, Routes } from "react-router-dom";
 
 import "./styles/accessibility.css";
 import "./styles/adaptive.css";
 import "./styles/neurodivergent.css";
 
-// Lazy-loaded authentication pages
+// Critical components loaded immediately
+import AccessibilitySettings from "./components/AccessibilitySettings";
+import ProtectedRoute from "./components/ProtectedRoute";
+
+// Lazy-load ALL routes for optimal code splitting
+const HomeModern = lazy(() => import("./components/HomeModern"));
+const LLNDHomepage = lazy(() => import("./components/LLNDHomepage"));
+const LoginPage = lazy(() => import("./components/LoginPage"));
+const LearnerDashboard = lazy(() => import("./components/StudentDashboard"));
+
+// Authentication pages
 const VerifyEmailPage = lazy(() => import("./components/VerifyEmailPage"));
 const SetupMFAPage = lazy(() => import("./components/SetupMFAPage"));
 const ResetPasswordPage = lazy(() => import("./components/ResetPasswordPage"));
 const UnauthorizedPage = lazy(() => import("./components/UnauthorizedPage"));
+
+// Curriculum and lessons
+const CurriculumBuilderWithSaveState = lazy(
+  () => import("./components/curriculum/CurriculumBuilderWithSaveState.jsx"),
+);
+const DigitalLiteracyLesson = lazy(
+  () => import("./components/lessonModules/DigitalLiteracyLesson"),
+);
+const DigitalLiteracyLessonEnhanced = lazy(
+  () => import("./components/lessonModules/DigitalLiteracyLessonEnhanced"),
+);
+const LanguagePhonicsLesson = lazy(
+  () => import("./components/lessonModules/LanguagePhonicsLesson"),
+);
+const LifeSkillsLesson = lazy(() => import("./components/lessonModules/LifeSkillsLesson"));
+const LiteracyReadingLesson = lazy(
+  () => import("./components/lessonModules/LiteracyReadingLesson"),
+);
+const NumeracyCountingMoneyLesson = lazy(
+  () => import("./components/lessonModules/NumeracyCountingMoneyLesson"),
+);
+
+// Demo and feature pages
+const AboutPage = lazy(() => import("./pages/AboutPage"));
+const AdaptiveDemoPage = lazy(() => import("./pages/AdaptiveDemoPage"));
+const AdaptiveMathLearningPage = lazy(() => import("./pages/AdaptiveMathLearningPage"));
+const AIAssistantPage = lazy(() => import("./pages/AIAssistantPage"));
+const AnimationSystemDemo = lazy(() => import("./pages/AnimationSystemDemo"));
+const AutomationDemo = lazy(() => import("./pages/AutomationDemo.jsx"));
+const ExecutiveFunctionDemo = lazy(() => import("./pages/ExecutiveFunctionDemo"));
+const LearningPage = lazy(() => import("./pages/LearningPage"));
+const MathExercisesPage = lazy(() => import("./pages/MathExercisesPage"));
+const NeurodivergentLearningPage = lazy(() => import("./pages/NeurodivergentLearningPage"));
+const FractionMastery = lazy(() => import("./exercises/FractionMastery"));
+
+// Tools pages
+const CharacterAnimationPage = lazy(() => import("./pages/Tools/CharacterAnimation"));
+const FluidSimulationPage = lazy(() => import("./pages/Tools/FluidSimulation"));
+const RippleEffectPage = lazy(() => import("./pages/Tools/RippleEffect"));
+const WebGLEffectsPage = lazy(() => import("./pages/Tools/WebGLEffects"));
+const WhiteboardPage = lazy(() => import("./pages/Tools/Whiteboard"));
+const ToolsPage = lazy(() => import("./pages/ToolsPage"));
 
 // Professional loading component
 function ProfessionalLoader() {
@@ -172,8 +193,7 @@ function App() {
             path="/math/fraction-mastery"
             element={
               <Suspense fallback={<ProfessionalLoader />}>
-                {/* We're lazy-loading this component since it's just an example */}
-                {React.createElement(lazy(() => import("./exercises/FractionMastery")))}
+                <FractionMastery />
               </Suspense>
             }
           />
