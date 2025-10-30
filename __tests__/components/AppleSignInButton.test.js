@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 import "@testing-library/jest-dom";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import AppleSignInButton from "../../src/components/auth/AppleSignInButton";
 import { useAuth } from "../../src/contexts/AuthContext";
 import * as appleAuth from "../../src/utils/appleAuth";
@@ -66,21 +66,28 @@ describe("AppleSignInButton", () => {
 
     render(<AppleSignInButton onSuccess={mockOnSuccess} />);
 
-    fireEvent.click(screen.getByRole("button"));
+    const button = screen.getByRole("button");
+    fireEvent.click(button);
 
-    // Wait for the promise to resolve
-    await new Promise((resolve) => setTimeout(resolve, 0));
-
-    expect(appleAuth.signInWithApple).toHaveBeenCalled();
-    expect(useAuth().setUser).toHaveBeenCalledWith({
-      id: "john.doe@example.com",
-      name: "John Doe",
-      email: "john.doe@example.com",
-      provider: "apple",
-      photoURL: "",
-      authToken: "test-token",
+    // Wait for async operations to complete
+    await waitFor(() => {
+      expect(appleAuth.signInWithApple).toHaveBeenCalled();
     });
-    expect(mockOnSuccess).toHaveBeenCalled();
+
+    await waitFor(() => {
+      expect(useAuth().setUser).toHaveBeenCalledWith({
+        id: "john.doe@example.com",
+        name: "John Doe",
+        email: "john.doe@example.com",
+        provider: "apple",
+        photoURL: "",
+        authToken: "test-token",
+      });
+    });
+
+    await waitFor(() => {
+      expect(mockOnSuccess).toHaveBeenCalled();
+    });
   });
 
   it("should handle error when sign in fails", async () => {
@@ -92,14 +99,18 @@ describe("AppleSignInButton", () => {
 
     render(<AppleSignInButton onError={mockOnError} />);
 
-    fireEvent.click(screen.getByRole("button"));
+    const button = screen.getByRole("button");
+    fireEvent.click(button);
 
-    // Wait for the promise to reject
-    await new Promise((resolve) => setTimeout(resolve, 0));
+    // Wait for async rejection
+    await waitFor(() => {
+      expect(appleAuth.signInWithApple).toHaveBeenCalled();
+    });
 
-    expect(appleAuth.signInWithApple).toHaveBeenCalled();
-    expect(consoleSpy).toHaveBeenCalledWith("Apple Sign In failed:", mockError);
-    expect(mockOnError).toHaveBeenCalledWith(mockError);
+    await waitFor(() => {
+      expect(consoleSpy).toHaveBeenCalledWith("Apple Sign In failed:", mockError);
+      expect(mockOnError).toHaveBeenCalledWith(mockError);
+    });
 
     consoleSpy.mockRestore();
   });

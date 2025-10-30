@@ -78,16 +78,20 @@ export default defineConfig(({ mode }) => {
         "@vercel/analytics",
         "@vercel/analytics/react",
 
+        // Three.js - Include to prevent initialization errors
+        "three",
+        "three/examples/jsm/loaders/GLTFLoader",
+        "three/examples/jsm/controls/OrbitControls",
+        "@react-three/fiber",
+        "@react-three/drei",
+
         // Utilities
         "clsx",
         "date-fns",
       ],
       exclude: [
-        // Large 3D libraries that should be lazy-loaded
-        "three",
-        "@react-three/fiber",
-        "@react-three/drei",
-        "@react-three/postprocessing",
+        // Heavy postprocessing can be lazy-loaded
+        // Removed from exclude to fix initialization issues
       ],
       esbuildOptions: {
         loader: {
@@ -97,6 +101,8 @@ export default defineConfig(({ mode }) => {
         // Optimize performance
         minify: isProd,
         keepNames: isDev,
+        // Handle Three.js module format
+        format: "esm",
       },
       // Force dependency re-optimization on config change
       force: false,

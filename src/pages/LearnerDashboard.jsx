@@ -13,7 +13,7 @@
  */
 
 import { Environment, Float, OrbitControls, Text as Text3D } from "@react-three/drei";
-import { Canvas } from "@react-three/fiber";
+import SafeCanvas from "../components/SafeCanvas";
 import { AnimatePresence, motion } from "framer-motion";
 import { Suspense, useCallback, useEffect, useMemo, useState } from "react";
 
@@ -322,43 +322,31 @@ const LearnerDashboard = () => {
 
         {/* 3D Background Environment */}
         <div className="fixed inset-0 -z-10 opacity-20">
-          <Canvas camera={{ position: [0, 0, 10], fov: 60 }}>
-            <Suspense fallback={null}>
-              <Environment preset="sunset" />
-              <OrbitControls
-                enableZoom={false}
-                enablePan={false}
-                autoRotate
-                autoRotateSpeed={0.5}
-              />
+          <SafeCanvas camera={{ position: [0, 0, 10], fov: 60 }}>
+            <Environment preset="sunset" />
+            <OrbitControls enableZoom={false} enablePan={false} autoRotate autoRotateSpeed={0.5} />
 
-              <Float speed={1} rotationIntensity={0.5} floatIntensity={0.5}>
-                <Text3D font="/fonts/Inter_Bold.json" size={1} height={0.1} position={[-3, 2, 0]}>
-                  Learn
-                  <meshStandardMaterial color="#14b8a6" />
-                </Text3D>
-              </Float>
+            <Float speed={1} rotationIntensity={0.5} floatIntensity={0.5}>
+              <Text3D font="/fonts/Inter_Bold.json" size={1} height={0.1} position={[-3, 2, 0]}>
+                Learn
+                <meshStandardMaterial color="#14b8a6" />
+              </Text3D>
+            </Float>
 
-              <Float speed={1.5} rotationIntensity={0.3} floatIntensity={0.7}>
-                <Text3D font="/fonts/Inter_Bold.json" size={0.8} height={0.1} position={[2, -1, 0]}>
-                  Grow
-                  <meshStandardMaterial color="#f59e0b" />
-                </Text3D>
-              </Float>
+            <Float speed={1.5} rotationIntensity={0.3} floatIntensity={0.7}>
+              <Text3D font="/fonts/Inter_Bold.json" size={0.8} height={0.1} position={[2, -1, 0]}>
+                Grow
+                <meshStandardMaterial color="#f59e0b" />
+              </Text3D>
+            </Float>
 
-              <Float speed={0.8} rotationIntensity={0.7} floatIntensity={0.3}>
-                <Text3D
-                  font="/fonts/Inter_Bold.json"
-                  size={0.6}
-                  height={0.1}
-                  position={[-1, -2, 0]}
-                >
-                  Achieve
-                  <meshStandardMaterial color="#ef4444" />
-                </Text3D>
-              </Float>
-            </Suspense>
-          </Canvas>
+            <Float speed={0.8} rotationIntensity={0.7} floatIntensity={0.3}>
+              <Text3D font="/fonts/Inter_Bold.json" size={0.6} height={0.1} position={[-1, -2, 0]}>
+                Achieve
+                <meshStandardMaterial color="#ef4444" />
+              </Text3D>
+            </Float>
+          </SafeCanvas>
         </div>
 
         {/* Legacy Dashboard Component (for backward compatibility) */}

@@ -12,6 +12,10 @@ const config = {
     '<rootDir>/**/?(*.)+(spec|test).[jt]s?(x)'
   ],
   testEnvironment: 'jsdom',
+  // Force React to development mode for testing
+  globals: {
+    'process.env.NODE_ENV': 'development',
+  },
   testRunner: 'jest-circus/runner',
   testPathIgnorePatterns: [
     '<rootDir>/playwright/',

@@ -1,5 +1,8 @@
 require("@testing-library/jest-dom");
 
+// Force React into development mode for testing
+process.env.NODE_ENV = "development";
+
 // Mock window.matchMedia
 global.matchMedia =
   global.matchMedia ||
@@ -148,7 +151,6 @@ const noopSafeRun = (fn) => {
   try {
     return typeof fn === "function" ? fn() : undefined;
   } catch (e) {
-    
     console.error(e);
   }
 };
