@@ -241,19 +241,44 @@ function LoginPage() {
     }
   };
 
-  const handleDemoLogin = (userType) => {
+  const handleDemoLogin = async (userType) => {
+    setGeneralError("");
+    setIsSubmitting(true);
+
+    const demoEmail = userType === "educator" ? "educator@demo.com" : "learner@demo.com";
+    const demoPassword = "demo123456";
+
+    // Update form data for visual feedback
     setFormData({
-      email: userType === "educator" ? "educator@demo.com" : "learner@demo.com",
-      password: "password123",
+      email: demoEmail,
+      password: demoPassword,
       name: userType === "educator" ? "Demo Educator" : "Demo Learner",
       userType,
     });
 
-    // Automatically submit the form
-    setTimeout(() => {
-      const form = document.getElementById("auth-form");
-      if (form) form.dispatchEvent(new Event("submit", { cancelable: true, bubbles: true }));
-    }, 100);
+    try {
+      // Directly call the signIn function
+      await signIn(demoEmail, demoPassword);
+      // Navigation handled by useEffect watching currentUser
+    } catch (error) {
+      console.error("Demo login error:", error);
+      // If demo account doesn't exist, try to create it
+      try {
+        await signUp(
+          demoEmail,
+          demoPassword,
+          userType === "educator" ? "Demo Educator" : "Demo Learner",
+          userType,
+        );
+        // After signup, sign in
+        await signIn(demoEmail, demoPassword);
+      } catch (signupError) {
+        console.error("Demo account creation error:", signupError);
+        setGeneralError("Demo account not available. Please try manual login or contact support.");
+      }
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   if (loading) {
