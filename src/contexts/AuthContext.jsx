@@ -1,5 +1,14 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { auth, onAuthStateChanged } from "../../firebase";
+import {
+  auth,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  signInWithPopup,
+  GoogleAuthProvider,
+  FacebookAuthProvider,
+  OAuthProvider,
+} from "../../firebase";
 import { signInWithApple } from "../utils/appleAuth";
 import { signInWithGoogle } from "../utils/googleAuth";
 import { microsoftAuth } from "../utils/microsoftAuth";
@@ -54,6 +63,68 @@ export const AuthProvider = ({ children }) => {
     // Clean up subscription on unmount
     return () => unsubscribe();
   }, []);
+
+  /**
+   * Sign in with email and password
+   * @param {string} email - User email
+   * @param {string} password - User password
+   * @returns {Promise<Object>} User credential
+   */
+  const signIn = async (email, password) => {
+    try {
+      setError(null);
+      const result = await signInWithEmailAndPassword(auth, email, password);
+      return { success: true, user: result.user };
+    } catch (error) {
+      console.error("Sign in error:", error);
+      setError(error.message);
+      throw error;
+    }
+  };
+
+  /**
+   * Sign up with email and password
+   * @param {string} email - User email
+   * @param {string} password - User password
+   * @param {string} name - User display name
+   * @returns {Promise<Object>} User credential
+   */
+  const signUp = async (email, password, name) => {
+    try {
+      setError(null);
+      const result = await createUserWithEmailAndPassword(auth, email, password);
+
+      // Update profile with display name
+      if (name) {
+        await result.user.updateProfile({
+          displayName: name,
+        });
+      }
+
+      return { success: true, user: result.user };
+    } catch (error) {
+      console.error("Sign up error:", error);
+      setError(error.message);
+      throw error;
+    }
+  };
+
+  /**
+   * Sign in with Facebook
+   * @returns {Promise<Object>} User data
+   */
+  const signInWithFacebookAuth = async () => {
+    try {
+      setError(null);
+      const provider = new FacebookAuthProvider();
+      const result = await signInWithPopup(auth, provider);
+      return { success: true, user: result.user };
+    } catch (error) {
+      console.error("Facebook sign-in error:", error);
+      setError(error.message);
+      throw error;
+    }
+  };
 
   /**
    * Sign out the current user
@@ -162,11 +233,14 @@ export const AuthProvider = ({ children }) => {
     loading,
     error,
     setUser,
+    signIn,
+    signUp,
     signOut,
     updateProfile,
     isAuthenticated: !!user,
     signInWithGoogle: signInWithGoogleAuth,
     signInWithApple: signInWithAppleAuth,
+    signInWithFacebook: signInWithFacebookAuth,
     signInWithMicrosoft: signInWithMicrosoftAuth,
   };
 

@@ -21,7 +21,7 @@ export const initializeAppleAuth = () => {
     // Initialize Apple Sign In if AppleID is available
     if (window.AppleID) {
       window.AppleID.auth.init({
-        clientId: process.env.REACT_APP_APPLE_CLIENT_ID || process.env.VITE_APPLE_CLIENT_ID,
+        clientId: import.meta.env.VITE_APPLE_CLIENT_ID || "com.windgapacademy.web",
         scope: "name email",
         redirectURI: `${window.location.origin}/auth/apple/callback`,
         usePopup: true,

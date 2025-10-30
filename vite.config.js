@@ -47,21 +47,59 @@ export default defineConfig(({ mode }) => {
 
     optimizeDeps: {
       include: [
+        // Core React
         "react",
         "react-dom",
+        "react-dom/client",
+        "react/jsx-runtime",
+        "react/jsx-dev-runtime",
+
+        // React Router
         "react-router-dom",
+
+        // Animation
         "framer-motion",
+
+        // Firebase
         "firebase/app",
         "firebase/auth",
         "firebase/firestore",
+
+        // State Management
+        "zustand",
+        "zustand/middleware",
+
+        // UI Libraries
+        "@headlessui/react",
+        "@heroicons/react/24/outline",
+        "@heroicons/react/24/solid",
+
+        // Analytics
+        "@vercel/analytics",
+        "@vercel/analytics/react",
+
+        // Utilities
+        "clsx",
+        "date-fns",
       ],
-      exclude: ["three", "@react-three/fiber", "@react-three/drei"],
+      exclude: [
+        // Large 3D libraries that should be lazy-loaded
+        "three",
+        "@react-three/fiber",
+        "@react-three/drei",
+        "@react-three/postprocessing",
+      ],
       esbuildOptions: {
         loader: {
           ".js": "jsx",
         },
         target: "es2020",
+        // Optimize performance
+        minify: isProd,
+        keepNames: isDev,
       },
+      // Force dependency re-optimization on config change
+      force: false,
     },
 
     build: {
