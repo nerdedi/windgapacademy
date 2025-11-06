@@ -12,10 +12,14 @@
  * - Performance analytics and trends
  */
 
+import React from "react";
+
+import SensoryChecklist from "../components/SensoryChecklist";
+
 import { Environment, Float, OrbitControls, Text as Text3D } from "@react-three/drei";
-import SafeCanvas from "../components/SafeCanvas";
 import { AnimatePresence, motion } from "framer-motion";
-import { Suspense, useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import SafeCanvas from "../components/SafeCanvas";
 
 // Import professional components
 import EducatorDashboardUI from "../../components/ui/EducatorDashboard";
@@ -312,6 +316,10 @@ const EducatorDashboard = () => {
 
   // Not authenticated or not educator
   if (!isAuthenticated || user?.role !== "educator") {
+    const navigate = require("react-router-dom").useNavigate();
+    const handleDemoEducator = () => {
+      navigate("/login", { state: { demoEducator: true } });
+    };
     return (
       <motion.div
         initial={{ opacity: 0 }}
@@ -323,7 +331,9 @@ const EducatorDashboard = () => {
           <p className="text-lg text-gray-600 mb-8">
             Please sign in with an educator account to access this dashboard
           </p>
-          <button className="btn btn-primary">Sign In as Educator</button>
+          <button className="btn btn-primary" onClick={handleDemoEducator}>
+            Sign In as Educator
+          </button>
         </div>
       </motion.div>
     );
@@ -545,12 +555,41 @@ const AssessmentCenter = ({
   onCreateAssessment,
   onGradeAssessment,
   activeAssessment,
-}) => (
-  <div className="space-y-6">
-    <h2 className="text-2xl font-bold text-gray-900">Assessment Center</h2>
-    {/* Assessment content */}
-  </div>
-);
+}) => {
+  const [showSensoryModal, setShowSensoryModal] = React.useState(false);
+  const handleSendSensoryChecklist = () => setShowSensoryModal(true);
+  const handleSensorySubmit = (values) => {
+    // TODO: Save to Firestore or send to learner
+    setShowSensoryModal(false);
+    alert("Sensory checklist submitted! (Implement Firestore integration)");
+  };
+  return (
+    <div className="space-y-6">
+      <h2 className="text-2xl font-bold text-gray-900">Assessment Center</h2>
+      {/* Assessment content */}
+      <button
+        className="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 transition"
+        onClick={handleSendSensoryChecklist}
+      >
+        Send Sensory Preferences Checklist
+      </button>
+      {showSensoryModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg shadow-lg p-6 max-w-lg w-full relative">
+            <button
+              className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
+              onClick={() => setShowSensoryModal(false)}
+              aria-label="Close"
+            >
+              ✕
+            </button>
+            <SensoryChecklist onSubmit={handleSensorySubmit} />
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
 
 const EducatorAnalytics = ({ classes, selectedClass, analytics, user }) => (
   <div className="space-y-6">

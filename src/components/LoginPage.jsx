@@ -1,13 +1,13 @@
 import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
-import React, { useState, useEffect, useRef } from "react";
-import { FaGoogle, FaFacebook, FaApple, FaExclamationCircle } from "react-icons/fa";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { FaApple, FaExclamationCircle, FaFacebook, FaGoogle } from "react-icons/fa";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import { useAuth } from "../contexts/AuthContext";
 
 import ModernBackground from "./ModernBackground";
-import { ModernCard, ModernCardHeader, ModernCardBody, ModernCardFooter } from "./ModernCard";
+import { ModernCard, ModernCardBody, ModernCardFooter } from "./ModernCard";
 import ModernInput from "./ModernInput";
 
 function LoginPage() {
@@ -115,25 +115,6 @@ function LoginPage() {
       navigate(destination);
     }
   }, [currentUser, loading, navigate, location]);
-
-  // Input focus animations
-  const handleInputFocus = (e) => {
-    gsap.to(e.target, {
-      scale: 1.02,
-      boxShadow: "0 0 15px rgba(41, 151, 255, 0.3)",
-      duration: 0.3,
-      ease: "power2.out",
-    });
-  };
-
-  const handleInputBlur = (e) => {
-    gsap.to(e.target, {
-      scale: 1,
-      boxShadow: "none",
-      duration: 0.3,
-      ease: "power2.out",
-    });
-  };
 
   const validateForm = () => {
     const errors = {};
@@ -280,6 +261,14 @@ function LoginPage() {
       setIsSubmitting(false);
     }
   };
+
+  // Auto-trigger demo educator login if routed from EducatorDashboard
+  useEffect(() => {
+    if (location.state?.demoEducator && !currentUser) {
+      handleDemoLogin("educator");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.state?.demoEducator]);
 
   if (loading) {
     return (

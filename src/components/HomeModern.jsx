@@ -1,435 +1,305 @@
-import { motion } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import NavigationModern from "./NavigationModern";
-
-// Portions of this file were generated with the assistance of GitHub Copilot
+import { motion } from "framer-motion";
+import {
+  BookOpen,
+  Calculator,
+  Heart,
+  Laptop,
+  ArrowRight,
+  Users,
+  Eye,
+  TrendingUp,
+  Brain,
+  CheckCircle,
+} from "lucide-react";
 
 export default function HomeModern() {
   const navigate = useNavigate();
-  const [hoveredCard, setHoveredCard] = useState(null);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const heroRef = useRef(null);
+  const [isVisible, setIsVisible] = useState(false);
+  const [hoveredPath, setHoveredPath] = useState(null);
 
   useEffect(() => {
-    const handleMouseMove = (e) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-    };
-
-    window.addEventListener("mousemove", handleMouseMove);
-
-    return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
-    };
+    setIsVisible(true);
   }, []);
 
-  // Animation variants for cards
-  const cardVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0 },
-    hover: {
-      scale: 1.05,
-      boxShadow: "0 10px 20px rgba(0, 0, 0, 0.15)",
-      transition: { duration: 0.3 },
-    },
-  };
-
-  // Animation variants for container
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
-  };
-
-  // List of features with their details
-  const features = [
+  const learningPaths = [
     {
-      id: "fluid",
-      name: "Fluid Simulation",
-      description: "Interactive fluid physics simulation using WebGL",
-      path: "/tools/fluid-simulation",
-      icon: "💧",
-      color: "from-cyan-500 to-blue-500",
-      category: "tool",
+      id: "literacy",
+      title: "Literacy & Reading",
+      description: "Build essential reading, writing, and communication skills at your own pace",
+      icon: BookOpen,
+      color: "from-blue-500 to-indigo-600",
+      features: [
+        "Phonics & Decoding",
+        "Reading Comprehension",
+        "Written Expression",
+        "Vocabulary Building",
+      ],
+      path: "/dashboard",
     },
     {
-      id: "whiteboard",
-      name: "Whiteboard",
-      description: "Interactive digital whiteboard for teaching and brainstorming",
-      path: "/tools/whiteboard",
-      icon: "✏️",
-      color: "from-gray-500 to-gray-700",
-      category: "tool",
+      id: "numeracy",
+      title: "Numeracy & Math",
+      description: "Develop confidence with numbers, patterns, and problem-solving",
+      icon: Calculator,
+      color: "from-green-500 to-emerald-600",
+      features: ["Number Sense", "Basic Operations", "Fractions & Decimals", "Real-World Math"],
+      path: "/dashboard",
     },
     {
-      id: "ripple",
-      name: "Ripple Effect",
-      description: "Interactive ripple animations using WebGL shaders",
-      path: "/tools/ripple-effect",
-      icon: "🌊",
-      color: "from-blue-400 to-indigo-500",
-      category: "tool",
+      id: "life-skills",
+      title: "Life Skills",
+      description: "Learn practical skills for everyday independence and success",
+      icon: Heart,
+      color: "from-purple-500 to-pink-600",
+      features: ["Money Management", "Time & Organization", "Social Skills", "Decision Making"],
+      path: "/dashboard",
     },
     {
-      id: "webgl",
-      name: "WebGL Effects",
-      description: "Various visual effects powered by WebGL",
-      path: "/tools/webgl-effects",
-      icon: "✨",
-      color: "from-purple-500 to-pink-500",
-      category: "tool",
-    },
-    {
-      id: "character",
-      name: "Character Animation",
-      description: "Character animation system for educational games",
-      path: "/tools/character-animation",
-      icon: "🏃",
-      color: "from-orange-400 to-red-500",
-      category: "tool",
-    },
-    {
-      id: "adaptive",
-      name: "Adaptive Learning",
-      description: "Personalized learning experiences that adapt to student needs",
-      path: "/adaptive-demo",
-      icon: "🧠",
-      color: "from-green-400 to-emerald-500",
-      category: "learning",
-    },
-    {
-      id: "exec-function",
-      name: "Executive Function",
-      description: "Tools to develop executive function skills",
-      path: "/executive-function-demo",
-      icon: "📊",
-      color: "from-yellow-400 to-amber-500",
-      category: "learning",
-    },
-    {
-      id: "neuro",
-      name: "Neurodivergent Learning",
-      description: "Specialized learning approaches for neurodivergent students",
-      path: "/neurodivergent-learning",
-      icon: "🧩",
-      color: "from-teal-400 to-cyan-500",
-      category: "learning",
-    },
-    {
-      id: "ai",
-      name: "AI Assistant",
-      description: "AI-powered learning assistant",
-      path: "/ai-assistant",
-      icon: "🤖",
-      color: "from-violet-400 to-purple-500",
-      category: "tool",
-    },
-    {
-      id: "math",
-      name: "Math Exercises",
-      description: "Interactive math exercises for different skill levels",
-      path: "/exercises/math",
-      icon: "🔢",
-      color: "from-red-400 to-rose-500",
-      category: "learning",
-    },
-    {
-      id: "adaptive-math",
-      name: "Adaptive Math Quest",
-      description: "Personalized math learning journey",
-      path: "/math/adaptive-quest",
-      icon: "📝",
-      color: "from-sky-400 to-blue-500",
-      category: "learning",
-    },
-    {
-      id: "fractions",
-      name: "Fraction Mastery",
-      description: "Master fractions with interactive exercises",
-      path: "/math/fraction-mastery",
-      icon: "½",
-      color: "from-indigo-400 to-violet-500",
-      category: "learning",
+      id: "digital",
+      title: "Digital Literacy",
+      description: "Navigate technology safely and confidently in today's digital world",
+      icon: Laptop,
+      color: "from-orange-500 to-red-600",
+      features: ["Computer Basics", "Internet Safety", "Communication Tools", "Online Learning"],
+      path: "/dashboard",
     },
   ];
 
-  // Group features by category
-  const tools = features.filter((feature) => feature.category === "tool");
-  const learningModules = features.filter((feature) => feature.category === "learning");
+  const supportFeatures = [
+    {
+      icon: Users,
+      title: "Personalized Learning",
+      description: "Adaptive paths that match your pace and learning style",
+    },
+    {
+      icon: Eye,
+      title: "Accessibility First",
+      description: "Built with text-to-speech, high contrast, and screen reader support",
+    },
+    {
+      icon: Brain,
+      title: "Neurodivergent Friendly",
+      description: "Designed for diverse learning needs including ADHD, dyslexia, and autism",
+    },
+    {
+      icon: TrendingUp,
+      title: "Progress Tracking",
+      description: "Celebrate achievements and see your growth over time",
+    },
+  ];
 
-  // Parallax effect based on mouse position
-  const getParallaxStyle = (depth = 1) => {
-    const maxMovement = 10;
-    const windowWidth = window.innerWidth;
-    const windowHeight = window.innerHeight;
-
-    const moveX = (mousePosition.x / windowWidth - 0.5) * maxMovement * depth;
-    const moveY = (mousePosition.y / windowHeight - 0.5) * maxMovement * depth;
-
-    return {
-      transform: `translate(${moveX}px, ${moveY}px)`,
-      transition: "transform 0.1s ease-out",
-    };
-  };
+  const quickActions = [
+    {
+      label: "Get Started",
+      action: () => navigate("/dashboard"),
+      variant: "primary",
+    },
+    {
+      label: "Learn More",
+      action: () => navigate("/about"),
+      variant: "secondary",
+    },
+  ];
 
   return (
-    <div className="min-h-screen bg-black text-white overflow-hidden relative">
-      {/* Background gradient effect that follows mouse */}
-      <div
-        className="fixed inset-0 bg-gradient-radial opacity-30 pointer-events-none"
-        style={{
-          background: `radial-gradient(circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(79, 70, 229, 0.4) 0%, transparent 50%)`,
-        }}
-      ></div>
-
-      {/* Header / Navigation */}
-      <NavigationModern />
-
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
       {/* Hero Section */}
-      <section
-        ref={heroRef}
-        className="min-h-screen relative flex items-center justify-center overflow-hidden"
-        style={{
-          background: "linear-gradient(180deg, #000000 0%, #0f172a 100%)",
-        }}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 20 }}
+        transition={{ duration: 0.8 }}
+        className="container mx-auto px-4 py-16 md:py-24"
       >
-        <div className="absolute inset-0 pointer-events-none">
-          {/* Animated particles */}
-          <div className="absolute inset-0">
-            {[...Array(20)].map((_, i) => (
-              <motion.div
-                key={i}
-                className="absolute w-2 h-2 rounded-full bg-indigo-600 opacity-80"
-                animate={{
-                  x: [
-                    `calc(${Math.random() * 100}vw)`,
-                    `calc(${Math.random() * 100}vw)`,
-                    `calc(${Math.random() * 100}vw)`,
-                  ],
-                  y: [
-                    `calc(${Math.random() * 100}vh)`,
-                    `calc(${Math.random() * 100}vh)`,
-                    `calc(${Math.random() * 100}vh)`,
-                  ],
-                  scale: [0.8, 1.2, 0.8],
-                  opacity: [0.8, 1, 0.8],
-                }}
-                transition={{
-                  duration: 15 + Math.random() * 10,
-                  repeat: Infinity,
-                  ease: "linear",
-                }}
-              />
-            ))}
-          </div>
-        </div>
-
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+        <div className="max-w-4xl mx-auto text-center">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            style={getParallaxStyle(0.5)}
+            initial={{ scale: 0.8 }}
+            animate={{ scale: 1 }}
+            transition={{ delay: 0.2, type: "spring", stiffness: 100 }}
+            className="mb-8"
           >
-            <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
-              Interactive Learning
-              <br />
-              <span className="text-white">Reimagined</span>
+            <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent">
+              Welcome to Windgap Academy
             </h1>
-
-            <p className="text-xl md:text-2xl mb-10 text-gray-300 max-w-3xl mx-auto">
-              Explore our collection of interactive tools and adaptive learning modules designed for
-              diverse learning styles and abilities.
+            <p className="text-xl md:text-2xl text-gray-700 mb-4">
+              Your personalized learning platform for literacy, numeracy, and life skills
             </p>
-
-            <div className="flex flex-wrap justify-center gap-4">
-              <button
-                onClick={() => {
-                  const featuresSection = document.getElementById("features");
-                  featuresSection.scrollIntoView({ behavior: "smooth" });
-                }}
-                className="px-8 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full text-lg font-medium hover:shadow-lg hover:from-indigo-500 hover:to-purple-500 transition duration-300"
-              >
-                Explore Tools
-              </button>
-
-              <button
-                onClick={() => {
-                  const learningSection = document.getElementById("learning");
-                  learningSection.scrollIntoView({ behavior: "smooth" });
-                }}
-                className="px-8 py-3 bg-transparent border-2 border-indigo-500 rounded-full text-lg font-medium hover:bg-indigo-900 hover:bg-opacity-30 transition duration-300"
-              >
-                Learning Modules
-              </button>
-            </div>
-          </motion.div>
-        </div>
-
-        <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6 text-gray-400"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M19 14l-7 7m0 0l-7-7m7 7V3"
-            />
-          </svg>
-        </div>
-      </section>
-
-      {/* Tools Section */}
-      <section id="features" className="py-20 px-4 bg-gradient-to-b from-gray-900 to-black">
-        <div className="max-w-7xl mx-auto">
-          <motion.div
-            className="text-center mb-16"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true, margin: "-100px" }}
-          >
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-cyan-500 to-blue-500">
-              Interactive Tools
-            </h2>
-            <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-              Engage with our collection of interactive tools designed to enhance the learning
-              experience.
+            <p className="text-lg text-gray-600">
+              Empowering learners with support for language, literacy, numeracy, and digital skills
+              (LLND)
             </p>
           </motion.div>
 
           <motion.div
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.5 }}
+            className="flex flex-wrap gap-4 justify-center mb-12"
           >
-            {tools.map((feature) => (
-              <motion.div
-                key={feature.id}
-                variants={cardVariants}
-                whileHover="hover"
-                onMouseEnter={() => setHoveredCard(feature.id)}
-                onMouseLeave={() => setHoveredCard(null)}
-                onClick={() => navigate(feature.path)}
-                className="cursor-pointer"
+            {quickActions.map((action, idx) => (
+              <motion.button
+                key={idx}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={action.action}
+                className={`
+                  px-8 py-4 rounded-xl font-semibold text-lg shadow-lg
+                  transition-all duration-300
+                  ${
+                    action.variant === "primary"
+                      ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:shadow-xl"
+                      : "bg-white text-gray-700 hover:bg-gray-50 border-2 border-gray-200"
+                  }
+                `}
               >
-                <div
-                  className={`h-full bg-gradient-to-br ${feature.color} rounded-xl p-6 shadow-md text-white relative overflow-hidden`}
-                >
-                  <div className="text-4xl mb-4">{feature.icon}</div>
-                  <h3 className="text-xl font-semibold mb-2">{feature.name}</h3>
-                  <p className="text-white/80">{feature.description}</p>
-
-                  {hoveredCard === feature.id && (
-                    <motion.div
-                      className="absolute bottom-4 right-4"
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      <span className="bg-white bg-opacity-30 px-3 py-1 rounded-full text-sm">
-                        Explore →
-                      </span>
-                    </motion.div>
-                  )}
-                </div>
-              </motion.div>
+                {action.label}
+                {action.variant === "primary" && (
+                  <ArrowRight className="inline-block ml-2" size={20} />
+                )}
+              </motion.button>
             ))}
           </motion.div>
         </div>
-      </section>
+      </motion.div>
 
-      {/* Learning Modules Section */}
-      <section id="learning" className="py-20 px-4 bg-gradient-to-b from-black to-gray-900">
-        <div className="max-w-7xl mx-auto">
-          <motion.div
-            className="text-center mb-16"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true, margin: "-100px" }}
-          >
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-emerald-500">
-              Learning Modules
-            </h2>
-            <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-              Access adaptive learning experiences designed to accommodate different learning styles
-              and abilities.
-            </p>
-          </motion.div>
-
-          <motion.div
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-          >
-            {learningModules.map((module) => (
-              <motion.div
-                key={module.id}
-                variants={cardVariants}
-                whileHover="hover"
-                onMouseEnter={() => setHoveredCard(module.id)}
-                onMouseLeave={() => setHoveredCard(null)}
-                onClick={() => navigate(module.path)}
-                className="cursor-pointer"
-              >
-                <div
-                  className={`h-full bg-gradient-to-br ${module.color} rounded-xl p-6 shadow-md text-white relative overflow-hidden`}
-                >
-                  <div className="text-4xl mb-4">{module.icon}</div>
-                  <h3 className="text-xl font-semibold mb-2">{module.name}</h3>
-                  <p className="text-white/80">{module.description}</p>
-
-                  {hoveredCard === module.id && (
-                    <motion.div
-                      className="absolute bottom-4 right-4"
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      <span className="bg-white bg-opacity-30 px-3 py-1 rounded-full text-sm">
-                        Explore →
-                      </span>
-                    </motion.div>
-                  )}
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="bg-black py-12 px-4">
-        <div className="max-w-7xl mx-auto text-center">
-          <h2 className="text-2xl font-bold text-white mb-6">Windgap Academy</h2>
-          <p className="text-gray-400 mb-8">
-            A comprehensive learning platform with interactive tools, adaptive learning modules, and
-            educational games designed for diverse learning styles.
+      {/* Learning Paths Section */}
+      <div className="container mx-auto px-4 py-16">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.6 }}
+          className="mb-12 text-center"
+        >
+          <h2 className="text-4xl font-bold text-gray-800 mb-4">Choose Your Learning Path</h2>
+          <p className="text-xl text-gray-600">
+            Explore our comprehensive programs designed for your success
           </p>
-          <div className="flex justify-center space-x-6 mb-8">
-            {["About", "Contact", "Privacy", "Terms"].map((item, index) => (
-              <a key={index} href="#" className="text-gray-400 hover:text-white transition-colors">
-                {item}
-              </a>
+        </motion.div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-7xl mx-auto">
+          {learningPaths.map((path, index) => (
+            <motion.div
+              key={path.id}
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.7 + index * 0.1 }}
+              onHoverStart={() => setHoveredPath(path.id)}
+              onHoverEnd={() => setHoveredPath(null)}
+              className="group relative"
+            >
+              <div
+                className={`
+                  relative overflow-hidden rounded-2xl p-8
+                  bg-white shadow-lg
+                  transition-all duration-300
+                  ${hoveredPath === path.id ? "shadow-2xl transform -translate-y-2" : ""}
+                `}
+              >
+                <div
+                  className={`absolute inset-0 bg-gradient-to-br ${path.color} opacity-0 group-hover:opacity-5 transition-opacity duration-300`}
+                />
+
+                <div className="relative z-10">
+                  <div
+                    className={`inline-flex p-4 rounded-xl bg-gradient-to-br ${path.color} mb-4`}
+                  >
+                    <path.icon className="text-white" size={32} />
+                  </div>
+
+                  <h3 className="text-2xl font-bold text-gray-800 mb-3">{path.title}</h3>
+                  <p className="text-gray-600 mb-6">{path.description}</p>
+
+                  <ul className="space-y-2 mb-6">
+                    {path.features.map((feature, idx) => (
+                      <li key={idx} className="flex items-center text-gray-700">
+                        <CheckCircle className="text-green-500 mr-2 flex-shrink-0" size={18} />
+                        <span>{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+
+                  <motion.button
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={() => navigate(path.path)}
+                    className={`
+                      w-full py-3 px-6 rounded-lg font-semibold
+                      bg-gradient-to-r ${path.color}
+                      text-white shadow-md
+                      hover:shadow-lg transition-all duration-300
+                      flex items-center justify-center gap-2
+                    `}
+                  >
+                    Start Learning
+                    <ArrowRight size={20} />
+                  </motion.button>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+
+      {/* Support Features Section */}
+      <div className="bg-white py-16">
+        <div className="container mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.9 }}
+            className="mb-12 text-center"
+          >
+            <h2 className="text-4xl font-bold text-gray-800 mb-4">Designed for Your Success</h2>
+            <p className="text-xl text-gray-600">
+              Supporting diverse learning needs with inclusive, accessible education
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
+            {supportFeatures.map((feature, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 1 + index * 0.1 }}
+                className="text-center group"
+              >
+                <div className="inline-flex p-4 rounded-full bg-gradient-to-br from-blue-100 to-indigo-100 mb-4 group-hover:scale-110 transition-transform duration-300">
+                  <feature.icon className="text-blue-600" size={32} />
+                </div>
+                <h3 className="text-xl font-bold text-gray-800 mb-2">{feature.title}</h3>
+                <p className="text-gray-600">{feature.description}</p>
+              </motion.div>
             ))}
           </div>
-          <p className="text-gray-600">© 2025 Windgap Academy. All rights reserved.</p>
         </div>
-      </footer>
+      </div>
+
+      {/* CTA Section */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.2 }}
+        className="container mx-auto px-4 py-16"
+      >
+        <div className="max-w-4xl mx-auto bg-gradient-to-r from-blue-600 to-indigo-600 rounded-3xl p-12 text-center shadow-2xl">
+          <h2 className="text-4xl font-bold text-white mb-4">
+            Ready to Begin Your Learning Journey?
+          </h2>
+          <p className="text-xl text-blue-100 mb-8">
+            Join our community of learners and unlock your full potential
+          </p>
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => navigate("/dashboard")}
+            className="bg-white text-blue-600 px-10 py-4 rounded-xl font-bold text-lg shadow-lg hover:shadow-xl transition-all duration-300"
+          >
+            Start Learning Today
+          </motion.button>
+        </div>
+      </motion.div>
     </div>
   );
 }

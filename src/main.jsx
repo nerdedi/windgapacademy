@@ -8,9 +8,10 @@ import { LearningPreferencesProvider } from "./context/LearningPreferencesContex
 import { AuthProvider } from "./contexts/AuthContext";
 
 // Import global styles
-import "../styles/tailwind.css";
-import "../styles/themes.css";
 import "./index.css";
+import "./styles/accessibility.css";
+import "./styles/adaptive.css";
+import "./styles/neurodivergent.css";
 
 const container = document.getElementById("root");
 const root = createRoot(container);
