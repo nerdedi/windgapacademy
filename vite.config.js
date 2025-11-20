@@ -34,8 +34,37 @@ export default defineConfig(({ mode }) => {
         "@characters": resolve(__dirname, "src/characters"),
         "@input": resolve(__dirname, "src/input"),
         "@testing": resolve(__dirname, "src/testing"),
+        // Deduplicate React to prevent "Cannot set properties of undefined (setting 'Children')" errors
+        react: resolve(__dirname, "node_modules/react"),
+        "react-dom": resolve(__dirname, "node_modules/react-dom"),
+        "react/jsx-runtime": resolve(__dirname, "node_modules/react/jsx-runtime"),
+        "react/jsx-dev-runtime": resolve(__dirname, "node_modules/react/jsx-dev-runtime"),
+        // Ensure React Three Fiber uses the same React instance
+        "@react-three/fiber": resolve(__dirname, "node_modules/@react-three/fiber"),
+        "@react-three/drei": resolve(__dirname, "node_modules/@react-three/drei"),
       },
       extensions: [".js", ".jsx", ".ts", ".tsx", ".json"],
+      // Preserve symlink resolution to avoid duplicate React instances when
+      // packages are linked or installed via workspaces/monorepos.
+      preserveSymlinks: true,
+      // Force single React instance resolution across all dependencies.
+      // Include common React-related helpers and packages that may pull
+      // their own copy of React (zustand, react-reconciler, react-is, etc.).
+      dedupe: [
+        "react",
+        "react-dom",
+        "react/jsx-runtime",
+        "react/jsx-dev-runtime",
+        "react-reconciler",
+        "react-is",
+        "use-sync-external-store",
+        "zustand",
+        // Ensure React Three packages reference the same React instance
+        "@react-three/fiber",
+        "@react-three/drei",
+        "@react-three/cannon",
+        "@react-three/postprocessing",
+      ],
     },
 
     define: {
@@ -47,7 +76,7 @@ export default defineConfig(({ mode }) => {
 
     optimizeDeps: {
       include: [
-        // Core React
+        // Core React - Force bundling to ensure single instance
         "react",
         "react-dom",
         "react-dom/client",
@@ -78,21 +107,20 @@ export default defineConfig(({ mode }) => {
         "@vercel/analytics",
         "@vercel/analytics/react",
 
-        // Three.js - Include to prevent initialization errors
+        // Three.js - Critical: Include to prevent React.Children initialization errors
         "three",
         "three/examples/jsm/loaders/GLTFLoader",
         "three/examples/jsm/controls/OrbitControls",
         "@react-three/fiber",
         "@react-three/drei",
+        "@react-three/cannon",
+        "@react-three/postprocessing",
 
         // Utilities
         "clsx",
         "date-fns",
       ],
-      exclude: [
-        // Heavy postprocessing can be lazy-loaded
-        // Removed from exclude to fix initialization issues
-      ],
+      exclude: [],
       esbuildOptions: {
         loader: {
           ".js": "jsx",
@@ -104,8 +132,27 @@ export default defineConfig(({ mode }) => {
         // Handle Three.js module format
         format: "esm",
       },
-      // Force dependency re-optimization on config change
-      force: false,
+      // Force dependency pre-bundling to ensure React is deduplicated.
+      // This helps avoid duplicate React copies in dev and preview modes.
+      force: true,
+      // Ensure React Three Fiber and related packages are properly handled
+      // during optimization (no-op placeholder but kept for clarity).
+      needsInterop: [],
+    },
+
+    // SSR-specific settings: force processing (noExternal) for packages that
+    // ship ESM builds and import React internally. This prevents Vite from
+    // treating them as external and ensures the bundler normalizes React
+    // resolution across the dependency graph during server-side builds.
+    ssr: {
+      noExternal: [
+        "@react-three/fiber",
+        "@react-three/drei",
+        "@react-three/cannon",
+        "@react-three/postprocessing",
+        "three",
+        "zustand",
+      ],
     },
 
     build: {

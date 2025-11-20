@@ -1,0 +1,19 @@
+{
+  "contextOptions": {
+    "viewport": {
+      "width": 1280,
+      "height": 720
+    },
+    "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
+  },
+  "browser": "chromium",
+  "headless": true,
+  "timeout": {
+    "action": 10000,
+    "navigation": 60000
+  },
+  "grantPermissions": ["clipboard-read", "clipboard-write"],
+  "ignoreHTTPSErrors": false,
+  "testIdAttribute": "data-testid",
+  "outputDir": "./playwright-mcp-output"
+}

@@ -3,7 +3,15 @@ dist/
 assets/images-optimized/
 assets/images-webp/
 .env
+.env.local
+.env.production
+.env.development
 .vercel
+
+# Sensitive configuration files
+src/env.js
+freespeech/src/env.js
+setup-vercel-env.sh
 
 # VS Code workspace files (except those meant to be shared)
 custom-workspace.code-workspace
