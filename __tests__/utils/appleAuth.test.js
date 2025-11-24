@@ -4,13 +4,10 @@
 import { createAuthUrl, initializeAppleAuth, signInWithApple } from "../../src/utils/appleAuth";
 
 // Mock the global window object
-global.window = Object.create(window);
-Object.defineProperty(window, "location", {
-  value: {
-    origin: "https://windgapacademy.org",
-  },
-  writable: true,
-});
+delete window.location;
+window.location = {
+  origin: "https://windgapacademy.org",
+};
 
 describe("Apple Authentication Utility", () => {
   // Mock document.createElement and appendChild

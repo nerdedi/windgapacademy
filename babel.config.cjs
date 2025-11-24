@@ -14,5 +14,9 @@ module.exports = function (api) {
     }
   }
 
-  return { presets };
+  const plugins = [
+    ['babel-plugin-transform-import-meta']
+  ];
+
+  return { presets, plugins };
 };
