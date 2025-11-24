@@ -160,4 +160,6 @@ PageTransition.Group = ({ children, delay = 0, className = "" }) => (
   </motion.div>
 );
 
+PageTransition.Group.displayName = "PageTransitionGroup";
+
 export default PageTransition;

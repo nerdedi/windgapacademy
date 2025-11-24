@@ -1,20 +1,20 @@
 import {
   Box,
-  Container,
-  Typography,
+  Button,
   Card,
   CardContent,
-  Tabs,
-  Tab,
-  Select,
-  MenuItem,
+  Container,
   FormControl,
-  InputLabel,
-  Button,
-  Paper,
   Grid,
+  InputLabel,
+  MenuItem,
+  Paper,
+  Select,
+  Tab,
+  Tabs,
+  Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import { useState } from "react";
 
 import CharacterAnimationPlayer from "../components/CharacterAnimationPlayer.jsx";
 
@@ -139,7 +139,7 @@ const CharacterAnimationsPage = () => {
                   ))
                 ) : (
                   <Typography variant="body2" color="text.secondary">
-                    No story events yet. Click "Start Story" to begin.
+                    No story events yet. Click &quot;Start Story&quot; to begin.
                   </Typography>
                 )
               ) : animationLog.length > 0 ? (

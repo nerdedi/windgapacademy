@@ -221,7 +221,9 @@ const LearningPathAutomationDemo = () => {
             ))}
           </ul>
         ) : (
-          <p className="text-gray-500">No modules in queue. Click "Load Modules" to add some.</p>
+          <p className="text-gray-500">
+            No modules in queue. Click &quot;Load Modules&quot; to add some.
+          </p>
         )}
       </div>
 

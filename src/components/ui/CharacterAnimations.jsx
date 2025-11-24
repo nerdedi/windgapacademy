@@ -478,7 +478,7 @@ export const CharacterAnimations = ({
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3 }}
                 >
-                  <p className="text-gray-700 italic">"{activeCharacter.greeting}"</p>
+                  <p className="text-gray-700 italic">&quot;{activeCharacter.greeting}&quot;</p>
                 </motion.div>
 
                 <motion.button

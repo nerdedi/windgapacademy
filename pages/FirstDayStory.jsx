@@ -1,17 +1,17 @@
 import {
   Box,
-  Container,
-  Typography,
+  Button,
   Card,
   CardContent,
-  Tabs,
-  Tab,
-  Button,
-  Paper,
-  Grid,
+  Container,
   Divider,
+  Grid,
+  Paper,
+  Tab,
+  Tabs,
+  Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import { useState } from "react";
 
 import CharacterAnimationPlayer from "../components/CharacterAnimationPlayer.jsx";
 
@@ -111,7 +111,7 @@ const FirstDayStory = () => {
                   ))
                 ) : (
                   <Typography variant="body2" color="text.secondary">
-                    No story events yet. Click "Start Story" to begin.
+                    No story events yet. Click &quot;Start Story&quot; to begin.
                   </Typography>
                 )
               ) : animationLog.length > 0 ? (
@@ -134,7 +134,7 @@ const FirstDayStory = () => {
             </Typography>
 
             <Typography variant="body2" paragraph>
-              This interactive story follows your first day at Windgap Academy. You'll tour the
+              This interactive story follows your first day at Windgap Academy. You&apos;ll tour the
               campus, meet the instructors, and make choices that shape your experience.
             </Typography>
 

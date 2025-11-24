@@ -1,17 +1,17 @@
 import {
   Box,
-  Container,
-  Typography,
+  Button,
   Card,
   CardContent,
-  Tabs,
-  Tab,
-  Button,
-  Paper,
-  Grid,
+  Container,
   Divider,
+  Grid,
+  Paper,
+  Tab,
+  Tabs,
+  Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import { useState } from "react";
 
 import CharacterAnimationPlayer from "../components/CharacterAnimationPlayer.jsx";
 
@@ -112,7 +112,7 @@ const HiddenPortalStory = () => {
                   ))
                 ) : (
                   <Typography variant="body2" color="text.secondary">
-                    No story events yet. Click "Start Story" to begin.
+                    No story events yet. Click &quot;Start Story&quot; to begin.
                   </Typography>
                 )
               ) : animationLog.length > 0 ? (
@@ -187,7 +187,7 @@ const HiddenPortalStory = () => {
         </Typography>
 
         <Typography variant="body1" paragraph>
-          Windgap Academy is more than just a school - it's a place where the ordinary rules of
+          Windgap Academy is more than just a school - it&apos;s a place where the ordinary rules of
           reality are slightly different, allowing for enhanced learning and extraordinary
           experiences. The founders discovered that in this pocket dimension, the connection between
           teaching and learning is stronger, allowing students to absorb knowledge more effectively.
@@ -213,12 +213,12 @@ const HiddenPortalStory = () => {
           <li>
             <Typography variant="body1">
               <strong>Daisy:</strong> Expert in natural sciences and the unique properties of the
-              academy's environment
+              academy&apos;s environment
             </Typography>
           </li>
           <li>
             <Typography variant="body1">
-              <strong>Natalie:</strong> Keeper of the academy's history and artistic traditions
+              <strong>Natalie:</strong> Keeper of the academy&apos;s history and artistic traditions
               since its founding
             </Typography>
           </li>

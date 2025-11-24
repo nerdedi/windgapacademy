@@ -26,7 +26,9 @@ export default function CurriculumBuilderWithSaveState() {
           setLastSaved(new Date());
         }
       }
-    } catch (_) {}
+    } catch (_) {
+      // Ignore parsing errors
+    }
   }, []);
 
   // Debounced auto-save
