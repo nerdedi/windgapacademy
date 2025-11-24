@@ -161,4 +161,6 @@ const UnityWebGLComponent = React.forwardRef(
   },
 );
 
+UnityWebGLComponent.displayName = "UnityWebGLComponent";
+
 export default UnityWebGLComponent;

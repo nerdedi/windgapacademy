@@ -155,7 +155,7 @@ class WindgapLogger {
 
   // Configuration management
   setLevel(level) {
-    if (this.levels.hasOwnProperty(level)) {
+    if (Object.prototype.hasOwnProperty.call(this.levels, level)) {
       this.config.level = level;
       this.info("Log level changed", { newLevel: level });
     } else {
