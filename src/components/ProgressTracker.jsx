@@ -8,7 +8,7 @@ import ErrorAlert from "./ui/ErrorAlert";
 import LoadingSpinner from "./ui/LoadingSpinner";
 
 /**
- * ProgressTracker component that displays the user's progress across all Unity educational experiences
+ * ProgressTracker component that displays the user&apos;s progress across all Unity educational experiences
  *
  * Features:
  * - Shows overall progress across all experiences
@@ -220,7 +220,7 @@ const ProgressTracker = () => {
     return (
       <div className="progress-empty">
         <h2>No Progress Data</h2>
-        <p>You haven't started any educational experiences yet.</p>
+        <p>You haven&apos;t started any educational experiences yet.</p>
         <p>Explore our available experiences and start your learning journey!</p>
       </div>
     );

@@ -199,7 +199,7 @@ const UnityEducationalExperience = ({
   const sendUserDataToUnity = () => {
     if (!unityReady || !currentUser) return;
 
-    // Prepare user data for Unity (only send what's needed)
+    // Prepare user data for Unity (only send what&apos;s needed)
     const userData = {
       userId: currentUser.uid,
       displayName: currentUser.displayName || "Student",

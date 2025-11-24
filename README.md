@@ -170,6 +170,28 @@ Windgap Academy takes security seriously. We have implemented several tools and 
 
 For more information, see our [Security Management Guide](docs/SECURITY_MANAGEMENT.md) and [Security Updates](SECURITY_UPDATES.md) documentation.
 
+## Troubleshooting
+
+### GitHub Copilot Issues
+
+If you encounter "Chat failed to get ready" or other Copilot issues:
+
+```bash
+# Quick fix - run the automated fix script
+./fix-copilot-chat.sh
+
+# Check Copilot health
+./check-copilot-health.sh
+```
+
+For detailed troubleshooting steps, see [COPILOT_TROUBLESHOOTING.md](COPILOT_TROUBLESHOOTING.md).
+
+### Common Issues
+
+- **Large workspace slowdowns**: The `.copilotignore` file excludes large directories from indexing
+- **VS Code performance**: Use `optimized-dev.code-workspace` for better performance
+- **Extension conflicts**: See troubleshooting guide for resolution steps
+
 ## Contributing
 
 1. Fork the repository

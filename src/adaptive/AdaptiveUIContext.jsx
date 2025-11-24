@@ -115,7 +115,7 @@ export const AdaptiveUIProvider = ({ children }) => {
   // Effect to load user preferences
   useEffect(() => {
     if (userPreferences) {
-      // Apply user's saved preferences
+      // Apply user&apos;s saved preferences
       if (userPreferences.colorScheme) {
         setColorScheme(userPreferences.colorScheme);
       }
@@ -316,7 +316,7 @@ export const AdaptiveUIProvider = ({ children }) => {
     }
   }, []);
 
-  // Get appropriate components based on user's learning style and preferences
+  // Get appropriate components based on user&apos;s learning style and preferences
   const getAdaptedComponents = useCallback(
     (componentType, options = {}) => {
       // If adaptations are disabled, return default component

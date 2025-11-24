@@ -1,0 +1,24 @@
+# Portions of this file were generated with the assistance of Anthropic Claude (https://www.anthropic.com/)
+# Playwright-enabled container image for running MCP + browser tests reliably.
+# Uses official Playwright base (Debian/Ubuntu) to avoid Alpine headless browser issues.
+# Switch your devcontainer or CI job to use this Dockerfile when executing Playwright tests.
+
+FROM mcr.microsoft.com/playwright:v1.55.1-jammy
+
+WORKDIR /workspace
+
+# Copy package manifests first for better layer caching
+COPY package.json package-lock.json* ./
+
+# Install all dependencies including dev (needed for tests & MCP tooling)
+RUN npm install --legacy-peer-deps \
+    && npx playwright install --with-deps chromium firefox webkit || true
+
+# Copy the rest of the repository
+COPY . .
+
+# Environment variables (add real values via CI secrets or .env mounted at runtime)
+ENV NODE_ENV=development
+
+# Default command runs Playwright test suite; override in docker run to start dev server
+CMD ["npx", "playwright", "test"]

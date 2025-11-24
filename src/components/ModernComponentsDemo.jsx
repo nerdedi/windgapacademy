@@ -93,7 +93,8 @@ const ModernComponentsDemo = () => {
             </ModernCardBody>
 
             <ModernCardFooter className="text-center text-zinc-500 text-sm">
-              Don't have an account? <span className="text-blue-400 cursor-pointer">Sign Up</span>
+              Don&apos;t have an account?{" "}
+              <span className="text-blue-400 cursor-pointer">Sign Up</span>
             </ModernCardFooter>
           </ModernCard>
 
@@ -150,7 +151,7 @@ const ModernComponentsDemo = () => {
           <ModernCard className="demo-card md:col-span-2" darkMode={true} padding="p-8">
             <ModernCardHeader>
               <h2 className="text-2xl font-semibold text-white">Get in Touch</h2>
-              <p className="text-zinc-400 text-sm">We'd love to hear from you</p>
+              <p className="text-zinc-400 text-sm">We&apos;d love to hear from you</p>
             </ModernCardHeader>
 
             <ModernCardBody className="grid grid-cols-1 md:grid-cols-2 gap-6">

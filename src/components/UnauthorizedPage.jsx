@@ -22,7 +22,7 @@ function UnauthorizedPage() {
             Windgap Academy
           </button>
           <h1 className="text-3xl font-bold text-black mb-2">Access Denied</h1>
-          <p className="text-gray-600">You don't have permission to access this resource</p>
+          <p className="text-gray-600">You don&apos;t have permission to access this resource</p>
         </div>
 
         {/* Unauthorized Card */}

@@ -46,7 +46,7 @@ export const AdaptiveMathExercise = ({
   exerciseGenerator,
   maxExercises = 5,
   targetMastery = 0.8, // 80% mastery required to "pass" the concept
-  adaptationRules = "standard", // can be 'standard', 'aggressive', or 'conservative'
+  adaptationRules = "standard", // can be &apos;standard', 'aggressive', or 'conservative'
   saveProgress = true,
   questMode = false,
   onComplete,
@@ -237,7 +237,7 @@ export const AdaptiveMathExercise = ({
       setQuestProgress(newProgress);
     }
 
-    // Check if we've completed all exercises
+    // Check if we&apos;ve completed all exercises
     if (exercisesCompleted + 1 >= maxExercises) {
       handleAllExercisesCompleted(newMasteryLevel, newPerformanceHistory);
     } else {
@@ -323,15 +323,15 @@ export const AdaptiveMathExercise = ({
     let suggestions = [];
 
     if (perfectLatest) {
-      message = "Excellent work! You're mastering this concept.";
+      message = "Excellent work! You&apos;re mastering this concept.";
       type = "success";
       suggestions = ["Ready for more challenging problems!"];
     } else if (improving) {
-      message = "You're making good progress! Keep it up.";
+      message = "You&apos;re making good progress! Keep it up.";
       type = "success";
       suggestions = ["Practice similar problems to build confidence."];
     } else if (struggling) {
-      message = "This concept seems challenging. Let's break it down.";
+      message = "This concept seems challenging. Let&apos;s break it down.";
       type = "warning";
       suggestions = [
         "Review the fundamental rules for this topic.",
@@ -339,7 +339,7 @@ export const AdaptiveMathExercise = ({
         "Look at example problems step-by-step.",
       ];
     } else {
-      message = "You're working through these problems well.";
+      message = "You&apos;re working through these problems well.";
       type = "info";
       suggestions = ["Focus on accuracy before speed."];
     }
@@ -489,7 +489,7 @@ export const AdaptiveMathExercise = ({
    */
   const analyzeWeakAreas = (history) => {
     // This would normally analyze the specific skills involved in each exercise
-    // For demonstration, we'll use a simplified approach
+    // For demonstration, we&apos;ll use a simplified approach
     const areas = [];
 
     // Check for consistent issues with exercise types
@@ -549,7 +549,7 @@ export const AdaptiveMathExercise = ({
     ];
   };
 
-  // If we don't have an exercise yet, show loading
+  // If we don&apos;t have an exercise yet, show loading
   if (!currentExercise) {
     return (
       <div className="flex justify-center items-center h-64">
@@ -777,7 +777,7 @@ export const AdaptiveMathExercise = ({
           <div className="question">{currentExercise.question}</div>
 
           {/* Exercise content would be here - could be multiple choice, numeric input, etc. */}
-          {/* For this example, we'll assume a placeholder structure */}
+          {/* For this example, we&apos;ll assume a placeholder structure */}
           <div className="answer-area mt-4">{currentExercise.content}</div>
 
           {/* The hint prop will be used by MathExerciseWrapper */}
@@ -786,7 +786,7 @@ export const AdaptiveMathExercise = ({
       </MathExerciseWrapper>
 
       {/* This component would contain the actual exercise UI based on type */}
-      {/* But we're keeping it abstract in this example */}
+      {/* But we&apos;re keeping it abstract in this example */}
     </div>
   );
 };

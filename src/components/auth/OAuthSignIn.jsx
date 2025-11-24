@@ -13,8 +13,8 @@ import MicrosoftSignInButton from "./MicrosoftSignInButton";
  * @param {Function} [props.onSuccess] - Callback for successful sign-in
  * @param {Function} [props.onError] - Callback for sign-in errors
  * @param {string} [props.redirectUrl] - URL to redirect after successful login
- * @param {Array<string>} [props.providers] - List of providers to display ('google', 'microsoft', 'apple')
- * @param {string} [props.layout] - Layout style ('vertical', 'horizontal', 'grid')
+ * @param {Array<string>} [props.providers] - List of providers to display ('google', &apos;microsoft', 'apple')
+ * @param {string} [props.layout] - Layout style (&apos;vertical', 'horizontal', 'grid')
  * @param {string} [props.className] - Additional CSS classes
  */
 const OAuthSignIn = ({

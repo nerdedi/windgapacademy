@@ -236,7 +236,7 @@ const LearningPathAutomationDemo = () => {
             through a warehouse, our learning path moves educational content to the student.
           </li>
           <li>
-            <strong>Start/Stop Controls</strong>: Similar to a conveyor belt's controls, we can
+            <strong>Start/Stop Controls</strong>: Similar to a conveyor belt&apos;s controls, we can
             start, stop, and adjust the speed of content delivery.
           </li>
           <li>

@@ -139,8 +139,8 @@ function SetupMFAPage() {
               </div>
               <h2 className="text-xl font-bold mb-2">Setup Complete</h2>
               <p className="text-gray-600 mb-8">
-                Two-factor authentication has been successfully enabled for your account. You'll now
-                need to verify your identity using your phone when signing in.
+                Two-factor authentication has been successfully enabled for your account.
+                You&apos;ll now need to verify your identity using your phone when signing in.
               </p>
               <button
                 onClick={() => navigate("/dashboard")}
@@ -158,8 +158,8 @@ function SetupMFAPage() {
                 </div>
                 <h2 className="text-xl font-bold mb-2">Add Phone Number</h2>
                 <p className="text-gray-600">
-                  We'll send a verification code to your phone to verify your identity when you sign
-                  in.
+                  We&apos;ll send a verification code to your phone to verify your identity when you
+                  sign in.
                 </p>
               </div>
 
@@ -227,7 +227,7 @@ function SetupMFAPage() {
                 </div>
                 <h2 className="text-xl font-bold mb-2">Enter Verification Code</h2>
                 <p className="text-gray-600">
-                  We've sent a verification code to your phone. Enter it below to complete the
+                  We&apos;ve sent a verification code to your phone. Enter it below to complete the
                   setup.
                 </p>
               </div>

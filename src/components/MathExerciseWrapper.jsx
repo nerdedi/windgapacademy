@@ -54,7 +54,7 @@ export const MathExerciseWrapper = ({
         setTimeRemaining((prev) => prev - 1);
       }, 1000);
     } else if (timeRemaining === 0 && !correct) {
-      // Time's up!
+      // Time&apos;s up!
       handleTimeUp();
     }
     return () => clearTimeout(timer);
@@ -127,7 +127,7 @@ export const MathExerciseWrapper = ({
 
     if (attempts + 1 >= maxAttempts) {
       // Max attempts reached
-      setFeedbackMessage("Don't worry! Let's learn from our mistakes.");
+      setFeedbackMessage("Don&apos;t worry! Let&apos;s learn from our mistakes.");
       setShowFeedback(true);
 
       setTimeout(() => {
@@ -148,7 +148,7 @@ export const MathExerciseWrapper = ({
    * Handle when time runs out
    */
   const handleTimeUp = () => {
-    setFeedbackMessage("Time's up! Let's try again.");
+    setFeedbackMessage("Time&apos;s up! Let&apos;s try again.");
     setShowFeedback(true);
     setStreakCount(0);
 
@@ -222,11 +222,11 @@ export const MathExerciseWrapper = ({
    */
   const getRandomEncouragement = () => {
     const encouragements = [
-      "You're doing amazing!",
+      "You&apos;re doing amazing!",
       "Fantastic work!",
       "Math superstar!",
       "Brilliant solving!",
-      "You're a natural!",
+      "You&apos;re a natural!",
       "Excellent thinking!",
       "Outstanding job!",
     ];

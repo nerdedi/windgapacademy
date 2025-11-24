@@ -53,7 +53,7 @@ const ModernInput = ({
   const handleBlur = () => {
     setIsFocused(false);
 
-    // Only animate back if there's no value
+    // Only animate back if there&apos;s no value
     if (!value) {
       gsap.to(labelRef.current, {
         y: 0,

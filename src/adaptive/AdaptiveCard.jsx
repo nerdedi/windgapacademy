@@ -9,7 +9,7 @@ import { useComponentAdaptive } from "./useComponentAdaptive";
  * AdaptiveCard - A component that demonstrates adaptive UI features
  *
  * This component adapts its presentation and behavior based on:
- * - User's learning style
+ * - User&apos;s learning style
  * - Device capabilities
  * - User interaction patterns
  * - Accessibility preferences

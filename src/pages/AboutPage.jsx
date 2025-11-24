@@ -50,7 +50,7 @@ const AboutPage = () => {
             <div className="text-5xl mb-4 text-blue-400">🔍</div>
             <h3 className="text-xl font-semibold mb-2">Personalization</h3>
             <p className="text-gray-300">
-              We use advanced AI to understand each learner's unique needs and adapt content
+              We use advanced AI to understand each learner&apos;s unique needs and adapt content
               accordingly.
             </p>
           </div>
@@ -185,7 +185,7 @@ const AboutPage = () => {
         <div className="bg-gradient-to-br from-indigo-900/30 to-purple-900/30 rounded-xl p-8 max-w-3xl mx-auto">
           <p className="text-center text-gray-300 mb-6">
             Interested in learning more about Windgap Academy? Have questions about our approach or
-            technologies? We'd love to hear from you!
+            technologies? We&apos;d love to hear from you!
           </p>
           <div className="grid md:grid-cols-2 gap-4 mb-6">
             <div>

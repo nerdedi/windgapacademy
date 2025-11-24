@@ -36,6 +36,14 @@ export const CharacterAnimations = ({
   const animationTimeoutRef = useRef(null);
   const controls = useAnimation();
 
+  const playAnimation = (animationName) => {
+    setAnimationPhase(animationName);
+    controls.start(animationName);
+    if (onAnimationComplete) {
+      setTimeout(() => onAnimationComplete(animationName), 1000); // Mock duration
+    }
+  };
+
   // Size presets
   const sizePresets = {
     small: { width: 80, height: 80 },
@@ -52,7 +60,7 @@ export const CharacterAnimations = ({
       color: "#4ade80",
       personality: "energetic",
       description: "The enthusiastic math explorer",
-      greeting: "Hi! I'm Andy! Let's solve some amazing math puzzles together! 🔢",
+      greeting: "Hi! I&apos;m Andy! Let&apos;s solve some amazing math puzzles together! 🔢",
       animation: "bounce",
       idleAnimations: ["sway", "blink", "breathe"],
       interactionAnimations: ["jump", "spin", "wave"],
@@ -66,7 +74,7 @@ export const CharacterAnimations = ({
       color: "#f472b6",
       personality: "creative",
       description: "The artistic storyteller",
-      greeting: "Hello! I'm Daisy! Want to create beautiful stories and art? 🎨",
+      greeting: "Hello! I&apos;m Daisy! Want to create beautiful stories and art? 🎨",
       animation: "float",
       idleAnimations: ["float", "blink", "breathe"],
       interactionAnimations: ["dance", "twirl", "giggle"],
@@ -80,7 +88,7 @@ export const CharacterAnimations = ({
       color: "#a78bfa",
       personality: "curious",
       description: "The science investigator",
-      greeting: "Hey there! I'm Natalie! Let's discover the wonders of science! 🧪",
+      greeting: "Hey there! I&apos;m Natalie! Let&apos;s discover the wonders of science! 🧪",
       animation: "pulse",
       idleAnimations: ["pulse", "look", "think"],
       interactionAnimations: ["magnify", "analyze", "discover"],
@@ -94,7 +102,7 @@ export const CharacterAnimations = ({
       color: "#60a5fa",
       personality: "wise",
       description: "The helpful cloud guide",
-      greeting: "Welcome! I'm Winnie! I'm here to guide you on your learning journey! ☁️",
+      greeting: "Welcome! I&apos;m Winnie! I&apos;m here to guide you on your learning journey! ☁️",
       animation: "drift",
       idleAnimations: ["drift", "glow", "float"],
       interactionAnimations: ["approach", "highlight", "guide"],
@@ -153,7 +161,7 @@ export const CharacterAnimations = ({
   }, [activeCharacter, animationPhase]);
 
   const getCharacterPosition = (characterPosition) => {
-    // Adjust based on both the character's natural position and the prop position
+    // Adjust based on both the character&apos;s natural position and the prop position
     const positions = {
       left: "left-[10%]",
       "center-left": "left-[30%]",

@@ -75,6 +75,15 @@ function WindgapAcademyHomepage() {
     { number: "95%", label: "Success Rate" },
   ];
 
+  const features = [
+    { title: "Life Skills", link: "/life-skills", icon: "🏠" },
+    { title: "Employment", link: "/employment", icon: "💼" },
+    { title: "Digital Literacy", link: "/digital-literacy", icon: "💻" },
+    { title: "Numeracy", link: "/numeracy", icon: "🔢" },
+    { title: "Literacy", link: "/literacy", icon: "📚" },
+    { title: "Health", link: "/health", icon: "🏥" },
+  ];
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900">
       {/* Apple-style Navigation */}

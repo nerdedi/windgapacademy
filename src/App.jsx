@@ -10,59 +10,113 @@ import "./styles/neurodivergent.css";
 import AccessibilitySettings from "./components/AccessibilitySettings";
 import ProtectedRoute from "./components/ProtectedRoute";
 
-// Lazy-load ALL routes for optimal code splitting
-const HomeModern = lazy(() => import("./components/HomeModern"));
-const LLNDHomepage = lazy(() => import("./components/LLNDHomepage"));
-const LoginPage = lazy(() => import("./components/LoginPage"));
-const LearnerDashboard = lazy(() => import("./components/StudentDashboard"));
-
-// Authentication pages
-const VerifyEmailPage = lazy(() => import("./components/VerifyEmailPage"));
-const SetupMFAPage = lazy(() => import("./components/SetupMFAPage"));
-const ResetPasswordPage = lazy(() => import("./components/ResetPasswordPage"));
-const UnauthorizedPage = lazy(() => import("./components/UnauthorizedPage"));
-
-// Curriculum and lessons
+// Lazy routes (chunk names help during perf audits)
+const HomeModern = lazy(
+  () => import(/* webpackChunkName: "home-modern" */ "./components/HomeModern"),
+);
+const LLNDHomepage = lazy(
+  () => import(/* webpackChunkName: "llnd-home" */ "./components/LLNDHomepage"),
+);
+const LoginPage = lazy(() => import(/* webpackChunkName: "login" */ "./components/LoginPage"));
+const LearnerDashboard = lazy(
+  () => import(/* webpackChunkName: "dashboard" */ "./components/StudentDashboard"),
+);
+const VerifyEmailPage = lazy(
+  () => import(/* webpackChunkName: "verify-email" */ "./components/VerifyEmailPage"),
+);
+const SetupMFAPage = lazy(
+  () => import(/* webpackChunkName: "setup-mfa" */ "./components/SetupMFAPage"),
+);
+const ResetPasswordPage = lazy(
+  () => import(/* webpackChunkName: "reset-password" */ "./components/ResetPasswordPage"),
+);
+const UnauthorizedPage = lazy(
+  () => import(/* webpackChunkName: "unauthorized" */ "./components/UnauthorizedPage"),
+);
 const CurriculumBuilderWithSaveState = lazy(
-  () => import("./components/curriculum/CurriculumBuilderWithSaveState.jsx"),
+  () =>
+    import(
+      /* webpackChunkName: "curriculum-builder" */ "./components/curriculum/CurriculumBuilderWithSaveState.jsx"
+    ),
 );
 const DigitalLiteracyLesson = lazy(
-  () => import("./components/lessonModules/DigitalLiteracyLesson"),
+  () =>
+    import(/* webpackChunkName: "lesson-dl" */ "./components/lessonModules/DigitalLiteracyLesson"),
 );
 const DigitalLiteracyLessonEnhanced = lazy(
-  () => import("./components/lessonModules/DigitalLiteracyLessonEnhanced"),
+  () =>
+    import(
+      /* webpackChunkName: "lesson-dl-enhanced" */ "./components/lessonModules/DigitalLiteracyLessonEnhanced"
+    ),
 );
 const LanguagePhonicsLesson = lazy(
-  () => import("./components/lessonModules/LanguagePhonicsLesson"),
+  () =>
+    import(
+      /* webpackChunkName: "lesson-language-phonics" */ "./components/lessonModules/LanguagePhonicsLesson"
+    ),
 );
-const LifeSkillsLesson = lazy(() => import("./components/lessonModules/LifeSkillsLesson"));
+const LifeSkillsLesson = lazy(
+  () => import(/* webpackChunkName: "lesson-life" */ "./components/lessonModules/LifeSkillsLesson"),
+);
 const LiteracyReadingLesson = lazy(
-  () => import("./components/lessonModules/LiteracyReadingLesson"),
+  () =>
+    import(
+      /* webpackChunkName: "lesson-literacy-reading" */ "./components/lessonModules/LiteracyReadingLesson"
+    ),
 );
 const NumeracyCountingMoneyLesson = lazy(
-  () => import("./components/lessonModules/NumeracyCountingMoneyLesson"),
+  () =>
+    import(
+      /* webpackChunkName: "lesson-numeracy-money" */ "./components/lessonModules/NumeracyCountingMoneyLesson"
+    ),
 );
-
-// Demo and feature pages
-const AboutPage = lazy(() => import("./pages/AboutPage"));
-const AdaptiveDemoPage = lazy(() => import("./pages/AdaptiveDemoPage"));
-const AdaptiveMathLearningPage = lazy(() => import("./pages/AdaptiveMathLearningPage"));
-const AIAssistantPage = lazy(() => import("./pages/AIAssistantPage"));
-const AnimationSystemDemo = lazy(() => import("./pages/AnimationSystemDemo"));
-const AutomationDemo = lazy(() => import("./pages/AutomationDemo.jsx"));
-const ExecutiveFunctionDemo = lazy(() => import("./pages/ExecutiveFunctionDemo"));
-const LearningPage = lazy(() => import("./pages/LearningPage"));
-const MathExercisesPage = lazy(() => import("./pages/MathExercisesPage"));
-const NeurodivergentLearningPage = lazy(() => import("./pages/NeurodivergentLearningPage"));
-const FractionMastery = lazy(() => import("./exercises/FractionMastery"));
-
-// Tools pages
-const CharacterAnimationPage = lazy(() => import("./pages/Tools/CharacterAnimation"));
-const FluidSimulationPage = lazy(() => import("./pages/Tools/FluidSimulation"));
-const RippleEffectPage = lazy(() => import("./pages/Tools/RippleEffect"));
-const WebGLEffectsPage = lazy(() => import("./pages/Tools/WebGLEffects"));
-const WhiteboardPage = lazy(() => import("./pages/Tools/Whiteboard"));
-const ToolsPage = lazy(() => import("./pages/ToolsPage"));
+const AboutPage = lazy(() => import(/* webpackChunkName: "about" */ "./pages/AboutPage"));
+const AdaptiveDemoPage = lazy(
+  () => import(/* webpackChunkName: "adaptive-demo" */ "./pages/AdaptiveDemoPage"),
+);
+const AdaptiveMathLearningPage = lazy(
+  () => import(/* webpackChunkName: "adaptive-math" */ "./pages/AdaptiveMathLearningPage"),
+);
+const AIAssistantPage = lazy(
+  () => import(/* webpackChunkName: "ai-assistant" */ "./pages/AIAssistantPage"),
+);
+const AnimationSystemDemo = lazy(
+  () => import(/* webpackChunkName: "animation-demo" */ "./pages/AnimationSystemDemo"),
+);
+const AutomationDemo = lazy(
+  () => import(/* webpackChunkName: "automation-demo" */ "./pages/AutomationDemo.jsx"),
+);
+const ExecutiveFunctionDemo = lazy(
+  () => import(/* webpackChunkName: "executive-function-demo" */ "./pages/ExecutiveFunctionDemo"),
+);
+const LearningPage = lazy(() => import(/* webpackChunkName: "learning" */ "./pages/LearningPage"));
+const MathExercisesPage = lazy(
+  () => import(/* webpackChunkName: "exercises-math" */ "./pages/MathExercisesPage"),
+);
+const NeurodivergentLearningPage = lazy(
+  () =>
+    import(/* webpackChunkName: "neurodivergent-learning" */ "./pages/NeurodivergentLearningPage"),
+);
+const FractionMastery = lazy(
+  () => import(/* webpackChunkName: "fraction-mastery" */ "./exercises/FractionMastery"),
+);
+const CharacterAnimationPage = lazy(
+  () =>
+    import(/* webpackChunkName: "tools-character-animation" */ "./pages/Tools/CharacterAnimation"),
+);
+const FluidSimulationPage = lazy(
+  () => import(/* webpackChunkName: "tools-fluid-simulation" */ "./pages/Tools/FluidSimulation"),
+);
+const RippleEffectPage = lazy(
+  () => import(/* webpackChunkName: "tools-ripple-effect" */ "./pages/Tools/RippleEffect"),
+);
+const WebGLEffectsPage = lazy(
+  () => import(/* webpackChunkName: "tools-webgl-effects" */ "./pages/Tools/WebGLEffects"),
+);
+const WhiteboardPage = lazy(
+  () => import(/* webpackChunkName: "tools-whiteboard" */ "./pages/Tools/Whiteboard"),
+);
+const ToolsPage = lazy(() => import(/* webpackChunkName: "tools" */ "./pages/ToolsPage"));
 
 // Professional loading component
 function ProfessionalLoader() {
@@ -76,14 +130,14 @@ function ProfessionalLoader() {
   );
 }
 
-function App() {
+export default function App() {
   return (
     <div className="App">
       <Analytics />
       <Suspense fallback={<ProfessionalLoader />}>
         <AccessibilitySettings />
         <Routes>
-          {/* Public Routes */}
+          {/* Public */}
           <Route path="/" element={<HomeModern />} />
           <Route path="/llnd" element={<LLNDHomepage />} />
           <Route path="/login" element={<LoginPage />} />
@@ -91,13 +145,13 @@ function App() {
           <Route path="/verify-email" element={<VerifyEmailPage />} />
           <Route path="/unauthorized" element={<UnauthorizedPage />} />
 
-          {/* Demo Routes */}
+          {/* Demos */}
           <Route path="/demos/automation" element={<AutomationDemo />} />
           <Route path="/tools" element={<ToolsPage />} />
           <Route path="/learning" element={<LearningPage />} />
           <Route path="/about" element={<AboutPage />} />
 
-          {/* Protected Routes */}
+          {/* Protected */}
           <Route
             path="/dashboard"
             element={
@@ -106,7 +160,6 @@ function App() {
               </ProtectedRoute>
             }
           />
-
           <Route
             path="/setup-mfa"
             element={
@@ -116,7 +169,7 @@ function App() {
             }
           />
 
-          {/* Protected Routes with Role Requirements */}
+          {/* Role-gated */}
           <Route
             path="/curriculum-builder"
             element={
@@ -167,8 +220,6 @@ function App() {
               </ProtectedRoute>
             }
           />
-
-          {/* Enhanced lesson with neurodiversity accommodations */}
           <Route
             path="/lesson/digital-literacy-enhanced"
             element={
@@ -178,7 +229,7 @@ function App() {
             }
           />
 
-          {/* Demo pages */}
+          {/* Animation & Adaptive */}
           <Route path="/animation-demo" element={<AnimationSystemDemo />} />
           <Route path="/adaptive-demo" element={<AdaptiveDemoPage />} />
           <Route path="/executive-function-demo" element={<ExecutiveFunctionDemo />} />
@@ -186,26 +237,19 @@ function App() {
           <Route path="/ai-assistant" element={<AIAssistantPage />} />
           <Route path="/exercises/math" element={<MathExercisesPage />} />
 
-          {/* Adaptive Math Learning Routes */}
+          {/* Adaptive Math Learning */}
           <Route path="/math/adaptive-quest" element={<AdaptiveMathLearningPage />} />
           <Route path="/math/adaptive-quest/:conceptId" element={<AdaptiveMathLearningPage />} />
-          <Route
-            path="/math/fraction-mastery"
-            element={
-              <Suspense fallback={<ProfessionalLoader />}>
-                <FractionMastery />
-              </Suspense>
-            }
-          />
+          <Route path="/math/fraction-mastery" element={<FractionMastery />} />
 
-          {/* Tools migrated from static demo pages into SPA */}
+          {/* Tools */}
           <Route path="/tools/fluid-simulation" element={<FluidSimulationPage />} />
           <Route path="/tools/whiteboard" element={<WhiteboardPage />} />
           <Route path="/tools/ripple-effect" element={<RippleEffectPage />} />
           <Route path="/tools/webgl-effects" element={<WebGLEffectsPage />} />
           <Route path="/tools/character-animation" element={<CharacterAnimationPage />} />
 
-          {/* Module routes */}
+          {/* Modules "coming soon" */}
           <Route
             path="/module/:moduleId"
             element={
@@ -224,12 +268,10 @@ function App() {
             }
           />
 
-          {/* Catch all */}
+          {/* Catch-all */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </Suspense>
     </div>
   );
 }
-
-export default App;

@@ -1,138 +1,130 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { Button } from "../ui/button";
 
-/**
- * CurriculumBuilderWithSaveState - A component for building curriculum with state persistence
- *
- * This is a placeholder implementation that can be expanded with actual functionality.
- */
-const CurriculumBuilderWithSaveState = () => {
+const STORAGE_KEY = "curriculum-draft";
+const SCHEMA_VERSION = 1;
+
+export default function CurriculumBuilderWithSaveState() {
   const [curriculum, setCurriculum] = useState({
+    version: SCHEMA_VERSION,
     title: "New Curriculum",
     description: "Description of the curriculum",
     modules: [],
   });
-
   const [isSaved, setIsSaved] = useState(true);
   const [lastSaved, setLastSaved] = useState(null);
+  const saveTimer = useRef(null);
 
-  // Effect to handle auto-saving
+  // Restore draft on mount
   useEffect(() => {
-    if (!isSaved) {
-      const timeoutId = setTimeout(() => {
-        saveCurrentState();
-      }, 3000); // Auto-save after 3 seconds of inactivity
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (parsed && parsed.version === SCHEMA_VERSION) {
+          setCurriculum(parsed);
+          setLastSaved(new Date());
+        }
+      }
+    } catch (_) {}
+  }, []);
 
-      return () => clearTimeout(timeoutId);
-    }
+  // Debounced auto-save
+  useEffect(() => {
+    if (isSaved) return; // only schedule when there are unsaved changes
+    if (saveTimer.current) clearTimeout(saveTimer.current);
+    saveTimer.current = setTimeout(() => {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(curriculum));
+        setIsSaved(true);
+        setLastSaved(new Date());
+      } catch (e) {
+        console.error("Failed to save draft", e);
+      }
+    }, 1500);
+    return () => saveTimer.current && clearTimeout(saveTimer.current);
   }, [curriculum, isSaved]);
 
-  // Mock function for saving curriculum state
-  const saveCurrentState = () => {
-    console.log("Saving curriculum state:", curriculum);
-    // In a real implementation, this would save to Firebase or another backend
-    localStorage.setItem("curriculum-draft", JSON.stringify(curriculum));
-    setIsSaved(true);
-    setLastSaved(new Date());
-  };
-
-  // Mock function for adding a module
   const addModule = () => {
     setCurriculum((prev) => ({
       ...prev,
       modules: [
         ...prev.modules,
-        {
-          id: Date.now().toString(),
-          title: `Module ${prev.modules.length + 1}`,
-          lessons: [],
-        },
+        { id: Date.now().toString(), title: `Module ${prev.modules.length + 1}`, lessons: [] },
       ],
     }));
     setIsSaved(false);
   };
 
-  // Mock function for updating curriculum title
   const updateTitle = (newTitle) => {
     setCurriculum((prev) => ({ ...prev, title: newTitle }));
     setIsSaved(false);
   };
 
+  const updateDescription = (newDesc) => {
+    setCurriculum((prev) => ({ ...prev, description: newDesc }));
+    setIsSaved(false);
+  };
+
+  const manualSave = () => {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(curriculum));
+      setIsSaved(true);
+      setLastSaved(new Date());
+    } catch (e) {
+      console.error("Failed to save draft", e);
+    }
+  };
+
   return (
-    <div className="p-4 max-w-4xl mx-auto">
-      <div className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl font-bold">Curriculum Builder</h1>
-        <div className="flex items-center">
-          <span className={`mr-2 ${isSaved ? "text-green-500" : "text-yellow-500"}`}>
-            {isSaved ? "Saved" : "Unsaved changes"}
-          </span>
-          {lastSaved && (
-            <span className="text-sm text-gray-500">
-              Last saved: {lastSaved.toLocaleTimeString()}
-            </span>
-          )}
-        </div>
-      </div>
-
-      <div className="mb-4">
-        <label className="block mb-2 font-medium">Curriculum Title</label>
-        <input
-          type="text"
-          value={curriculum.title}
-          onChange={(e) => updateTitle(e.target.value)}
-          className="w-full p-2 border rounded"
-        />
-      </div>
-
-      <div className="mb-4">
-        <label className="block mb-2 font-medium">Description</label>
-        <textarea
-          value={curriculum.description}
-          onChange={(e) => {
-            setCurriculum((prev) => ({ ...prev, description: e.target.value }));
-            setIsSaved(false);
-          }}
-          className="w-full p-2 border rounded"
-          rows={3}
-        />
-      </div>
-
-      <div className="mb-4">
-        <h2 className="text-xl font-medium mb-2">Modules</h2>
-        {curriculum.modules.length === 0 ? (
-          <p className="text-gray-500">No modules yet. Add your first module!</p>
-        ) : (
-          <ul className="space-y-2">
-            {curriculum.modules.map((module) => (
-              <li key={module.id} className="p-3 border rounded bg-gray-50">
-                <h3 className="font-medium">{module.title}</h3>
-                <p className="text-sm text-gray-500">{module.lessons.length} lessons</p>
-              </li>
-            ))}
-          </ul>
+    <div className="max-w-3xl mx-auto p-4">
+      <h2 className="text-2xl font-bold mb-2">Curriculum Builder</h2>
+      <div className="text-sm mb-4">
+        <span className={isSaved ? "text-green-600" : "text-yellow-600"}>
+          {isSaved ? "Saved" : "Unsaved changes"}
+        </span>
+        {lastSaved && (
+          <span className="ml-2 text-gray-600">Last saved: {lastSaved.toLocaleTimeString()}</span>
         )}
-        <button
-          onClick={addModule}
-          className="mt-3 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-        >
-          Add Module
-        </button>
       </div>
 
-      <div className="flex justify-end">
-        <button
-          onClick={saveCurrentState}
-          disabled={isSaved}
-          className={`px-4 py-2 rounded ${
-            isSaved
-              ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-              : "bg-green-600 text-white hover:bg-green-700"
-          }`}
-        >
+      <label className="block text-sm font-medium mb-1">Curriculum Title</label>
+      <input
+        value={curriculum.title}
+        onChange={(e) => updateTitle(e.target.value)}
+        className="w-full p-2 border rounded mb-3"
+      />
+
+      <label className="block text-sm font-medium mb-1">Description</label>
+      <textarea
+        value={curriculum.description}
+        onChange={(e) => updateDescription(e.target.value)}
+        className="w-full p-2 border rounded mb-4"
+        rows={3}
+      />
+
+      <div className="flex gap-2 mb-6">
+        <Button variant="secondary" onClick={addModule}>
+          Add Module
+        </Button>
+        <Button variant="default" onClick={manualSave}>
           Save Changes
-        </button>
+        </Button>
       </div>
+
+      <h3 className="text-xl font-semibold mb-2">Modules</h3>
+      {curriculum.modules.length === 0 ? (
+        <div className="text-gray-700">No modules yet. Add your first module!</div>
+      ) : (
+        <ul className="space-y-2">
+          {curriculum.modules.map((module) => (
+            <li key={module.id} className="p-3 rounded border">
+              <div className="font-semibold">{module.title}</div>
+              <div className="text-sm text-gray-600">{module.lessons.length} lessons</div>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
-};
-
-export default CurriculumBuilderWithSaveState;
+}

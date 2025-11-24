@@ -45,7 +45,7 @@ const SafeCanvas = ({ children, fallback, onError, ...canvasProps }) => {
           <p className="text-gray-600">
             {!isThreeReady
               ? "Initializing Three.js, please wait..."
-              : "Your browser doesn't support WebGL, which is required for 3D graphics."}
+              : "Your browser doesn&apos;t support WebGL, which is required for 3D graphics."}
           </p>
         </div>
       </div>
@@ -73,7 +73,7 @@ const SafeCanvas = ({ children, fallback, onError, ...canvasProps }) => {
                 state.gl.setClearColor(0x000000, 0);
               }
 
-              // Call user's onCreated if provided
+              // Call user&apos;s onCreated if provided
               if (canvasProps.onCreated) {
                 canvasProps.onCreated(state);
               }

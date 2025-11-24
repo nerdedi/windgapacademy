@@ -50,7 +50,7 @@ export const AuthProvider = ({ children }) => {
       if (userDoc.exists()) {
         return userDoc.data();
       }
-      // Create user document if it doesn't exist
+      // Create user document if it doesn&apos;t exist
       const newUserData = {
         uid,
         email: auth.currentUser.email,

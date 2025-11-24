@@ -416,7 +416,7 @@ function SpriteBasedGame() {
 
   // Create WebGL effects for game events
   const addGameEffect = useCallback((effectType, options = {}) => {
-    // Create container for WebGL effects if it doesn't exist
+    // Create container for WebGL effects if it doesn&apos;t exist
     let effectsContainer = document.getElementById("game-effects-container");
     if (!effectsContainer) {
       effectsContainer = document.createElement("div");

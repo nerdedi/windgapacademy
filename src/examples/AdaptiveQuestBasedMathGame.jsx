@@ -2,7 +2,7 @@
  * AdaptiveQuestBasedMathGame component
  *
  * This component demonstrates the integration of adaptive learning and quest-based
- * approaches for math education, inspired by Antura's gamification model.
+ * approaches for math education, inspired by Antura&apos;s gamification model.
  */
 
 import { useEffect, useState } from "react";
@@ -429,17 +429,17 @@ const generateFractionExercise = (difficulty) => {
  */
 const AdaptiveQuestBasedMathGame = () => {
   const [userId, setUserId] = useState(null);
-  // Using _setWorldId naming to indicate it's intentionally unused
+  // Using _setWorldId naming to indicate it&apos;s intentionally unused
   const [worldId, _setWorldId] = useState("math_kingdom");
   const [activeQuestId, setActiveQuestId] = useState(null);
-  // Using _setExerciseGenerator naming to indicate it's intentionally unused
+  // Using _setExerciseGenerator naming to indicate it&apos;s intentionally unused
   const [exerciseGenerator, _setExerciseGenerator] = useState(() => generateMathExercise);
   const [showingAdaptiveExercise, setShowingAdaptiveExercise] = useState(false);
   const [currentConcept, setCurrentConcept] = useState(null);
   const [currentQuestData, setCurrentQuestData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Using _navigate naming to indicate it's intentionally unused
+  // Using _navigate naming to indicate it&apos;s intentionally unused
   const _navigate = useNavigate();
   const { conceptId } = useParams();
 

@@ -243,7 +243,7 @@ function LoginPage() {
       // Navigation handled by useEffect watching currentUser
     } catch (error) {
       console.error("Demo login error:", error);
-      // If demo account doesn't exist, try to create it
+      // If demo account doesn&apos;t exist, try to create it
       try {
         await signUp(
           demoEmail,
@@ -505,7 +505,9 @@ function LoginPage() {
                   className="text-blue hover:text-white font-medium transition-colors duration-300"
                   disabled={isSubmitting}
                 >
-                  {isLogin ? "Don't have an account? Sign up" : "Already have an account? Sign in"}
+                  {isLogin
+                    ? "Don&apos;t have an account? Sign up"
+                    : "Already have an account? Sign in"}
                 </button>
               </div>
 

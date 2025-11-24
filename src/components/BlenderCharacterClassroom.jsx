@@ -191,8 +191,12 @@ const BlenderCharacterClassroom = ({
     // Simulated lesson data - in a real app, this would come from an API
     const lessonActions = {
       intro: [
-        { character: "winnie", animation: "teaching", text: "Welcome to today's lesson!" },
-        { character: "natalie", animation: "idle", text: "We're going to learn something new." },
+        { character: "winnie", animation: "teaching", text: "Welcome to today&apos;s lesson!" },
+        {
+          character: "natalie",
+          animation: "idle",
+          text: "We&apos;re going to learn something new.",
+        },
       ],
       activity1: [
         { character: "winnie", animation: "point", text: "Now try this activity." },

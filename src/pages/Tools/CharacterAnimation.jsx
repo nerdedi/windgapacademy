@@ -32,7 +32,7 @@ export default function CharacterAnimationPage() {
     const characterImage = new Image();
     characterImage.src = "/assets/character-spritesheet.png";
 
-    // If image doesn't exist, draw a placeholder character
+    // If image doesn&apos;t exist, draw a placeholder character
     characterImage.onerror = () => {
       console.warn("Character sprite sheet not found, using placeholder");
       drawPlaceholderCharacter();

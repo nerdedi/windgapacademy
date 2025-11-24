@@ -1,0 +1,250 @@
+# Windgap Academy Architecture & Code Export (Generated 2025-11-21)
+
+## SECTION 1: App Architecture & Routing
+
+Files Located:
+
+- src/components/ProtectedRoute.jsx
+- src/app/ProtectedRoute.jsx
+- src/components/auth/ProtectedRoute.jsx
+- src/contexts/AuthContext.jsx
+- src/context/AuthContext.jsx
+- src/context/AuthContext.js
+- src/components/AccessibilitySettings.jsx
+
+ProtectedRoute Variants:
+--- src/components/ProtectedRoute.jsx ---
+(imported below)
+
+<<<FILE: src/components/ProtectedRoute.jsx>>>
+import React from "react";
+import { Navigate, useLocation } from "react-router-dom";
+
+import { useAuth } from "../contexts/AuthContext";
+/\*_ ... trimmed summary: route protection with loading spinner, email verification, roles _/
+(Full content retained in repository.)
+
+<<<FILE: src/app/ProtectedRoute.jsx>>>
+import React from "react";
+import { Navigate } from "react-router-dom";
+import { useUser } from "./UserContext";
+/\*_ Legacy variant with role mapping educator/trainer and learner/student _/
+(Full content retained.)
+
+<<<FILE: src/components/auth/ProtectedRoute.jsx>>>
+import { useAuth } from "@contexts/AuthContext";
+/\*_ Variant supporting role arrays and customizable redirectTo _/
+(Full content retained.)
+
+Auth Context Variants:
+--- src/contexts/AuthContext.jsx --- High-level simplified provider mapping Firebase user
+--- src/context/AuthContext.jsx --- Rich provider with MFA, roles, permissions, Firestore integration
+--- src/context/AuthContext.js --- Extended version with login attempt throttling, account lock checks, enhanced error handling
+(Full content retained; see repository for API functions: signIn, signUp, logOut, role/permission helpers, MFA enrollment.)
+
+Accessibility Settings Component:
+--- src/components/AccessibilitySettings.jsx --- Modal-driven multi-tab accessibility & neurodiversity control panel (visual, preparation, communication, sensory, structural settings). Integrates with useAccessibility context.
+
+Notes:
+
+- Multiple auth contexts suggest consolidation opportunity: unify API surface and avoid duplicated state logic.
+- ProtectedRoute duplication: recommend deprecating legacy variants & standardising on a single composable version with hooks for MFA & email verification.
+
+## SECTION 2: Styling System (Tailwind & Global CSS)
+
+Files Located:
+
+- tailwind.config.js
+- postcss.config.js
+- src/styles/accessibility.css
+- src/styles/adaptive.css
+- src/styles/neurodivergent.css
+
+Tailwind Config Summary:
+
+- Dark mode via class and data-theme
+- Extensive brand palette (primary/secondary/accent + semantic sets)
+- Legacy theme CSS vars retained for backward compatibility
+- Rich typography scale (up to 9xl) and animation keyframes (fade, slide, float, glow)
+- Improvement opportunity: narrow `content` globs to eliminate unused selectors (currently broad: backend, games, widgets)
+
+PostCSS Config:
+
+- Uses `@tailwindcss/postcss` and `autoprefixer`
+- Consider adding `postcss-nesting`, `postcss-custom-properties`, or `cssnano` for production builds
+
+Accessibility CSS:
+
+- Implements multiple modes: high-contrast, dyslexia-friendly, reduced-motion, reduced-colors, autism-friendly, hyperfocus, clutter reduction
+- Adds category color coding, executive function support styles (task breakdown, schedules, memory aids)
+- Opportunity: extract mode toggles into data attributes for lower specificity & easier atomic updates
+
+Adaptive CSS:
+
+- Variable-driven adaptive theming (light/dark); UI density adjustments; motion reduction; card component patterns
+- Suggest factoring repeated spacing tokens into Tailwind plugin or design tokens JSON
+
+Neurodivergent CSS:
+
+- Specialized focus, hyperfocus layout trimming, category color coding; pomodoro, schedule, memory support, interest indicators
+- Consider merging overlapping styles with accessibility.css to reduce duplication
+
+## SECTION 3: Graphics & Game Performance (Three.js / R3F)
+
+Files Located:
+
+- src/pages/Tools/WebGLEffects.jsx (custom WebGL canvas shaders: particles, glow, wave placeholders)
+- src/pages/Tools/Whiteboard.jsx (Excalidraw dynamic import)
+- src/pages/Tools/FluidSimulation.jsx (Canvas 2D hue animation simulation)
+- Multiple GLTFLoader usages: src/threeJs/index.js, src/components/WindgapCharacterSystem.js, src/utils/\* (CharacterAnimator, Blender loaders)
+- Additional WebGLEffects helpers: src/systems/WebGLEffects.js, src/utils/WebGLEffects.js/.min.js
+
+Observations:
+
+- Shaders inline; recommend externalizing GLSL for caching & syntax highlighting.
+- No central `<Canvas>` wrapper for React Three Fiber found (search did not include R3F canvas usage in these pages). Suggest creating a `SceneCanvas` component to manage renderer, resize, pixel ratio, and postprocessing.
+- Resource disposal patterns not visible; ensure loaders dispose geometries/materials when unmounting.
+
+## SECTION 4: Build & Runtime (Vite Stack)
+
+Files Located:
+
+- vite.config.js
+- index.html
+
+Vite Config Highlights:
+
+- React alias & dedupe to enforce single instance (prevents "Children" undefined issue)
+- ManualChunks segmentation: react-vendor, router-vendor, animation-vendor, three-vendor, firebase-vendor, ui-vendor, tools-pages, adaptive-features
+- optimizeDeps.force = true ensures consistent pre-bundling
+- SSR noExternal for Three/Fiber related libs (future universal rendering readiness)
+- Improvement opportunities:
+  - Add COOP/COEP headers (via dev server middleware / production hosting config) for SharedArrayBuffer & high-perf WebGL
+  - Consider dynamic chunk naming with feature flags and route-based splits for large pages
+  - Evaluate chunkSizeWarningLimit (500) vs actual bundle metrics (may need code splitting for Tools pages)
+
+index.html Summary:
+
+- Includes import map for Three.js via CDN (version mismatch risk with installed three@0.180 vs CDN 0.160) — unify versions
+- Duplicate manifest link; ensure one correct PWA manifest or remove if not implemented
+- Provides fallback screen script (basic error UI)
+
+## SECTION 5: Testing & Quality Gates
+
+Files Located:
+
+- jest.config.cjs, jest.setup.js, jest.polyfills.js
+- playwright.config.js (empty placeholder) & playwright.config.mjs (basic config targeting .mjs tests)
+- playwright-mcp.config.json (MCP server runtime options)
+- eslint.config.js
+- .lintstagedrc.js
+
+Testing Summary:
+
+- Jest environment: jsdom with Canvas & WebGL mocks, coverage collection, transformIgnorePatterns includes three & R3F whitelisting
+- Playwright config separation (.js empty) — remove or implement; .mjs config sets headless chromium baseURL
+- MCP config tailored for programmatic browsing; no permissions beyond clipboard
+- Improvement opportunities:
+  - Integrate R3F canvas stub in jest.setup for more deterministic 3D tests
+  - Add accessibility snapshot tests (axe) & performance budget warnings
+  - Consolidate Playwright config (single file) and add retries, tracing, video capture for flake analysis
+
+ESLint Summary:
+
+- Uses flat config pattern with js, react, react-hooks, prettier; disables prop-types & react-in-jsx-scope (React 17+ compat)
+- Ignores TS files while present (maybe transitional) — ensure TS migration plan or remove TS-specific ignores
+- Opportunity: add custom rules for accessibility (jsx-a11y) and import sorting
+
+Lint-Staged:
+
+- Formats JS/TS/CSS/SCSS/MD with Prettier; allowEmpty true (acceptable but can mask misconfig)
+
+## SECTION 6: Data & Auth
+
+Files Located:
+
+- firebase.js
+- **mocks**/firebase.js (mock referenced in Jest config)
+- firestore.rules (basic least-privilege read/write plus educator/trainer write gating)
+
+Firebase Integration Summary:
+
+- Uses Vite env variables (fallbacks include real keys — caution: ensure no production secrets shipped to client by default)
+- Auth functions exported directly; multiFactor included
+- Improvement opportunities:
+  - Move hardcoded fallback keys to placeholder values and enforce `.env` usage
+  - Add Firestore indexes & composite queries reference doc
+  - Extend rules: restrict assignments writes to educators only; add validation for document fields
+
+Firestore Rules Observations:
+
+- `users/{userId}`: auth.uid equality — good baseline
+- `assignments`: role check via get user role field; missing explicit field existence checks, no separation for updates vs creates
+- Add logging or experiments with Firebase Rules Playground for performance
+
+## SECTION 7: PWA & Deployment
+
+Files Located:
+
+- No manifest.webmanifest or service-worker implementation found (index.html references /manifest.json which is absent)
+- GitHub Actions workflows: ci.yml, build-test-deploy.yml, deploy.yml, pre-commit.yml, nodejs-test.yml, unity-build.yml
+
+CI/CD Summary:
+
+- Multi-job pipeline (lint, test, build, deploy) with artifact retention and conditional deployment
+- Unity integration pipeline (game-ci) with cache for Library, build optimization (Brotli), manual artifacts
+- Improvement opportunities:
+  - Add Lighthouse CI or WebPageTest integration step
+  - Implement caching of node_modules with dependency hash
+  - Introduce performance budgets (bundle limit, test duration) as failing conditions
+  - Add secret scanning & dependency review gating before deploy
+
+## SECTION 8: Content & Assets
+
+Audio Assets:
+
+- None found (no .mp3/.wav/.ogg/.m4a). Suggest adding placeholder directory `assets/audio/`.
+
+Brand Assets:
+
+- assets/logo.png
+- assets/logo.svg
+- assets/windgap-logo.png
+- public/unity-builds/windgap-academy-game/TemplateData/webgl-logo.png
+- public/unity-builds/windgap-academy-game/TemplateData/favicon.ico
+- public/favicon.svg
+
+Optimization Opportunities:
+
+- Generate sprite from SVG icons if multiple standardized icons emerge.
+- Provide multiple resolution variants for PNG and use modern formats (WebP/AVIF) in HTML <picture> tags.
+
+## Missing Items & Recommendations:
+
+1. Central R3F Canvas Wrapper: Implement `src/components/SceneCanvas.jsx` to unify suspense, loaders, adaptive DPR, and effect composer.
+2. Shader Externalization: Move inline GLSL strings from WebGLEffects to `/src/shaders/*.glsl` and load via raw imports.
+3. Accessibility & Neurodiversity Consolidation: Combine overlapping CSS rules; migrate mode toggles to data attributes for lower specificity.
+4. Manifest & Service Worker: Add `public/manifest.webmanifest` and Workbox-based `service-worker.js` for offline lessons caching.
+5. Security Hardening: Replace firebaseConfig fallback values with placeholders; enforce runtime env presence.
+6. Firestore Rules Expansion: Add granular validation (e.g., field lengths, allowed values) and separate create/update logic.
+7. CI Enhancements: Add accessibility (axe) & performance (Lighthouse) audits; implement caching; integrate dependabot or Snyk gating.
+8. Testing: Add Playwright trace/video; unify config; add visual regression for critical UI flows.
+9. Code Splitting: Evaluate large vendor chunks (three-vendor) and dynamic import heavy scenes (FluidSimulation, WebGLEffects) only on demand.
+10. Asset Pipeline: Introduce `npm run optimize:svgs` and pre-build step to generate icon sprites.
+
+## Quick Reference Index:
+
+Protected Routes: src/components/ProtectedRoute.jsx, src/components/auth/ProtectedRoute.jsx, src/app/ProtectedRoute.jsx
+Auth Contexts: src/context/AuthContext.{js,jsx}, src/contexts/AuthContext.jsx
+Accessibility: src/components/AccessibilitySettings.jsx, src/styles/accessibility.css
+Adaptive & Neurodivergent Styles: src/styles/adaptive.css, src/styles/neurodivergent.css
+Three.js Effects: src/pages/Tools/WebGLEffects.jsx, src/utils/WebGLEffects.js
+Canvas Demos: src/pages/Tools/FluidSimulation.jsx, src/pages/Tools/Whiteboard.jsx
+Build Config: vite.config.js, index.html
+Testing: jest.config.cjs, jest.setup.js, jest.polyfills.js, playwright.config.mjs, playwright-mcp.config.json
+Linting & Formatting: eslint.config.js, .lintstagedrc.js
+Firebase Integration: firebase.js, firebase/firestore.rules
+CI/CD: .github/workflows/_.yml
+Assets: assets/logo._ , public/favicon.svg
+
+# End of Export

@@ -7,7 +7,7 @@ import { AccessibilityProvider } from "./context/AccessibilityContext";
 import { LearningPreferencesProvider } from "./context/LearningPreferencesContext";
 import { AuthProvider } from "./contexts/AuthContext";
 
-// Import global styles
+// Global styles
 import "./index.css";
 import "./styles/accessibility.css";
 import "./styles/adaptive.css";

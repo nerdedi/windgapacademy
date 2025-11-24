@@ -17,7 +17,7 @@ const Exercise = ({
   generateProblem,
   checkAnswer,
   hints = [],
-  successMessage = "Great job! That's correct!",
+  successMessage = "Great job! That&apos;s correct!",
   maxAttempts = 3,
   timeLimit = 0, // 0 means no time limit
   onComplete = () => {},
@@ -50,7 +50,7 @@ const Exercise = ({
       difficulty: level,
     });
 
-    // Set up timer if there's a time limit
+    // Set up timer if there&apos;s a time limit
     if (timeLimit > 0) {
       const timer = setInterval(() => {
         setTimeLeft((prev) => {
@@ -123,7 +123,7 @@ const Exercise = ({
       });
 
       setAttempts((prev) => prev + 1);
-      setErrorMessage(result.message || "That's not quite right. Try again!");
+      setErrorMessage(result.message || "That&apos;s not quite right. Try again!");
 
       // Auto-show hint after multiple attempts
       if (attempts + 1 >= 2 && !showHint && hints.length > 0) {
@@ -157,7 +157,7 @@ const Exercise = ({
       difficulty,
     });
 
-    setErrorMessage("Time's up! Let's try again.");
+    setErrorMessage("Time&apos;s up! Let&apos;s try again.");
     generateNewProblem();
   };
 

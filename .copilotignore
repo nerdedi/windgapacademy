@@ -1,0 +1,68 @@
+# GitHub Copilot Ignore File
+# Exclude large directories and files that cause "Chat failed to get ready" errors
+
+# Dependencies
+node_modules/
+**/node_modules/
+package-lock.json
+npm-debug.log*
+
+# Large third-party directories
+freespeech/
+o3de/
+nerdedi/O3DE/
+
+# Build outputs
+dist/
+build/
+.next/
+out/
+coverage/
+test-results/
+
+# Unity and game engine files
+unity-setup/
+unity-integration/
+assets/images-optimized/
+assets/images-webp/
+
+# Version control
+.git/
+.gitmodules
+
+# Caches and temp files
+.venv/
+**/__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+tmp/
+.tmp*/
+*.min.js
+*.min.css
+
+# Test directories
+cypress/
+playwright/
+__tests__/
+**/*.test.js
+**/*.spec.js
+
+# Large archives
+*.zip
+*.tar.gz
+*.tar
+
+# Logs
+Logs/
+*.log
+
+# Backend dependencies
+backend/node_modules/
+backend/venv/
+backend/.venv/
+
+# Frontend build artifacts
+frontend/node_modules/
+frontend/dist/
+frontend/build/

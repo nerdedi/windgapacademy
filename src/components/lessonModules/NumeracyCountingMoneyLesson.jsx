@@ -205,7 +205,7 @@ function RolePlayScenario() {
 
       <div className="grid md:grid-cols-2 gap-8">
         <div className="bg-white rounded-2xl p-6 shadow-lg">
-          <h4 className="text-lg font-semibold mb-4 text-gray-700">Customer's Money:</h4>
+          <h4 className="text-lg font-semibold mb-4 text-gray-700">Customer&apos;s Money:</h4>
           <div className="flex items-center gap-4 mb-4">
             <span className="text-2xl">💵</span>
             <input
@@ -344,7 +344,7 @@ function NumeracyChecklist() {
 
         {completedCount === skills.length && (
           <div className="mt-6 bg-green-500 text-white p-4 rounded-xl text-center font-bold animate-bounce">
-            🎉 Congratulations! You've mastered all numeracy skills!
+            🎉 Congratulations! You&apos;ve mastered all numeracy skills!
           </div>
         )}
       </div>

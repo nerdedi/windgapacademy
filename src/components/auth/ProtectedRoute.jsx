@@ -37,7 +37,7 @@ const ProtectedRoute = ({ children, requiredRoles = [], redirectTo = "/login" })
     const hasRequiredRole = requiredRoles.some((role) => userRoles.includes(role));
 
     if (!hasRequiredRole) {
-      // Redirect to unauthorized page if user doesn't have any required role
+      // Redirect to unauthorized page if user doesn&apos;t have any required role
       return <Navigate to="/unauthorized" replace />;
     }
   }

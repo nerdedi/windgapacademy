@@ -27,7 +27,7 @@ const UnityExamplePage = () => {
       <header className="example-header">
         <h1>Unity WebGL Integration Examples</h1>
         <p className="header-description">
-          Best practices for integrating Unity WebGL into Windgap Academy's React application.
+          Best practices for integrating Unity WebGL into Windgap Academy&apos;s React application.
         </p>
       </header>
 
@@ -122,8 +122,8 @@ sendToUnity("GameManager", "ReceiveData", {
           <div className="practice-item">
             <h3>Responsive Design</h3>
             <p>
-              Unity WebGL canvas doesn't automatically resize. Implement a resize observer to handle
-              responsive behavior.
+              Unity WebGL canvas doesn&apos;t automatically resize. Implement a resize observer to
+              handle responsive behavior.
             </p>
             <pre className="code-snippet">
               {`// React component implementation

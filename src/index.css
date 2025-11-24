@@ -21,3 +21,9 @@ html {
 #root {
   min-height: 100vh;
 }
+
+/* Optional theme class to apply brand colors at container level */
+.theme-windgap {
+  background-color: #5ed1d2;
+  color: #a32c2b;
+}

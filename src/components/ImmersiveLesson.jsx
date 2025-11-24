@@ -35,9 +35,9 @@ const ImmersiveLesson = ({
       type: "introduction",
       title: "Understanding Fractions",
       content:
-        "Fractions represent parts of a whole. Today we'll learn how to identify, compare, and work with fractions in everyday life.",
+        "Fractions represent parts of a whole. Today we&apos;ll learn how to identify, compare, and work with fractions in everyday life.",
       characterPrompt:
-        "Hi there! I'm Winnie, and I'll be helping you learn about fractions today. Are you ready to begin our adventure?",
+        "Hi there! I&apos;m Winnie, and I&apos;ll be helping you learn about fractions today. Are you ready to begin our adventure?",
     },
     {
       type: "concept",
@@ -46,7 +46,7 @@ const ImmersiveLesson = ({
         "A fraction has two parts: the numerator (top) and denominator (bottom). The numerator tells us how many parts we have, while the denominator tells us the total number of equal parts in the whole.",
       visual: "/assets/images/fraction-parts.svg",
       characterPrompt:
-        "Think of a pizza cut into 8 equal slices. If you eat 3 slices, you've eaten 3/8 of the pizza!",
+        "Think of a pizza cut into 8 equal slices. If you eat 3 slices, you&apos;ve eaten 3/8 of the pizza!",
     },
     {
       type: "interactive",
@@ -69,7 +69,7 @@ const ImmersiveLesson = ({
         "Fractions are all around us! We use them in cooking (1/2 cup of sugar), telling time (quarter past), and sharing things equally.",
       threeDInteractive: true,
       characterPrompt:
-        "I've got some real-world examples to show you. Click on me to see a pizza being divided into fractions!",
+        "I&apos;ve got some real-world examples to show you. Click on me to see a pizza being divided into fractions!",
     },
     {
       type: "practice",
@@ -88,7 +88,7 @@ const ImmersiveLesson = ({
     {
       type: "quiz",
       title: "Check Your Understanding",
-      content: "Let's see what you've learned about fractions!",
+      content: "Let&apos;s see what you&apos;ve learned about fractions!",
       questions: [
         {
           question: "In the fraction 3/4, which number is the denominator?",
@@ -97,19 +97,19 @@ const ImmersiveLesson = ({
         },
         {
           question: "Which fraction is larger: 2/5 or 3/5?",
-          options: ["2/5", "3/5", "They are equal", "Can't be determined"],
+          options: ["2/5", "3/5", "They are equal", "Can&apos;t be determined"],
           correctAnswer: "3/5",
         },
       ],
-      characterPrompt: "You've learned so much already! Give these questions your best try.",
+      characterPrompt: "You&apos;ve learned so much already! Give these questions your best try.",
     },
     {
       type: "conclusion",
       title: "Great Job!",
       content:
-        "You've completed the introduction to fractions! You now understand what fractions are, how to identify them, and how to compare fractions with the same denominator.",
+        "You&apos;ve completed the introduction to fractions! You now understand what fractions are, how to identify them, and how to compare fractions with the same denominator.",
       characterPrompt:
-        "Wonderful work today! You've earned your Fraction Fundamentals badge. What would you like to learn next?",
+        "Wonderful work today! You&apos;ve earned your Fraction Fundamentals badge. What would you like to learn next?",
     },
   ];
 
@@ -182,7 +182,7 @@ const ImmersiveLesson = ({
       setTimeout(handleNext, 1500);
     } else {
       // Provide hint via character
-      setCharacterMessage("That's not quite right. Try again!");
+      setCharacterMessage("That&apos;s not quite right. Try again!");
       setTimeout(() => setCharacterMessage(null), 3000);
     }
   };
@@ -204,7 +204,7 @@ const ImmersiveLesson = ({
   const handleCharacterClick = () => {
     // Show a random tip or encouragement
     const messages = [
-      "You're doing great! Keep it up!",
+      "You&apos;re doing great! Keep it up!",
       "Need help? Try looking at the examples again.",
       "Remember, the denominator shows how many equal parts are in the whole.",
       "Learning fractions is important for cooking, sharing, and many other daily activities!",
@@ -379,7 +379,7 @@ const ImmersiveLesson = ({
                   </div>
                   <h3 className="text-2xl font-bold mb-2">Lesson Complete!</h3>
                   <p className="text-gray-600 mb-6">
-                    You've earned 50 XP and the Fraction Fundamentals badge!
+                    You&apos;ve earned 50 XP and the Fraction Fundamentals badge!
                   </p>
 
                   <div className="flex justify-center">

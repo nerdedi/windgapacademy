@@ -23,7 +23,7 @@ const sampleLesson = {
       id: "intro",
       title: "Welcome to 3D Graphics",
       content:
-        "In this lesson, we'll explore the fascinating world of 3D graphics using web technologies like Three.js and WebGL. These powerful tools allow us to create immersive experiences directly in the browser without plugins like Unity.",
+        "In this lesson, we&apos;ll explore the fascinating world of 3D graphics using web technologies like Three.js and WebGL. These powerful tools allow us to create immersive experiences directly in the browser without plugins like Unity.",
       characterAnimation: { character: "winnie", animation: "teaching" },
     },
     {
@@ -43,7 +43,7 @@ const sampleLesson = {
     {
       id: "quiz",
       title: "Quick Check",
-      content: "Let's test your understanding of WebGL and Three.js.",
+      content: "Let&apos;s test your understanding of WebGL and Three.js.",
       interactive: true,
       interactiveComponent: "SimpleQuiz",
       characterAnimation: { character: "winnie", animation: "encourage" },
@@ -59,7 +59,7 @@ const sampleLesson = {
       id: "conclusion",
       title: "Congratulations!",
       content:
-        "You've completed this introduction to 3D graphics on the web! Now you understand how our virtual academy characters are rendered using modern web technologies instead of Unity.",
+        "You&apos;ve completed this introduction to 3D graphics on the web! Now you understand how our virtual academy characters are rendered using modern web technologies instead of Unity.",
       characterAnimation: { character: "winnie", animation: "celebrate" },
     },
   ],

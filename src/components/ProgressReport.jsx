@@ -422,8 +422,8 @@ const ProgressReport = () => {
             <div className="recommendation-card">
               <h3>Continue your learning journey</h3>
               <p>
-                You're making great progress! Here are some recommendations to help you complete
-                this experience:
+                You&apos;re making great progress! Here are some recommendations to help you
+                complete this experience:
               </p>
               <ul className="recommendation-list">
                 <li>Complete the remaining learning stations</li>

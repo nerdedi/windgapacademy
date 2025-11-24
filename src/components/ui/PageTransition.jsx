@@ -13,8 +13,6 @@
 import { motion } from "framer-motion";
 import React from "react";
 
-import { prefersReducedMotion } from "../utils/accessibility.js";
-
 // Animation variants for different page transition styles
 const pageVariants = {
   // Fade transition (default)
@@ -110,16 +108,17 @@ const PageTransition = ({
   children,
   transitionType = "fade",
   enableStaggering = true,
+  reduceMotion = false,
   className = "",
   ...props
 }) => {
-  // Use simpler animations if user prefers reduced motion
-  const motionPreference = prefersReducedMotion ? "fade" : transitionType;
-  const variants = pageVariants[motionPreference] || pageVariants.fade;
+  const motionType = reduceMotion ? "fade" : transitionType;
+  const variants = pageVariants[motionType] || pageVariants.fade;
 
   return (
     <motion.div
       className={`page-transition ${className}`}
+      style={{ willChange: "opacity, transform", contain: "layout paint" }}
       initial="initial"
       animate="enter"
       exit="exit"
@@ -127,16 +126,9 @@ const PageTransition = ({
       {...props}
     >
       {enableStaggering
-        ? // If staggering is enabled, wrap each direct child with animation
-          React.Children.map(children, (child, i) => {
-            // Calculate stagger delay based on index
-            const delay = prefersReducedMotion ? 0 : i * 0.1;
-
-            // Skip null or primitive children
-            if (!React.isValidElement(child)) {
-              return child;
-            }
-
+        ? React.Children.map(children, (child, i) => {
+            const delay = reduceMotion ? 0 : i * 0.1;
+            if (!React.isValidElement(child)) return child;
             return (
               <motion.div
                 variants={childVariants}
@@ -150,26 +142,22 @@ const PageTransition = ({
               </motion.div>
             );
           })
-        : // If staggering is disabled, just render children normally
-          children}
+        : children}
     </motion.div>
   );
 };
 
-// Child component for content groups that should be animated together
-PageTransition.Group = ({ children, delay = 0, className = "" }) => {
-  return (
-    <motion.div
-      variants={childVariants}
-      initial="initial"
-      animate="enter"
-      exit="exit"
-      custom={delay}
-      className={`transition-group ${className}`}
-    >
-      {children}
-    </motion.div>
-  );
-};
+PageTransition.Group = ({ children, delay = 0, className = "" }) => (
+  <motion.div
+    variants={childVariants}
+    initial="initial"
+    animate="enter"
+    exit="exit"
+    custom={delay}
+    className={`transition-group ${className}`}
+  >
+    {children}
+  </motion.div>
+);
 
 export default PageTransition;

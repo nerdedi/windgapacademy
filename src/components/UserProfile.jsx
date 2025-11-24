@@ -1,7 +1,7 @@
 /**
  * User Profile Component
  *
- * This component displays and allows editing of the user's profile information.
+ * This component displays and allows editing of the user&apos;s profile information.
  * It includes personal details, accessibility preferences, and privacy settings.
  */
 

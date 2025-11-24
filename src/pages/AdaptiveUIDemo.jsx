@@ -31,7 +31,7 @@ const sampleContent = [
     id: "card-2",
     title: "Visual Learning Techniques",
     content:
-      "Visual learners process information best when it's presented through images, diagrams, and spatial arrangements.",
+      "Visual learners process information best when it&apos;s presented through images, diagrams, and spatial arrangements.",
     image: "/assets/images/visual-learning.png",
     video: "/assets/videos/visual-techniques.mp4",
     interactive: (

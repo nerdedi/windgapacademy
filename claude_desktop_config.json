@@ -1,0 +1,36 @@
+{
+  "_INSTRUCTIONS": "Replace CHANGE_THIS_TO_YOUR_LOCAL_PATH below with where you download/clone this project",
+  "_EXAMPLES": {
+    "macOS": "/Users/yourname/Documents/windgapacademy",
+    "Windows": "C:\\\\Users\\\\yourname\\\\Documents\\\\windgapacademy",
+    "Linux": "/home/yourname/Documents/windgapacademy"
+  },
+  "mcpServers": {
+    "windgap-academy-filesystem": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "CHANGE_THIS_TO_YOUR_LOCAL_PATH"
+      ]
+    },
+    "windgap-playwright": {
+      "command": "npx",
+      "args": [
+        "@playwright/mcp@latest",
+        "--config",
+        "/workspaces/windgapacademy/playwright-mcp.config.json"
+      ]
+    },
+    "github": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-github"
+      ],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": ""
+      }
+    }
+  }
+}

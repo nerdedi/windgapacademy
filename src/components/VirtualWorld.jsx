@@ -47,13 +47,13 @@ container.innerHTML = [
   '<button onclick="customiseClubhouse()">Customise Clubhouse</button>',
   "<button onclick=\"showRoom('common')\">Common Room</button>",
   "<button onclick=\"showRoom('hall')\">Great Hall</button>",
-  "<button onclick=\"showRoom('dining')\">Dining Hall</button>",
+  '<button onclick="showRoom(&apos;dining\')">Dining Hall</button>',
   "<button onclick=\"showRoom('kitchen')\">Kitchen</button>",
-  "<button onclick=\"showRoom('veggie')\">Vegetable Patch</button>",
+  '<button onclick="showRoom(&apos;veggie\')">Vegetable Patch</button>',
   "<button onclick=\"showRoom('fruit')\">Fruit Orchard</button>",
   "<button onclick=\"showRoom('gym')\">Gym</button>",
-  "<button onclick=\"showRoom('rec')\">Recreation Area</button>",
-  "<button onclick=\"showRoom('dorm')\">Dorm Room</button>",
+  '<button onclick="showRoom(&apos;rec\')">Recreation Area</button>',
+  '<button onclick="showRoom(&apos;dorm\')">Dorm Room</button>',
   "<button onclick=\"showRoom('home')\">Home Room</button>",
   "</div>",
   '<div id="vw-game-area"></div>',
@@ -62,7 +62,7 @@ container.innerHTML = [
   "<button onclick=\"moveTo('zoo')\">Taronga Zoo</button>",
   "<button onclick=\"moveTo('harbour')\">Darling Harbour</button>",
   "<button onclick=\"moveTo('barangaroo')\">Barangaroo Reserve</button>",
-  "<button onclick=\"moveTo('school')\">Virtual School</button>",
+  '<button onclick="moveTo(&apos;school\')">Virtual School</button>',
   "</div>",
   '<div id="vw-location-info"></div>',
   '<div class="vw-actions">',
@@ -70,12 +70,12 @@ container.innerHTML = [
   "<button onclick=\"moveTo('cathedral')\">Cathedral Clubhouse</button>",
   "<button onclick=\"moveTo('arcade')\">Arcade Zone</button>",
   "<button onclick=\"moveTo('ai-avatars')\">AI Avatars</button>",
-  "<button onclick=\"moveTo('multiplayer')\">Multiplayer Games</button>",
+  '<button onclick="moveTo(&apos;multiplayer\')">Multiplayer Games</button>',
   "<button onclick=\"moveTo('races')\">Races</button>",
-  "<button onclick=\"moveTo('sims')\">SIMS/Roblox Activities</button>",
-  "<button onclick=\"moveTo('store')\">Academy Store</button>",
+  '<button onclick="moveTo(&apos;sims\')">SIMS/Roblox Activities</button>',
+  '<button onclick="moveTo(&apos;store\')">Academy Store</button>',
   '<button onclick="joinCommunity()">Join Community</button>',
-  "<button onclick=\"window.route('dashboard')\">Return to Dashboard</button>",
+  '<button onclick="window.route(&apos;dashboard\')">Return to Dashboard</button>',
   "</div>",
   '<div class="lesson-plan-au">',
   "<h3>Lesson Plan: Virtual World (Australian Curriculum, NSW Inclusive Education)</h3>",
@@ -130,13 +130,13 @@ container.innerHTML = [
   '<button onclick="customiseClubhouse()">Customise Clubhouse</button>',
   "<button onclick=\"showRoom('common')\">Common Room</button>",
   "<button onclick=\"showRoom('hall')\">Great Hall</button>",
-  "<button onclick=\"showRoom('dining')\">Dining Hall</button>",
+  '<button onclick="showRoom(&apos;dining\')">Dining Hall</button>',
   "<button onclick=\"showRoom('kitchen')\">Kitchen</button>",
-  "<button onclick=\"showRoom('veggie')\">Vegetable Patch</button>",
+  '<button onclick="showRoom(&apos;veggie\')">Vegetable Patch</button>',
   "<button onclick=\"showRoom('fruit')\">Fruit Orchard</button>",
   "<button onclick=\"showRoom('gym')\">Gym</button>",
-  "<button onclick=\"showRoom('rec')\">Recreation Area</button>",
-  "<button onclick=\"showRoom('dorm')\">Dorm Room</button>",
+  '<button onclick="showRoom(&apos;rec\')">Recreation Area</button>',
+  '<button onclick="showRoom(&apos;dorm\')">Dorm Room</button>',
   "<button onclick=\"showRoom('home')\">Home Room</button>",
   "</div>",
   '<div id="vw-game-area"></div>',
@@ -145,7 +145,7 @@ container.innerHTML = [
   "<button onclick=\"moveTo('zoo')\">Taronga Zoo</button>",
   "<button onclick=\"moveTo('harbour')\">Darling Harbour</button>",
   "<button onclick=\"moveTo('barangaroo')\">Barangaroo Reserve</button>",
-  "<button onclick=\"moveTo('school')\">Virtual School</button>",
+  '<button onclick="moveTo(&apos;school\')">Virtual School</button>',
   "</div>",
   '<div id="vw-location-info"></div>',
   '<div class="vw-actions">',
@@ -153,12 +153,12 @@ container.innerHTML = [
   "<button onclick=\"moveTo('cathedral')\">Cathedral Clubhouse</button>",
   "<button onclick=\"moveTo('arcade')\">Arcade Zone</button>",
   "<button onclick=\"moveTo('ai-avatars')\">AI Avatars</button>",
-  "<button onclick=\"moveTo('multiplayer')\">Multiplayer Games</button>",
+  '<button onclick="moveTo(&apos;multiplayer\')">Multiplayer Games</button>',
   "<button onclick=\"moveTo('races')\">Races</button>",
-  "<button onclick=\"moveTo('sims')\">SIMS/Roblox Activities</button>",
-  "<button onclick=\"moveTo('store')\">Academy Store</button>",
+  '<button onclick="moveTo(&apos;sims\')">SIMS/Roblox Activities</button>',
+  '<button onclick="moveTo(&apos;store\')">Academy Store</button>',
   '<button onclick="joinCommunity()">Join Community</button>',
-  "<button onclick=\"window.route('dashboard')\">Return to Dashboard</button>",
+  '<button onclick="window.route(&apos;dashboard\')">Return to Dashboard</button>',
   "</div>",
   '<div id="avatar-builder-area"></div>',
   '<div class="lesson-plan-au">',
@@ -244,11 +244,11 @@ var rooms = {
     desc: "Meet Daisy and the student council to discuss school events and advocacy.",
   },
   "chancellor-office": {
-    name: "Chancellor Andy's Office",
+    name: "Chancellor Andy&apos;s Office",
     desc: "Meet Andy, the Chancellor of Windgap Academy, for important decisions and leadership.",
   },
   "natalie-office": {
-    name: "Natalie's Office",
+    name: "Natalie&apos;s Office",
     desc: "Meet Natalie, Head of Education, for help, advice, and support. She is neurodivergent and gives clever, witty tips for learning.",
   },
 };
@@ -313,22 +313,22 @@ window.enterArcade = function () {
   gameArea.innerHTML =
     "<h3>Arcade Zone</h3>" +
     "<p>Choose a game:</p>" +
-    "<button onclick=\"playArcadeGame('math')\">Math Challenge</button>" +
-    "<button onclick=\"playArcadeGame('memory')\">Memory Match</button>" +
-    "<button onclick=\"playArcadeGame('reaction')\">Reaction Race</button>" +
+    '<button onclick="playArcadeGame(&apos;math\')">Math Challenge</button>' +
+    '<button onclick="playArcadeGame(&apos;memory\')">Memory Match</button>' +
+    '<button onclick="playArcadeGame(&apos;reaction\')">Reaction Race</button>' +
     "<div id='arcade-game-content'></div>";
 };
 window.playArcadeGame = function (type) {
   const content = document.getElementById("arcade-game-content");
   if (type === "math") {
     content.innerHTML =
-      "<p>Solve: 7 + 5 = ?</p><input id='math-input' type='number' /><button onclick=\"checkMathAnswer()\">Submit</button><div id='math-feedback'></div>";
+      "<p>Solve: 7 + 5 = ?</p><input id=&apos;math-input' type='number' /><button onclick=\"checkMathAnswer()\">Submit</button><div id=&apos;math-feedback'></div>";
   } else if (type === "memory") {
     content.innerHTML =
-      "<p>Remember the sequence: Red, Blue, Green</p><input id='memory-input' type='text' placeholder='Type sequence...' /><button onclick=\"checkMemoryAnswer()\">Submit</button><div id='memory-feedback'></div>";
+      "<p>Remember the sequence: Red, Blue, Green</p><input id=&apos;memory-input' type='text' placeholder='Type sequence...' /><button onclick=\"checkMemoryAnswer()\">Submit</button><div id=&apos;memory-feedback'></div>";
   } else if (type === "reaction") {
     content.innerHTML =
-      "<p>Click as fast as you can!</p><button id='reaction-btn'>Click Me!</button><div id='reaction-feedback'></div>";
+      "<p>Click as fast as you can!</p><button id=&apos;reaction-btn'>Click Me!</button><div id=&apos;reaction-feedback'></div>";
     var start = Date.now();
     document.getElementById("reaction-btn").onclick = function () {
       var time = Date.now() - start;
@@ -406,7 +406,7 @@ window.chatWithAI = function (name) {
   let responses = {
     Andy: "Welcome! I am Andy, Chancellor of Windgap Academy. I oversee all academy decisions and ensure every learner is supported. If you need help with leadership, advocacy, or big ideas, come see me in my office.",
     Natalie:
-      "Hi! I'm Natalie, Head of Education. I'm neurodivergent, so if you ever feel stuck, confused, or need your work changed, come chat with me! I give the best tips for learning when your brain is a bit different—like, \"If you can't focus, try dancing while you study!\" Or, \"If you need a break, tell me and I'll make it happen!\" I'm a bit awkward, but super clever and always here for you.",
+      'Hi! I&apos;m Natalie, Head of Education. I&apos;m neurodivergent, so if you ever feel stuck, confused, or need your work changed, come chat with me! I give the best tips for learning when your brain is a bit different—like, "If you can&apos;t focus, try dancing while you study!" Or, "If you need a break, tell me and I&apos;ll make it happen!" I&apos;m a bit awkward, but super clever and always here for you.',
     Daisy:
       "Hey! I am Daisy, Student President and your advocate. I help learners understand concepts in simple ways, give demonstrations, tips, and make sure you always have a friend on your side. If you need support, come to the Student Council Room!",
     Winnie:

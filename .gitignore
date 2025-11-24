@@ -17,3 +17,7 @@ setup-vercel-env.sh
 custom-workspace.code-workspace
 *-personal.code-workspace
 backend-dev.code-workspace
+
+# Binary artifacts (avoid committing large archives)
+windgap-academy-*.zip
+*.zip

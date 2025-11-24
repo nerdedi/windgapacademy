@@ -9,7 +9,7 @@ import React from "react";
  * Microsoft Sign-In Button component
  *
  * @param {Object} props - Component props
- * @param {string} [props.variant='default'] - Button style variant ('default', 'large', 'outline')
+ * @param {string} [props.variant=&apos;default'] - Button style variant (&apos;default', 'large', 'outline')
  * @param {string} [props.text='Sign in with Microsoft'] - Button text
  * @param {Function} [props.onSuccess] - Callback for successful sign-in
  * @param {Function} [props.onError] - Callback for sign-in errors

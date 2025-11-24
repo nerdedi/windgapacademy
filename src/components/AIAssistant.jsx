@@ -12,7 +12,7 @@ import AIAssistantService from "../services/AIAssistantService";
 const AIAssistant = ({
   onSentenceGenerated,
   symbols = [],
-  mode = "sentence", // 'sentence', 'grammar', 'interpret'
+  mode = "sentence", // &apos;sentence', 'grammar', 'interpret'
   initialText = "",
   onClose,
   className = "",

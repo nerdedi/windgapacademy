@@ -249,7 +249,7 @@ const WebGLDemoComponent = () => {
         <p>
           This component demonstrates how to use the WebGLEffects and CharacterAnimator utilities in
           a React application. The utilities are imported at the top of the file and used within
-          React's useEffect hooks for initialization and cleanup.
+          React&apos;s useEffect hooks for initialization and cleanup.
         </p>
         <code>
           import WebGLEffects from '../utils/WebGLEffects';

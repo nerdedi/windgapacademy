@@ -10,8 +10,8 @@ function ReadingTextActivity() {
   const stories = [
     {
       title: "The Friendly Dog",
-      text: "Max is a friendly dog. He lives in a small house with his family. Every morning, Max likes to play in the garden. He runs around and chases butterflies. Max's favorite toy is a red ball. When it's time for dinner, Max sits by his bowl and waits patiently.",
-      question: "What is Max's favorite toy?",
+      text: "Max is a friendly dog. He lives in a small house with his family. Every morning, Max likes to play in the garden. He runs around and chases butterflies. Max&apos;s favorite toy is a red ball. When it&apos;s time for dinner, Max sits by his bowl and waits patiently.",
+      question: "What is Max&apos;s favorite toy?",
       options: ["A blue ball", "A red ball", "A yellow ball", "A green ball"],
       correct: "A red ball",
     },
@@ -281,7 +281,7 @@ function LiteracyChecklist() {
 
         {completedCount === skills.length && (
           <div className="mt-6 bg-orange-500 text-white p-4 rounded-xl text-center font-bold animate-bounce">
-            🎉 Excellent! You're a reading champion!
+            🎉 Excellent! You&apos;re a reading champion!
           </div>
         )}
       </div>

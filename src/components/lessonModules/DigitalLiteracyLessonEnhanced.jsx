@@ -16,7 +16,7 @@ function EmailActivity({ usePictorial = true }) {
   const emailSteps = [
     "Open your email app",
     "Click 'New Email' or 'Compose'",
-    "Enter recipient's email address",
+    "Enter recipient&apos;s email address",
     "Write a clear subject line",
     "Type your message",
     "Check spelling and grammar",

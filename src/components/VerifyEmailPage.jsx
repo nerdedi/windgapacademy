@@ -63,7 +63,7 @@ function VerifyEmailPage() {
           </button>
           <h1 className="text-3xl font-bold text-black mb-2">Verify Your Email</h1>
           <p className="text-gray-600">
-            We've sent a verification email to{" "}
+            We&apos;ve sent a verification email to{" "}
             <span className="font-semibold">{currentUser.email}</span>
           </p>
         </div>
@@ -127,7 +127,7 @@ function VerifyEmailPage() {
 
           <div className="mt-6 text-center">
             <p className="text-sm text-gray-500">
-              Didn't receive the email? Check your spam folder or contact support.
+              Didn&apos;t receive the email? Check your spam folder or contact support.
             </p>
           </div>
         </div>

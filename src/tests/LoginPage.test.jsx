@@ -75,7 +75,7 @@ describe("LoginPage Component", () => {
 
   test("switches to signup form when clicking signup link", () => {
     renderLoginPage();
-    fireEvent.click(screen.getByText("Don't have an account? Sign up"));
+    fireEvent.click(screen.getByText("Don&apos;t have an account? Sign up"));
 
     expect(screen.getByText("Join Windgap Academy")).toBeInTheDocument();
     expect(screen.getByLabelText("Full Name")).toBeInTheDocument();

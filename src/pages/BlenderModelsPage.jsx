@@ -8,7 +8,7 @@ import "../styles/BlenderModelsPage.css";
  * BlenderModelsPage Component
  *
  * This page demonstrates the integration of Blender models with
- * Windgap Academy's WebGL utilities.
+ * Windgap Academy&apos;s WebGL utilities.
  */
 const BlenderModelsPage = () => {
   const [selectedModel, setSelectedModel] = useState("winnie");

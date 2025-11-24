@@ -3,11 +3,11 @@ import Exercise from "./Exercise";
 
 /**
  * Addition exercise for numbers within 5
- * Based on Khan Academy's addition_1.html
+ * Based on Khan Academy&apos;s addition_1.html
  */
 const AdditionWithinFive = ({ onComplete = () => {} }) => {
-  // We'll keep a small internal state for this specific exercise
-  const [visualMode, setVisualMode] = useState("dots"); // 'dots', 'fingers', 'blocks'
+  // We&apos;ll keep a small internal state for this specific exercise
+  const [visualMode, setVisualMode] = useState("dots"); // &apos;dots', 'fingers', 'blocks'
 
   // Generate a problem with parameters based on difficulty level
   const generateProblem = (difficulty = 1) => {
@@ -36,7 +36,7 @@ const AdditionWithinFive = ({ onComplete = () => {} }) => {
 
     // Generate two random numbers for addition
     const a = Math.floor(Math.random() * (maxNum - 1)) + 1;
-    const b = Math.floor(Math.random() * (maxNum - a)) + 1; // Ensure sum doesn't exceed maxNum
+    const b = Math.floor(Math.random() * (maxNum - a)) + 1; // Ensure sum doesn&apos;t exceed maxNum
 
     // Create equation as either "a + b = ?" or "? = a + b"
     const equationFormat = Math.random() < 0.5 ? "standard" : "reversed";
@@ -50,7 +50,7 @@ const AdditionWithinFive = ({ onComplete = () => {} }) => {
     };
   };
 
-  // Check if the user's answer is correct
+  // Check if the user&apos;s answer is correct
   const checkAnswer = (problem, userAnswer) => {
     const parsedAnswer = parseInt(userAnswer, 10);
 
@@ -63,7 +63,8 @@ const AdditionWithinFive = ({ onComplete = () => {} }) => {
 
     return {
       correct: parsedAnswer === problem.answer,
-      message: parsedAnswer === problem.answer ? null : "That's not the correct answer. Try again!",
+      message:
+        parsedAnswer === problem.answer ? null : "That&apos;s not the correct answer. Try again!",
     };
   };
 

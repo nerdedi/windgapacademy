@@ -49,8 +49,8 @@ class ThreeErrorBoundary extends React.Component {
             <div className="text-6xl mb-4">🎨</div>
             <h3 className="text-xl font-bold text-gray-800 mb-2">3D Visualization Unavailable</h3>
             <p className="text-gray-600 mb-4">
-              The 3D visualization couldn't be loaded. This might be due to your browser settings or
-              device capabilities.
+              The 3D visualization couldn&apos;t be loaded. This might be due to your browser
+              settings or device capabilities.
             </p>
             <button
               onClick={() => this.setState({ hasError: false, error: null, errorInfo: null })}

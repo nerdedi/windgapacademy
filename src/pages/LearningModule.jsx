@@ -253,7 +253,7 @@ const LearningModule = () => {
                           d="M5 13l4 4L19 7"
                         ></path>
                       </svg>
-                      <span>You've completed this experience!</span>
+                      <span>You&apos;ve completed this experience!</span>
                     </div>
                   ) : (
                     <p className="text-sm text-gray-600">

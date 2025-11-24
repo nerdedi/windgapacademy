@@ -66,25 +66,25 @@ class AIAssistantService {
         }
 
         return this.userContext;
-      } else {
-        // Create default context if user document doesn't exist or lacks AI preferences
-        this.userContext = {
-          userId,
-          name: "User",
-          preferences: {
-            sentenceComplexity: "medium",
-            grammarCorrection: true,
-            vocabularyLevel: "intermediate",
-          },
-          learningProfile: {},
-          conversationHistory: [],
-        };
-
-        // Save default context to Firestore
-        await this.saveUserContext();
-
-        return this.userContext;
       }
+
+      // Create default context if user document doesn't exist or lacks AI preferences
+      this.userContext = {
+        userId,
+        name: "User",
+        preferences: {
+          sentenceComplexity: "medium",
+          grammarCorrection: true,
+          vocabularyLevel: "intermediate",
+        },
+        learningProfile: {},
+        conversationHistory: [],
+      };
+
+      // Save default context to Firestore
+      await this.saveUserContext();
+
+      return this.userContext;
     } catch (error) {
       console.error("Error loading user context:", error);
       throw new Error(`Failed to load user context: ${error.message}`);
@@ -378,9 +378,7 @@ class AIAssistantService {
     try {
       // Default parsing - extract first sentence as the main constructed sentence
       let sentence = response.split(/[.!?]\s+/)[0].trim();
-      if (sentence.endsWith(".") || sentence.endsWith("!") || sentence.endsWith("?")) {
-        sentence = sentence;
-      } else {
+      if (!sentence.endsWith(".") && !sentence.endsWith("!") && !sentence.endsWith("?")) {
         sentence = sentence + ".";
       }
 

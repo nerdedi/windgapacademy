@@ -21,7 +21,7 @@ function AlphabetSoundsActivity() {
   const playSound = (letter) => {
     setSelectedLetter(letter);
     setCurrentSound(letter.sound);
-    // In a real app, you'd play audio here
+    // In a real app, you&apos;d play audio here
     setTimeout(() => setCurrentSound(null), 2000);
   };
 
@@ -348,7 +348,7 @@ function LanguageChecklist() {
 
         {completedCount === skills.length && (
           <div className="mt-6 bg-purple-500 text-white p-4 rounded-xl text-center font-bold animate-bounce">
-            🎉 Amazing! You've mastered all language skills!
+            🎉 Amazing! You&apos;ve mastered all language skills!
           </div>
         )}
       </div>

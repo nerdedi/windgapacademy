@@ -3,10 +3,10 @@ import Exercise from "./Exercise";
 
 /**
  * Subtraction exercise for numbers within 10
- * Based on Khan Academy's subtraction exercises
+ * Based on Khan Academy&apos;s subtraction exercises
  */
 const SubtractionWithinTen = ({ onComplete = () => {} }) => {
-  // We'll keep a small internal state for this specific exercise
+  // We&apos;ll keep a small internal state for this specific exercise
   const [visualMode, setVisualMode] = useState("counter"); // 'counter', 'number-line', 'objects'
 
   // Generate a problem with parameters based on difficulty level
@@ -50,7 +50,7 @@ const SubtractionWithinTen = ({ onComplete = () => {} }) => {
     };
   };
 
-  // Check if the user's answer is correct
+  // Check if the user&apos;s answer is correct
   const checkAnswer = (problem, userAnswer) => {
     const parsedAnswer = parseInt(userAnswer, 10);
 
@@ -63,7 +63,8 @@ const SubtractionWithinTen = ({ onComplete = () => {} }) => {
 
     return {
       correct: parsedAnswer === problem.answer,
-      message: parsedAnswer === problem.answer ? null : "That's not the correct answer. Try again!",
+      message:
+        parsedAnswer === problem.answer ? null : "That&apos;s not the correct answer. Try again!",
     };
   };
 

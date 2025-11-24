@@ -1,3 +1,4 @@
+/* global jest */
 /**
  * Mock Apple Authentication Utility for Jest tests
  */

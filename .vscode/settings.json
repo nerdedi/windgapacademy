@@ -133,6 +133,38 @@
     "freespeech/**": true
   },
 
+  "github.copilot.advanced": {
+    "debug.overrideEngine": "gpt-4",
+    "debug.testOverrideProxyUrl": "",
+    "debug.overrideProxyUrl": ""
+  },
+
+  "github.copilot.enable": {
+    "*": true,
+    "yaml": true,
+    "plaintext": false,
+    "markdown": true
+  },
+
+  "github.copilot.editor.enableCodeActions": true,
+  "github.copilot.editor.enableAutoCompletions": true,
+
+  "github.copilot.chat.localeOverride": "en",
+  "github.copilot.chat.scopeSelection": "auto",
+  "github.copilot.chat.terminalChatLocation": "quickChat",
+
+  "github.copilot.editor.enableCodeActionGenerations": true,
+
+  "github.copilot.chat.experimental.codeGeneration.instructions": [
+    {
+      "text": "Follow the project's architecture patterns in .github/copilot-instructions.md"
+    }
+  ],
+
+  "files.associations": {
+    "*.code-workspace": "jsonc"
+  },
+
   "claudeCodeChat.permissions.yoloMode": true,
   "security.workspace.trust.enabled": true,
   "security.workspace.trust.startupPrompt": "never",

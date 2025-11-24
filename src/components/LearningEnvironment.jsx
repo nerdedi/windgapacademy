@@ -51,7 +51,7 @@ const LearningEnvironment = ({
           {
             id: "step1",
             title: "Learning Concept 1",
-            content: "Let's explore the first concept together.",
+            content: "Let&apos;s explore the first concept together.",
             characterAnimation: { character: "winnie", animation: "teaching" },
           },
           {
@@ -65,7 +65,7 @@ const LearningEnvironment = ({
           {
             id: "conclusion",
             title: "Great Job!",
-            content: "You've completed this lesson successfully.",
+            content: "You&apos;ve completed this lesson successfully.",
             characterAnimation: { character: "winnie", animation: "celebrate" },
           },
         ];
@@ -324,10 +324,10 @@ const LearningEnvironment = ({
               <p>Which of the following is true about WebGL?</p>
               <div className="quiz-options">
                 <button className="quiz-option correct" onClick={() => handleQuizAnswer(true)}>
-                  It's a JavaScript API for rendering graphics
+                  It&apos;s a JavaScript API for rendering graphics
                 </button>
                 <button className="quiz-option" onClick={() => handleQuizAnswer(false)}>
-                  It's a server-side rendering technology
+                  It&apos;s a server-side rendering technology
                 </button>
                 <button className="quiz-option" onClick={() => handleQuizAnswer(false)}>
                   It requires Unity to function
@@ -378,7 +378,7 @@ const LearningEnvironment = ({
       // Add success message
       setCharacterMessages((prev) => [
         ...prev,
-        { text: "That's correct! Great job!", timestamp: Date.now() },
+        { text: "That&apos;s correct! Great job!", timestamp: Date.now() },
       ]);
 
       // Mark step as completed

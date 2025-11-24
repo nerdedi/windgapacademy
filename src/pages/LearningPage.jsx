@@ -100,7 +100,7 @@ const LearningPage = () => {
             cognitive science to provide optimized learning experiences for all students.
           </p>
           <p>
-            Each module adapts to the learner's pace, preferences, and learning style to ensure
+            Each module adapts to the learner&apos;s pace, preferences, and learning style to ensure
             maximum engagement and knowledge retention.
           </p>
         </div>

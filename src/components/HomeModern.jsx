@@ -59,7 +59,7 @@ export default function HomeModern() {
     {
       id: "digital",
       title: "Digital Literacy",
-      description: "Navigate technology safely and confidently in today's digital world",
+      description: "Navigate technology safely and confidently in today&apos;s digital world",
       icon: Laptop,
       color: "from-orange-500 to-red-600",
       features: ["Computer Basics", "Internet Safety", "Communication Tools", "Online Learning"],

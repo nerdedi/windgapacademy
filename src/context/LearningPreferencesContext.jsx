@@ -136,7 +136,7 @@ export const LearningPreferencesProvider = ({ children }) => {
 
   // Save preferences whenever they change
   useEffect(() => {
-    if (isLoading) return; // Don't save during initial load
+    if (isLoading) return; // Don&apos;t save during initial load
 
     // Check if profile is complete
     checkProfileCompleteness(preferences);

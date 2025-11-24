@@ -1,10 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useCallback } from "react";
+import * as THREE from "three";
 
 import WindgapCharacterSystem from "./WindgapCharacterSystem";
 
 import "../styles/animations.css";
-import WebGLEffectsUtil from "../utils/WebGLEffects";
-import CharacterAnimator from "../utils/CharacterAnimator";
 
 /**
  * VirtualCharacters component
@@ -31,6 +30,49 @@ const VirtualCharacters = React.forwardRef(
     const [isLoading, setIsLoading] = useState(true);
     const [loadingProgress, setLoadingProgress] = useState(0);
     const [selectedCharacter, setSelectedCharacter] = useState(selectedCharacters[0] || "winnie");
+
+    // Helper to position characters evenly
+    const getCharacterPosition = useCallback(
+      (characterId, totalCharacters) => {
+        // Arrange characters in a semi-circle
+        const radius = 3;
+        const angleStep = Math.PI / (totalCharacters + 1);
+        const index = selectedCharacters.indexOf(characterId);
+
+        // Calculate position on the arc
+        const angle = Math.PI / 2 + angleStep * (index + 1);
+        const x = Math.cos(angle) * radius;
+        const z = Math.sin(angle) * radius;
+
+        return { x, y: 0, z };
+      },
+      [selectedCharacters],
+    );
+
+    // Play character animation
+    const playCharacterAnimation = useCallback((characterId, animationType) => {
+      if (!characterSystemRef.current) return;
+
+      switch (animationType) {
+        case "teaching":
+          characterSystemRef.current.startTeaching(characterId);
+          break;
+        case "encourage":
+          characterSystemRef.current.encourage(characterId);
+          break;
+        case "celebrate":
+          characterSystemRef.current.celebrate(characterId);
+          break;
+        default: {
+          // Try to play the animation directly if it exists
+          const controller = characterSystemRef.current.characterControllers[characterId];
+          if (controller) {
+            controller.playAnimation(animationType);
+          }
+          break;
+        }
+      }
+    }, []);
 
     // Initialize the character system
     useEffect(() => {
@@ -109,52 +151,86 @@ const VirtualCharacters = React.forwardRef(
           characterSystemRef.current = null;
         }
       };
-    }, [containerId, selectedCharacters, environment, autoRotate, onMessage]);
+    }, [
+      containerId,
+      selectedCharacters,
+      environment,
+      autoRotate,
+      onMessage,
+      getCharacterPosition,
+      initialAnimations,
+      playCharacterAnimation,
+    ]);
 
-    // Play character animation
-    const playCharacterAnimation = (characterId, animationType) => {
-      if (!characterSystemRef.current) return;
-
-      switch (animationType) {
-        case "teaching":
-          characterSystemRef.current.startTeaching(characterId);
-          break;
-        case "encourage":
-          characterSystemRef.current.encourage(characterId);
-          break;
-        case "celebrate":
-          characterSystemRef.current.celebrate(characterId);
-          break;
-        default:
-          // Try to play the animation directly if it exists
-          const controller = characterSystemRef.current.characterControllers[characterId];
-          if (controller) {
-            controller.playAnimation(animationType);
+    /**
+     * Apply a WebGL effect to a character
+     * @param {string} characterId - ID of the character or &apos;scene' for scene-wide effects
+     * @param {string} effectType - 'particles', 'ripple', or 'glow'
+     * @param {Object} options - Effect options
+     */
+    const applyEffect = useCallback(
+      (characterId, effectType, options = {}) => {
+        if (characterSystemRef.current) {
+          const effect = characterSystemRef.current.applyEffect(characterId, effectType, options);
+          if (effect && onMessage) {
+            onMessage(`Applied ${effectType} effect to ${characterId}`);
           }
-          break;
+          return effect;
+        }
+        return null;
+      },
+      [onMessage],
+    );
+
+    const stopAnimation = useCallback((characterId) => {
+      if (characterSystemRef.current) {
+        // Assuming stopAnimation exists or we just play idle
+        const controller = characterSystemRef.current.characterControllers[characterId];
+        if (controller) controller.playAnimation("idle");
       }
-    };
+    }, []);
 
-    // Helper to position characters evenly
-    const getCharacterPosition = (characterId, totalCharacters) => {
-      // Arrange characters in a semi-circle
-      const radius = 3;
-      const angleStep = Math.PI / (totalCharacters + 1);
-      const index = selectedCharacters.indexOf(characterId);
+    const setPosition = useCallback((characterId, position) => {
+      if (characterSystemRef.current) {
+        // Assuming method exists
+        const controller = characterSystemRef.current.characterControllers[characterId];
+        if (controller && controller.model) {
+          controller.model.position.set(position.x, position.y, position.z);
+        }
+      }
+    }, []);
 
-      // Calculate position on the arc
-      const angle = Math.PI / 2 + angleStep * (index + 1);
-      const x = Math.cos(angle) * radius;
-      const z = Math.sin(angle) * radius;
+    const setRotation = useCallback((characterId, rotation) => {
+      if (characterSystemRef.current) {
+        const controller = characterSystemRef.current.characterControllers[characterId];
+        if (controller && controller.model) {
+          controller.model.rotation.set(rotation.x, rotation.y, rotation.z);
+        }
+      }
+    }, []);
 
-      return { x, y: 0, z };
-    };
+    const switchCharacter = useCallback((characterId) => {
+      setSelectedCharacter(characterId);
+    }, []);
+
+    const speak = useCallback((characterId, text) => {
+      if (characterSystemRef.current) {
+        // Placeholder for speak functionality
+        console.log(`${characterId} says: ${text}`);
+      }
+    }, []);
 
     // Character interaction methods exposed to parent components
     React.useImperativeHandle(
-      React.forwardRef((props, ref) => ref),
+      ref,
       () => ({
         playAnimation: playCharacterAnimation,
+        stopAnimation,
+        setPosition,
+        setRotation,
+        switchCharacter,
+        speak,
+        applyEffect,
         changeEnvironment: (newEnvironment) => {
           if (characterSystemRef.current) {
             characterSystemRef.current.changeEnvironment(newEnvironment);
@@ -180,6 +256,15 @@ const VirtualCharacters = React.forwardRef(
           }
         },
       }),
+      [
+        playCharacterAnimation,
+        stopAnimation,
+        setPosition,
+        setRotation,
+        switchCharacter,
+        speak,
+        applyEffect,
+      ],
     );
 
     // Render loading screen
@@ -219,34 +304,6 @@ const VirtualCharacters = React.forwardRef(
       );
     };
 
-    /**
-     * Apply a WebGL effect to a character
-     * @param {string} characterId - ID of the character or 'scene' for scene-wide effects
-     * @param {string} effectType - 'particles', 'ripple', or 'glow'
-     * @param {Object} options - Effect options
-     */
-    const applyEffect = (characterId, effectType, options = {}) => {
-      if (characterSystemRef.current) {
-        const effect = characterSystemRef.current.applyEffect(characterId, effectType, options);
-        if (effect && onMessage) {
-          onMessage(`Applied ${effectType} effect to ${characterId}`);
-        }
-        return effect;
-      }
-      return null;
-    };
-
-    // Expose methods to parent via ref
-    React.useImperativeHandle(ref, () => ({
-      playAnimation,
-      stopAnimation,
-      setPosition,
-      setRotation,
-      switchCharacter,
-      speak,
-      applyEffect,
-    }));
-
     return (
       <div className="virtual-characters-wrapper">
         <div
@@ -263,5 +320,7 @@ const VirtualCharacters = React.forwardRef(
     );
   },
 );
+
+VirtualCharacters.displayName = "VirtualCharacters";
 
 export default VirtualCharacters;

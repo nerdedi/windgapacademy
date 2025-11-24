@@ -28,7 +28,7 @@ const UnauthorizedPage = () => {
           </div>
           <h2 className="text-2xl font-bold text-center text-gray-800 mb-2">Access Denied</h2>
           <p className="text-gray-600 text-center mb-6">
-            You don't have permission to access this page.
+            You don&apos;t have permission to access this page.
           </p>
 
           <div className="space-y-4">

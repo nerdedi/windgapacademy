@@ -29,7 +29,7 @@ const UserProfile = () => {
     setIsSubmitting(true);
 
     try {
-      // Don't allow changing email for OAuth users
+      // Don&apos;t allow changing email for OAuth users
       const isOAuthUser = user?.provider !== "password";
       const dataToUpdate = {
         ...profileData,

@@ -705,7 +705,7 @@ const NeuroInterestProfiler = ({ onComplete }) => {
           <motion.div variants={itemVariants} className="space-y-4 mt-8">
             <h4 className="font-medium text-gray-800">Special Interests or Areas of Expertise</h4>
             <p className="text-sm text-gray-500">
-              Topics you're especially passionate about or have deep knowledge in.
+              Topics you&apos;re especially passionate about or have deep knowledge in.
             </p>
 
             <div className="flex flex-wrap gap-2 mb-4">

@@ -54,7 +54,7 @@ const MathExercisesPage = () => {
     }));
 
     // Show feedback message
-    setFeedbackMessage(`Great job! You've completed ${exercises[result.exerciseId].title}.`);
+    setFeedbackMessage(`Great job! You&apos;ve completed ${exercises[result.exerciseId].title}.`);
     setShowFeedback(true);
 
     // Hide feedback after a delay
@@ -137,8 +137,8 @@ const MathExercisesPage = () => {
             <div className="bg-white rounded-3xl p-8 mb-8 shadow-xl">
               <h2 className="text-2xl font-bold text-gray-800 mb-4">🎯 Math Learning Modules</h2>
               <p className="text-gray-600 mb-6">
-                Welcome to the Math Exercises page! Here you'll find interactive exercises to help
-                you practice and master various math concepts. Select an exercise below to get
+                Welcome to the Math Exercises page! Here you&apos;ll find interactive exercises to
+                help you practice and master various math concepts. Select an exercise below to get
                 started.
               </p>
 

@@ -308,8 +308,8 @@ export default function WebGLEffectsPage() {
         <div className="mt-4">
           <h2 className="text-xl font-semibold">How It Works</h2>
           <p>
-            These effects use WebGL shaders to create visually engaging animations. They're used
-            throughout the Windgap Academy platform to enhance the user experience and draw
+            These effects use WebGL shaders to create visually engaging animations. They&apos;re
+            used throughout the Windgap Academy platform to enhance the user experience and draw
             attention to interactive elements.
           </p>
           <p>The current implementation shows:</p>

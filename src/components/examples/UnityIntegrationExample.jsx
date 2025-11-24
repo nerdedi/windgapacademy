@@ -66,7 +66,7 @@ const UnityIntegrationExample = ({
     drawCalls: 0,
   });
   const [messages, setMessages] = useState([]);
-  const [activeTab, setActiveTab] = useState("experience"); // 'experience', 'performance', 'messages'
+  const [activeTab, setActiveTab] = useState("experience"); // 'experience', 'performance', &apos;messages'
 
   // Detect device type on component mount
   useEffect(() => {
@@ -79,7 +79,7 @@ const UnityIntegrationExample = ({
     // Add message to message history
     setMessages((prev) => [...prev, { time: new Date(), method, data }].slice(-50));
 
-    // Handle performance metrics if they're being sent
+    // Handle performance metrics if they&apos;re being sent
     if (method === "PerformanceMetrics") {
       setPerfMetrics((prevMetrics) => ({
         ...prevMetrics,

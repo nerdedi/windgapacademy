@@ -66,8 +66,9 @@ function ResetPasswordPage() {
               </div>
               <h2 className="text-xl font-bold mb-2">Email Sent</h2>
               <p className="text-gray-600 mb-8">
-                We've sent a password reset link to <span className="font-semibold">{email}</span>.
-                Please check your inbox and follow the instructions to reset your password.
+                We&apos;ve sent a password reset link to{" "}
+                <span className="font-semibold">{email}</span>. Please check your inbox and follow
+                the instructions to reset your password.
               </p>
               <button
                 onClick={() => navigate("/login")}
@@ -103,8 +104,8 @@ function ResetPasswordPage() {
                 </div>
                 <h2 className="text-xl font-bold mb-2">Forgot Your Password?</h2>
                 <p className="text-gray-600">
-                  No worries! Enter your email address and we'll send you instructions to reset your
-                  password.
+                  No worries! Enter your email address and we&apos;ll send you instructions to reset
+                  your password.
                 </p>
               </div>
 

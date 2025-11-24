@@ -228,7 +228,7 @@ export const AnalyticsProvider = ({ children }) => {
     }
 
     try {
-      // Get user's preferred content types
+      // Get user&apos;s preferred content types
       const preferredTypes = Object.entries(insights.preferredContentTypes || {})
         .sort((a, b) => b[1] - a[1])
         .map(([type]) => type);

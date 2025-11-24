@@ -64,7 +64,7 @@ const ThreeJsTestPage = () => {
   const addEffect = (effectType) => {
     const containerId = "effects-container";
 
-    // Create container if it doesn't exist
+    // Create container if it doesn&apos;t exist
     if (!document.getElementById(containerId)) {
       const container = document.createElement("div");
       container.id = containerId;

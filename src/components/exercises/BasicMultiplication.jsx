@@ -3,10 +3,10 @@ import Exercise from "./Exercise";
 
 /**
  * Multiplication exercise for basic multiplication facts
- * Based on Khan Academy's multiplication exercises
+ * Based on Khan Academy&apos;s multiplication exercises
  */
 const BasicMultiplication = ({ onComplete = () => {} }) => {
-  // We'll keep a small internal state for this specific exercise
+  // We&apos;ll keep a small internal state for this specific exercise
   const [visualMode, setVisualMode] = useState("grid"); // 'grid', 'groups', 'number-line'
 
   // Generate a problem with parameters based on difficulty level
@@ -50,7 +50,7 @@ const BasicMultiplication = ({ onComplete = () => {} }) => {
     };
   };
 
-  // Check if the user's answer is correct
+  // Check if the user&apos;s answer is correct
   const checkAnswer = (problem, userAnswer) => {
     const parsedAnswer = parseInt(userAnswer, 10);
 
@@ -63,7 +63,8 @@ const BasicMultiplication = ({ onComplete = () => {} }) => {
 
     return {
       correct: parsedAnswer === problem.answer,
-      message: parsedAnswer === problem.answer ? null : "That's not the correct answer. Try again!",
+      message:
+        parsedAnswer === problem.answer ? null : "That&apos;s not the correct answer. Try again!",
     };
   };
 
@@ -120,7 +121,7 @@ const BasicMultiplication = ({ onComplete = () => {} }) => {
 
   // Render equal groups visualization for multiplication
   const renderGroups = (a, b) => {
-    // We'll show 'a' groups, each containing 'b' items
+    // We&apos;ll show 'a' groups, each containing 'b' items
     const groups = Array(a)
       .fill()
       .map((_, i) => i);
@@ -162,7 +163,7 @@ const BasicMultiplication = ({ onComplete = () => {} }) => {
 
   // Render number line visualization for multiplication
   const renderNumberLine = (a, b) => {
-    // We'll show multiplication as repeated addition on a number line
+    // We&apos;ll show multiplication as repeated addition on a number line
     const jumps = Array(a)
       .fill()
       .map((_, i) => i);

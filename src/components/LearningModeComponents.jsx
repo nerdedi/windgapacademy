@@ -591,7 +591,7 @@ export const TextBasedLearningContent = ({
             <li>Rewrite key concepts in your own words</li>
             <li>Create flashcards for important terms</li>
             <li>Organize information into outlines or mind maps</li>
-            <li>Summarize what you've learned in writing</li>
+            <li>Summarize what you&apos;ve learned in writing</li>
           </ul>
         </div>
       )}
@@ -967,7 +967,7 @@ export const SocialLearningContent = ({
 };
 
 /**
- * AdaptiveLearningContent - Container component that displays content in user's preferred learning mode
+ * AdaptiveLearningContent - Container component that displays content in user&apos;s preferred learning mode
  *
  * Features:
  * - Automatically selects best learning mode based on user preferences
