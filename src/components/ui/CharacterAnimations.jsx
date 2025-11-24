@@ -12,12 +12,10 @@
  * @ts-nocheck - This is a JSX file with some TypeScript validation issues
  */
 
-import { motion, AnimatePresence, useAnimation } from "framer-motion";
-import React, { useState, useEffect, useRef } from "react";
+import { AnimatePresence, motion, useAnimation } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 
 import { prefersReducedMotion } from "../../utils/accessibility.js";
-
-import MicroInteractions from "./MicroInteractions.jsx";
 
 export const CharacterAnimations = ({
   isVisible = true,

@@ -8,8 +8,8 @@
  * - Professional design and animations
  */
 
-import { motion, AnimatePresence } from "framer-motion";
-import React, { useState, useEffect, useRef } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export const CommandPalette = ({ isOpen, onClose }) => {
@@ -219,7 +219,7 @@ export const CommandPalette = ({ isOpen, onClose }) => {
                 <div className="text-4xl mb-4">🔍</div>
                 <div className="text-gray-500 font-medium">No commands found</div>
                 <div className="text-sm text-gray-400 mt-1">
-                  Try searching for "games", "dashboard", or "help"
+                  Try searching for &quot;games&quot;, &quot;dashboard&quot;, or &quot;help&quot;
                 </div>
               </div>
             )}

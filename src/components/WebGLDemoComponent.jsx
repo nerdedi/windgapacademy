@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 
 import CharacterAnimator from "../utils/CharacterAnimator";
@@ -252,9 +252,9 @@ const WebGLDemoComponent = () => {
           React&apos;s useEffect hooks for initialization and cleanup.
         </p>
         <code>
-          import WebGLEffects from '../utils/WebGLEffects';
+          import WebGLEffects from &apos;../utils/WebGLEffects&apos;;
           <br />
-          import CharacterAnimator from '../utils/CharacterAnimator';
+          import CharacterAnimator from &apos;../utils/CharacterAnimator&apos;;
         </code>
       </div>
     </div>
