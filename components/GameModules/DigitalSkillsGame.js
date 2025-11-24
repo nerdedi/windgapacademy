@@ -1,4 +1,3 @@
-import CharacterAnimator from "../../src/utils/CharacterAnimator";
 import WebGLEffectsUtil from "../../src/utils/WebGLEffects";
 import {
   applyButtonAnimation,
@@ -388,11 +387,11 @@ export function showDigitalSkillsGame(container) {
     }
   }
 
-  // Example: Add backup/sync logic
-  function _backupProgress(progress) {
+  // Example: Backup/sync logic
+  function backupProgress(progress) {
     localStorage.setItem("digitalSkillsProgress", JSON.stringify(progress));
   }
-  function _syncProgress() {
+  function syncProgress() {
     return JSON.parse(localStorage.getItem("digitalSkillsProgress") || "{}");
   }
 
