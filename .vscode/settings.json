@@ -155,12 +155,6 @@
 
   "github.copilot.editor.enableCodeActionGenerations": true,
 
-  "github.copilot.chat.experimental.codeGeneration.instructions": [
-    {
-      "text": "Follow the project's architecture patterns in .github/copilot-instructions.md"
-    }
-  ],
-
   "files.associations": {
     "*.code-workspace": "jsonc"
   },
@@ -198,5 +192,10 @@
   "terminal.integrated.gpuAcceleration": "off",
   "workbench.list.smoothScrolling": false,
   "editor.smoothScrolling": false,
-  "window.menuBarVisibility": "compact"
+  "window.menuBarVisibility": "compact",
+  "github.copilot.chat.codeGeneration.instructions": [
+    {
+      "text": "Follow the project's architecture patterns in .github/copilot-instructions.md"
+    }
+  ]
 }
