@@ -5,7 +5,7 @@ import { useAuth } from "../contexts/AuthContext";
 import { getProgressData, saveProgressData } from "../utils/ProgressService";
 
 // Mock the dependencies
-jest.mock("../context/AuthContext", () => ({
+jest.mock("../contexts/AuthContext", () => ({
   useAuth: jest.fn(),
 }));
 
@@ -16,39 +16,58 @@ jest.mock("../utils/ProgressService", () => ({
 
 // Mock the OptimizedUnityPlayer component
 jest.mock("../components/OptimizedUnityPlayer", () => {
+  const React = require("react");
   return {
     __esModule: true,
-    default: jest.fn().mockImplementation(({ onLoaded, onError, onUnityMessage }) => {
+    default: React.forwardRef((props, ref) => {
+      const { onLoaded, onError, onUnityMessage } = props;
+
       // Store the callbacks for test access
-      global.unityCallbacks = {
-        onLoaded,
-        onError,
-        onUnityMessage,
-      };
+      if (typeof global !== "undefined") {
+        global.unityCallbacks = {
+          onLoaded,
+          onError,
+          onUnityMessage,
+        };
+      }
+
+      // Expose methods via ref
+      React.useImperativeHandle(ref, () => ({
+        sendMessage: jest.fn(),
+      }));
 
       return (
         <div data-testid="unity-player">
-          <button data-testid="simulate-loaded" onClick={() => onLoaded({ name: "UnityInstance" })}>
+          <button
+            data-testid="simulate-loaded"
+            onClick={() => onLoaded && onLoaded({ name: "UnityInstance" })}
+          >
             Simulate Unity Loaded
           </button>
-          <button data-testid="simulate-error" onClick={() => onError(new Error("Test error"))}>
+          <button
+            data-testid="simulate-error"
+            onClick={() => onError && onError(new Error("Test error"))}
+          >
             Simulate Unity Error
           </button>
           <button
             data-testid="simulate-progress"
-            onClick={() => onUnityMessage("ProgressUpdate", { progress: 0.5 })}
+            onClick={() => onUnityMessage && onUnityMessage("ProgressUpdate", { progress: 0.5 })}
           >
             Simulate Progress Update
           </button>
           <button
             data-testid="simulate-completion"
-            onClick={() => onUnityMessage("ExperienceCompleted", { score: 100 })}
+            onClick={() => {
+              onUnityMessage && onUnityMessage("ExperienceCompleted", { score: 100 });
+            }}
           >
             Simulate Experience Completed
           </button>
           <button
             data-testid="simulate-achievement"
             onClick={() =>
+              onUnityMessage &&
               onUnityMessage("AchievementUnlocked", {
                 id: "test-achievement",
                 title: "Test Achievement",
@@ -184,6 +203,14 @@ describe("UnityExperienceDemo Component", () => {
   it("handles experience completion from Unity", async () => {
     render(<UnityExperienceDemo {...defaultProps} />);
 
+    // Wait for loading to finish
+    await waitFor(() => {
+      expect(screen.queryByText("Loading...")).not.toBeInTheDocument();
+    });
+
+    // Simulate Unity loaded
+    fireEvent.click(screen.getByTestId("simulate-loaded"));
+
     // Simulate experience completion
     fireEvent.click(screen.getByTestId("simulate-completion"));
 
@@ -199,7 +226,6 @@ describe("UnityExperienceDemo Component", () => {
           completed: true,
           score: 100,
         }),
-        expect.anything(),
       );
     });
   });

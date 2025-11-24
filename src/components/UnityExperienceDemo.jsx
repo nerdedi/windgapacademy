@@ -78,8 +78,7 @@ const UnityExperienceDemo = ({
   }, [currentUser, experienceId, lessonId]);
 
   // Handle Unity loading
-  const handleUnityLoaded = (unityInstance) => {
-    console.log("Unity WebGL loaded successfully!");
+  const handleUnityLoaded = () => {
     setLoading(false);
     setStatus("ready");
 
@@ -95,8 +94,8 @@ const UnityExperienceDemo = ({
   };
 
   // Handle Unity loading progress
-  const handleLoadingProgress = (progress) => {
-    console.log(`Unity loading: ${Math.round(progress * 100)}%`);
+  const handleLoadingProgress = () => {
+    // Optional: Update loading bar
   };
 
   // Handle Unity error
@@ -109,8 +108,6 @@ const UnityExperienceDemo = ({
 
   // Handle messages from Unity
   const handleUnityMessage = (method, data) => {
-    console.log("Received message from Unity:", method, data);
-
     switch (method) {
       case "ProgressUpdate":
         if (data && typeof data.progress === "number") {
@@ -215,7 +212,6 @@ const UnityExperienceDemo = ({
     }
 
     // Show completion UI or trigger callback
-    console.log("Experience completed!", data);
   };
 
   // Toggle fullscreen mode

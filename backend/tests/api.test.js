@@ -1,7 +1,14 @@
+/**
+ * @jest-environment node
+ */
+
 // Polyfill TextEncoder for Node.js
 if (typeof global.TextEncoder === "undefined") {
   global.TextEncoder = require("util").TextEncoder;
 }
+
+if (typeof setImmediate === "undefined")
+  global.setImmediate = (fn, ...args) => setTimeout(fn, 0, ...args);
 
 const request = require("supertest");
 

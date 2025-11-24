@@ -153,10 +153,26 @@ export const sendEmailVerification = jest.fn(() => Promise.resolve());
 export const signInWithPopup = mockAuth.signInWithPopup;
 export const signInWithRedirect = mockAuth.signInWithRedirect;
 export const getRedirectResult = mockAuth.getRedirectResult;
-export const GoogleAuthProvider = jest.fn(() => ({ providerId: "google.com" }));
-GoogleAuthProvider.credential = jest.fn(() => ({ providerId: "google.com" }));
-export const FacebookAuthProvider = jest.fn(() => ({ providerId: "facebook.com" }));
-FacebookAuthProvider.credential = jest.fn(() => ({ providerId: "facebook.com" }));
+export const GoogleAuthProvider = jest.fn(() => ({
+  addScope: jest.fn(),
+  setCustomParameters: jest.fn(),
+}));
+export const OAuthProvider = jest.fn(() => ({
+  addScope: jest.fn(),
+  setCustomParameters: jest.fn(),
+}));
+export const FacebookAuthProvider = jest.fn(() => ({
+  addScope: jest.fn(),
+  setCustomParameters: jest.fn(),
+}));
+export const TwitterAuthProvider = jest.fn(() => ({
+  addScope: jest.fn(),
+  setCustomParameters: jest.fn(),
+}));
+export const GithubAuthProvider = jest.fn(() => ({
+  addScope: jest.fn(),
+  setCustomParameters: jest.fn(),
+}));
 export const PhoneAuthProvider = jest.fn(() => ({ providerId: "phone" }));
 export const multiFactor = jest.fn(() => ({
   getSession: jest.fn(() => Promise.resolve({})),
@@ -181,6 +197,7 @@ export const where = mockFirestore.where;
 export const orderBy = mockFirestore.orderBy;
 export const limit = mockFirestore.limit;
 export const getDocs = mockFirestore.getDocs;
+export const addDoc = jest.fn(() => Promise.resolve(mockDocRef));
 export const onSnapshot = mockFirestore.onSnapshot;
 export const runTransaction = mockFirestore.runTransaction;
 export const writeBatch = jest.fn(() => mockFirestore.batch());
@@ -198,10 +215,32 @@ const firebase = {
   // Auth
   auth: mockAuth,
   getAuth,
+  GoogleAuthProvider,
+  OAuthProvider,
+  FacebookAuthProvider,
+  TwitterAuthProvider,
+  GithubAuthProvider,
 
   // Firestore
   firestore: mockFirestore,
   getFirestore,
+  collection,
+  doc,
+  getDoc,
+  setDoc,
+  updateDoc,
+  deleteDoc,
+  addDoc,
+  query,
+  where,
+  orderBy,
+  limit,
+  getDocs,
+  onSnapshot,
+  runTransaction,
+  writeBatch,
+  serverTimestamp,
+  Timestamp,
 
   // Export for module/default compatibility
   default: {
@@ -213,5 +252,4 @@ const firebase = {
 };
 
 // Export default for module imports
-module.exports = firebase;
-module.exports.default = firebase;
+export default firebase;

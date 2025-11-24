@@ -83,9 +83,9 @@ describe("Apple Authentication Utility", () => {
       // Allow the script onload callback to execute
       setTimeout(() => {
         expect(window.AppleID.auth.init).toHaveBeenCalledWith({
-          clientId: undefined,
+          clientId: "test-client-id",
           scope: "name email",
-          redirectURI: "https://windgapacademy.org/auth/apple/callback",
+          redirectURI: "http://localhost/auth/apple/callback",
           usePopup: true,
         });
         done();

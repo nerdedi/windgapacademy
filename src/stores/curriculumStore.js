@@ -272,6 +272,9 @@ export const useCurriculumStore = create(
             .sort((a, b) => b.completionRate * b.averageScore - a.completionRate * a.averageScore);
         },
       })),
+      {
+        name: "curriculum-storage",
+      },
     ),
   ),
 );

@@ -14,7 +14,6 @@ export const initializeAppleAuth = () => {
     "https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js";
   script.async = true;
   script.id = "apple-sign-in-script";
-  document.body.appendChild(script);
 
   // Wait for script to load, then initialize
   script.onload = () => {
@@ -28,6 +27,8 @@ export const initializeAppleAuth = () => {
       });
     }
   };
+
+  document.body.appendChild(script);
 };
 
 /**
