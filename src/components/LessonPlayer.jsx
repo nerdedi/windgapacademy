@@ -1,14 +1,14 @@
+import { useEffect, useState } from "react";
 import {
-  CheckCircle,
-  Play,
-  Pause,
-  SkipForward,
-  SkipBack,
-  BookOpen,
-  Trophy,
-  Target,
-} from "lucide-react";
-import React, { useState, useEffect } from "react";
+  FaBook as BookOpen,
+  FaCheckCircle as CheckCircle,
+  FaPause as Pause,
+  FaPlay as Play,
+  FaFastBackward as SkipBack,
+  FaFastForward as SkipForward,
+  FaBullseye as Target,
+  FaTrophy as Trophy,
+} from "react-icons/fa";
 
 // Import the lesson content service
 import { lessonContentService } from "../data/lessons/lessonContentService";

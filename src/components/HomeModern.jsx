@@ -1,17 +1,17 @@
 import { motion } from "framer-motion";
-import {
-  ArrowRight,
-  BookOpen,
-  Brain,
-  Calculator,
-  CheckCircle,
-  Eye,
-  Heart,
-  Laptop,
-  TrendingUp,
-  Users,
-} from "lucide-react";
 import { useEffect, useState } from "react";
+import {
+  FaArrowRight as ArrowRight,
+  FaBook as BookOpen,
+  FaBrain as Brain,
+  FaCalculator as Calculator,
+  FaCheckCircle as CheckCircle,
+  FaEye as Eye,
+  FaHeart as Heart,
+  FaLaptop as Laptop,
+  FaChartLine as TrendingUp,
+  FaUsers as Users,
+} from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
 export default function HomeModern() {

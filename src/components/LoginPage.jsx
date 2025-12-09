@@ -239,23 +239,27 @@ function LoginPage() {
 
     try {
       // Directly call the signIn function
-      await signIn(demoEmail, demoPassword);
+      const result = await signIn(demoEmail, demoPassword);
+      console.log("Demo login successful:", result);
       // Navigation handled by useEffect watching currentUser
     } catch (error) {
       console.error("Demo login error:", error);
-      // If demo account doesn&apos;t exist, try to create it
+      // If demo account doesn't exist, try to create it
       try {
-        await signUp(
+        const signupResult = await signUp(
           demoEmail,
           demoPassword,
           userType === "educator" ? "Demo Educator" : "Demo Learner",
-          userType,
         );
+        console.log("Demo account created:", signupResult);
         // After signup, sign in
-        await signIn(demoEmail, demoPassword);
+        const loginResult = await signIn(demoEmail, demoPassword);
+        console.log("Demo login after signup successful:", loginResult);
       } catch (signupError) {
         console.error("Demo account creation error:", signupError);
-        setGeneralError("Demo account not available. Please try manual login or contact support.");
+        setGeneralError(
+          `Demo account error: ${signupError.message || "Please try manual login or contact support."}`,
+        );
       }
     } finally {
       setIsSubmitting(false);

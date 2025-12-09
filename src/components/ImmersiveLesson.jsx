@@ -1,14 +1,14 @@
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 import {
-  ChevronRight,
-  ChevronLeft,
-  BookOpen,
-  Maximize2,
-  Play,
-  Award,
-  MessageCircle,
-} from "lucide-react";
-import React, { useState, useEffect, useRef } from "react";
+  FaAward as Award,
+  FaBook as BookOpen,
+  FaChevronLeft as ChevronLeft,
+  FaChevronRight as ChevronRight,
+  FaExpand as Maximize2,
+  FaCommentAlt as MessageCircle,
+  FaPlay as Play,
+} from "react-icons/fa";
 
 import { useGamification } from "../contexts/GamificationContext";
 

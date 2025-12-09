@@ -1,6 +1,11 @@
-import { motion, AnimatePresence } from "framer-motion";
-import { Maximize2, Minimize2, ChevronLeft, ChevronRight } from "lucide-react";
-import React, { useState, useRef, useEffect } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import {
+  FaChevronLeft as ChevronLeft,
+  FaChevronRight as ChevronRight,
+  FaExpand as Maximize2,
+  FaCompress as Minimize2,
+} from "react-icons/fa";
 
 import WebGLEffects from "../utils/WebGLEffects";
 

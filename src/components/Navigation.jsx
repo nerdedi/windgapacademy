@@ -1,16 +1,16 @@
-import {
-  Award,
-  BookOpen,
-  Calendar,
-  Film,
-  HelpCircle,
-  Home,
-  MessageCircle,
-  Play,
-  Target,
-  Trophy,
-} from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import {
+  FaAward as Award,
+  FaBook as BookOpen,
+  FaCalendar as Calendar,
+  FaFilm as Film,
+  FaQuestionCircle as HelpCircle,
+  FaHome as Home,
+  FaCommentAlt as MessageCircle,
+  FaPlay as Play,
+  FaBullseye as Target,
+  FaTrophy as Trophy,
+} from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
 import { SoundManager } from "../audio/SoundManager";
