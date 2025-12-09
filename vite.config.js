@@ -134,7 +134,7 @@ export default defineConfig(({ mode }) => {
       },
       // Force dependency pre-bundling to ensure React is deduplicated.
       // This helps avoid duplicate React copies in dev and preview modes.
-      force: true,
+      // force: true, // Disabled to reduce re-optimization loops causing HMR disconnects.
       // Ensure React Three Fiber and related packages are properly handled
       // during optimization (no-op placeholder but kept for clarity).
       needsInterop: [],

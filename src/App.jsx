@@ -117,6 +117,9 @@ const WhiteboardPage = lazy(
   () => import(/* webpackChunkName: "tools-whiteboard" */ "./pages/Tools/Whiteboard"),
 );
 const ToolsPage = lazy(() => import(/* webpackChunkName: "tools" */ "./pages/ToolsPage"));
+const WindgapAcademy = lazy(
+  () => import(/* webpackChunkName: "windgap-academy" */ "./components/WindgapAcademy"),
+);
 
 // Professional loading component
 function ProfessionalLoader() {
@@ -139,6 +142,7 @@ export default function App() {
         <Routes>
           {/* Public */}
           <Route path="/" element={<HomeModern />} />
+          <Route path="/academy" element={<WindgapAcademy />} />
           <Route path="/llnd" element={<LLNDHomepage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/reset-password" element={<ResetPasswordPage />} />

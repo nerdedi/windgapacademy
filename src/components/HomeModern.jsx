@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
+  ArrowRight,
   BookOpen,
+  Brain,
   Calculator,
+  CheckCircle,
+  Eye,
   Heart,
   Laptop,
-  ArrowRight,
-  Users,
-  Eye,
   TrendingUp,
-  Brain,
-  CheckCircle,
+  Users,
 } from "lucide-react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function HomeModern() {
   const navigate = useNavigate();
@@ -94,6 +94,11 @@ export default function HomeModern() {
     {
       label: "Get Started",
       action: () => navigate("/dashboard"),
+      variant: "primary",
+    },
+    {
+      label: "Try Windgap Academy",
+      action: () => navigate("/academy"),
       variant: "primary",
     },
     {
