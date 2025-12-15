@@ -33,6 +33,19 @@ Update your HTML and build config to reference the `.min.css` files for producti
 - Sanitize all user input
 - Regularly update dependencies
 
+## Large Files & Git LFS
+
+- Avoid committing archives or binaries; `.gitignore` already excludes `*.zip` and `windgap-academy-*.zip`.
+- If you must version large assets, install LFS and track the pattern before committing:
+
+```bash
+git lfs install
+git lfs track "*.zip"
+git add .gitattributes
+git commit -m "chore: track zip assets with LFS"
+```
+- Keep production builds and generated artifacts out of git to prevent quota and size issues.
+
 ## Accessibility
 
 - See `scripts/i18n-setup.js` for scaffolding

@@ -29,7 +29,7 @@
   "client": "cd client && npm start",
   "devDependencies": {
   "@babel/preset-env": "^7.28.3",
-    "@playwright/test": "^1.55.0",
+    "@playwright/test": "^1.55.1",
     "@tailwindcss/forms": "^0.5.10",
     "@testing-library/jest-dom": "^6.8.0",
     "@types/react-router-dom": "^5.3.3",
@@ -42,22 +42,22 @@
     "concurrently": "^9.2.1",
     "cypress": "^15.0.0",
     "eslint": "^8.56.0",
-    "eslint-config-next": "^15.5.2",
+    "eslint-config-next": "^15.5.8",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-prettier": "^5.5.4",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^5.2.0",
     "jest-environment-jsdom": "^30.0.5",
-    "next": "^15.5.2",
-    "playwright": "^1.55.0",
+    "next": "^15.5.8",
+    "playwright": "^1.55.1",
     "postcss": "^8.5.6",
     "supertest": "^7.1.4",
     "tailwindcss": "^3.3.3",
     "ts-jest": "^29.4.1",
     "typescript": "^5.9.2",
   "dotenv": "^16.3.1",
-    "vite": "^7.1.3"
+    "vite": "^7.1.11"
   },
   "dependencies": {
     "@babylonjs/core": "^8.25.0",
@@ -95,5 +95,11 @@
     "react",
     "modern"
   ],
-  "author": "Your Name <natalie@example.com>"
+  "author": "Your Name <natalie@example.com>",
+  "overrides": {
+    "body-parser": "^2.2.1",
+    "glob": "^10.5.0",
+    "js-yaml": "^4.1.1",
+    "jws": "^3.2.3"
+  }
 }
