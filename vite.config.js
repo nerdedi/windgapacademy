@@ -75,6 +75,10 @@ export default defineConfig(({ mode }) => {
     },
 
     optimizeDeps: {
+      // Force a single React instance during dependency pre-bundling to avoid
+      // runtime errors like "Cannot set properties of undefined (setting 'Activity')"
+      // caused by duplicated React copies when using linked packages or mixed ESM/CJS bundles.
+      dedupe: ["react", "react-dom", "react/jsx-runtime", "react/jsx-dev-runtime"],
       include: [
         // Core React - Force bundling to ensure single instance
         "react",
@@ -158,41 +162,54 @@ export default defineConfig(({ mode }) => {
     build: {
       target: "es2020",
       minify: isProd ? "esbuild" : false,
-      sourcemap: isDev ? "inline" : false,
-      chunkSizeWarningLimit: 500,
+      // Generate source maps for production debugging (emitted alongside assets)
+      sourcemap: isProd ? true : "inline",
+      chunkSizeWarningLimit: 600,
       cssCodeSplit: true,
       assetsInlineLimit: 4096,
+      reportCompressedSize: true,
 
       rollupOptions: {
         output: {
           manualChunks: (id) => {
-            // Core React libraries
+            // Core React libraries - CRITICAL: deduplicated in resolve alias above
             if (id.includes("node_modules/react") || id.includes("node_modules/react-dom")) {
-              return "react-vendor";
+              return "vendor-react";
             }
             // React Router
             if (id.includes("node_modules/react-router")) {
-              return "router-vendor";
+              return "vendor-router";
             }
             // Animation libraries
             if (id.includes("node_modules/framer-motion")) {
-              return "animation-vendor";
+              return "vendor-animation";
             }
-            // Three.js and 3D libraries
+            // Three.js and 3D libraries - keep separate for lazy loading potential
             if (id.includes("node_modules/three") || id.includes("node_modules/@react-three")) {
-              return "three-vendor";
+              return "vendor-three";
             }
-            // Firebase
+            // Firebase - often loaded conditionally
             if (id.includes("node_modules/firebase") || id.includes("node_modules/@firebase")) {
-              return "firebase-vendor";
+              return "vendor-firebase";
             }
             // UI libraries
             if (id.includes("node_modules/@headlessui") || id.includes("node_modules/@heroicons")) {
-              return "ui-vendor";
+              return "vendor-ui";
+            }
+            // Utility libraries
+            if (id.includes("node_modules/date-fns") || id.includes("node_modules/clsx")) {
+              return "vendor-utils";
             }
             // Stores (keep together for better performance)
             if (id.includes("/src/stores/")) {
               return "stores";
+            }
+            // Pages - critical for route-based splitting
+            if (id.includes("/src/pages/") && id.includes(".jsx")) {
+              const pageName = id.match(/\/src\/pages\/([^/]+)/);
+              if (pageName) {
+                return `page-${pageName[1].toLowerCase()}`;
+              }
             }
             // Components by category
             if (id.includes("/src/components/lessonModules/")) {
@@ -207,6 +224,10 @@ export default defineConfig(({ mode }) => {
             // Analytics and adaptive features
             if (id.includes("/src/analytics/") || id.includes("/src/adaptive/")) {
               return "adaptive-features";
+            }
+            // Games and learning modules
+            if (id.includes("/src/games/")) {
+              return "games";
             }
           },
           chunkFileNames: (chunkInfo) => {
