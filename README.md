@@ -1,8 +1,6 @@
 # Windgap Academy
 
-[![Deploy to Vercel](https://vercel.com/button)](https://vercel.com/import/project?template=windgapacademy)
-
-Inclusive, ad-free, educator-reviewed learning platform for neurodivergent learners aged 16+. Meets Australian NDIS standards and prioritizes accessibility, privacy, and educational best practices.
+A modern, accessible learning platform featuring interactive modules (e.g., Winnie's Words), built with Vite, modular JS, and deployed to Firebase Hosting. This repository ships with a Dev Container configuration for reproducible development in VS Code / GitHub Codespaces, and CI/CD via GitHub Actions.
 
 ## Development Best Practices
 
