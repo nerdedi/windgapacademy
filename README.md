@@ -18,13 +18,14 @@ Inclusive, ad-free, educator-reviewed learning platform for neurodivergent learn
 
 1. Install dependencies: `npm install`
 
-
 npx minify styles/windgap-academy.css > styles/windgap-academy.min.css && \
+
 ```bash
 npm run build:css
 ```
 
 Update your HTML and build config to reference the `.min.css` files for production.
+
 ```
 
 ## Security
@@ -44,6 +45,7 @@ git lfs track "*.zip"
 git add .gitattributes
 git commit -m "chore: track zip assets with LFS"
 ```
+
 - Keep production builds and generated artifacts out of git to prevent quota and size issues.
 
 ## Accessibility
@@ -67,6 +69,7 @@ git commit -m "chore: track zip assets with LFS"
 - Start server: `npm start`
 
 ## Testing
+
 - Run unit tests: `npm test`
 - Run e2e tests: `npx cypress run`
 
@@ -82,7 +85,7 @@ To enable full JSX tests locally:
 npm install --save-dev @babel/preset-react
 ```
 
-2. Re-run the test suite:
+1. Re-run the test suite:
 
 ```bash
 npm test
@@ -91,14 +94,17 @@ npm test
 CI (GitHub Actions) runs `npm ci` which installs devDependencies and runs the full test suite, so opening a PR will validate the JSX tests automatically.
 
 ## Deployment
+
 - Use HTTPS
 - Set environment variables securely
 - Use `server.cjs` for Node.js hosting
 
 ## CI/CD
+
 - See `.github/workflows/deploy.yml` for automated pipeline
 
 ## Monitoring & Logging
+
 - Sentry for frontend error tracking (see `index.html`)
 - Server logs and alerts recommended
 
@@ -108,8 +114,8 @@ CI (GitHub Actions) runs `npm ci` which installs devDependencies and runs the fu
 
 For optimal performance, use the minified CSS files in production:
 
-
 // trigger redeploy
+
 ## Automated Minification
 
 // another redeploy trigger
@@ -129,7 +135,7 @@ You can add this as a build step in your deployment pipeline or as an npm script
 
 ```json
 "scripts": {
-	"build:css": "npx minify styles/windgap-academy.css > styles/windgap-academy.min.css && npx minify styles/output.css > styles/output.min.css && npx minify styles/tailwind-theme.css > styles/tailwind-theme.min.css && npx minify styles/tailwind.css > styles/tailwind.min.css && npx minify styles/advanced.css > styles/advanced.min.css && npx minify styles/refinements.css > styles/refinements.min.css"
+ "build:css": "npx minify styles/windgap-academy.css > styles/windgap-academy.min.css && npx minify styles/output.css > styles/output.min.css && npx minify styles/tailwind-theme.css > styles/tailwind-theme.min.css && npx minify styles/tailwind.css > styles/tailwind.min.css && npx minify styles/advanced.css > styles/advanced.min.css && npx minify styles/refinements.css > styles/refinements.min.css"
 }
 ```
 
@@ -141,21 +147,17 @@ npm run build:css
 
 Update your HTML and build config to reference the `.min.css` files for production.
 
-
 ## Accessibility
 
 - See `scripts/i18n-setup.js` for scaffolding
-
 
 ## Backup & Recovery
 
 - See `scripts/backup.sh` for template
 
-
 ## Analytics
 
 - Google Analytics integrated in `index.html`
-
 
 ## Feedback
 
