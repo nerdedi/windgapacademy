@@ -3,41 +3,78 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Windgap Academy</title>
-    <meta name="description" content="Windgap Academy: Accessible, inclusive, and modern learning platform for all." />
+    <title>Windgap Academy - Accessible Learning Platform</title>
+    <meta name="description" content="Windgap Academy: Accessible, inclusive, and modern learning platform for neurodivergent learners." />
     <meta name="robots" content="index, follow" />
-    <link rel="icon" href="assets/logo.png">
-  <!-- styles/output.css restored -->
-  <link rel="stylesheet" href="styles/output.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/howler"></script>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%235ED1D2' width='100' height='100'/><text x='50' y='60' font-size='60' font-weight='bold' fill='%23A32C2B' text-anchor='middle'>W</text></svg>">
 
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles/output.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <!-- External Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/howler"></script>
     <script src="https://browser.sentry-cdn.com/7.100.0/bundle.min.js" crossorigin="anonymous"></script>
     <script>
       Sentry.init({ dsn: window.env && window.env.SENTRY_DSN ? window.env.SENTRY_DSN : '' });
     </script>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-XXXXXXXXX-X"></script>
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=GA-XXXXXXXXX-X"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-      gtag('config', 'UA-XXXXXXXXX-X');
+      gtag('config', 'GA-XXXXXXXXX-X');
     </script>
 
+    <!-- Firebase -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-analytics-compat.js"></script>
-    <!-- Add other compat SDKs as needed -->
     <script>
-      // Ensure Firebase config is available before app.js runs
       if (window.env && window.env.FIREBASE_CONFIG && window.firebase) {
         firebase.initializeApp(window.env.FIREBASE_CONFIG);
       }
     </script>
-    <!-- Runtime shim: ensure a global fallback function exists before any bundled code executes -->
+
+    <!-- Global Utilities (must load before body) -->
     <script>
+      // Accessibility utilities
+      window.increaseFont = function() {
+        const root = document.documentElement;
+        const current = parseFloat(root.style.fontSize) || 16;
+        root.style.fontSize = (current + 2) + 'px';
+      };
+
+      window.toggleDyslexiaFont = function() {
+        const body = document.body;
+        body.classList.toggle('dyslexia-font');
+        localStorage.setItem('dyslexia-font', body.classList.contains('dyslexia-font'));
+      };
+
+      window.toggleEasyRead = function() {
+        const body = document.body;
+        body.classList.toggle('easy-read');
+        localStorage.setItem('easy-read', body.classList.contains('easy-read'));
+      };
+
+      // Navigation utilities
+      window.navigateTo = function(route) {
+        console.log('Navigating to:', route);
+        // TODO: Implement routing logic (use a router like React Router or custom history management)
+        if (route === 'signin') {
+          // Redirect to sign in page
+          window.location.href = '#/signin';
+        } else if (route === 'dashboard') {
+          // Redirect to dashboard (only if authenticated)
+          window.location.href = '#/dashboard';
+        }
+      };
+
+      // Fallback screen
       if (!window.showFallbackScreen) {
         window.showFallbackScreen = function(msg) {
           try {
@@ -50,192 +87,234 @@
           }
         };
       }
+
+      // Restore accessibility preferences
+      if (localStorage.getItem('dyslexia-font') === 'true') {
+        document.body.classList.add('dyslexia-font');
+      }
+      if (localStorage.getItem('easy-read') === 'true') {
+        document.body.classList.add('easy-read');
+      }
     </script>
-  <script type="module" src="main.js"></script>
-  <script type="module" src="js/themes.js"></script>
-  <script type="module" src="js/videoPlayer.js"></script>
-  <script type="module" src="js/accessibility.js"></script>
-  <script type="module" src="js/showFeature.js"></script>
-  <script type="module" src="js/showFeature.global.js"></script>
   </head>
-  <body aria-label="Windgap Academy Entry" role="main" style="background: #5ED1D2; color: #A32C2B; min-height: 100vh;">
-    <header class="flex items-center justify-between px-8 py-4 bg-white shadow">
-      <div class="flex items-center gap-3">
-        <img src="assets/logo.png" alt="Windgap Academy Logo" class="h-14 w-auto animate-float" />
-        <span class="text-2xl font-bold text-[#A32C2B]">Windgap Academy</span>
-      </div>
-      <div class="flex items-center gap-4">
-        <img src="assets/windgap-logo.png" alt="User Avatar" class="h-10 w-10 rounded-full border-2 border-[#A32C2B]" id="user-avatar" />
-        <span class="font-semibold text-[#A32C2B]" id="welcome-user">Welcome, Guest!</span>
-        <button class="btn-secondary" aria-label="Notifications" id="notification-bell">
-          <span class="icon-bell"></span>
-          <span class="notification-count" id="notification-count">3</span>
-        </button>
-        <button class="btn-secondary" aria-label="Feedback" id="floating-feedback">?</button>
+  <body class="bg-white text-gray-800" style="font-family: 'Inter', sans-serif;">
+    <!-- Navigation Header -->
+    <!-- Navigation Header -->
+    <header class="sticky top-0 z-50 bg-white shadow-md">
+      <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-[#5ED1D2] to-[#A32C2B] flex items-center justify-center text-white font-bold text-xl">W</div>
+          <span class="text-2xl font-bold text-[#A32C2B]">Windgap Academy</span>
+        </div>
+        <nav class="flex gap-6 items-center">
+          <a href="#home" class="text-gray-700 hover:text-[#A32C2B] font-medium transition">Home</a>
+          <a href="#about" class="text-gray-700 hover:text-[#A32C2B] font-medium transition">About</a>
+          <a href="#accessibility" class="text-gray-700 hover:text-[#A32C2B] font-medium transition">Accessibility</a>
+          <a href="#support" class="text-gray-700 hover:text-[#A32C2B] font-medium transition">Support</a>
+          <button onclick="window.navigateTo('signin')" class="bg-[#A32C2B] text-white px-6 py-2 rounded-lg font-semibold hover:bg-[#8b2423] transition">Sign In</button>
+        </nav>
       </div>
     </header>
-    <nav class="sticky top-0 z-50 bg-white shadow flex items-center justify-between px-8 py-4">
-      <div class="flex items-center gap-3">
-        <!-- Keep header logo only; hero will use a smaller mark below -->
-        <img src="assets/logo.png" alt="Windgap Academy Logo" class="h-14 w-auto animate-float" />
-        <span class="text-2xl font-bold text-[#A32C2B]">Windgap Academy</span>
-      </div>
-      <div class="flex gap-6">
-        <a href="#home" data-route="home" class="btn-secondary" aria-label="Home">Home</a>
-        <a href="#signin" data-route="signin" class="btn-secondary" aria-label="Sign In">Sign In</a>
-        <a href="#accessibility" data-route="accessibility" class="btn-secondary" aria-label="Accessibility">Accessibility</a>
-        <a href="#support" data-route="support" class="btn-secondary" aria-label="Support">Support</a>
-      </div>
-    </nav>
-    <div class="hero-section relative flex flex-col items-center justify-center min-h-[60vh] bg-gradient-to-br from-[#5ED1D2] via-[#A32C2B] to-[#FBBF24] overflow-hidden">
-      <!-- Interactive Featured Modules Carousel -->
-      <div class="carousel w-full max-w-2xl mb-6 flex items-center justify-center" id="featured-carousel-hero">
-        <button class="carousel-control" aria-label="Previous Module">&#8592;</button>
-        <div class="carousel-slide flex-1 text-center">
-          <h3 class="text-2xl font-bold text-white">Math Quest</h3>
-          <p class="text-white">Sharpen your math skills in a fun adventure!</p>
-        </div>
-        <button class="carousel-control" aria-label="Next Module">&#8594;</button>
-      </div>
-      <!-- Progress Bars for Achievements -->
-      <div class="progress-tracker w-full max-w-md mb-4 flex flex-col gap-2" id="progress-tracker-hero">
-        <div class="flex items-center justify-between"><span>Math Quest</span><span>80%</span></div>
-        <div class="w-full bg-gray-200 rounded-full h-2"><div class="bg-[#A32C2B] h-2 rounded-full" style="width:80%"></div></div>
-        <div class="flex items-center justify-between"><span>Reading Adventure</span><span>60%</span></div>
-        <div class="w-full bg-gray-200 rounded-full h-2"><div class="bg-[#5ED1D2] h-2 rounded-full" style="width:60%"></div></div>
-      </div>
-      <!-- Leaderboard -->
-      <div class="leaderboard w-full max-w-md mb-4 bg-white/80 rounded-lg shadow p-4" id="homepage-leaderboard-hero">
-        <h3 class="text-xl font-bold text-[#A32C2B] mb-2">Top Learners</h3>
 
-  <div class="carousel w-full max-w-2xl mb-6" id="featured-carousel-sidebar">
-          <!-- Carousel for featured modules, auto-rotating -->
-        </div>
-        <div class="badges flex gap-3 mb-4" id="achievement-badges">
-          <!-- User achievement badges -->
-        </div>
-        <div class="progress-tracker w-full max-w-md mb-4" id="progress-tracker-sidebar">
-          <!-- Progress tracker for modules -->
-        </div>
-        <div class="leaderboard w-full max-w-md mb-4" id="homepage-leaderboard-sidebar">
-          <!-- Recent winners leaderboard -->
-        </div>
-        <div class="challenge-block w-full max-w-md mb-4" id="daily-challenge">
-          <!-- Daily/weekly challenge info -->
-        </div>
-        <div class="welcome-message text-lg text-white font-semibold mb-2" id="personal-welcome"></div>
-    <div class="news-ticker bg-white/80 text-[#A32C2B] px-4 py-2 rounded-full shadow mb-4" id="news-ticker">Loading updates...</div>
-        <div class="accessibility-toggles flex gap-3 mb-4" id="accessibility-toggles">
-          <button onclick="window.increaseFont()" class="btn-secondary">A+</button>
-          <button onclick="window.toggleDyslexiaFont()" class="btn-secondary">Dyslexia Font</button>
-          <button onclick="window.toggleEasyRead()" class="btn-secondary">Easy Read</button>
-        </div>
-        <div class="avatar-customization w-full max-w-md mb-4" id="avatar-customization">
-          <!-- Avatar builder and customization -->
-        </div>
-        <div class="social-sharing flex gap-3 mb-4" id="social-sharing">
-          <button class="btn-secondary">Share</button>
-          <button class="btn-secondary">Invite Friends</button>
-        </div>
-        <div class="notifications w-full max-w-md mb-4" id="homepage-notifications">
-          <!-- Notifications and announcements -->
-        </div>
-        <div class="feedback-support w-full max-w-md mb-4" id="feedback-support">
-          <a href="#feedback" class="btn-secondary">Feedback</a>
-          <a href="#support" class="btn-secondary">Support</a>
-        </div>
+    <!-- Hero Section -->
+    <section class="relative min-h-screen bg-gradient-to-br from-[#5ED1D2] via-[#A32C2B] to-[#FBBF24] flex items-center justify-center overflow-hidden" id="home">
+      <div class="absolute inset-0 opacity-10">
+        <svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600">
+          <circle cx="100" cy="100" r="80" fill="white"/>
+          <circle cx="1100" cy="500" r="120" fill="white"/>
+          <circle cx="600" cy="150" r="100" fill="white"/>
+        </svg>
       </div>
-    </div>
-    <section class="stats-block grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
-      <div class="flex flex-col items-center">
-        <svg class="h-10 w-10 mb-2 text-yellow-300" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a8 8 0 100 16 8 8 0 000-16zm1 12H9v-2h2v2zm0-4H9V7h2v3z"/></svg>
-        <span class="text-2xl font-bold">12,000+</span>
-        <span class="text-sm">Active Learners</span>
-      </div>
-      <div class="flex flex-col items-center">
-        <svg class="h-10 w-10 mb-2 text-blue-300" fill="currentColor" viewBox="0 0 20 20"><path d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm0 2h12v10H4V5zm2 2v2h2V7H6zm4 0v2h2V7h-2z"/></svg>
-        <span class="text-2xl font-bold">150+</span>
-        <span class="text-sm">Courses</span>
-      </div>
-      <div class="flex flex-col items-center">
-        <svg class="h-10 w-10 mb-2 text-purple-300" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a8 8 0 100 16 8 8 0 000-16zm3.707 6.293a1 1 0 00-1.414 0L10 10.586 7.707 8.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 000-1.414z"/></svg>
-        <span class="text-2xl font-bold">98%</span>
-        <span class="text-sm">Satisfaction Rate</span>
+
+      <div class="relative z-10 text-center max-w-3xl mx-auto px-6">
+        <h1 class="text-5xl md:text-6xl font-extrabold text-white mb-6 drop-shadow-lg">
+          Accessible Learning for Every Mind
+        </h1>
+        <p class="text-xl text-white mb-8 drop-shadow-md">
+          Windgap Academy provides personalized, inclusive education designed specifically for neurodivergent learners. Learn at your own pace with tools built for how you think.
+        </p>
+        
+        <div class="flex flex-col sm:flex-row gap-4 justify-center mb-8">
+          <button onclick="window.navigateTo('signin')" class="bg-white text-[#A32C2B] px-8 py-3 rounded-lg font-bold text-lg hover:shadow-lg transition">
+            Get Started
+          </button>
+          <button onclick="document.getElementById('about').scrollIntoView({ behavior: 'smooth' })" class="bg-transparent text-white border-2 border-white px-8 py-3 rounded-lg font-bold text-lg hover:bg-white hover:text-[#A32C2B] transition">
+            Learn More
+          </button>
+        </div>
+
+        <div class="text-white text-sm drop-shadow-md">
+          Already have an account? <a href="#signin" onclick="window.navigateTo('signin')" class="underline font-bold hover:no-underline">Sign in here</a>
+        </div>
       </div>
     </section>
 
-    <!-- Winnie's Words Game Show Section -->
-    <section id="winnies-words" class="game-show-section flex flex-col items-center justify-center py-16 bg-gradient-to-br from-[#FBBF24] via-[#5ED1D2] to-[#A32C2B] shadow-lg rounded-2xl mx-auto my-12 max-w-3xl">
-      <div class="flex flex-col items-center mb-8">
-  <img src="assets/winnie-mascot-cloud.png" alt="Winnie the Educator Mascot" class="winnie-img h-40 w-auto mb-4 animate-cloud-bounce" />
-  <h2 class="text-4xl font-extrabold text-[#A32C2B] mb-2 drop-shadow-lg">Winnie's Words</h2>
-  <div class="winnie-speech-bubble bg-white text-[#A32C2B] px-6 py-4 rounded-2xl shadow mb-4 text-lg font-semibold animate-bounce-in" id="winnie-speech">Hi, I'm Winnie! Let's play and learn new words together!</div>
-  <p class="text-lg text-[#A32C2B] font-semibold mb-2">Hosted by Winnie, your friendly educator mascot!<br>Test your language skills in a fun game show format.</p>
-    <a class="startBtn slide-in-left">Start Game</a>
-        </div>
-        <div id="banner" class="section">
-          <h2 class="header">Guess This</h2>
-          <h3 id="score-wins">Wins:0</h3><h3 id="score-losses">Losses:0</h3>
-        </div>
-        <div id="phrase" class="section"><ul></ul></div>
-        <div id="qwerty" class="section">
-          <div class="keyrow">
-            <button>q</button><button>w</button><button>e</button><button>r</button><button>t</button><button>y</button><button>u</button><button>i</button><button>o</button><button>p</button>
+    <!-- Features Section -->
+    <section id="about" class="py-20 bg-white">
+      <div class="max-w-6xl mx-auto px-6">
+        <h2 class="text-4xl font-bold text-[#A32C2B] text-center mb-16">Why Choose Windgap Academy?</h2>
+        
+        <div class="grid md:grid-cols-3 gap-8 mb-16">
+          <!-- Feature 1 -->
+          <div class="card">
+            <div class="w-12 h-12 bg-[#5ED1D2] rounded-lg flex items-center justify-center text-2xl mb-4">♿</div>
+            <h3 class="text-xl font-bold text-[#A32C2B] mb-3">Fully Accessible</h3>
+            <p class="text-gray-600">Built with WCAG AAA accessibility standards. Full keyboard navigation, screen reader support, and customizable interfaces.</p>
           </div>
-          <div class="keyrow">
-            <button>a</button><button>s</button><button>d</button><button>f</button><button>g</button><button>h</button><button>j</button><button>k</button><button>l</button>
+
+          <!-- Feature 2 -->
+          <div class="card">
+            <div class="w-12 h-12 bg-[#A32C2B] rounded-lg flex items-center justify-center text-2xl mb-4 text-white">🧠</div>
+            <h3 class="text-xl font-bold text-[#A32C2B] mb-3">Neurodivergent-Friendly</h3>
+            <p class="text-gray-600">Designed by and for neurodivergent learners. Includes dyslexia-friendly fonts, easy-read modes, and sensory-friendly visuals.</p>
           </div>
-          <div class="keyrow">
-            <button>z</button><button>x</button><button>c</button><button>v</button><button>b</button><button>n</button><button>m</button>
+
+          <!-- Feature 3 -->
+          <div class="card">
+            <div class="w-12 h-12 bg-[#FBBF24] rounded-lg flex items-center justify-center text-2xl mb-4">📚</div>
+            <h3 class="text-xl font-bold text-[#A32C2B] mb-3">Personalized Learning</h3>
+            <p class="text-gray-600">Your dashboard adapts to your learning style. Track progress, set goals, and learn at your own pace.</p>
           </div>
         </div>
-        <div id="scoreboard" class="section">
-          <ol>
-        <li class="tries"><img src="assets/images/liveHeart.svg" alt="Live Heart" style="width:64px;height:64px;border:2px solid #A32C2B;border-radius:50%;background:#eee;object-fit:contain;" /></li>
-              <li class="tries"><img src="assets/images/liveHeart.png" alt="Live Heart" style="width:64px;height:64px;border:2px solid #A32C2B;border-radius:50%;background:#eee;object-fit:contain;" /></li>
-              <li class="tries"><img src="assets/images/liveHeart.png" alt="Live Heart" style="width:64px;height:64px;border:2px solid #A32C2B;border-radius:50%;background:#eee;object-fit:contain;" /></li>
-              <li class="tries"><img src="assets/images/liveHeart.png" alt="Live Heart" style="width:64px;height:64px;border:2px solid #A32C2B;border-radius:50%;background:#eee;object-fit:contain;" /></li>
-              <li class="tries"><img src="assets/images/liveHeart.png" alt="Live Heart" style="width:64px;height:64px;border:2px solid #A32C2B;border-radius:50%;background:#eee;object-fit:contain;" /></li>
-          </ol>
-        </div>
-          <!-- Main Characters Graphic -->
-          <div style="margin:2em 0;text-align:center;">
-        <img src="assets/images/main-characters-windgap.png" alt="Main Characters: Andy, Daisy, Natalie, Winnie" style="max-width:100%;height:auto;border:2px solid #A32C2B;border-radius:16px;background:#f8f8f8;object-fit:contain;" />
-            <div style="color:#A32C2B;font-weight:bold;margin-top:0.5em;">Main Characters: Andy, Daisy, Natalie, Winnie (left to right)</div>
+
+        <!-- Stats Section -->
+        <div class="grid md:grid-cols-3 gap-8 bg-gray-50 p-12 rounded-xl">
+          <div class="text-center">
+            <div class="text-4xl font-bold text-[#A32C2B] mb-2">12,000+</div>
+            <div class="text-gray-600">Active Learners</div>
           </div>
+          <div class="text-center">
+            <div class="text-4xl font-bold text-[#5ED1D2] mb-2">150+</div>
+            <div class="text-gray-600">Learning Modules</div>
+          </div>
+          <div class="text-center">
+            <div class="text-4xl font-bold text-[#A32C2B] mb-2">98%</div>
+            <div class="text-gray-600">Satisfaction Rate</div>
+          </div>
+        </div>
       </div>
     </section>
-    <section class="flex flex-col items-center my-12">
-      <h2 class="text-3xl font-bold mb-4">Ready to start learning?</h2>
-      <button class="cta">Get Started</button>
-    </section>
-    <footer class="w-full bg-white py-6 mt-12 shadow text-center text-[#A32C2B]">
-      <div class="flex flex-col md:flex-row items-center justify-center gap-6">
-        <a href="#privacy" class="underline">Privacy Policy</a>
-        <a href="#terms" class="underline">Terms of Service</a>
-        <a href="#contact" class="underline">Contact</a>
+
+    <!-- Accessibility Tools Section -->
+    <section id="accessibility" class="py-20 bg-gray-50">
+      <div class="max-w-6xl mx-auto px-6">
+        <h2 class="text-4xl font-bold text-[#A32C2B] text-center mb-12">Accessibility Tools</h2>
+        
+        <div class="bg-white p-8 rounded-xl shadow-md max-w-2xl mx-auto">
+          <p class="text-gray-700 mb-6">Customize your learning experience with these accessibility features:</p>
+          
+          <div class="flex flex-wrap gap-4">
+            <button onclick="window.increaseFont()" class="bg-[#5ED1D2] text-white px-6 py-2 rounded-lg font-semibold hover:shadow-lg transition" aria-label="Increase font size">
+              A+ Increase Font
+            </button>
+            <button onclick="window.toggleDyslexiaFont()" class="bg-[#A32C2B] text-white px-6 py-2 rounded-lg font-semibold hover:shadow-lg transition" aria-label="Toggle dyslexia-friendly font">
+              Dyslexia Font
+            </button>
+            <button onclick="window.toggleEasyRead()" class="bg-[#FBBF24] text-gray-800 px-6 py-2 rounded-lg font-semibold hover:shadow-lg transition" aria-label="Toggle easy read mode">
+              Easy Read Mode
+            </button>
+          </div>
+        </div>
       </div>
-      <div class="mt-2 text-sm">&copy; 2025 Windgap Academy. All rights reserved.</div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 bg-gradient-to-r from-[#5ED1D2] to-[#A32C2B]">
+      <div class="max-w-4xl mx-auto px-6 text-center">
+        <h2 class="text-4xl font-bold text-white mb-6">Ready to Transform Your Learning?</h2>
+        <p class="text-white mb-8 text-lg">Join thousands of neurodivergent learners who are thriving with Windgap Academy.</p>
+        <button onclick="window.navigateTo('signin')" class="bg-white text-[#A32C2B] px-10 py-4 rounded-lg font-bold text-lg hover:shadow-lg transition">
+          Get Started Free Today
+        </button>
+      </div>
+    </section>
+
+    <!-- Support Section -->
+    <section id="support" class="py-20 bg-white">
+      <div class="max-w-6xl mx-auto px-6">
+        <h2 class="text-4xl font-bold text-[#A32C2B] text-center mb-12">Support & Resources</h2>
+        
+        <div class="grid md:grid-cols-2 gap-8">
+          <div class="card">
+            <h3 class="text-xl font-bold text-[#A32C2B] mb-3">Help Center</h3>
+            <p class="text-gray-600 mb-4">Find answers to common questions and get support from our dedicated team.</p>
+            <a href="#help" class="text-[#A32C2B] font-semibold hover:underline">Visit Help Center →</a>
+          </div>
+
+          <div class="card">
+            <h3 class="text-xl font-bold text-[#A32C2B] mb-3">Contact Us</h3>
+            <p class="text-gray-600 mb-4">Have feedback or questions? We'd love to hear from you. Reach out anytime.</p>
+            <a href="mailto:support@windgapacademy.com" class="text-[#A32C2B] font-semibold hover:underline">Contact Support →</a>
+          </div>
+
+          <div class="card">
+            <h3 class="text-xl font-bold text-[#A32C2B] mb-3">Documentation</h3>
+            <p class="text-gray-600 mb-4">Read our comprehensive documentation and guides to get the most out of Windgap.</p>
+            <a href="#docs" class="text-[#A32C2B] font-semibold hover:underline">View Documentation →</a>
+          </div>
+
+          <div class="card">
+            <h3 class="text-xl font-bold text-[#A32C2B] mb-3">Community</h3>
+            <p class="text-gray-600 mb-4">Join our community to connect with other learners and share experiences.</p>
+            <a href="#community" class="text-[#A32C2B] font-semibold hover:underline">Join Community →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+      <div class="max-w-6xl mx-auto px-6">
+        <div class="grid md:grid-cols-4 gap-8 mb-8">
+          <div>
+            <div class="flex items-center gap-2 mb-4">
+              <div class="w-10 h-10 rounded-lg bg-[#5ED1D2] flex items-center justify-center font-bold">W</div>
+              <span class="font-bold text-lg">Windgap Academy</span>
+            </div>
+            <p class="text-gray-400 text-sm">Accessible learning for neurodivergent minds.</p>
+          </div>
+
+          <div>
+            <h4 class="font-bold mb-4">Product</h4>
+            <ul class="space-y-2 text-sm text-gray-400">
+              <li><a href="#" class="hover:text-white transition">Features</a></li>
+              <li><a href="#" class="hover:text-white transition">Pricing</a></li>
+              <li><a href="#" class="hover:text-white transition">Blog</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="font-bold mb-4">Company</h4>
+            <ul class="space-y-2 text-sm text-gray-400">
+              <li><a href="#" class="hover:text-white transition">About</a></li>
+              <li><a href="#" class="hover:text-white transition">Careers</a></li>
+              <li><a href="#" class="hover:text-white transition">Contact</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="font-bold mb-4">Legal</h4>
+            <ul class="space-y-2 text-sm text-gray-400">
+              <li><a href="#privacy" class="hover:text-white transition">Privacy Policy</a></li>
+              <li><a href="#terms" class="hover:text-white transition">Terms of Service</a></li>
+              <li><a href="#accessibility" class="hover:text-white transition">Accessibility</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="border-t border-gray-700 pt-8 text-center text-gray-400 text-sm">
+          <p>&copy; 2025 Windgap Academy. All rights reserved.</p>
+        </div>
+      </div>
     </footer>
-    </section>
-  <script type="module" src="js/winniesWords.jsx"></script> <!-- Confirmed valid module path and MIME type for Vite static deployment. -->
-  <!-- All button and module logic is now handled in app.js for consistency and maintainability. -->
-      <div id="app"></div>
-      <nav style="margin: 2em 0; text-align: center;">
-        <button onclick="showFeature('avatar')">Avatar Creator</button>
-        <button onclick="showFeature('stairs')">Climbing Stairs Animation</button>
-        <button onclick="showFeature('island')">Max Area of Island Animation</button>
-        <button onclick="showFeature('cube')">Cube Map 3D Demo <span class="coming-soon" aria-hidden="true">(Coming Soon)</span></button>
-        <button onclick="showFeature('kitchen')">Healthy Kitchen Challenge <span class="coming-soon" aria-hidden="true">(Coming Soon)</span></button>
-        <button onclick="showFeature('foodcollector')">Food Collector Environment</button>
-        <button onclick="showFeature('zoo')">Academy Zoo Environment</button>
-        <button onclick="showFeature('fluid')">Fluid Simulation <span class="coming-soon" aria-hidden="true">(Coming Soon)</span></button>
-        <button onclick="showFeature('dashboard')">Results Dashboard</button>
-        <button onclick="showFeature('whiteboard')">Whiteboard</button>
-      </nav>
-      <main>
-        <div id="feature-container" style="width: 100%; min-height: 500px; background: #fff; border-radius: 12px; box-shadow: 0 2px 16px #0001; margin: auto; max-width: 1200px; padding: 2em;"></div>
-      </main>
-      <script type="module" src="js/featureLoader.js"></script>
+
+    <!-- App Container (for future dashboard routing) -->
+    <div id="app" style="display: none;"></div>
+
+    <!-- Module Scripts -->
+    <script type="module" src="main.js"></script>
+    <script type="module" src="js/themes.js"></script>
+    <script type="module" src="js/accessibility.js"></script>
+
     </body>
   </html>
