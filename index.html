@@ -13,7 +13,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/howler"></script>
-    
+
     <script src="https://browser.sentry-cdn.com/7.100.0/bundle.min.js" crossorigin="anonymous"></script>
     <script>
       Sentry.init({ dsn: window.env && window.env.SENTRY_DSN ? window.env.SENTRY_DSN : '' });
@@ -25,7 +25,7 @@
       gtag('js', new Date());
       gtag('config', 'UA-XXXXXXXXX-X');
     </script>
-    
+
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-analytics-compat.js"></script>
@@ -56,7 +56,7 @@
   <script type="module" src="js/videoPlayer.js"></script>
   <script type="module" src="js/accessibility.js"></script>
   <script type="module" src="js/showFeature.js"></script>
-  <script src="js/showFeature.global.js"></script>
+  <script type="module" src="js/showFeature.global.js"></script>
   </head>
   <body aria-label="Windgap Academy Entry" role="main" style="background: #5ED1D2; color: #A32C2B; min-height: 100vh;">
     <header class="flex items-center justify-between px-8 py-4 bg-white shadow">
@@ -89,7 +89,7 @@
     </nav>
     <div class="hero-section relative flex flex-col items-center justify-center min-h-[60vh] bg-gradient-to-br from-[#5ED1D2] via-[#A32C2B] to-[#FBBF24] overflow-hidden">
       <!-- Interactive Featured Modules Carousel -->
-      <div class="carousel w-full max-w-2xl mb-6 flex items-center justify-center" id="featured-carousel">
+      <div class="carousel w-full max-w-2xl mb-6 flex items-center justify-center" id="featured-carousel-hero">
         <button class="carousel-control" aria-label="Previous Module">&#8592;</button>
         <div class="carousel-slide flex-1 text-center">
           <h3 class="text-2xl font-bold text-white">Math Quest</h3>
@@ -98,26 +98,26 @@
         <button class="carousel-control" aria-label="Next Module">&#8594;</button>
       </div>
       <!-- Progress Bars for Achievements -->
-      <div class="progress-tracker w-full max-w-md mb-4 flex flex-col gap-2" id="progress-tracker">
+      <div class="progress-tracker w-full max-w-md mb-4 flex flex-col gap-2" id="progress-tracker-hero">
         <div class="flex items-center justify-between"><span>Math Quest</span><span>80%</span></div>
         <div class="w-full bg-gray-200 rounded-full h-2"><div class="bg-[#A32C2B] h-2 rounded-full" style="width:80%"></div></div>
         <div class="flex items-center justify-between"><span>Reading Adventure</span><span>60%</span></div>
         <div class="w-full bg-gray-200 rounded-full h-2"><div class="bg-[#5ED1D2] h-2 rounded-full" style="width:60%"></div></div>
       </div>
       <!-- Leaderboard -->
-      <div class="leaderboard w-full max-w-md mb-4 bg-white/80 rounded-lg shadow p-4" id="homepage-leaderboard">
+      <div class="leaderboard w-full max-w-md mb-4 bg-white/80 rounded-lg shadow p-4" id="homepage-leaderboard-hero">
         <h3 class="text-xl font-bold text-[#A32C2B] mb-2">Top Learners</h3>
 
-  <div class="carousel w-full max-w-2xl mb-6" id="featured-carousel">
+  <div class="carousel w-full max-w-2xl mb-6" id="featured-carousel-sidebar">
           <!-- Carousel for featured modules, auto-rotating -->
         </div>
         <div class="badges flex gap-3 mb-4" id="achievement-badges">
           <!-- User achievement badges -->
         </div>
-        <div class="progress-tracker w-full max-w-md mb-4" id="progress-tracker">
+        <div class="progress-tracker w-full max-w-md mb-4" id="progress-tracker-sidebar">
           <!-- Progress tracker for modules -->
         </div>
-        <div class="leaderboard w-full max-w-md mb-4" id="homepage-leaderboard">
+        <div class="leaderboard w-full max-w-md mb-4" id="homepage-leaderboard-sidebar">
           <!-- Recent winners leaderboard -->
         </div>
         <div class="challenge-block w-full max-w-md mb-4" id="daily-challenge">
@@ -175,7 +175,7 @@
         </div>
         <div id="banner" class="section">
           <h2 class="header">Guess This</h2>
-          <h3 id="score">Wins:0</h3><h3 id="score">Losses:0</h3>
+          <h3 id="score-wins">Wins:0</h3><h3 id="score-losses">Losses:0</h3>
         </div>
         <div id="phrase" class="section"><ul></ul></div>
         <div id="qwerty" class="section">
