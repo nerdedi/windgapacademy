@@ -1,17 +1,17 @@
-import {
-  Home,
-  BookOpen,
-  Trophy,
-  Play,
-  Settings,
-  Bell,
-  Search,
-  Flame,
-  Star,
-  Menu,
-  X,
-} from "lucide-react";
 import React, { useState } from "react";
+import {
+    FaBell as Bell,
+    FaBook as BookOpen,
+    FaFire as Flame,
+    FaHome as Home,
+    FaBars as Menu,
+    FaPlay as Play,
+    FaSearch as Search,
+    FaCog as Settings,
+    FaStar as Star,
+    FaTrophy as Trophy,
+    FaTimes as X,
+} from "react-icons/fa";
 
 import { Avatar, AvatarFallback } from "./ui/avatar";
 import { Badge } from "./ui/badge";

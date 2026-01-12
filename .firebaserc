@@ -1,5 +1,3 @@
 {
-  "projects": {
-    "default": "your_project_id"
-  }
+  "projects": {}
 }
