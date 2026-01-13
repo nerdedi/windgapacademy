@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import GameProvider from "../components/GameModules/GameManager";
-import { loginUser, auth } from "../firebase.js";
+import { auth, loginUser } from "../firebase.js";
 
 import { validateEmail, validatePassword } from "./app/authUtils";
 import ErrorBoundary from "./app/ErrorBoundary";
 import AppRouter from "./app/Router";
-import useRoute from "./app/routing";
+import { useRoute } from "./app/routing";
 import { UserProvider, useUser } from "./app/UserContext";
 import { GamificationProvider } from "./contexts/GamificationContext";
 import { LessonProvider } from "./contexts/LessonContext";
