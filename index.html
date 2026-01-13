@@ -35,8 +35,26 @@
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-analytics-compat.js"></script>
     <script>
-      if (window.env && window.env.FIREBASE_CONFIG && window.firebase) {
-        firebase.initializeApp(window.env.FIREBASE_CONFIG);
+      // Initialize Firebase with real config
+      window.firebaseReady = false;
+      try {
+        var firebaseConfig = {
+          apiKey: "***REMOVED***",
+          authDomain: "windgap-academy.firebaseapp.com",
+          projectId: "windgap-academy",
+          storageBucket: "windgap-academy.appspot.com",
+          messagingSenderId: "438303886042",
+          appId: "1:438303886042:web:19b166df519870baa433e3",
+          measurementId: "G-FXR0TX8S6X"
+        };
+
+        if (window.firebase) {
+          firebase.initializeApp(firebaseConfig);
+          window.firebaseReady = true;
+          console.log('Firebase initialized successfully');
+        }
+      } catch (e) {
+        console.log('Firebase initialization error:', e.message);
       }
     </script>
 
@@ -137,13 +155,15 @@
           submitBtn.textContent = 'Signing in...';
 
           try {
-            if (window.firebase && window.firebase.auth) {
+            if (window.firebaseReady && window.firebase && window.firebase.auth) {
               await window.firebase.auth().signInWithEmailAndPassword(email, password);
+              const user = { email: email, isDemo: false, name: email.split('@')[0], role: 'learner' };
+              localStorage.setItem('windgap_user', JSON.stringify(user));
               modal.remove();
-              window.location.href = '#/dashboard';
-              location.reload();
+              window.showDashboard(user);
             } else {
-              errorDiv.textContent = 'Firebase not initialized. Please try demo login.';
+              // Firebase not configured - use demo mode
+              errorDiv.textContent = 'Firebase not configured. Please use the demo login buttons below.';
               errorDiv.style.display = 'block';
             }
           } catch (err) {
@@ -163,15 +183,123 @@
       window.demoLogin = function(role) {
         const modal = document.getElementById('signin-modal');
         if (modal) modal.remove();
-        
+
         // Store demo user info
-        localStorage.setItem('windgap_user', JSON.stringify({ role: role, isDemo: true, name: role === 'educator' ? 'Demo Educator' : 'Demo Learner' }));
-        
-        // Show success message and redirect
-        alert('Logged in as Demo ' + (role === 'educator' ? 'Educator' : 'Learner') + '!');
-        window.location.href = '#/dashboard';
-        location.reload();
+        const user = { role: role, isDemo: true, name: role === 'educator' ? 'Demo Educator' : 'Demo Learner' };
+        localStorage.setItem('windgap_user', JSON.stringify(user));
+
+        // Show dashboard directly
+        window.showDashboard(user);
       };
+
+      // Show Dashboard
+      window.showDashboard = function(user) {
+        if (!user) {
+          const stored = localStorage.getItem('windgap_user');
+          user = stored ? JSON.parse(stored) : null;
+        }
+        if (!user) {
+          window.navigateTo('signin');
+          return;
+        }
+
+        const isEducator = user.role === 'educator';
+        const mainContent = document.querySelector('main') || document.body;
+
+        // Hide hero sections and show dashboard
+        document.querySelectorAll('section').forEach(s => s.style.display = 'none');
+        document.querySelector('footer').style.display = 'none';
+
+        // Create dashboard
+        let dashboard = document.getElementById('dashboard-view');
+        if (!dashboard) {
+          dashboard = document.createElement('div');
+          dashboard.id = 'dashboard-view';
+          document.body.insertBefore(dashboard, document.querySelector('footer'));
+        }
+
+        dashboard.style.display = 'block';
+        dashboard.innerHTML =
+          '<div style="max-width:1200px;margin:0 auto;padding:2rem;">' +
+            '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem;">' +
+              '<h1 style="font-size:2rem;font-weight:bold;color:#A32C2B;">' +
+                'Welcome, ' + user.name + '! ' +
+                '<span style="font-size:1rem;background:' + (isEducator ? '#FBBF24' : '#5ED1D2') + ';color:' + (isEducator ? '#333' : 'white') + ';padding:0.25rem 0.75rem;border-radius:1rem;margin-left:0.5rem;">' +
+                  (isEducator ? '👨‍🏫 Educator' : '🎓 Learner') +
+                '</span>' +
+              '</h1>' +
+              '<button onclick="window.logout()" style="padding:0.5rem 1rem;background:#dc2626;color:white;border:none;border-radius:0.5rem;cursor:pointer;font-weight:500;">' +
+                'Sign Out' +
+              '</button>' +
+            '</div>' +
+            '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;margin-bottom:2rem;">' +
+              '<div style="background:linear-gradient(135deg,#5ED1D2,#3BA9AA);padding:1.5rem;border-radius:1rem;color:white;">' +
+                '<h3 style="font-size:1.25rem;font-weight:bold;margin-bottom:0.5rem;">📚 Winnie\'s Words</h3>' +
+                '<p style="margin-bottom:1rem;opacity:0.9;">Practice vocabulary and spelling with Winnie!</p>' +
+                '<button onclick="window.launchGame(\'winnies-words\')" style="background:white;color:#3BA9AA;padding:0.5rem 1rem;border:none;border-radius:0.5rem;cursor:pointer;font-weight:600;">' +
+                  'Play Now' +
+                '</button>' +
+              '</div>' +
+              '<div style="background:linear-gradient(135deg,#A32C2B,#8b2423);padding:1.5rem;border-radius:1rem;color:white;">' +
+                '<h3 style="font-size:1.25rem;font-weight:bold;margin-bottom:0.5rem;">🔢 Math Quest</h3>' +
+                '<p style="margin-bottom:1rem;opacity:0.9;">Solve math puzzles and earn rewards!</p>' +
+                '<button onclick="window.launchGame(\'math-quest\')" style="background:white;color:#A32C2B;padding:0.5rem 1rem;border:none;border-radius:0.5rem;cursor:pointer;font-weight:600;">' +
+                  'Play Now' +
+                '</button>' +
+              '</div>' +
+              '<div style="background:linear-gradient(135deg,#FBBF24,#d99e1b);padding:1.5rem;border-radius:1rem;color:#333;">' +
+                '<h3 style="font-size:1.25rem;font-weight:bold;margin-bottom:0.5rem;">🎨 Avatar Builder</h3>' +
+                '<p style="margin-bottom:1rem;opacity:0.8;">Create your own custom avatar!</p>' +
+                '<button onclick="window.launchGame(\'avatar\')" style="background:white;color:#d99e1b;padding:0.5rem 1rem;border:none;border-radius:0.5rem;cursor:pointer;font-weight:600;">' +
+                  'Create' +
+                '</button>' +
+              '</div>' +
+            '</div>' +
+            (isEducator ?
+            '<div style="background:#f8fafc;padding:1.5rem;border-radius:1rem;border:1px solid #e2e8f0;">' +
+              '<h3 style="font-size:1.25rem;font-weight:bold;color:#A32C2B;margin-bottom:1rem;">📊 Educator Tools</h3>' +
+              '<div style="display:flex;gap:1rem;flex-wrap:wrap;">' +
+                '<button style="padding:0.75rem 1.5rem;background:#A32C2B;color:white;border:none;border-radius:0.5rem;cursor:pointer;">View Student Progress</button>' +
+                '<button style="padding:0.75rem 1.5rem;background:#5ED1D2;color:white;border:none;border-radius:0.5rem;cursor:pointer;">Create Assignment</button>' +
+                '<button style="padding:0.75rem 1.5rem;background:#FBBF24;color:#333;border:none;border-radius:0.5rem;cursor:pointer;">Class Reports</button>' +
+              '</div>' +
+            '</div>'
+            :
+            '<div style="background:#f8fafc;padding:1.5rem;border-radius:1rem;border:1px solid #e2e8f0;">' +
+              '<h3 style="font-size:1.25rem;font-weight:bold;color:#A32C2B;margin-bottom:1rem;">🏆 Your Progress</h3>' +
+              '<div style="display:flex;gap:2rem;flex-wrap:wrap;">' +
+                '<div><strong>Games Played:</strong> 12</div>' +
+                '<div><strong>Points Earned:</strong> 450</div>' +
+                '<div><strong>Current Streak:</strong> 🔥 3 days</div>' +
+              '</div>' +
+            '</div>'
+            ) +
+          '</div>';
+
+        window.location.hash = '/dashboard';
+      };
+
+      // Logout
+      window.logout = function() {
+        localStorage.removeItem('windgap_user');
+        window.location.hash = '';
+        window.location.reload();
+      };
+
+      // Launch game placeholder
+      window.launchGame = function(game) {
+        alert('Launching ' + game + '... (Coming soon!)');
+      };
+
+      // Check for existing login on page load
+      window.checkAuth = function() {
+        const hash = window.location.hash;
+        const user = localStorage.getItem('windgap_user');
+        if (hash === '#/dashboard' && user) {
+          window.showDashboard(JSON.parse(user));
+        }
+      };
+
 
       // Fallback screen
       if (!window.showFallbackScreen) {
@@ -187,16 +315,20 @@
         };
       }
 
-      // Restore accessibility preferences
-      if (localStorage.getItem('dyslexia-font') === 'true') {
-        document.body.classList.add('dyslexia-font');
-      }
-      if (localStorage.getItem('easy-read') === 'true') {
-        document.body.classList.add('easy-read');
-      }
+      // Restore accessibility preferences (deferred to when DOM is ready)
+      window.restoreAccessibilityPrefs = function() {
+        if (document.body) {
+          if (localStorage.getItem('dyslexia-font') === 'true') {
+            document.body.classList.add('dyslexia-font');
+          }
+          if (localStorage.getItem('easy-read') === 'true') {
+            document.body.classList.add('easy-read');
+          }
+        }
+      };
     </script>
   </head>
-  <body class="bg-white text-gray-800" style="font-family: 'Inter', sans-serif;">
+  <body class="bg-white text-gray-800" style="font-family: 'Inter', sans-serif;" onload="window.restoreAccessibilityPrefs(); window.checkAuth()">
     <!-- Navigation Header -->
     <!-- Navigation Header -->
     <header class="sticky top-0 z-50 bg-white shadow-md">
