@@ -25,39 +25,5 @@
       "enabled": true,
       "tools": ["list_networks", "prune", "act_image"]
     }
-  },
-  "chat": {
-    "tools": {
-      "enabled": [
-        "file_search",
-        "grep_search",
-        "semantic_search",
-        "read_file",
-        "create_file",
-        "replace_string_in_file",
-        "multi_replace_string_in_file",
-        "run_in_terminal",
-        "get_terminal_output",
-        "terminal_last_command",
-        "list_dir",
-        "list_code_usages",
-        "get_errors",
-        "get_changed_files",
-        "runTests",
-        "run_notebook_cell",
-        "edit_notebook_file",
-        "manage_todo_list",
-        "fetch_webpage",
-        "open_simple_browser",
-        "create_and_run_task"
-      ],
-      "disabled": [
-        "azure_ai_model_management",
-        "azure_authentication_management",
-        "azure_tenant_and_subscription_management",
-        "azure_deployment_and_logging_tools",
-        "sonarqube_analysis_tools"
-      ]
-    }
   }
 }

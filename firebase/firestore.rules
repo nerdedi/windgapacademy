@@ -2,17 +2,72 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
+    // Helper functions for role checking
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    function getUserRole() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role;
+    }
+
+    function isEducator() {
+      return isAuthenticated() && (getUserRole() == "educator" || getUserRole() == "trainer");
+    }
+
+    function isValidUserData() {
+      return request.resource.data.keys().hasAll(['email', 'role']) &&
+             request.resource.data.role in ['learner', 'educator', 'trainer', 'parent'];
+    }
+
+    function isValidProgressData() {
+      return request.resource.data.keys().hasOnly(['gameId', 'score', 'level', 'completedAt', 'userId']) &&
+             request.resource.data.score is number &&
+             request.resource.data.score >= 0;
+    }
+
+    // User profiles - users can only read/write their own data
     match /users/{userId} {
-      allow read, write: if request.auth.uid == userId;
+      allow read: if isOwner(userId);
+      allow create: if isOwner(userId) && isValidUserData();
+      allow update: if isOwner(userId) && isValidUserData();
+      allow delete: if false; // Prevent accidental deletion
     }
 
-    match /progress/{userId} {
-      allow read, write: if request.auth.uid == userId;
+    // Progress tracking - users can only access their own progress
+    match /progress/{progressId} {
+      allow read: if isAuthenticated() && resource.data.userId == request.auth.uid;
+      allow create: if isAuthenticated() && request.resource.data.userId == request.auth.uid && isValidProgressData();
+      allow update: if isAuthenticated() && resource.data.userId == request.auth.uid && isValidProgressData();
+      allow delete: if false;
     }
 
+    // Assignments - educators can create/edit, learners can only read
     match /assignments/{assignmentId} {
-      allow read: if request.auth.uid != null;
-  allow write: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "educator" || get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "trainer";
+      allow read: if isAuthenticated();
+      allow create: if isEducator();
+      allow update: if isEducator();
+      allow delete: if isEducator();
+    }
+
+    // Public content (lessons, games) - read-only for authenticated users
+    match /lessons/{lessonId} {
+      allow read: if isAuthenticated();
+      allow write: if isEducator();
+    }
+
+    match /games/{gameId} {
+      allow read: if isAuthenticated();
+      allow write: if false; // Only admin via console
+    }
+
+    // Deny all other access by default
+    match /{document=**} {
+      allow read, write: if false;
     }
   }
 }
