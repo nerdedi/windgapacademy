@@ -1,16 +1,19 @@
 import React, { useState } from "react";
 import {
-    FaBell as Bell,
-    FaBook as BookOpen,
-    FaFire as Flame,
-    FaHome as Home,
-    FaBars as Menu,
-    FaPlay as Play,
-    FaSearch as Search,
-    FaCog as Settings,
-    FaStar as Star,
-    FaTrophy as Trophy,
-    FaTimes as X,
+  FaBell as Bell,
+  FaBook as BookOpen,
+  FaFire as Flame,
+  FaGamepad as Gamepad,
+  FaGlobe as Globe,
+  FaHome as Home,
+  FaBars as Menu,
+  FaPlay as Play,
+  FaSearch as Search,
+  FaCog as Settings,
+  FaStar as Star,
+  FaTrophy as Trophy,
+  FaUser as User,
+  FaTimes as X,
 } from "react-icons/fa";
 
 import { Avatar, AvatarFallback } from "./ui/avatar";
@@ -24,7 +27,10 @@ export function Navigation({ currentView, onViewChange }) {
     { id: "dashboard", label: "Dashboard", icon: Home },
     { id: "courses", label: "Courses", icon: BookOpen },
     { id: "lesson", label: "Learn", icon: Play },
+    { id: "games", label: "Games", icon: Gamepad },
+    { id: "virtual", label: "Virtual World", icon: Globe },
     { id: "leaderboard", label: "Leaderboard", icon: Trophy },
+    { id: "avatar", label: "Avatar", icon: User },
   ];
 
   const userStats = {
