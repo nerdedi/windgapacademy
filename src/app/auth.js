@@ -1,24 +1,15 @@
 // Lightweight auth wrappers to centralize authentication logic.
-const { auth } = require("../../firebase.js");
-const { signInWithEmailAndPassword, signOut: fbSignOut } = (() => {
-  try {
-    // lazy require to avoid breaking environments without firebase installed
-    // eslint-disable-next-line global-require
-    const a = require("firebase/auth");
-    return { signInWithEmailAndPassword: a.signInWithEmailAndPassword, signOut: a.signOut };
-  } catch (e) {
-    return {};
-  }
-})();
+import { signInWithEmailAndPassword, signOut as fbSignOut } from "firebase/auth";
+import { auth } from "../../firebase.js";
 
-async function signInEmail(email, password) {
+export async function signInEmail(email, password) {
   if (!auth || !signInWithEmailAndPassword) {
     throw new Error("Firebase auth is not available in this environment");
   }
   return signInWithEmailAndPassword(auth, email, password);
 }
 
-async function signOutUser() {
+export async function signOutUser() {
   if (!auth || !fbSignOut) return;
   try {
     await fbSignOut(auth);
@@ -27,5 +18,3 @@ async function signOutUser() {
     console.error("Failed to sign out", e);
   }
 }
-
-module.exports = { signInEmail, signOutUser };

@@ -1,9 +1,8 @@
 import { onAuthStateChanged } from "firebase/auth";
 import React, { createContext, useContext, useEffect, useState } from "react";
 
-// Use a small runtime wrapper around firebase that matches other helpers
-// and avoids implicit any when TypeScript checks imports.
-import { auth as typedAuth } from "../lib/firebaseClient.js";
+// Import Firebase auth directly from the project's central firebase.js
+import { auth as typedAuth } from "../../firebase.js";
 
 import { signOutUser } from "./auth.js";
 import { getUserDoc, setUserDoc } from "./firestoreClient.js";

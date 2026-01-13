@@ -1,4 +1,4 @@
-function normalizeRole(r) {
+export function normalizeRole(r) {
   if (!r) return undefined;
   const s = String(r).trim().toLowerCase();
   if (!s) return undefined;
@@ -7,5 +7,3 @@ function normalizeRole(r) {
   if (s === "educator" || s === "learner") return s;
   return s;
 }
-
-module.exports = { normalizeRole };
