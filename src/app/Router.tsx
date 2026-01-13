@@ -71,7 +71,6 @@ export default function AppRouter() {
             <Route path="/game" element={<GamePlayground />} />
             <Route path="/assignments" element={<div>Assignments</div>} />
             <Route path="/materials" element={<div>Materials</div>} />
-            <Route path="/" element={<Navigate to="/supermarket" />} />
             <Route path="/supermarket" element={<SupermarketSimulation />} />
             <Route path="/clubhouse" element={<ClubhouseSimulation />} />
             <Route path="/kitchen" element={<KitchenSimulation />} />
