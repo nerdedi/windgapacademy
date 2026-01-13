@@ -1,5 +1,5 @@
+import { copyFileSync, cpSync, existsSync, mkdirSync } from "fs";
 import path from "path";
-import { copyFileSync, cpSync, mkdirSync, existsSync } from "fs";
 
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
