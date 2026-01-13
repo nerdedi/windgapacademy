@@ -18,7 +18,7 @@ const ACSF_SKILLS_OPTIONS = [
   "Writing",
   "Oral Communication",
   "Numeracy",
-  "Learning"
+  "Learning",
 ] as const;
 
 const AUTO_SAVE_DELAY = 2000; // 2 seconds
@@ -26,11 +26,13 @@ const AUTO_SAVE_DELAY = 2000; // 2 seconds
 export default function CurriculumEditor({ topic }: Props) {
   // Ensure defaults to avoid uncontrolled → controlled warnings
   const [metadata, setMetadata] = useState<CurriculumTopic>(() => normalizeTopicMetadata(topic));
-  const [originalMetadata, setOriginalMetadata] = useState<CurriculumTopic>(() => normalizeTopicMetadata(topic));
+  const [originalMetadata, setOriginalMetadata] = useState<CurriculumTopic>(() =>
+    normalizeTopicMetadata(topic),
+  );
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const [isDirty, setIsDirty] = useState(false);
-  const autoSaveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const autoSaveTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Check if form has unsaved changes
   const hasUnsavedChanges = isDirty && !saving;
@@ -42,6 +44,57 @@ export default function CurriculumEditor({ topic }: Props) {
     setOriginalMetadata(normalizedTopic);
     setIsDirty(false);
   }, [topic]);
+
+  // Check if metadata has changed from original
+  const checkDirtyState = useCallback(
+    (newMetadata: CurriculumTopic) => {
+      const isDifferent = JSON.stringify(newMetadata) !== JSON.stringify(originalMetadata);
+      setIsDirty(isDifferent);
+    },
+    [originalMetadata],
+  );
+
+  const handleSave = useCallback(
+    async (isAutoSave = false) => {
+      // Enhanced form validation
+      if (!metadata.topicId?.trim()) {
+        if (!isAutoSave) setMessage("Missing topicId.");
+        return;
+      }
+      if (!metadata.title?.trim()) {
+        if (!isAutoSave) setMessage("Title is required.");
+        return;
+      }
+
+      setSaving(true);
+      if (!isAutoSave) setMessage(null);
+
+      try {
+        const db = getFirestore();
+        const ref = doc(db, "curriculum", metadata.topicId);
+        // Use merge to preserve fields that aren't present in metadata
+        await setDoc(ref, metadata, { merge: true });
+
+        setOriginalMetadata(metadata);
+        setIsDirty(false);
+
+        if (isAutoSave) {
+          setMessage("Auto-saved ✓");
+          // Clear auto-save message after 2 seconds
+          setTimeout(() => setMessage(null), 2000);
+        } else {
+          setMessage("Curriculum saved successfully!");
+        }
+      } catch (err: unknown) {
+        console.error("Save error:", err);
+        const msg = err instanceof Error ? err.message : String(err);
+        setMessage(`Save failed: ${msg}`);
+      } finally {
+        setSaving(false);
+      }
+    },
+    [metadata],
+  );
 
   // Auto-save functionality
   useEffect(() => {
@@ -59,7 +112,7 @@ export default function CurriculumEditor({ topic }: Props) {
         clearTimeout(autoSaveTimeoutRef.current);
       }
     };
-  }, [metadata, isDirty]);
+  }, [metadata, isDirty, handleSave]);
 
   // Warn user about unsaved changes before leaving
   useEffect(() => {
@@ -73,51 +126,6 @@ export default function CurriculumEditor({ topic }: Props) {
     window.addEventListener("beforeunload", handleBeforeUnload);
     return () => window.removeEventListener("beforeunload", handleBeforeUnload);
   }, [hasUnsavedChanges]);
-
-  // Check if metadata has changed from original
-  const checkDirtyState = useCallback((newMetadata: CurriculumTopic) => {
-    const isDifferent = JSON.stringify(newMetadata) !== JSON.stringify(originalMetadata);
-    setIsDirty(isDifferent);
-  }, [originalMetadata]);
-
-  const handleSave = useCallback(async (isAutoSave = false) => {
-    // Enhanced form validation
-    if (!metadata.topicId?.trim()) {
-      if (!isAutoSave) setMessage("Missing topicId.");
-      return;
-    }
-    if (!metadata.title?.trim()) {
-      if (!isAutoSave) setMessage("Title is required.");
-      return;
-    }
-
-    setSaving(true);
-    if (!isAutoSave) setMessage(null);
-
-    try {
-      const db = getFirestore();
-      const ref = doc(db, "curriculum", metadata.topicId);
-      // Use merge to preserve fields that aren't present in metadata
-      await setDoc(ref, metadata, { merge: true });
-
-      setOriginalMetadata(metadata);
-      setIsDirty(false);
-
-      if (isAutoSave) {
-        setMessage("Auto-saved ✓");
-        // Clear auto-save message after 2 seconds
-        setTimeout(() => setMessage(null), 2000);
-      } else {
-        setMessage("Curriculum saved successfully!");
-      }
-    } catch (err: unknown) {
-      console.error("Save error:", err);
-      const msg = err instanceof Error ? err.message : String(err);
-      setMessage(`Save failed: ${msg}`);
-    } finally {
-      setSaving(false);
-    }
-  }, [metadata]);
 
   const onTitleChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -134,22 +142,28 @@ export default function CurriculumEditor({ topic }: Props) {
     [message, metadata, checkDirtyState],
   );
 
-  const onSkillsChange = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
-    const values = Array.from(e.target.selectedOptions, (o) => o.value);
-    const newMetadata = { ...metadata, acsfSkills: values };
-    setMetadata(newMetadata);
-    checkDirtyState(newMetadata);
-  }, [metadata, checkDirtyState]);
+  const onSkillsChange = useCallback(
+    (e: React.ChangeEvent<HTMLSelectElement>) => {
+      const values = Array.from(e.target.selectedOptions, (o) => o.value);
+      const newMetadata = { ...metadata, acsfSkills: values };
+      setMetadata(newMetadata);
+      checkDirtyState(newMetadata);
+    },
+    [metadata, checkDirtyState],
+  );
 
   // Keyboard shortcuts
-  const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
-    if (e.ctrlKey || e.metaKey) {
-      if (e.key === 's') {
-        e.preventDefault();
-        handleSave();
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent) => {
+      if (e.ctrlKey || e.metaKey) {
+        if (e.key === "s") {
+          e.preventDefault();
+          handleSave();
+        }
       }
-    }
-  }, [handleSave]);
+    },
+    [handleSave],
+  );
 
   return (
     <div className="max-w-md p-6 mx-auto bg-white rounded-lg shadow-md" onKeyDown={handleKeyDown}>
@@ -200,9 +214,7 @@ export default function CurriculumEditor({ topic }: Props) {
             </option>
           ))}
         </select>
-        <span className="block mt-1 text-xs text-gray-500">
-          Hold Ctrl/Cmd to select multiple
-        </span>
+        <span className="block mt-1 text-xs text-gray-500">Hold Ctrl/Cmd to select multiple</span>
       </label>
 
       {message && (
@@ -211,8 +223,8 @@ export default function CurriculumEditor({ topic }: Props) {
             message.startsWith("Save failed")
               ? "bg-red-100 text-red-700"
               : message.includes("Auto-saved")
-              ? "bg-blue-100 text-blue-700"
-              : "bg-green-100 text-green-700"
+                ? "bg-blue-100 text-blue-700"
+                : "bg-green-100 text-green-700"
           }`}
           role="alert"
           aria-live="polite"
