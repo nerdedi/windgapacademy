@@ -192,6 +192,152 @@
         window.showDashboard(user);
       };
 
+      // Create Account Modal
+      window.showCreateAccountModal = function() {
+        // Remove existing modal if any
+        const existing = document.getElementById('signup-modal');
+        if (existing) existing.remove();
+
+        const modal = document.createElement('div');
+        modal.id = 'signup-modal';
+        modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:9999;';
+        modal.innerHTML = `
+          <div style="background:white;padding:2rem;border-radius:1rem;max-width:450px;width:90%;box-shadow:0 4px 24px rgba(0,0,0,0.2);max-height:90vh;overflow-y:auto;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;">
+              <h2 style="font-size:1.5rem;font-weight:bold;color:#5ED1D2;margin:0;">Create Account</h2>
+              <button onclick="document.getElementById('signup-modal').remove()" style="background:none;border:none;font-size:1.5rem;cursor:pointer;color:#666;">&times;</button>
+            </div>
+            <form id="signup-form">
+              <div style="margin-bottom:1rem;">
+                <label for="signup-name" style="display:block;margin-bottom:0.5rem;font-weight:500;">Full Name</label>
+                <input type="text" id="signup-name" placeholder="Your name" required
+                  style="width:100%;padding:0.75rem;border:1px solid #ddd;border-radius:0.5rem;font-size:1rem;box-sizing:border-box;">
+              </div>
+              <div style="margin-bottom:1rem;">
+                <label for="signup-email" style="display:block;margin-bottom:0.5rem;font-weight:500;">Email</label>
+                <input type="email" id="signup-email" placeholder="your@email.com" required
+                  style="width:100%;padding:0.75rem;border:1px solid #ddd;border-radius:0.5rem;font-size:1rem;box-sizing:border-box;">
+              </div>
+              <div style="margin-bottom:1rem;">
+                <label for="signup-password" style="display:block;margin-bottom:0.5rem;font-weight:500;">Password</label>
+                <input type="password" id="signup-password" placeholder="At least 6 characters" required minlength="6"
+                  style="width:100%;padding:0.75rem;border:1px solid #ddd;border-radius:0.5rem;font-size:1rem;box-sizing:border-box;">
+              </div>
+              <div style="margin-bottom:1rem;">
+                <label for="signup-confirm" style="display:block;margin-bottom:0.5rem;font-weight:500;">Confirm Password</label>
+                <input type="password" id="signup-confirm" placeholder="Confirm your password" required minlength="6"
+                  style="width:100%;padding:0.75rem;border:1px solid #ddd;border-radius:0.5rem;font-size:1rem;box-sizing:border-box;">
+              </div>
+              <div style="margin-bottom:1rem;">
+                <label style="display:block;margin-bottom:0.5rem;font-weight:500;">I am a:</label>
+                <div style="display:flex;gap:1rem;">
+                  <label style="display:flex;align-items:center;gap:0.5rem;cursor:pointer;">
+                    <input type="radio" name="signup-role" value="learner" checked> Learner
+                  </label>
+                  <label style="display:flex;align-items:center;gap:0.5rem;cursor:pointer;">
+                    <input type="radio" name="signup-role" value="educator"> Educator
+                  </label>
+                  <label style="display:flex;align-items:center;gap:0.5rem;cursor:pointer;">
+                    <input type="radio" name="signup-role" value="parent"> Parent/Guardian
+                  </label>
+                </div>
+              </div>
+              <div id="signup-error" style="color:#dc2626;margin-bottom:1rem;display:none;"></div>
+              <div id="signup-success" style="color:#059669;margin-bottom:1rem;display:none;"></div>
+              <button type="submit" id="signup-submit"
+                style="width:100%;padding:0.75rem;background:#5ED1D2;color:white;border:none;border-radius:0.5rem;font-size:1rem;font-weight:600;cursor:pointer;">
+                Create Account
+              </button>
+            </form>
+            <div style="margin-top:1.5rem;text-align:center;border-top:1px solid #eee;padding-top:1rem;">
+              <p style="color:#666;">Already have an account? <a href="#" onclick="document.getElementById('signup-modal').remove(); window.showSignInModal(); return false;" style="color:#A32C2B;font-weight:600;">Sign in here</a></p>
+            </div>
+          </div>
+        `;
+        document.body.appendChild(modal);
+
+        // Close on backdrop click
+        modal.addEventListener('click', function(e) {
+          if (e.target === modal) modal.remove();
+        });
+
+        // Handle form submit
+        document.getElementById('signup-form').addEventListener('submit', async function(e) {
+          e.preventDefault();
+          const name = document.getElementById('signup-name').value;
+          const email = document.getElementById('signup-email').value;
+          const password = document.getElementById('signup-password').value;
+          const confirm = document.getElementById('signup-confirm').value;
+          const role = document.querySelector('input[name="signup-role"]:checked').value;
+          const errorDiv = document.getElementById('signup-error');
+          const successDiv = document.getElementById('signup-success');
+          const submitBtn = document.getElementById('signup-submit');
+
+          errorDiv.style.display = 'none';
+          successDiv.style.display = 'none';
+
+          // Validate passwords match
+          if (password !== confirm) {
+            errorDiv.textContent = 'Passwords do not match.';
+            errorDiv.style.display = 'block';
+            return;
+          }
+
+          submitBtn.disabled = true;
+          submitBtn.textContent = 'Creating account...';
+
+          try {
+            if (window.firebaseReady && window.firebase && window.firebase.auth) {
+              // Create user with Firebase
+              const userCredential = await window.firebase.auth().createUserWithEmailAndPassword(email, password);
+              // Update display name
+              await userCredential.user.updateProfile({ displayName: name });
+
+              const user = { email: email, name: name, role: role, isDemo: false };
+              localStorage.setItem('windgap_user', JSON.stringify(user));
+
+              successDiv.textContent = 'Account created successfully! Redirecting...';
+              successDiv.style.display = 'block';
+
+              setTimeout(() => {
+                modal.remove();
+                window.showDashboard(user);
+              }, 1500);
+            } else {
+              // Firebase not configured - create local account for demo
+              const user = { email: email, name: name, role: role, isDemo: true };
+              localStorage.setItem('windgap_user', JSON.stringify(user));
+
+              successDiv.textContent = 'Demo account created! Redirecting...';
+              successDiv.style.display = 'block';
+
+              setTimeout(() => {
+                modal.remove();
+                window.showDashboard(user);
+              }, 1500);
+            }
+          } catch (err) {
+            let errorMessage = 'Account creation failed. ';
+            if (err.code === 'auth/email-already-in-use') {
+              errorMessage += 'This email is already registered.';
+            } else if (err.code === 'auth/weak-password') {
+              errorMessage += 'Password should be at least 6 characters.';
+            } else if (err.code === 'auth/invalid-email') {
+              errorMessage += 'Please enter a valid email address.';
+            } else {
+              errorMessage += err.message || 'Please try again.';
+            }
+            errorDiv.textContent = errorMessage;
+            errorDiv.style.display = 'block';
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Create Account';
+          }
+        });
+
+        // Focus the name input
+        setTimeout(() => document.getElementById('signup-name').focus(), 100);
+      };
+
       // Show Dashboard
       window.showDashboard = function(user) {
         if (!user) {
@@ -232,10 +378,11 @@
                 'Sign Out' +
               '</button>' +
             '</div>' +
+            '<h2 style="font-size:1.5rem;font-weight:bold;color:#333;margin-bottom:1rem;">🎮 Learning Games</h2>' +
             '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;margin-bottom:2rem;">' +
               '<div style="background:linear-gradient(135deg,#5ED1D2,#3BA9AA);padding:1.5rem;border-radius:1rem;color:white;">' +
                 '<h3 style="font-size:1.25rem;font-weight:bold;margin-bottom:0.5rem;">📚 Winnie\'s Words</h3>' +
-                '<p style="margin-bottom:1rem;opacity:0.9;">Practice vocabulary and spelling with Winnie!</p>' +
+                '<p style="margin-bottom:1rem;opacity:0.9;">Practice vocabulary, spelling, and reading!</p>' +
                 '<button onclick="window.launchGame(\'winnies-words\')" style="background:white;color:#3BA9AA;padding:0.5rem 1rem;border:none;border-radius:0.5rem;cursor:pointer;font-weight:600;">' +
                   'Play Now' +
                 '</button>' +
@@ -254,14 +401,28 @@
                   'Create' +
                 '</button>' +
               '</div>' +
+              '<div style="background:linear-gradient(135deg,#10B981,#059669);padding:1.5rem;border-radius:1rem;color:white;">' +
+                '<h3 style="font-size:1.25rem;font-weight:bold;margin-bottom:0.5rem;">🏠 Life Skills</h3>' +
+                '<p style="margin-bottom:1rem;opacity:0.9;">Learn cooking, cleaning & daily tasks!</p>' +
+                '<button onclick="window.launchGame(\'life-skills\')" style="background:white;color:#059669;padding:0.5rem 1rem;border:none;border-radius:0.5rem;cursor:pointer;font-weight:600;">' +
+                  'Explore' +
+                '</button>' +
+              '</div>' +
+              '<div style="background:linear-gradient(135deg,#6366F1,#4F46E5);padding:1.5rem;border-radius:1rem;color:white;">' +
+                '<h3 style="font-size:1.25rem;font-weight:bold;margin-bottom:0.5rem;">💻 Digital Skills</h3>' +
+                '<p style="margin-bottom:1rem;opacity:0.9;">Computer & internet skills training!</p>' +
+                '<button onclick="window.launchGame(\'digital-skills\')" style="background:white;color:#4F46E5;padding:0.5rem 1rem;border:none;border-radius:0.5rem;cursor:pointer;font-weight:600;">' +
+                  'Learn' +
+                '</button>' +
+              '</div>' +
             '</div>' +
             (isEducator ?
             '<div style="background:#f8fafc;padding:1.5rem;border-radius:1rem;border:1px solid #e2e8f0;">' +
               '<h3 style="font-size:1.25rem;font-weight:bold;color:#A32C2B;margin-bottom:1rem;">📊 Educator Tools</h3>' +
               '<div style="display:flex;gap:1rem;flex-wrap:wrap;">' +
-                '<button style="padding:0.75rem 1.5rem;background:#A32C2B;color:white;border:none;border-radius:0.5rem;cursor:pointer;">View Student Progress</button>' +
-                '<button style="padding:0.75rem 1.5rem;background:#5ED1D2;color:white;border:none;border-radius:0.5rem;cursor:pointer;">Create Assignment</button>' +
-                '<button style="padding:0.75rem 1.5rem;background:#FBBF24;color:#333;border:none;border-radius:0.5rem;cursor:pointer;">Class Reports</button>' +
+                '<button onclick="alert(\'Student progress dashboard loading...\')" style="padding:0.75rem 1.5rem;background:#A32C2B;color:white;border:none;border-radius:0.5rem;cursor:pointer;">View Student Progress</button>' +
+                '<button onclick="alert(\'Assignment creator loading...\')" style="padding:0.75rem 1.5rem;background:#5ED1D2;color:white;border:none;border-radius:0.5rem;cursor:pointer;">Create Assignment</button>' +
+                '<button onclick="alert(\'Class reports loading...\')" style="padding:0.75rem 1.5rem;background:#FBBF24;color:#333;border:none;border-radius:0.5rem;cursor:pointer;">Class Reports</button>' +
               '</div>' +
             '</div>'
             :
@@ -288,7 +449,431 @@
 
       // Launch game placeholder
       window.launchGame = function(game) {
-        alert('Launching ' + game + '... (Coming soon!)');
+        const gameContainer = document.getElementById('game-container') || createGameContainer();
+
+        // Game configurations
+        const games = {
+          'winnies-words': {
+            title: "📚 Winnie's Words",
+            color: '#5ED1D2',
+            description: 'Practice vocabulary, spelling, and reading comprehension with Winnie the Wombat!',
+            content: createLiteracyGame
+          },
+          'math-quest': {
+            title: '🔢 Math Quest',
+            color: '#A32C2B',
+            description: 'Solve math puzzles, practice numeracy skills, and earn rewards!',
+            content: createNumeracyGame
+          },
+          'avatar': {
+            title: '🎨 Avatar Builder',
+            color: '#FBBF24',
+            description: 'Create and customize your own unique avatar!',
+            content: createAvatarBuilder
+          },
+          'life-skills': {
+            title: '🏠 Life Skills',
+            color: '#10B981',
+            description: 'Learn essential daily living skills through interactive scenarios!',
+            content: createLifeSkillsGame
+          },
+          'digital-skills': {
+            title: '💻 Digital Skills',
+            color: '#6366F1',
+            description: 'Master computer and internet skills for the modern world!',
+            content: createDigitalSkillsGame
+          }
+        };
+
+        const gameConfig = games[game];
+        if (!gameConfig) {
+          alert('Game not found: ' + game);
+          return;
+        }
+
+        // Hide dashboard, show game
+        const dashboard = document.getElementById('dashboard-view');
+        if (dashboard) dashboard.style.display = 'none';
+
+        gameContainer.style.display = 'block';
+        gameContainer.innerHTML = gameConfig.content(gameConfig);
+      };
+
+      function createGameContainer() {
+        const container = document.createElement('div');
+        container.id = 'game-container';
+        container.style.cssText = 'display:none;';
+        document.body.insertBefore(container, document.querySelector('footer'));
+        return container;
+      }
+
+      function createLiteracyGame(config) {
+        return `
+          <div style="max-width:1200px;margin:0 auto;padding:2rem;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem;">
+              <h1 style="font-size:2rem;font-weight:bold;color:${config.color};">${config.title}</h1>
+              <button onclick="window.returnToDashboard()" style="padding:0.5rem 1rem;background:#666;color:white;border:none;border-radius:0.5rem;cursor:pointer;">
+                ← Back to Dashboard
+              </button>
+            </div>
+            <div style="background:linear-gradient(135deg,${config.color}22,${config.color}11);padding:2rem;border-radius:1rem;border:2px solid ${config.color};">
+              <p style="margin-bottom:2rem;font-size:1.1rem;color:#333;">${config.description}</p>
+
+              <!-- Word Spelling Game -->
+              <div style="background:white;padding:2rem;border-radius:1rem;margin-bottom:1.5rem;box-shadow:0 2px 8px rgba(0,0,0,0.1);">
+                <h3 style="font-size:1.25rem;font-weight:bold;color:${config.color};margin-bottom:1rem;">🎯 Spelling Challenge</h3>
+                <div id="spelling-game">
+                  <p style="margin-bottom:1rem;">Listen to the word and type it correctly!</p>
+                  <div style="display:flex;gap:1rem;align-items:center;margin-bottom:1rem;">
+                    <button onclick="window.playWord()" style="padding:0.75rem 1.5rem;background:${config.color};color:white;border:none;border-radius:0.5rem;cursor:pointer;font-size:1.1rem;">
+                      🔊 Play Word
+                    </button>
+                    <input type="text" id="spelling-input" placeholder="Type the word here..."
+                      style="flex:1;padding:0.75rem;border:2px solid #ddd;border-radius:0.5rem;font-size:1.1rem;">
+                    <button onclick="window.checkSpelling()" style="padding:0.75rem 1.5rem;background:#10B981;color:white;border:none;border-radius:0.5rem;cursor:pointer;font-size:1.1rem;">
+                      ✓ Check
+                    </button>
+                  </div>
+                  <div id="spelling-feedback" style="padding:1rem;border-radius:0.5rem;display:none;"></div>
+                  <div style="margin-top:1rem;display:flex;gap:1rem;">
+                    <span style="background:#e0f2fe;padding:0.5rem 1rem;border-radius:1rem;">Score: <strong id="spelling-score">0</strong></span>
+                    <span style="background:#fef3c7;padding:0.5rem 1rem;border-radius:1rem;">Streak: <strong id="spelling-streak">0</strong> 🔥</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Reading Comprehension -->
+              <div style="background:white;padding:2rem;border-radius:1rem;box-shadow:0 2px 8px rgba(0,0,0,0.1);">
+                <h3 style="font-size:1.25rem;font-weight:bold;color:${config.color};margin-bottom:1rem;">📖 Reading Corner</h3>
+                <div id="reading-area">
+                  <p style="font-size:1.2rem;line-height:1.8;padding:1.5rem;background:#f8fafc;border-radius:0.5rem;margin-bottom:1rem;">
+                    Winnie the wombat woke up early. The sun was shining bright. "What a lovely day!" said Winnie.
+                    She decided to visit her friend Daisy the dog at the park.
+                  </p>
+                  <div style="margin-top:1rem;">
+                    <p style="font-weight:bold;margin-bottom:0.5rem;">What did Winnie decide to do?</p>
+                    <div style="display:flex;flex-direction:column;gap:0.5rem;">
+                      <button onclick="window.checkReading(false)" style="text-align:left;padding:0.75rem;background:#f1f5f9;border:2px solid #e2e8f0;border-radius:0.5rem;cursor:pointer;">A) Go back to sleep</button>
+                      <button onclick="window.checkReading(true)" style="text-align:left;padding:0.75rem;background:#f1f5f9;border:2px solid #e2e8f0;border-radius:0.5rem;cursor:pointer;">B) Visit her friend Daisy</button>
+                      <button onclick="window.checkReading(false)" style="text-align:left;padding:0.75rem;background:#f1f5f9;border:2px solid #e2e8f0;border-radius:0.5rem;cursor:pointer;">C) Go shopping</button>
+                    </div>
+                    <div id="reading-feedback" style="margin-top:1rem;padding:1rem;border-radius:0.5rem;display:none;"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      function createNumeracyGame(config) {
+        return `
+          <div style="max-width:1200px;margin:0 auto;padding:2rem;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem;">
+              <h1 style="font-size:2rem;font-weight:bold;color:${config.color};">${config.title}</h1>
+              <button onclick="window.returnToDashboard()" style="padding:0.5rem 1rem;background:#666;color:white;border:none;border-radius:0.5rem;cursor:pointer;">
+                ← Back to Dashboard
+              </button>
+            </div>
+            <div style="background:linear-gradient(135deg,${config.color}22,${config.color}11);padding:2rem;border-radius:1rem;border:2px solid ${config.color};">
+              <p style="margin-bottom:2rem;font-size:1.1rem;color:#333;">${config.description}</p>
+
+              <!-- Math Challenge -->
+              <div style="background:white;padding:2rem;border-radius:1rem;margin-bottom:1.5rem;box-shadow:0 2px 8px rgba(0,0,0,0.1);">
+                <h3 style="font-size:1.25rem;font-weight:bold;color:${config.color};margin-bottom:1rem;">🧮 Math Challenge</h3>
+                <div id="math-game">
+                  <div style="text-align:center;padding:2rem;background:#f8fafc;border-radius:1rem;margin-bottom:1rem;">
+                    <p style="font-size:3rem;font-weight:bold;color:${config.color};" id="math-problem">5 + 3 = ?</p>
+                  </div>
+                  <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-bottom:1rem;">
+                    <button onclick="window.checkMath(6)" style="padding:1rem 2rem;font-size:1.5rem;background:#f1f5f9;border:2px solid #e2e8f0;border-radius:0.5rem;cursor:pointer;min-width:80px;">6</button>
+                    <button onclick="window.checkMath(8)" style="padding:1rem 2rem;font-size:1.5rem;background:#f1f5f9;border:2px solid #e2e8f0;border-radius:0.5rem;cursor:pointer;min-width:80px;">8</button>
+                    <button onclick="window.checkMath(7)" style="padding:1rem 2rem;font-size:1.5rem;background:#f1f5f9;border:2px solid #e2e8f0;border-radius:0.5rem;cursor:pointer;min-width:80px;">7</button>
+                    <button onclick="window.checkMath(9)" style="padding:1rem 2rem;font-size:1.5rem;background:#f1f5f9;border:2px solid #e2e8f0;border-radius:0.5rem;cursor:pointer;min-width:80px;">9</button>
+                  </div>
+                  <div id="math-feedback" style="padding:1rem;border-radius:0.5rem;display:none;text-align:center;"></div>
+                  <div style="margin-top:1rem;display:flex;gap:1rem;justify-content:center;">
+                    <span style="background:#e0f2fe;padding:0.5rem 1rem;border-radius:1rem;">Score: <strong id="math-score">0</strong></span>
+                    <span style="background:#fef3c7;padding:0.5rem 1rem;border-radius:1rem;">Level: <strong id="math-level">1</strong></span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Money Skills -->
+              <div style="background:white;padding:2rem;border-radius:1rem;box-shadow:0 2px 8px rgba(0,0,0,0.1);">
+                <h3 style="font-size:1.25rem;font-weight:bold;color:${config.color};margin-bottom:1rem;">💰 Money Skills</h3>
+                <p style="margin-bottom:1rem;">Practice counting Australian coins and notes!</p>
+                <div style="display:flex;gap:1rem;flex-wrap:wrap;padding:1rem;background:#f8fafc;border-radius:0.5rem;margin-bottom:1rem;">
+                  <span style="padding:0.5rem 1rem;background:#fbbf24;border-radius:50%;font-weight:bold;">$2</span>
+                  <span style="padding:0.5rem 1rem;background:#fbbf24;border-radius:50%;font-weight:bold;">$1</span>
+                  <span style="padding:0.5rem 1rem;background:#a8a29e;border-radius:50%;font-weight:bold;">50c</span>
+                  <span style="padding:0.5rem 1rem;background:#a8a29e;border-radius:50%;font-weight:bold;">20c</span>
+                </div>
+                <p style="font-weight:bold;">Total: $3.70 - How much change from $5?</p>
+                <div style="display:flex;gap:1rem;margin-top:1rem;">
+                  <button onclick="window.checkMoney(false)" style="padding:0.75rem 1.5rem;background:#f1f5f9;border:2px solid #e2e8f0;border-radius:0.5rem;cursor:pointer;">$1.20</button>
+                  <button onclick="window.checkMoney(true)" style="padding:0.75rem 1.5rem;background:#f1f5f9;border:2px solid #e2e8f0;border-radius:0.5rem;cursor:pointer;">$1.30</button>
+                  <button onclick="window.checkMoney(false)" style="padding:0.75rem 1.5rem;background:#f1f5f9;border:2px solid #e2e8f0;border-radius:0.5rem;cursor:pointer;">$1.50</button>
+                </div>
+                <div id="money-feedback" style="margin-top:1rem;padding:1rem;border-radius:0.5rem;display:none;"></div>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      function createAvatarBuilder(config) {
+        return `
+          <div style="max-width:1200px;margin:0 auto;padding:2rem;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem;">
+              <h1 style="font-size:2rem;font-weight:bold;color:${config.color};">${config.title}</h1>
+              <button onclick="window.returnToDashboard()" style="padding:0.5rem 1rem;background:#666;color:white;border:none;border-radius:0.5rem;cursor:pointer;">
+                ← Back to Dashboard
+              </button>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 2fr 1fr;gap:2rem;">
+              <!-- Left Panel - Categories -->
+              <div style="background:#f8fafc;padding:1.5rem;border-radius:1rem;">
+                <h3 style="font-weight:bold;margin-bottom:1rem;color:#333;">Customize</h3>
+                <div style="display:flex;flex-direction:column;gap:0.5rem;">
+                  <button onclick="window.selectAvatarCategory('skin')" class="avatar-cat-btn" style="padding:0.75rem;background:white;border:2px solid #e2e8f0;border-radius:0.5rem;cursor:pointer;text-align:left;">🎨 Skin Tone</button>
+                  <button onclick="window.selectAvatarCategory('hair')" class="avatar-cat-btn" style="padding:0.75rem;background:white;border:2px solid #e2e8f0;border-radius:0.5rem;cursor:pointer;text-align:left;">💇 Hair Style</button>
+                  <button onclick="window.selectAvatarCategory('outfit')" class="avatar-cat-btn" style="padding:0.75rem;background:white;border:2px solid #e2e8f0;border-radius:0.5rem;cursor:pointer;text-align:left;">👕 Outfit</button>
+                  <button onclick="window.selectAvatarCategory('accessories')" class="avatar-cat-btn" style="padding:0.75rem;background:white;border:2px solid #e2e8f0;border-radius:0.5rem;cursor:pointer;text-align:left;">👓 Accessories</button>
+                  <button onclick="window.selectAvatarCategory('wheelchair')" class="avatar-cat-btn" style="padding:0.75rem;background:white;border:2px solid #e2e8f0;border-radius:0.5rem;cursor:pointer;text-align:left;">♿ Wheelchair</button>
+                </div>
+              </div>
+
+              <!-- Center - Preview -->
+              <div style="background:linear-gradient(135deg,#fef3c7,#e0f2fe);padding:2rem;border-radius:1rem;display:flex;flex-direction:column;align-items:center;">
+                <div id="avatar-preview-large" style="width:200px;height:200px;background:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:6rem;box-shadow:0 4px 12px rgba(0,0,0,0.1);margin-bottom:1rem;">
+                  😊
+                </div>
+                <div id="avatar-options" style="display:flex;gap:0.5rem;flex-wrap:wrap;justify-content:center;margin-top:1rem;">
+                  <span style="padding:0.5rem 1rem;background:white;border-radius:1rem;cursor:pointer;" onclick="window.setAvatarEmoji('😊')">😊</span>
+                  <span style="padding:0.5rem 1rem;background:white;border-radius:1rem;cursor:pointer;" onclick="window.setAvatarEmoji('😎')">😎</span>
+                  <span style="padding:0.5rem 1rem;background:white;border-radius:1rem;cursor:pointer;" onclick="window.setAvatarEmoji('🤗')">🤗</span>
+                  <span style="padding:0.5rem 1rem;background:white;border-radius:1rem;cursor:pointer;" onclick="window.setAvatarEmoji('🧑')">🧑</span>
+                  <span style="padding:0.5rem 1rem;background:white;border-radius:1rem;cursor:pointer;" onclick="window.setAvatarEmoji('👧')">👧</span>
+                  <span style="padding:0.5rem 1rem;background:white;border-radius:1rem;cursor:pointer;" onclick="window.setAvatarEmoji('👦')">👦</span>
+                </div>
+                <div style="margin-top:1.5rem;display:flex;gap:1rem;">
+                  <button onclick="window.saveAvatar()" style="padding:0.75rem 1.5rem;background:#10B981;color:white;border:none;border-radius:0.5rem;cursor:pointer;font-weight:bold;">💾 Save Avatar</button>
+                  <button onclick="window.randomizeAvatar()" style="padding:0.75rem 1.5rem;background:${config.color};color:#333;border:none;border-radius:0.5rem;cursor:pointer;font-weight:bold;">🎲 Randomize</button>
+                </div>
+              </div>
+
+              <!-- Right Panel - Colors -->
+              <div style="background:#f8fafc;padding:1.5rem;border-radius:1rem;">
+                <h3 style="font-weight:bold;margin-bottom:1rem;color:#333;">Colors</h3>
+                <div id="color-picker-area">
+                  <p style="color:#666;margin-bottom:1rem;">Background</p>
+                  <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+                    <span onclick="window.setAvatarBg('#fef3c7')" style="width:40px;height:40px;background:#fef3c7;border-radius:0.5rem;cursor:pointer;border:2px solid #e2e8f0;"></span>
+                    <span onclick="window.setAvatarBg('#e0f2fe')" style="width:40px;height:40px;background:#e0f2fe;border-radius:0.5rem;cursor:pointer;border:2px solid #e2e8f0;"></span>
+                    <span onclick="window.setAvatarBg('#dcfce7')" style="width:40px;height:40px;background:#dcfce7;border-radius:0.5rem;cursor:pointer;border:2px solid #e2e8f0;"></span>
+                    <span onclick="window.setAvatarBg('#fce7f3')" style="width:40px;height:40px;background:#fce7f3;border-radius:0.5rem;cursor:pointer;border:2px solid #e2e8f0;"></span>
+                    <span onclick="window.setAvatarBg('#f3e8ff')" style="width:40px;height:40px;background:#f3e8ff;border-radius:0.5rem;cursor:pointer;border:2px solid #e2e8f0;"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      function createLifeSkillsGame(config) {
+        return `
+          <div style="max-width:1200px;margin:0 auto;padding:2rem;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem;">
+              <h1 style="font-size:2rem;font-weight:bold;color:${config.color};">${config.title}</h1>
+              <button onclick="window.returnToDashboard()" style="padding:0.5rem 1rem;background:#666;color:white;border:none;border-radius:0.5rem;cursor:pointer;">
+                ← Back to Dashboard
+              </button>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;">
+              <div style="background:white;padding:1.5rem;border-radius:1rem;border:2px solid ${config.color};box-shadow:0 2px 8px rgba(0,0,0,0.05);">
+                <h3 style="font-size:1.25rem;font-weight:bold;color:${config.color};margin-bottom:0.5rem;">🍳 Healthy Kitchen</h3>
+                <p style="color:#666;margin-bottom:1rem;">Learn to prepare simple, healthy meals safely.</p>
+                <button onclick="alert('Healthy Kitchen module starting!')" style="padding:0.5rem 1rem;background:${config.color};color:white;border:none;border-radius:0.5rem;cursor:pointer;">Start</button>
+              </div>
+              <div style="background:white;padding:1.5rem;border-radius:1rem;border:2px solid ${config.color};box-shadow:0 2px 8px rgba(0,0,0,0.05);">
+                <h3 style="font-size:1.25rem;font-weight:bold;color:${config.color};margin-bottom:0.5rem;">🧹 Home Care</h3>
+                <p style="color:#666;margin-bottom:1rem;">Master cleaning and organizing your space.</p>
+                <button onclick="alert('Home Care module starting!')" style="padding:0.5rem 1rem;background:${config.color};color:white;border:none;border-radius:0.5rem;cursor:pointer;">Start</button>
+              </div>
+              <div style="background:white;padding:1.5rem;border-radius:1rem;border:2px solid ${config.color};box-shadow:0 2px 8px rgba(0,0,0,0.05);">
+                <h3 style="font-size:1.25rem;font-weight:bold;color:${config.color};margin-bottom:0.5rem;">🚌 Public Transport</h3>
+                <p style="color:#666;margin-bottom:1rem;">Navigate buses, trains, and public spaces confidently.</p>
+                <button onclick="alert('Public Transport module starting!')" style="padding:0.5rem 1rem;background:${config.color};color:white;border:none;border-radius:0.5rem;cursor:pointer;">Start</button>
+              </div>
+              <div style="background:white;padding:1.5rem;border-radius:1rem;border:2px solid ${config.color};box-shadow:0 2px 8px rgba(0,0,0,0.05);">
+                <h3 style="font-size:1.25rem;font-weight:bold;color:${config.color};margin-bottom:0.5rem;">💊 Personal Health</h3>
+                <p style="color:#666;margin-bottom:1rem;">Manage medications, appointments, and self-care.</p>
+                <button onclick="alert('Personal Health module starting!')" style="padding:0.5rem 1rem;background:${config.color};color:white;border:none;border-radius:0.5rem;cursor:pointer;">Start</button>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      function createDigitalSkillsGame(config) {
+        return `
+          <div style="max-width:1200px;margin:0 auto;padding:2rem;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem;">
+              <h1 style="font-size:2rem;font-weight:bold;color:${config.color};">${config.title}</h1>
+              <button onclick="window.returnToDashboard()" style="padding:0.5rem 1rem;background:#666;color:white;border:none;border-radius:0.5rem;cursor:pointer;">
+                ← Back to Dashboard
+              </button>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;">
+              <div style="background:white;padding:1.5rem;border-radius:1rem;border:2px solid ${config.color};box-shadow:0 2px 8px rgba(0,0,0,0.05);">
+                <h3 style="font-size:1.25rem;font-weight:bold;color:${config.color};margin-bottom:0.5rem;">⌨️ Typing Practice</h3>
+                <p style="color:#666;margin-bottom:1rem;">Improve your typing speed and accuracy.</p>
+                <button onclick="alert('Typing Practice module starting!')" style="padding:0.5rem 1rem;background:${config.color};color:white;border:none;border-radius:0.5rem;cursor:pointer;">Start</button>
+              </div>
+              <div style="background:white;padding:1.5rem;border-radius:1rem;border:2px solid ${config.color};box-shadow:0 2px 8px rgba(0,0,0,0.05);">
+                <h3 style="font-size:1.25rem;font-weight:bold;color:${config.color};margin-bottom:0.5rem;">📧 Email & Messaging</h3>
+                <p style="color:#666;margin-bottom:1rem;">Write professional emails and messages.</p>
+                <button onclick="alert('Email module starting!')" style="padding:0.5rem 1rem;background:${config.color};color:white;border:none;border-radius:0.5rem;cursor:pointer;">Start</button>
+              </div>
+              <div style="background:white;padding:1.5rem;border-radius:1rem;border:2px solid ${config.color};box-shadow:0 2px 8px rgba(0,0,0,0.05);">
+                <h3 style="font-size:1.25rem;font-weight:bold;color:${config.color};margin-bottom:0.5rem;">🔒 Online Safety</h3>
+                <p style="color:#666;margin-bottom:1rem;">Stay safe online and protect your information.</p>
+                <button onclick="alert('Online Safety module starting!')" style="padding:0.5rem 1rem;background:${config.color};color:white;border:none;border-radius:0.5rem;cursor:pointer;">Start</button>
+              </div>
+              <div style="background:white;padding:1.5rem;border-radius:1rem;border:2px solid ${config.color};box-shadow:0 2px 8px rgba(0,0,0,0.05);">
+                <h3 style="font-size:1.25rem;font-weight:bold;color:${config.color};margin-bottom:0.5rem;">🌐 Web Browsing</h3>
+                <p style="color:#666;margin-bottom:1rem;">Search effectively and navigate websites.</p>
+                <button onclick="alert('Web Browsing module starting!')" style="padding:0.5rem 1rem;background:${config.color};color:white;border:none;border-radius:0.5rem;cursor:pointer;">Start</button>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      // Game helper functions
+      window.returnToDashboard = function() {
+        const gameContainer = document.getElementById('game-container');
+        if (gameContainer) gameContainer.style.display = 'none';
+        const user = JSON.parse(localStorage.getItem('windgap_user') || '{}');
+        window.showDashboard(user);
+      };
+
+      // Spelling game state
+      window.spellingWords = ['apple', 'banana', 'school', 'friend', 'happy', 'learning', 'wombat', 'kangaroo'];
+      window.currentWord = 'apple';
+      window.spellingScore = 0;
+      window.spellingStreak = 0;
+
+      window.playWord = function() {
+        window.currentWord = window.spellingWords[Math.floor(Math.random() * window.spellingWords.length)];
+        if ('speechSynthesis' in window) {
+          const utter = new SpeechSynthesisUtterance(window.currentWord);
+          window.speechSynthesis.speak(utter);
+        }
+      };
+
+      window.checkSpelling = function() {
+        const input = document.getElementById('spelling-input');
+        const feedback = document.getElementById('spelling-feedback');
+        if (!input || !feedback) return;
+
+        const userAnswer = input.value.trim().toLowerCase();
+        if (userAnswer === window.currentWord) {
+          window.spellingScore += 10;
+          window.spellingStreak++;
+          feedback.style.background = '#dcfce7';
+          feedback.style.color = '#166534';
+          feedback.innerHTML = '✓ Correct! Great job! 🎉';
+        } else {
+          window.spellingStreak = 0;
+          feedback.style.background = '#fef2f2';
+          feedback.style.color = '#991b1b';
+          feedback.innerHTML = '✗ Try again! The word was: <strong>' + window.currentWord + '</strong>';
+        }
+        feedback.style.display = 'block';
+        document.getElementById('spelling-score').textContent = window.spellingScore;
+        document.getElementById('spelling-streak').textContent = window.spellingStreak;
+        input.value = '';
+      };
+
+      window.checkReading = function(correct) {
+        const feedback = document.getElementById('reading-feedback');
+        if (!feedback) return;
+        if (correct) {
+          feedback.style.background = '#dcfce7';
+          feedback.style.color = '#166534';
+          feedback.innerHTML = '✓ Correct! Winnie went to visit her friend Daisy at the park! 🎉';
+        } else {
+          feedback.style.background = '#fef2f2';
+          feedback.style.color = '#991b1b';
+          feedback.innerHTML = '✗ Read the story again carefully and try another answer.';
+        }
+        feedback.style.display = 'block';
+      };
+
+      // Math game state
+      window.mathScore = 0;
+      window.mathLevel = 1;
+      window.currentMathAnswer = 8;
+
+      window.checkMath = function(answer) {
+        const feedback = document.getElementById('math-feedback');
+        if (!feedback) return;
+        if (answer === window.currentMathAnswer) {
+          window.mathScore += 10;
+          feedback.style.background = '#dcfce7';
+          feedback.style.color = '#166534';
+          feedback.innerHTML = '✓ Correct! 🎉';
+          document.getElementById('math-score').textContent = window.mathScore;
+        } else {
+          feedback.style.background = '#fef2f2';
+          feedback.style.color = '#991b1b';
+          feedback.innerHTML = '✗ Not quite. The answer was ' + window.currentMathAnswer + '. Try the next one!';
+        }
+        feedback.style.display = 'block';
+      };
+
+      window.checkMoney = function(correct) {
+        const feedback = document.getElementById('money-feedback');
+        if (!feedback) return;
+        if (correct) {
+          feedback.style.background = '#dcfce7';
+          feedback.style.color = '#166534';
+          feedback.innerHTML = '✓ Correct! $5.00 - $3.70 = $1.30 🎉';
+        } else {
+          feedback.style.background = '#fef2f2';
+          feedback.style.color = '#991b1b';
+          feedback.innerHTML = '✗ Not quite. Try calculating: $5.00 - $3.70 = ?';
+        }
+        feedback.style.display = 'block';
+      };
+
+      // Avatar functions
+      window.setAvatarEmoji = function(emoji) {
+        const preview = document.getElementById('avatar-preview-large');
+        if (preview) preview.textContent = emoji;
+      };
+
+      window.setAvatarBg = function(color) {
+        const preview = document.getElementById('avatar-preview-large');
+        if (preview) preview.style.background = color;
+      };
+
+      window.randomizeAvatar = function() {
+        const emojis = ['😊', '😎', '🤗', '🧑', '👧', '👦', '🧒', '👱'];
+        const colors = ['#fef3c7', '#e0f2fe', '#dcfce7', '#fce7f3', '#f3e8ff'];
+        window.setAvatarEmoji(emojis[Math.floor(Math.random() * emojis.length)]);
+        window.setAvatarBg(colors[Math.floor(Math.random() * colors.length)]);
+      };
+
+      window.saveAvatar = function() {
+        alert('Avatar saved! 🎉');
+      };
+
+      window.selectAvatarCategory = function(cat) {
+        console.log('Selected category:', cat);
       };
 
       // Check for existing login on page load
@@ -342,6 +927,7 @@
           <a href="#about" class="text-gray-700 hover:text-[#A32C2B] font-medium transition">About</a>
           <a href="#accessibility" class="text-gray-700 hover:text-[#A32C2B] font-medium transition">Accessibility</a>
           <a href="#support" class="text-gray-700 hover:text-[#A32C2B] font-medium transition">Support</a>
+          <button onclick="window.showCreateAccountModal()" class="bg-[#5ED1D2] text-white px-6 py-2 rounded-lg font-semibold hover:bg-[#4BB8B9] transition">Create Account</button>
           <button onclick="window.navigateTo('signin')" class="bg-[#A32C2B] text-white px-6 py-2 rounded-lg font-semibold hover:bg-[#8b2423] transition">Sign In</button>
         </nav>
       </div>
