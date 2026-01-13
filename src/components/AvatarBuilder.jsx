@@ -5,9 +5,9 @@ import Spinner from "../../components/Spinner";
 import Tooltip from "../../components/Tooltip";
 import {
   letterMap,
+  longPunctuationMap,
   punctuationMap1,
   punctuationMap2,
-  longPunctuationMap,
 } from "../../utils/speechrecMappings";
 
 function AvatarBuilder() {
@@ -211,4 +211,6 @@ function AvatarBuilder() {
   );
 }
 
+// Export both named and default for flexibility
+export { AvatarBuilder };
 export default AvatarBuilder;

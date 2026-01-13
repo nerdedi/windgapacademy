@@ -1,19 +1,19 @@
 import React, { useState } from "react";
 
-import { AvatarBuilder } from "../components/AvatarBuilder";
-import { CourseLibrary } from "../components/CourseLibrary";
-import { Dashboard } from "../components/Dashboard";
-import GameModes from "../components/GameModes";
-import { Leaderboard } from "../components/Leaderboard";
-import { LessonPlayer } from "../components/LessonPlayer";
-import { Navigation } from "../components/Navigation";
-import { VirtualWorld } from "../components/VirtualWorld";
+import { AvatarBuilder } from "./AvatarBuilder";
+import { CourseLibrary } from "./CourseLibrary";
+import { Dashboard } from "./Dashboard";
+import GameArcade from "./GameArcade";
+import { Leaderboard } from "./Leaderboard";
+import { LessonPlayer } from "./LessonPlayer";
+import { Navigation } from "./Navigation";
+import VirtualWorld from "./VirtualWorld";
 
 const views = {
   dashboard: <Dashboard />,
   courses: <CourseLibrary />,
   lesson: <LessonPlayer />,
-  games: <GameModes />,
+  games: <GameArcade />,
   leaderboard: <Leaderboard />,
   avatar: <AvatarBuilder />,
   virtual: <VirtualWorld />,
