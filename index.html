@@ -243,7 +243,7 @@
           <div style="background:white;padding:2rem;border-radius:1rem;max-width:400px;width:90%;box-shadow:0 4px 24px rgba(0,0,0,0.2);">
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;">
               <h2 style="font-size:1.5rem;font-weight:bold;color:#A32C2B;margin:0;">Sign In</h2>
-              <button onclick="document.getElementById('signin-modal').remove()" style="background:none;border:none;font-size:1.5rem;cursor:pointer;color:#666;">&times;</button>
+              <button id="signin-close" style="background:none;border:none;font-size:1.5rem;cursor:pointer;color:#666;">&times;</button>
             </div>
             <form id="signin-form">
               <div style="margin-bottom:1rem;">
@@ -356,7 +356,7 @@
           <div style="background:white;padding:2rem;border-radius:1rem;max-width:450px;width:90%;box-shadow:0 4px 24px rgba(0,0,0,0.2);max-height:90vh;overflow-y:auto;">
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;">
               <h2 style="font-size:1.5rem;font-weight:bold;color:#5ED1D2;margin:0;">Create Account</h2>
-              <button onclick="document.getElementById('signup-modal').remove()" style="background:none;border:none;font-size:1.5rem;cursor:pointer;color:#666;">&times;</button>
+              <button id="signup-close" style="background:none;border:none;font-size:1.5rem;cursor:pointer;color:#666;">&times;</button>
             </div>
             <form id="signup-form">
               <div style="margin-bottom:1rem;">
@@ -663,7 +663,12 @@
         const container = document.createElement("div");
         container.id = "game-container";
         container.style.cssText = "display:none;";
-        document.body.insertBefore(container, document.querySelector("footer"));
+        const footer = document.querySelector("footer");
+        if (footer && footer.parentNode) {
+          footer.parentNode.insertBefore(container, footer);
+        } else {
+          document.body.appendChild(container);
+        }
         return container;
       }
 
@@ -1109,9 +1114,14 @@
               '<p style="font-size:1.2em;">' +
               safeMsg +
               "</p>" +
-              '<button onclick="document.getElementById(\'fallback-overlay\').remove()" style="margin-top:1rem;padding:0.5rem 1rem;background:#b91c1c;color:white;border:none;border-radius:0.5rem;cursor:pointer;">Dismiss</button>' +
+              '<button id="fallback-dismiss" style="margin-top:1rem;padding:0.5rem 1rem;background:#b91c1c;color:white;border:none;border-radius:0.5rem;cursor:pointer;">Dismiss</button>' +
               "</div>";
             document.body.appendChild(overlay);
+
+            // Bind dismiss button event listener
+            document
+              .getElementById("fallback-dismiss")
+              .addEventListener("click", () => overlay.remove());
           } catch (e) {
             console.error("Fallback screen error:", e);
           }
@@ -1131,11 +1141,7 @@
       };
     </script>
   </head>
-  <body
-    class="bg-white text-gray-800"
-    style="font-family: &quot;Inter&quot;, sans-serif"
-    onload="window.restoreAccessibilityPrefs(); window.checkAuth()"
-  >
+  <body class="bg-white text-gray-800" style="font-family: &quot;Inter&quot;, sans-serif">
     <!-- Accessibility: Skip Links -->
     <a
       href="#main-content"
@@ -1490,7 +1496,18 @@
     <!-- React App Root Container -->
     <div id="root"></div>
 
-    <!-- React App Entry Point -->
+    <!-- Initialize app after DOM loads -->
+    <script>
+      // Production Note: All inline onclick handlers should be migrated to addEventListener
+      // for better CSP compliance. This includes demo buttons, game controls, and dashboard actions.
+      document.addEventListener("DOMContentLoaded", () => {
+        window.restoreAccessibilityPrefs();
+        window.checkAuth();
+      });
+    </script>
+
+    <!-- React App Entry Point (DEV) -->
+    <!-- In production, this should be replaced with built assets from /dist -->
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
