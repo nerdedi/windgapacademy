@@ -57,20 +57,26 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
 
         if (!data) {
           // create a minimal user doc with default role 'learner'
-          await setUserDoc(uid, {
-            role: "learner",
-            name: firebaseUser.displayName || "",
-            email: firebaseUser.email || "",
-          });
+          try {
+            await setUserDoc(uid, {
+              role: "learner",
+              name: firebaseUser.displayName || "",
+              email: firebaseUser.email || "",
+            });
+          } catch (writeErr) {
+            // Firestore write failed (permissions) - continue with local role
+            console.warn("Could not save user profile to Firestore, using local state");
+          }
           setUser({ id: uid, role: "learner" });
         } else {
           const role = normalizeRole(data.role) || "learner";
           setUser({ id: uid, role });
         }
       } catch (e) {
-        // eslint-disable-next-line no-console
-        console.error("Failed to fetch or create user role", e);
-        setUser({ id: uid });
+        // Firestore read failed - use local user state without persisted role
+        // This commonly happens when Firestore rules aren't deployed or offline
+        console.warn("Could not fetch user role from Firestore, using default role");
+        setUser({ id: uid, role: "learner" });
       }
     });
 
