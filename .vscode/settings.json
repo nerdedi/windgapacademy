@@ -17,13 +17,114 @@
     "backend/**/node_modules"
   ],
   "python.analysis.logLevel": "Warning",
-  "python.testing.unittestArgs": [
-    "-v",
-    "-s",
-    "./nerdedi",
-    "-p",
-    "*test*.py"
-  ],
+  "python.testing.unittestArgs": ["-v", "-s", "./nerdedi", "-p", "*test*.py"],
   "python.testing.pytestEnabled": false,
-  "python.testing.unittestEnabled": true
+  "python.testing.unittestEnabled": true,
+
+  // ========== CHAT TOOLS CONFIGURATION ==========
+  // Enable essential tools for React/TypeScript/Vite web development
+
+  // GitHub Copilot Settings
+  "github.copilot.enable": {
+    "*": true,
+    "plaintext": true,
+    "markdown": true,
+    "javascript": true,
+    "typescript": true,
+    "typescriptreact": true,
+    "javascriptreact": true,
+    "json": true,
+    "html": true,
+    "css": true,
+    "scss": true,
+    "yaml": true
+  },
+  "github.copilot.editor.enableAutoCompletions": true,
+  "github.copilot.chat.localeOverride": "en",
+
+  // Chat Participants - Enable most useful ones
+  "chat.agent.enabled": true,
+  "chat.commandCenter.enabled": true,
+
+  // MCP (Model Context Protocol) Tools
+  "mcp.servers": {},
+
+  // Editor Settings for better chat integration
+  "editor.inlineSuggest.enabled": true,
+  "editor.suggest.preview": true,
+
+  // Terminal integration
+  "terminal.integrated.suggest.enabled": true,
+
+  // Testing tools
+  "testing.automaticallyOpenPeekView": "failureInVisibleDocument",
+  "jest.autoRun": "off",
+  "vitest.enable": true,
+
+  // Disable unnecessary tools/features to stay under limit
+  "typescript.suggest.enabled": true,
+  "javascript.suggest.enabled": true,
+  "html.suggest.html5": true,
+  "css.validate": true,
+  "scss.validate": true,
+
+  // ESLint & Prettier
+  "eslint.enable": true,
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[css]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+
+  // Tailwind CSS
+  "tailwindCSS.includeLanguages": {
+    "javascript": "javascript",
+    "typescript": "javascript",
+    "javascriptreact": "javascript",
+    "typescriptreact": "javascript",
+    "html": "html"
+  },
+  "tailwindCSS.emmetCompletions": true,
+
+  // Git/GitHub tools
+  "git.enableSmartCommit": true,
+  "git.autofetch": true,
+  "gitlens.mode.active": "zen",
+
+  // Docker tools (enabled but lightweight)
+  "docker.showStartPage": false,
+
+  // Disable heavy/unused features
+  "typescript.disableAutomaticTypeAcquisition": false,
+  "files.exclude": {
+    "**/node_modules": true,
+    "**/.git": true,
+    "**/coverage": true,
+    "**/dist": true,
+    "**/.next": true
+  },
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/coverage": true,
+    "**/dist": true,
+    "**/*.min.js": true
+  }
 }

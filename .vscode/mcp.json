@@ -1,0 +1,63 @@
+{
+  "mcpServers": {
+    "github": {
+      "enabled": true,
+      "tools": [
+        "github_search_pull_requests",
+        "github_create_or_update_file",
+        "github_push_files",
+        "github_fork_repository",
+        "github_assign_copilot_to_issue",
+        "github_get_teams"
+      ]
+    },
+    "gitkraken": {
+      "enabled": true,
+      "tools": [
+        "git_add_or_commit",
+        "git_blame",
+        "git_push",
+        "git_stash",
+        "gitkraken_workspace_list"
+      ]
+    },
+    "containers": {
+      "enabled": true,
+      "tools": ["list_networks", "prune", "act_image"]
+    }
+  },
+  "chat": {
+    "tools": {
+      "enabled": [
+        "file_search",
+        "grep_search",
+        "semantic_search",
+        "read_file",
+        "create_file",
+        "replace_string_in_file",
+        "multi_replace_string_in_file",
+        "run_in_terminal",
+        "get_terminal_output",
+        "terminal_last_command",
+        "list_dir",
+        "list_code_usages",
+        "get_errors",
+        "get_changed_files",
+        "runTests",
+        "run_notebook_cell",
+        "edit_notebook_file",
+        "manage_todo_list",
+        "fetch_webpage",
+        "open_simple_browser",
+        "create_and_run_task"
+      ],
+      "disabled": [
+        "azure_ai_model_management",
+        "azure_authentication_management",
+        "azure_tenant_and_subscription_management",
+        "azure_deployment_and_logging_tools",
+        "sonarqube_analysis_tools"
+      ]
+    }
+  }
+}
