@@ -1,0 +1,46 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    function isValidImageType() {
+      return request.resource.contentType.matches('image/(png|jpeg|gif|webp)');
+    }
+
+    function isUnderSizeLimit() {
+      return request.resource.size < 5 * 1024 * 1024; // 5MB limit
+    }
+
+    // User avatars - users can only access their own
+    match /avatars/{userId}/{fileName} {
+      allow read: if isAuthenticated();
+      allow write: if isOwner(userId) && isValidImageType() && isUnderSizeLimit();
+      allow delete: if isOwner(userId);
+    }
+
+    // Public assets (read-only)
+    match /public/{allPaths=**} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    // Game assets (read-only for authenticated users)
+    match /games/{allPaths=**} {
+      allow read: if isAuthenticated();
+      allow write: if false;
+    }
+
+    // Deny all other access
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}

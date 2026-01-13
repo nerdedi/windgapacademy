@@ -1,33 +1,63 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en-AU">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Content Security Policy -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="
+      default-src 'self';
+      script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://browser.sentry-cdn.com https://www.googletagmanager.com https://www.gstatic.com https://*.firebase.com https://*.firebaseio.com;
+      style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+      font-src 'self' https://fonts.gstatic.com;
+      img-src 'self' data: https:;
+      connect-src 'self' https://*.googleapis.com https://*.firebase.com https://*.firebaseio.com https://www.google-analytics.com https://sentry.io;
+      frame-src 'self' https://*.firebase.com;
+    "
+    />
     <title>Windgap Academy - Accessible Learning Platform</title>
-    <meta name="description" content="Windgap Academy: Accessible, inclusive, and modern learning platform for neurodivergent learners." />
+    <meta
+      name="description"
+      content="Windgap Academy: Accessible, inclusive, and modern learning platform for neurodivergent learners."
+    />
     <meta name="robots" content="index, follow" />
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%235ED1D2' width='100' height='100'/><text x='50' y='60' font-size='60' font-weight='bold' fill='%23A32C2B' text-anchor='middle'>W</text></svg>">
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%235ED1D2' width='100' height='100'/><text x='50' y='60' font-size='60' font-weight='bold' fill='%23A32C2B' text-anchor='middle'>W</text></svg>"
+    />
 
     <!-- Styles -->
-    <link rel="stylesheet" href="styles/output.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/output.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
 
     <!-- External Libraries -->
-    <script src="https://cdn.jsdelivr.net/npm/howler"></script>
-    <script src="https://browser.sentry-cdn.com/7.100.0/bundle.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/howler@2.2.4/dist/howler.min.js"></script>
+    <script
+      src="https://browser.sentry-cdn.com/7.100.0/bundle.min.js"
+      crossorigin="anonymous"
+    ></script>
     <script>
-      Sentry.init({ dsn: window.env && window.env.SENTRY_DSN ? window.env.SENTRY_DSN : '' });
+      // Only initialize Sentry if DSN is configured
+      if (window.env && window.env.SENTRY_DSN) {
+        Sentry.init({ dsn: window.env.SENTRY_DSN });
+      }
     </script>
 
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=GA-XXXXXXXXX-X"></script>
+    <!-- Google Analytics (using Firebase measurementId) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-FXR0TX8S6X"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'GA-XXXXXXXXX-X');
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-FXR0TX8S6X");
     </script>
 
     <!-- Firebase -->
@@ -45,60 +75,70 @@
           storageBucket: "windgap-academy.appspot.com",
           messagingSenderId: "438303886042",
           appId: "1:438303886042:web:19b166df519870baa433e3",
-          measurementId: "G-FXR0TX8S6X"
+          measurementId: "G-FXR0TX8S6X",
         };
 
         if (window.firebase) {
           firebase.initializeApp(firebaseConfig);
           window.firebaseReady = true;
-          console.log('Firebase initialized successfully');
+          console.log("Firebase initialized successfully");
         }
       } catch (e) {
-        console.log('Firebase initialization error:', e.message);
+        console.log("Firebase initialization error:", e.message);
       }
     </script>
 
     <!-- Global Utilities (must load before body) -->
     <script>
-      // Accessibility utilities
-      window.increaseFont = function() {
+      // HTML escaping utility to prevent XSS
+      window.escapeHTML = function (str) {
+        return (str || "").replace(/[&<>"']/g, function (c) {
+          return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+        });
+      };
+
+      // Accessibility utilities using CSS custom properties for Tailwind compatibility
+      window.increaseFont = function () {
         const root = document.documentElement;
-        const current = parseFloat(root.style.fontSize) || 16;
-        root.style.fontSize = (current + 2) + 'px';
+        const current =
+          parseFloat(getComputedStyle(root).getPropertyValue("--app-font-scale")) || 1;
+        const newScale = Math.min(current + 0.1, 2.0); // Cap at 2x
+        root.style.setProperty("--app-font-scale", newScale.toFixed(2));
       };
 
-      window.toggleDyslexiaFont = function() {
+      window.toggleDyslexiaFont = function () {
         const body = document.body;
-        body.classList.toggle('dyslexia-font');
-        localStorage.setItem('dyslexia-font', body.classList.contains('dyslexia-font'));
+        body.classList.toggle("dyslexia-font");
+        localStorage.setItem("dyslexia-font", body.classList.contains("dyslexia-font"));
       };
 
-      window.toggleEasyRead = function() {
+      window.toggleEasyRead = function () {
         const body = document.body;
-        body.classList.toggle('easy-read');
-        localStorage.setItem('easy-read', body.classList.contains('easy-read'));
+        body.classList.toggle("easy-read");
+        localStorage.setItem("easy-read", body.classList.contains("easy-read"));
       };
 
       // Navigation utilities
-      window.navigateTo = function(route) {
-        console.log('Navigating to:', route);
-        if (route === 'signin') {
+      window.navigateTo = function (route) {
+        console.log("Navigating to:", route);
+        if (route === "signin") {
           window.showSignInModal();
-        } else if (route === 'dashboard') {
+        } else if (route === "dashboard") {
           // Redirect to dashboard (only if authenticated)
-          window.location.href = '#/dashboard';
+          window.location.href = "#/dashboard";
         }
       };
 
       // Sign In Modal
-      window.showSignInModal = function() {
+      window.showSignInModal = function () {
         // Remove existing modal if any
-        const existing = document.getElementById('signin-modal');
+        const existing = document.getElementById("signin-modal");
         if (existing) existing.remove();
 
-        const modal = document.createElement('div');
-        modal.id = 'signin-modal';
-        modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:9999;';
+        const modal = document.createElement("div");
+        modal.id = "signin-modal";
+        modal.style.cssText =
+          "position:fixed;inset:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:9999;";
         modal.innerHTML = `
           <div style="background:white;padding:2rem;border-radius:1rem;max-width:400px;width:90%;box-shadow:0 4px 24px rgba(0,0,0,0.2);">
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;">
@@ -138,69 +178,80 @@
         document.body.appendChild(modal);
 
         // Close on backdrop click
-        modal.addEventListener('click', function(e) {
+        modal.addEventListener("click", function (e) {
           if (e.target === modal) modal.remove();
         });
 
         // Handle form submit
-        document.getElementById('signin-form').addEventListener('submit', async function(e) {
+        document.getElementById("signin-form").addEventListener("submit", async function (e) {
           e.preventDefault();
-          const email = document.getElementById('signin-email').value;
-          const password = document.getElementById('signin-password').value;
-          const errorDiv = document.getElementById('signin-error');
-          const submitBtn = document.getElementById('signin-submit');
+          const email = document.getElementById("signin-email").value;
+          const password = document.getElementById("signin-password").value;
+          const errorDiv = document.getElementById("signin-error");
+          const submitBtn = document.getElementById("signin-submit");
 
-          errorDiv.style.display = 'none';
+          errorDiv.style.display = "none";
           submitBtn.disabled = true;
-          submitBtn.textContent = 'Signing in...';
+          submitBtn.textContent = "Signing in...";
 
           try {
             if (window.firebaseReady && window.firebase && window.firebase.auth) {
               await window.firebase.auth().signInWithEmailAndPassword(email, password);
-              const user = { email: email, isDemo: false, name: email.split('@')[0], role: 'learner' };
-              localStorage.setItem('windgap_user', JSON.stringify(user));
+              const user = {
+                email: email,
+                isDemo: false,
+                name: email.split("@")[0],
+                role: "learner",
+              };
+              localStorage.setItem("windgap_user", JSON.stringify(user));
               modal.remove();
               window.showDashboard(user);
             } else {
               // Firebase not configured - use demo mode
-              errorDiv.textContent = 'Firebase not configured. Please use the demo login buttons below.';
-              errorDiv.style.display = 'block';
+              errorDiv.textContent =
+                "Firebase not configured. Please use the demo login buttons below.";
+              errorDiv.style.display = "block";
             }
           } catch (err) {
-            errorDiv.textContent = err.message || 'Sign in failed. Please check your credentials.';
-            errorDiv.style.display = 'block';
+            errorDiv.textContent = err.message || "Sign in failed. Please check your credentials.";
+            errorDiv.style.display = "block";
           } finally {
             submitBtn.disabled = false;
-            submitBtn.textContent = 'Sign In';
+            submitBtn.textContent = "Sign In";
           }
         });
 
         // Focus the email input
-        setTimeout(() => document.getElementById('signin-email').focus(), 100);
+        setTimeout(() => document.getElementById("signin-email").focus(), 100);
       };
 
       // Demo login
-      window.demoLogin = function(role) {
-        const modal = document.getElementById('signin-modal');
+      window.demoLogin = function (role) {
+        const modal = document.getElementById("signin-modal");
         if (modal) modal.remove();
 
         // Store demo user info
-        const user = { role: role, isDemo: true, name: role === 'educator' ? 'Demo Educator' : 'Demo Learner' };
-        localStorage.setItem('windgap_user', JSON.stringify(user));
+        const user = {
+          role: role,
+          isDemo: true,
+          name: role === "educator" ? "Demo Educator" : "Demo Learner",
+        };
+        localStorage.setItem("windgap_user", JSON.stringify(user));
 
         // Show dashboard directly
         window.showDashboard(user);
       };
 
       // Create Account Modal
-      window.showCreateAccountModal = function() {
+      window.showCreateAccountModal = function () {
         // Remove existing modal if any
-        const existing = document.getElementById('signup-modal');
+        const existing = document.getElementById("signup-modal");
         if (existing) existing.remove();
 
-        const modal = document.createElement('div');
-        modal.id = 'signup-modal';
-        modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:9999;';
+        const modal = document.createElement("div");
+        modal.id = "signup-modal";
+        modal.style.cssText =
+          "position:fixed;inset:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:9999;";
         modal.innerHTML = `
           <div style="background:white;padding:2rem;border-radius:1rem;max-width:450px;width:90%;box-shadow:0 4px 24px rgba(0,0,0,0.2);max-height:90vh;overflow-y:auto;">
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;">
@@ -257,47 +308,49 @@
         document.body.appendChild(modal);
 
         // Close on backdrop click
-        modal.addEventListener('click', function(e) {
+        modal.addEventListener("click", function (e) {
           if (e.target === modal) modal.remove();
         });
 
         // Handle form submit
-        document.getElementById('signup-form').addEventListener('submit', async function(e) {
+        document.getElementById("signup-form").addEventListener("submit", async function (e) {
           e.preventDefault();
-          const name = document.getElementById('signup-name').value;
-          const email = document.getElementById('signup-email').value;
-          const password = document.getElementById('signup-password').value;
-          const confirm = document.getElementById('signup-confirm').value;
+          const name = document.getElementById("signup-name").value;
+          const email = document.getElementById("signup-email").value;
+          const password = document.getElementById("signup-password").value;
+          const confirm = document.getElementById("signup-confirm").value;
           const role = document.querySelector('input[name="signup-role"]:checked').value;
-          const errorDiv = document.getElementById('signup-error');
-          const successDiv = document.getElementById('signup-success');
-          const submitBtn = document.getElementById('signup-submit');
+          const errorDiv = document.getElementById("signup-error");
+          const successDiv = document.getElementById("signup-success");
+          const submitBtn = document.getElementById("signup-submit");
 
-          errorDiv.style.display = 'none';
-          successDiv.style.display = 'none';
+          errorDiv.style.display = "none";
+          successDiv.style.display = "none";
 
           // Validate passwords match
           if (password !== confirm) {
-            errorDiv.textContent = 'Passwords do not match.';
-            errorDiv.style.display = 'block';
+            errorDiv.textContent = "Passwords do not match.";
+            errorDiv.style.display = "block";
             return;
           }
 
           submitBtn.disabled = true;
-          submitBtn.textContent = 'Creating account...';
+          submitBtn.textContent = "Creating account...";
 
           try {
             if (window.firebaseReady && window.firebase && window.firebase.auth) {
               // Create user with Firebase
-              const userCredential = await window.firebase.auth().createUserWithEmailAndPassword(email, password);
+              const userCredential = await window.firebase
+                .auth()
+                .createUserWithEmailAndPassword(email, password);
               // Update display name
               await userCredential.user.updateProfile({ displayName: name });
 
               const user = { email: email, name: name, role: role, isDemo: false };
-              localStorage.setItem('windgap_user', JSON.stringify(user));
+              localStorage.setItem("windgap_user", JSON.stringify(user));
 
-              successDiv.textContent = 'Account created successfully! Redirecting...';
-              successDiv.style.display = 'block';
+              successDiv.textContent = "Account created successfully! Redirecting...";
+              successDiv.style.display = "block";
 
               setTimeout(() => {
                 modal.remove();
@@ -306,10 +359,10 @@
             } else {
               // Firebase not configured - create local account for demo
               const user = { email: email, name: name, role: role, isDemo: true };
-              localStorage.setItem('windgap_user', JSON.stringify(user));
+              localStorage.setItem("windgap_user", JSON.stringify(user));
 
-              successDiv.textContent = 'Demo account created! Redirecting...';
-              successDiv.style.display = 'block';
+              successDiv.textContent = "Demo account created! Redirecting...";
+              successDiv.style.display = "block";
 
               setTimeout(() => {
                 modal.remove();
@@ -317,193 +370,200 @@
               }, 1500);
             }
           } catch (err) {
-            let errorMessage = 'Account creation failed. ';
-            if (err.code === 'auth/email-already-in-use') {
-              errorMessage += 'This email is already registered.';
-            } else if (err.code === 'auth/weak-password') {
-              errorMessage += 'Password should be at least 6 characters.';
-            } else if (err.code === 'auth/invalid-email') {
-              errorMessage += 'Please enter a valid email address.';
+            let errorMessage = "Account creation failed. ";
+            if (err.code === "auth/email-already-in-use") {
+              errorMessage += "This email is already registered.";
+            } else if (err.code === "auth/weak-password") {
+              errorMessage += "Password should be at least 6 characters.";
+            } else if (err.code === "auth/invalid-email") {
+              errorMessage += "Please enter a valid email address.";
             } else {
-              errorMessage += err.message || 'Please try again.';
+              errorMessage += err.message || "Please try again.";
             }
             errorDiv.textContent = errorMessage;
-            errorDiv.style.display = 'block';
+            errorDiv.style.display = "block";
             submitBtn.disabled = false;
-            submitBtn.textContent = 'Create Account';
+            submitBtn.textContent = "Create Account";
           }
         });
 
         // Focus the name input
-        setTimeout(() => document.getElementById('signup-name').focus(), 100);
+        setTimeout(() => document.getElementById("signup-name").focus(), 100);
       };
 
       // Show Dashboard
-      window.showDashboard = function(user) {
+      window.showDashboard = function (user) {
         if (!user) {
-          const stored = localStorage.getItem('windgap_user');
+          const stored = localStorage.getItem("windgap_user");
           user = stored ? JSON.parse(stored) : null;
         }
         if (!user) {
-          window.navigateTo('signin');
+          window.navigateTo("signin");
           return;
         }
 
-        const isEducator = user.role === 'educator';
-        const mainContent = document.querySelector('main') || document.body;
+        const isEducator = user.role === "educator";
+        const mainContent = document.querySelector("main") || document.body;
+        const safeName = window.escapeHTML(user.name);
 
         // Hide hero sections and show dashboard
-        document.querySelectorAll('section').forEach(s => s.style.display = 'none');
-        document.querySelector('footer').style.display = 'none';
+        document.querySelectorAll("section").forEach((s) => (s.style.display = "none"));
+        const footer = document.querySelector("footer");
+        if (footer) footer.style.display = "none";
 
         // Create dashboard
-        let dashboard = document.getElementById('dashboard-view');
+        let dashboard = document.getElementById("dashboard-view");
         if (!dashboard) {
-          dashboard = document.createElement('div');
-          dashboard.id = 'dashboard-view';
-          document.body.insertBefore(dashboard, document.querySelector('footer'));
+          dashboard = document.createElement("div");
+          dashboard.id = "dashboard-view";
+          document.body.insertBefore(dashboard, document.querySelector("footer"));
         }
 
-        dashboard.style.display = 'block';
+        dashboard.style.display = "block";
         dashboard.innerHTML =
           '<div style="max-width:1200px;margin:0 auto;padding:2rem;">' +
-            '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem;">' +
-              '<h1 style="font-size:2rem;font-weight:bold;color:#A32C2B;">' +
-                'Welcome, ' + user.name + '! ' +
-                '<span style="font-size:1rem;background:' + (isEducator ? '#FBBF24' : '#5ED1D2') + ';color:' + (isEducator ? '#333' : 'white') + ';padding:0.25rem 0.75rem;border-radius:1rem;margin-left:0.5rem;">' +
-                  (isEducator ? '👨‍🏫 Educator' : '🎓 Learner') +
-                '</span>' +
-              '</h1>' +
-              '<button onclick="window.logout()" style="padding:0.5rem 1rem;background:#dc2626;color:white;border:none;border-radius:0.5rem;cursor:pointer;font-weight:500;">' +
-                'Sign Out' +
-              '</button>' +
-            '</div>' +
-            '<h2 style="font-size:1.5rem;font-weight:bold;color:#333;margin-bottom:1rem;">🎮 Learning Games</h2>' +
-            '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;margin-bottom:2rem;">' +
-              '<div style="background:linear-gradient(135deg,#5ED1D2,#3BA9AA);padding:1.5rem;border-radius:1rem;color:white;">' +
-                '<h3 style="font-size:1.25rem;font-weight:bold;margin-bottom:0.5rem;">📚 Winnie\'s Words</h3>' +
-                '<p style="margin-bottom:1rem;opacity:0.9;">Practice vocabulary, spelling, and reading!</p>' +
-                '<button onclick="window.launchGame(\'winnies-words\')" style="background:white;color:#3BA9AA;padding:0.5rem 1rem;border:none;border-radius:0.5rem;cursor:pointer;font-weight:600;">' +
-                  'Play Now' +
-                '</button>' +
-              '</div>' +
-              '<div style="background:linear-gradient(135deg,#A32C2B,#8b2423);padding:1.5rem;border-radius:1rem;color:white;">' +
-                '<h3 style="font-size:1.25rem;font-weight:bold;margin-bottom:0.5rem;">🔢 Math Quest</h3>' +
-                '<p style="margin-bottom:1rem;opacity:0.9;">Solve math puzzles and earn rewards!</p>' +
-                '<button onclick="window.launchGame(\'math-quest\')" style="background:white;color:#A32C2B;padding:0.5rem 1rem;border:none;border-radius:0.5rem;cursor:pointer;font-weight:600;">' +
-                  'Play Now' +
-                '</button>' +
-              '</div>' +
-              '<div style="background:linear-gradient(135deg,#FBBF24,#d99e1b);padding:1.5rem;border-radius:1rem;color:#333;">' +
-                '<h3 style="font-size:1.25rem;font-weight:bold;margin-bottom:0.5rem;">🎨 Avatar Builder</h3>' +
-                '<p style="margin-bottom:1rem;opacity:0.8;">Create your own custom avatar!</p>' +
-                '<button onclick="window.launchGame(\'avatar\')" style="background:white;color:#d99e1b;padding:0.5rem 1rem;border:none;border-radius:0.5rem;cursor:pointer;font-weight:600;">' +
-                  'Create' +
-                '</button>' +
-              '</div>' +
-              '<div style="background:linear-gradient(135deg,#10B981,#059669);padding:1.5rem;border-radius:1rem;color:white;">' +
-                '<h3 style="font-size:1.25rem;font-weight:bold;margin-bottom:0.5rem;">🏠 Life Skills</h3>' +
-                '<p style="margin-bottom:1rem;opacity:0.9;">Learn cooking, cleaning & daily tasks!</p>' +
-                '<button onclick="window.launchGame(\'life-skills\')" style="background:white;color:#059669;padding:0.5rem 1rem;border:none;border-radius:0.5rem;cursor:pointer;font-weight:600;">' +
-                  'Explore' +
-                '</button>' +
-              '</div>' +
-              '<div style="background:linear-gradient(135deg,#6366F1,#4F46E5);padding:1.5rem;border-radius:1rem;color:white;">' +
-                '<h3 style="font-size:1.25rem;font-weight:bold;margin-bottom:0.5rem;">💻 Digital Skills</h3>' +
-                '<p style="margin-bottom:1rem;opacity:0.9;">Computer & internet skills training!</p>' +
-                '<button onclick="window.launchGame(\'digital-skills\')" style="background:white;color:#4F46E5;padding:0.5rem 1rem;border:none;border-radius:0.5rem;cursor:pointer;font-weight:600;">' +
-                  'Learn' +
-                '</button>' +
-              '</div>' +
-            '</div>' +
-            (isEducator ?
-            '<div style="background:#f8fafc;padding:1.5rem;border-radius:1rem;border:1px solid #e2e8f0;">' +
+          '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem;">' +
+          '<h1 style="font-size:2rem;font-weight:bold;color:#A32C2B;">' +
+          "Welcome, " +
+          safeName +
+          "! " +
+          '<span style="font-size:1rem;background:' +
+          (isEducator ? "#FBBF24" : "#5ED1D2") +
+          ";color:" +
+          (isEducator ? "#333" : "white") +
+          ';padding:0.25rem 0.75rem;border-radius:1rem;margin-left:0.5rem;">' +
+          (isEducator ? "👨‍🏫 Educator" : "🎓 Learner") +
+          "</span>" +
+          "</h1>" +
+          '<button onclick="window.logout()" style="padding:0.5rem 1rem;background:#dc2626;color:white;border:none;border-radius:0.5rem;cursor:pointer;font-weight:500;">' +
+          "Sign Out" +
+          "</button>" +
+          "</div>" +
+          '<h2 style="font-size:1.5rem;font-weight:bold;color:#333;margin-bottom:1rem;">🎮 Learning Games</h2>' +
+          '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;margin-bottom:2rem;">' +
+          '<div style="background:linear-gradient(135deg,#5ED1D2,#3BA9AA);padding:1.5rem;border-radius:1rem;color:white;">' +
+          '<h3 style="font-size:1.25rem;font-weight:bold;margin-bottom:0.5rem;">📚 Winnie\'s Words</h3>' +
+          '<p style="margin-bottom:1rem;opacity:0.9;">Practice vocabulary, spelling, and reading!</p>' +
+          '<button onclick="window.launchGame(\'winnies-words\')" style="background:white;color:#3BA9AA;padding:0.5rem 1rem;border:none;border-radius:0.5rem;cursor:pointer;font-weight:600;">' +
+          "Play Now" +
+          "</button>" +
+          "</div>" +
+          '<div style="background:linear-gradient(135deg,#A32C2B,#8b2423);padding:1.5rem;border-radius:1rem;color:white;">' +
+          '<h3 style="font-size:1.25rem;font-weight:bold;margin-bottom:0.5rem;">🔢 Math Quest</h3>' +
+          '<p style="margin-bottom:1rem;opacity:0.9;">Solve math puzzles and earn rewards!</p>' +
+          '<button onclick="window.launchGame(\'math-quest\')" style="background:white;color:#A32C2B;padding:0.5rem 1rem;border:none;border-radius:0.5rem;cursor:pointer;font-weight:600;">' +
+          "Play Now" +
+          "</button>" +
+          "</div>" +
+          '<div style="background:linear-gradient(135deg,#FBBF24,#d99e1b);padding:1.5rem;border-radius:1rem;color:#333;">' +
+          '<h3 style="font-size:1.25rem;font-weight:bold;margin-bottom:0.5rem;">🎨 Avatar Builder</h3>' +
+          '<p style="margin-bottom:1rem;opacity:0.8;">Create your own custom avatar!</p>' +
+          '<button onclick="window.launchGame(\'avatar\')" style="background:white;color:#d99e1b;padding:0.5rem 1rem;border:none;border-radius:0.5rem;cursor:pointer;font-weight:600;">' +
+          "Create" +
+          "</button>" +
+          "</div>" +
+          '<div style="background:linear-gradient(135deg,#10B981,#059669);padding:1.5rem;border-radius:1rem;color:white;">' +
+          '<h3 style="font-size:1.25rem;font-weight:bold;margin-bottom:0.5rem;">🏠 Life Skills</h3>' +
+          '<p style="margin-bottom:1rem;opacity:0.9;">Learn cooking, cleaning & daily tasks!</p>' +
+          '<button onclick="window.launchGame(\'life-skills\')" style="background:white;color:#059669;padding:0.5rem 1rem;border:none;border-radius:0.5rem;cursor:pointer;font-weight:600;">' +
+          "Explore" +
+          "</button>" +
+          "</div>" +
+          '<div style="background:linear-gradient(135deg,#6366F1,#4F46E5);padding:1.5rem;border-radius:1rem;color:white;">' +
+          '<h3 style="font-size:1.25rem;font-weight:bold;margin-bottom:0.5rem;">💻 Digital Skills</h3>' +
+          '<p style="margin-bottom:1rem;opacity:0.9;">Computer & internet skills training!</p>' +
+          '<button onclick="window.launchGame(\'digital-skills\')" style="background:white;color:#4F46E5;padding:0.5rem 1rem;border:none;border-radius:0.5rem;cursor:pointer;font-weight:600;">' +
+          "Learn" +
+          "</button>" +
+          "</div>" +
+          "</div>" +
+          (isEducator
+            ? '<div style="background:#f8fafc;padding:1.5rem;border-radius:1rem;border:1px solid #e2e8f0;">' +
               '<h3 style="font-size:1.25rem;font-weight:bold;color:#A32C2B;margin-bottom:1rem;">📊 Educator Tools</h3>' +
               '<div style="display:flex;gap:1rem;flex-wrap:wrap;">' +
-                '<button onclick="alert(\'Student progress dashboard loading...\')" style="padding:0.75rem 1.5rem;background:#A32C2B;color:white;border:none;border-radius:0.5rem;cursor:pointer;">View Student Progress</button>' +
-                '<button onclick="alert(\'Assignment creator loading...\')" style="padding:0.75rem 1.5rem;background:#5ED1D2;color:white;border:none;border-radius:0.5rem;cursor:pointer;">Create Assignment</button>' +
-                '<button onclick="alert(\'Class reports loading...\')" style="padding:0.75rem 1.5rem;background:#FBBF24;color:#333;border:none;border-radius:0.5rem;cursor:pointer;">Class Reports</button>' +
-              '</div>' +
-            '</div>'
-            :
-            '<div style="background:#f8fafc;padding:1.5rem;border-radius:1rem;border:1px solid #e2e8f0;">' +
+              '<button onclick="alert(\'Student progress dashboard loading...\')" style="padding:0.75rem 1.5rem;background:#A32C2B;color:white;border:none;border-radius:0.5rem;cursor:pointer;">View Student Progress</button>' +
+              '<button onclick="alert(\'Assignment creator loading...\')" style="padding:0.75rem 1.5rem;background:#5ED1D2;color:white;border:none;border-radius:0.5rem;cursor:pointer;">Create Assignment</button>' +
+              '<button onclick="alert(\'Class reports loading...\')" style="padding:0.75rem 1.5rem;background:#FBBF24;color:#333;border:none;border-radius:0.5rem;cursor:pointer;">Class Reports</button>' +
+              "</div>" +
+              "</div>"
+            : '<div style="background:#f8fafc;padding:1.5rem;border-radius:1rem;border:1px solid #e2e8f0;">' +
               '<h3 style="font-size:1.25rem;font-weight:bold;color:#A32C2B;margin-bottom:1rem;">🏆 Your Progress</h3>' +
               '<div style="display:flex;gap:2rem;flex-wrap:wrap;">' +
-                '<div><strong>Games Played:</strong> 12</div>' +
-                '<div><strong>Points Earned:</strong> 450</div>' +
-                '<div><strong>Current Streak:</strong> 🔥 3 days</div>' +
-              '</div>' +
-            '</div>'
-            ) +
-          '</div>';
+              "<div><strong>Games Played:</strong> 12</div>" +
+              "<div><strong>Points Earned:</strong> 450</div>" +
+              "<div><strong>Current Streak:</strong> 🔥 3 days</div>" +
+              "</div>" +
+              "</div>") +
+          "</div>";
 
-        window.location.hash = '/dashboard';
+        window.location.hash = "/dashboard";
       };
 
       // Logout
-      window.logout = function() {
-        localStorage.removeItem('windgap_user');
-        window.location.hash = '';
+      window.logout = function () {
+        localStorage.removeItem("windgap_user");
+        window.location.hash = "";
         window.location.reload();
       };
 
       // Launch game placeholder
-      window.launchGame = function(game) {
-        const gameContainer = document.getElementById('game-container') || createGameContainer();
+      window.launchGame = function (game) {
+        const gameContainer = document.getElementById("game-container") || createGameContainer();
 
         // Game configurations
         const games = {
-          'winnies-words': {
+          "winnies-words": {
             title: "📚 Winnie's Words",
-            color: '#5ED1D2',
-            description: 'Practice vocabulary, spelling, and reading comprehension with Winnie the Wombat!',
-            content: createLiteracyGame
+            color: "#5ED1D2",
+            description:
+              "Practice vocabulary, spelling, and reading comprehension with Winnie the Wombat!",
+            content: createLiteracyGame,
           },
-          'math-quest': {
-            title: '🔢 Math Quest',
-            color: '#A32C2B',
-            description: 'Solve math puzzles, practice numeracy skills, and earn rewards!',
-            content: createNumeracyGame
+          "math-quest": {
+            title: "🔢 Math Quest",
+            color: "#A32C2B",
+            description: "Solve math puzzles, practice numeracy skills, and earn rewards!",
+            content: createNumeracyGame,
           },
-          'avatar': {
-            title: '🎨 Avatar Builder',
-            color: '#FBBF24',
-            description: 'Create and customize your own unique avatar!',
-            content: createAvatarBuilder
+          avatar: {
+            title: "🎨 Avatar Builder",
+            color: "#FBBF24",
+            description: "Create and customize your own unique avatar!",
+            content: createAvatarBuilder,
           },
-          'life-skills': {
-            title: '🏠 Life Skills',
-            color: '#10B981',
-            description: 'Learn essential daily living skills through interactive scenarios!',
-            content: createLifeSkillsGame
+          "life-skills": {
+            title: "🏠 Life Skills",
+            color: "#10B981",
+            description: "Learn essential daily living skills through interactive scenarios!",
+            content: createLifeSkillsGame,
           },
-          'digital-skills': {
-            title: '💻 Digital Skills',
-            color: '#6366F1',
-            description: 'Master computer and internet skills for the modern world!',
-            content: createDigitalSkillsGame
-          }
+          "digital-skills": {
+            title: "💻 Digital Skills",
+            color: "#6366F1",
+            description: "Master computer and internet skills for the modern world!",
+            content: createDigitalSkillsGame,
+          },
         };
 
         const gameConfig = games[game];
         if (!gameConfig) {
-          alert('Game not found: ' + game);
+          alert("Game not found: " + game);
           return;
         }
 
         // Hide dashboard, show game
-        const dashboard = document.getElementById('dashboard-view');
-        if (dashboard) dashboard.style.display = 'none';
+        const dashboard = document.getElementById("dashboard-view");
+        if (dashboard) dashboard.style.display = "none";
 
-        gameContainer.style.display = 'block';
+        gameContainer.style.display = "block";
         gameContainer.innerHTML = gameConfig.content(gameConfig);
       };
 
       function createGameContainer() {
-        const container = document.createElement('div');
-        container.id = 'game-container';
-        container.style.cssText = 'display:none;';
-        document.body.insertBefore(container, document.querySelector('footer'));
+        const container = document.createElement("div");
+        container.id = "game-container";
+        container.style.cssText = "display:none;";
+        document.body.insertBefore(container, document.querySelector("footer"));
         return container;
       }
 
@@ -753,64 +813,75 @@
       }
 
       // Game helper functions
-      window.returnToDashboard = function() {
-        const gameContainer = document.getElementById('game-container');
-        if (gameContainer) gameContainer.style.display = 'none';
-        const user = JSON.parse(localStorage.getItem('windgap_user') || '{}');
+      window.returnToDashboard = function () {
+        const gameContainer = document.getElementById("game-container");
+        if (gameContainer) gameContainer.style.display = "none";
+        const user = JSON.parse(localStorage.getItem("windgap_user") || "{}");
         window.showDashboard(user);
       };
 
       // Spelling game state
-      window.spellingWords = ['apple', 'banana', 'school', 'friend', 'happy', 'learning', 'wombat', 'kangaroo'];
-      window.currentWord = 'apple';
+      window.spellingWords = [
+        "apple",
+        "banana",
+        "school",
+        "friend",
+        "happy",
+        "learning",
+        "wombat",
+        "kangaroo",
+      ];
+      window.currentWord = "apple";
       window.spellingScore = 0;
       window.spellingStreak = 0;
 
-      window.playWord = function() {
-        window.currentWord = window.spellingWords[Math.floor(Math.random() * window.spellingWords.length)];
-        if ('speechSynthesis' in window) {
+      window.playWord = function () {
+        window.currentWord =
+          window.spellingWords[Math.floor(Math.random() * window.spellingWords.length)];
+        if ("speechSynthesis" in window) {
           const utter = new SpeechSynthesisUtterance(window.currentWord);
           window.speechSynthesis.speak(utter);
         }
       };
 
-      window.checkSpelling = function() {
-        const input = document.getElementById('spelling-input');
-        const feedback = document.getElementById('spelling-feedback');
+      window.checkSpelling = function () {
+        const input = document.getElementById("spelling-input");
+        const feedback = document.getElementById("spelling-feedback");
         if (!input || !feedback) return;
 
         const userAnswer = input.value.trim().toLowerCase();
         if (userAnswer === window.currentWord) {
           window.spellingScore += 10;
           window.spellingStreak++;
-          feedback.style.background = '#dcfce7';
-          feedback.style.color = '#166534';
-          feedback.innerHTML = '✓ Correct! Great job! 🎉';
+          feedback.style.background = "#dcfce7";
+          feedback.style.color = "#166534";
+          feedback.innerHTML = "✓ Correct! Great job! 🎉";
         } else {
           window.spellingStreak = 0;
-          feedback.style.background = '#fef2f2';
-          feedback.style.color = '#991b1b';
-          feedback.innerHTML = '✗ Try again! The word was: <strong>' + window.currentWord + '</strong>';
+          feedback.style.background = "#fef2f2";
+          feedback.style.color = "#991b1b";
+          feedback.innerHTML =
+            "✗ Try again! The word was: <strong>" + window.currentWord + "</strong>";
         }
-        feedback.style.display = 'block';
-        document.getElementById('spelling-score').textContent = window.spellingScore;
-        document.getElementById('spelling-streak').textContent = window.spellingStreak;
-        input.value = '';
+        feedback.style.display = "block";
+        document.getElementById("spelling-score").textContent = window.spellingScore;
+        document.getElementById("spelling-streak").textContent = window.spellingStreak;
+        input.value = "";
       };
 
-      window.checkReading = function(correct) {
-        const feedback = document.getElementById('reading-feedback');
+      window.checkReading = function (correct) {
+        const feedback = document.getElementById("reading-feedback");
         if (!feedback) return;
         if (correct) {
-          feedback.style.background = '#dcfce7';
-          feedback.style.color = '#166534';
-          feedback.innerHTML = '✓ Correct! Winnie went to visit her friend Daisy at the park! 🎉';
+          feedback.style.background = "#dcfce7";
+          feedback.style.color = "#166534";
+          feedback.innerHTML = "✓ Correct! Winnie went to visit her friend Daisy at the park! 🎉";
         } else {
-          feedback.style.background = '#fef2f2';
-          feedback.style.color = '#991b1b';
-          feedback.innerHTML = '✗ Read the story again carefully and try another answer.';
+          feedback.style.background = "#fef2f2";
+          feedback.style.color = "#991b1b";
+          feedback.innerHTML = "✗ Read the story again carefully and try another answer.";
         }
-        feedback.style.display = 'block';
+        feedback.style.display = "block";
       };
 
       // Math game state
@@ -818,274 +889,455 @@
       window.mathLevel = 1;
       window.currentMathAnswer = 8;
 
-      window.checkMath = function(answer) {
-        const feedback = document.getElementById('math-feedback');
+      window.checkMath = function (answer) {
+        const feedback = document.getElementById("math-feedback");
         if (!feedback) return;
         if (answer === window.currentMathAnswer) {
           window.mathScore += 10;
-          feedback.style.background = '#dcfce7';
-          feedback.style.color = '#166534';
-          feedback.innerHTML = '✓ Correct! 🎉';
-          document.getElementById('math-score').textContent = window.mathScore;
+          feedback.style.background = "#dcfce7";
+          feedback.style.color = "#166534";
+          feedback.innerHTML = "✓ Correct! 🎉";
+          document.getElementById("math-score").textContent = window.mathScore;
         } else {
-          feedback.style.background = '#fef2f2';
-          feedback.style.color = '#991b1b';
-          feedback.innerHTML = '✗ Not quite. The answer was ' + window.currentMathAnswer + '. Try the next one!';
+          feedback.style.background = "#fef2f2";
+          feedback.style.color = "#991b1b";
+          feedback.innerHTML =
+            "✗ Not quite. The answer was " + window.currentMathAnswer + ". Try the next one!";
         }
-        feedback.style.display = 'block';
+        feedback.style.display = "block";
       };
 
-      window.checkMoney = function(correct) {
-        const feedback = document.getElementById('money-feedback');
+      window.checkMoney = function (correct) {
+        const feedback = document.getElementById("money-feedback");
         if (!feedback) return;
         if (correct) {
-          feedback.style.background = '#dcfce7';
-          feedback.style.color = '#166534';
-          feedback.innerHTML = '✓ Correct! $5.00 - $3.70 = $1.30 🎉';
+          feedback.style.background = "#dcfce7";
+          feedback.style.color = "#166534";
+          feedback.innerHTML = "✓ Correct! $5.00 - $3.70 = $1.30 🎉";
         } else {
-          feedback.style.background = '#fef2f2';
-          feedback.style.color = '#991b1b';
-          feedback.innerHTML = '✗ Not quite. Try calculating: $5.00 - $3.70 = ?';
+          feedback.style.background = "#fef2f2";
+          feedback.style.color = "#991b1b";
+          feedback.innerHTML = "✗ Not quite. Try calculating: $5.00 - $3.70 = ?";
         }
-        feedback.style.display = 'block';
+        feedback.style.display = "block";
       };
 
       // Avatar functions
-      window.setAvatarEmoji = function(emoji) {
-        const preview = document.getElementById('avatar-preview-large');
+      window.setAvatarEmoji = function (emoji) {
+        const preview = document.getElementById("avatar-preview-large");
         if (preview) preview.textContent = emoji;
       };
 
-      window.setAvatarBg = function(color) {
-        const preview = document.getElementById('avatar-preview-large');
+      window.setAvatarBg = function (color) {
+        const preview = document.getElementById("avatar-preview-large");
         if (preview) preview.style.background = color;
       };
 
-      window.randomizeAvatar = function() {
-        const emojis = ['😊', '😎', '🤗', '🧑', '👧', '👦', '🧒', '👱'];
-        const colors = ['#fef3c7', '#e0f2fe', '#dcfce7', '#fce7f3', '#f3e8ff'];
+      window.randomizeAvatar = function () {
+        const emojis = ["😊", "😎", "🤗", "🧑", "👧", "👦", "🧒", "👱"];
+        const colors = ["#fef3c7", "#e0f2fe", "#dcfce7", "#fce7f3", "#f3e8ff"];
         window.setAvatarEmoji(emojis[Math.floor(Math.random() * emojis.length)]);
         window.setAvatarBg(colors[Math.floor(Math.random() * colors.length)]);
       };
 
-      window.saveAvatar = function() {
-        alert('Avatar saved! 🎉');
+      window.saveAvatar = function () {
+        alert("Avatar saved! 🎉");
       };
 
-      window.selectAvatarCategory = function(cat) {
-        console.log('Selected category:', cat);
+      window.selectAvatarCategory = function (cat) {
+        console.log("Selected category:", cat);
       };
 
       // Check for existing login on page load
-      window.checkAuth = function() {
+      window.checkAuth = function () {
         const hash = window.location.hash;
-        const user = localStorage.getItem('windgap_user');
-        if (hash === '#/dashboard' && user) {
-          window.showDashboard(JSON.parse(user));
+        const user = localStorage.getItem("windgap_user");
+        if (user) {
+          try {
+            const userData = JSON.parse(user);
+            // Auto-redirect to dashboard if logged in (even from root)
+            if (!hash || hash === "#" || hash === "#/" || hash === "#/dashboard") {
+              window.location.hash = "/dashboard";
+              window.showDashboard(userData);
+            }
+          } catch (e) {
+            // Invalid user data - clear it
+            localStorage.removeItem("windgap_user");
+          }
         }
       };
 
+      // Re-show sections when leaving dashboard (hash change handler)
+      window.addEventListener("hashchange", function () {
+        const hash = window.location.hash;
+        if (hash !== "#/dashboard" && !localStorage.getItem("windgap_user")) {
+          // Show sections again when not on dashboard and not logged in
+          document.querySelectorAll("section").forEach((s) => (s.style.display = ""));
+          const footer = document.querySelector("footer");
+          if (footer) footer.style.display = "";
+          const dashboard = document.getElementById("dashboard-view");
+          if (dashboard) dashboard.style.display = "none";
+          const gameContainer = document.getElementById("game-container");
+          if (gameContainer) gameContainer.style.display = "none";
+        }
+      });
 
-      // Fallback screen
+      // Fallback screen - uses overlay instead of destroying DOM
       if (!window.showFallbackScreen) {
-        window.showFallbackScreen = function(msg) {
+        window.showFallbackScreen = function (msg) {
           try {
-            document.body.innerHTML = '<div style="max-width:540px;margin:48px auto;padding:32px;border-radius:12px;background:#ffecec;color:#b91c1c;box-shadow:0 2px 16px #0002;">' +
+            // Remove existing fallback if any
+            const existing = document.getElementById("fallback-overlay");
+            if (existing) existing.remove();
+
+            const safeMsg = window.escapeHTML(msg || "An error occurred.");
+            const overlay = document.createElement("div");
+            overlay.id = "fallback-overlay";
+            overlay.style.cssText =
+              "position:fixed;inset:0;background:rgba(255,255,255,0.95);display:flex;align-items:center;justify-content:center;z-index:99999;";
+            overlay.innerHTML =
+              '<div style="max-width:540px;margin:48px auto;padding:32px;border-radius:12px;background:#ffecec;color:#b91c1c;box-shadow:0 2px 16px #0002;">' +
               '<h1 style="font-size:2em;margin-bottom:0.25em;">⚠️ Unable to load Windgap Academy</h1>' +
-              '<p style="font-size:1.2em;">' + (msg || 'An error occurred.') + '</p>' +
-              '</div>';
+              '<p style="font-size:1.2em;">' +
+              safeMsg +
+              "</p>" +
+              '<button onclick="document.getElementById(\'fallback-overlay\').remove()" style="margin-top:1rem;padding:0.5rem 1rem;background:#b91c1c;color:white;border:none;border-radius:0.5rem;cursor:pointer;">Dismiss</button>' +
+              "</div>";
+            document.body.appendChild(overlay);
           } catch (e) {
-            /* noop */
+            console.error("Fallback screen error:", e);
           }
         };
       }
 
       // Restore accessibility preferences (deferred to when DOM is ready)
-      window.restoreAccessibilityPrefs = function() {
+      window.restoreAccessibilityPrefs = function () {
         if (document.body) {
-          if (localStorage.getItem('dyslexia-font') === 'true') {
-            document.body.classList.add('dyslexia-font');
+          if (localStorage.getItem("dyslexia-font") === "true") {
+            document.body.classList.add("dyslexia-font");
           }
-          if (localStorage.getItem('easy-read') === 'true') {
-            document.body.classList.add('easy-read');
+          if (localStorage.getItem("easy-read") === "true") {
+            document.body.classList.add("easy-read");
           }
         }
       };
     </script>
   </head>
-  <body class="bg-white text-gray-800" style="font-family: 'Inter', sans-serif;" onload="window.restoreAccessibilityPrefs(); window.checkAuth()">
+  <body
+    class="bg-white text-gray-800"
+    style="font-family: &quot;Inter&quot;, sans-serif"
+    onload="window.restoreAccessibilityPrefs(); window.checkAuth()"
+  >
+    <!-- Accessibility: Skip Links -->
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[9999] focus:bg-[#A32C2B] focus:text-white focus:px-4 focus:py-2 focus:rounded-lg"
+      style="
+        position: absolute;
+        left: -9999px;
+        top: auto;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+      "
+      >Skip to main content</a
+    >
+    <a
+      href="#accessibility"
+      class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-48 focus:z-[9999] focus:bg-[#5ED1D2] focus:text-white focus:px-4 focus:py-2 focus:rounded-lg"
+      style="
+        position: absolute;
+        left: -9999px;
+        top: auto;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+      "
+      >Skip to accessibility tools</a
+    >
+
     <!-- Navigation Header -->
-    <!-- Navigation Header -->
-    <header class="sticky top-0 z-50 bg-white shadow-md">
-      <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+    <header class="sticky top-0 z-50 bg-white shadow-md" role="banner">
+      <nav
+        class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between"
+        role="navigation"
+        aria-label="Main navigation"
+      >
         <div class="flex items-center gap-3">
-          <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-[#5ED1D2] to-[#A32C2B] flex items-center justify-center text-white font-bold text-xl">W</div>
+          <div
+            class="w-12 h-12 rounded-lg bg-gradient-to-br from-[#5ED1D2] to-[#A32C2B] flex items-center justify-center text-white font-bold text-xl"
+            aria-hidden="true"
+          >
+            W
+          </div>
           <span class="text-2xl font-bold text-[#A32C2B]">Windgap Academy</span>
         </div>
-        <nav class="flex gap-6 items-center">
+        <div class="flex gap-6 items-center">
           <a href="#home" class="text-gray-700 hover:text-[#A32C2B] font-medium transition">Home</a>
-          <a href="#about" class="text-gray-700 hover:text-[#A32C2B] font-medium transition">About</a>
-          <a href="#accessibility" class="text-gray-700 hover:text-[#A32C2B] font-medium transition">Accessibility</a>
-          <a href="#support" class="text-gray-700 hover:text-[#A32C2B] font-medium transition">Support</a>
-          <button onclick="window.showCreateAccountModal()" class="bg-[#5ED1D2] text-white px-6 py-2 rounded-lg font-semibold hover:bg-[#4BB8B9] transition">Create Account</button>
-          <button onclick="window.navigateTo('signin')" class="bg-[#A32C2B] text-white px-6 py-2 rounded-lg font-semibold hover:bg-[#8b2423] transition">Sign In</button>
-        </nav>
-      </div>
+          <a href="#about" class="text-gray-700 hover:text-[#A32C2B] font-medium transition"
+            >About</a
+          >
+          <a href="#accessibility" class="text-gray-700 hover:text-[#A32C2B] font-medium transition"
+            >Accessibility</a
+          >
+          <a href="#support" class="text-gray-700 hover:text-[#A32C2B] font-medium transition"
+            >Support</a
+          >
+          <button
+            onclick="window.showCreateAccountModal()"
+            class="bg-[#5ED1D2] text-white px-6 py-2 rounded-lg font-semibold hover:bg-[#4BB8B9] transition"
+          >
+            Create Account
+          </button>
+          <button
+            onclick="window.navigateTo('signin')"
+            class="bg-[#A32C2B] text-white px-6 py-2 rounded-lg font-semibold hover:bg-[#8b2423] transition"
+          >
+            Sign In
+          </button>
+        </div>
+      </nav>
     </header>
 
     <!-- Hero Section -->
-    <section class="relative min-h-screen bg-gradient-to-br from-[#5ED1D2] via-[#A32C2B] to-[#FBBF24] flex items-center justify-center overflow-hidden" id="home">
-      <div class="absolute inset-0 opacity-10">
-        <svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600">
-          <circle cx="100" cy="100" r="80" fill="white"/>
-          <circle cx="1100" cy="500" r="120" fill="white"/>
-          <circle cx="600" cy="150" r="100" fill="white"/>
-        </svg>
-      </div>
+    <main id="main-content" role="main">
+      <section
+        class="relative min-h-screen bg-gradient-to-br from-[#5ED1D2] via-[#A32C2B] to-[#FBBF24] flex items-center justify-center overflow-hidden"
+        id="home"
+        aria-labelledby="hero-heading"
+      >
+        <div class="absolute inset-0 opacity-10">
+          <svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600">
+            <circle cx="100" cy="100" r="80" fill="white" />
+            <circle cx="1100" cy="500" r="120" fill="white" />
+            <circle cx="600" cy="150" r="100" fill="white" />
+          </svg>
+        </div>
 
-      <div class="relative z-10 text-center max-w-3xl mx-auto px-6">
-        <h1 class="text-5xl md:text-6xl font-extrabold text-white mb-6 drop-shadow-lg">
-          Accessible Learning for Every Mind
-        </h1>
-        <p class="text-xl text-white mb-8 drop-shadow-md">
-          Windgap Academy provides personalized, inclusive education designed specifically for neurodivergent learners. Learn at your own pace with tools built for how you think.
-        </p>
+        <div class="relative z-10 text-center max-w-3xl mx-auto px-6">
+          <h1
+            id="hero-heading"
+            class="text-5xl md:text-6xl font-extrabold text-white mb-6 drop-shadow-lg"
+          >
+            Accessible Learning for Every Mind
+          </h1>
+          <p class="text-xl text-white mb-8 drop-shadow-md">
+            Windgap Academy provides personalized, inclusive education designed specifically for
+            neurodivergent learners. Learn at your own pace with tools built for how you think.
+          </p>
 
-        <div class="flex flex-col sm:flex-row gap-4 justify-center mb-8">
-          <button onclick="window.navigateTo('signin')" class="bg-white text-[#A32C2B] px-8 py-3 rounded-lg font-bold text-lg hover:shadow-lg transition">
-            Get Started
+          <div class="flex flex-col sm:flex-row gap-4 justify-center mb-8">
+            <button
+              onclick="window.navigateTo('signin')"
+              class="bg-white text-[#A32C2B] px-8 py-3 rounded-lg font-bold text-lg hover:shadow-lg transition"
+            >
+              Get Started
+            </button>
+            <button
+              onclick="document.getElementById('about').scrollIntoView({ behavior: 'smooth' })"
+              class="bg-transparent text-white border-2 border-white px-8 py-3 rounded-lg font-bold text-lg hover:bg-white hover:text-[#A32C2B] transition"
+            >
+              Learn More
+            </button>
+          </div>
+
+          <div class="text-white text-sm drop-shadow-md">
+            Already have an account?
+            <a
+              href="#signin"
+              onclick="window.navigateTo('signin')"
+              class="underline font-bold hover:no-underline"
+              >Sign in here</a
+            >
+          </div>
+        </div>
+      </section>
+
+      <!-- Features Section -->
+      <section id="about" class="py-20 bg-white">
+        <div class="max-w-6xl mx-auto px-6">
+          <h2 class="text-4xl font-bold text-[#A32C2B] text-center mb-16">
+            Why Choose Windgap Academy?
+          </h2>
+
+          <div class="grid md:grid-cols-3 gap-8 mb-16">
+            <!-- Feature 1 -->
+            <div class="card">
+              <div
+                class="w-12 h-12 bg-[#5ED1D2] rounded-lg flex items-center justify-center text-2xl mb-4"
+              >
+                ♿
+              </div>
+              <h3 class="text-xl font-bold text-[#A32C2B] mb-3">Fully Accessible</h3>
+              <p class="text-gray-600">
+                Built with WCAG AAA accessibility standards. Full keyboard navigation, screen reader
+                support, and customizable interfaces.
+              </p>
+            </div>
+
+            <!-- Feature 2 -->
+            <div class="card">
+              <div
+                class="w-12 h-12 bg-[#A32C2B] rounded-lg flex items-center justify-center text-2xl mb-4 text-white"
+              >
+                🧠
+              </div>
+              <h3 class="text-xl font-bold text-[#A32C2B] mb-3">Neurodivergent-Friendly</h3>
+              <p class="text-gray-600">
+                Designed by and for neurodivergent learners. Includes dyslexia-friendly fonts,
+                easy-read modes, and sensory-friendly visuals.
+              </p>
+            </div>
+
+            <!-- Feature 3 -->
+            <div class="card">
+              <div
+                class="w-12 h-12 bg-[#FBBF24] rounded-lg flex items-center justify-center text-2xl mb-4"
+              >
+                📚
+              </div>
+              <h3 class="text-xl font-bold text-[#A32C2B] mb-3">Personalized Learning</h3>
+              <p class="text-gray-600">
+                Your dashboard adapts to your learning style. Track progress, set goals, and learn
+                at your own pace.
+              </p>
+            </div>
+          </div>
+
+          <!-- Stats Section -->
+          <div class="grid md:grid-cols-3 gap-8 bg-gray-50 p-12 rounded-xl">
+            <div class="text-center">
+              <div class="text-4xl font-bold text-[#A32C2B] mb-2">12,000+</div>
+              <div class="text-gray-600">Active Learners</div>
+            </div>
+            <div class="text-center">
+              <div class="text-4xl font-bold text-[#5ED1D2] mb-2">150+</div>
+              <div class="text-gray-600">Learning Modules</div>
+            </div>
+            <div class="text-center">
+              <div class="text-4xl font-bold text-[#A32C2B] mb-2">98%</div>
+              <div class="text-gray-600">Satisfaction Rate</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Accessibility Tools Section -->
+      <section id="accessibility" class="py-20 bg-gray-50">
+        <div class="max-w-6xl mx-auto px-6">
+          <h2 class="text-4xl font-bold text-[#A32C2B] text-center mb-12">Accessibility Tools</h2>
+
+          <div class="bg-white p-8 rounded-xl shadow-md max-w-2xl mx-auto">
+            <p class="text-gray-700 mb-6">
+              Customize your learning experience with these accessibility features:
+            </p>
+
+            <div class="flex flex-wrap gap-4">
+              <button
+                onclick="window.increaseFont()"
+                class="bg-[#5ED1D2] text-white px-6 py-2 rounded-lg font-semibold hover:shadow-lg transition"
+                aria-label="Increase font size"
+              >
+                A+ Increase Font
+              </button>
+              <button
+                onclick="window.toggleDyslexiaFont()"
+                class="bg-[#A32C2B] text-white px-6 py-2 rounded-lg font-semibold hover:shadow-lg transition"
+                aria-label="Toggle dyslexia-friendly font"
+              >
+                Dyslexia Font
+              </button>
+              <button
+                onclick="window.toggleEasyRead()"
+                class="bg-[#FBBF24] text-gray-800 px-6 py-2 rounded-lg font-semibold hover:shadow-lg transition"
+                aria-label="Toggle easy read mode"
+              >
+                Easy Read Mode
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA Section -->
+      <section class="py-20 bg-gradient-to-r from-[#5ED1D2] to-[#A32C2B]">
+        <div class="max-w-4xl mx-auto px-6 text-center">
+          <h2 class="text-4xl font-bold text-white mb-6">Ready to Transform Your Learning?</h2>
+          <p class="text-white mb-8 text-lg">
+            Join thousands of neurodivergent learners who are thriving with Windgap Academy.
+          </p>
+          <button
+            onclick="window.navigateTo('signin')"
+            class="bg-white text-[#A32C2B] px-10 py-4 rounded-lg font-bold text-lg hover:shadow-lg transition"
+          >
+            Get Started Free Today
           </button>
-          <button onclick="document.getElementById('about').scrollIntoView({ behavior: 'smooth' })" class="bg-transparent text-white border-2 border-white px-8 py-3 rounded-lg font-bold text-lg hover:bg-white hover:text-[#A32C2B] transition">
-            Learn More
-          </button>
         </div>
+      </section>
 
-        <div class="text-white text-sm drop-shadow-md">
-          Already have an account? <a href="#signin" onclick="window.navigateTo('signin')" class="underline font-bold hover:no-underline">Sign in here</a>
-        </div>
-      </div>
-    </section>
+      <!-- Support Section -->
+      <section id="support" class="py-20 bg-white">
+        <div class="max-w-6xl mx-auto px-6">
+          <h2 class="text-4xl font-bold text-[#A32C2B] text-center mb-12">Support & Resources</h2>
 
-    <!-- Features Section -->
-    <section id="about" class="py-20 bg-white">
-      <div class="max-w-6xl mx-auto px-6">
-        <h2 class="text-4xl font-bold text-[#A32C2B] text-center mb-16">Why Choose Windgap Academy?</h2>
+          <div class="grid md:grid-cols-2 gap-8">
+            <div class="card">
+              <h3 class="text-xl font-bold text-[#A32C2B] mb-3">Help Center</h3>
+              <p class="text-gray-600 mb-4">
+                Find answers to common questions and get support from our dedicated team.
+              </p>
+              <a href="#help" class="text-[#A32C2B] font-semibold hover:underline"
+                >Visit Help Center →</a
+              >
+            </div>
 
-        <div class="grid md:grid-cols-3 gap-8 mb-16">
-          <!-- Feature 1 -->
-          <div class="card">
-            <div class="w-12 h-12 bg-[#5ED1D2] rounded-lg flex items-center justify-center text-2xl mb-4">♿</div>
-            <h3 class="text-xl font-bold text-[#A32C2B] mb-3">Fully Accessible</h3>
-            <p class="text-gray-600">Built with WCAG AAA accessibility standards. Full keyboard navigation, screen reader support, and customizable interfaces.</p>
-          </div>
+            <div class="card">
+              <h3 class="text-xl font-bold text-[#A32C2B] mb-3">Contact Us</h3>
+              <p class="text-gray-600 mb-4">
+                Have feedback or questions? We'd love to hear from you. Reach out anytime.
+              </p>
+              <a
+                href="mailto:support@windgapacademy.com"
+                class="text-[#A32C2B] font-semibold hover:underline"
+                >Contact Support →</a
+              >
+            </div>
 
-          <!-- Feature 2 -->
-          <div class="card">
-            <div class="w-12 h-12 bg-[#A32C2B] rounded-lg flex items-center justify-center text-2xl mb-4 text-white">🧠</div>
-            <h3 class="text-xl font-bold text-[#A32C2B] mb-3">Neurodivergent-Friendly</h3>
-            <p class="text-gray-600">Designed by and for neurodivergent learners. Includes dyslexia-friendly fonts, easy-read modes, and sensory-friendly visuals.</p>
-          </div>
+            <div class="card">
+              <h3 class="text-xl font-bold text-[#A32C2B] mb-3">Documentation</h3>
+              <p class="text-gray-600 mb-4">
+                Read our comprehensive documentation and guides to get the most out of Windgap.
+              </p>
+              <a href="#docs" class="text-[#A32C2B] font-semibold hover:underline"
+                >View Documentation →</a
+              >
+            </div>
 
-          <!-- Feature 3 -->
-          <div class="card">
-            <div class="w-12 h-12 bg-[#FBBF24] rounded-lg flex items-center justify-center text-2xl mb-4">📚</div>
-            <h3 class="text-xl font-bold text-[#A32C2B] mb-3">Personalized Learning</h3>
-            <p class="text-gray-600">Your dashboard adapts to your learning style. Track progress, set goals, and learn at your own pace.</p>
-          </div>
-        </div>
-
-        <!-- Stats Section -->
-        <div class="grid md:grid-cols-3 gap-8 bg-gray-50 p-12 rounded-xl">
-          <div class="text-center">
-            <div class="text-4xl font-bold text-[#A32C2B] mb-2">12,000+</div>
-            <div class="text-gray-600">Active Learners</div>
-          </div>
-          <div class="text-center">
-            <div class="text-4xl font-bold text-[#5ED1D2] mb-2">150+</div>
-            <div class="text-gray-600">Learning Modules</div>
-          </div>
-          <div class="text-center">
-            <div class="text-4xl font-bold text-[#A32C2B] mb-2">98%</div>
-            <div class="text-gray-600">Satisfaction Rate</div>
+            <div class="card">
+              <h3 class="text-xl font-bold text-[#A32C2B] mb-3">Community</h3>
+              <p class="text-gray-600 mb-4">
+                Join our community to connect with other learners and share experiences.
+              </p>
+              <a href="#community" class="text-[#A32C2B] font-semibold hover:underline"
+                >Join Community →</a
+              >
+            </div>
           </div>
         </div>
-      </div>
-    </section>
-
-    <!-- Accessibility Tools Section -->
-    <section id="accessibility" class="py-20 bg-gray-50">
-      <div class="max-w-6xl mx-auto px-6">
-        <h2 class="text-4xl font-bold text-[#A32C2B] text-center mb-12">Accessibility Tools</h2>
-
-        <div class="bg-white p-8 rounded-xl shadow-md max-w-2xl mx-auto">
-          <p class="text-gray-700 mb-6">Customize your learning experience with these accessibility features:</p>
-
-          <div class="flex flex-wrap gap-4">
-            <button onclick="window.increaseFont()" class="bg-[#5ED1D2] text-white px-6 py-2 rounded-lg font-semibold hover:shadow-lg transition" aria-label="Increase font size">
-              A+ Increase Font
-            </button>
-            <button onclick="window.toggleDyslexiaFont()" class="bg-[#A32C2B] text-white px-6 py-2 rounded-lg font-semibold hover:shadow-lg transition" aria-label="Toggle dyslexia-friendly font">
-              Dyslexia Font
-            </button>
-            <button onclick="window.toggleEasyRead()" class="bg-[#FBBF24] text-gray-800 px-6 py-2 rounded-lg font-semibold hover:shadow-lg transition" aria-label="Toggle easy read mode">
-              Easy Read Mode
-            </button>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- CTA Section -->
-    <section class="py-20 bg-gradient-to-r from-[#5ED1D2] to-[#A32C2B]">
-      <div class="max-w-4xl mx-auto px-6 text-center">
-        <h2 class="text-4xl font-bold text-white mb-6">Ready to Transform Your Learning?</h2>
-        <p class="text-white mb-8 text-lg">Join thousands of neurodivergent learners who are thriving with Windgap Academy.</p>
-        <button onclick="window.navigateTo('signin')" class="bg-white text-[#A32C2B] px-10 py-4 rounded-lg font-bold text-lg hover:shadow-lg transition">
-          Get Started Free Today
-        </button>
-      </div>
-    </section>
-
-    <!-- Support Section -->
-    <section id="support" class="py-20 bg-white">
-      <div class="max-w-6xl mx-auto px-6">
-        <h2 class="text-4xl font-bold text-[#A32C2B] text-center mb-12">Support & Resources</h2>
-
-        <div class="grid md:grid-cols-2 gap-8">
-          <div class="card">
-            <h3 class="text-xl font-bold text-[#A32C2B] mb-3">Help Center</h3>
-            <p class="text-gray-600 mb-4">Find answers to common questions and get support from our dedicated team.</p>
-            <a href="#help" class="text-[#A32C2B] font-semibold hover:underline">Visit Help Center →</a>
-          </div>
-
-          <div class="card">
-            <h3 class="text-xl font-bold text-[#A32C2B] mb-3">Contact Us</h3>
-            <p class="text-gray-600 mb-4">Have feedback or questions? We'd love to hear from you. Reach out anytime.</p>
-            <a href="mailto:support@windgapacademy.com" class="text-[#A32C2B] font-semibold hover:underline">Contact Support →</a>
-          </div>
-
-          <div class="card">
-            <h3 class="text-xl font-bold text-[#A32C2B] mb-3">Documentation</h3>
-            <p class="text-gray-600 mb-4">Read our comprehensive documentation and guides to get the most out of Windgap.</p>
-            <a href="#docs" class="text-[#A32C2B] font-semibold hover:underline">View Documentation →</a>
-          </div>
-
-          <div class="card">
-            <h3 class="text-xl font-bold text-[#A32C2B] mb-3">Community</h3>
-            <p class="text-gray-600 mb-4">Join our community to connect with other learners and share experiences.</p>
-            <a href="#community" class="text-[#A32C2B] font-semibold hover:underline">Join Community →</a>
-          </div>
-        </div>
-      </div>
-    </section>
+      </section>
+    </main>
 
     <!-- Footer -->
-    <footer class="bg-gray-800 text-white py-12">
+    <footer class="bg-gray-800 text-white py-12" role="contentinfo">
       <div class="max-w-6xl mx-auto px-6">
         <div class="grid md:grid-cols-4 gap-8 mb-8">
           <div>
             <div class="flex items-center gap-2 mb-4">
-              <div class="w-10 h-10 rounded-lg bg-[#5ED1D2] flex items-center justify-center font-bold">W</div>
+              <div
+                class="w-10 h-10 rounded-lg bg-[#5ED1D2] flex items-center justify-center font-bold"
+              >
+                W
+              </div>
               <span class="font-bold text-lg">Windgap Academy</span>
             </div>
             <p class="text-gray-400 text-sm">Accessible learning for neurodivergent minds.</p>
@@ -1114,7 +1366,9 @@
             <ul class="space-y-2 text-sm text-gray-400">
               <li><a href="#privacy" class="hover:text-white transition">Privacy Policy</a></li>
               <li><a href="#terms" class="hover:text-white transition">Terms of Service</a></li>
-              <li><a href="#accessibility" class="hover:text-white transition">Accessibility</a></li>
+              <li>
+                <a href="#accessibility" class="hover:text-white transition">Accessibility</a>
+              </li>
             </ul>
           </div>
         </div>
@@ -1126,12 +1380,11 @@
     </footer>
 
     <!-- App Container (for future dashboard routing) -->
-    <div id="app" style="display: none;"></div>
+    <div id="app" style="display: none"></div>
 
     <!-- Module Scripts -->
     <script type="module" src="main.js"></script>
     <script type="module" src="js/themes.js"></script>
     <script type="module" src="js/accessibility.js"></script>
-
-    </body>
-  </html>
+  </body>
+</html>

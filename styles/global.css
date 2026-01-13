@@ -1,8 +1,33 @@
+/* CSS Custom Property for font scaling (accessibility) */
+:root {
+  --app-font-scale: 1;
+}
+
 body {
   margin: 0;
-  font-family: 'Segoe UI', 'Gotham', sans-serif;
+  font-family: "Segoe UI", "Gotham", sans-serif;
   background-color: #f5f7fa;
   color: #333;
+  font-size: calc(1rem * var(--app-font-scale));
+}
+
+/* Scale all text elements with the custom property */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+a,
+button,
+input,
+label,
+li,
+span,
+td,
+th {
+  font-size: inherit;
 }
 
 nav {
@@ -14,7 +39,7 @@ nav {
   top: 0;
   left: 0;
   padding: 20px;
-  box-shadow: 2px 0 5px rgba(0,0,0,0.05);
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
 }
 
 nav a {
@@ -52,7 +77,8 @@ main {
     box-shadow: none;
     padding: 10px;
   }
-  header, main {
+  header,
+  main {
     margin-left: 0;
     padding: 10px;
   }
