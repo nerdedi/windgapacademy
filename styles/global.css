@@ -1,6 +1,8 @@
 /* CSS Custom Property for font scaling (accessibility) */
 :root {
   --app-font-scale: 1;
+  --focus-color: #a32c2b;
+  --focus-outline-width: 3px;
 }
 
 body {
@@ -28,6 +30,114 @@ span,
 td,
 th {
   font-size: inherit;
+}
+
+/* ========================================
+   ACCESSIBILITY ENHANCEMENTS
+   ======================================== */
+
+/* Focus states - visible for all interactive elements */
+a:focus,
+button:focus,
+input:focus,
+select:focus,
+textarea:focus,
+[tabindex]:focus {
+  outline: var(--focus-outline-width) solid var(--focus-color);
+  outline-offset: 2px;
+}
+
+/* Focus visible - only show for keyboard users */
+a:focus:not(:focus-visible),
+button:focus:not(:focus-visible) {
+  outline: none;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
+  outline: var(--focus-outline-width) solid var(--focus-color);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(163, 44, 43, 0.2);
+}
+
+/* Skip link styling - visible when focused */
+.sr-only:focus,
+.sr-only:focus-visible {
+  position: fixed !important;
+  top: 1rem;
+  left: 1rem;
+  width: auto !important;
+  height: auto !important;
+  padding: 1rem 1.5rem;
+  clip: auto !important;
+  clip-path: none !important;
+  white-space: normal;
+  z-index: 99999;
+  background: var(--focus-color);
+  color: white;
+  font-weight: bold;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  :root {
+    --focus-outline-width: 4px;
+  }
+
+  a:focus-visible,
+  button:focus-visible {
+    outline-color: currentColor;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* Dyslexia-friendly font */
+.dyslexia-font {
+  font-family: "OpenDyslexic", "Comic Sans MS", cursive, sans-serif !important;
+  letter-spacing: 0.05em;
+  word-spacing: 0.1em;
+}
+
+.dyslexia-font * {
+  font-family: inherit !important;
+}
+
+/* Easy read mode */
+.easy-read {
+  line-height: 1.8 !important;
+  letter-spacing: 0.05em;
+}
+
+.easy-read p,
+.easy-read li {
+  max-width: 65ch;
+  margin-bottom: 1em;
+}
+
+/* Touch target sizing (WCAG 2.2) */
+button,
+a,
+[role="button"],
+input[type="checkbox"],
+input[type="radio"] {
+  min-height: 44px;
+  min-width: 44px;
 }
 
 nav {
