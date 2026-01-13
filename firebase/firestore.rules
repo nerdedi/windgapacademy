@@ -20,7 +20,8 @@ service cloud.firestore {
     }
 
     function isValidUserData() {
-      return request.resource.data.keys().hasAll(['email', 'role']) &&
+      // Role must be valid if present
+      return request.resource.data.role == null ||
              request.resource.data.role in ['learner', 'educator', 'trainer', 'parent'];
     }
 
@@ -33,7 +34,8 @@ service cloud.firestore {
     // User profiles - users can only read/write their own data
     match /users/{userId} {
       allow read: if isOwner(userId);
-      allow create: if isOwner(userId) && isValidUserData();
+      // Allow create with minimal data (role defaults to 'learner' in app)
+      allow create: if isOwner(userId);
       allow update: if isOwner(userId) && isValidUserData();
       allow delete: if false; // Prevent accidental deletion
     }

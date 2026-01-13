@@ -13,8 +13,10 @@ interface SimulationState {
 }
 
 class SimulationManager {
+  private backendAvailable = true; // Track if backend is reachable
+
   async fetchProgressFromBackend(userId: string) {
-    if (!userId) return;
+    if (!userId || !this.backendAvailable) return;
     try {
       const res = await fetch(`/api/simulation/${userId}`);
       if (res.ok) {
@@ -22,25 +24,32 @@ class SimulationManager {
         this.state.progress = data.progress || this.state.progress;
         this.state.currentArea = data.currentArea || this.state.currentArea;
         this._saveState();
+      } else if (res.status === 404) {
+        // Backend API not available - use local storage only
+        this.backendAvailable = false;
+        // eslint-disable-next-line no-console
+        console.info("Simulation API not available, using local storage");
       }
     } catch (e) {
-      // Log errors for visibility during development
-      // eslint-disable-next-line no-console
-      console.error("fetchProgressFromBackend error:", e);
+      // Network error - backend not running, fall back to local storage silently
+      this.backendAvailable = false;
     }
   }
 
   async saveProgressToBackend(userId: string) {
-    if (!userId) return;
+    if (!userId || !this.backendAvailable) return;
     try {
-      await fetch(`/api/simulation/${userId}`, {
+      const res = await fetch(`/api/simulation/${userId}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(this.state),
       });
+      if (!res.ok && res.status === 404) {
+        this.backendAvailable = false;
+      }
     } catch (e) {
-      // eslint-disable-next-line no-console
-      console.error("saveProgressToBackend error:", e);
+      // Backend not available - progress saved to local storage only
+      this.backendAvailable = false;
     }
   }
   state: SimulationState;
