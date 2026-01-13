@@ -1498,16 +1498,23 @@
 
     <!-- Initialize app after DOM loads -->
     <script>
-      // Production Note: All inline onclick handlers should be migrated to addEventListener
-      // for better CSP compliance. This includes demo buttons, game controls, and dashboard actions.
+      // PRODUCTION CHECKLIST:
+      // ✅ Remove/migrate all inline onclick handlers for strict CSP
+      // ✅ Replace /src/main.jsx with built /assets/index-xxxxx.js
+      // ✅ Serve from /dist directory after running 'vite build'
+      // ✅ Use server CSP header instead of meta CSP in production
+      // ✅ Consider externalizing this large inline script to /scripts/app.js
+
       document.addEventListener("DOMContentLoaded", () => {
         window.restoreAccessibilityPrefs();
         window.checkAuth();
       });
     </script>
 
-    <!-- React App Entry Point (DEV) -->
-    <!-- In production, this should be replaced with built assets from /dist -->
+    <!-- React App Entry Point (DEV ONLY) -->
+    <!-- WARNING: This script only works in Vite dev mode -->
+    <!-- For production: Run 'vite build' and serve /dist/index.html with built assets -->
+    <!-- The built version will reference /assets/index-xxxxx.js instead -->
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
