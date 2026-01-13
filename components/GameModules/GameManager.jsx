@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState, useCallback } from "react";
+import { createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
 
 const GameContext = createContext(null);
 
@@ -7,6 +7,7 @@ export function useGame() {
 }
 
 export function GameProvider({ children }) {
+  const backendAvailable = useRef(true);
   const [gameState, setGameState] = useState({
     currentGame: null,
     characters: [],
@@ -14,16 +15,26 @@ export function GameProvider({ children }) {
     lastEvent: null,
   });
 
-  // Fetch initial state from backend
+  // Fetch initial state from backend (gracefully handle when unavailable)
   useEffect(() => {
     let mounted = true;
+    if (!backendAvailable.current) return;
+
     fetch("/api/game/state")
-      .then((r) => r.json())
-      .then((data) => {
-        if (!mounted) return;
-        if (data && data.state) setGameState((s) => ({ ...s, ...data.state }));
+      .then((r) => {
+        if (!r.ok) {
+          if (r.status === 404) backendAvailable.current = false;
+          return null;
+        }
+        return r.json();
       })
-      .catch(() => {});
+      .then((data) => {
+        if (!mounted || !data) return;
+        if (data.state) setGameState((s) => ({ ...s, ...data.state }));
+      })
+      .catch(() => {
+        backendAvailable.current = false;
+      });
     return () => (mounted = false);
   }, []);
 
