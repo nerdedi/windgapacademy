@@ -3,12 +3,24 @@ import { addAriaLabels, enableKeyboardNavigation } from "./js/accessibility.js";
 import { showFeature } from "./js/showFeature.js";
 import { themes } from "./js/themes.js";
 
-document.body.style.backgroundColor = themes.windgap.light;
-window.showFeature = showFeature;
-addAriaLabels();
-enableKeyboardNavigation();
+document.addEventListener("DOMContentLoaded", () => {
+  console.log("Windgap Academy initialized");
 
-// Ensure buttons work after DOM is loaded
-document.addEventListener('DOMContentLoaded', function() {
-  console.log('Windgap Academy initialized');
+  // Apply theme safely
+  if (document.body) {
+    document.body.style.backgroundColor = themes?.windgap?.light || "#ffffff";
+  }
+
+  // Initialize accessibility features
+  addAriaLabels();
+  enableKeyboardNavigation();
+
+  // Bind feature logic without polluting global scope
+  const featureButtons = document.querySelectorAll("[data-feature]");
+  featureButtons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const feature = btn.getAttribute("data-feature");
+      if (feature) showFeature(feature);
+    });
+  });
 });
