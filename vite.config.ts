@@ -41,6 +41,9 @@ export default defineConfig({
     outDir: "dist",
     sourcemap: true, // Enable sourcemaps for debugging
     rollupOptions: {
+      input: {
+        main: path.resolve(__dirname, "index.html"),
+      },
       output: {
         manualChunks(id) {
           if (id.includes("node_modules")) {
