@@ -4,9 +4,23 @@ const HomePage = () => {
   const navigate = useNavigate();
 
   function goLogin() {
-    // Navigate to app root where the login UI is shown by App when unauthenticated
-    navigate("/");
-    // In this app, the login UI is shown when the MainApp showsLogin state is true
+    // Try to use the global showSignInModal function for the sign-in modal
+    if (typeof window.showSignInModal === "function") {
+      window.showSignInModal();
+    } else {
+      // Fallback: navigate to root which shows login in App.jsx
+      navigate("/");
+    }
+  }
+
+  function goCreateAccount() {
+    // Try to use the global showCreateAccountModal function
+    if (typeof window.showCreateAccountModal === "function") {
+      window.showCreateAccountModal();
+    } else {
+      // Fallback: navigate to root which shows login (where they can create account)
+      navigate("/");
+    }
   }
 
   const features = [
@@ -122,18 +136,24 @@ const HomePage = () => {
       <section className="text-center bg-gradient-to-r from-[#5ED1D2] to-[#0B6E8F] text-white p-8 rounded-2xl mb-8">
         <h2 className="text-2xl font-bold mb-3">Ready to start learning?</h2>
         <p className="mb-6">Join thousands of learners on their journey to independence.</p>
-        <div className="flex justify-center gap-4">
+        <div className="flex flex-wrap justify-center gap-4">
           <button
             onClick={goLogin}
-            className="px-6 py-3 bg-white text-[#0B6E8F] rounded-lg font-semibold hover:bg-gray-100 transition-all"
+            className="px-6 py-3 bg-white text-[#0B6E8F] rounded-lg font-semibold hover:bg-gray-100 transition-all shadow-md"
           >
-            Log in to your account
+            🔐 Log In
+          </button>
+          <button
+            onClick={goCreateAccount}
+            className="px-6 py-3 bg-[#FBBF24] text-[#333] rounded-lg font-semibold hover:bg-yellow-400 transition-all shadow-md"
+          >
+            ✨ Create Account
           </button>
           <Link
             to="/games"
-            className="px-6 py-3 bg-[#A32C2B] text-white rounded-lg font-semibold hover:bg-[#8a2424] transition-all"
+            className="px-6 py-3 bg-[#A32C2B] text-white rounded-lg font-semibold hover:bg-[#8a2424] transition-all shadow-md"
           >
-            Try Games Free
+            🎮 Try Games Free
           </Link>
         </div>
       </section>

@@ -712,8 +712,13 @@ textarea:invalid {
 }
 
 /* Dashboard Enhancement */
-.dashboard {
+.dashboard,
+#dashboard-view {
+  min-height: calc(100vh - 80px);
   padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  background: #f8fafc;
 }
 
 .dashboard-welcome {
