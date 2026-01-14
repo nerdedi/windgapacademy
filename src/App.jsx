@@ -13,7 +13,7 @@ import { LessonProvider } from "./contexts/LessonContext";
 import SimulationManager from "./simulation/SimulationManager";
 
 function MainApp() {
-  const [showLogin, setShowLogin] = useState(true);
+  const [showLogin, setShowLogin] = useState(false);
   const [inputId, setInputId] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
