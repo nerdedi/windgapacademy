@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Windgap Academy - Accessibility Test</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        line-height: 1.6;
+      }
+
+      .test-section {
+        background: #f5f5f5;
+        padding: 20px;
+        margin: 20px 0;
+        border-radius: 8px;
+      }
+
+      .test-button {
+        background: #5ed1d2;
+        color: white;
+        padding: 12px 24px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        margin: 8px;
+        font-size: 16px;
+        font-weight: bold;
+      }
+
+      .test-button:hover {
+        background: #4db5b6;
+      }
+
+      .status {
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 4px;
+        font-weight: bold;
+      }
+
+      .success {
+        background: #d4edda;
+        color: #155724;
+      }
+      .error {
+        background: #f8d7da;
+        color: #721c24;
+      }
+      .info {
+        background: #d1ecf1;
+        color: #0c5460;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>🧪 Windgap Academy - Homepage Functionality Test</h1>
+
+    <div class="test-section">
+      <h2>📝 Test Summary</h2>
+      <p>
+        This page tests the homepage button functionality and accessibility features that were just
+        fixed.
+      </p>
+      <div id="test-results"></div>
+    </div>
+
+    <div class="test-section">
+      <h2>🔧 Accessibility Features Test</h2>
+      <p>Click these buttons to test the accessibility features:</p>
+
+      <button class="test-button" onclick="testFeature('increaseFont')">
+        A+ Increase Font Size
+      </button>
+
+      <button class="test-button" onclick="testFeature('toggleDyslexiaFont')">
+        🅰️ Toggle Dyslexia Font
+      </button>
+
+      <button class="test-button" onclick="testFeature('toggleEasyRead')">📖 Easy Read Mode</button>
+    </div>
+
+    <div class="test-section">
+      <h2>📋 Test Results</h2>
+      <div id="results-log"></div>
+    </div>
+
+    <script>
+      // Simple test logger
+      function logResult(test, status, message) {
+        const log = document.getElementById("results-log");
+        const entry = document.createElement("div");
+        entry.className = `status ${status}`;
+        entry.innerHTML = `<strong>${test}:</strong> ${message}`;
+        log.appendChild(entry);
+      }
+
+      // Test a feature
+      function testFeature(featureName) {
+        try {
+          // Check if main.js and showFeature are available
+          if (typeof window.showFeature === "function") {
+            window.showFeature(featureName);
+            logResult(featureName, "success", "Feature executed successfully via showFeature()");
+          } else {
+            logResult(featureName, "error", "showFeature() function not found");
+          }
+        } catch (error) {
+          logResult(featureName, "error", `Error: ${error.message}`);
+        }
+      }
+
+      // Run initial tests
+      document.addEventListener("DOMContentLoaded", function () {
+        logResult("Page Load", "info", "Test page loaded successfully");
+
+        // Test if required functions are available
+        const tests = [
+          { name: "showFeature", test: () => typeof window.showFeature === "function" },
+          {
+            name: "main.js loaded",
+            test: () => document.querySelector('script[src*="main.js"]') !== null,
+          },
+          { name: "showFeature.js loaded", test: () => typeof window.showFeature === "function" },
+        ];
+
+        tests.forEach((test) => {
+          try {
+            const result = test.test();
+            logResult(test.name, result ? "success" : "error", result ? "Available" : "Not found");
+          } catch (e) {
+            logResult(test.name, "error", e.message);
+          }
+        });
+      });
+
+      // Load the main application scripts
+      const mainScript = document.createElement("script");
+      mainScript.src = "/main.js";
+      mainScript.type = "module";
+      document.head.appendChild(mainScript);
+
+      const showFeatureScript = document.createElement("script");
+      showFeatureScript.src = "/js/showFeature.js";
+      showFeatureScript.type = "module";
+      document.head.appendChild(showFeatureScript);
+    </script>
+  </body>
+</html>

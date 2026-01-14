@@ -47,10 +47,16 @@ function bindFeatureClicks() {
     if (!feature) return;
 
     try {
+      console.log(`Attempting to execute feature: ${feature}`);
       if (typeof showFeature === "function") {
         showFeature(feature);
+      } else if (typeof window.showFeature === "function") {
+        window.showFeature(feature);
       } else {
-        console.warn("showFeature is not a function or not exported");
+        console.warn("showFeature is not available:", {
+          showFeature,
+          windowShowFeature: window.showFeature,
+        });
       }
     } catch (err) {
       console.error(`Error executing feature "${feature}":`, err);
@@ -69,6 +75,13 @@ function init() {
 
   // Bind feature logic with event delegation
   bindFeatureClicks();
+
+  // Make showFeature globally available
+  if (typeof showFeature === "function" && !window.showFeature) {
+    window.showFeature = showFeature;
+  }
+
+  console.log("Main init complete, showFeature available:", !!window.showFeature);
 }
 
 // Ensure init runs whether or not DOMContentLoaded has already fired

@@ -99,6 +99,160 @@
       }
     </script>
 
+    <!-- Immediate Button Functionality - Fallback for module loading -->
+    <script>
+      // Ensure basic functionality works immediately
+      (function () {
+        "use strict";
+
+        // Create immediate accessibility functions
+        function immediateIncreaseFont() {
+          const currentSize = parseInt(document.documentElement.style.fontSize) || 16;
+          const newSize = Math.min(currentSize + 2, 24);
+          document.documentElement.style.fontSize = newSize + "px";
+          localStorage.setItem("windgap-font-size", newSize);
+          showImmediateToast("Font size increased to " + newSize + "px", "success");
+        }
+
+        function immediateToggleDyslexiaFont() {
+          const isDyslexiaFont = document.body.classList.contains("dyslexia-font");
+          if (isDyslexiaFont) {
+            document.body.classList.remove("dyslexia-font");
+            localStorage.removeItem("windgap-dyslexia-font");
+            showImmediateToast("Dyslexia font disabled", "info");
+          } else {
+            document.body.classList.add("dyslexia-font");
+            localStorage.setItem("windgap-dyslexia-font", "true");
+            showImmediateToast("Dyslexia font enabled", "success");
+          }
+        }
+
+        function immediateToggleEasyRead() {
+          const isEasyRead = document.body.classList.contains("easy-read");
+          if (isEasyRead) {
+            document.body.classList.remove("easy-read");
+            localStorage.removeItem("windgap-easy-read");
+            showImmediateToast("Easy read mode disabled", "info");
+          } else {
+            document.body.classList.add("easy-read");
+            localStorage.setItem("windgap-easy-read", "true");
+            showImmediateToast("Easy read mode enabled", "success");
+          }
+        }
+
+        function immediateSignin() {
+          const signinModal = document.getElementById("signinModal");
+          if (signinModal) {
+            signinModal.style.display = "flex";
+            const firstInput = signinModal.querySelector('input[type="email"], input[type="text"]');
+            if (firstInput) {
+              setTimeout(() => firstInput.focus(), 100);
+            }
+          }
+        }
+
+        function immediateScrollToAbout() {
+          const aboutSection = document.getElementById("about");
+          if (aboutSection) {
+            aboutSection.scrollIntoView({ behavior: "smooth", block: "start" });
+          }
+        }
+
+        function showImmediateToast(message, type) {
+          const existingToast = document.querySelector(".immediate-toast");
+          if (existingToast) existingToast.remove();
+
+          const toast = document.createElement("div");
+          toast.className = "immediate-toast";
+          toast.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 10000;
+            max-width: 300px;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-weight: 500;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transform: translateX(100%);
+            transition: transform 0.3s ease-in-out;
+            background: ${type === "success" ? "#10B981" : type === "error" ? "#EF4444" : type === "warning" ? "#F59E0B" : "#3B82F6"};
+            color: white;
+          `;
+          toast.textContent = message;
+          document.body.appendChild(toast);
+
+          setTimeout(() => (toast.style.transform = "translateX(0)"), 10);
+          setTimeout(() => {
+            toast.style.transform = "translateX(100%)";
+            setTimeout(() => toast.remove(), 300);
+          }, 3000);
+        }
+
+        // Map immediate functions
+        const immediateFunctions = {
+          increaseFont: immediateIncreaseFont,
+          toggleDyslexiaFont: immediateToggleDyslexiaFont,
+          toggleEasyRead: immediateToggleEasyRead,
+          signin: immediateSignin,
+          scrollToAbout: immediateScrollToAbout,
+        };
+
+        // Set up immediate showFeature function
+        window.immediateShowFeature = function (feature) {
+          console.log("Immediate showFeature:", feature);
+          if (immediateFunctions[feature]) {
+            immediateFunctions[feature]();
+            return true;
+          }
+          return false;
+        };
+
+        // Event delegation for immediate functionality
+        document.addEventListener("click", function (evt) {
+          const btn = evt.target.closest("[data-feature]");
+          if (!btn) return;
+
+          const feature = btn.dataset.feature || btn.getAttribute("data-feature");
+          if (!feature) return;
+
+          // Try window.showFeature first (from modules), then immediate fallback
+          if (typeof window.showFeature === "function") {
+            console.log("Using module showFeature for:", feature);
+            window.showFeature(feature);
+          } else {
+            console.log("Using immediate showFeature for:", feature);
+            window.immediateShowFeature(feature);
+          }
+        });
+
+        // Restore saved accessibility preferences
+        function restorePreferences() {
+          const savedFontSize = localStorage.getItem("windgap-font-size");
+          if (savedFontSize) {
+            document.documentElement.style.fontSize = savedFontSize + "px";
+          }
+
+          if (localStorage.getItem("windgap-dyslexia-font")) {
+            document.body.classList.add("dyslexia-font");
+          }
+
+          if (localStorage.getItem("windgap-easy-read")) {
+            document.body.classList.add("easy-read");
+          }
+        }
+
+        // Initialize on DOM ready
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", restorePreferences);
+        } else {
+          restorePreferences();
+        }
+
+        console.log("Immediate functionality initialized");
+      })();
+    </script>
+
     <!-- Global Utilities (must load before body) -->
     <script>
       // HTML escaping utility to prevent XSS
@@ -1224,6 +1378,9 @@
         id="home"
         aria-labelledby="hero-heading"
       >
+        <!-- Dark overlay for better text contrast -->
+        <div class="absolute inset-0 bg-black bg-opacity-30"></div>
+
         <div class="absolute inset-0 opacity-10">
           <svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600">
             <circle cx="100" cy="100" r="80" fill="white" />
@@ -1232,41 +1389,78 @@
           </svg>
         </div>
 
-        <div class="relative z-10 text-center max-w-3xl mx-auto px-6">
+        <div class="relative z-10 text-center max-w-4xl mx-auto px-6">
           <h1
             id="hero-heading"
-            class="text-5xl md:text-6xl font-extrabold text-white mb-6 drop-shadow-lg"
+            class="text-5xl lg:text-7xl font-extrabold text-white mb-8 drop-shadow-2xl tracking-tight"
+            style="
+              text-shadow:
+                3px 3px 6px rgba(0, 0, 0, 1),
+                0 0 12px rgba(0, 0, 0, 0.8),
+                0 0 20px rgba(0, 0, 0, 0.5);
+              color: #ffffff !important;
+              font-weight: 900 !important;
+            "
           >
             Accessible Learning for Every Mind
           </h1>
-          <p class="text-xl text-white mb-8 drop-shadow-md">
+          <p
+            class="text-xl md:text-2xl text-white mb-10 drop-shadow-lg leading-relaxed max-w-3xl mx-auto"
+            style="
+              text-shadow:
+                2px 2px 4px rgba(0, 0, 0, 1),
+                0 0 8px rgba(0, 0, 0, 0.8),
+                0 0 16px rgba(0, 0, 0, 0.5);
+              color: #ffffff !important;
+              font-weight: 600 !important;
+            "
+          >
             Windgap Academy provides personalized, inclusive education designed specifically for
             neurodivergent learners. Learn at your own pace with tools built for how you think.
           </p>
 
-          <div class="flex flex-col sm:flex-row gap-4 justify-center mb-8">
+          <div class="flex flex-col sm:flex-row gap-6 justify-center mb-12">
             <button
-              onclick="window.navigateTo('signin')"
-              class="bg-white text-[#A32C2B] px-8 py-3 rounded-lg font-bold text-lg hover:shadow-lg transition"
+              data-feature="signin"
+              class="bg-white text-[#A32C2B] px-10 py-4 rounded-xl font-bold text-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 min-h-[56px] cursor-pointer touch-target"
+              aria-label="Get started with Windgap Academy"
             >
-              Get Started
+              🚀 Get Started
             </button>
             <button
-              onclick="document.getElementById('about').scrollIntoView({ behavior: 'smooth' })"
-              class="bg-transparent text-white border-2 border-white px-8 py-3 rounded-lg font-bold text-lg hover:bg-white hover:text-[#A32C2B] transition"
+              data-feature="scrollToAbout"
+              class="bg-transparent text-white border-3 border-white px-10 py-4 rounded-xl font-bold text-xl hover:bg-white hover:text-[#A32C2B] transition-all duration-300 transform hover:scale-105 min-h-[56px] cursor-pointer touch-target"
+              aria-label="Learn more about our features"
+              style="border-width: 3px"
             >
-              Learn More
+              📚 Learn More
             </button>
           </div>
 
-          <div class="text-white text-sm drop-shadow-md">
+          <div
+            class="text-white text-lg drop-shadow-lg"
+            style="
+              text-shadow:
+                2px 2px 4px rgba(0, 0, 0, 1),
+                0 0 8px rgba(0, 0, 0, 0.8);
+              color: #ffffff !important;
+              font-weight: 600 !important;
+            "
+          >
             Already have an account?
-            <a
-              href="#signin"
-              onclick="window.navigateTo('signin')"
-              class="underline font-bold hover:no-underline"
-              >Sign in here</a
+            <button
+              data-feature="signin"
+              class="underline font-bold hover:no-underline ml-2 cursor-pointer text-white hover:text-yellow-300 transition-colors duration-200"
+              aria-label="Sign in to your existing account"
+              style="
+                text-shadow:
+                  2px 2px 4px rgba(0, 0, 0, 1),
+                  0 0 8px rgba(0, 0, 0, 0.8);
+                color: #ffffff !important;
+              "
             >
+              Sign in here →
+            </button>
           </div>
         </div>
       </section>
@@ -1352,25 +1546,25 @@
 
             <div class="flex flex-wrap gap-4">
               <button
-                onclick="window.increaseFont()"
-                class="bg-[#5ED1D2] text-white px-6 py-2 rounded-lg font-semibold hover:shadow-lg transition"
+                data-feature="increaseFont"
+                class="bg-[#5ED1D2] text-white px-6 py-3 rounded-lg font-semibold hover:shadow-lg transition-all duration-200 min-h-[44px] cursor-pointer touch-target"
                 aria-label="Increase font size"
               >
-                A+ Increase Font
+                <span class="font-bold">A+</span> Increase Font
               </button>
               <button
-                onclick="window.toggleDyslexiaFont()"
-                class="bg-[#A32C2B] text-white px-6 py-2 rounded-lg font-semibold hover:shadow-lg transition"
+                data-feature="toggleDyslexiaFont"
+                class="bg-[#A32C2B] text-white px-6 py-3 rounded-lg font-semibold hover:shadow-lg transition-all duration-200 min-h-[44px] cursor-pointer touch-target"
                 aria-label="Toggle dyslexia-friendly font"
               >
-                Dyslexia Font
+                <span class="font-bold">🅰️</span> Dyslexia Font
               </button>
               <button
-                onclick="window.toggleEasyRead()"
-                class="bg-[#FBBF24] text-gray-800 px-6 py-2 rounded-lg font-semibold hover:shadow-lg transition"
+                data-feature="toggleEasyRead"
+                class="bg-[#FBBF24] text-gray-800 px-6 py-3 rounded-lg font-semibold hover:shadow-lg transition-all duration-200 min-h-[44px] cursor-pointer touch-target"
                 aria-label="Toggle easy read mode"
               >
-                Easy Read Mode
+                <span class="font-bold">📖</span> Easy Read Mode
               </button>
             </div>
           </div>
@@ -1385,10 +1579,11 @@
             Join thousands of neurodivergent learners who are thriving with Windgap Academy.
           </p>
           <button
-            onclick="window.navigateTo('signin')"
-            class="bg-white text-[#A32C2B] px-10 py-4 rounded-lg font-bold text-lg hover:shadow-lg transition"
+            data-feature="signin"
+            class="bg-white text-[#A32C2B] px-10 py-4 rounded-lg font-bold text-lg hover:shadow-xl transition-all duration-200 min-h-[50px] cursor-pointer touch-target"
+            aria-label="Sign in to get started with Windgap Academy"
           >
-            Get Started Free Today
+            🚀 Get Started Free Today
           </button>
         </div>
       </section>
