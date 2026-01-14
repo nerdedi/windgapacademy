@@ -31,10 +31,15 @@
 
     <!-- Styles -->
     <link rel="stylesheet" href="styles/output.css" />
+    <link rel="stylesheet" href="styles/windgap-academy.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Roboto:400,600,700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/gh/antijingoist/open-dyslexic@latest/open-dyslexic.css"
       rel="stylesheet"
     />
 
@@ -520,42 +525,38 @@
         }
 
         dashboard.style.display = "block";
+        dashboard.className = "dashboard container";
         dashboard.innerHTML =
-          '<div style="max-width:1200px;margin:0 auto;padding:2rem;">' +
-          '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem;">' +
-          '<h1 style="font-size:2rem;font-weight:bold;color:#A32C2B;">' +
+          '<div class="dashboard-welcome">' +
+          '<h1 class="text-center">' +
           "Welcome, " +
           safeName +
           "! " +
-          '<span style="font-size:1rem;background:' +
-          (isEducator ? "#FBBF24" : "#5ED1D2") +
-          ";color:" +
-          (isEducator ? "#333" : "white") +
-          ';padding:0.25rem 0.75rem;border-radius:1rem;margin-left:0.5rem;">' +
+          '<span class="user-role">' +
           (isEducator ? "👨‍🏫 Educator" : "🎓 Learner") +
           "</span>" +
           "</h1>" +
-          '<button onclick="window.logout()" style="padding:0.5rem 1rem;background:#dc2626;color:white;border:none;border-radius:0.5rem;cursor:pointer;font-weight:500;">' +
+          '<button onclick="window.logout()" class="btn btn-danger">' +
           "Sign Out" +
           "</button>" +
           "</div>" +
-          '<h2 style="font-size:1.5rem;font-weight:bold;color:#333;margin-bottom:1rem;">🎮 Learning Games</h2>' +
-          '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;margin-bottom:2rem;">' +
-          '<div style="background:linear-gradient(135deg,#5ED1D2,#3BA9AA);padding:1.5rem;border-radius:1rem;color:white;">' +
-          '<h3 style="font-size:1.25rem;font-weight:bold;margin-bottom:0.5rem;">📚 Winnie\'s Words</h3>' +
-          '<p style="margin-bottom:1rem;opacity:0.9;">Practice vocabulary, spelling, and reading!</p>' +
-          '<button onclick="window.launchGame(\'winnies-words\')" style="background:white;color:#3BA9AA;padding:0.5rem 1rem;border:none;border-radius:0.5rem;cursor:pointer;font-weight:600;">' +
+          '<h2 class="text-center mb-4 text-primary">🎮 Learning Games</h2>' +
+          '<div class="dashboard-grid">' +
+          '<div class="feature-card game-card" style="background:linear-gradient(135deg,#5ED1D2,#3BA9AA);color:white;">' +
+          "<h3>📚 Winnie's Words</h3>" +
+          "<p>Practice vocabulary, spelling, and reading!</p>" +
+          '<button onclick="window.launchGame(\'winnies-words\')" class="btn btn-primary" style="background:white;color:#3BA9AA;">' +
           "Play Now" +
           "</button>" +
           "</div>" +
-          '<div style="background:linear-gradient(135deg,#A32C2B,#8b2423);padding:1.5rem;border-radius:1rem;color:white;">' +
-          '<h3 style="font-size:1.25rem;font-weight:bold;margin-bottom:0.5rem;">🔢 Math Quest</h3>' +
-          '<p style="margin-bottom:1rem;opacity:0.9;">Solve math puzzles and earn rewards!</p>' +
-          '<button onclick="window.launchGame(\'math-quest\')" style="background:white;color:#A32C2B;padding:0.5rem 1rem;border:none;border-radius:0.5rem;cursor:pointer;font-weight:600;">' +
+          '<div class="feature-card game-card" style="background:linear-gradient(135deg,#A32C2B,#8b2423);color:white;">' +
+          "<h3>🔢 Math Quest</h3>" +
+          "<p>Solve math puzzles and earn rewards!</p>" +
+          '<button onclick="window.launchGame(\'math-quest\')" class="btn btn-primary" style="background:white;color:#A32C2B;">' +
           "Play Now" +
           "</button>" +
           "</div>" +
-          '<div style="background:linear-gradient(135deg,#FBBF24,#d99e1b);padding:1.5rem;border-radius:1rem;color:#333;">' +
+          '<div class="feature-card game-card" style="background:linear-gradient(135deg,#FBBF24,#d99e1b);color:#333;">' +
           '<h3 style="font-size:1.25rem;font-weight:bold;margin-bottom:0.5rem;">🎨 Avatar Builder</h3>' +
           '<p style="margin-bottom:1rem;opacity:0.8;">Create your own custom avatar!</p>' +
           '<button onclick="window.launchGame(\'avatar\')" style="background:white;color:#d99e1b;padding:0.5rem 1rem;border:none;border-radius:0.5rem;cursor:pointer;font-weight:600;">' +
@@ -662,7 +663,7 @@
       function createGameContainer() {
         const container = document.createElement("div");
         container.id = "game-container";
-        container.style.cssText = "display:none;";
+        container.className = "game-container hidden";
         const footer = document.querySelector("footer");
         if (footer && footer.parentNode) {
           footer.parentNode.insertBefore(container, footer);
@@ -674,55 +675,54 @@
 
       function createLiteracyGame(config) {
         return `
-          <div style="max-width:1200px;margin:0 auto;padding:2rem;">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem;">
-              <h1 style="font-size:2rem;font-weight:bold;color:${config.color};">${config.title}</h1>
-              <button onclick="window.returnToDashboard()" style="padding:0.5rem 1rem;background:#666;color:white;border:none;border-radius:0.5rem;cursor:pointer;">
+          <div class="game-main-container">
+            <div class="game-header">
+              <h1 class="game-title" style="color:${config.color};">${config.title}</h1>
+              <button onclick="window.returnToDashboard()" class="btn btn-secondary">
                 ← Back to Dashboard
               </button>
             </div>
-            <div style="background:linear-gradient(135deg,${config.color}22,${config.color}11);padding:2rem;border-radius:1rem;border:2px solid ${config.color};">
-              <p style="margin-bottom:2rem;font-size:1.1rem;color:#333;">${config.description}</p>
+            <div class="game-body" style="border-color:${config.color};background:linear-gradient(135deg,${config.color}22,${config.color}11);">
+              <p class="game-description">${config.description}</p>
 
               <!-- Word Spelling Game -->
-              <div style="background:white;padding:2rem;border-radius:1rem;margin-bottom:1.5rem;box-shadow:0 2px 8px rgba(0,0,0,0.1);">
-                <h3 style="font-size:1.25rem;font-weight:bold;color:${config.color};margin-bottom:1rem;">🎯 Spelling Challenge</h3>
+              <div class="game-activity-card">
+                <h3 class="activity-title" style="color:${config.color};">🎯 Spelling Challenge</h3>
                 <div id="spelling-game">
-                  <p style="margin-bottom:1rem;">Listen to the word and type it correctly!</p>
-                  <div style="display:flex;gap:1rem;align-items:center;margin-bottom:1rem;">
-                    <button onclick="window.playWord()" style="padding:0.75rem 1.5rem;background:${config.color};color:white;border:none;border-radius:0.5rem;cursor:pointer;font-size:1.1rem;">
+                  <p class="activity-instructions">Listen to the word and type it correctly!</p>
+                  <div class="game-input-row">
+                    <button onclick="window.playWord()" class="btn btn-primary btn-game" style="background:${config.color};">
                       🔊 Play Word
                     </button>
-                    <input type="text" id="spelling-input" placeholder="Type the word here..."
-                      style="flex:1;padding:0.75rem;border:2px solid #ddd;border-radius:0.5rem;font-size:1.1rem;">
-                    <button onclick="window.checkSpelling()" style="padding:0.75rem 1.5rem;background:#10B981;color:white;border:none;border-radius:0.5rem;cursor:pointer;font-size:1.1rem;">
+                    <input type="text" id="spelling-input" placeholder="Type the word here..." class="game-text-input">
+                    <button onclick="window.checkSpelling()" class="btn btn-success btn-game">
                       ✓ Check
                     </button>
                   </div>
-                  <div id="spelling-feedback" style="padding:1rem;border-radius:0.5rem;display:none;"></div>
-                  <div style="margin-top:1rem;display:flex;gap:1rem;">
-                    <span style="background:#e0f2fe;padding:0.5rem 1rem;border-radius:1rem;">Score: <strong id="spelling-score">0</strong></span>
-                    <span style="background:#fef3c7;padding:0.5rem 1rem;border-radius:1rem;">Streak: <strong id="spelling-streak">0</strong> 🔥</span>
+                  <div id="spelling-feedback" class="game-feedback hidden"></div>
+                  <div class="game-stats">
+                    <span class="stat-score">Score: <strong id="spelling-score">0</strong></span>
+                    <span class="stat-streak">Streak: <strong id="spelling-streak">0</strong> 🔥</span>
                   </div>
                 </div>
               </div>
 
               <!-- Reading Comprehension -->
-              <div style="background:white;padding:2rem;border-radius:1rem;box-shadow:0 2px 8px rgba(0,0,0,0.1);">
-                <h3 style="font-size:1.25rem;font-weight:bold;color:${config.color};margin-bottom:1rem;">📖 Reading Corner</h3>
+              <div class="game-activity-card">
+                <h3 class="activity-title" style="color:${config.color};">📖 Reading Corner</h3>
                 <div id="reading-area">
-                  <p style="font-size:1.2rem;line-height:1.8;padding:1.5rem;background:#f8fafc;border-radius:0.5rem;margin-bottom:1rem;">
+                  <p class="reading-passage">
                     Winnie the wombat woke up early. The sun was shining bright. "What a lovely day!" said Winnie.
                     She decided to visit her friend Daisy the dog at the park.
                   </p>
-                  <div style="margin-top:1rem;">
-                    <p style="font-weight:bold;margin-bottom:0.5rem;">What did Winnie decide to do?</p>
-                    <div style="display:flex;flex-direction:column;gap:0.5rem;">
-                      <button onclick="window.checkReading(false)" style="text-align:left;padding:0.75rem;background:#f1f5f9;border:2px solid #e2e8f0;border-radius:0.5rem;cursor:pointer;">A) Go back to sleep</button>
-                      <button onclick="window.checkReading(true)" style="text-align:left;padding:0.75rem;background:#f1f5f9;border:2px solid #e2e8f0;border-radius:0.5rem;cursor:pointer;">B) Visit her friend Daisy</button>
-                      <button onclick="window.checkReading(false)" style="text-align:left;padding:0.75rem;background:#f1f5f9;border:2px solid #e2e8f0;border-radius:0.5rem;cursor:pointer;">C) Go shopping</button>
+                  <div class="reading-question">
+                    <p class="question-text">What did Winnie decide to do?</p>
+                    <div class="reading-choices">
+                      <button onclick="window.checkReading(false)" class="choice-btn">A) Go back to sleep</button>
+                      <button onclick="window.checkReading(true)" class="choice-btn">B) Visit her friend Daisy</button>
+                      <button onclick="window.checkReading(false)" class="choice-btn">C) Go shopping</button>
                     </div>
-                    <div id="reading-feedback" style="margin-top:1rem;padding:1rem;border-radius:0.5rem;display:none;"></div>
+                    <div id="reading-feedback" class="game-feedback hidden"></div>
                   </div>
                 </div>
               </div>
@@ -733,54 +733,54 @@
 
       function createNumeracyGame(config) {
         return `
-          <div style="max-width:1200px;margin:0 auto;padding:2rem;">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem;">
-              <h1 style="font-size:2rem;font-weight:bold;color:${config.color};">${config.title}</h1>
-              <button onclick="window.returnToDashboard()" style="padding:0.5rem 1rem;background:#666;color:white;border:none;border-radius:0.5rem;cursor:pointer;">
+          <div class="game-main-container">
+            <div class="game-header">
+              <h1 class="game-title" style="color:${config.color};">${config.title}</h1>
+              <button onclick="window.returnToDashboard()" class="btn btn-secondary">
                 ← Back to Dashboard
               </button>
             </div>
-            <div style="background:linear-gradient(135deg,${config.color}22,${config.color}11);padding:2rem;border-radius:1rem;border:2px solid ${config.color};">
-              <p style="margin-bottom:2rem;font-size:1.1rem;color:#333;">${config.description}</p>
+            <div class="game-body" style="border-color:${config.color};background:linear-gradient(135deg,${config.color}22,${config.color}11);">
+              <p class="game-description">${config.description}</p>
 
               <!-- Math Challenge -->
-              <div style="background:white;padding:2rem;border-radius:1rem;margin-bottom:1.5rem;box-shadow:0 2px 8px rgba(0,0,0,0.1);">
-                <h3 style="font-size:1.25rem;font-weight:bold;color:${config.color};margin-bottom:1rem;">🧮 Math Challenge</h3>
+              <div class="game-activity-card">
+                <h3 class="activity-title" style="color:${config.color};">🧮 Math Challenge</h3>
                 <div id="math-game">
-                  <div style="text-align:center;padding:2rem;background:#f8fafc;border-radius:1rem;margin-bottom:1rem;">
-                    <p style="font-size:3rem;font-weight:bold;color:${config.color};" id="math-problem">5 + 3 = ?</p>
+                  <div class="math-problem-display">
+                    <p class="math-problem-text" id="math-problem" style="color:${config.color};">5 + 3 = ?</p>
                   </div>
-                  <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-bottom:1rem;">
-                    <button onclick="window.checkMath(6)" style="padding:1rem 2rem;font-size:1.5rem;background:#f1f5f9;border:2px solid #e2e8f0;border-radius:0.5rem;cursor:pointer;min-width:80px;">6</button>
-                    <button onclick="window.checkMath(8)" style="padding:1rem 2rem;font-size:1.5rem;background:#f1f5f9;border:2px solid #e2e8f0;border-radius:0.5rem;cursor:pointer;min-width:80px;">8</button>
-                    <button onclick="window.checkMath(7)" style="padding:1rem 2rem;font-size:1.5rem;background:#f1f5f9;border:2px solid #e2e8f0;border-radius:0.5rem;cursor:pointer;min-width:80px;">7</button>
-                    <button onclick="window.checkMath(9)" style="padding:1rem 2rem;font-size:1.5rem;background:#f1f5f9;border:2px solid #e2e8f0;border-radius:0.5rem;cursor:pointer;min-width:80px;">9</button>
+                  <div class="math-choices">
+                    <button onclick="window.checkMath(6)" class="math-choice-btn">6</button>
+                    <button onclick="window.checkMath(8)" class="math-choice-btn">8</button>
+                    <button onclick="window.checkMath(7)" class="math-choice-btn">7</button>
+                    <button onclick="window.checkMath(9)" class="math-choice-btn">9</button>
                   </div>
-                  <div id="math-feedback" style="padding:1rem;border-radius:0.5rem;display:none;text-align:center;"></div>
-                  <div style="margin-top:1rem;display:flex;gap:1rem;justify-content:center;">
-                    <span style="background:#e0f2fe;padding:0.5rem 1rem;border-radius:1rem;">Score: <strong id="math-score">0</strong></span>
-                    <span style="background:#fef3c7;padding:0.5rem 1rem;border-radius:1rem;">Level: <strong id="math-level">1</strong></span>
+                  <div id="math-feedback" class="game-feedback hidden text-center"></div>
+                  <div class="game-stats text-center">
+                    <span class="stat-score">Score: <strong id="math-score">0</strong></span>
+                    <span class="stat-level">Level: <strong id="math-level">1</strong></span>
                   </div>
                 </div>
               </div>
 
               <!-- Money Skills -->
-              <div style="background:white;padding:2rem;border-radius:1rem;box-shadow:0 2px 8px rgba(0,0,0,0.1);">
-                <h3 style="font-size:1.25rem;font-weight:bold;color:${config.color};margin-bottom:1rem;">💰 Money Skills</h3>
-                <p style="margin-bottom:1rem;">Practice counting Australian coins and notes!</p>
-                <div style="display:flex;gap:1rem;flex-wrap:wrap;padding:1rem;background:#f8fafc;border-radius:0.5rem;margin-bottom:1rem;">
-                  <span style="padding:0.5rem 1rem;background:#fbbf24;border-radius:50%;font-weight:bold;">$2</span>
-                  <span style="padding:0.5rem 1rem;background:#fbbf24;border-radius:50%;font-weight:bold;">$1</span>
-                  <span style="padding:0.5rem 1rem;background:#a8a29e;border-radius:50%;font-weight:bold;">50c</span>
-                  <span style="padding:0.5rem 1rem;background:#a8a29e;border-radius:50%;font-weight:bold;">20c</span>
+              <div class="game-activity-card">
+                <h3 class="activity-title" style="color:${config.color};">💰 Money Skills</h3>
+                <p class="activity-instructions">Practice counting Australian coins and notes!</p>
+                <div class="money-coins">
+                  <span class="coin coin-gold">$2</span>
+                  <span class="coin coin-gold">$1</span>
+                  <span class="coin coin-silver">50c</span>
+                  <span class="coin coin-silver">20c</span>
                 </div>
-                <p style="font-weight:bold;">Total: $3.70 - How much change from $5?</p>
-                <div style="display:flex;gap:1rem;margin-top:1rem;">
-                  <button onclick="window.checkMoney(false)" style="padding:0.75rem 1.5rem;background:#f1f5f9;border:2px solid #e2e8f0;border-radius:0.5rem;cursor:pointer;">$1.20</button>
-                  <button onclick="window.checkMoney(true)" style="padding:0.75rem 1.5rem;background:#f1f5f9;border:2px solid #e2e8f0;border-radius:0.5rem;cursor:pointer;">$1.30</button>
-                  <button onclick="window.checkMoney(false)" style="padding:0.75rem 1.5rem;background:#f1f5f9;border:2px solid #e2e8f0;border-radius:0.5rem;cursor:pointer;">$1.50</button>
+                <p class="money-question">Total: $3.70 - How much change from $5?</p>
+                <div class="money-choices">
+                  <button onclick="window.checkMoney(false)" class="choice-btn">$1.20</button>
+                  <button onclick="window.checkMoney(true)" class="choice-btn">$1.30</button>
+                  <button onclick="window.checkMoney(false)" class="choice-btn">$1.50</button>
                 </div>
-                <div id="money-feedback" style="margin-top:1rem;padding:1rem;border-radius:0.5rem;display:none;"></div>
+                <div id="money-feedback" class="game-feedback hidden"></div>
               </div>
             </div>
           </div>
@@ -789,18 +789,18 @@
 
       function createAvatarBuilder(config) {
         return `
-          <div style="max-width:1200px;margin:0 auto;padding:2rem;">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem;">
-              <h1 style="font-size:2rem;font-weight:bold;color:${config.color};">${config.title}</h1>
-              <button onclick="window.returnToDashboard()" style="padding:0.5rem 1rem;background:#666;color:white;border:none;border-radius:0.5rem;cursor:pointer;">
+          <div class="game-main-container">
+            <div class="game-header">
+              <h1 class="game-title" style="color:${config.color};">${config.title}</h1>
+              <button onclick="window.returnToDashboard()" class="btn btn-secondary">
                 ← Back to Dashboard
               </button>
             </div>
-            <div style="display:grid;grid-template-columns:1fr 2fr 1fr;gap:2rem;">
+            <div class="avatar-builder-grid">
               <!-- Left Panel - Categories -->
-              <div style="background:#f8fafc;padding:1.5rem;border-radius:1rem;">
-                <h3 style="font-weight:bold;margin-bottom:1rem;color:#333;">Customize</h3>
-                <div style="display:flex;flex-direction:column;gap:0.5rem;">
+              <div class="avatar-panel">
+                <h3 class="panel-title">Customize</h3>
+                <div class="customization-buttons">
                   <button onclick="window.selectAvatarCategory('skin')" class="avatar-cat-btn" style="padding:0.75rem;background:white;border:2px solid #e2e8f0;border-radius:0.5rem;cursor:pointer;text-align:left;">🎨 Skin Tone</button>
                   <button onclick="window.selectAvatarCategory('hair')" class="avatar-cat-btn" style="padding:0.75rem;background:white;border:2px solid #e2e8f0;border-radius:0.5rem;cursor:pointer;text-align:left;">💇 Hair Style</button>
                   <button onclick="window.selectAvatarCategory('outfit')" class="avatar-cat-btn" style="padding:0.75rem;background:white;border:2px solid #e2e8f0;border-radius:0.5rem;cursor:pointer;text-align:left;">👕 Outfit</button>
@@ -1141,7 +1141,10 @@
       };
     </script>
   </head>
-  <body class="bg-white text-gray-800" style="font-family: &quot;Inter&quot;, sans-serif">
+  <body
+    class="windgap-body min-h-screen"
+    style="font-family: &quot;Roboto&quot;, Arial, sans-serif"
+  >
     <!-- Accessibility: Skip Links -->
     <a
       href="#main-content"
@@ -1214,9 +1217,9 @@
     </header>
 
     <!-- Hero Section -->
-    <main id="main-content" role="main">
+    <main id="main-content" role="main" class="container">
       <section
-        class="relative min-h-screen bg-gradient-to-br from-[#5ED1D2] via-[#A32C2B] to-[#FBBF24] flex items-center justify-center overflow-hidden"
+        class="hero-section relative min-h-screen bg-gradient-to-br from-[#5ED1D2] via-[#A32C2B] to-[#FBBF24] flex items-center justify-center overflow-hidden animate-bg-particles"
         id="home"
         aria-labelledby="hero-heading"
       >
