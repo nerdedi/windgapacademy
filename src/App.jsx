@@ -110,59 +110,118 @@ function MainApp() {
 
   if (showLogin) {
     return (
-      <main role="main" className="p-8 text-center">
-        <h2 className="text-2xl font-bold mb-4">Login</h2>
-        <div className="flex flex-col items-center justify-center gap-2">
-          <input
-            type="text"
-            placeholder="Email or User ID"
-            value={inputId}
-            onChange={(e) => setInputId(e.target.value)}
-            aria-label="User ID or Email"
-            className="border p-2 rounded w-64"
-          />
-          {inputId.includes("@") && (
-            <input
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              aria-label="Password"
-              className="border p-2 rounded w-64"
-            />
-          )}
-          <button
-            onClick={handleLogin}
-            disabled={isLoading}
-            aria-busy={isLoading}
-            className={`mt-2 px-4 py-2 rounded font-semibold ${isLoading ? "bg-gray-400 text-white cursor-wait" : "bg-[#A32C2B] text-white"}`}
-          >
-            {isLoading ? (
-              <span className="inline-flex items-center gap-2">
-                <svg className="animate-spin h-4 w-4 text-white" viewBox="0 0 24 24">
-                  <circle
-                    className="opacity-25"
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    strokeWidth="4"
-                    fill="none"
-                  />
-                  <path
-                    className="opacity-75"
-                    fill="currentColor"
-                    d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
-                  />
-                </svg>
-                Signing in...
-              </span>
-            ) : (
-              "Login"
+      <main
+        role="main"
+        className="min-h-screen bg-gradient-to-br from-[#5ED1D2] via-[#A32C2B] to-[#FBBF24] flex items-center justify-center p-8"
+      >
+        <div className="bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full">
+          <div className="text-center mb-8">
+            <h1 className="text-3xl font-bold text-[#0B6E8F] mb-2">Windgap Academy</h1>
+            <p className="text-gray-600">Accessible Learning for Every Mind</p>
+          </div>
+
+          <h2 className="text-2xl font-bold text-[#A32C2B] mb-6 text-center">Welcome Back!</h2>
+
+          <div className="flex flex-col gap-4">
+            <div>
+              <label htmlFor="email-input" className="block text-sm font-medium text-gray-700 mb-1">
+                Email or User ID
+              </label>
+              <input
+                id="email-input"
+                type="text"
+                placeholder="Enter your email or user ID"
+                value={inputId}
+                onChange={(e) => setInputId(e.target.value)}
+                aria-label="User ID or Email"
+                className="w-full border-2 border-gray-300 p-3 rounded-lg focus:border-[#5ED1D2] focus:outline-none transition-colors"
+              />
+            </div>
+
+            {inputId.includes("@") && (
+              <div>
+                <label
+                  htmlFor="password-input"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
+                  Password
+                </label>
+                <input
+                  id="password-input"
+                  type="password"
+                  placeholder="Enter your password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  aria-label="Password"
+                  className="w-full border-2 border-gray-300 p-3 rounded-lg focus:border-[#5ED1D2] focus:outline-none transition-colors"
+                />
+              </div>
             )}
-          </button>
+
+            <button
+              onClick={handleLogin}
+              disabled={isLoading}
+              aria-busy={isLoading}
+              className={`w-full mt-2 py-3 rounded-lg font-bold text-lg transition-all ${
+                isLoading
+                  ? "bg-gray-400 text-white cursor-wait"
+                  : "bg-[#A32C2B] text-white hover:bg-[#8a2424] hover:shadow-lg"
+              }`}
+            >
+              {isLoading ? (
+                <span className="inline-flex items-center justify-center gap-2">
+                  <svg className="animate-spin h-5 w-5 text-white" viewBox="0 0 24 24">
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                      fill="none"
+                    />
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                    />
+                  </svg>
+                  Signing in...
+                </span>
+              ) : (
+                "🚀 Sign In"
+              )}
+            </button>
+
+            {error && (
+              <div className="p-3 bg-red-50 border border-red-200 rounded-lg">
+                <p className="text-red-600 text-sm text-center">{error}</p>
+              </div>
+            )}
+
+            <div className="text-center mt-4 pt-4 border-t border-gray-200">
+              <p className="text-gray-600 mb-3">Don't have an account?</p>
+              <button
+                onClick={() => {
+                  // For demo: allow any user ID to "create" an account
+                  if (inputId.trim()) {
+                    handleLogin();
+                  } else {
+                    setError("Please enter an email or user ID to create an account.");
+                  }
+                }}
+                className="w-full py-3 rounded-lg font-bold text-[#5ED1D2] border-2 border-[#5ED1D2] hover:bg-[#5ED1D2] hover:text-white transition-all"
+              >
+                ✨ Create New Account
+              </button>
+            </div>
+
+            <p className="text-xs text-gray-500 text-center mt-4">
+              Tip: Enter any username to explore as a guest, or use your email for full account
+              features.
+            </p>
+          </div>
         </div>
-        {error && <p className="text-red-600 mt-3">{error}</p>}
       </main>
     );
   }

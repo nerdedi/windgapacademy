@@ -10,15 +10,43 @@ export default class ErrorBoundary extends React.Component {
     return { hasError: true, error };
   }
 
+  componentDidCatch(error, info) {
+    console.error("ErrorBoundary caught error:", error, info);
+  }
+
+  handleReload = () => {
+    // Clear any cached state and reload
+    try {
+      sessionStorage.clear();
+    } catch (e) {
+      // ignore
+    }
+    window.location.href = window.location.origin;
+  };
+
   render() {
     if (this.state.hasError) {
       return (
-        <div className="p-8 text-center">
-          <h2 className="text-2xl font-bold mb-4">Something went wrong</h2>
-          <pre className="text-sm whitespace-pre-wrap">{String(this.state.error)}</pre>
-          <button className="mt-4 btn-primary" onClick={() => window.location.reload()}>
-            Reload
-          </button>
+        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#5ED1D2] to-[#A32C2B] p-8">
+          <div className="bg-white rounded-2xl shadow-2xl p-8 max-w-md text-center">
+            <div className="text-6xl mb-4">😕</div>
+            <h2 className="text-2xl font-bold text-[#A32C2B] mb-4">Something went wrong</h2>
+            <p className="text-gray-600 mb-6">
+              We encountered an unexpected error. Please try reloading the page.
+            </p>
+            <details className="text-left mb-6 p-3 bg-gray-50 rounded-lg text-sm">
+              <summary className="cursor-pointer font-medium text-gray-700">Error details</summary>
+              <pre className="mt-2 text-xs text-red-600 whitespace-pre-wrap overflow-auto max-h-32">
+                {String(this.state.error)}
+              </pre>
+            </details>
+            <button
+              onClick={this.handleReload}
+              className="w-full bg-[#A32C2B] text-white px-6 py-3 rounded-lg font-semibold hover:bg-[#8a2424] transition-all"
+            >
+              🔄 Reload Page
+            </button>
+          </div>
         </div>
       );
     }
