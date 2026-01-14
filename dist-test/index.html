@@ -1,0 +1,1719 @@
+<!doctype html>
+<html lang="en-AU">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Content Security Policy (relaxed for Vite dev mode - tighten for production) -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="
+      default-src 'self';
+      script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://browser.sentry-cdn.com https://www.googletagmanager.com https://www.gstatic.com https://*.firebase.com https://*.firebaseio.com;
+      style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net;
+      style-src-elem 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net;
+      font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net data:;
+      img-src 'self' data: https: blob:;
+      media-src 'self' data:;
+      connect-src 'self' ws: wss: http://localhost:* http://127.0.0.1:* https://*.googleapis.com https://*.firebase.com https://*.firebaseio.com https://www.google-analytics.com https://www.googletagmanager.com https://sentry.io https://browser.sentry-cdn.com https://*.ingest.sentry.io https://www.gstatic.com;
+      frame-src 'self' https://*.firebase.com;
+      worker-src 'self' blob:;
+    "
+    />
+    <title>Windgap Academy - Accessible Learning Platform</title>
+    <meta
+      name="description"
+      content="Windgap Academy: Accessible, inclusive, and modern learning platform for neurodivergent learners."
+    />
+    <meta name="robots" content="index, follow" />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%235ED1D2' width='100' height='100'/><text x='50' y='60' font-size='60' font-weight='bold' fill='%23A32C2B' text-anchor='middle'>W</text></svg>"
+    />
+
+    <!-- Styles -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:400,600,700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/gh/antijingoist/open-dyslexic@latest/open-dyslexic.css"
+      rel="stylesheet"
+    />
+
+    <!-- External Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/howler@2.2.4/dist/howler.min.js"></script>
+    <script
+      src="https://browser.sentry-cdn.com/7.100.0/bundle.min.js"
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      // Only initialize Sentry if DSN is configured
+      if (window.env && window.env.SENTRY_DSN) {
+        Sentry.init({ dsn: window.env.SENTRY_DSN });
+      }
+    </script>
+
+    <!-- Google Analytics (using Firebase measurementId) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-FXR0TX8S6X"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-FXR0TX8S6X");
+    </script>
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-analytics-compat.js"></script>
+    <script>
+      // Initialize Firebase with real config (guarded against HMR double-init)
+      window.firebaseReady = false;
+      try {
+        var firebaseConfig = {
+          apiKey: "***REMOVED***",
+          authDomain: "windgap-academy.firebaseapp.com",
+          projectId: "windgap-academy",
+          storageBucket: "windgap-academy.appspot.com",
+          messagingSenderId: "438303886042",
+          appId: "1:438303886042:web:19b166df519870baa433e3",
+          measurementId: "G-FXR0TX8S6X",
+        };
+
+        if (window.firebase && !window.firebase.apps.length) {
+          firebase.initializeApp(firebaseConfig);
+          window.firebaseReady = true;
+          console.log("Firebase initialized successfully");
+        } else if (window.firebase && window.firebase.apps.length) {
+          window.firebaseReady = true;
+          console.log("Firebase already initialized");
+        }
+      } catch (e) {
+        console.log("Firebase initialization error:", e.message);
+      }
+    </script>
+
+    <!-- Immediate Button Functionality - Fallback for module loading -->
+    <script>
+      // Ensure basic functionality works immediately
+      (function () {
+        "use strict";
+
+        // Create immediate accessibility functions
+        function immediateIncreaseFont() {
+          const currentSize = parseInt(document.documentElement.style.fontSize) || 16;
+          const newSize = Math.min(currentSize + 2, 24);
+          document.documentElement.style.fontSize = newSize + "px";
+          localStorage.setItem("windgap-font-size", newSize);
+          showImmediateToast("Font size increased to " + newSize + "px", "success");
+        }
+
+        function immediateToggleDyslexiaFont() {
+          const isDyslexiaFont = document.body.classList.contains("dyslexia-font");
+          if (isDyslexiaFont) {
+            document.body.classList.remove("dyslexia-font");
+            localStorage.removeItem("windgap-dyslexia-font");
+            showImmediateToast("Dyslexia font disabled", "info");
+          } else {
+            document.body.classList.add("dyslexia-font");
+            localStorage.setItem("windgap-dyslexia-font", "true");
+            showImmediateToast("Dyslexia font enabled", "success");
+          }
+        }
+
+        function immediateToggleEasyRead() {
+          const isEasyRead = document.body.classList.contains("easy-read");
+          if (isEasyRead) {
+            document.body.classList.remove("easy-read");
+            localStorage.removeItem("windgap-easy-read");
+            showImmediateToast("Easy read mode disabled", "info");
+          } else {
+            document.body.classList.add("easy-read");
+            localStorage.setItem("windgap-easy-read", "true");
+            showImmediateToast("Easy read mode enabled", "success");
+          }
+        }
+
+        function immediateSignin() {
+          const signinModal = document.getElementById("signinModal");
+          if (signinModal) {
+            signinModal.style.display = "flex";
+            const firstInput = signinModal.querySelector('input[type="email"], input[type="text"]');
+            if (firstInput) {
+              setTimeout(() => firstInput.focus(), 100);
+            }
+          }
+        }
+
+        function immediateScrollToAbout() {
+          const aboutSection = document.getElementById("about");
+          if (aboutSection) {
+            aboutSection.scrollIntoView({ behavior: "smooth", block: "start" });
+          }
+        }
+
+        function showImmediateToast(message, type) {
+          const existingToast = document.querySelector(".immediate-toast");
+          if (existingToast) existingToast.remove();
+
+          const toast = document.createElement("div");
+          toast.className = "immediate-toast";
+          toast.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 10000;
+            max-width: 300px;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-weight: 500;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transform: translateX(100%);
+            transition: transform 0.3s ease-in-out;
+            background: ${type === "success" ? "#10B981" : type === "error" ? "#EF4444" : type === "warning" ? "#F59E0B" : "#3B82F6"};
+            color: white;
+          `;
+          toast.textContent = message;
+          document.body.appendChild(toast);
+
+          setTimeout(() => (toast.style.transform = "translateX(0)"), 10);
+          setTimeout(() => {
+            toast.style.transform = "translateX(100%)";
+            setTimeout(() => toast.remove(), 300);
+          }, 3000);
+        }
+
+        // Map immediate functions
+        const immediateFunctions = {
+          increaseFont: immediateIncreaseFont,
+          toggleDyslexiaFont: immediateToggleDyslexiaFont,
+          toggleEasyRead: immediateToggleEasyRead,
+          signin: immediateSignin,
+          scrollToAbout: immediateScrollToAbout,
+        };
+
+        // Set up immediate showFeature function
+        window.immediateShowFeature = function (feature) {
+          console.log("Immediate showFeature:", feature);
+          if (immediateFunctions[feature]) {
+            immediateFunctions[feature]();
+            return true;
+          }
+          return false;
+        };
+
+        // Event delegation for immediate functionality
+        document.addEventListener("click", function (evt) {
+          const btn = evt.target.closest("[data-feature]");
+          if (!btn) return;
+
+          const feature = btn.dataset.feature || btn.getAttribute("data-feature");
+          if (!feature) return;
+
+          // Try window.showFeature first (from modules), then immediate fallback
+          if (typeof window.showFeature === "function") {
+            console.log("Using module showFeature for:", feature);
+            window.showFeature(feature);
+          } else {
+            console.log("Using immediate showFeature for:", feature);
+            window.immediateShowFeature(feature);
+          }
+        });
+
+        // Restore saved accessibility preferences
+        function restorePreferences() {
+          const savedFontSize = localStorage.getItem("windgap-font-size");
+          if (savedFontSize) {
+            document.documentElement.style.fontSize = savedFontSize + "px";
+          }
+
+          if (localStorage.getItem("windgap-dyslexia-font")) {
+            document.body.classList.add("dyslexia-font");
+          }
+
+          if (localStorage.getItem("windgap-easy-read")) {
+            document.body.classList.add("easy-read");
+          }
+        }
+
+        // Initialize on DOM ready
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", restorePreferences);
+        } else {
+          restorePreferences();
+        }
+
+        console.log("Immediate functionality initialized");
+      })();
+    </script>
+
+    <!-- Global Utilities (must load before body) -->
+    <script>
+      // HTML escaping utility to prevent XSS
+      window.escapeHTML = function (str) {
+        return (str || "").replace(/[&<>"']/g, function (c) {
+          return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+        });
+      };
+
+      // Audio system using Howler.js for consistent game audio
+      window.GameAudio = (function () {
+        var sounds = {};
+        var enabled = localStorage.getItem("audio-enabled") !== "false";
+        var volume = parseFloat(localStorage.getItem("audio-volume")) || 0.7;
+
+        // Preload common game sounds
+        function init() {
+          if (typeof Howl === "undefined") {
+            console.warn("Howler.js not loaded, using fallback audio");
+            return;
+          }
+
+          sounds.correct = new Howl({
+            src: [
+              "data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2LHYfkcSPJjVsNZ+RRM/mtez1H9EEzya1rPUfEUTP5rXs9R9RBM/mday1H1FEj+a1rLUfUUSP5rWstR9RRI/mtay1H1FEj+a1rLUfUUSP5rWstR9RRI/mtay1H5EEj+a1rLUfUUSP5rWstN9RBI/mtay031EEj+Z1bLTfUQSP5nVstN9RBI/mdWy031EET+Z1bLTfUQSP5nVstN9RBE/mdWy031EEj+Z1bLTfUQRP5nVstN9RBI/mdWy031EET+Z1bLTfUQRP5nVstN9RBE/mdWy031EET+Z1bLTfUQRPpnVsdN9RBE+mdWx031EET6Z1bHTfUQRPpnVsdN9RBE+mdWx031EET6Z1bHTfUQRPpnVsdN9RBE+mdWx0n1EET6Z1bHTfEQRPpnVsdJ8RBE+mdWx0nxEET6Z1bHTfEQRPpnVsdJ8RBE+mdSx0nxEET6Z1LHSfEQRPpnUsdJ8RBA+mdSw0nxEED6Z1LDSfEQQPpnUsdJ8RBA+mdSw0nxEED6Y1LDSfEQQPpjUr9J8RBA+mNSv0nxEED6Y1K/SfEQQPpjUr9J7RBA+mNSv0ntEED6Y1K/Se0QQPpjUr9J7RBA+mNSv0ntDED6Y1K/Se0MQPpjUr9J7QxA+l9Sv0ntDED6X1K/Se0MQPpfUrtJ7QxA+l9Su0npDED6X1K7SekMQPpfUrtJ6QxA+l9Su0npDED6X1K7SekMPPpfUrtJ6Qw8+l9Su0npDDz6X1K7SekMPPpfTrtJ6Qw8+l9Ou0npCDz6X067SekIPPpfTrdJ6Qg8+l9Ot0npCDz6X063SeUIPPpfTrdJ5Qg8+ltOt0nlCDz6W063SeUIOPpbTrNJ5Qg4+ltOs0nlCDj6W06zSaUIOP5bTrNJpQg4/ltKs0mlCDj+W0qzSaEIOP5bSrNJoQg4/ltKs0mhCDj+W0qzSaEIOP5bSq9JoQg4/ltKr0mhCDj+W0qvSaEEOP5bSq9JoQQ4/ltKr0mhBDj+W0avSaEEOP5bRq9JoQQ4/ltGr0mdBDj+V0avSZ0EOP5XRq9JnQQ4/ldGr0mdBDj+V0avSZ0EOP5XRq9JnQQ0/ldGq0mdBDT+V0arSZkENP5XRqtJmQQ0/ldGq0mZBDT+V0KrSZkANP5XQqtJmQA0/ldCq0mZADT+V0KrSZkANP5XQqtJmQA0/ldCq0mZADT+V0KrSZkANP5XQqtJmQA0/lNCq0WZADTeV0KrRZUANN5TQqdFlQA03lNCp0WVADTeU0KnRZUAMN5TQqdFkQAw3lNCp0WRADDeUz6nRZD8MN5TPqdFkPww3lM+p0WQ/DDaUz6nRZD8MNpTPqdBkPww2lM+p0GQ/DDaUz6nQZD8MNpTPqNBkPgw2k8+o0GQ+DDaUz6jQZD4MNpPPqNBjPgw2k8+o0GM+DDaTz6jQYz4MNpPOqNBjPgw2k86oz2M+DDaTzqjPYz4LNpPOqM9jPgs2k86oz2M9CzaTzqjPYz0LNpPOqM9jPQs2k86oz2M9CzaTzqjPYz0LNpPOqM9jPQs2k86nz2I9CzaTzqfPYj0LNpPOp89iPQs2k86nz2I9CzaTzqfPYj0LNpLOp89iPQs2ks6nz2I9CzaSzqfPYjwLNpLOp89hPAs2ks6nzmE8CzWSzqfOYTwLNZLOp85hPAs1ks6mzmE8CzWSzqbOYTwLNZLNps5hPAs1ks2mzmA8CjWSzabOYDwKNZLNps5gPAo1ks2mzmA8CjWRzabOYDwKNZHNps1gOwo1kc2mzWA7CjWRzabNYDsKNZHNps1gOwo1kc2mzWA7CjWRzabNYDsKNJHNps1fOwo0kc2lzV87CjSRzaXNXzsKNJHNpc1fOwo0kc2lzV87CjSRzaXNXzsJNJHMpc1fOwk0kcylzV86CTSRzKXMXzoJNJDMpcxfOgk0kMylzF85CTSQzKXMXzkJM5DMpMxfOQkzkMykzF84CTOQzKTMXjgJM5DMpMxeOAkzkMyjzF44CTOPzKPMXjgJM4/Mo8xdOAgzj8yjzF04CDOPzKPMXTgIM4/Lo8xcOAgzj8ujy1w4CDOPy6PLXDcIM4/Lo8tcNwgzj8ujy1w3CDOPy6PLWzcIMo7Lo8tbNwgyjsujylw3CDKOy6PKWzcIMo7LospaOA==",
+            ],
+            volume: volume,
+          });
+
+          sounds.incorrect = new Howl({
+            src: [
+              "data:audio/wav;base64,UklGRl9CAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YTtCAAD//wEAAQD//wAAAQAAAP//AAABAP//AAAAAP//AAABAAEAAAD//wAAAAD//wAA//8BAAAA//8AAAEA//8AAAEAAQAAAP//AAABAP//AAABAP//AAABAAAA//8AAAEAAAD//wAA//8AAP//AQD//wEAAQD//wEA//8BAAEAAQAAAP//AAAAAAEAAQAAAP//AAABAAEAAAD//wAAAAD//wAAAQAAAP//AQAAAP//AQABAP//AAABAAAA//8AAP//AQD//wEAAQD//wEA//8AAP//AQD//wEAAQABAAEA//8AAAEAAQAAAP//AAABAAEAAQAAAP//AAABAP//AQABAP//AAABAAAA//8BAAEA//8AAAEA//8AAAEA//8BAAAAAQD//wAAAQAAAAAAAAD//wEAAQABAP//AQAAAAAA//8BAAEAAQD//wEA//8BAP//AQABAAAAAQD//wAAAQABAAAAAQD//wAAAQABAAAA//8AAAEAAQABAAAAAQD//wAAAQAAAAAA//8BAAEAAQABAAAAAQD//wAAAQAAAP//AQABAAEA//8BAAEAAQD//wAAAAD//wEAAQABAAAA//8AAAAAAQABAAEAAAD//wAAAAAAAAEAAQABAAAAAAD//wAAAQABAAEAAAAAAAAA//8AAAEAAQABAAEAAAD//wAAAAABAAEAAQAAAP//AAABAAAA//8BAAEAAQABAAEA//8AAAAAAQABAAEAAAAAAP//AAABAAAA//8=",
+            ],
+            volume: volume,
+          });
+
+          sounds.click = new Howl({
+            src: [
+              "data:audio/wav;base64,UklGRl9CAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YTtCAACAgICAgICAgICAgICAgICAgICAgICAgICAgICA",
+            ],
+            volume: volume * 0.5,
+          });
+
+          sounds.success = new Howl({
+            src: [
+              "data:audio/wav;base64,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",
+            ],
+            volume: volume,
+          });
+        }
+
+        return {
+          init: init,
+          play: function (soundName) {
+            if (!enabled || !sounds[soundName]) {
+              // Fallback to Web Audio API beep
+              if (enabled && typeof AudioContext !== "undefined") {
+                try {
+                  var ctx = new (window.AudioContext || window.webkitAudioContext)();
+                  var osc = ctx.createOscillator();
+                  var gain = ctx.createGain();
+                  osc.connect(gain);
+                  gain.connect(ctx.destination);
+                  osc.frequency.value =
+                    soundName === "correct" ? 800 : soundName === "incorrect" ? 300 : 600;
+                  gain.gain.value = volume * 0.3;
+                  osc.start();
+                  osc.stop(ctx.currentTime + 0.15);
+                } catch (e) {}
+              }
+              return;
+            }
+            sounds[soundName].play();
+          },
+          setEnabled: function (val) {
+            enabled = val;
+            localStorage.setItem("audio-enabled", val);
+          },
+          setVolume: function (val) {
+            volume = Math.max(0, Math.min(1, val));
+            localStorage.setItem("audio-volume", volume);
+            Object.keys(sounds).forEach(function (key) {
+              sounds[key].volume(volume);
+            });
+          },
+          isEnabled: function () {
+            return enabled;
+          },
+          getVolume: function () {
+            return volume;
+          },
+        };
+      })();
+
+      // Initialize audio on first user interaction
+      document.addEventListener(
+        "click",
+        function initAudio() {
+          window.GameAudio.init();
+          document.removeEventListener("click", initAudio);
+        },
+        { once: true },
+      );
+
+      // Accessibility utilities using CSS custom properties for Tailwind compatibility
+      window.increaseFont = function () {
+        const root = document.documentElement;
+        const current =
+          parseFloat(getComputedStyle(root).getPropertyValue("--app-font-scale")) || 1;
+        const newScale = Math.min(current + 0.1, 2.0); // Cap at 2x
+        root.style.setProperty("--app-font-scale", newScale.toFixed(2));
+      };
+
+      window.toggleDyslexiaFont = function () {
+        const body = document.body;
+        body.classList.toggle("dyslexia-font");
+        localStorage.setItem("dyslexia-font", body.classList.contains("dyslexia-font"));
+      };
+
+      window.toggleEasyRead = function () {
+        const body = document.body;
+        body.classList.toggle("easy-read");
+        localStorage.setItem("easy-read", body.classList.contains("easy-read"));
+      };
+
+      // Navigation utilities
+      window.navigateTo = function (route) {
+        console.log("Navigating to:", route);
+        if (route === "signin") {
+          window.showSignInModal();
+        } else if (route === "dashboard") {
+          // Redirect to dashboard (only if authenticated)
+          window.location.href = "#/dashboard";
+        }
+      };
+
+      // Sign In Modal
+      window.showSignInModal = function () {
+        // Remove existing modal if any
+        const existing = document.getElementById("signin-modal");
+        if (existing) existing.remove();
+
+        const modal = document.createElement("div");
+        modal.id = "signin-modal";
+        modal.style.cssText =
+          "position:fixed;inset:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:9999;";
+        modal.innerHTML = `
+          <div style="background:white;padding:2rem;border-radius:1rem;max-width:400px;width:90%;box-shadow:0 4px 24px rgba(0,0,0,0.2);">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;">
+              <h2 style="font-size:1.5rem;font-weight:bold;color:#A32C2B;margin:0;">Sign In</h2>
+              <button id="signin-close" style="background:none;border:none;font-size:1.5rem;cursor:pointer;color:#666;">&times;</button>
+            </div>
+            <form id="signin-form">
+              <div style="margin-bottom:1rem;">
+                <label for="signin-email" style="display:block;margin-bottom:0.5rem;font-weight:500;">Email</label>
+                <input type="email" id="signin-email" placeholder="your@email.com" required autocomplete="email"
+                  style="width:100%;padding:0.75rem;border:1px solid #ddd;border-radius:0.5rem;font-size:1rem;box-sizing:border-box;">
+              </div>
+              <div style="margin-bottom:1rem;">
+                <label for="signin-password" style="display:block;margin-bottom:0.5rem;font-weight:500;">Password</label>
+                <input type="password" id="signin-password" placeholder="••••••••" required minlength="6" autocomplete="current-password"
+                  style="width:100%;padding:0.75rem;border:1px solid #ddd;border-radius:0.5rem;font-size:1rem;box-sizing:border-box;">
+              </div>
+              <div id="signin-error" style="color:#dc2626;margin-bottom:1rem;display:none;"></div>
+              <button type="submit" id="signin-submit"
+                style="width:100%;padding:0.75rem;background:#A32C2B;color:white;border:none;border-radius:0.5rem;font-size:1rem;font-weight:600;cursor:pointer;">
+                Sign In
+              </button>
+            </form>
+            <div style="margin-top:1.5rem;padding-top:1rem;border-top:1px solid #eee;">
+              <p style="text-align:center;color:#666;margin-bottom:1rem;">Or try a demo account:</p>
+              <div style="display:flex;gap:0.5rem;">
+                <button onclick="window.demoLogin('learner')" style="flex:1;padding:0.5rem;background:#5ED1D2;color:white;border:none;border-radius:0.5rem;cursor:pointer;font-weight:500;">
+                  Demo Learner
+                </button>
+                <button onclick="window.demoLogin('educator')" style="flex:1;padding:0.5rem;background:#FBBF24;color:#333;border:none;border-radius:0.5rem;cursor:pointer;font-weight:500;">
+                  Demo Educator
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+        document.body.appendChild(modal);
+
+        // Close on backdrop click
+        modal.addEventListener("click", function (e) {
+          if (e.target === modal) modal.remove();
+        });
+
+        // Handle form submit
+        document.getElementById("signin-form").addEventListener("submit", async function (e) {
+          e.preventDefault();
+          const email = document.getElementById("signin-email").value;
+          const password = document.getElementById("signin-password").value;
+          const errorDiv = document.getElementById("signin-error");
+          const submitBtn = document.getElementById("signin-submit");
+
+          errorDiv.style.display = "none";
+          submitBtn.disabled = true;
+          submitBtn.textContent = "Signing in...";
+
+          try {
+            if (window.firebaseReady && window.firebase && window.firebase.auth) {
+              await window.firebase.auth().signInWithEmailAndPassword(email, password);
+              const user = {
+                email: email,
+                isDemo: false,
+                name: email.split("@")[0],
+                role: "learner",
+              };
+              localStorage.setItem("windgap_user", JSON.stringify(user));
+              modal.remove();
+              window.showDashboard(user);
+            } else {
+              // Firebase not configured - use demo mode
+              errorDiv.textContent =
+                "Firebase not configured. Please use the demo login buttons below.";
+              errorDiv.style.display = "block";
+            }
+          } catch (err) {
+            errorDiv.textContent = err.message || "Sign in failed. Please check your credentials.";
+            errorDiv.style.display = "block";
+          } finally {
+            submitBtn.disabled = false;
+            submitBtn.textContent = "Sign In";
+          }
+        });
+
+        // Focus the email input
+        setTimeout(() => document.getElementById("signin-email").focus(), 100);
+      };
+
+      // Demo login
+      window.demoLogin = function (role) {
+        const modal = document.getElementById("signin-modal");
+        if (modal) modal.remove();
+
+        // Store demo user info
+        const user = {
+          role: role,
+          isDemo: true,
+          name: role === "educator" ? "Demo Educator" : "Demo Learner",
+        };
+        localStorage.setItem("windgap_user", JSON.stringify(user));
+
+        // Show dashboard directly
+        window.showDashboard(user);
+      };
+
+      // Create Account Modal
+      window.showCreateAccountModal = function () {
+        // Remove existing modal if any
+        const existing = document.getElementById("signup-modal");
+        if (existing) existing.remove();
+
+        const modal = document.createElement("div");
+        modal.id = "signup-modal";
+        modal.style.cssText =
+          "position:fixed;inset:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:9999;";
+        modal.innerHTML = `
+          <div style="background:white;padding:2rem;border-radius:1rem;max-width:450px;width:90%;box-shadow:0 4px 24px rgba(0,0,0,0.2);max-height:90vh;overflow-y:auto;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;">
+              <h2 style="font-size:1.5rem;font-weight:bold;color:#5ED1D2;margin:0;">Create Account</h2>
+              <button id="signup-close" style="background:none;border:none;font-size:1.5rem;cursor:pointer;color:#666;">&times;</button>
+            </div>
+            <form id="signup-form">
+              <div style="margin-bottom:1rem;">
+                <label for="signup-name" style="display:block;margin-bottom:0.5rem;font-weight:500;">Full Name</label>
+                <input type="text" id="signup-name" placeholder="Your name" required
+                  style="width:100%;padding:0.75rem;border:1px solid #ddd;border-radius:0.5rem;font-size:1rem;box-sizing:border-box;">
+              </div>
+              <div style="margin-bottom:1rem;">
+                <label for="signup-email" style="display:block;margin-bottom:0.5rem;font-weight:500;">Email</label>
+                <input type="email" id="signup-email" placeholder="your@email.com" required autocomplete="email"
+                  style="width:100%;padding:0.75rem;border:1px solid #ddd;border-radius:0.5rem;font-size:1rem;box-sizing:border-box;">
+              </div>
+              <div style="margin-bottom:1rem;">
+                <label for="signup-password" style="display:block;margin-bottom:0.5rem;font-weight:500;">Password</label>
+                <input type="password" id="signup-password" placeholder="At least 6 characters" required minlength="6" autocomplete="new-password"
+                  style="width:100%;padding:0.75rem;border:1px solid #ddd;border-radius:0.5rem;font-size:1rem;box-sizing:border-box;">
+              </div>
+              <div style="margin-bottom:1rem;">
+                <label for="signup-confirm" style="display:block;margin-bottom:0.5rem;font-weight:500;">Confirm Password</label>
+                <input type="password" id="signup-confirm" placeholder="Confirm your password" required minlength="6" autocomplete="new-password"
+                  style="width:100%;padding:0.75rem;border:1px solid #ddd;border-radius:0.5rem;font-size:1rem;box-sizing:border-box;">
+              </div>
+              <div style="margin-bottom:1rem;">
+                <label style="display:block;margin-bottom:0.5rem;font-weight:500;">I am a:</label>
+                <div style="display:flex;gap:1rem;">
+                  <label style="display:flex;align-items:center;gap:0.5rem;cursor:pointer;">
+                    <input type="radio" name="signup-role" value="learner" checked> Learner
+                  </label>
+                  <label style="display:flex;align-items:center;gap:0.5rem;cursor:pointer;">
+                    <input type="radio" name="signup-role" value="educator"> Educator
+                  </label>
+                  <label style="display:flex;align-items:center;gap:0.5rem;cursor:pointer;">
+                    <input type="radio" name="signup-role" value="parent"> Parent/Guardian
+                  </label>
+                </div>
+              </div>
+              <div id="signup-error" style="color:#dc2626;margin-bottom:1rem;display:none;"></div>
+              <div id="signup-success" style="color:#059669;margin-bottom:1rem;display:none;"></div>
+              <button type="submit" id="signup-submit"
+                style="width:100%;padding:0.75rem;background:#5ED1D2;color:white;border:none;border-radius:0.5rem;font-size:1rem;font-weight:600;cursor:pointer;">
+                Create Account
+              </button>
+            </form>
+            <div style="margin-top:1.5rem;text-align:center;border-top:1px solid #eee;padding-top:1rem;">
+              <p style="color:#666;">Already have an account? <a href="#" onclick="document.getElementById('signup-modal').remove(); window.showSignInModal(); return false;" style="color:#A32C2B;font-weight:600;">Sign in here</a></p>
+            </div>
+          </div>
+        `;
+        document.body.appendChild(modal);
+
+        // Close on backdrop click
+        modal.addEventListener("click", function (e) {
+          if (e.target === modal) modal.remove();
+        });
+
+        // Handle form submit
+        document.getElementById("signup-form").addEventListener("submit", async function (e) {
+          e.preventDefault();
+          const name = document.getElementById("signup-name").value;
+          const email = document.getElementById("signup-email").value;
+          const password = document.getElementById("signup-password").value;
+          const confirm = document.getElementById("signup-confirm").value;
+          const role = document.querySelector('input[name="signup-role"]:checked').value;
+          const errorDiv = document.getElementById("signup-error");
+          const successDiv = document.getElementById("signup-success");
+          const submitBtn = document.getElementById("signup-submit");
+
+          errorDiv.style.display = "none";
+          successDiv.style.display = "none";
+
+          // Validate passwords match
+          if (password !== confirm) {
+            errorDiv.textContent = "Passwords do not match.";
+            errorDiv.style.display = "block";
+            return;
+          }
+
+          submitBtn.disabled = true;
+          submitBtn.textContent = "Creating account...";
+
+          try {
+            if (window.firebaseReady && window.firebase && window.firebase.auth) {
+              // Create user with Firebase
+              const userCredential = await window.firebase
+                .auth()
+                .createUserWithEmailAndPassword(email, password);
+              // Update display name
+              await userCredential.user.updateProfile({ displayName: name });
+
+              const user = { email: email, name: name, role: role, isDemo: false };
+              localStorage.setItem("windgap_user", JSON.stringify(user));
+
+              successDiv.textContent = "Account created successfully! Redirecting...";
+              successDiv.style.display = "block";
+
+              setTimeout(() => {
+                modal.remove();
+                window.showDashboard(user);
+              }, 1500);
+            } else {
+              // Firebase not configured - create local account for demo
+              const user = { email: email, name: name, role: role, isDemo: true };
+              localStorage.setItem("windgap_user", JSON.stringify(user));
+
+              successDiv.textContent = "Demo account created! Redirecting...";
+              successDiv.style.display = "block";
+
+              setTimeout(() => {
+                modal.remove();
+                window.showDashboard(user);
+              }, 1500);
+            }
+          } catch (err) {
+            let errorMessage = "Account creation failed. ";
+            if (err.code === "auth/email-already-in-use") {
+              errorMessage += "This email is already registered.";
+            } else if (err.code === "auth/weak-password") {
+              errorMessage += "Password should be at least 6 characters.";
+            } else if (err.code === "auth/invalid-email") {
+              errorMessage += "Please enter a valid email address.";
+            } else {
+              errorMessage += err.message || "Please try again.";
+            }
+            errorDiv.textContent = errorMessage;
+            errorDiv.style.display = "block";
+            submitBtn.disabled = false;
+            submitBtn.textContent = "Create Account";
+          }
+        });
+
+        // Focus the name input
+        setTimeout(() => document.getElementById("signup-name").focus(), 100);
+      };
+
+      // Show Dashboard
+      window.showDashboard = function (user) {
+        if (!user) {
+          const stored = localStorage.getItem("windgap_user");
+          user = stored ? JSON.parse(stored) : null;
+        }
+        if (!user) {
+          window.navigateTo("signin");
+          return;
+        }
+
+        const isEducator = user.role === "educator";
+        const mainContent = document.querySelector("main") || document.body;
+        const safeName = window.escapeHTML(user.name);
+
+        // Hide hero sections and show dashboard
+        document.querySelectorAll("section").forEach((s) => (s.style.display = "none"));
+        const footer = document.querySelector("footer");
+        if (footer) footer.style.display = "none";
+
+        // Create dashboard
+        let dashboard = document.getElementById("dashboard-view");
+        if (!dashboard) {
+          dashboard = document.createElement("div");
+          dashboard.id = "dashboard-view";
+          document.body.insertBefore(dashboard, document.querySelector("footer"));
+        }
+
+        dashboard.style.display = "block";
+        dashboard.className = "dashboard container";
+        dashboard.innerHTML =
+          '<div class="dashboard-welcome">' +
+          '<h1 class="text-center">' +
+          "Welcome, " +
+          safeName +
+          "! " +
+          '<span class="user-role">' +
+          (isEducator ? "👨‍🏫 Educator" : "🎓 Learner") +
+          "</span>" +
+          "</h1>" +
+          '<button onclick="window.logout()" class="btn btn-danger">' +
+          "Sign Out" +
+          "</button>" +
+          "</div>" +
+          '<h2 class="text-center mb-4 text-primary">🎮 Learning Games</h2>' +
+          '<div class="dashboard-grid">' +
+          '<div class="feature-card game-card" style="background:linear-gradient(135deg,#5ED1D2,#3BA9AA);color:white;">' +
+          "<h3>📚 Winnie's Words</h3>" +
+          "<p>Practice vocabulary, spelling, and reading!</p>" +
+          '<button onclick="window.launchGame(\'winnies-words\')" class="btn btn-primary" style="background:white;color:#3BA9AA;">' +
+          "Play Now" +
+          "</button>" +
+          "</div>" +
+          '<div class="feature-card game-card" style="background:linear-gradient(135deg,#A32C2B,#8b2423);color:white;">' +
+          "<h3>🔢 Math Quest</h3>" +
+          "<p>Solve math puzzles and earn rewards!</p>" +
+          '<button onclick="window.launchGame(\'math-quest\')" class="btn btn-primary" style="background:white;color:#A32C2B;">' +
+          "Play Now" +
+          "</button>" +
+          "</div>" +
+          '<div class="feature-card game-card" style="background:linear-gradient(135deg,#FBBF24,#d99e1b);color:#333;">' +
+          '<h3 style="font-size:1.25rem;font-weight:bold;margin-bottom:0.5rem;">🎨 Avatar Builder</h3>' +
+          '<p style="margin-bottom:1rem;opacity:0.8;">Create your own custom avatar!</p>' +
+          '<button onclick="window.launchGame(\'avatar\')" style="background:white;color:#d99e1b;padding:0.5rem 1rem;border:none;border-radius:0.5rem;cursor:pointer;font-weight:600;">' +
+          "Create" +
+          "</button>" +
+          "</div>" +
+          '<div style="background:linear-gradient(135deg,#10B981,#059669);padding:1.5rem;border-radius:1rem;color:white;">' +
+          '<h3 style="font-size:1.25rem;font-weight:bold;margin-bottom:0.5rem;">🏠 Life Skills</h3>' +
+          '<p style="margin-bottom:1rem;opacity:0.9;">Learn cooking, cleaning & daily tasks!</p>' +
+          '<button onclick="window.launchGame(\'life-skills\')" style="background:white;color:#059669;padding:0.5rem 1rem;border:none;border-radius:0.5rem;cursor:pointer;font-weight:600;">' +
+          "Explore" +
+          "</button>" +
+          "</div>" +
+          '<div style="background:linear-gradient(135deg,#6366F1,#4F46E5);padding:1.5rem;border-radius:1rem;color:white;">' +
+          '<h3 style="font-size:1.25rem;font-weight:bold;margin-bottom:0.5rem;">💻 Digital Skills</h3>' +
+          '<p style="margin-bottom:1rem;opacity:0.9;">Computer & internet skills training!</p>' +
+          '<button onclick="window.launchGame(\'digital-skills\')" style="background:white;color:#4F46E5;padding:0.5rem 1rem;border:none;border-radius:0.5rem;cursor:pointer;font-weight:600;">' +
+          "Learn" +
+          "</button>" +
+          "</div>" +
+          "</div>" +
+          (isEducator
+            ? '<div style="background:#f8fafc;padding:1.5rem;border-radius:1rem;border:1px solid #e2e8f0;">' +
+              '<h3 style="font-size:1.25rem;font-weight:bold;color:#A32C2B;margin-bottom:1rem;">📊 Educator Tools</h3>' +
+              '<div style="display:flex;gap:1rem;flex-wrap:wrap;">' +
+              '<button onclick="alert(\'Student progress dashboard loading...\')" style="padding:0.75rem 1.5rem;background:#A32C2B;color:white;border:none;border-radius:0.5rem;cursor:pointer;">View Student Progress</button>' +
+              '<button onclick="alert(\'Assignment creator loading...\')" style="padding:0.75rem 1.5rem;background:#5ED1D2;color:white;border:none;border-radius:0.5rem;cursor:pointer;">Create Assignment</button>' +
+              '<button onclick="alert(\'Class reports loading...\')" style="padding:0.75rem 1.5rem;background:#FBBF24;color:#333;border:none;border-radius:0.5rem;cursor:pointer;">Class Reports</button>' +
+              "</div>" +
+              "</div>"
+            : '<div style="background:#f8fafc;padding:1.5rem;border-radius:1rem;border:1px solid #e2e8f0;">' +
+              '<h3 style="font-size:1.25rem;font-weight:bold;color:#A32C2B;margin-bottom:1rem;">🏆 Your Progress</h3>' +
+              '<div style="display:flex;gap:2rem;flex-wrap:wrap;">' +
+              "<div><strong>Games Played:</strong> 12</div>" +
+              "<div><strong>Points Earned:</strong> 450</div>" +
+              "<div><strong>Current Streak:</strong> 🔥 3 days</div>" +
+              "</div>" +
+              "</div>") +
+          "</div>";
+
+        window.location.hash = "/dashboard";
+      };
+
+      // Logout
+      window.logout = function () {
+        localStorage.removeItem("windgap_user");
+        window.location.hash = "";
+        window.location.reload();
+      };
+
+      // Launch game placeholder
+      window.launchGame = function (game) {
+        const gameContainer = document.getElementById("game-container") || createGameContainer();
+
+        // Game configurations
+        const games = {
+          "winnies-words": {
+            title: "📚 Winnie's Words",
+            color: "#5ED1D2",
+            description:
+              "Practice vocabulary, spelling, and reading comprehension with Winnie the Wombat!",
+            content: createLiteracyGame,
+          },
+          "math-quest": {
+            title: "🔢 Math Quest",
+            color: "#A32C2B",
+            description: "Solve math puzzles, practice numeracy skills, and earn rewards!",
+            content: createNumeracyGame,
+          },
+          avatar: {
+            title: "🎨 Avatar Builder",
+            color: "#FBBF24",
+            description: "Create and customize your own unique avatar!",
+            content: createAvatarBuilder,
+          },
+          "life-skills": {
+            title: "🏠 Life Skills",
+            color: "#10B981",
+            description: "Learn essential daily living skills through interactive scenarios!",
+            content: createLifeSkillsGame,
+          },
+          "digital-skills": {
+            title: "💻 Digital Skills",
+            color: "#6366F1",
+            description: "Master computer and internet skills for the modern world!",
+            content: createDigitalSkillsGame,
+          },
+        };
+
+        const gameConfig = games[game];
+        if (!gameConfig) {
+          alert("Game not found: " + game);
+          return;
+        }
+
+        // Hide dashboard, show game
+        const dashboard = document.getElementById("dashboard-view");
+        if (dashboard) dashboard.style.display = "none";
+
+        gameContainer.style.display = "block";
+        gameContainer.innerHTML = gameConfig.content(gameConfig);
+      };
+
+      function createGameContainer() {
+        const container = document.createElement("div");
+        container.id = "game-container";
+        container.className = "game-container hidden";
+        const footer = document.querySelector("footer");
+        if (footer && footer.parentNode) {
+          footer.parentNode.insertBefore(container, footer);
+        } else {
+          document.body.appendChild(container);
+        }
+        return container;
+      }
+
+      function createLiteracyGame(config) {
+        return `
+          <div class="game-main-container">
+            <div class="game-header">
+              <h1 class="game-title" style="color:${config.color};">${config.title}</h1>
+              <button onclick="window.returnToDashboard()" class="btn btn-secondary">
+                ← Back to Dashboard
+              </button>
+            </div>
+            <div class="game-body" style="border-color:${config.color};background:linear-gradient(135deg,${config.color}22,${config.color}11);">
+              <p class="game-description">${config.description}</p>
+
+              <!-- Word Spelling Game -->
+              <div class="game-activity-card">
+                <h3 class="activity-title" style="color:${config.color};">🎯 Spelling Challenge</h3>
+                <div id="spelling-game">
+                  <p class="activity-instructions">Listen to the word and type it correctly!</p>
+                  <div class="game-input-row">
+                    <button onclick="window.playWord()" class="btn btn-primary btn-game" style="background:${config.color};">
+                      🔊 Play Word
+                    </button>
+                    <input type="text" id="spelling-input" placeholder="Type the word here..." class="game-text-input">
+                    <button onclick="window.checkSpelling()" class="btn btn-success btn-game">
+                      ✓ Check
+                    </button>
+                  </div>
+                  <div id="spelling-feedback" class="game-feedback hidden"></div>
+                  <div class="game-stats">
+                    <span class="stat-score">Score: <strong id="spelling-score">0</strong></span>
+                    <span class="stat-streak">Streak: <strong id="spelling-streak">0</strong> 🔥</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Reading Comprehension -->
+              <div class="game-activity-card">
+                <h3 class="activity-title" style="color:${config.color};">📖 Reading Corner</h3>
+                <div id="reading-area">
+                  <p class="reading-passage">
+                    Winnie the wombat woke up early. The sun was shining bright. "What a lovely day!" said Winnie.
+                    She decided to visit her friend Daisy the dog at the park.
+                  </p>
+                  <div class="reading-question">
+                    <p class="question-text">What did Winnie decide to do?</p>
+                    <div class="reading-choices">
+                      <button onclick="window.checkReading(false)" class="choice-btn">A) Go back to sleep</button>
+                      <button onclick="window.checkReading(true)" class="choice-btn">B) Visit her friend Daisy</button>
+                      <button onclick="window.checkReading(false)" class="choice-btn">C) Go shopping</button>
+                    </div>
+                    <div id="reading-feedback" class="game-feedback hidden"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      function createNumeracyGame(config) {
+        return `
+          <div class="game-main-container">
+            <div class="game-header">
+              <h1 class="game-title" style="color:${config.color};">${config.title}</h1>
+              <button onclick="window.returnToDashboard()" class="btn btn-secondary">
+                ← Back to Dashboard
+              </button>
+            </div>
+            <div class="game-body" style="border-color:${config.color};background:linear-gradient(135deg,${config.color}22,${config.color}11);">
+              <p class="game-description">${config.description}</p>
+
+              <!-- Math Challenge -->
+              <div class="game-activity-card">
+                <h3 class="activity-title" style="color:${config.color};">🧮 Math Challenge</h3>
+                <div id="math-game">
+                  <div class="math-problem-display">
+                    <p class="math-problem-text" id="math-problem" style="color:${config.color};">5 + 3 = ?</p>
+                  </div>
+                  <div class="math-choices">
+                    <button onclick="window.checkMath(6)" class="math-choice-btn">6</button>
+                    <button onclick="window.checkMath(8)" class="math-choice-btn">8</button>
+                    <button onclick="window.checkMath(7)" class="math-choice-btn">7</button>
+                    <button onclick="window.checkMath(9)" class="math-choice-btn">9</button>
+                  </div>
+                  <div id="math-feedback" class="game-feedback hidden text-center"></div>
+                  <div class="game-stats text-center">
+                    <span class="stat-score">Score: <strong id="math-score">0</strong></span>
+                    <span class="stat-level">Level: <strong id="math-level">1</strong></span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Money Skills -->
+              <div class="game-activity-card">
+                <h3 class="activity-title" style="color:${config.color};">💰 Money Skills</h3>
+                <p class="activity-instructions">Practice counting Australian coins and notes!</p>
+                <div class="money-coins">
+                  <span class="coin coin-gold">$2</span>
+                  <span class="coin coin-gold">$1</span>
+                  <span class="coin coin-silver">50c</span>
+                  <span class="coin coin-silver">20c</span>
+                </div>
+                <p class="money-question">Total: $3.70 - How much change from $5?</p>
+                <div class="money-choices">
+                  <button onclick="window.checkMoney(false)" class="choice-btn">$1.20</button>
+                  <button onclick="window.checkMoney(true)" class="choice-btn">$1.30</button>
+                  <button onclick="window.checkMoney(false)" class="choice-btn">$1.50</button>
+                </div>
+                <div id="money-feedback" class="game-feedback hidden"></div>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      function createAvatarBuilder(config) {
+        return `
+          <div class="game-main-container">
+            <div class="game-header">
+              <h1 class="game-title" style="color:${config.color};">${config.title}</h1>
+              <button onclick="window.returnToDashboard()" class="btn btn-secondary">
+                ← Back to Dashboard
+              </button>
+            </div>
+            <div class="avatar-builder-grid">
+              <!-- Left Panel - Categories -->
+              <div class="avatar-panel">
+                <h3 class="panel-title">Customize</h3>
+                <div class="customization-buttons">
+                  <button onclick="window.selectAvatarCategory('skin')" class="avatar-cat-btn" style="padding:0.75rem;background:white;border:2px solid #e2e8f0;border-radius:0.5rem;cursor:pointer;text-align:left;">🎨 Skin Tone</button>
+                  <button onclick="window.selectAvatarCategory('hair')" class="avatar-cat-btn" style="padding:0.75rem;background:white;border:2px solid #e2e8f0;border-radius:0.5rem;cursor:pointer;text-align:left;">💇 Hair Style</button>
+                  <button onclick="window.selectAvatarCategory('outfit')" class="avatar-cat-btn" style="padding:0.75rem;background:white;border:2px solid #e2e8f0;border-radius:0.5rem;cursor:pointer;text-align:left;">👕 Outfit</button>
+                  <button onclick="window.selectAvatarCategory('accessories')" class="avatar-cat-btn" style="padding:0.75rem;background:white;border:2px solid #e2e8f0;border-radius:0.5rem;cursor:pointer;text-align:left;">👓 Accessories</button>
+                  <button onclick="window.selectAvatarCategory('wheelchair')" class="avatar-cat-btn" style="padding:0.75rem;background:white;border:2px solid #e2e8f0;border-radius:0.5rem;cursor:pointer;text-align:left;">♿ Wheelchair</button>
+                </div>
+              </div>
+
+              <!-- Center - Preview -->
+              <div style="background:linear-gradient(135deg,#fef3c7,#e0f2fe);padding:2rem;border-radius:1rem;display:flex;flex-direction:column;align-items:center;">
+                <div id="avatar-preview-large" style="width:200px;height:200px;background:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:6rem;box-shadow:0 4px 12px rgba(0,0,0,0.1);margin-bottom:1rem;">
+                  😊
+                </div>
+                <div id="avatar-options" style="display:flex;gap:0.5rem;flex-wrap:wrap;justify-content:center;margin-top:1rem;">
+                  <span style="padding:0.5rem 1rem;background:white;border-radius:1rem;cursor:pointer;" onclick="window.setAvatarEmoji('😊')">😊</span>
+                  <span style="padding:0.5rem 1rem;background:white;border-radius:1rem;cursor:pointer;" onclick="window.setAvatarEmoji('😎')">😎</span>
+                  <span style="padding:0.5rem 1rem;background:white;border-radius:1rem;cursor:pointer;" onclick="window.setAvatarEmoji('🤗')">🤗</span>
+                  <span style="padding:0.5rem 1rem;background:white;border-radius:1rem;cursor:pointer;" onclick="window.setAvatarEmoji('🧑')">🧑</span>
+                  <span style="padding:0.5rem 1rem;background:white;border-radius:1rem;cursor:pointer;" onclick="window.setAvatarEmoji('👧')">👧</span>
+                  <span style="padding:0.5rem 1rem;background:white;border-radius:1rem;cursor:pointer;" onclick="window.setAvatarEmoji('👦')">👦</span>
+                </div>
+                <div style="margin-top:1.5rem;display:flex;gap:1rem;">
+                  <button onclick="window.saveAvatar()" style="padding:0.75rem 1.5rem;background:#10B981;color:white;border:none;border-radius:0.5rem;cursor:pointer;font-weight:bold;">💾 Save Avatar</button>
+                  <button onclick="window.randomizeAvatar()" style="padding:0.75rem 1.5rem;background:${config.color};color:#333;border:none;border-radius:0.5rem;cursor:pointer;font-weight:bold;">🎲 Randomize</button>
+                </div>
+              </div>
+
+              <!-- Right Panel - Colors -->
+              <div style="background:#f8fafc;padding:1.5rem;border-radius:1rem;">
+                <h3 style="font-weight:bold;margin-bottom:1rem;color:#333;">Colors</h3>
+                <div id="color-picker-area">
+                  <p style="color:#666;margin-bottom:1rem;">Background</p>
+                  <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+                    <span onclick="window.setAvatarBg('#fef3c7')" style="width:40px;height:40px;background:#fef3c7;border-radius:0.5rem;cursor:pointer;border:2px solid #e2e8f0;"></span>
+                    <span onclick="window.setAvatarBg('#e0f2fe')" style="width:40px;height:40px;background:#e0f2fe;border-radius:0.5rem;cursor:pointer;border:2px solid #e2e8f0;"></span>
+                    <span onclick="window.setAvatarBg('#dcfce7')" style="width:40px;height:40px;background:#dcfce7;border-radius:0.5rem;cursor:pointer;border:2px solid #e2e8f0;"></span>
+                    <span onclick="window.setAvatarBg('#fce7f3')" style="width:40px;height:40px;background:#fce7f3;border-radius:0.5rem;cursor:pointer;border:2px solid #e2e8f0;"></span>
+                    <span onclick="window.setAvatarBg('#f3e8ff')" style="width:40px;height:40px;background:#f3e8ff;border-radius:0.5rem;cursor:pointer;border:2px solid #e2e8f0;"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      function createLifeSkillsGame(config) {
+        return `
+          <div style="max-width:1200px;margin:0 auto;padding:2rem;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem;">
+              <h1 style="font-size:2rem;font-weight:bold;color:${config.color};">${config.title}</h1>
+              <button onclick="window.returnToDashboard()" style="padding:0.5rem 1rem;background:#666;color:white;border:none;border-radius:0.5rem;cursor:pointer;">
+                ← Back to Dashboard
+              </button>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;">
+              <div style="background:white;padding:1.5rem;border-radius:1rem;border:2px solid ${config.color};box-shadow:0 2px 8px rgba(0,0,0,0.05);">
+                <h3 style="font-size:1.25rem;font-weight:bold;color:${config.color};margin-bottom:0.5rem;">🍳 Healthy Kitchen</h3>
+                <p style="color:#666;margin-bottom:1rem;">Learn to prepare simple, healthy meals safely.</p>
+                <button onclick="alert('Healthy Kitchen module starting!')" style="padding:0.5rem 1rem;background:${config.color};color:white;border:none;border-radius:0.5rem;cursor:pointer;">Start</button>
+              </div>
+              <div style="background:white;padding:1.5rem;border-radius:1rem;border:2px solid ${config.color};box-shadow:0 2px 8px rgba(0,0,0,0.05);">
+                <h3 style="font-size:1.25rem;font-weight:bold;color:${config.color};margin-bottom:0.5rem;">🧹 Home Care</h3>
+                <p style="color:#666;margin-bottom:1rem;">Master cleaning and organizing your space.</p>
+                <button onclick="alert('Home Care module starting!')" style="padding:0.5rem 1rem;background:${config.color};color:white;border:none;border-radius:0.5rem;cursor:pointer;">Start</button>
+              </div>
+              <div style="background:white;padding:1.5rem;border-radius:1rem;border:2px solid ${config.color};box-shadow:0 2px 8px rgba(0,0,0,0.05);">
+                <h3 style="font-size:1.25rem;font-weight:bold;color:${config.color};margin-bottom:0.5rem;">🚌 Public Transport</h3>
+                <p style="color:#666;margin-bottom:1rem;">Navigate buses, trains, and public spaces confidently.</p>
+                <button onclick="alert('Public Transport module starting!')" style="padding:0.5rem 1rem;background:${config.color};color:white;border:none;border-radius:0.5rem;cursor:pointer;">Start</button>
+              </div>
+              <div style="background:white;padding:1.5rem;border-radius:1rem;border:2px solid ${config.color};box-shadow:0 2px 8px rgba(0,0,0,0.05);">
+                <h3 style="font-size:1.25rem;font-weight:bold;color:${config.color};margin-bottom:0.5rem;">💊 Personal Health</h3>
+                <p style="color:#666;margin-bottom:1rem;">Manage medications, appointments, and self-care.</p>
+                <button onclick="alert('Personal Health module starting!')" style="padding:0.5rem 1rem;background:${config.color};color:white;border:none;border-radius:0.5rem;cursor:pointer;">Start</button>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      function createDigitalSkillsGame(config) {
+        return `
+          <div style="max-width:1200px;margin:0 auto;padding:2rem;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem;">
+              <h1 style="font-size:2rem;font-weight:bold;color:${config.color};">${config.title}</h1>
+              <button onclick="window.returnToDashboard()" style="padding:0.5rem 1rem;background:#666;color:white;border:none;border-radius:0.5rem;cursor:pointer;">
+                ← Back to Dashboard
+              </button>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;">
+              <div style="background:white;padding:1.5rem;border-radius:1rem;border:2px solid ${config.color};box-shadow:0 2px 8px rgba(0,0,0,0.05);">
+                <h3 style="font-size:1.25rem;font-weight:bold;color:${config.color};margin-bottom:0.5rem;">⌨️ Typing Practice</h3>
+                <p style="color:#666;margin-bottom:1rem;">Improve your typing speed and accuracy.</p>
+                <button onclick="alert('Typing Practice module starting!')" style="padding:0.5rem 1rem;background:${config.color};color:white;border:none;border-radius:0.5rem;cursor:pointer;">Start</button>
+              </div>
+              <div style="background:white;padding:1.5rem;border-radius:1rem;border:2px solid ${config.color};box-shadow:0 2px 8px rgba(0,0,0,0.05);">
+                <h3 style="font-size:1.25rem;font-weight:bold;color:${config.color};margin-bottom:0.5rem;">📧 Email & Messaging</h3>
+                <p style="color:#666;margin-bottom:1rem;">Write professional emails and messages.</p>
+                <button onclick="alert('Email module starting!')" style="padding:0.5rem 1rem;background:${config.color};color:white;border:none;border-radius:0.5rem;cursor:pointer;">Start</button>
+              </div>
+              <div style="background:white;padding:1.5rem;border-radius:1rem;border:2px solid ${config.color};box-shadow:0 2px 8px rgba(0,0,0,0.05);">
+                <h3 style="font-size:1.25rem;font-weight:bold;color:${config.color};margin-bottom:0.5rem;">🔒 Online Safety</h3>
+                <p style="color:#666;margin-bottom:1rem;">Stay safe online and protect your information.</p>
+                <button onclick="alert('Online Safety module starting!')" style="padding:0.5rem 1rem;background:${config.color};color:white;border:none;border-radius:0.5rem;cursor:pointer;">Start</button>
+              </div>
+              <div style="background:white;padding:1.5rem;border-radius:1rem;border:2px solid ${config.color};box-shadow:0 2px 8px rgba(0,0,0,0.05);">
+                <h3 style="font-size:1.25rem;font-weight:bold;color:${config.color};margin-bottom:0.5rem;">🌐 Web Browsing</h3>
+                <p style="color:#666;margin-bottom:1rem;">Search effectively and navigate websites.</p>
+                <button onclick="alert('Web Browsing module starting!')" style="padding:0.5rem 1rem;background:${config.color};color:white;border:none;border-radius:0.5rem;cursor:pointer;">Start</button>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      // Game helper functions
+      window.returnToDashboard = function () {
+        const gameContainer = document.getElementById("game-container");
+        if (gameContainer) gameContainer.style.display = "none";
+        const user = JSON.parse(localStorage.getItem("windgap_user") || "{}");
+        window.showDashboard(user);
+      };
+
+      // Spelling game state
+      window.spellingWords = [
+        "apple",
+        "banana",
+        "school",
+        "friend",
+        "happy",
+        "learning",
+        "wombat",
+        "kangaroo",
+      ];
+      window.currentWord = "apple";
+      window.spellingScore = 0;
+      window.spellingStreak = 0;
+
+      window.playWord = function () {
+        window.currentWord =
+          window.spellingWords[Math.floor(Math.random() * window.spellingWords.length)];
+        if ("speechSynthesis" in window) {
+          const utter = new SpeechSynthesisUtterance(window.currentWord);
+          window.speechSynthesis.speak(utter);
+        }
+      };
+
+      window.checkSpelling = function () {
+        const input = document.getElementById("spelling-input");
+        const feedback = document.getElementById("spelling-feedback");
+        if (!input || !feedback) return;
+
+        const userAnswer = input.value.trim().toLowerCase();
+        if (userAnswer === window.currentWord) {
+          window.spellingScore += 10;
+          window.spellingStreak++;
+          feedback.style.background = "#dcfce7";
+          feedback.style.color = "#166534";
+          feedback.innerHTML = "✓ Correct! Great job! 🎉";
+          window.GameAudio.play("correct");
+        } else {
+          window.spellingStreak = 0;
+          feedback.style.background = "#fef2f2";
+          feedback.style.color = "#991b1b";
+          feedback.innerHTML =
+            "✗ Try again! The word was: <strong>" + window.currentWord + "</strong>";
+          window.GameAudio.play("incorrect");
+        }
+        feedback.style.display = "block";
+        document.getElementById("spelling-score").textContent = window.spellingScore;
+        document.getElementById("spelling-streak").textContent = window.spellingStreak;
+        input.value = "";
+      };
+
+      window.checkReading = function (correct) {
+        const feedback = document.getElementById("reading-feedback");
+        if (!feedback) return;
+        if (correct) {
+          feedback.style.background = "#dcfce7";
+          feedback.style.color = "#166534";
+          feedback.innerHTML = "✓ Correct! Winnie went to visit her friend Daisy at the park! 🎉";
+          window.GameAudio.play("correct");
+        } else {
+          feedback.style.background = "#fef2f2";
+          feedback.style.color = "#991b1b";
+          feedback.innerHTML = "✗ Read the story again carefully and try another answer.";
+          window.GameAudio.play("incorrect");
+        }
+        feedback.style.display = "block";
+      };
+
+      // Math game state
+      window.mathScore = 0;
+      window.mathLevel = 1;
+      window.currentMathAnswer = 8;
+
+      window.checkMath = function (answer) {
+        const feedback = document.getElementById("math-feedback");
+        if (!feedback) return;
+        if (answer === window.currentMathAnswer) {
+          window.mathScore += 10;
+          feedback.style.background = "#dcfce7";
+          feedback.style.color = "#166534";
+          feedback.innerHTML = "✓ Correct! 🎉";
+          document.getElementById("math-score").textContent = window.mathScore;
+          window.GameAudio.play("correct");
+        } else {
+          feedback.style.background = "#fef2f2";
+          feedback.style.color = "#991b1b";
+          feedback.innerHTML =
+            "✗ Not quite. The answer was " + window.currentMathAnswer + ". Try the next one!";
+          window.GameAudio.play("incorrect");
+        }
+        feedback.style.display = "block";
+      };
+
+      window.checkMoney = function (correct) {
+        const feedback = document.getElementById("money-feedback");
+        if (!feedback) return;
+        if (correct) {
+          feedback.style.background = "#dcfce7";
+          feedback.style.color = "#166534";
+          feedback.innerHTML = "✓ Correct! $5.00 - $3.70 = $1.30 🎉";
+          window.GameAudio.play("correct");
+        } else {
+          feedback.style.background = "#fef2f2";
+          feedback.style.color = "#991b1b";
+          feedback.innerHTML = "✗ Not quite. Try calculating: $5.00 - $3.70 = ?";
+          window.GameAudio.play("incorrect");
+        }
+        feedback.style.display = "block";
+      };
+
+      // Avatar functions
+      window.setAvatarEmoji = function (emoji) {
+        const preview = document.getElementById("avatar-preview-large");
+        if (preview) preview.textContent = emoji;
+      };
+
+      window.setAvatarBg = function (color) {
+        const preview = document.getElementById("avatar-preview-large");
+        if (preview) preview.style.background = color;
+      };
+
+      window.randomizeAvatar = function () {
+        const emojis = ["😊", "😎", "🤗", "🧑", "👧", "👦", "🧒", "👱"];
+        const colors = ["#fef3c7", "#e0f2fe", "#dcfce7", "#fce7f3", "#f3e8ff"];
+        window.setAvatarEmoji(emojis[Math.floor(Math.random() * emojis.length)]);
+        window.setAvatarBg(colors[Math.floor(Math.random() * colors.length)]);
+      };
+
+      window.saveAvatar = function () {
+        alert("Avatar saved! 🎉");
+      };
+
+      window.selectAvatarCategory = function (cat) {
+        console.log("Selected category:", cat);
+      };
+
+      // Check for existing login on page load
+      window.checkAuth = function () {
+        const hash = window.location.hash;
+        const user = localStorage.getItem("windgap_user");
+        if (user) {
+          try {
+            const userData = JSON.parse(user);
+            // Auto-redirect to dashboard if logged in (even from root)
+            if (!hash || hash === "#" || hash === "#/" || hash === "#/dashboard") {
+              window.location.hash = "/dashboard";
+              window.showDashboard(userData);
+            }
+          } catch (e) {
+            // Invalid user data - clear it
+            localStorage.removeItem("windgap_user");
+          }
+        }
+      };
+
+      // Re-show sections when leaving dashboard (hash change handler)
+      window.addEventListener("hashchange", function () {
+        const hash = window.location.hash;
+        if (hash !== "#/dashboard" && !localStorage.getItem("windgap_user")) {
+          // Show sections again when not on dashboard and not logged in
+          document.querySelectorAll("section").forEach((s) => (s.style.display = ""));
+          const footer = document.querySelector("footer");
+          if (footer) footer.style.display = "";
+          const dashboard = document.getElementById("dashboard-view");
+          if (dashboard) dashboard.style.display = "none";
+          const gameContainer = document.getElementById("game-container");
+          if (gameContainer) gameContainer.style.display = "none";
+        }
+      });
+
+      // Fallback screen - uses overlay instead of destroying DOM
+      if (!window.showFallbackScreen) {
+        window.showFallbackScreen = function (msg) {
+          try {
+            // Remove existing fallback if any
+            const existing = document.getElementById("fallback-overlay");
+            if (existing) existing.remove();
+
+            const safeMsg = window.escapeHTML(msg || "An error occurred.");
+            const overlay = document.createElement("div");
+            overlay.id = "fallback-overlay";
+            overlay.style.cssText =
+              "position:fixed;inset:0;background:rgba(255,255,255,0.95);display:flex;align-items:center;justify-content:center;z-index:99999;";
+            overlay.innerHTML =
+              '<div style="max-width:540px;margin:48px auto;padding:32px;border-radius:12px;background:#ffecec;color:#b91c1c;box-shadow:0 2px 16px #0002;">' +
+              '<h1 style="font-size:2em;margin-bottom:0.25em;">⚠️ Unable to load Windgap Academy</h1>' +
+              '<p style="font-size:1.2em;">' +
+              safeMsg +
+              "</p>" +
+              '<button id="fallback-dismiss" style="margin-top:1rem;padding:0.5rem 1rem;background:#b91c1c;color:white;border:none;border-radius:0.5rem;cursor:pointer;">Dismiss</button>' +
+              "</div>";
+            document.body.appendChild(overlay);
+
+            // Bind dismiss button event listener
+            document
+              .getElementById("fallback-dismiss")
+              .addEventListener("click", () => overlay.remove());
+          } catch (e) {
+            console.error("Fallback screen error:", e);
+          }
+        };
+      }
+
+      // Restore accessibility preferences (deferred to when DOM is ready)
+      window.restoreAccessibilityPrefs = function () {
+        if (document.body) {
+          if (localStorage.getItem("dyslexia-font") === "true") {
+            document.body.classList.add("dyslexia-font");
+          }
+          if (localStorage.getItem("easy-read") === "true") {
+            document.body.classList.add("easy-read");
+          }
+        }
+      };
+    </script>
+    <script type="module" crossorigin src="/assets/main-CA49HW8t.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/vendor-BGIazXxC.js">
+    <link rel="stylesheet" crossorigin href="/assets/main-CVsKjOFm.css">
+  </head>
+  <body
+    class="windgap-body min-h-screen"
+    style="font-family: &quot;Roboto&quot;, Arial, sans-serif"
+  >
+    <!-- Accessibility: Skip Links -->
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[9999] focus:bg-[#A32C2B] focus:text-white focus:px-4 focus:py-2 focus:rounded-lg"
+      style="
+        position: absolute;
+        left: -9999px;
+        top: auto;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+      "
+      >Skip to main content</a
+    >
+    <a
+      href="#accessibility"
+      class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-48 focus:z-[9999] focus:bg-[#5ED1D2] focus:text-white focus:px-4 focus:py-2 focus:rounded-lg"
+      style="
+        position: absolute;
+        left: -9999px;
+        top: auto;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+      "
+      >Skip to accessibility tools</a
+    >
+
+    <!-- Navigation Header -->
+    <header class="sticky top-0 z-50 bg-white shadow-md" role="banner">
+      <nav
+        class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between"
+        role="navigation"
+        aria-label="Main navigation"
+      >
+        <div class="flex items-center gap-3">
+          <div
+            class="w-12 h-12 rounded-lg bg-gradient-to-br from-[#5ED1D2] to-[#A32C2B] flex items-center justify-center text-white font-bold text-xl"
+            aria-hidden="true"
+          >
+            W
+          </div>
+          <span class="text-2xl font-bold text-[#A32C2B]">Windgap Academy</span>
+        </div>
+        <div class="flex gap-6 items-center">
+          <a href="#home" class="text-gray-700 hover:text-[#A32C2B] font-medium transition">Home</a>
+          <a href="#about" class="text-gray-700 hover:text-[#A32C2B] font-medium transition"
+            >About</a
+          >
+          <a href="#accessibility" class="text-gray-700 hover:text-[#A32C2B] font-medium transition"
+            >Accessibility</a
+          >
+          <a href="#support" class="text-gray-700 hover:text-[#A32C2B] font-medium transition"
+            >Support</a
+          >
+          <button
+            onclick="window.showCreateAccountModal()"
+            class="bg-[#5ED1D2] text-white px-6 py-2 rounded-lg font-semibold hover:bg-[#4BB8B9] transition"
+          >
+            Create Account
+          </button>
+          <button
+            onclick="window.navigateTo('signin')"
+            class="bg-[#A32C2B] text-white px-6 py-2 rounded-lg font-semibold hover:bg-[#8b2423] transition"
+          >
+            Sign In
+          </button>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <main id="main-content" role="main" class="container">
+      <section
+        class="hero-section relative min-h-screen bg-gradient-to-br from-[#5ED1D2] via-[#A32C2B] to-[#FBBF24] flex items-center justify-center overflow-hidden animate-bg-particles"
+        id="home"
+        aria-labelledby="hero-heading"
+      >
+        <!-- Dark overlay for better text contrast -->
+        <div class="absolute inset-0 bg-black bg-opacity-30"></div>
+
+        <div class="absolute inset-0 opacity-10">
+          <svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600">
+            <circle cx="100" cy="100" r="80" fill="white" />
+            <circle cx="1100" cy="500" r="120" fill="white" />
+            <circle cx="600" cy="150" r="100" fill="white" />
+          </svg>
+        </div>
+
+        <div class="relative z-10 text-center max-w-4xl mx-auto px-6">
+          <h1
+            id="hero-heading"
+            class="text-5xl lg:text-7xl font-extrabold text-white mb-8 drop-shadow-2xl tracking-tight"
+            style="
+              text-shadow:
+                3px 3px 6px rgba(0, 0, 0, 1),
+                0 0 12px rgba(0, 0, 0, 0.8),
+                0 0 20px rgba(0, 0, 0, 0.5);
+              color: #ffffff !important;
+              font-weight: 900 !important;
+            "
+          >
+            Accessible Learning for Every Mind
+          </h1>
+          <p
+            class="text-xl md:text-2xl text-white mb-10 drop-shadow-lg leading-relaxed max-w-3xl mx-auto"
+            style="
+              text-shadow:
+                2px 2px 4px rgba(0, 0, 0, 1),
+                0 0 8px rgba(0, 0, 0, 0.8),
+                0 0 16px rgba(0, 0, 0, 0.5);
+              color: #ffffff !important;
+              font-weight: 600 !important;
+            "
+          >
+            Windgap Academy provides personalized, inclusive education designed specifically for
+            neurodivergent learners. Learn at your own pace with tools built for how you think.
+          </p>
+
+          <div class="flex flex-col sm:flex-row gap-6 justify-center mb-12">
+            <button
+              data-feature="signin"
+              class="bg-white text-[#A32C2B] px-10 py-4 rounded-xl font-bold text-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 min-h-[56px] cursor-pointer touch-target"
+              aria-label="Get started with Windgap Academy"
+            >
+              🚀 Get Started
+            </button>
+            <button
+              data-feature="scrollToAbout"
+              class="bg-transparent text-white border-3 border-white px-10 py-4 rounded-xl font-bold text-xl hover:bg-white hover:text-[#A32C2B] transition-all duration-300 transform hover:scale-105 min-h-[56px] cursor-pointer touch-target"
+              aria-label="Learn more about our features"
+              style="border-width: 3px"
+            >
+              📚 Learn More
+            </button>
+          </div>
+
+          <div
+            class="text-white text-lg drop-shadow-lg"
+            style="
+              text-shadow:
+                2px 2px 4px rgba(0, 0, 0, 1),
+                0 0 8px rgba(0, 0, 0, 0.8);
+              color: #ffffff !important;
+              font-weight: 600 !important;
+            "
+          >
+            Already have an account?
+            <button
+              data-feature="signin"
+              class="underline font-bold hover:no-underline ml-2 cursor-pointer text-white hover:text-yellow-300 transition-colors duration-200"
+              aria-label="Sign in to your existing account"
+              style="
+                text-shadow:
+                  2px 2px 4px rgba(0, 0, 0, 1),
+                  0 0 8px rgba(0, 0, 0, 0.8);
+                color: #ffffff !important;
+              "
+            >
+              Sign in here →
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Features Section -->
+      <section id="about" class="py-20 bg-white">
+        <div class="max-w-6xl mx-auto px-6">
+          <h2 class="text-4xl font-bold text-[#A32C2B] text-center mb-16">
+            Why Choose Windgap Academy?
+          </h2>
+
+          <div class="grid md:grid-cols-3 gap-8 mb-16">
+            <!-- Feature 1 -->
+            <div class="card">
+              <div
+                class="w-12 h-12 bg-[#5ED1D2] rounded-lg flex items-center justify-center text-2xl mb-4"
+              >
+                ♿
+              </div>
+              <h3 class="text-xl font-bold text-[#A32C2B] mb-3">Fully Accessible</h3>
+              <p class="text-gray-600">
+                Built with WCAG AAA accessibility standards. Full keyboard navigation, screen reader
+                support, and customizable interfaces.
+              </p>
+            </div>
+
+            <!-- Feature 2 -->
+            <div class="card">
+              <div
+                class="w-12 h-12 bg-[#A32C2B] rounded-lg flex items-center justify-center text-2xl mb-4 text-white"
+              >
+                🧠
+              </div>
+              <h3 class="text-xl font-bold text-[#A32C2B] mb-3">Neurodivergent-Friendly</h3>
+              <p class="text-gray-600">
+                Designed by and for neurodivergent learners. Includes dyslexia-friendly fonts,
+                easy-read modes, and sensory-friendly visuals.
+              </p>
+            </div>
+
+            <!-- Feature 3 -->
+            <div class="card">
+              <div
+                class="w-12 h-12 bg-[#FBBF24] rounded-lg flex items-center justify-center text-2xl mb-4"
+              >
+                📚
+              </div>
+              <h3 class="text-xl font-bold text-[#A32C2B] mb-3">Personalized Learning</h3>
+              <p class="text-gray-600">
+                Your dashboard adapts to your learning style. Track progress, set goals, and learn
+                at your own pace.
+              </p>
+            </div>
+          </div>
+
+          <!-- Stats Section -->
+          <div class="grid md:grid-cols-3 gap-8 bg-gray-50 p-12 rounded-xl">
+            <div class="text-center">
+              <div class="text-4xl font-bold text-[#A32C2B] mb-2">12,000+</div>
+              <div class="text-gray-600">Active Learners</div>
+            </div>
+            <div class="text-center">
+              <div class="text-4xl font-bold text-[#5ED1D2] mb-2">150+</div>
+              <div class="text-gray-600">Learning Modules</div>
+            </div>
+            <div class="text-center">
+              <div class="text-4xl font-bold text-[#A32C2B] mb-2">98%</div>
+              <div class="text-gray-600">Satisfaction Rate</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Accessibility Tools Section -->
+      <section id="accessibility" class="py-20 bg-gray-50">
+        <div class="max-w-6xl mx-auto px-6">
+          <h2 class="text-4xl font-bold text-[#A32C2B] text-center mb-12">Accessibility Tools</h2>
+
+          <div class="bg-white p-8 rounded-xl shadow-md max-w-2xl mx-auto">
+            <p class="text-gray-700 mb-6">
+              Customize your learning experience with these accessibility features:
+            </p>
+
+            <div class="flex flex-wrap gap-4">
+              <button
+                data-feature="increaseFont"
+                class="bg-[#5ED1D2] text-white px-6 py-3 rounded-lg font-semibold hover:shadow-lg transition-all duration-200 min-h-[44px] cursor-pointer touch-target"
+                aria-label="Increase font size"
+              >
+                <span class="font-bold">A+</span> Increase Font
+              </button>
+              <button
+                data-feature="toggleDyslexiaFont"
+                class="bg-[#A32C2B] text-white px-6 py-3 rounded-lg font-semibold hover:shadow-lg transition-all duration-200 min-h-[44px] cursor-pointer touch-target"
+                aria-label="Toggle dyslexia-friendly font"
+              >
+                <span class="font-bold">🅰️</span> Dyslexia Font
+              </button>
+              <button
+                data-feature="toggleEasyRead"
+                class="bg-[#FBBF24] text-gray-800 px-6 py-3 rounded-lg font-semibold hover:shadow-lg transition-all duration-200 min-h-[44px] cursor-pointer touch-target"
+                aria-label="Toggle easy read mode"
+              >
+                <span class="font-bold">📖</span> Easy Read Mode
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA Section -->
+      <section class="py-20 bg-gradient-to-r from-[#5ED1D2] to-[#A32C2B]">
+        <div class="max-w-4xl mx-auto px-6 text-center">
+          <h2 class="text-4xl font-bold text-white mb-6">Ready to Transform Your Learning?</h2>
+          <p class="text-white mb-8 text-lg">
+            Join thousands of neurodivergent learners who are thriving with Windgap Academy.
+          </p>
+          <button
+            data-feature="signin"
+            class="bg-white text-[#A32C2B] px-10 py-4 rounded-lg font-bold text-lg hover:shadow-xl transition-all duration-200 min-h-[50px] cursor-pointer touch-target"
+            aria-label="Sign in to get started with Windgap Academy"
+          >
+            🚀 Get Started Free Today
+          </button>
+        </div>
+      </section>
+
+      <!-- Support Section -->
+      <section id="support" class="py-20 bg-white">
+        <div class="max-w-6xl mx-auto px-6">
+          <h2 class="text-4xl font-bold text-[#A32C2B] text-center mb-12">Support & Resources</h2>
+
+          <div class="grid md:grid-cols-2 gap-8">
+            <div class="card">
+              <h3 class="text-xl font-bold text-[#A32C2B] mb-3">Help Center</h3>
+              <p class="text-gray-600 mb-4">
+                Find answers to common questions and get support from our dedicated team.
+              </p>
+              <a href="#help" class="text-[#A32C2B] font-semibold hover:underline"
+                >Visit Help Center →</a
+              >
+            </div>
+
+            <div class="card">
+              <h3 class="text-xl font-bold text-[#A32C2B] mb-3">Contact Us</h3>
+              <p class="text-gray-600 mb-4">
+                Have feedback or questions? We'd love to hear from you. Reach out anytime.
+              </p>
+              <a
+                href="mailto:support@windgapacademy.com"
+                class="text-[#A32C2B] font-semibold hover:underline"
+                >Contact Support →</a
+              >
+            </div>
+
+            <div class="card">
+              <h3 class="text-xl font-bold text-[#A32C2B] mb-3">Documentation</h3>
+              <p class="text-gray-600 mb-4">
+                Read our comprehensive documentation and guides to get the most out of Windgap.
+              </p>
+              <a href="#docs" class="text-[#A32C2B] font-semibold hover:underline"
+                >View Documentation →</a
+              >
+            </div>
+
+            <div class="card">
+              <h3 class="text-xl font-bold text-[#A32C2B] mb-3">Community</h3>
+              <p class="text-gray-600 mb-4">
+                Join our community to connect with other learners and share experiences.
+              </p>
+              <a href="#community" class="text-[#A32C2B] font-semibold hover:underline"
+                >Join Community →</a
+              >
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12" role="contentinfo">
+      <div class="max-w-6xl mx-auto px-6">
+        <div class="grid md:grid-cols-4 gap-8 mb-8">
+          <div>
+            <div class="flex items-center gap-2 mb-4">
+              <div
+                class="w-10 h-10 rounded-lg bg-[#5ED1D2] flex items-center justify-center font-bold"
+              >
+                W
+              </div>
+              <span class="font-bold text-lg">Windgap Academy</span>
+            </div>
+            <p class="text-gray-400 text-sm">Accessible learning for neurodivergent minds.</p>
+          </div>
+
+          <div>
+            <h4 class="font-bold mb-4">Product</h4>
+            <ul class="space-y-2 text-sm text-gray-400">
+              <li><a href="#" class="hover:text-white transition">Features</a></li>
+              <li><a href="#" class="hover:text-white transition">Pricing</a></li>
+              <li><a href="#" class="hover:text-white transition">Blog</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="font-bold mb-4">Company</h4>
+            <ul class="space-y-2 text-sm text-gray-400">
+              <li><a href="#" class="hover:text-white transition">About</a></li>
+              <li><a href="#" class="hover:text-white transition">Careers</a></li>
+              <li><a href="#" class="hover:text-white transition">Contact</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="font-bold mb-4">Legal</h4>
+            <ul class="space-y-2 text-sm text-gray-400">
+              <li><a href="#privacy" class="hover:text-white transition">Privacy Policy</a></li>
+              <li><a href="#terms" class="hover:text-white transition">Terms of Service</a></li>
+              <li>
+                <a href="#accessibility" class="hover:text-white transition">Accessibility</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="border-t border-gray-700 pt-8 text-center text-gray-400 text-sm">
+          <p>&copy; 2025 Windgap Academy. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- React App Root Container -->
+    <div id="root"></div>
+
+    <!-- Initialize app after DOM loads -->
+    <script>
+      // PRODUCTION CHECKLIST:
+      // ✅ Remove/migrate all inline onclick handlers for strict CSP
+      // ✅ Replace /src/main.jsx with built /assets/index-xxxxx.js
+      // ✅ Serve from /dist directory after running 'vite build'
+      // ✅ Use server CSP header instead of meta CSP in production
+      // ✅ Consider externalizing this large inline script to /scripts/app.js
+
+      document.addEventListener("DOMContentLoaded", () => {
+        window.restoreAccessibilityPrefs();
+        window.checkAuth();
+      });
+    </script>
+
+    <!-- React App Entry Point (DEV ONLY) -->
+    <!-- WARNING: This script only works in Vite dev mode -->
+    <!-- For production: Run 'vite build' and serve /dist/index.html with built assets -->
+    <!-- The built version will reference /assets/index-xxxxx.js instead -->
+  </body>
+</html>

@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Test Page</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 600px;
+        margin: 50px auto;
+        padding: 20px;
+        background: linear-gradient(45deg, #5ed1d2, #a32c2b);
+        color: white;
+        text-align: center;
+      }
+
+      .test-box {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 20px;
+        border-radius: 10px;
+        margin: 20px 0;
+      }
+
+      button {
+        background: white;
+        color: #a32c2b;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        font-weight: bold;
+        cursor: pointer;
+        margin: 10px;
+      }
+
+      button:hover {
+        background: #f0f0f0;
+      }
+
+      .status {
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 5px;
+        background: rgba(255, 255, 255, 0.2);
+      }
+    </style>
+  </head>
+  <body>
+    <h1>🔧 Server Test Page</h1>
+
+    <div class="test-box">
+      <h2>Server Status</h2>
+      <div id="server-status" class="status">Testing...</div>
+    </div>
+
+    <div class="test-box">
+      <h2>JavaScript Test</h2>
+      <button onclick="testJS()">Test JavaScript</button>
+      <div id="js-result" class="status"></div>
+    </div>
+
+    <div class="test-box">
+      <h2>Page Navigation</h2>
+      <button onclick="goToHome()">Go to Homepage</button>
+      <button onclick="testFetch()">Test API Connection</button>
+    </div>
+
+    <div class="test-box">
+      <h2>Console Output</h2>
+      <div id="console-output" class="status"></div>
+    </div>
+
+    <script>
+      // Test JavaScript functionality
+      function testJS() {
+        const result = document.getElementById("js-result");
+        try {
+          const testData = {
+            timestamp: new Date().toISOString(),
+            browser: navigator.userAgent.split(" ")[0],
+            screen: `${screen.width}x${screen.height}`,
+            location: window.location.href,
+          };
+
+          result.innerHTML = `✅ JavaScript Working!<br>
+                    Time: ${testData.timestamp}<br>
+                    Browser: ${testData.browser}<br>
+                    Screen: ${testData.screen}`;
+          result.style.background = "rgba(0,255,0,0.2)";
+
+          console.log("JavaScript test successful:", testData);
+        } catch (error) {
+          result.innerHTML = `❌ JavaScript Error: ${error.message}`;
+          result.style.background = "rgba(255,0,0,0.2)";
+          console.error("JavaScript test failed:", error);
+        }
+      }
+
+      function goToHome() {
+        window.location.href = "/";
+      }
+
+      async function testFetch() {
+        const result = document.getElementById("js-result");
+        try {
+          const response = await fetch("/");
+          if (response.ok) {
+            result.innerHTML = "✅ Server responding correctly";
+            result.style.background = "rgba(0,255,0,0.2)";
+          } else {
+            result.innerHTML = `⚠️ Server response: ${response.status}`;
+            result.style.background = "rgba(255,255,0,0.2)";
+          }
+        } catch (error) {
+          result.innerHTML = `❌ Fetch error: ${error.message}`;
+          result.style.background = "rgba(255,0,0,0.2)";
+        }
+      }
+
+      // Auto-test on page load
+      document.addEventListener("DOMContentLoaded", function () {
+        const status = document.getElementById("server-status");
+        status.innerHTML = "✅ Page loaded successfully!";
+        status.style.background = "rgba(0,255,0,0.2)";
+
+        // Log some diagnostic info
+        console.log("Test page loaded");
+        console.log("Current URL:", window.location.href);
+        console.log("Document ready state:", document.readyState);
+
+        // Update console output
+        const consoleOutput = document.getElementById("console-output");
+        consoleOutput.innerHTML = `URL: ${window.location.href}<br>Ready: ${document.readyState}`;
+      });
+
+      // Capture and display any errors
+      window.addEventListener("error", function (event) {
+        const consoleOutput = document.getElementById("console-output");
+        consoleOutput.innerHTML += `<br>❌ Error: ${event.message}`;
+        consoleOutput.style.background = "rgba(255,0,0,0.2)";
+      });
+    </script>
+  </body>
+</html>
