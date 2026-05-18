@@ -39,7 +39,7 @@ export default defineConfig({
   root: ".",
   build: {
     outDir: "dist",
-    sourcemap: true, // Enable sourcemaps for debugging
+    sourcemap: false, // Disabled for production — reduces build output and avoids source leakage
     rollupOptions: {
       input: {
         main: path.resolve(__dirname, "index.html"),
@@ -47,9 +47,11 @@ export default defineConfig({
       output: {
         manualChunks(id) {
           if (id.includes("node_modules")) {
-            if (id.includes("three")) {
-              return "vendor-three";
-            }
+            if (id.includes("@babylonjs")) return "vendor-babylon";
+            if (id.includes("three") || id.includes("@react-three")) return "vendor-three";
+            if (id.includes("framer-motion")) return "vendor-framer";
+            if (id.includes("jspdf")) return "vendor-jspdf";
+            if (id.includes("firebase")) return "vendor-firebase";
             return "vendor";
           }
         },

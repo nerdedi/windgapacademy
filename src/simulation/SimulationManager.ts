@@ -1,9 +1,5 @@
 // SimulationManager: coordinates all simulation modules and manages global state
-import CalmSpaceSimulation from "../../components/CalmSpaceSimulation.jsx";
-import ClubhouseSimulation from "../../components/ClubhouseSimulation.jsx";
-import KitchenSimulation from "../../components/KitchenSimulation.jsx";
-import SupermarketSimulation from "../../components/SupermarketSimulation.jsx";
-import ZooSimulation from "../../components/ZooSimulation.jsx";
+// Simulation components are loaded lazily to keep the initial bundle small.
 
 export type SimulationArea = "supermarket" | "clubhouse" | "kitchen" | "calmspace" | "zoo";
 
@@ -11,6 +7,15 @@ interface SimulationState {
   currentArea: SimulationArea;
   progress: Record<SimulationArea, any>;
 }
+
+// Dynamic import factories — resolved only when a simulation is first requested
+const simulationLoaders: Record<SimulationArea, () => Promise<any>> = {
+  supermarket: () => import("../../components/SupermarketSimulation.jsx").then((m) => m.default),
+  clubhouse: () => import("../../components/ClubhouseSimulation.jsx").then((m) => m.default),
+  kitchen: () => import("../../components/KitchenSimulation.jsx").then((m) => m.default),
+  calmspace: () => import("../../components/CalmSpaceSimulation.jsx").then((m) => m.default),
+  zoo: () => import("../../components/ZooSimulation.jsx").then((m) => m.default),
+};
 
 class SimulationManager {
   private backendAvailable = true; // Track if backend is reachable
@@ -53,7 +58,7 @@ class SimulationManager {
     }
   }
   state: SimulationState;
-  modules: Record<SimulationArea, any>;
+  private moduleCache: Partial<Record<SimulationArea, any>> = {};
 
   constructor() {
     this.state = {
@@ -66,13 +71,6 @@ class SimulationManager {
         zoo: {},
       },
     };
-    this.modules = {
-      supermarket: SupermarketSimulation,
-      clubhouse: ClubhouseSimulation,
-      kitchen: KitchenSimulation,
-      calmspace: CalmSpaceSimulation,
-      zoo: ZooSimulation,
-    };
   }
 
   switchArea(area: SimulationArea) {
@@ -80,8 +78,12 @@ class SimulationManager {
     this._saveState();
   }
 
-  getCurrentModule() {
-    return this.modules[this.state.currentArea];
+  async getCurrentModule() {
+    const area = this.state.currentArea;
+    if (!this.moduleCache[area]) {
+      this.moduleCache[area] = await simulationLoaders[area]();
+    }
+    return this.moduleCache[area];
   }
 
   getProgress(area: SimulationArea) {
@@ -115,7 +117,7 @@ class SimulationManager {
   }
 
   addModule(area: SimulationArea, module: any) {
-    this.modules[area] = module;
+    this.moduleCache[area] = module;
     if (!this.state.progress[area]) {
       this.state.progress[area] = {};
     }

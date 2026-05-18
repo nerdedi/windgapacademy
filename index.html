@@ -39,14 +39,12 @@
       href="https://fonts.googleapis.com/css2?family=Roboto:400,600,700&display=swap"
       rel="stylesheet"
     />
-    <link
-      href="https://cdn.jsdelivr.net/gh/antijingoist/open-dyslexic@latest/open-dyslexic.css"
-      rel="stylesheet"
-    />
+    <!-- OpenDyslexic CSS is injected on demand when the user enables the dyslexia font -->
 
-    <!-- External Libraries -->
-    <script src="https://cdn.jsdelivr.net/npm/howler@2.2.4/dist/howler.min.js"></script>
+    <!-- External Libraries (deferred so they don't block first paint) -->
+    <script defer src="https://cdn.jsdelivr.net/npm/howler@2.2.4/dist/howler.min.js"></script>
     <script
+      defer
       src="https://browser.sentry-cdn.com/7.100.0/bundle.min.js"
       crossorigin="anonymous"
     ></script>
@@ -68,39 +66,28 @@
       gtag("config", "G-FXR0TX8S6X");
     </script>
 
-    <!-- Firebase -->
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-analytics-compat.js"></script>
-    <script>
-      // Initialize Firebase with real config (guarded against HMR double-init)
-      window.firebaseReady = false;
-      try {
-        var firebaseConfig = {
-          apiKey: "***REMOVED***",
-          authDomain: "windgap-academy.firebaseapp.com",
-          projectId: "windgap-academy",
-          storageBucket: "windgap-academy.appspot.com",
-          messagingSenderId: "438303886042",
-          appId: "1:438303886042:web:19b166df519870baa433e3",
-          measurementId: "G-FXR0TX8S6X",
-        };
-
-        if (window.firebase && !window.firebase.apps.length) {
-          firebase.initializeApp(firebaseConfig);
-          window.firebaseReady = true;
-          console.log("Firebase initialized successfully");
-        } else if (window.firebase && window.firebase.apps.length) {
-          window.firebaseReady = true;
-          console.log("Firebase already initialized");
-        }
-      } catch (e) {
-        console.log("Firebase initialization error:", e.message);
-      }
-    </script>
+    <!-- Firebase is initialised via the npm firebase package (src/firebase.js).
+         The CDN compat scripts have been removed to avoid double-loading. -->
 
     <!-- Immediate Button Functionality - Fallback for module loading -->
     <script>
+      // Lazily inject the OpenDyslexic stylesheet the first time it is needed.
+      // Defined outside the IIFE so window.toggleDyslexiaFont can also call it.
+      window.loadDyslexicFont = (function () {
+        var loaded = false;
+        return function () {
+          if (loaded) return;
+          loaded = true;
+          var link = document.createElement("link");
+          link.rel = "stylesheet";
+          link.href =
+            "https://cdn.jsdelivr.net/gh/antijingoist/open-dyslexic@latest/open-dyslexic.css";
+          document.head.appendChild(link);
+        };
+      })();
+      // Local alias used inside the IIFE below
+      var loadDyslexicFont = window.loadDyslexicFont;
+
       // Ensure basic functionality works immediately
       (function () {
         "use strict";
@@ -121,6 +108,7 @@
             localStorage.removeItem("windgap-dyslexia-font");
             showImmediateToast("Dyslexia font disabled", "info");
           } else {
+            loadDyslexicFont();
             document.body.classList.add("dyslexia-font");
             localStorage.setItem("windgap-dyslexia-font", "true");
             showImmediateToast("Dyslexia font enabled", "success");
@@ -258,6 +246,7 @@
           }
 
           if (localStorage.getItem("windgap-dyslexia-font")) {
+            loadDyslexicFont();
             document.body.classList.add("dyslexia-font");
           }
 
@@ -392,6 +381,8 @@
 
       window.toggleDyslexiaFont = function () {
         const body = document.body;
+        const enabling = !body.classList.contains("dyslexia-font");
+        if (enabling) window.loadDyslexicFont();
         body.classList.toggle("dyslexia-font");
         localStorage.setItem("dyslexia-font", body.classList.contains("dyslexia-font"));
       };
