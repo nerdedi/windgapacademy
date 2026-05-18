@@ -1,7 +1,9 @@
+import { AnimatePresence, motion } from "framer-motion";
 import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
 import { useLesson } from "../contexts/LessonContext.tsx";
+import { cardVariant, charBob, feedbackPop, staggerGrid, stepSlide } from "../utils/animations";
 import { MiniAvatar } from "./CharacterAvatar";
 import { Button } from "./ui/button";
 import { Card, CardContent } from "./ui/card";
@@ -541,6 +543,7 @@ export function LessonPlayer() {
   const [activityAnswer, setActivityAnswer] = useState("");
   const [quizAnswer, setQuizAnswer] = useState(null);
   const [feedback, setFeedback] = useState("");
+  const [direction, setDirection] = useState(1);
 
   // Read ?course= or ?domain= URL param and auto-load lesson
   useEffect(() => {
@@ -599,16 +602,25 @@ export function LessonPlayer() {
           <h1 className="text-3xl font-extrabold mb-1">Choose Your Lesson</h1>
           <p className="text-purple-200">Select a topic below to start learning with your guide.</p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
+          variants={staggerGrid}
+          initial="initial"
+          animate="animate"
+        >
           {Object.entries(lessonData).map(([subject, topics]) =>
             Object.entries(topics).map(([topic, data]) => (
-              <button
+              <motion.button
                 key={`${subject}-${topic}`}
+                variants={cardVariant}
+                whileHover={{ scale: 1.03, y: -4, boxShadow: "0 10px 28px rgba(0,0,0,0.10)" }}
+                whileTap={{ scale: 0.96 }}
+                transition={{ type: "spring", stiffness: 360, damping: 22 }}
                 onClick={() => {
                   setSelectedSubject(subject);
                   setSelectedTopic(topic);
                 }}
-                className="p-5 bg-white border-2 border-gray-200 rounded-2xl text-left hover:border-purple-400 hover:shadow-md transition-all group"
+                className="p-5 bg-white border-2 border-gray-200 rounded-2xl text-left hover:border-purple-400 group"
               >
                 <div className="flex items-center gap-3 mb-2">
                   <MiniAvatar character={data.character} size={40} />
@@ -617,10 +629,10 @@ export function LessonPlayer() {
                   </span>
                 </div>
                 <span className="text-xs text-gray-400 capitalize">{subject}</span>
-              </button>
+              </motion.button>
             )),
           )}
-        </div>
+        </motion.div>
       </div>
     );
   }
@@ -1093,13 +1105,19 @@ export function LessonPlayer() {
                 </button>
               ))}
             </div>
-            {feedback && (
-              <div
-                className={`mt-4 p-3 rounded-xl font-semibold text-center ${quizAnswer === quiz.correct ? "bg-green-100 text-green-800" : "bg-orange-100 text-orange-800"}`}
-              >
-                {feedback}
-              </div>
-            )}
+            <AnimatePresence>
+              {feedback && (
+                <motion.div
+                  variants={feedbackPop}
+                  initial="initial"
+                  animate="animate"
+                  exit="exit"
+                  className={`mt-4 p-3 rounded-xl font-semibold text-center ${quizAnswer === quiz.correct ? "bg-green-100 text-green-800" : "bg-orange-100 text-orange-800"}`}
+                >
+                  {feedback}
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         );
 
@@ -1113,7 +1131,9 @@ export function LessonPlayer() {
       {/* Header */}
       <div className={`rounded-2xl p-5 text-white bg-gradient-to-r ${gradient}`}>
         <div className="flex items-center gap-4">
-          <MiniAvatar character={charKey} size={56} />
+          <motion.div animate={charBob.animate}>
+            <MiniAvatar character={charKey} size={56} />
+          </motion.div>
           <div className="flex-1 min-w-0">
             <h2 className="text-xl font-extrabold truncate">{courseTitle || lessonInfo?.title}</h2>
             <p className="text-white/70 text-sm">
@@ -1129,11 +1149,23 @@ export function LessonPlayer() {
       {/* Step content */}
       <Card>
         <CardContent className="pt-5">
-          {renderStepContent()}
+          <AnimatePresence mode="wait" custom={direction}>
+            <motion.div
+              key={state.stepIndex}
+              custom={direction}
+              variants={stepSlide}
+              initial="initial"
+              animate="animate"
+              exit="exit"
+            >
+              {renderStepContent()}
+            </motion.div>
+          </AnimatePresence>
           <div className="flex justify-between mt-6 gap-3">
             <Button
               variant="outline"
               onClick={() => {
+                setDirection(-1);
                 prevStep();
                 setFeedback("");
                 setActivityAnswer("");
@@ -1161,6 +1193,7 @@ export function LessonPlayer() {
             </div>
             <Button
               onClick={() => {
+                setDirection(1);
                 nextStep();
                 setFeedback("");
                 setActivityAnswer("");

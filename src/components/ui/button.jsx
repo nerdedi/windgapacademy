@@ -1,4 +1,6 @@
+import { motion } from "framer-motion";
 import * as React from "react";
+import { btnHover, btnSpring, btnTap } from "../../utils/animations";
 
 export function Button({ variant = "default", size = "md", className = "", children, ...props }) {
   let base =
@@ -16,12 +18,16 @@ export function Button({ variant = "default", size = "md", className = "", child
     md: "h-9 px-4 text-sm",
     lg: "h-10 px-6 text-base",
   };
+  const disabled = props.disabled;
   return (
-    <button
+    <motion.button
+      whileHover={disabled ? undefined : btnHover}
+      whileTap={disabled ? undefined : btnTap}
+      transition={btnSpring}
       className={`${base} ${variants[variant] || ""} ${sizes[size] || ""} ${className}`}
       {...props}
     >
       {children}
-    </button>
+    </motion.button>
   );
 }
