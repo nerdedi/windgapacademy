@@ -49,6 +49,11 @@ export function LessonPlayer() {
   const [selectedSubject, setSelectedSubject] = useState(null);
   const [selectedTopic, setSelectedTopic] = useState(null);
 
+  // Interactive activity state — must be declared before any early return (Rules of Hooks)
+  const [activityAnswer, setActivityAnswer] = useState("");
+  const [quizAnswer, setQuizAnswer] = useState(null);
+  const [feedback, setFeedback] = useState("");
+
   // Load lesson when subject/topic selected
   useEffect(() => {
     if (selectedSubject && selectedTopic && lessonData[selectedSubject]?.[selectedTopic]) {
@@ -93,11 +98,6 @@ export function LessonPlayer() {
 
   const currentStep = state.steps[state.stepIndex];
   const progress = ((state.stepIndex + 1) / state.steps.length) * 100;
-
-  // Interactive activity state
-  const [activityAnswer, setActivityAnswer] = useState("");
-  const [quizAnswer, setQuizAnswer] = useState(null);
-  const [feedback, setFeedback] = useState("");
 
   // Phonics activity
   const phonicsVowels = ["A", "E", "I", "O", "U"];
