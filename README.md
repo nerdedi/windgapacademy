@@ -126,19 +126,3 @@ npm run build:css
 ```
 
 Update your HTML and build config to reference the `.min.css` files for production.
-
-## Accessibility
-
-- See `scripts/i18n-setup.js` for scaffolding
-
-## Backup & Recovery
-
-- See `scripts/backup.sh` for template
-
-## Analytics
-
-- Google Analytics integrated in `index.html`
-
-## Feedback
-
-- Use the built-in feedback form in the app
