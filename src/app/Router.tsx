@@ -87,6 +87,81 @@ const Dashboard = lazy(() =>
   import("../components/Dashboard.jsx").then((m) => ({ default: m.Dashboard })),
 );
 
+function AnimatedRoutes() {
+  const location = useLocation();
+  return (
+    <AnimatePresence mode="wait" initial={false}>
+      <motion.div
+        key={location.pathname}
+        variants={pageVariants}
+        initial="initial"
+        animate="animate"
+        exit="exit"
+        style={{ width: "100%" }}
+      >
+        <Routes location={location}>
+          {/* Main pages */}
+          <Route path="/" element={<HomePage />} />
+          <Route path="/home" element={<HomePage />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+
+          {/* Role-based dashboards */}
+          <Route
+            path="/educator"
+            element={
+              <ProtectedRoute role="educator">
+                <EducatorDashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/learner"
+            element={
+              <ProtectedRoute role="learner">
+                <LearnerDashboard />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Learning components */}
+          <Route path="/courses" element={<CourseLibrary />} />
+          <Route path="/lessons" element={<LessonPlayer />} />
+          <Route path="/learn" element={<LessonPlayer />} />
+
+          {/* Games and entertainment */}
+          <Route path="/games" element={<GameArcade />} />
+          <Route path="/game" element={<GamePlayground />} />
+          <Route path="/arcade" element={<GameArcade />} />
+          <Route path="/leaderboard" element={<Leaderboard />} />
+
+          {/* Virtual World and Avatar */}
+          <Route path="/virtual-world" element={<VirtualWorld />} />
+          <Route path="/world" element={<VirtualWorld />} />
+          <Route path="/avatar" element={<AvatarBuilder />} />
+          <Route path="/avatar-builder" element={<AvatarBuilder />} />
+
+          {/* Simulations */}
+          <Route path="/supermarket" element={<SupermarketSimulation />} />
+          <Route path="/clubhouse" element={<ClubhouseSimulation />} />
+          <Route path="/kitchen" element={<KitchenSimulation />} />
+          <Route path="/calmspace" element={<CalmSpaceSimulation />} />
+          <Route path="/zoo" element={<ZooSimulation />} />
+
+          {/* Backwards compatible redirects */}
+          <Route path="/trainer" element={<Navigate to="/educator" replace />} />
+          <Route path="/student" element={<Navigate to="/learner" replace />} />
+          <Route path="/assignments" element={<Navigate to="/courses" replace />} />
+          <Route path="/materials" element={<Navigate to="/courses" replace />} />
+
+          {/* Error pages */}
+          <Route path="/unauthorized" element={<UnauthorizedPage />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+      </motion.div>
+    </AnimatePresence>
+  );
+}
+
 export default function AppRouter() {
   return (
     <>
