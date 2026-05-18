@@ -1,6 +1,8 @@
+import { motion } from "framer-motion";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
+import { cardVariant, charBobSm, staggerGrid } from "../utils/animations";
 import { MiniAvatar } from "./CharacterAvatar";
 import { getCharacterForSubject } from "./Characters";
 import { Badge } from "./ui/badge";
@@ -437,37 +439,48 @@ export default function GameArcade() {
   const renderGameCard = (game) => {
     const guide = getCharacterForSubject(game.subject);
     return (
-      <Card
+      <motion.div
         key={game.id}
-        className={`cursor-pointer transition-all hover:shadow-lg hover:scale-105 ${game.color}`}
-        onClick={() => setSelectedGame(game)}
+        variants={cardVariant}
+        whileHover={{
+          scale: 1.04,
+          y: -6,
+          boxShadow: "0 16px 36px rgba(0,0,0,0.12)",
+          transition: { type: "spring", stiffness: 360, damping: 22 },
+        }}
+        whileTap={{ scale: 0.97, transition: { type: "spring", stiffness: 460, damping: 20 } }}
       >
-        <CardContent className="p-4">
-          <div className="text-4xl mb-2">{game.icon}</div>
-          <h3 className="font-bold text-lg">{game.title}</h3>
-          <p className="text-sm text-gray-600 mb-2">{game.description}</p>
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-1">
-              <MiniAvatar
-                character={
-                  game.subject === "language"
-                    ? "lana"
-                    : game.subject === "literacy"
-                      ? "leo"
-                      : game.subject === "numeracy"
-                        ? "nia"
-                        : game.subject === "digital"
-                          ? "dex"
-                          : "indy"
-                }
-                size={24}
-              />
-              <span className="text-xs">{guide.name}</span>
+        <Card
+          className={`cursor-pointer ${game.color} h-full`}
+          onClick={() => setSelectedGame(game)}
+        >
+          <CardContent className="p-4">
+            <div className="text-4xl mb-2">{game.icon}</div>
+            <h3 className="font-bold text-lg">{game.title}</h3>
+            <p className="text-sm text-gray-600 mb-2">{game.description}</p>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-1">
+                <MiniAvatar
+                  character={
+                    game.subject === "language"
+                      ? "lana"
+                      : game.subject === "literacy"
+                        ? "leo"
+                        : game.subject === "numeracy"
+                          ? "nia"
+                          : game.subject === "digital"
+                            ? "dex"
+                            : "indy"
+                  }
+                  size={24}
+                />
+                <span className="text-xs">{guide.name}</span>
+              </div>
+              <Badge variant="secondary">+{game.xpReward} XP</Badge>
             </div>
-            <Badge variant="secondary">+{game.xpReward} XP</Badge>
-          </div>
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
+      </motion.div>
     );
   };
 
@@ -577,9 +590,14 @@ export default function GameArcade() {
       </div>
 
       {/* Games Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+      <motion.div
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8"
+        variants={staggerGrid}
+        initial="initial"
+        animate="animate"
+      >
         {filteredGames.map(renderGameCard)}
-      </div>
+      </motion.div>
 
       {/* Simulations Section */}
       <div className="border-t pt-6">
@@ -599,7 +617,12 @@ export default function GameArcade() {
       {/* Characters Section */}
       <div className="border-t pt-6 mt-6">
         <h3 className="font-semibold text-xl mb-4">👥 Meet Your Guides</h3>
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+        <motion.div
+          className="grid grid-cols-2 md:grid-cols-5 gap-4"
+          variants={staggerGrid}
+          initial="initial"
+          animate="animate"
+        >
           {["language", "literacy", "numeracy", "digital", "independence"].map((subject) => {
             const char = getCharacterForSubject(subject);
             const charId =
@@ -613,14 +636,20 @@ export default function GameArcade() {
                       ? "dex"
                       : "indy";
             return (
-              <div key={subject} className="flex flex-col items-center p-3 bg-gray-50 rounded-lg">
-                <MiniAvatar character={charId} size={48} />
+              <motion.div
+                key={subject}
+                variants={cardVariant}
+                className="flex flex-col items-center p-3 bg-gray-50 rounded-lg"
+              >
+                <motion.div animate={charBobSm.animate}>
+                  <MiniAvatar character={charId} size={48} />
+                </motion.div>
                 <span className="font-semibold text-sm mt-1">{char.name}</span>
                 <span className="text-xs text-gray-500 capitalize">{subject}</span>
-              </div>
+              </motion.div>
             );
           })}
-        </div>
+        </motion.div>
       </div>
     </div>
   );
