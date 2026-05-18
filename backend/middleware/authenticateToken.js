@@ -2,10 +2,18 @@ const jwt = require("jsonwebtoken");
 
 const SECRET = process.env.JWT_SECRET;
 if (!SECRET) {
-  throw new Error("JWT_SECRET is not set in environment variables");
+  // Warn loudly at startup but don't crash — protected routes will return 500
+  // until JWT_SECRET is set in the environment.
+  console.warn(
+    "[authenticateToken] WARNING: JWT_SECRET is not set. All protected routes will be unavailable until it is configured.",
+  );
 }
 
 function authenticateToken(req, res, next) {
+  if (!SECRET) {
+    return res.status(500).json({ error: "Server misconfiguration: auth is not available." });
+  }
+
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
 

@@ -7,6 +7,58 @@ import Navbar from "../../components/Navbar.jsx";
 import ErrorBoundary from "../components/ErrorBoundary.jsx";
 import ProtectedRoute from "./ProtectedRoute.jsx";
 
+// Inline pages for access/routing errors — no async loading needed
+function UnauthorizedPage() {
+  return (
+    <div className="min-h-[60vh] flex flex-col items-center justify-center text-center p-8">
+      <div className="text-6xl mb-4">🔒</div>
+      <h1 className="text-3xl font-bold text-red-700 mb-2">Access Denied</h1>
+      <p className="text-gray-600 mb-6 max-w-md">
+        You don&apos;t have permission to view this page. Please sign in with the correct account or
+        contact your educator for access.
+      </p>
+      <Link
+        to="/"
+        className="px-5 py-2 bg-[#0B6E8F] text-white rounded-lg font-semibold hover:bg-[#095a75]"
+      >
+        ← Back to Home
+      </Link>
+    </div>
+  );
+}
+
+function NotFoundPage() {
+  return (
+    <div className="min-h-[60vh] flex flex-col items-center justify-center text-center p-8">
+      <div className="text-6xl mb-4">🗺️</div>
+      <h1 className="text-3xl font-bold text-gray-700 mb-2">Page Not Found</h1>
+      <p className="text-gray-500 mb-6 max-w-md">
+        We couldn&apos;t find what you were looking for. Let&apos;s get you back on track!
+      </p>
+      <div className="flex gap-3 flex-wrap justify-center">
+        <Link
+          to="/"
+          className="px-5 py-2 bg-[#0B6E8F] text-white rounded-lg font-semibold hover:bg-[#095a75]"
+        >
+          🏠 Home
+        </Link>
+        <Link
+          to="/games"
+          className="px-5 py-2 bg-teal-500 text-white rounded-lg font-semibold hover:bg-teal-600"
+        >
+          🎮 Games
+        </Link>
+        <Link
+          to="/courses"
+          className="px-5 py-2 bg-purple-500 text-white rounded-lg font-semibold hover:bg-purple-600"
+        >
+          📚 Courses
+        </Link>
+      </div>
+    </div>
+  );
+}
+
 // Lazy load all major components
 const HomePage = lazy(() => import("../pages/HomePage.jsx"));
 const EducatorDashboard = lazy(() => import("../pages/EducatorDashboard.jsx"));
@@ -169,8 +221,9 @@ export default function AppRouter() {
             <Route path="/assignments" element={<Navigate to="/courses" replace />} />
             <Route path="/materials" element={<Navigate to="/courses" replace />} />
 
-            {/* Catch-all: redirect unknown routes to home */}
-            <Route path="*" element={<Navigate to="/" />} />
+            {/* Error pages */}
+            <Route path="/unauthorized" element={<UnauthorizedPage />} />
+            <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </Suspense>
       </ErrorBoundary>

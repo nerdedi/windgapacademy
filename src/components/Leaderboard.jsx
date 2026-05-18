@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 
+import { useUser } from "../app/UserContext";
+import { useGamification } from "../contexts/GamificationContext";
 import { Badge } from "./ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Progress } from "./ui/progress";
 
-// Mock leaderboard data
-const mockLeaderboardData = [
+// Base mock peers — give the student real competition to aspire to
+const MOCK_PEERS = [
   {
     id: 1,
     name: "Alex Chen",
@@ -32,37 +34,51 @@ const mockLeaderboardData = [
   { id: 8, name: "Jamie Garcia", xp: 800, level: 5, streak: 1, avatar: "🦋", badges: [] },
 ];
 
+const XP_PER_LEVEL = 200;
+
 export function Leaderboard() {
-  const [leaderboard, setLeaderboard] = useState([]);
-  const [filter, setFilter] = useState("all"); // all, weekly, friends
+  const { xp, badges, streak } = useGamification();
+  const { user } = useUser();
+  const [filter, setFilter] = useState("all");
   const [loading, setLoading] = useState(true);
+  const [leaderboard, setLeaderboard] = useState([]);
+
+  const currentUserName = user?.id ? user.id.split("@")[0] : "You";
+  const currentUserLevel = Math.floor(xp / XP_PER_LEVEL) + 1;
 
   useEffect(() => {
-    // Simulate loading
     setLoading(true);
+    // Merge the logged-in user's real stats into the leaderboard
+    const meEntry = {
+      id: "me",
+      name: `${currentUserName} (You)`,
+      xp,
+      level: currentUserLevel,
+      streak,
+      avatar: "🌟",
+      badges,
+      isMe: true,
+    };
+    const combined = [...MOCK_PEERS, meEntry].sort((a, b) => b.xp - a.xp);
     setTimeout(() => {
-      setLeaderboard(mockLeaderboardData);
+      setLeaderboard(combined);
       setLoading(false);
-    }, 500);
-  }, [filter]);
+    }, 300);
+  }, [filter, xp, streak, badges, currentUserName, currentUserLevel]);
 
   const getRankIcon = (rank) => {
-    switch (rank) {
-      case 1:
-        return "🥇";
-      case 2:
-        return "🥈";
-      case 3:
-        return "🥉";
-      default:
-        return `#${rank}`;
-    }
+    if (rank === 1) return "🥇";
+    if (rank === 2) return "🥈";
+    if (rank === 3) return "🥉";
+    return `#${rank}`;
   };
 
-  const getProgressToNextLevel = (xp) => {
-    const xpPerLevel = 200;
-    return ((xp % xpPerLevel) / xpPerLevel) * 100;
+  const getProgressToNextLevel = (playerXp) => {
+    const xpPerLevel = XP_PER_LEVEL;
+    return ((playerXp % xpPerLevel) / xpPerLevel) * 100;
   };
+
+  const myRank = leaderboard.findIndex((p) => p.isMe) + 1;
 
   if (loading) {
     return (
@@ -81,7 +97,7 @@ export function Leaderboard() {
         <div className="flex justify-between items-center">
           <CardTitle className="flex items-center gap-2">🏆 Leaderboard</CardTitle>
           <div className="flex gap-2">
-            {["all", "weekly", "friends"].map((f) => (
+            {["all", "weekly"].map((f) => (
               <button
                 key={f}
                 onClick={() => setFilter(f)}
@@ -101,29 +117,28 @@ export function Leaderboard() {
             <div
               key={player.id}
               className={`flex items-center gap-4 p-4 rounded-lg transition-all hover:shadow-md ${
-                index === 0
-                  ? "bg-yellow-50 border-2 border-yellow-200"
-                  : index === 1
-                    ? "bg-gray-50 border border-gray-200"
-                    : index === 2
-                      ? "bg-orange-50 border border-orange-200"
-                      : "bg-white border border-gray-100"
+                player.isMe
+                  ? "bg-teal-50 border-2 border-teal-400 ring-2 ring-teal-200"
+                  : index === 0
+                    ? "bg-yellow-50 border-2 border-yellow-200"
+                    : index === 1
+                      ? "bg-gray-50 border border-gray-200"
+                      : index === 2
+                        ? "bg-orange-50 border border-orange-200"
+                        : "bg-white border border-gray-100"
               }`}
             >
-              {/* Rank */}
               <div className="w-10 text-center font-bold text-lg">{getRankIcon(index + 1)}</div>
-
-              {/* Avatar */}
               <div className="text-3xl">{player.avatar}</div>
-
-              {/* Player Info */}
               <div className="flex-1">
                 <div className="flex items-center gap-2">
-                  <span className="font-semibold">{player.name}</span>
+                  <span className={`font-semibold ${player.isMe ? "text-teal-700" : ""}`}>
+                    {player.name}
+                  </span>
                   <Badge variant="secondary">Lvl {player.level}</Badge>
                   {player.streak >= 7 && (
                     <Badge variant="outline" className="text-orange-500">
-                      🔥 {player.streak} day streak
+                      🔥 {player.streak}d
                     </Badge>
                   )}
                 </div>
@@ -132,10 +147,8 @@ export function Leaderboard() {
                   <Progress value={getProgressToNextLevel(player.xp)} className="w-20 h-1" />
                 </div>
               </div>
-
-              {/* Badges */}
               <div className="flex gap-1">
-                {player.badges.map((badge, i) => (
+                {player.badges.slice(0, 3).map((badge, i) => (
                   <span key={i} className="text-lg" title="Achievement badge">
                     {badge}
                   </span>
@@ -145,17 +158,16 @@ export function Leaderboard() {
           ))}
         </div>
 
-        {/* Current User Stats */}
-        <div className="mt-6 p-4 bg-primary/5 rounded-lg border-2 border-primary/20">
+        {/* Current User Summary */}
+        <div className="mt-6 p-4 bg-teal-50 rounded-lg border-2 border-teal-200">
           <div className="text-center">
-            <p className="text-sm text-muted-foreground mb-2">Your Position</p>
-            <div className="flex items-center justify-center gap-4">
-              <span className="text-4xl">🦊</span>
-              <div>
-                <p className="font-bold text-xl">#1 - Alex Chen</p>
-                <p className="text-muted-foreground">2,450 XP • Level 12</p>
-              </div>
-            </div>
+            <p className="text-sm text-gray-500 mb-1">Your Position</p>
+            <p className="font-bold text-xl text-teal-700">
+              {myRank > 0 ? `#${myRank} — ${currentUserName}` : currentUserName}
+            </p>
+            <p className="text-gray-500 text-sm">
+              {xp} XP · Level {currentUserLevel} · 🔥 {streak} day streak
+            </p>
           </div>
         </div>
       </CardContent>

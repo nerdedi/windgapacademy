@@ -1,6 +1,7 @@
-import React, { createContext, useContext, useState, useCallback } from "react";
+import React, { createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
 
-import { setUserDoc } from "../app/firestoreClient.js";
+import { getUserDoc, setUserDoc } from "../app/firestoreClient.js";
+import { useUser } from "../app/UserContext";
 
 type GamificationState = {
   xp: number;
@@ -28,59 +29,84 @@ export function useGamification() {
 
 export const GamificationProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [state, setState] = useState<GamificationState>(defaultState);
+  const { user } = useUser();
+  const uid = user?.id ?? null;
+  // Ref so persist helpers always have the latest uid without stale closures
+  const uidRef = useRef<string | null>(uid);
+  useEffect(() => {
+    uidRef.current = uid;
+  }, [uid]);
 
-  const addXP = useCallback(async (amount: number) => {
-    // use functional updater to avoid stale state
-    setState((s) => {
-      const newXp = s.xp + amount;
-      // persist in background
-      (async () => {
-        try {
-          const uid = (window as any).__CURRENT_USER_ID__;
-          if (uid) await setUserDoc(uid, { gamification: { xp: newXp } });
-        } catch (e) {
-          // eslint-disable-next-line no-console
-          console.warn("Failed to persist XP", e);
+  // Load gamification data from Firestore whenever the logged-in user changes
+  useEffect(() => {
+    if (!uid) {
+      setState(defaultState);
+      return;
+    }
+    let cancelled = false;
+    (async () => {
+      try {
+        const data = await getUserDoc(uid);
+        if (!cancelled && data?.gamification) {
+          setState((s) => ({ ...s, ...data.gamification }));
         }
-      })();
-      return { ...s, xp: newXp };
-    });
+      } catch {
+        // Firestore unavailable — silently keep local state
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [uid]);
+
+  const persist = useCallback(async (patch: Partial<GamificationState>) => {
+    if (!uidRef.current) return;
+    try {
+      await setUserDoc(uidRef.current, { gamification: patch });
+    } catch {
+      // eslint-disable-next-line no-console
+      console.warn("Failed to persist gamification data to Firestore");
+    }
   }, []);
 
-  const awardBadge = useCallback(async (badge: string) => {
-    setState((s) => {
-      const newBadges = Array.from(new Set([...s.badges, badge]));
-      (async () => {
-        try {
-          const uid = (window as any).__CURRENT_USER_ID__;
-          if (uid) await setUserDoc(uid, { gamification: { badges: newBadges } });
-        } catch (e) {
-          // eslint-disable-next-line no-console
-          console.warn("Failed to persist badge", e);
-        }
-      })();
-      return { ...s, badges: newBadges };
-    });
-  }, []);
+  const addXP = useCallback(
+    (amount: number) => {
+      setState((s) => {
+        const newXp = s.xp + amount;
+        persist({ xp: newXp });
+        return { ...s, xp: newXp };
+      });
+    },
+    [persist],
+  );
 
-  const unlockGame = useCallback((id: string) => {
-    if (!id) return;
-    setState((s) => {
-      const newUnlocked = Array.from(new Set([...s.unlockedGames, id]));
-      (async () => {
-        try {
-          const uid = (window as any).__CURRENT_USER_ID__;
-          if (uid) await setUserDoc(uid, { gamification: { unlockedGames: newUnlocked } });
-        } catch (e) {
-          // eslint-disable-next-line no-console
-          console.warn("Failed to persist unlocked game", e);
-        }
-      })();
-      return { ...s, unlockedGames: newUnlocked };
-    });
-  }, []);
+  const awardBadge = useCallback(
+    (badge: string) => {
+      setState((s) => {
+        const newBadges = Array.from(new Set([...s.badges, badge]));
+        persist({ badges: newBadges });
+        return { ...s, badges: newBadges };
+      });
+    },
+    [persist],
+  );
 
-  const reset = useCallback(() => setState(defaultState), []);
+  const unlockGame = useCallback(
+    (id: string) => {
+      if (!id) return;
+      setState((s) => {
+        const newUnlocked = Array.from(new Set([...s.unlockedGames, id]));
+        persist({ unlockedGames: newUnlocked });
+        return { ...s, unlockedGames: newUnlocked };
+      });
+    },
+    [persist],
+  );
+
+  const reset = useCallback(() => {
+    setState(defaultState);
+    persist(defaultState);
+  }, [persist]);
 
   return (
     <GamificationContext.Provider value={{ ...state, addXP, awardBadge, unlockGame, reset }}>
