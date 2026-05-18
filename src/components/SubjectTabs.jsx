@@ -1,54 +1,52 @@
 import React from "react";
 
-import { getCharacterForSubject } from "./Characters";
+import DigitalLiteracyLesson from "./lessonModules/DigitalLiteracyLesson";
+import IndependenceSkillsLesson from "./lessonModules/IndependenceSkillsLesson";
 import LanguagePhonicsLesson from "./lessonModules/LanguagePhonicsLesson";
 import LiteracyReadingLesson from "./lessonModules/LiteracyReadingLesson";
 import NumeracyCountingMoneyLesson from "./lessonModules/NumeracyCountingMoneyLesson";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "./ui/tabs";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 
 const subjects = [
-  { id: "language", label: "Language", color: "orange-500", component: <LanguagePhonicsLesson /> },
-  { id: "literacy", label: "Literacy", color: "teal-500", component: <LiteracyReadingLesson /> },
+  {
+    id: "language",
+    label: "🔤 Language",
+    color: "purple-600",
+    component: <LanguagePhonicsLesson />,
+  },
+  {
+    id: "literacy",
+    label: "📖 Literacy",
+    color: "amber-600",
+    component: <LiteracyReadingLesson />,
+  },
   {
     id: "numeracy",
-    label: "Numeracy",
-    color: "yellow-500",
+    label: "🔢 Numeracy",
+    color: "teal-600",
     component: <NumeracyCountingMoneyLesson />,
   },
-  {
-    id: "digital",
-    label: "Digital Literacy",
-    color: "green-500",
-    component: <div>Digital Literacy Module Coming Soon</div>,
-  },
+  { id: "digital", label: "💻 Digital", color: "orange-600", component: <DigitalLiteracyLesson /> },
   {
     id: "independence",
-    label: "Skills for Independence",
-    color: "pink-500",
-    component: <div>Independence Module Coming Soon</div>,
+    label: "🏠 Independence",
+    color: "green-600",
+    component: <IndependenceSkillsLesson />,
   },
 ];
 
 export default function SubjectTabs() {
   return (
     <Tabs defaultValue="language" className="w-full">
-      <TabsList>
+      <TabsList className="flex flex-wrap gap-1 h-auto p-1">
         {subjects.map((subject) => (
-          <TabsTrigger key={subject.id} value={subject.id} className={`text-${subject.color}`}>
+          <TabsTrigger key={subject.id} value={subject.id} className="text-sm font-semibold">
             {subject.label}
           </TabsTrigger>
         ))}
       </TabsList>
       {subjects.map((subject) => (
-        <TabsContent key={subject.id} value={subject.id}>
-          <div className="mb-6">
-            <h2 className={`text-2xl font-bold text-${subject.color}`}>{subject.label}</h2>
-            <div className="flex items-center gap-4 mb-4">
-              <span className="text-xl">Guide:</span>
-              <span className="font-semibold">{getCharacterForSubject(subject.id).name}</span>
-              <span className="text-2xl">{getCharacterForSubject(subject.id).avatar}</span>
-            </div>
-          </div>
+        <TabsContent key={subject.id} value={subject.id} className="mt-4">
           {subject.component}
         </TabsContent>
       ))}
