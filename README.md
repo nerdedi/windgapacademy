@@ -15,16 +15,13 @@ A modern, accessible learning platform featuring interactive modules (e.g., Winn
 ## Setup & Getting Started
 
 1. Install dependencies: `npm install`
-
-npx minify styles/windgap-academy.css > styles/windgap-academy.min.css && \
+2. Build CSS:
 
 ```bash
 npm run build:css
 ```
 
 Update your HTML and build config to reference the `.min.css` files for production.
-
-```
 
 ## Security
 
@@ -42,7 +39,7 @@ git lfs install
 git lfs track "*.zip"
 git add .gitattributes
 git commit -m "chore: track zip assets with LFS"
-```
+````
 
 - Keep production builds and generated artifacts out of git to prevent quota and size issues.
 
@@ -108,28 +105,13 @@ CI (GitHub Actions) runs `npm ci` which installs devDependencies and runs the fu
 
 ## Performance Optimization
 
-# Production CSS Optimization
+### Production CSS Optimization
 
-For optimal performance, use the minified CSS files in production:
+For optimal performance, use the minified CSS files in production.
 
-// trigger redeploy
-
-## Automated Minification
-
-// another redeploy trigger
+### Automated Minification
 
 Minification is automated using the following script:
-
-```bash
-npx minify styles/windgap-academy.css > styles/windgap-academy.min.css && \
-## Security
-- Helmet for HTTP headers (see `server.cjs`)
-- Sanitize all user input
-- Regularly update dependencies
-
-```
-
-You can add this as a build step in your deployment pipeline or as an npm script:
 
 ```json
 "scripts": {
