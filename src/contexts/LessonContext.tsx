@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useCallback } from "react";
+import React, { createContext, useCallback, useContext, useState } from "react";
 
 import { setUserDoc } from "../app/firestoreClient.js";
 
@@ -21,6 +21,7 @@ type LessonState = {
 type LessonContextType = {
   state: LessonState;
   setLesson: (subject: string, topic: string, steps: Step[]) => void;
+  resetLesson: () => void;
   nextStep: () => void;
   prevStep: () => void;
   goToStep: (index: number) => void;
@@ -48,6 +49,10 @@ export const LessonProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 
   const setLesson = useCallback((subject: string, topic: string, steps: Step[]) => {
     setState({ subject, topic, steps, stepIndex: 0, understood: null });
+  }, []);
+
+  const resetLesson = useCallback(() => {
+    setState(defaultState);
   }, []);
 
   const nextStep = useCallback(() => {
@@ -89,7 +94,7 @@ export const LessonProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 
   return (
     <LessonContext.Provider
-      value={{ state, setLesson, nextStep, prevStep, goToStep, setUnderstood }}
+      value={{ state, setLesson, resetLesson, nextStep, prevStep, goToStep, setUnderstood }}
     >
       {children}
     </LessonContext.Provider>

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
+import { MiniAvatar } from "./CharacterAvatar";
 import { getCharacterForSubject } from "./Characters";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
@@ -447,7 +448,20 @@ export default function GameArcade() {
           <p className="text-sm text-gray-600 mb-2">{game.description}</p>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-1">
-              <span>{guide.avatar}</span>
+              <MiniAvatar
+                character={
+                  game.subject === "language"
+                    ? "lana"
+                    : game.subject === "literacy"
+                      ? "leo"
+                      : game.subject === "numeracy"
+                        ? "nia"
+                        : game.subject === "digital"
+                          ? "dex"
+                          : "indy"
+                }
+                size={24}
+              />
               <span className="text-xs">{guide.name}</span>
             </div>
             <Badge variant="secondary">+{game.xpReward} XP</Badge>
@@ -519,7 +533,22 @@ export default function GameArcade() {
               </div>
             )}
             <p className="text-sm text-muted-foreground mt-4">
-              Guide: {getCharacterForSubject(selectedGame.subject).avatar}{" "}
+              Guide:{" "}
+              <MiniAvatar
+                character={
+                  selectedGame.subject === "language"
+                    ? "lana"
+                    : selectedGame.subject === "literacy"
+                      ? "leo"
+                      : selectedGame.subject === "numeracy"
+                        ? "nia"
+                        : selectedGame.subject === "digital"
+                          ? "dex"
+                          : "indy"
+                }
+                size={24}
+                style={{ display: "inline-block", verticalAlign: "middle" }}
+              />{" "}
               {getCharacterForSubject(selectedGame.subject).name}
             </p>
           </div>
@@ -573,10 +602,20 @@ export default function GameArcade() {
         <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
           {["language", "literacy", "numeracy", "digital", "independence"].map((subject) => {
             const char = getCharacterForSubject(subject);
+            const charId =
+              subject === "language"
+                ? "lana"
+                : subject === "literacy"
+                  ? "leo"
+                  : subject === "numeracy"
+                    ? "nia"
+                    : subject === "digital"
+                      ? "dex"
+                      : "indy";
             return (
               <div key={subject} className="flex flex-col items-center p-3 bg-gray-50 rounded-lg">
-                <span className="text-3xl mb-1">{char.avatar}</span>
-                <span className="font-semibold text-sm">{char.name}</span>
+                <MiniAvatar character={charId} size={48} />
+                <span className="font-semibold text-sm mt-1">{char.name}</span>
                 <span className="text-xs text-gray-500 capitalize">{subject}</span>
               </div>
             );
