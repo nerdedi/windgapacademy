@@ -1,8 +1,10 @@
 /* eslint-disable import/order */
+import { AnimatePresence, motion } from "framer-motion";
 import React, { Suspense, lazy } from "react";
-import { Link, Navigate, Route, Routes } from "react-router-dom";
+import { Link, Navigate, Route, Routes, useLocation } from "react-router-dom";
 
 import Navbar from "../../components/Navbar.jsx";
+import { pageVariants } from "../utils/animations";
 
 import ErrorBoundary from "../components/ErrorBoundary.jsx";
 import ProtectedRoute from "./ProtectedRoute.jsx";
