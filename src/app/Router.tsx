@@ -85,6 +85,9 @@ const Leaderboard = lazy(() =>
 const CourseLibrary = lazy(() =>
   import("../components/CourseLibrary.jsx").then((m) => ({ default: m.CourseLibrary })),
 );
+const CoursePlayer = lazy(() =>
+  import("../components/CoursePlayer.jsx").then((m) => ({ default: m.CoursePlayer })),
+);
 const Dashboard = lazy(() =>
   import("../components/Dashboard.jsx").then((m) => ({ default: m.Dashboard })),
 );
@@ -127,6 +130,7 @@ function AnimatedRoutes() {
 
           {/* Learning components */}
           <Route path="/courses" element={<CourseLibrary />} />
+          <Route path="/courses/:courseId" element={<CoursePlayer />} />
           <Route path="/lessons" element={<LessonPlayer />} />
           <Route path="/learn" element={<LessonPlayer />} />
 

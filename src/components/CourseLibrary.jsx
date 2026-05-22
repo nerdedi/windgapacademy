@@ -191,7 +191,7 @@ export function CourseLibrary() {
                 </div>
 
                 <Link
-                  to={`/lessons?course=${course.id}`}
+                  to={`/courses/${course.id}`}
                   className="block w-full text-center px-4 py-2 bg-[#0B6E8F] text-white rounded-lg hover:bg-[#095a74] transition-colors"
                 >
                   Start Course →
