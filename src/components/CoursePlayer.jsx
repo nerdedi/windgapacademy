@@ -1,6 +1,8 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
+import { useUser } from "../app/UserContext";
+import { getUserDoc, setUserDoc } from "../app/firestoreClient";
 import { useGamification } from "../contexts/GamificationContext";
 import { getAllCurriculum, getCurriculumById } from "../services/curriculumService";
 import { Badge } from "./ui/badge";
@@ -16,6 +18,7 @@ const ACTIVITY_TYPES = [
   "fill-blank",
   "reflect",
 ];
+const COURSE_PROGRESS_STORAGE_KEY = "windgap-course-progress-v1";
 
 function titleCase(text) {
   return (text || "")
@@ -206,6 +209,7 @@ function ActivityRenderer({ type, label, state, onChange }) {
 
 export function CoursePlayer() {
   const { courseId } = useParams();
+  const { user } = useUser();
   const { addXP, awardBadge, unlockGame } = useGamification();
 
   const course = useMemo(() => getCurriculumById(courseId), [courseId]);
@@ -217,6 +221,96 @@ export function CoursePlayer() {
   const [quizAnswers, setQuizAnswers] = useState({});
   const [quizSubmitted, setQuizSubmitted] = useState(false);
   const [courseFinished, setCourseFinished] = useState(false);
+  const [hydrated, setHydrated] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function loadProgress() {
+      if (!courseId) {
+        setHydrated(true);
+        return;
+      }
+
+      setHydrated(false);
+
+      let localProgress = null;
+      try {
+        const raw = localStorage.getItem(COURSE_PROGRESS_STORAGE_KEY);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          localProgress = parsed?.[courseId] || null;
+        }
+      } catch {
+        localProgress = null;
+      }
+
+      let remoteProgress = null;
+      if (user?.id) {
+        try {
+          const userDoc = await getUserDoc(user.id);
+          remoteProgress = userDoc?.courseProgress?.[courseId] || null;
+        } catch {
+          remoteProgress = null;
+        }
+      }
+
+      const source = remoteProgress || localProgress;
+      if (!cancelled) {
+        setCompleted(source?.completed || {});
+        setRewarded(source?.rewarded || {});
+        setActivityState(source?.activityState || {});
+        setQuizAnswers(source?.quizAnswers || {});
+        setQuizSubmitted(Boolean(source?.quizSubmitted));
+        setCourseFinished(Boolean(source?.courseFinished));
+        setHydrated(true);
+      }
+    }
+
+    loadProgress();
+    return () => {
+      cancelled = true;
+    };
+  }, [courseId, user?.id]);
+
+  useEffect(() => {
+    if (!hydrated || !courseId) return;
+
+    const payload = {
+      completed,
+      rewarded,
+      activityState,
+      quizAnswers,
+      quizSubmitted,
+      courseFinished,
+      updatedAt: Date.now(),
+    };
+
+    try {
+      const raw = localStorage.getItem(COURSE_PROGRESS_STORAGE_KEY);
+      const parsed = raw ? JSON.parse(raw) : {};
+      parsed[courseId] = payload;
+      localStorage.setItem(COURSE_PROGRESS_STORAGE_KEY, JSON.stringify(parsed));
+    } catch {
+      // Ignore storage failures (private mode/quota)
+    }
+
+    if (user?.id) {
+      setUserDoc(user.id, { courseProgress: { [courseId]: payload } }).catch(() => {
+        // Keep local progress even if remote persist fails.
+      });
+    }
+  }, [
+    activityState,
+    completed,
+    courseFinished,
+    courseId,
+    hydrated,
+    quizAnswers,
+    quizSubmitted,
+    rewarded,
+    user?.id,
+  ]);
 
   if (!course) {
     return (
