@@ -68,6 +68,94 @@ function buildAssessmentQuestions(course) {
   ];
 }
 
+function buildLearningBlueprint(course) {
+  const essentialQuestion = `How can I apply ${course.title.toLowerCase()} skills safely and confidently in real-world settings?`;
+  const priorKnowledge = [
+    `Basic understanding of ${course.acsf[0] || "communication"}`,
+    `Willingness to practice routines linked to ${course.ndis[0] || "daily living"}`,
+    "Ability to reflect on what worked and what needs support",
+  ];
+  const successCriteria = [
+    ...course.outcomes,
+    "Explain why your chosen strategy is safe, practical, and respectful",
+    "Show evidence of transfer from practice activity to real-life scenario",
+  ];
+  const vocabulary = Array.from(
+    new Set([...course.acsf, ...course.ndis, "goal", "support", "review"]),
+  );
+  return { essentialQuestion, priorKnowledge, successCriteria, vocabulary };
+}
+
+function buildScenarioStudio(course) {
+  return [
+    {
+      id: "scenario-foundation",
+      level: "Foundation",
+      title: `Routine setup: ${course.title}`,
+      prompt: `You are preparing for a task related to ${course.title}. What should you do first?`,
+      options: [
+        "Clarify the goal and required steps",
+        "Start immediately without checking instructions",
+        "Wait and avoid the task",
+      ],
+      correctIndex: 0,
+      rationale:
+        "Strong learners begin by clarifying expectations, resources, and supports before taking action.",
+    },
+    {
+      id: "scenario-core",
+      level: "Core",
+      title: "Decision point",
+      prompt: `A challenge appears while practicing this course. What is the best response?`,
+      options: [
+        "Use a safe strategy and ask for help when needed",
+        "Ignore the issue and continue",
+        "Stop permanently after one difficulty",
+      ],
+      correctIndex: 0,
+      rationale:
+        "Core mastery means using safe decisions, communication, and support-seeking to keep progress moving.",
+    },
+    {
+      id: "scenario-stretch",
+      level: "Stretch",
+      title: "Transfer challenge",
+      prompt: `How do you demonstrate advanced understanding of this skill?`,
+      options: [
+        "Apply the skill in a new setting and justify your approach",
+        "Repeat only memorized steps without thinking",
+        "Skip reflection and evidence collection",
+      ],
+      correctIndex: 0,
+      rationale:
+        "Advanced learning includes transfer: adapting skills to a new context and explaining your reasoning.",
+    },
+  ];
+}
+
+function buildMasteryRubric(course) {
+  return [
+    {
+      criterion: "Concept understanding",
+      developing: "Can identify key terms with support",
+      proficient: `Explains core concepts linked to ${course.acsf[0] || "ACSF"}`,
+      advanced: "Connects concepts across contexts and teaches others",
+    },
+    {
+      criterion: "Applied performance",
+      developing: "Completes parts of tasks with prompting",
+      proficient: `Independently performs main tasks in ${course.title}`,
+      advanced: "Adapts performance to unfamiliar scenarios safely",
+    },
+    {
+      criterion: "Self-management and reflection",
+      developing: "Needs reminders to review progress",
+      proficient: "Uses checklist, feedback, and next steps consistently",
+      advanced: "Sets goals, tracks evidence, and iterates strategically",
+    },
+  ];
+}
+
 function ActivityRenderer({ type, label, state, onChange }) {
   if (type === "multiple-choice") {
     const options = [
@@ -214,6 +302,9 @@ export function CoursePlayer() {
 
   const course = useMemo(() => getCurriculumById(courseId), [courseId]);
   const allCourses = useMemo(() => getAllCurriculum(), []);
+  const blueprint = useMemo(() => buildLearningBlueprint(course || {}), [course]);
+  const scenarioStudio = useMemo(() => buildScenarioStudio(course || {}), [course]);
+  const masteryRubric = useMemo(() => buildMasteryRubric(course || {}), [course]);
 
   const [completed, setCompleted] = useState({});
   const [rewarded, setRewarded] = useState({});
@@ -221,6 +312,10 @@ export function CoursePlayer() {
   const [quizAnswers, setQuizAnswers] = useState({});
   const [quizSubmitted, setQuizSubmitted] = useState(false);
   const [courseFinished, setCourseFinished] = useState(false);
+  const [scenarioAnswers, setScenarioAnswers] = useState({});
+  const [portfolio, setPortfolio] = useState({ artifacts: {}, reflection: "", actionPlan: "" });
+  const [supportMode, setSupportMode] = useState("guided");
+  const [hintsUsed, setHintsUsed] = useState(0);
   const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
@@ -263,6 +358,10 @@ export function CoursePlayer() {
         setQuizAnswers(source?.quizAnswers || {});
         setQuizSubmitted(Boolean(source?.quizSubmitted));
         setCourseFinished(Boolean(source?.courseFinished));
+        setScenarioAnswers(source?.scenarioAnswers || {});
+        setPortfolio(source?.portfolio || { artifacts: {}, reflection: "", actionPlan: "" });
+        setSupportMode(source?.supportMode || "guided");
+        setHintsUsed(Number(source?.hintsUsed || 0));
         setHydrated(true);
       }
     }
@@ -283,6 +382,10 @@ export function CoursePlayer() {
       quizAnswers,
       quizSubmitted,
       courseFinished,
+      scenarioAnswers,
+      portfolio,
+      supportMode,
+      hintsUsed,
       updatedAt: Date.now(),
     };
 
@@ -309,6 +412,10 @@ export function CoursePlayer() {
     quizAnswers,
     quizSubmitted,
     rewarded,
+    scenarioAnswers,
+    portfolio,
+    supportMode,
+    hintsUsed,
     user?.id,
   ]);
 
@@ -326,8 +433,11 @@ export function CoursePlayer() {
 
   const assessmentQuestions = buildAssessmentQuestions(course);
   const sectionKeys = [
+    "learning-blueprint",
     ...course.outcomes.map((_, i) => `outcome-${i}`),
     ...course.interactive.map((_, i) => `interactive-${i}`),
+    ...scenarioStudio.map((s) => s.id),
+    "portfolio",
     "assessment",
   ];
 
@@ -359,6 +469,32 @@ export function CoursePlayer() {
     } else {
       unlockGame("employment-skills");
     }
+  }
+
+  const lastUpdated = useMemo(() => {
+    if (!hydrated || !courseId) return null;
+    try {
+      const raw = localStorage.getItem(COURSE_PROGRESS_STORAGE_KEY);
+      if (!raw) return null;
+      const parsed = JSON.parse(raw);
+      const ts = parsed?.[courseId]?.updatedAt;
+      return ts ? new Date(ts).toLocaleString() : null;
+    } catch {
+      return null;
+    }
+  }, [courseId, hydrated, completed, activityState, quizAnswers, scenarioAnswers, portfolio]);
+
+  function resetCourseProgress() {
+    setCompleted({});
+    setRewarded({});
+    setActivityState({});
+    setQuizAnswers({});
+    setQuizSubmitted(false);
+    setCourseFinished(false);
+    setScenarioAnswers({});
+    setPortfolio({ artifacts: {}, reflection: "", actionPlan: "" });
+    setSupportMode("guided");
+    setHintsUsed(0);
   }
 
   return (
@@ -395,6 +531,80 @@ export function CoursePlayer() {
           </Badge>
         ))}
       </div>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>🧠 Learning Blueprint</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+            <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+              Essential question
+            </p>
+            <p className="mt-1 text-sm text-slate-800">{blueprint.essentialQuestion}</p>
+          </div>
+
+          <div className="grid gap-3 md:grid-cols-2">
+            <div className="rounded-xl border border-gray-200 p-4">
+              <p className="mb-2 text-sm font-semibold text-gray-800">Prior knowledge</p>
+              <ul className="list-disc space-y-1 pl-5 text-sm text-gray-700">
+                {blueprint.priorKnowledge.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </div>
+            <div className="rounded-xl border border-gray-200 p-4">
+              <p className="mb-2 text-sm font-semibold text-gray-800">Success criteria</p>
+              <ul className="list-disc space-y-1 pl-5 text-sm text-gray-700">
+                {blueprint.successCriteria.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          <div className="rounded-xl border border-gray-200 p-4">
+            <p className="mb-2 text-sm font-semibold text-gray-800">Key vocabulary</p>
+            <div className="flex flex-wrap gap-2">
+              {blueprint.vocabulary.map((word) => (
+                <Badge key={word} className="bg-sky-100 text-sky-800">
+                  {word}
+                </Badge>
+              ))}
+            </div>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-3">
+            <label className="text-sm font-medium text-gray-700" htmlFor="support-mode">
+              Learning mode
+            </label>
+            <select
+              id="support-mode"
+              value={supportMode}
+              onChange={(e) => setSupportMode(e.target.value)}
+              className="rounded-md border border-gray-300 px-3 py-2 text-sm"
+            >
+              <option value="guided">Guided (with prompts)</option>
+              <option value="coached">Coached (strategic hints)</option>
+              <option value="independent">Independent (minimal prompts)</option>
+            </select>
+            <Button size="sm" variant="outline" onClick={() => setHintsUsed((n) => n + 1)}>
+              Use scaffold hint
+            </Button>
+            <span className="text-xs text-gray-500">Hints used: {hintsUsed}</span>
+          </div>
+
+          <Button
+            size="sm"
+            variant={completed["learning-blueprint"] ? "secondary" : "outline"}
+            onClick={() => completeSection("learning-blueprint", 10)}
+          >
+            {completed["learning-blueprint"]
+              ? "✓ Blueprint understood"
+              : "Confirm learning blueprint (+10 XP)"}
+          </Button>
+        </CardContent>
+      </Card>
 
       <Card>
         <CardHeader>
@@ -456,6 +666,152 @@ export function CoursePlayer() {
               </div>
             );
           })}
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>🧪 Scenario Studio (Foundation → Stretch)</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          {scenarioStudio.map((scenario, idx) => {
+            const selected = scenarioAnswers[scenario.id];
+            const isCorrect = selected === scenario.correctIndex;
+            return (
+              <div key={scenario.id} className="rounded-xl border border-gray-200 p-4">
+                <div className="mb-2 flex items-center gap-2">
+                  <Badge className="bg-indigo-100 text-indigo-800">{scenario.level}</Badge>
+                  <p className="font-semibold text-gray-800">
+                    {idx + 1}. {scenario.title}
+                  </p>
+                </div>
+                <p className="mb-3 text-sm text-gray-700">{scenario.prompt}</p>
+                <div className="space-y-2">
+                  {scenario.options.map((option, optionIdx) => (
+                    <button
+                      key={`${scenario.id}-${option}`}
+                      onClick={() =>
+                        setScenarioAnswers((prev) => ({
+                          ...prev,
+                          [scenario.id]: optionIdx,
+                        }))
+                      }
+                      className={`w-full rounded-lg border px-3 py-2 text-left text-sm ${
+                        selected === optionIdx
+                          ? optionIdx === scenario.correctIndex
+                            ? "border-green-400 bg-green-50"
+                            : "border-orange-300 bg-orange-50"
+                          : "border-gray-200 bg-white hover:border-indigo-300"
+                      }`}
+                    >
+                      {option}
+                    </button>
+                  ))}
+                </div>
+                {selected !== undefined && (
+                  <p className={`mt-2 text-xs ${isCorrect ? "text-green-700" : "text-orange-700"}`}>
+                    {isCorrect ? "Strong decision." : "Review the rationale."} {scenario.rationale}
+                  </p>
+                )}
+                <Button
+                  className="mt-3"
+                  size="sm"
+                  variant={completed[scenario.id] ? "secondary" : "outline"}
+                  onClick={() => completeSection(scenario.id, 12)}
+                >
+                  {completed[scenario.id]
+                    ? `✓ ${scenario.level} scenario completed`
+                    : `Complete ${scenario.level} scenario (+12 XP)`}
+                </Button>
+              </div>
+            );
+          })}
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>📚 Mastery Rubric & Evidence Portfolio</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse text-sm">
+              <thead>
+                <tr className="bg-gray-50 text-left">
+                  <th className="border p-2">Criterion</th>
+                  <th className="border p-2">Developing</th>
+                  <th className="border p-2">Proficient</th>
+                  <th className="border p-2">Advanced</th>
+                </tr>
+              </thead>
+              <tbody>
+                {masteryRubric.map((row) => (
+                  <tr key={row.criterion}>
+                    <td className="border p-2 font-medium">{row.criterion}</td>
+                    <td className="border p-2">{row.developing}</td>
+                    <td className="border p-2">{row.proficient}</td>
+                    <td className="border p-2">{row.advanced}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <div className="rounded-xl border border-gray-200 p-4">
+            <p className="mb-2 text-sm font-semibold text-gray-800">Evidence artifacts</p>
+            {[
+              "Completed checklist or planner",
+              "Scenario decision notes",
+              "Reflection summary",
+            ].map((item) => (
+              <label key={item} className="mb-1 flex items-center gap-2 text-sm text-gray-700">
+                <input
+                  type="checkbox"
+                  checked={Boolean(portfolio.artifacts?.[item])}
+                  onChange={(e) =>
+                    setPortfolio((prev) => ({
+                      ...prev,
+                      artifacts: { ...prev.artifacts, [item]: e.target.checked },
+                    }))
+                  }
+                />
+                {item}
+              </label>
+            ))}
+          </div>
+
+          <div className="grid gap-3 md:grid-cols-2">
+            <textarea
+              value={portfolio.reflection}
+              onChange={(e) =>
+                setPortfolio((prev) => ({
+                  ...prev,
+                  reflection: e.target.value,
+                }))
+              }
+              placeholder="Reflection: What strategy worked best for you, and why?"
+              className="min-h-[120px] rounded-lg border border-gray-300 px-3 py-2 text-sm"
+            />
+            <textarea
+              value={portfolio.actionPlan}
+              onChange={(e) =>
+                setPortfolio((prev) => ({
+                  ...prev,
+                  actionPlan: e.target.value,
+                }))
+              }
+              placeholder="Action plan: What is your next real-world practice step?"
+              className="min-h-[120px] rounded-lg border border-gray-300 px-3 py-2 text-sm"
+            />
+          </div>
+
+          <Button
+            size="sm"
+            variant={completed.portfolio ? "secondary" : "outline"}
+            onClick={() => completeSection("portfolio", 20)}
+          >
+            {completed.portfolio ? "✓ Portfolio submitted" : "Submit portfolio evidence (+20 XP)"}
+          </Button>
         </CardContent>
       </Card>
 
@@ -531,13 +887,21 @@ export function CoursePlayer() {
             <p className="text-sm text-gray-600">
               Complete all sections and pass assessment to earn a badge and bonus XP.
             </p>
+            {lastUpdated && <p className="mt-1 text-xs text-gray-500">Last saved: {lastUpdated}</p>}
           </div>
-          <Button
-            onClick={finishCourse}
-            disabled={courseFinished || !hasPassedAssessment || completedCount < sectionKeys.length}
-          >
-            {courseFinished ? "✓ Course completed" : "Finish course (+100 XP + badge)"}
-          </Button>
+          <div className="flex flex-wrap gap-2">
+            <Button variant="outline" onClick={resetCourseProgress} disabled={!hydrated}>
+              Reset progress
+            </Button>
+            <Button
+              onClick={finishCourse}
+              disabled={
+                courseFinished || !hasPassedAssessment || completedCount < sectionKeys.length
+              }
+            >
+              {courseFinished ? "✓ Course completed" : "Finish course (+100 XP + badge)"}
+            </Button>
+          </div>
         </CardContent>
       </Card>
 
