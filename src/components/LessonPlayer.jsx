@@ -2,6 +2,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
+import { useUser } from "../app/UserContext";
+import { getUserDoc, setUserDoc } from "../app/firestoreClient";
 import { useLesson } from "../contexts/LessonContext.tsx";
 import { cardVariant, charBob, feedbackPop, staggerGrid, stepSlide } from "../utils/animations";
 import { MiniAvatar } from "./CharacterAvatar";
@@ -530,9 +532,102 @@ const SUBJECT_COLORS = {
 
 const phonicsVowels = ["A", "E", "I", "O", "U"];
 const phonicsConsonants = ["B", "C", "D", "F", "G", "H"];
+const LESSON_PROGRESS_STORAGE_KEY = "windgap-lesson-progress-v2";
+
+function buildQuizSet(baseQuiz, lessonKey) {
+  const templates = {
+    "language-phonics": [
+      {
+        id: "q1",
+        question: "Which phrase is best for asking support politely?",
+        options: ["Help me now!", "Excuse me, could you help me please?", "I will just give up"],
+        correct: 1,
+      },
+      {
+        id: "q2",
+        question: "Why are vowels important?",
+        options: ["They help form many words", "They are only for decoration", "They are numbers"],
+        correct: 0,
+      },
+    ],
+    "literacy-reading": [
+      {
+        id: "q1",
+        question: "What is a key reading strategy?",
+        options: ["Skip all signs", "Read carefully for meaning", "Guess without looking"],
+        correct: 1,
+      },
+      {
+        id: "q2",
+        question: "How do symbols help in the community?",
+        options: [
+          "They give useful safety and direction information",
+          "They replace all language",
+          "They are random",
+        ],
+        correct: 0,
+      },
+    ],
+    "numeracy-counting": [
+      {
+        id: "q1",
+        question: "Which is a good numeracy habit?",
+        options: ["Estimate then verify", "Never check work", "Avoid numbers"],
+        correct: 0,
+      },
+      {
+        id: "q2",
+        question: "What skill helps with shopping?",
+        options: ["Counting change", "Ignoring prices", "Skipping receipts"],
+        correct: 0,
+      },
+    ],
+    "digital-literacy": [
+      {
+        id: "q1",
+        question: "What should you do with a strong password?",
+        options: ["Share it publicly", "Keep it private", "Write it in chats"],
+        correct: 1,
+      },
+      {
+        id: "q2",
+        question: "When receiving a suspicious message, you should:",
+        options: ["Click immediately", "Tell a trusted adult", "Forward to everyone"],
+        correct: 1,
+      },
+    ],
+  };
+
+  const extra = templates[lessonKey] || [
+    {
+      id: "q1",
+      question: "What helps learning transfer to real life?",
+      options: ["Practice and reflection", "Avoiding feedback", "Only memorising"],
+      correct: 0,
+    },
+    {
+      id: "q2",
+      question: "What is a strong next step after learning?",
+      options: ["Set one practical action", "Do nothing", "Delete notes"],
+      correct: 0,
+    },
+  ];
+
+  return [
+    {
+      id: "base",
+      question: baseQuiz.question,
+      options: baseQuiz.options,
+      correct: baseQuiz.correct,
+    },
+    ...extra,
+  ];
+}
 
 export function LessonPlayer() {
-  const { state, setLesson, resetLesson, nextStep, prevStep, setUnderstood } = useLesson();
+  const { state, setLesson, resetLesson, nextStep, prevStep, goToStep, setUnderstood } =
+    useLesson();
+  const { user } = useUser();
   const [searchParams] = useSearchParams();
   const [selectedSubject, setSelectedSubject] = useState(null);
   const [selectedTopic, setSelectedTopic] = useState(null);
@@ -541,9 +636,15 @@ export function LessonPlayer() {
 
   // All hooks must be declared before early returns
   const [activityAnswer, setActivityAnswer] = useState("");
-  const [quizAnswer, setQuizAnswer] = useState(null);
+  const [quizAnswers, setQuizAnswers] = useState({});
+  const [quizSubmitted, setQuizSubmitted] = useState(false);
   const [feedback, setFeedback] = useState("");
   const [direction, setDirection] = useState(1);
+  const [learningMode, setLearningMode] = useState("guided");
+  const [hintsUsed, setHintsUsed] = useState(0);
+  const [evidence, setEvidence] = useState({});
+  const [reflection, setReflection] = useState("");
+  const [hydrated, setHydrated] = useState(false);
 
   // Read ?course= or ?domain= URL param and auto-load lesson
   useEffect(() => {
@@ -586,10 +687,101 @@ export function LessonPlayer() {
         setLesson(selectedSubject, selectedTopic, lesson.steps);
         setFeedback("");
         setActivityAnswer("");
-        setQuizAnswer(null);
+        setQuizAnswers({});
+        setQuizSubmitted(false);
       }
     }
   }, [selectedSubject, selectedTopic, setLesson]);
+
+  const lessonKey = state.subject && state.topic ? `${state.subject}-${state.topic}` : null;
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function loadSavedLessonProgress() {
+      if (!lessonKey) {
+        setHydrated(false);
+        return;
+      }
+
+      let localSaved = null;
+      try {
+        const raw = localStorage.getItem(LESSON_PROGRESS_STORAGE_KEY);
+        const parsed = raw ? JSON.parse(raw) : {};
+        localSaved = parsed?.[lessonKey] || null;
+      } catch {
+        localSaved = null;
+      }
+
+      let remoteSaved = null;
+      if (user?.id) {
+        try {
+          const userDoc = await getUserDoc(user.id);
+          remoteSaved = userDoc?.lessonProgress?.[lessonKey] || null;
+        } catch {
+          remoteSaved = null;
+        }
+      }
+
+      const saved = remoteSaved || localSaved;
+      if (!cancelled) {
+        if (saved?.stepIndex !== undefined) goToStep(saved.stepIndex);
+        setLearningMode(saved?.learningMode || "guided");
+        setHintsUsed(Number(saved?.hintsUsed || 0));
+        setEvidence(saved?.evidence || {});
+        setReflection(saved?.reflection || "");
+        setQuizAnswers(saved?.quizAnswers || {});
+        setQuizSubmitted(Boolean(saved?.quizSubmitted));
+        setHydrated(true);
+      }
+    }
+
+    loadSavedLessonProgress();
+    return () => {
+      cancelled = true;
+    };
+  }, [lessonKey, user?.id, goToStep]);
+
+  useEffect(() => {
+    if (!lessonKey || !hydrated) return;
+
+    const payload = {
+      stepIndex: state.stepIndex,
+      learningMode,
+      hintsUsed,
+      evidence,
+      reflection,
+      quizAnswers,
+      quizSubmitted,
+      updatedAt: Date.now(),
+    };
+
+    try {
+      const raw = localStorage.getItem(LESSON_PROGRESS_STORAGE_KEY);
+      const parsed = raw ? JSON.parse(raw) : {};
+      parsed[lessonKey] = payload;
+      localStorage.setItem(LESSON_PROGRESS_STORAGE_KEY, JSON.stringify(parsed));
+    } catch {
+      // ignore local storage failures
+    }
+
+    if (user?.id) {
+      setUserDoc(user.id, { lessonProgress: { [lessonKey]: payload } }).catch(() => {
+        // keep local path only
+      });
+    }
+  }, [
+    evidence,
+    hintsUsed,
+    hydrated,
+    learningMode,
+    lessonKey,
+    quizAnswers,
+    quizSubmitted,
+    reflection,
+    state.stepIndex,
+    user?.id,
+  ]);
 
   // Selector screen — shown when no active lesson
   if (!state.subject || !state.steps.length) {
@@ -647,6 +839,21 @@ export function LessonPlayer() {
     question: "What is 3 + 4?",
     options: ["6", "7", "8"],
     correct: 1,
+  };
+  const quizSet = buildQuizSet(quiz, quizKey);
+  const quizScore = quizSet.reduce((acc, q) => acc + (quizAnswers[q.id] === q.correct ? 1 : 0), 0);
+  const quizPass = quizSubmitted && quizScore >= Math.ceil(quizSet.length * 0.7);
+
+  const resetLessonProgress = () => {
+    setLearningMode("guided");
+    setHintsUsed(0);
+    setEvidence({});
+    setReflection("");
+    setQuizAnswers({});
+    setQuizSubmitted(false);
+    setFeedback("");
+    setActivityAnswer("");
+    goToStep(0);
   };
 
   const renderStepContent = () => {
@@ -1086,24 +1293,60 @@ export function LessonPlayer() {
             <h3 className="font-bold text-yellow-900 text-lg mb-4">
               {currentStep.title || "Quiz"}
             </h3>
-            <p className="text-gray-700 mb-2 font-semibold">{quiz.question}</p>
-            <div className="space-y-2">
-              {quiz.options.map((opt, i) => (
-                <button
-                  key={i}
-                  className={`w-full px-4 py-3 rounded-xl text-left font-medium transition-all border-2 ${quizAnswer === i ? (i === quiz.correct ? "bg-green-200 border-green-400 text-green-900" : "bg-red-200 border-red-300 text-red-800") : quizAnswer !== null && i === quiz.correct ? "bg-green-100 border-green-300 text-green-800 font-bold" : "bg-white border-gray-200 hover:border-yellow-400"}`}
+            <p className="text-gray-700 mb-2 font-semibold">
+              Complete this mastery check to demonstrate understanding.
+            </p>
+            <div className="space-y-4">
+              {quizSet.map((q, qIndex) => (
+                <div key={q.id} className="rounded-xl border border-yellow-200 p-3 bg-white">
+                  <p className="font-semibold text-gray-800 mb-2">
+                    {qIndex + 1}. {q.question}
+                  </p>
+                  <div className="space-y-2">
+                    {q.options.map((opt, i) => (
+                      <button
+                        key={`${q.id}-${opt}`}
+                        className={`w-full px-4 py-2 rounded-lg text-left font-medium transition-all border ${
+                          quizAnswers[q.id] === i
+                            ? i === q.correct
+                              ? "bg-green-100 border-green-400 text-green-900"
+                              : "bg-red-100 border-red-300 text-red-800"
+                            : quizSubmitted && i === q.correct
+                              ? "bg-green-50 border-green-300 text-green-800"
+                              : "bg-white border-gray-200 hover:border-yellow-400"
+                        }`}
+                        onClick={() =>
+                          setQuizAnswers((prev) => ({
+                            ...prev,
+                            [q.id]: i,
+                          }))
+                        }
+                      >
+                        {opt}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              ))}
+
+              <div className="flex flex-wrap gap-2 items-center">
+                <Button
+                  variant="outline"
                   onClick={() => {
-                    setQuizAnswer(i);
-                    setFeedback(
-                      i === quiz.correct
-                        ? "🎉 Correct! Well done!"
-                        : "Not quite. The correct answer is highlighted.",
-                    );
+                    setQuizSubmitted(true);
+                    setFeedback("Assessment submitted. Review highlighted answers and feedback.");
                   }}
                 >
-                  {opt}
-                </button>
-              ))}
+                  Submit mastery check
+                </Button>
+                {quizSubmitted && (
+                  <span
+                    className={`text-sm font-semibold ${quizPass ? "text-green-700" : "text-orange-700"}`}
+                  >
+                    Score: {quizScore}/{quizSet.length} · {quizPass ? "Passed" : "Needs review"}
+                  </span>
+                )}
+              </div>
             </div>
             <AnimatePresence>
               {feedback && (
@@ -1112,7 +1355,7 @@ export function LessonPlayer() {
                   initial="initial"
                   animate="animate"
                   exit="exit"
-                  className={`mt-4 p-3 rounded-xl font-semibold text-center ${quizAnswer === quiz.correct ? "bg-green-100 text-green-800" : "bg-orange-100 text-orange-800"}`}
+                  className={`mt-4 p-3 rounded-xl font-semibold text-center ${quizPass ? "bg-green-100 text-green-800" : "bg-orange-100 text-orange-800"}`}
                 >
                   {feedback}
                 </motion.div>
@@ -1149,6 +1392,58 @@ export function LessonPlayer() {
       {/* Step content */}
       <Card>
         <CardContent className="pt-5">
+          <div className="mb-4 space-y-3">
+            <div className="rounded-xl border border-slate-200 bg-slate-50 p-3">
+              <p className="text-sm font-semibold text-slate-800">Adaptive Learning Coach</p>
+              <div className="mt-2 flex flex-wrap items-center gap-2">
+                <select
+                  value={learningMode}
+                  onChange={(e) => setLearningMode(e.target.value)}
+                  className="rounded-md border border-slate-300 px-2 py-1 text-sm"
+                >
+                  <option value="guided">Guided</option>
+                  <option value="coached">Coached</option>
+                  <option value="independent">Independent</option>
+                </select>
+                <Button size="sm" variant="outline" onClick={() => setHintsUsed((v) => v + 1)}>
+                  Use scaffold hint
+                </Button>
+                <span className="text-xs text-slate-600">Hints used: {hintsUsed}</span>
+              </div>
+            </div>
+
+            <div className="rounded-xl border border-slate-200 p-3">
+              <p className="text-sm font-semibold text-slate-800">Evidence & Reflection</p>
+              <div className="mt-2 grid grid-cols-1 md:grid-cols-2 gap-2">
+                {[
+                  "Completed guided practice",
+                  "Applied skill in scenario",
+                  "Can explain reasoning",
+                ].map((item) => (
+                  <label key={item} className="flex items-center gap-2 text-sm text-slate-700">
+                    <input
+                      type="checkbox"
+                      checked={Boolean(evidence[item])}
+                      onChange={(e) =>
+                        setEvidence((prev) => ({
+                          ...prev,
+                          [item]: e.target.checked,
+                        }))
+                      }
+                    />
+                    {item}
+                  </label>
+                ))}
+              </div>
+              <textarea
+                value={reflection}
+                onChange={(e) => setReflection(e.target.value)}
+                placeholder="Reflection: what worked best, and what will you try next?"
+                className="mt-2 w-full min-h-[76px] rounded-md border border-slate-300 px-3 py-2 text-sm"
+              />
+            </div>
+          </div>
+
           <AnimatePresence mode="wait" custom={direction}>
             <motion.div
               key={state.stepIndex}
@@ -1169,7 +1464,8 @@ export function LessonPlayer() {
                 prevStep();
                 setFeedback("");
                 setActivityAnswer("");
-                setQuizAnswer(null);
+                setQuizAnswers({});
+                setQuizSubmitted(false);
               }}
               disabled={state.stepIndex === 0}
             >
@@ -1197,7 +1493,8 @@ export function LessonPlayer() {
                 nextStep();
                 setFeedback("");
                 setActivityAnswer("");
-                setQuizAnswer(null);
+                setQuizAnswers({});
+                setQuizSubmitted(false);
               }}
               disabled={state.stepIndex === state.steps.length - 1}
             >
@@ -1213,9 +1510,16 @@ export function LessonPlayer() {
                 setSelectedTopic(null);
                 setCourseTitle(null);
                 setCourseCharacter(null);
+                resetLessonProgress();
               }}
             >
               ← Back to lesson list
+            </button>
+            <button
+              className="ml-3 text-sm text-gray-400 hover:text-gray-600 underline"
+              onClick={resetLessonProgress}
+            >
+              Reset lesson progress
             </button>
           </div>
         </CardContent>
