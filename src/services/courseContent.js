@@ -22,6 +22,12 @@ function fillBlank(prompt, answer) {
 function scenario(prompt, options, correct, rationale) {
   return { type: "scenario", prompt, options, correct, rationale };
 }
+function matching(prompt, pairs) {
+  return { type: "matching", prompt, pairs };
+}
+function branching(prompt, steps) {
+  return { type: "branching", prompt, steps };
+}
 
 // ─────────────────────────────────────────────────────────────────
 //  LIFE SKILLS COURSES
